@@ -1,0 +1,289 @@
+
+> shadcn-admin@2.2.1 lint
+> eslint .
+
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\categories-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\categories-dialogs.tsx
+  6:11  error  'open' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\categories-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  49:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\categories-table.tsx
+  23:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/consistent-type-imports
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\categories-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\category-action-dialog.tsx
+  78:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\category-delete-dialog.tsx
+  27:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\categories\components\category-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  12:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customer-action-dialog.tsx
+  90:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customer-delete-dialog.tsx
+  27:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customer-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  12:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customers-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customers-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  47:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customers-table.tsx
+  23:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/consistent-type-imports
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\customers\components\customers-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-action-dialog.tsx
+  267:0  error  Parsing error: Unterminated template literal
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  4:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-delete-dialog.tsx
+  27:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  47:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  12:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-table.tsx
+  23:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/consistent-type-imports
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\price-list\components\price-list-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\products\components\product-row-actions.tsx
+  13:15  error  'Product' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  23:9   error  'product' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\products\components\products-provider.tsx
+  33:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\products\components\products-table.tsx
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\products\components\products-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\products\hooks\use-products.ts
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotion-action-dialog.tsx
+  128:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotion-delete-dialog.tsx
+  27:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotion-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  12:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotions-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  4:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotions-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  49:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotions-table.tsx
+  23:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/consistent-type-imports
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\promotions\components\promotions-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-order-action-dialog.tsx
+  34:3  error  'usePurchaseOrders' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  96:7  error  Unexpected console statement                                                         no-console
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-order-delete-dialog.tsx
+  25:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:7   error  Unexpected console statement              no-console
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-order-items-dialog.tsx
+   30:1   error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+   52:5   error  The following dependencies are missing in your queryKey: currentRow       @tanstack/query/exhaustive-deps
+   96:22  error  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  130:22  error  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-order-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  11:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-orders-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-orders-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  43:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-orders-table.tsx
+  24:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/consistent-type-imports
+  37:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\purchase-orders\components\purchase-orders-table.tsx:37:17
+  35 |   const [sorting, setSorting] = useState<SortingState>([])
+  36 |
+> 37 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  38 |     data,
+  39 |     columns,
+  40 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\supplier-action-dialog.tsx
+  98:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\supplier-delete-dialog.tsx
+  27:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\supplier-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  12:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\suppliers-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\suppliers-dialogs.tsx
+  6:11  error  'open' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\suppliers-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  47:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\suppliers-table.tsx
+  23:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/consistent-type-imports
+  35:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\suppliers\components\suppliers-table.tsx:35:17
+  33 |   const [sorting, setSorting] = useState<SortingState>([])
+  34 |
+> 35 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  36 |     data,
+  37 |     columns,
+  38 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rate-action-dialog.tsx
+  46:3  error  Parsing error: Declaration or statement expected
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rate-delete-dialog.tsx
+  25:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rate-row-actions.tsx
+   1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  11:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rates-columns.tsx
+  1:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+  3:1  error  All imports in the declaration are only used as types. Use `import type`  @typescript-eslint/consistent-type-imports
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rates-provider.tsx
+   2:1   error    All imports in the declaration are only used as types. Use `import type`                                                        @typescript-eslint/consistent-type-imports
+  43:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rates-table.tsx
+  24:1   error    All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/consistent-type-imports
+  37:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\features\tax-rates\components\tax-rates-table.tsx:37:17
+  35 |   const [sorting, setSorting] = useState<SortingState>([])
+  36 |
+> 37 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  38 |     data,
+  39 |     columns,
+  40 |     state: {  react-hooks/incompatible-library
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\routes\_authenticated\errors\$error.tsx
+  17:1  warning  Unused eslint-disable directive (no problems were reported from 'react-refresh/only-export-components')
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\routes\clerk\(auth)\route.tsx
+  10:1  warning  Unused eslint-disable directive (no problems were reported from 'react-refresh/only-export-components')
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\routes\clerk\_authenticated\user-management.tsx
+  1:1  warning  Unused eslint-disable directive (no problems were reported from 'react-refresh/only-export-components')
+
+E:\web-projects\web-mobile-work-apps\react-ecommerce-admin\src\routes\clerk\route.tsx
+  1:1  warning  Unused eslint-disable directive (no problems were reported from 'react-refresh/only-export-components')
+
+✖ 87 problems (67 errors, 20 warnings)
+  44 errors and 4 warnings potentially fixable with the `--fix` option.
+

@@ -1,6 +1,5 @@
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { type Row } from '@tanstack/react-table'
-import { Trash2, Edit } from 'lucide-react'
+import { Row } from '@tanstack/react-table'
+import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,53 +9,50 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Product } from '../data/schema'
-import { useProductsContext } from './products-provider'
+import { Supplier } from '../hooks/use-suppliers'
+import { useSuppliersContext } from './suppliers-provider'
 
-interface ProductRowActionsProps<TData> {
+interface SupplierRowActionsProps<TData> {
   row: Row<TData>
 }
 
-export function ProductRowActions<TData>({
+export function SupplierRowActions<TData>({
   row,
-}: ProductRowActionsProps<TData>) {
-  const { setOpen, setCurrentRow } = useProductsContext()
+}: SupplierRowActionsProps<TData>) {
+  const supplier = row.original as Supplier
+  const { setOpen, setCurrentRow } = useSuppliersContext()
 
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
-          <DotsHorizontalIcon className='h-4 w-4' />
+          <MoreHorizontal className='h-4 w-4' />
           <span className='sr-only'>Open menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(row.original as Product)
+            setCurrentRow(supplier)
             setOpen('edit')
           }}
         >
+          <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
           Edit
-          <DropdownMenuShortcut>
-            <Edit size={16} />
-          </DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(row.original)
+            setCurrentRow(supplier)
             setOpen('delete')
           }}
-          className='text-red-500!'
         >
+          <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
           Delete
-          <DropdownMenuShortcut>
-            <Trash2 size={16} />
-          </DropdownMenuShortcut>
+          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

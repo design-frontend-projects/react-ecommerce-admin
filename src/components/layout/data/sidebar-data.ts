@@ -12,6 +12,7 @@ import {
   Palette,
   ServerOff,
   Settings,
+  ShoppingCart,
   Wrench,
   UserCog,
   UserX,
@@ -100,6 +101,46 @@ export const sidebarData: SidebarData = {
               url: '/clerk/user-management',
             },
           ],
+        },
+      ],
+    },
+    {
+      title: 'Inventory',
+      items: [
+        {
+          title: 'Categories',
+          url: '/categories',
+          icon: Package,
+        },
+        {
+          title: 'Suppliers',
+          url: '/suppliers',
+          icon: Package,
+        },
+        {
+          title: 'Customers',
+          url: '/customers',
+          icon: Users,
+        },
+        {
+          title: 'Promotions',
+          url: '/promotions',
+          icon: Package,
+        },
+        {
+          title: 'Price List',
+          url: '/price-list',
+          icon: Package,
+        },
+        {
+          title: 'Purchase Orders',
+          url: '/purchase-orders',
+          icon: ShoppingCart,
+        },
+        {
+          title: 'Tax Rates',
+          url: '/tax-rates',
+          icon: Package,
         },
       ],
     },

@@ -1,9 +1,9 @@
 import { PackagePlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useProducts } from './products-provider'
+import { useProductsContext } from './products-provider'
 
 export function ProductsPrimaryButtons() {
-  const { setOpen } = useProducts()
+  const { setOpen } = useProductsContext()
   return (
     <div className='flex gap-2'>
       <Button className='space-x-1' onClick={() => setOpen('add')}>

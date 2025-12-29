@@ -18,11 +18,20 @@ import { Route as errors404RouteImport } from './routes/(errors)/404'
 import { Route as errors403RouteImport } from './routes/(errors)/403'
 import { Route as errors401RouteImport } from './routes/(errors)/401'
 import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
+import { Route as authSignIn2RouteImport } from './routes/(auth)/sign-in-2'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
+import { Route as authOtpRouteImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_authenticated/route'
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
+import { Route as AuthenticatedTaxRatesRouteRouteImport } from './routes/_authenticated/tax-rates/route'
+import { Route as AuthenticatedSuppliersRouteRouteImport } from './routes/_authenticated/suppliers/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_authenticated/purchase-orders/route'
+import { Route as AuthenticatedPromotionsRouteRouteImport } from './routes/_authenticated/promotions/route'
+import { Route as AuthenticatedPriceListRouteRouteImport } from './routes/_authenticated/price-list/route'
+import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authenticated/customers/route'
+import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
@@ -107,17 +116,54 @@ const ClerkauthRouteRoute = ClerkauthRouteRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => ClerkRouteRoute,
 } as any)
+const AuthenticatedTaxRatesRouteRoute =
+  AuthenticatedTaxRatesRouteRouteImport.update({
+    id: '/tax-rates',
+    path: '/tax-rates',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSuppliersRouteRoute =
+  AuthenticatedSuppliersRouteRouteImport.update({
+    id: '/suppliers',
+    path: '/suppliers',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsRouteRoute =
   AuthenticatedSettingsRouteRouteImport.update({
     id: '/settings',
     path: '/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
-  id: '/tasks/',
-  path: '/tasks/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedPurchaseOrdersRouteRoute =
+  AuthenticatedPurchaseOrdersRouteRouteImport.update({
+    id: '/purchase-orders',
+    path: '/purchase-orders',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsRouteRoute =
+  AuthenticatedPromotionsRouteRouteImport.update({
+    id: '/promotions',
+    path: '/promotions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPriceListRouteRoute =
+  AuthenticatedPriceListRouteRouteImport.update({
+    id: '/price-list',
+    path: '/price-list',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCustomersRouteRoute =
+  AuthenticatedCustomersRouteRouteImport.update({
+    id: '/customers',
+    path: '/customers',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCategoriesRouteRoute =
+  AuthenticatedCategoriesRouteRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -130,20 +176,9 @@ const AuthenticatedProductsIndexRoute =
     path: '/products/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedHelpCenterIndexRoute =
-  AuthenticatedHelpCenterIndexRouteImport.update({
-    id: '/help-center/',
-    path: '/help-center/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   id: '/chats/',
   path: '/chats/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
-  id: '/apps/',
-  path: '/apps/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ClerkAuthenticatedUserManagementRoute =
@@ -195,7 +230,14 @@ const AuthenticatedErrorsErrorRoute =
 
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/customers': typeof AuthenticatedCustomersRouteRoute
+  '/price-list': typeof AuthenticatedPriceListRouteRoute
+  '/promotions': typeof AuthenticatedPromotionsRouteRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -221,6 +263,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/customers': typeof AuthenticatedCustomersRouteRoute
+  '/price-list': typeof AuthenticatedPriceListRouteRoute
+  '/promotions': typeof AuthenticatedPromotionsRouteRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
+  '/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -240,18 +289,22 @@ export interface FileRoutesByTo {
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/tasks': typeof AuthenticatedTasksIndexRoute
-  '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/_authenticated/customers': typeof AuthenticatedCustomersRouteRoute
+  '/_authenticated/price-list': typeof AuthenticatedPriceListRouteRoute
+  '/_authenticated/promotions': typeof AuthenticatedPromotionsRouteRoute
+  '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/_authenticated/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
   '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -281,7 +334,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/clerk'
+    | '/categories'
+    | '/customers'
+    | '/price-list'
+    | '/promotions'
+    | '/purchase-orders'
     | '/settings'
+    | '/suppliers'
+    | '/tax-rates'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -307,6 +367,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
+    | '/categories'
+    | '/customers'
+    | '/price-list'
+    | '/promotions'
+    | '/purchase-orders'
+    | '/suppliers'
+    | '/tax-rates'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -333,7 +400,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/clerk'
+    | '/_authenticated/categories'
+    | '/_authenticated/customers'
+    | '/_authenticated/price-list'
+    | '/_authenticated/promotions'
+    | '/_authenticated/purchase-orders'
     | '/_authenticated/settings'
+    | '/_authenticated/suppliers'
+    | '/_authenticated/tax-rates'
     | '/clerk/(auth)'
     | '/clerk/_authenticated'
     | '/(auth)/forgot-password'
@@ -482,6 +556,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthRouteRouteImport
       parentRoute: typeof ClerkRouteRoute
     }
+    '/_authenticated/tax-rates': {
+      id: '/_authenticated/tax-rates'
+      path: '/tax-rates'
+      fullPath: '/tax-rates'
+      preLoaderRoute: typeof AuthenticatedTaxRatesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/suppliers': {
+      id: '/_authenticated/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof AuthenticatedSuppliersRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -489,18 +577,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/users/': {
-      id: '/_authenticated/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
+    '/_authenticated/purchase-orders': {
+      id: '/_authenticated/purchase-orders'
+      path: '/purchase-orders'
+      fullPath: '/purchase-orders'
+      preLoaderRoute: typeof AuthenticatedPurchaseOrdersRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/tasks/': {
-      id: '/_authenticated/tasks/'
-      path: '/tasks'
-      fullPath: '/tasks'
-      preLoaderRoute: typeof AuthenticatedTasksIndexRouteImport
+    '/_authenticated/promotions': {
+      id: '/_authenticated/promotions'
+      path: '/promotions'
+      fullPath: '/promotions'
+      preLoaderRoute: typeof AuthenticatedPromotionsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/price-list': {
+      id: '/_authenticated/price-list'
+      path: '/price-list'
+      fullPath: '/price-list'
+      preLoaderRoute: typeof AuthenticatedPriceListRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/customers': {
+      id: '/_authenticated/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof AuthenticatedCustomersRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/categories': {
+      id: '/_authenticated/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof AuthenticatedCategoriesRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -517,25 +626,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProductsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/help-center/': {
-      id: '/_authenticated/help-center/'
-      path: '/help-center'
-      fullPath: '/help-center'
-      preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/chats/': {
       id: '/_authenticated/chats/'
       path: '/chats'
       fullPath: '/chats'
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/apps/': {
-      id: '/_authenticated/apps/'
-      path: '/apps'
-      fullPath: '/apps'
-      preLoaderRoute: typeof AuthenticatedAppsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/clerk/_authenticated/user-management': {
@@ -621,27 +716,33 @@ const AuthenticatedSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
+  AuthenticatedCustomersRouteRoute: typeof AuthenticatedCustomersRouteRoute
+  AuthenticatedPriceListRouteRoute: typeof AuthenticatedPriceListRouteRoute
+  AuthenticatedPromotionsRouteRoute: typeof AuthenticatedPromotionsRouteRoute
+  AuthenticatedPurchaseOrdersRouteRoute: typeof AuthenticatedPurchaseOrdersRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedSuppliersRouteRoute: typeof AuthenticatedSuppliersRouteRoute
+  AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
-  AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
-  AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
-  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
-  AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
+  AuthenticatedCustomersRouteRoute: AuthenticatedCustomersRouteRoute,
+  AuthenticatedPriceListRouteRoute: AuthenticatedPriceListRouteRoute,
+  AuthenticatedPromotionsRouteRoute: AuthenticatedPromotionsRouteRoute,
+  AuthenticatedPurchaseOrdersRouteRoute: AuthenticatedPurchaseOrdersRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedSuppliersRouteRoute: AuthenticatedSuppliersRouteRoute,
+  AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
-  AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
-  AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
-  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
-  AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

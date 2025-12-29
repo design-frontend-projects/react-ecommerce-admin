@@ -2,10 +2,10 @@
 
 import { ProductActionDialog } from './product-action-dialog'
 import { ProductDeleteDialog } from './product-delete-dialog'
-import { useProducts } from './products-provider'
+import { useProductsContext } from './products-provider'
 
 export function ProductsDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } = useProducts()
+  const { open, setOpen, currentRow, setCurrentRow } = useProductsContext()
 
   return (
     <>

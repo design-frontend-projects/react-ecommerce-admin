@@ -30,11 +30,11 @@ export function ProductsProvider({ children }: Props) {
   )
 }
 
-export const useProducts = () => {
+export const useProductsContext = () => {
   const productsContext = React.useContext(ProductsContext)
 
   if (!productsContext) {
-    throw new Error('useProducts must be used within <ProductsProvider>')
+    throw new Error('useProductsContext must be used within <ProductsProvider>')
   }
 
   return productsContext
