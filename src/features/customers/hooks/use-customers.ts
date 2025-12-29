@@ -7,8 +7,18 @@ export interface Customer {
   last_name: string
   email: string | null
   phone: string | null
-  address: string | null
+  address_line1: string | null
+  address_line2: string | null
+  city: string | null
+  state: string | null
+  postal_code: string | null
+  country: string | null
+  date_of_birth: string | null
+  loyalty_points: number | null
+  is_active: boolean | null
   created_at: string
+  updated_at: string | null
+  group_id: number | null
 }
 
 export interface CustomerInput {
@@ -16,7 +26,16 @@ export interface CustomerInput {
   last_name: string
   email?: string
   phone?: string
-  address?: string
+  address_line1?: string
+  address_line2?: string
+  city?: string
+  state?: string
+  postal_code?: string
+  country?: string
+  date_of_birth?: string
+  loyalty_points?: number
+  is_active?: boolean
+  group_id?: number
 }
 
 export const useCustomers = () => {

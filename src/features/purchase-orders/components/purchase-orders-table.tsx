@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  type ColumnFiltersState,
   type SortingState,
   type VisibilityState,
   flexRender,
@@ -19,9 +20,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { DataTablePagination } from '@/components/table/data-table-pagination'
-import { DataTableToolbar } from '@/components/table/data-table-toolbar'
-import { PurchaseOrder } from '../hooks/use-purchase-orders'
+import { DataTablePagination } from '@/components/data-table/pagination'
+import { DataTableToolbar } from '@/components/data-table/toolbar'
+import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 import { columns } from './purchase-orders-columns'
 
 interface POTableProps {
@@ -31,7 +32,7 @@ interface POTableProps {
 export function POTable({ data }: POTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = useState([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({

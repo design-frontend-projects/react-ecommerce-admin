@@ -1,3 +1,4 @@
+import { SignInButton, useAuth } from '@clerk/clerk-react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -19,6 +20,8 @@ import { Overview } from './components/overview'
 import { RecentSales } from './components/recent-sales'
 
 export function Dashboard() {
+  const { isSignedIn } = useAuth()
+
   return (
     <>
       {/* ===== Top Heading ===== */}
@@ -28,7 +31,9 @@ export function Dashboard() {
           <Search />
           <ThemeSwitch />
           <ConfigDrawer />
-          <ProfileDropdown />
+          {isSignedIn && <ProfileDropdown />}
+          {/* {isSignedIn && <UserButton />} */}
+          {!isSignedIn && <SignInButton />}
         </div>
       </Header>
 

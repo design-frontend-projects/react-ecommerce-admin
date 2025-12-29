@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogContent,
@@ -19,9 +20,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { PhoneInput } from '@/components/custom-ui/phone-input'
 import { useCreateCustomer, useUpdateCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
@@ -31,7 +32,16 @@ const formSchema = z.object({
   last_name: z.string().min(1, 'Last name is required'),
   email: z.email('Invalid email address').optional().or(z.literal('')),
   phone: z.string().optional(),
-  address: z.string().optional(),
+  address_line1: z.string().optional(),
+  address_line2: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postal_code: z.string().optional(),
+  country: z.string().optional(),
+  date_of_birth: z.string().optional(),
+  loyalty_points: z.coerce.number().optional(),
+  is_active: z.boolean().default(true),
+  group_id: z.coerce.number().optional(),
 })
 
 type CustomerFormValues = z.infer<typeof formSchema>
@@ -44,14 +54,23 @@ export function CustomerActionDialog() {
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
 
-  const form = useForm<CustomerFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       first_name: '',
       last_name: '',
       email: '',
       phone: '',
-      address: '',
+      address_line1: '',
+      address_line2: '',
+      city: '',
+      state: '',
+      postal_code: '',
+      country: '',
+      date_of_birth: '',
+      loyalty_points: 0,
+      is_active: true,
+      group_id: undefined,
     },
   })
 
@@ -62,7 +81,16 @@ export function CustomerActionDialog() {
         last_name: currentRow.last_name,
         email: currentRow.email || '',
         phone: currentRow.phone || '',
-        address: currentRow.address || '',
+        address_line1: currentRow.address_line1 || '',
+        address_line2: currentRow.address_line2 || '',
+        city: currentRow.city || '',
+        state: currentRow.state || '',
+        postal_code: currentRow.postal_code || '',
+        country: currentRow.country || '',
+        date_of_birth: currentRow.date_of_birth || '',
+        loyalty_points: currentRow.loyalty_points || 0,
+        is_active: currentRow.is_active ?? true,
+        group_id: currentRow.group_id || undefined,
       })
     } else {
       form.reset({
@@ -70,7 +98,16 @@ export function CustomerActionDialog() {
         last_name: '',
         email: '',
         phone: '',
-        address: '',
+        address_line1: '',
+        address_line2: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: '',
+        date_of_birth: '',
+        loyalty_points: 0,
+        is_active: true,
+        group_id: undefined,
       })
     }
   }, [currentRow, form])
@@ -100,7 +137,7 @@ export function CustomerActionDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[425px]'>
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>
             {isEdit ? 'Edit Customer' : 'Create Customer'}
@@ -118,7 +155,6 @@ export function CustomerActionDialog() {
           >
             <div className='grid grid-cols-2 gap-4'>
               <FormField
-                control={form.control}
                 name='first_name'
                 render={({ field }) => (
                   <FormItem>
@@ -131,7 +167,6 @@ export function CustomerActionDialog() {
                 )}
               />
               <FormField
-                control={form.control}
                 name='last_name'
                 render={({ field }) => (
                   <FormItem>
@@ -144,45 +179,189 @@ export function CustomerActionDialog() {
                 )}
               />
             </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                name='email'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Email' type='email' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='phone'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl>
+                      <PhoneInput
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-1 gap-4'>
+              <FormField
+                name='address_line1'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address Line 1</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Address Line 1' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='address_line2'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address Line 2</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Address Line 2' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                name='city'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder='City' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='state'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input placeholder='State' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                name='postal_code'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Postal Code</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Postal Code' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='country'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Country' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                name='date_of_birth'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date of Birth</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='date'
+                        placeholder='Date of Birth'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                name='loyalty_points'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Loyalty Points</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        placeholder='Loyalty Points'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='group_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Group ID</FormLabel>
+                    <FormControl>
+                      <Input type='number' placeholder='Group ID' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
-              control={form.control}
-              name='email'
+              name='is_active'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
+                <FormItem className='flex flex-row items-start space-y-0 space-x-3 rounded-md border p-4'>
                   <FormControl>
-                    <Input placeholder='Email' type='email' {...field} />
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <div className='space-y-1 leading-none'>
+                    <FormLabel>Active Status</FormLabel>
+                    <FormDescription>
+                      This customer will participate in the loyalty program and
+                      have analytics.
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='phone'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <FormControl>
-                    <PhoneInput value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='address'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder='Address' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <DialogFooter>
               <Button
                 type='button'
