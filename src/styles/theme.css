@@ -100,14 +100,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-    /* Screen Size / Breakpoint Setup */
+  /* Screen Size / Breakpoint Setup */
   /* Extends default breakpoints to include very small and very large screens */
-  --breakpoint-xs: 30rem;    /* ~480px (Mobile Small) */
-  --breakpoint-sm: 40rem;    /* ~640px (Mobile Large) */
-  --breakpoint-md: 48rem;    /* ~768px (Tablet) */
-  --breakpoint-lg: 64rem;    /* ~1024px (Laptop) */
-  --breakpoint-xl: 80rem;    /* ~1280px (Desktop) */
-  --breakpoint-2xl: 96rem;   /* ~1536px (Large Desktop) */
-  --breakpoint-3xl: 120rem;  /* ~1920px (Ultra Wide) */
+  --breakpoint-xs: 30rem; /* ~480px (Mobile Small) */
+  --breakpoint-sm: 40rem; /* ~640px (Mobile Large) */
+  --breakpoint-md: 48rem; /* ~768px (Tablet) */
+  --breakpoint-lg: 64rem; /* ~1024px (Laptop) */
+  --breakpoint-xl: 80rem; /* ~1280px (Desktop) */
+  --breakpoint-2xl: 96rem; /* ~1536px (Large Desktop) */
+  --breakpoint-3xl: 120rem; /* ~1920px (Ultra Wide) */
 }
-
