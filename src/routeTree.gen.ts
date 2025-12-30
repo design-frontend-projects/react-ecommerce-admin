@@ -31,9 +31,12 @@ import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_
 import { Route as AuthenticatedPromotionsRouteRouteImport } from './routes/_authenticated/promotions/route'
 import { Route as AuthenticatedPriceListRouteRouteImport } from './routes/_authenticated/price-list/route'
 import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authenticated/customers/route'
+import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_authenticated/customer-groups/route'
+import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
+import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
@@ -158,6 +161,18 @@ const AuthenticatedCustomersRouteRoute =
     path: '/customers',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCustomerGroupsRouteRoute =
+  AuthenticatedCustomerGroupsRouteRouteImport.update({
+    id: '/customer-groups',
+    path: '/customer-groups',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCustomerCardsRouteRoute =
+  AuthenticatedCustomerCardsRouteRouteImport.update({
+    id: '/customer-cards',
+    path: '/customer-cards',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCategoriesRouteRoute =
   AuthenticatedCategoriesRouteRouteImport.update({
     id: '/categories',
@@ -174,6 +189,12 @@ const AuthenticatedProductsIndexRoute =
   AuthenticatedProductsIndexRouteImport.update({
     id: '/products/',
     path: '/products/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryIndexRoute =
+  AuthenticatedInventoryIndexRouteImport.update({
+    id: '/inventory/',
+    path: '/inventory/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
@@ -231,6 +252,8 @@ const AuthenticatedErrorsErrorRoute =
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
+  '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
@@ -258,12 +281,15 @@ export interface FileRoutesByFullPath {
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
+  '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
@@ -290,6 +316,7 @@ export interface FileRoutesByTo {
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
 }
@@ -298,6 +325,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
+  '/_authenticated/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRouteRoute
   '/_authenticated/price-list': typeof AuthenticatedPriceListRouteRoute
   '/_authenticated/promotions': typeof AuthenticatedPromotionsRouteRoute
@@ -327,6 +356,7 @@ export interface FileRoutesById {
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
 }
@@ -335,6 +365,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/clerk'
     | '/categories'
+    | '/customer-cards'
+    | '/customer-groups'
     | '/customers'
     | '/price-list'
     | '/promotions'
@@ -362,12 +394,15 @@ export interface FileRouteTypes {
     | '/clerk/sign-up'
     | '/clerk/user-management'
     | '/chats'
+    | '/inventory'
     | '/products'
     | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
     | '/categories'
+    | '/customer-cards'
+    | '/customer-groups'
     | '/customers'
     | '/price-list'
     | '/promotions'
@@ -394,6 +429,7 @@ export interface FileRouteTypes {
     | '/clerk/sign-up'
     | '/clerk/user-management'
     | '/chats'
+    | '/inventory'
     | '/products'
     | '/settings'
   id:
@@ -401,6 +437,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/clerk'
     | '/_authenticated/categories'
+    | '/_authenticated/customer-cards'
+    | '/_authenticated/customer-groups'
     | '/_authenticated/customers'
     | '/_authenticated/price-list'
     | '/_authenticated/promotions'
@@ -430,6 +468,7 @@ export interface FileRouteTypes {
     | '/clerk/(auth)/sign-up'
     | '/clerk/_authenticated/user-management'
     | '/_authenticated/chats/'
+    | '/_authenticated/inventory/'
     | '/_authenticated/products/'
     | '/_authenticated/settings/'
   fileRoutesById: FileRoutesById
@@ -605,6 +644,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCustomersRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/customer-groups': {
+      id: '/_authenticated/customer-groups'
+      path: '/customer-groups'
+      fullPath: '/customer-groups'
+      preLoaderRoute: typeof AuthenticatedCustomerGroupsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/customer-cards': {
+      id: '/_authenticated/customer-cards'
+      path: '/customer-cards'
+      fullPath: '/customer-cards'
+      preLoaderRoute: typeof AuthenticatedCustomerCardsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/categories': {
       id: '/_authenticated/categories'
       path: '/categories'
@@ -624,6 +677,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof AuthenticatedProductsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/': {
+      id: '/_authenticated/inventory/'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chats/': {
@@ -717,6 +777,8 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
+  AuthenticatedCustomerCardsRouteRoute: typeof AuthenticatedCustomerCardsRouteRoute
+  AuthenticatedCustomerGroupsRouteRoute: typeof AuthenticatedCustomerGroupsRouteRoute
   AuthenticatedCustomersRouteRoute: typeof AuthenticatedCustomersRouteRoute
   AuthenticatedPriceListRouteRoute: typeof AuthenticatedPriceListRouteRoute
   AuthenticatedPromotionsRouteRoute: typeof AuthenticatedPromotionsRouteRoute
@@ -727,11 +789,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
+  AuthenticatedCustomerCardsRouteRoute: AuthenticatedCustomerCardsRouteRoute,
+  AuthenticatedCustomerGroupsRouteRoute: AuthenticatedCustomerGroupsRouteRoute,
   AuthenticatedCustomersRouteRoute: AuthenticatedCustomersRouteRoute,
   AuthenticatedPriceListRouteRoute: AuthenticatedPriceListRouteRoute,
   AuthenticatedPromotionsRouteRoute: AuthenticatedPromotionsRouteRoute,
@@ -742,6 +807,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
 }
 

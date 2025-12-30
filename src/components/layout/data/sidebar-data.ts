@@ -21,7 +21,6 @@ import {
   Users,
   Wrench,
 } from 'lucide-react'
-import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
@@ -61,29 +60,24 @@ export const sidebarData: SidebarData = {
           url: '/products',
           icon: Package,
         },
-        {
-          title: 'Users',
-          url: '/users',
-          icon: Users,
-        },
-        {
-          title: 'Secured by Clerk',
-          icon: ClerkLogo,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/clerk/sign-in',
-            },
-            {
-              title: 'Sign Up',
-              url: '/clerk/sign-up',
-            },
-            {
-              title: 'User Management',
-              url: '/clerk/user-management',
-            },
-          ],
-        },
+        // {
+        //   title: 'Secured by Clerk',
+        //   icon: ClerkLogo,
+        //   items: [
+        //     {
+        //       title: 'Sign In',
+        //       url: '/clerk/sign-in',
+        //     },
+        //     {
+        //       title: 'Sign Up',
+        //       url: '/clerk/sign-up',
+        //     },
+        //     {
+        //       title: 'User Management',
+        //       url: '/clerk/user-management',
+        //     },
+        //   ],
+        // },
       ],
     },
     {
@@ -95,6 +89,11 @@ export const sidebarData: SidebarData = {
           icon: Package,
         },
         {
+          title: 'Inventory Items',
+          url: '/inventory',
+          icon: Package,
+        },
+        {
           title: 'Suppliers',
           url: '/suppliers',
           icon: Package,
@@ -102,6 +101,16 @@ export const sidebarData: SidebarData = {
         {
           title: 'Customers',
           url: '/customers',
+          icon: Users,
+        },
+        {
+          title: 'Customer Groups',
+          url: '/customer-groups',
+          icon: Users,
+        },
+        {
+          title: 'Customer Cards',
+          url: '/customer-cards',
           icon: Users,
         },
         {
