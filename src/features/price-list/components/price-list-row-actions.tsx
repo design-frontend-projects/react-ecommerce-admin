@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table'
+import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,7 +9,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { PriceListItem } from '../hooks/use-price-list'
+import { type PriceListItem } from '../hooks/use-price-list'
 import { usePriceListContext } from './price-list-provider'
 
 interface PriceListRowActionsProps<TData> {

@@ -3,12 +3,11 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { SignIn } from '@clerk/clerk-react'
+import { useSignIn } from '@clerk/clerk-react'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { IconFacebook, IconGithub } from '@/assets/brand-icons'
-import { useAuthStore } from '@/stores/auth-store'
-import { cn, sleep } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -41,8 +40,8 @@ export function UserAuthForm({
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const { isLoaded, signIn, setActive } = useSignIn()
   const navigate = useNavigate()
-  const { auth } = useAuthStore()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,34 +51,53 @@ export function UserAuthForm({
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    if (!isLoaded) return
+
     setIsLoading(true)
+    try {
+      const result = await signIn.create({
+        identifier: data.email,
+        password: data.password,
+      })
 
-    toast.promise(sleep(2000), {
-      loading: 'Signing in...',
-      success: () => {
-        setIsLoading(false)
-
-        // Mock successful authentication with expiry computed at success time
-        const mockUser = {
-          accountNo: 'ACC001',
-          email: data.email,
-          role: ['user'],
-          exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours from now
-        }
-
-        // Set user and access token
-        auth.setUser(mockUser)
-        auth.setAccessToken('mock-access-token')
-
-        // Redirect to the stored location or default to dashboard
+      if (result.status === 'complete') {
+        await setActive({ session: result.createdSessionId })
         const targetPath = redirectTo || '/'
         navigate({ to: targetPath, replace: true })
+        toast.success(`Welcome back!`)
+      } else {
+        /*Investigate why the login hasn't completed */
+        toast.info('Sign in requires further steps.')
+      }
+    } catch (err: unknown) {
+      const errorMsg =
+        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        'Something went wrong. Please try again.'
+      toast.error(errorMsg)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-        return `Welcome back, ${data.email}!`
-      },
-      error: 'Error',
-    })
+  const handleOAuthSignIn = async (
+    strategy: 'oauth_github' | 'oauth_facebook'
+  ) => {
+    if (!isLoaded) return
+    try {
+      setIsLoading(true)
+      await signIn.authenticateWithRedirect({
+        strategy,
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: redirectTo || '/',
+      })
+    } catch (err: unknown) {
+      const errorMsg =
+        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        'OAuth invalid'
+      toast.error(errorMsg)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -139,16 +157,26 @@ export function UserAuthForm({
           </div>
 
           <div className='grid grid-cols-2 gap-2'>
-            <Button variant='outline' type='button' disabled={isLoading}>
+            <Button
+              variant='outline'
+              type='button'
+              disabled={isLoading}
+              onClick={() => handleOAuthSignIn('oauth_github')}
+            >
               <IconGithub className='h-4 w-4' /> GitHub
             </Button>
-            <Button variant='outline' type='button' disabled={isLoading}>
+            <Button
+              variant='outline'
+              type='button'
+              disabled={isLoading}
+              onClick={() => handleOAuthSignIn('oauth_facebook')}
+            >
               <IconFacebook className='h-4 w-4' /> Facebook
             </Button>
           </div>
         </form>
       </Form>
-      <SignIn />
+      {/* <SignIn /> */}
     </>
   )
 }

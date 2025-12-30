@@ -20,7 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { PriceListItem } from '../hooks/use-price-list'
+import { type PriceListItem } from '../hooks/use-price-list'
 import { columns } from './price-list-columns'
 
 interface PriceListTableProps {

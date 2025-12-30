@@ -1,7 +1,7 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { PriceListItem } from '../hooks/use-price-list'
+import { type PriceListItem } from '../hooks/use-price-list'
 import { PriceListRowActions } from './price-list-row-actions'
 
 export const columns: ColumnDef<PriceListItem>[] = [

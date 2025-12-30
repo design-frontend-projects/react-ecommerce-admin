@@ -1,11 +1,10 @@
-```typescript
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -68,7 +67,9 @@ export function PriceListActionDialog() {
   const isOpen = open === 'create' || open === 'edit'
 
   const form = useForm<PriceListFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(
+      formSchema
+    ) as unknown as Resolver<PriceListFormValues>,
     defaultValues: {
       product_id: 0,
       group_id: null,
@@ -105,30 +106,28 @@ export function PriceListActionDialog() {
     try {
       if (currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.price_list_id,
+          id: currentRow.price_id,
           ...values,
-          group_id: values.group_id ?? undefined,
-          start_date: values.start_date ?? undefined,
-          end_date: values.end_date ?? undefined
+          group_id: values.group_id || undefined,
+          start_date: values.start_date || undefined,
+          end_date: values.end_date || undefined,
         })
         toast('Price updated successfully')
       } else {
         await createMutation.mutateAsync({
           ...values,
-          group_id: values.group_id ?? undefined,
-          start_date: values.start_date ?? undefined,
-          end_date: values.end_date ?? undefined
+          group_id: values.group_id || undefined,
+          start_date: values.start_date || undefined,
+          end_date: values.end_date || undefined,
         })
         toast('Price created successfully')
       }
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
       setOpen(null)
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive',
-      })
+    } catch (error: unknown) {
+      toast(
+        (error as Error)?.message || 'Something went wrong. Please try again.'
+      )
     }
   }
 
@@ -149,7 +148,6 @@ export function PriceListActionDialog() {
             className='grid gap-4 py-4'
           >
             <FormField
-              control={form.control}
               name='product_id'
               render={({ field }) => (
                 <FormItem>
@@ -180,7 +178,6 @@ export function PriceListActionDialog() {
               )}
             />
             <FormField
-              control={form.control}
               name='price'
               render={({ field }) => (
                 <FormItem>
@@ -194,7 +191,6 @@ export function PriceListActionDialog() {
             />
             <div className='grid grid-cols-2 gap-4'>
               <FormField
-                control={form.control}
                 name='start_date'
                 render={({ field }) => (
                   <FormItem>
@@ -207,7 +203,6 @@ export function PriceListActionDialog() {
                 )}
               />
               <FormField
-                control={form.control}
                 name='end_date'
                 render={({ field }) => (
                   <FormItem>
@@ -221,7 +216,6 @@ export function PriceListActionDialog() {
               />
             </div>
             <FormField
-              control={form.control}
               name='is_active'
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>

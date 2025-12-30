@@ -24,10 +24,11 @@ export function PriceListDeleteDialog() {
         await deleteMutation.mutateAsync(currentRow.price_id)
         toast.success('Price rule deleted successfully')
         setOpen(null)
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast.error('Error', {
           description:
-            error.message || 'Something went wrong. Please try again.',
+            (error as Error)?.message ||
+            'Something went wrong. Please try again.',
         })
       }
     }
