@@ -1,40 +1,38 @@
+import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
-interface RecentSalesProps {
+interface RecentRefundsProps {
   data: any[]
 }
 
-export function RecentSales({ data }: RecentSalesProps) {
+export function RecentRefunds({ data }: RecentRefundsProps) {
   if (!data?.length) {
     return (
       <div className='text-sm text-muted-foreground'>
-        No recent sales found.
+        No recent refunds found.
       </div>
     )
   }
 
   return (
     <div className='space-y-8'>
-      {data.map((sale) => (
-        <div key={sale.order_id} className='flex items-center gap-4'>
+      {data.map((refund) => (
+        <div key={refund.refund_id} className='flex items-center gap-4'>
           <Avatar className='h-9 w-9'>
-            {/* <AvatarImage src='/avatars/01.png' alt='Avatar' /> */}
-            <AvatarFallback>
-              {sale.customers?.first_name?.[0]}
-              {sale.customers?.last_name?.[0]}
-            </AvatarFallback>
+            {/* You might want a specific icon for refunds, or just initials */}
+            <AvatarFallback>-</AvatarFallback>
           </Avatar>
           <div className='flex flex-1 flex-wrap items-center justify-between'>
             <div className='space-y-1'>
               <p className='text-sm leading-none font-medium'>
-                {sale.customers?.first_name} {sale.customers?.last_name}
+                Refund #{refund.refund_id}
               </p>
               <p className='text-sm text-muted-foreground'>
-                {sale.customers?.email}
+                {format(new Date(refund.refund_date), 'MMM dd, yyyy')}
               </p>
             </div>
-            <div className='font-medium'>
-              +${Number(sale.total_amount).toFixed(2)}
+            <div className='font-medium text-red-500'>
+              -${Number(refund.refund_amount).toFixed(2)}
             </div>
           </div>
         </div>

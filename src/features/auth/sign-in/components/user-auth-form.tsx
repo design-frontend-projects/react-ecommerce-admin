@@ -115,7 +115,7 @@ export function UserAuthForm({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='name@example.com' {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +128,7 @@ export function UserAuthForm({
               <FormItem className='relative'>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <PasswordInput placeholder='********' {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
                 <Link

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { SignInButton, useAuth } from '@clerk/clerk-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,10 +18,25 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Analytics } from './components/analytics'
 import { Overview } from './components/overview'
+import { PendingPurchaseOrders } from './components/pending-purchase-orders'
+import { RecentRefunds } from './components/recent-refunds'
 import { RecentSales } from './components/recent-sales'
+import { useDashboardData } from './use-dashboard-data'
 
 export function Dashboard() {
   const { isSignedIn } = useAuth()
+  const { data: dashboardData, isLoading } = useDashboardData()
+
+  if (isLoading) {
+    return (
+      <div className='flex h-full w-full items-center justify-center'>
+        Loading dashboard data...
+      </div>
+    )
+  }
+
+  const { stats, chartData, recentRefunds, pendingPurchaseOrders } =
+    dashboardData || {}
 
   return (
     <>
@@ -83,16 +99,21 @@ export function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>$45,231.89</div>
+                  <div className='text-2xl font-bold'>
+                    $
+                    {stats?.totalRevenue
+                      ? stats.totalRevenue.toLocaleString()
+                      : '0.00'}
+                  </div>
                   <p className='text-xs text-muted-foreground'>
-                    +20.1% from last month
+                    Total revenue from orders
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Subscriptions
+                    Customers
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -110,15 +131,21 @@ export function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+2350</div>
+                  <div className='text-2xl font-bold'>
+                    +{stats?.activeCustomers || 0}
+                  </div>
                   <p className='text-xs text-muted-foreground'>
-                    +180.1% from last month
+                    <Link to='/customers' className='hover:underline'>
+                      View all customers
+                    </Link>
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Sales</CardTitle>
+                  <CardTitle className='text-sm font-medium'>
+                    Total Orders
+                  </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
@@ -134,16 +161,18 @@ export function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+12,234</div>
+                  <div className='text-2xl font-bold'>
+                    +{stats?.totalOrders || 0}
+                  </div>
                   <p className='text-xs text-muted-foreground'>
-                    +19% from last month
+                    Total completed orders
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Active Now
+                    Suppliers
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -159,9 +188,13 @@ export function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+573</div>
+                  <div className='text-2xl font-bold'>
+                    +{stats?.totalSuppliers || 0}
+                  </div>
                   <p className='text-xs text-muted-foreground'>
-                    +201 since last hour
+                    <a href='#' className='hover:underline'>
+                      View active suppliers
+                    </a>
                   </p>
                 </CardContent>
               </Card>
@@ -172,18 +205,39 @@ export function Dashboard() {
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
                 <CardContent className='ps-2'>
-                  <Overview />
+                  <Overview data={chartData || []} />
                 </CardContent>
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
                   <CardTitle>Recent Sales</CardTitle>
+                  <CardDescription>Latest sales transactions.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <RecentSales data={dashboardData?.recentSales || []} />
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
+              <Card className='col-span-1 lg:col-span-4'>
+                <CardHeader>
+                  <CardTitle>Recent Refunds</CardTitle>
+                  <CardDescription>Latest processed refunds.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <RecentRefunds data={recentRefunds || []} />
+                </CardContent>
+              </Card>
+              <Card className='col-span-1 lg:col-span-3'>
+                <CardHeader>
+                  <CardTitle>Pending Incoming Stock</CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    Purchase orders waiting to be received.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RecentSales />
+                  <PendingPurchaseOrders data={pendingPurchaseOrders || []} />
                 </CardContent>
               </Card>
             </div>
