@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table'
+import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { TaxRate } from '../hooks/use-tax-rates'
+import { type TaxRate } from '../hooks/use-tax-rates'
 import { useTaxContext } from './tax-rates-provider'
 
 interface TaxRowActionsProps<TData> {

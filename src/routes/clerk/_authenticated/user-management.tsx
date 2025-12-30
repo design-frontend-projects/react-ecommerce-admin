@@ -72,8 +72,8 @@ function UserManagement() {
                     <p>
                       This is the same as{' '}
                       <Link
-                        to='/users'
                         className='text-blue-500 underline decoration-dashed underline-offset-2'
+                        to={'/clerk'}
                       >
                         '/users'
                       </Link>
@@ -138,8 +138,8 @@ function Unauthorized() {
               <p>
                 This is the same as{' '}
                 <Link
-                  to='/users'
                   className='text-blue-500 underline decoration-dashed underline-offset-2'
+                  to={'/clerk'}
                 >
                   '/users'
                 </Link>

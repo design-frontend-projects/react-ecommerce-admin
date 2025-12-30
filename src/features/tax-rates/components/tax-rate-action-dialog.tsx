@@ -43,6 +43,18 @@ export function TaxActionDialog() {
   const createMutation = useCreateTaxRate()
   const updateMutation = useUpdateTaxRate()
 
+  const form = useForm<TaxFormValues>({
+    resolver: zodResolver(formSchema) as unknown as any,
+    defaultValues: {
+      tax_type: '',
+      rate: 0,
+      country_code: '',
+      state_province: '',
+      description: '',
+      effective_from: new Date().toISOString().split('T')[0],
+      effective_to: '',
+      is_active: true,
+    },
   })
 
   useEffect(() => {
@@ -84,9 +96,12 @@ export function TaxActionDialog() {
         toast.success('Tax rate created successfully')
       }
       setOpen(null)
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('Error', {
-        description: error.message || 'Something went wrong. Please try again.',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong. Please try again.',
       })
     }
   }

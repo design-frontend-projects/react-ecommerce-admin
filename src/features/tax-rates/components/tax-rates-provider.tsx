@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { TaxRate } from '../hooks/use-tax-rates'
+import { type TaxRate } from '../hooks/use-tax-rates'
 
 type TaxDialogType = 'create' | 'edit' | 'delete' | null
 

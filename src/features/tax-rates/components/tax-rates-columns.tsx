@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
-import { TaxRate } from '../hooks/use-tax-rates'
+import { type TaxRate } from '../hooks/use-tax-rates'
 import { TaxRowActions } from './tax-rate-row-actions'
 
 export const columns: ColumnDef<TaxRate>[] = [

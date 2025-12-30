@@ -19,9 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { DataTablePagination } from '@/components/table/data-table-pagination'
-import { DataTableToolbar } from '@/components/table/data-table-toolbar'
-import { TaxRate } from '../hooks/use-tax-rates'
+import { DataTablePagination } from '@/components/data-table/pagination'
+import { DataTableToolbar } from '@/components/data-table/toolbar'
+import { type TaxRate } from '../hooks/use-tax-rates'
 import { columns } from './tax-rates-columns'
 
 interface TaxTableProps {

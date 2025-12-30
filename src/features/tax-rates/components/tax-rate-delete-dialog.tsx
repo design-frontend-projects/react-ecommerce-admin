@@ -22,9 +22,10 @@ export function TaxDeleteDialog() {
       await deleteMutation.mutateAsync(currentRow.tax_rate_id)
       toast.success('Tax rate deleted successfully')
       setOpen(null)
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('Error', {
-        description: error.message || 'Failed to delete tax rate',
+        description:
+          error instanceof Error ? error.message : 'Failed to delete tax rate',
       })
     }
   }
