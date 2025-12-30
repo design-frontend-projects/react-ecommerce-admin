@@ -19,6 +19,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { Analytics } from './components/analytics'
 import { Overview } from './components/overview'
 import { PendingPurchaseOrders } from './components/pending-purchase-orders'
+import { PurchaseOrderAnalytics } from './components/purchase-order-analytics'
 import { RecentRefunds } from './components/recent-refunds'
 import { RecentSales } from './components/recent-sales'
 import { useDashboardData } from './use-dashboard-data'
@@ -244,6 +245,12 @@ export function Dashboard() {
           </TabsContent>
           <TabsContent value='analytics' className='space-y-4'>
             <Analytics />
+            <div className='pt-4'>
+              <h2 className='mb-4 text-xl font-bold tracking-tight'>
+                Purchase Orders
+              </h2>
+              <PurchaseOrderAnalytics />
+            </div>
           </TabsContent>
         </Tabs>
       </Main>
