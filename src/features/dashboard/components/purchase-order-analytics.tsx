@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  CartesianGrid,
 } from 'recharts'
 import { supabase } from '@/lib/supabase'
 import {
@@ -182,8 +181,8 @@ export function PurchaseOrderAnalytics() {
                 tickFormatter={(value) => `$${value}`}
               />
               <Tooltip
-                formatter={(value: number) => [
-                  `$${value.toLocaleString()}`,
+                formatter={(value: any) => [
+                  `$${(value || 0).toLocaleString()}`,
                   'Spend',
                 ]}
                 cursor={{ fill: 'transparent' }}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -60,8 +60,8 @@ export function InventoryActionDialog({
 
   // We need to cast the default values to match the schema
   // especially for numbers that might come as null from DB but schema expects optional number
-  const form = useForm({
-    resolver: zodResolver(inventorySchema),
+  const form = useForm<Inventory>({
+    resolver: zodResolver(inventorySchema) as Resolver<Inventory>,
     defaultValues: isEdit
       ? {
           ...currentRow,
@@ -85,9 +85,9 @@ export function InventoryActionDialog({
       const cleanValues = {
         ...values,
         reorder_level:
-          values.reorder_level === '' ? null : values.reorder_level,
+          String(values.reorder_level) === '' ? null : values.reorder_level,
         max_stock_level:
-          values.max_stock_level === '' ? null : values.max_stock_level,
+          String(values.max_stock_level) === '' ? null : values.max_stock_level,
       } as any // casting to any for supabase insertion to avoid strict type checks on optional fields if needed, or better, cast to Partial<Inventory>
 
       if (isEdit) {

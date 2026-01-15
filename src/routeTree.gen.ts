@@ -24,7 +24,9 @@ import { Route as authOtpRouteImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_authenticated/route'
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
+import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authenticated/users/route'
 import { Route as AuthenticatedTaxRatesRouteRouteImport } from './routes/_authenticated/tax-rates/route'
+import { Route as AuthenticatedTasksRouteRouteImport } from './routes/_authenticated/tasks/route'
 import { Route as AuthenticatedSuppliersRouteRouteImport } from './routes/_authenticated/suppliers/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_authenticated/purchase-orders/route'
@@ -34,6 +36,7 @@ import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authe
 import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_authenticated/customer-groups/route'
 import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
+import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
@@ -119,12 +122,22 @@ const ClerkauthRouteRoute = ClerkauthRouteRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => ClerkRouteRoute,
 } as any)
+const AuthenticatedUsersRouteRoute = AuthenticatedUsersRouteRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTaxRatesRouteRoute =
   AuthenticatedTaxRatesRouteRouteImport.update({
     id: '/tax-rates',
     path: '/tax-rates',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTasksRouteRoute = AuthenticatedTasksRouteRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSuppliersRouteRoute =
   AuthenticatedSuppliersRouteRouteImport.update({
     id: '/suppliers',
@@ -179,6 +192,11 @@ const AuthenticatedCategoriesRouteRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppsRouteRoute = AuthenticatedAppsRouteRouteImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -251,6 +269,7 @@ const AuthenticatedErrorsErrorRoute =
 
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/apps': typeof AuthenticatedAppsRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
@@ -260,7 +279,9 @@ export interface FileRoutesByFullPath {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/tasks': typeof AuthenticatedTasksRouteRoute
   '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
+  '/users': typeof AuthenticatedUsersRouteRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -287,6 +308,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/apps': typeof AuthenticatedAppsRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
@@ -295,7 +317,9 @@ export interface FileRoutesByTo {
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/tasks': typeof AuthenticatedTasksRouteRoute
   '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
+  '/users': typeof AuthenticatedUsersRouteRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -324,6 +348,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
   '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/_authenticated/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
@@ -333,7 +358,9 @@ export interface FileRoutesById {
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRouteRoute
+  '/_authenticated/tasks': typeof AuthenticatedTasksRouteRoute
   '/_authenticated/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
+  '/_authenticated/users': typeof AuthenticatedUsersRouteRoute
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
   '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -364,6 +391,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/clerk'
+    | '/apps'
     | '/categories'
     | '/customer-cards'
     | '/customer-groups'
@@ -373,7 +401,9 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/settings'
     | '/suppliers'
+    | '/tasks'
     | '/tax-rates'
+    | '/users'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -400,6 +430,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
+    | '/apps'
     | '/categories'
     | '/customer-cards'
     | '/customer-groups'
@@ -408,7 +439,9 @@ export interface FileRouteTypes {
     | '/promotions'
     | '/purchase-orders'
     | '/suppliers'
+    | '/tasks'
     | '/tax-rates'
+    | '/users'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -436,6 +469,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/clerk'
+    | '/_authenticated/apps'
     | '/_authenticated/categories'
     | '/_authenticated/customer-cards'
     | '/_authenticated/customer-groups'
@@ -445,7 +479,9 @@ export interface FileRouteTypes {
     | '/_authenticated/purchase-orders'
     | '/_authenticated/settings'
     | '/_authenticated/suppliers'
+    | '/_authenticated/tasks'
     | '/_authenticated/tax-rates'
+    | '/_authenticated/users'
     | '/clerk/(auth)'
     | '/clerk/_authenticated'
     | '/(auth)/forgot-password'
@@ -595,11 +631,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthRouteRouteImport
       parentRoute: typeof ClerkRouteRoute
     }
+    '/_authenticated/users': {
+      id: '/_authenticated/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedUsersRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tax-rates': {
       id: '/_authenticated/tax-rates'
       path: '/tax-rates'
       fullPath: '/tax-rates'
       preLoaderRoute: typeof AuthenticatedTaxRatesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/suppliers': {
@@ -663,6 +713,13 @@ declare module '@tanstack/react-router' {
       path: '/categories'
       fullPath: '/categories'
       preLoaderRoute: typeof AuthenticatedCategoriesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/apps': {
+      id: '/_authenticated/apps'
+      path: '/apps'
+      fullPath: '/apps'
+      preLoaderRoute: typeof AuthenticatedAppsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -776,6 +833,7 @@ const AuthenticatedSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
   AuthenticatedCustomerCardsRouteRoute: typeof AuthenticatedCustomerCardsRouteRoute
   AuthenticatedCustomerGroupsRouteRoute: typeof AuthenticatedCustomerGroupsRouteRoute
@@ -785,7 +843,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPurchaseOrdersRouteRoute: typeof AuthenticatedPurchaseOrdersRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedSuppliersRouteRoute: typeof AuthenticatedSuppliersRouteRoute
+  AuthenticatedTasksRouteRoute: typeof AuthenticatedTasksRouteRoute
   AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
+  AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -794,6 +854,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppsRouteRoute: AuthenticatedAppsRouteRoute,
   AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
   AuthenticatedCustomerCardsRouteRoute: AuthenticatedCustomerCardsRouteRoute,
   AuthenticatedCustomerGroupsRouteRoute: AuthenticatedCustomerGroupsRouteRoute,
@@ -803,7 +864,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPurchaseOrdersRouteRoute: AuthenticatedPurchaseOrdersRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedSuppliersRouteRoute: AuthenticatedSuppliersRouteRoute,
+  AuthenticatedTasksRouteRoute: AuthenticatedTasksRouteRoute,
   AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
+  AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,

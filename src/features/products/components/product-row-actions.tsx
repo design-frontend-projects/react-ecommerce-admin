@@ -48,7 +48,7 @@ export function ProductRowActions<TData>({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(row.original)
+            setCurrentRow(row.original as Product)
             setOpen('delete')
           }}
           className='text-red-500!'

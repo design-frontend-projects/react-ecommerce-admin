@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -60,7 +60,7 @@ export function PromotionActionDialog() {
   const isOpen = open === 'create' || open === 'edit'
 
   const form = useForm<PromotionFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as Resolver<PromotionFormValues>,
     defaultValues: {
       name: '',
       code: '',
