@@ -81,6 +81,27 @@ export function SignUpForm({
     }
   }
 
+  async function handleOAuthSignUp(
+    strategy: 'oauth_github' | 'oauth_facebook'
+  ) {
+    if (!isLoaded) return
+
+    try {
+      setIsLoading(true)
+      await signUp.authenticateWithRedirect({
+        strategy,
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: '/',
+      })
+    } catch (err: unknown) {
+      const errorMsg =
+        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        'Something went wrong. Please try again.'
+      toast.error(errorMsg)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <Form {...form}>
       <form
@@ -148,6 +169,7 @@ export function SignUpForm({
             className='w-full'
             type='button'
             disabled={isLoading}
+            onClick={() => handleOAuthSignUp('oauth_github')}
           >
             <IconGithub className='h-4 w-4' /> GitHub
           </Button>
@@ -156,6 +178,7 @@ export function SignUpForm({
             className='w-full'
             type='button'
             disabled={isLoading}
+            onClick={() => handleOAuthSignUp('oauth_facebook')}
           >
             <IconFacebook className='h-4 w-4' /> Facebook
           </Button>
