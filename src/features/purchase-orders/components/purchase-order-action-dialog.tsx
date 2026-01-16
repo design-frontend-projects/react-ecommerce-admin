@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -31,7 +31,6 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
 import {
-  usePurchaseOrders,
   useCreatePurchaseOrder,
   useUpdatePurchaseOrder,
 } from '../hooks/use-purchase-orders'
@@ -56,7 +55,7 @@ export function POActionDialog() {
   const queryClient = useQueryClient()
 
   const form = useForm<POFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as Resolver<POFormValues>,
     defaultValues: {
       supplier_id: currentRow?.supplier_id.toString() || '',
       order_date: currentRow?.order_date

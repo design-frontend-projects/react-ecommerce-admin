@@ -3,7 +3,7 @@ import { CategoryActionDialog } from './category-action-dialog'
 import { CategoryDeleteDialog } from './category-delete-dialog'
 
 export function CategoriesDialogs() {
-  const { open } = useCategoriesContext()
+  useCategoriesContext()
 
   return (
     <>

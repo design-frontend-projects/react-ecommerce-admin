@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { z } from 'zod'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Trash, Save, X } from 'lucide-react'
@@ -76,7 +76,7 @@ export function POItemsDialog() {
 
   // Form setup for Bulk Add
   const form = useForm<BulkAddFormValues>({
-    resolver: zodResolver(bulkAddSchema),
+    resolver: zodResolver(bulkAddSchema) as Resolver<BulkAddFormValues>,
     defaultValues: {
       items: [{ product_id: '', quantity_ordered: 1, unit_cost: 0 }],
     },

@@ -16,4 +16,6 @@ export const productSchema = z.object({
   updated_at: z.string().optional(),
 })
 
-export type Product = z.infer<typeof productSchema>
+export type Product = z.infer<typeof productSchema> & {
+  categories?: { name: string } | null
+}
