@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from '@tanstack/react-router'
+import { useSignUp } from '@clerk/clerk-react'
+import { toast } from 'sonner'
 import { IconFacebook, IconGithub } from '@/assets/brand-icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -38,6 +41,8 @@ export function SignUpForm({
   ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
   const [isLoading, setIsLoading] = useState(false)
+  const { isLoaded, signUp } = useSignUp()
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,14 +53,32 @@ export function SignUpForm({
     },
   })
 
-  function onSubmit(_data: z.infer<typeof formSchema>) {
-    setIsLoading(true)
-    // TODO: Implement sign up logic
-    // console.log(_data)
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    if (!isLoaded) return
 
-    setTimeout(() => {
+    setIsLoading(true)
+
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+      })
+
+      // Send email verification code
+      await signUp.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      })
+
+      navigate({ to: '/otp' })
+      toast.success('Account created. Please verify your email.')
+    } catch (err: unknown) {
+      const errorMsg =
+        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        'Something went wrong. Please try again.'
+      toast.error(errorMsg)
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
