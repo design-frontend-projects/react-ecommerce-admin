@@ -92,7 +92,10 @@ export function POActionDialog() {
       setOpen(null)
       form.reset()
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.DEV) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      }
       toast.error('Failed to save purchase order.')
     }
   }
