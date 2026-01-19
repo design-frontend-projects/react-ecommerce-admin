@@ -20,7 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { Category } from '../hooks/use-categories'
+import { type Category } from '../hooks/use-categories'
 import { columns } from './categories-columns'
 
 interface CategoriesTableProps {

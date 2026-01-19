@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Category } from '../hooks/use-categories'
+import { type Category } from '../hooks/use-categories'
 
 type CategoriesDialogType = 'create' | 'edit' | 'delete' | null
 

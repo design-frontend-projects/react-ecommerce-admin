@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Supplier } from '../hooks/use-suppliers'
+import { type Supplier } from '../hooks/use-suppliers'
 import { SupplierRowActions } from './supplier-row-actions'
 
 export const columns: ColumnDef<Supplier>[] = [

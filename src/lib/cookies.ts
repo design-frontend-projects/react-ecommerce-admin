@@ -30,7 +30,13 @@ export function setCookie(
 ): void {
   if (typeof document === 'undefined') return
 
-  document.cookie = `${name}=${value}; path=/; max-age=${maxAge}`
+  let cookieString = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`
+
+  if (window.location.protocol === 'https:') {
+    cookieString += '; Secure'
+  }
+
+  document.cookie = cookieString
 }
 
 /**
