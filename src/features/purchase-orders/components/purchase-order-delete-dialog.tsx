@@ -26,7 +26,10 @@ export function PODeleteDialog() {
       toast.error('Error', {
         description: error.message || 'Failed to delete purchase order',
       })
-      console.error(error)
+      if (import.meta.env.DEV) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      }
     }
   }
 

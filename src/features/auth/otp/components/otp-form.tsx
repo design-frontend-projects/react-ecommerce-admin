@@ -60,7 +60,6 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
         toast.success('Email verified successfully!')
       } else {
         toast.error('Verification failed. Please try again.')
-        console.error(JSON.stringify(result, null, 2))
       }
     } catch (err: unknown) {
       const errorMsg =
