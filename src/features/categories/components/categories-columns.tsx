@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Category } from '../hooks/use-categories'
+import { type Category } from '../hooks/use-categories'
 import { CategoryRowActions } from './category-row-actions'
 
 export const columns: ColumnDef<Category>[] = [

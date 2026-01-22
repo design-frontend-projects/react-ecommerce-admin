@@ -30,11 +30,13 @@ export function setCookie(
 ): void {
   if (typeof document === 'undefined') return
 
-  const isSecure = window.location.protocol === 'https:'
-  const secureSuffix = isSecure ? '; Secure' : ''
-  const sameSiteSuffix = '; SameSite=Lax'
+  let cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`
 
-  document.cookie = `${name}=${value}; path=/; max-age=${maxAge}${sameSiteSuffix}${secureSuffix}`
+  if (window.location.protocol === 'https:') {
+    cookie += '; Secure'
+  }
+
+  document.cookie = cookie
 }
 
 /**
@@ -43,9 +45,11 @@ export function setCookie(
 export function removeCookie(name: string): void {
   if (typeof document === 'undefined') return
 
-  const isSecure = window.location.protocol === 'https:'
-  const secureSuffix = isSecure ? '; Secure' : ''
-  const sameSiteSuffix = '; SameSite=Lax'
+  let cookie = `${name}=; path=/; max-age=0; SameSite=Lax`
 
-  document.cookie = `${name}=; path=/; max-age=0${sameSiteSuffix}${secureSuffix}`
+  if (window.location.protocol === 'https:') {
+    cookie += '; Secure'
+  }
+
+  document.cookie = cookie
 }

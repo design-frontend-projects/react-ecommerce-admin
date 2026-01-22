@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table'
+import { type Row } from '@tanstack/react-table'
 import { Edit, List, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { PurchaseOrder } from '../hooks/use-purchase-orders'
+import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 import { usePOContext } from './purchase-orders-provider'
 
 interface PORowActionsProps<TData> {

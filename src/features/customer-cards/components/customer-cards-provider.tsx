@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
-import { CustomerCard } from '../hooks/use-customer-cards'
+import { type CustomerCard } from '../hooks/use-customer-cards'
 
 type CustomerCardsDialogType = 'create' | 'edit' | 'delete'
 

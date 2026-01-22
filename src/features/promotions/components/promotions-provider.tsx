@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Promotion } from '../hooks/use-promotions'
+import { type Promotion } from '../hooks/use-promotions'
 
 type PromotionsDialogType = 'create' | 'edit' | 'delete' | null
 

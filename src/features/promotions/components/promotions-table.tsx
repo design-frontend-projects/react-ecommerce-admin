@@ -20,7 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { Promotion } from '../hooks/use-promotions'
+import { type Promotion } from '../hooks/use-promotions'
 import { columns } from './promotions-columns'
 
 interface PromotionsTableProps {
