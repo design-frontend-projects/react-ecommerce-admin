@@ -7,6 +7,7 @@ import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { IconFacebook, IconGithub } from '@/assets/brand-icons'
 import { cn } from '@/lib/utils'
+import { passwordSchema } from '@/lib/password-validation'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -25,10 +26,7 @@ const formSchema = z
       error: (iss) =>
         iss.input === '' ? 'Please enter your email' : undefined,
     }),
-    password: z
-      .string()
-      .min(1, 'Please enter your password')
-      .min(7, 'Password must be at least 7 characters long'),
+    password: passwordSchema,
     confirmPassword: z.string().min(1, 'Please confirm your password'),
   })
   .refine((data) => data.password === data.confirmPassword, {

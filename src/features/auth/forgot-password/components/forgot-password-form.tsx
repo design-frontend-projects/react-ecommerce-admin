@@ -7,6 +7,7 @@ import { useSignIn } from '@clerk/clerk-react'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { passwordSchema } from '@/lib/password-validation'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,7 +22,7 @@ import { PasswordInput } from '@/components/password-input'
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().optional(),
+  password: passwordSchema.or(z.literal('')).optional(),
   code: z.string().optional(),
 })
 
