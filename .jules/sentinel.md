@@ -7,3 +7,8 @@
 **Vulnerability:** Cookies were being set without `SameSite` or `Secure` attributes, exposing them to CSRF and network interception.
 **Learning:** Custom cookie utilities often miss secure defaults that libraries like `js-cookie` might encourage or document more clearly.
 **Prevention:** Enforce `SameSite=Lax` and conditional `Secure` attributes in all cookie setting logic.
+
+## 2026-01-28 - Weak Password Policy
+**Vulnerability:** The password validation only checked for a minimum length of 7 characters, allowing weak passwords like "1234567".
+**Learning:** Client-side validation is the first line of defense against weak passwords. Shared schemas prevent inconsistency across different auth flows (Sign Up vs Forgot Password).
+**Prevention:** Implemented a reusable `passwordSchema` in `src/lib/password-validation.ts` enforcing uppercase, lowercase, numbers, and special characters, applied to Sign Up and Password Reset forms.
