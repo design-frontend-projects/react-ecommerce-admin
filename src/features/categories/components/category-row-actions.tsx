@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table'
+import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,7 +9,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Category } from '../hooks/use-categories'
+import { type Category } from '../hooks/use-categories'
 import { useCategoriesContext } from './categories-provider'
 
 interface CategoryRowActionsProps<TData> {

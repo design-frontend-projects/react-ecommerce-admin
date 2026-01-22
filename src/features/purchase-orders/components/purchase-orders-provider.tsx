@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { PurchaseOrder } from '../hooks/use-purchase-orders'
+import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 
 type PODialogType = 'create' | 'edit' | 'delete' | 'items' | null
 

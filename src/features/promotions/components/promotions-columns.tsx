@@ -1,7 +1,7 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Promotion } from '../hooks/use-promotions'
+import { type Promotion } from '../hooks/use-promotions'
 import { PromotionRowActions } from './promotion-row-actions'
 
 export const columns: ColumnDef<Promotion>[] = [

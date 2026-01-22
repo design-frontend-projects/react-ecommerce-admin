@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Supplier } from '../hooks/use-suppliers'
+import { type Supplier } from '../hooks/use-suppliers'
 
 type SuppliersDialogType = 'create' | 'edit' | 'delete' | null
 

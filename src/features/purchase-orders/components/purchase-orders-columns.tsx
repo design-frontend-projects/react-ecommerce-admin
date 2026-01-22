@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
-import { PurchaseOrder } from '../hooks/use-purchase-orders'
+import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 import { PORowActions } from './purchase-order-row-actions'
 
 export const columns: ColumnDef<PurchaseOrder>[] = [
