@@ -12,3 +12,8 @@
 **Vulnerability:** The password validation only checked for a minimum length of 7 characters, allowing weak passwords like "1234567".
 **Learning:** Client-side validation is the first line of defense against weak passwords. Shared schemas prevent inconsistency across different auth flows (Sign Up vs Forgot Password).
 **Prevention:** Implemented a reusable `passwordSchema` in `src/lib/password-validation.ts` enforcing uppercase, lowercase, numbers, and special characters, applied to Sign Up and Password Reset forms.
+
+## 2026-02-05 - Inconsistent Password Validation in User Management
+**Vulnerability:** The admin user creation/edit dialog used a weaker, ad-hoc password validation than the public sign-up form, allowing creation of users with weak passwords (missing special characters or uppercase letters).
+**Learning:** Reimplementing validation logic locally leads to inconsistencies. Always reuse the central validation schema (`passwordSchema`).
+**Prevention:** Refactored `UsersActionDialog` to import and use `passwordSchema` from `@/lib/password-validation` within a `superRefine` block to handle conditional requirements (create vs edit).

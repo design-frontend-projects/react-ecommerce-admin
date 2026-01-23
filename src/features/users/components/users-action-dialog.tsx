@@ -3,6 +3,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { passwordSchema } from '@/lib/password-validation'
 import { showSubmittedData } from '@/lib/show-submitted-data'
 import { Button } from '@/components/ui/button'
 import {
@@ -41,56 +42,33 @@ const formSchema = z
     confirmPassword: z.string().transform((pwd) => pwd.trim()),
     isEdit: z.boolean(),
   })
-  .refine(
-    (data) => {
-      if (data.isEdit && !data.password) return true
-      return data.password.length > 0
-    },
-    {
-      message: 'Password is required.',
-      path: ['password'],
+  .superRefine((data, ctx) => {
+    if (data.isEdit) {
+      if (data.password) {
+        const result = passwordSchema.safeParse(data.password)
+        if (!result.success) {
+          result.error.issues.forEach((issue) => {
+            ctx.addIssue({ ...issue, path: ['password'] })
+          })
+        }
+      }
+    } else {
+      const result = passwordSchema.safeParse(data.password)
+      if (!result.success) {
+        result.error.issues.forEach((issue) => {
+          ctx.addIssue({ ...issue, path: ['password'] })
+        })
+      }
     }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return password.length >= 8
-    },
-    {
-      message: 'Password must be at least 8 characters long.',
-      path: ['password'],
+
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Passwords don't match.",
+        path: ['confirmPassword'],
+      })
     }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /[a-z]/.test(password)
-    },
-    {
-      message: 'Password must contain at least one lowercase letter.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /\d/.test(password)
-    },
-    {
-      message: 'Password must contain at least one number.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password, confirmPassword }) => {
-      if (isEdit && !password) return true
-      return password === confirmPassword
-    },
-    {
-      message: "Passwords don't match.",
-      path: ['confirmPassword'],
-    }
-  )
+  })
 type UserForm = z.infer<typeof formSchema>
 
 type UserActionDialogProps = {
