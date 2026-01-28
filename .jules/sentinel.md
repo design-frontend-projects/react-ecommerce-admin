@@ -13,7 +13,12 @@
 **Learning:** Client-side validation is the first line of defense against weak passwords. Shared schemas prevent inconsistency across different auth flows (Sign Up vs Forgot Password).
 **Prevention:** Implemented a reusable `passwordSchema` in `src/lib/password-validation.ts` enforcing uppercase, lowercase, numbers, and special characters, applied to Sign Up and Password Reset forms.
 
-## 2026-01-29 - Inconsistent Password Validation
-**Vulnerability:** The user management dialog implemented its own password validation logic that was weaker than the global policy (missing uppercase/special char checks), allowing weak passwords for new users.
-**Learning:** Redundant validation logic tends to drift from the central policy. Conditional validation (e.g. "required only on creation") often leads to developers rewriting the rules instead of reusing them.
-**Prevention:** Use `zod.superRefine` to conditionally apply shared schemas (like `passwordSchema`) instead of re-implementing rules manually.
+## 2026-02-18 - Inconsistent Password Policy in Admin Actions
+**Vulnerability:** The User creation/edit dialog (`UsersActionDialog`) implemented its own password validation logic which was weaker than the global policy (missing uppercase and special character requirements).
+**Learning:** When multiple forms handle similar data (like passwords), they should strictly use a shared validation schema to avoid policy drift. "Don't Repeat Yourself" (DRY) is a security principle too.
+**Prevention:** Refactored `UsersActionDialog` to use the shared `passwordSchema` via `zod.superRefine`, ensuring the admin interface enforces the same strong password requirements as the public sign-up flows.
+
+## 2026-03-02 - Unbounded Input Lengths
+**Vulnerability:** Input fields (names, emails, passwords) lacked maximum length constraints, allowing extremely large strings that could cause Denial of Service (DoS) or database errors.
+**Learning:** Default validation (e.g., `z.string()`) does not imply a maximum length. Explicit limits are required to prevent resource exhaustion attacks.
+**Prevention:** Added `.max(255)` to text fields and `.max(50)` to phone numbers in Zod schemas across the application, specifically in `passwordSchema` and `UsersActionDialog`.

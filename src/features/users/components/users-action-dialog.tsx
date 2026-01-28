@@ -3,6 +3,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { passwordSchema } from '@/lib/password-validation'
 import { showSubmittedData } from '@/lib/show-submitted-data'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,38 +31,48 @@ import { type User } from '../data/schema'
 
 const formSchema = z
   .object({
-    firstName: z.string().min(1, 'First Name is required.'),
-    lastName: z.string().min(1, 'Last Name is required.'),
-    username: z.string().min(1, 'Username is required.'),
-    phoneNumber: z.string().min(1, 'Phone number is required.'),
-    email: z.email({
-      error: (iss) => (iss.input === '' ? 'Email is required.' : undefined),
-    }),
-    password: z.string().transform((pwd) => pwd.trim()),
+    firstName: z
+      .string()
+      .min(1, 'First Name is required.')
+      .max(255, 'First Name must not exceed 255 characters.'),
+    lastName: z
+      .string()
+      .min(1, 'Last Name is required.')
+      .max(255, 'Last Name must not exceed 255 characters.'),
+    username: z
+      .string()
+      .min(1, 'Username is required.')
+      .max(255, 'Username must not exceed 255 characters.'),
+    phoneNumber: z
+      .string()
+      .min(1, 'Phone number is required.')
+      .max(50, 'Phone number must not exceed 50 characters.'),
+    email: z
+      .email({
+        error: (iss) => (iss.input === '' ? 'Email is required.' : undefined),
+      })
+      .max(255, 'Email must not exceed 255 characters.'),
+    password: z
+      .string()
+      .max(255, 'Password must not exceed 255 characters.')
+      .transform((pwd) => pwd.trim()),
     role: z.string().min(1, 'Role is required.'),
-    confirmPassword: z.string().transform((pwd) => pwd.trim()),
+    confirmPassword: z
+      .string()
+      .max(255, 'Confirm Password must not exceed 255 characters.')
+      .transform((pwd) => pwd.trim()),
     isEdit: z.boolean(),
   })
   .superRefine((data, ctx) => {
-    // Password validation logic
     if (!data.isEdit || data.password.length > 0) {
-      if (data.password.length === 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Password is required.',
-          path: ['password'],
+      const result = passwordSchema.safeParse(data.password)
+      if (!result.success) {
+        result.error.issues.forEach((issue) => {
+          ctx.addIssue({ ...issue, path: ['password'] })
         })
-      } else {
-        const result = passwordSchema.safeParse(data.password)
-        if (!result.success) {
-          result.error.issues.forEach((issue) => {
-            ctx.addIssue({ ...issue, path: ['password'] })
-          })
-        }
       }
     }
 
-    // Confirm password logic
     if (
       (!data.isEdit || data.password.length > 0) &&
       data.password !== data.confirmPassword
