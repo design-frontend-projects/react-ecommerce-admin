@@ -18,7 +18,7 @@
 **Learning:** When multiple forms handle similar data (like passwords), they should strictly use a shared validation schema to avoid policy drift. "Don't Repeat Yourself" (DRY) is a security principle too.
 **Prevention:** Refactored `UsersActionDialog` to use the shared `passwordSchema` via `zod.superRefine`, ensuring the admin interface enforces the same strong password requirements as the public sign-up flows.
 
-## 2026-02-24 - Input Length Limits (DoS Prevention)
-**Vulnerability:** Input fields lacked maximum length limits, allowing potentially unlimited string payloads that could cause Denial of Service (DoS) or database issues.
-**Learning:** Inline Zod schemas in React components are difficult to verify programmatically. Extracting schemas to dedicated `*.schema.ts` files enables lightweight, automated verification of security constraints (like max length) without invoking the React build pipeline.
-**Prevention:** Enforce `.max()` limits on all string inputs and extract schemas to separate files for easier auditing and testing.
+## 2026-03-02 - Unbounded Input Lengths
+**Vulnerability:** Input fields (names, emails, passwords) lacked maximum length constraints, allowing extremely large strings that could cause Denial of Service (DoS) or database errors.
+**Learning:** Default validation (e.g., `z.string()`) does not imply a maximum length. Explicit limits are required to prevent resource exhaustion attacks.
+**Prevention:** Added `.max(255)` to text fields and `.max(50)` to phone numbers in Zod schemas across the application, specifically in `passwordSchema` and `UsersActionDialog`.
