@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
@@ -7,7 +6,6 @@ import { useSignIn } from '@clerk/clerk-react'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { passwordSchema } from '@/lib/password-validation'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,12 +17,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: passwordSchema.or(z.literal('')).optional(),
-  code: z.string().optional(),
-})
+import {
+  forgotPasswordFormSchema,
+  type ForgotPasswordFormValues,
+} from './forgot-password.schema'
 
 export function ForgotPasswordForm({
   className,
@@ -35,12 +31,12 @@ export function ForgotPasswordForm({
   const [isLoading, setIsLoading] = useState(false)
   const [successfulCreation, setSuccessfulCreation] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordFormSchema),
     defaultValues: { email: '', password: '', code: '' },
   })
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: ForgotPasswordFormValues) {
     if (!isLoaded) return
     setIsLoading(true)
 

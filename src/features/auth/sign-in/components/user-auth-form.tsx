@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
@@ -19,16 +18,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-
-const formSchema = z.object({
-  email: z.email({
-    error: (iss) => (iss.input === '' ? 'Please enter your email' : undefined),
-  }),
-  password: z
-    .string()
-    .min(1, 'Please enter your password')
-    .min(7, 'Password must be at least 7 characters long'),
-})
+import { userAuthFormSchema, type UserAuthFormValues } from './sign-in.schema'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
   redirectTo?: string
@@ -43,15 +33,15 @@ export function UserAuthForm({
   const { isLoaded, signIn, setActive } = useSignIn()
   const navigate = useNavigate()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<UserAuthFormValues>({
+    resolver: zodResolver(userAuthFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: UserAuthFormValues) {
     if (!isLoaded) return
 
     setIsLoading(true)
