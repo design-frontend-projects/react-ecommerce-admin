@@ -17,3 +17,8 @@
 **Vulnerability:** The User creation/edit dialog (`UsersActionDialog`) implemented its own password validation logic which was weaker than the global policy (missing uppercase and special character requirements).
 **Learning:** When multiple forms handle similar data (like passwords), they should strictly use a shared validation schema to avoid policy drift. "Don't Repeat Yourself" (DRY) is a security principle too.
 **Prevention:** Refactored `UsersActionDialog` to use the shared `passwordSchema` via `zod.superRefine`, ensuring the admin interface enforces the same strong password requirements as the public sign-up flows.
+
+## 2026-02-24 - Input Length Limits (DoS Prevention)
+**Vulnerability:** Input fields lacked maximum length limits, allowing potentially unlimited string payloads that could cause Denial of Service (DoS) or database issues.
+**Learning:** Inline Zod schemas in React components are difficult to verify programmatically. Extracting schemas to dedicated `*.schema.ts` files enables lightweight, automated verification of security constraints (like max length) without invoking the React build pipeline.
+**Prevention:** Enforce `.max()` limits on all string inputs and extract schemas to separate files for easier auditing and testing.

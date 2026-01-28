@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
@@ -7,7 +6,6 @@ import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { IconFacebook, IconGithub } from '@/assets/brand-icons'
 import { cn } from '@/lib/utils'
-import { passwordSchema } from '@/lib/password-validation'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,20 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-
-const formSchema = z
-  .object({
-    email: z.email({
-      error: (iss) =>
-        iss.input === '' ? 'Please enter your email' : undefined,
-    }),
-    password: passwordSchema,
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match.",
-    path: ['confirmPassword'],
-  })
+import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
 
 export function SignUpForm({
   className,
@@ -42,8 +27,8 @@ export function SignUpForm({
   const { isLoaded, signUp } = useSignUp()
   const navigate = useNavigate()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -51,7 +36,7 @@ export function SignUpForm({
     },
   })
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: SignUpFormValues) {
     if (!isLoaded) return
 
     setIsLoading(true)
