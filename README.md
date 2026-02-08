@@ -117,3 +117,31 @@ Crafted with 🤍 by [@satnaing](https://github.com/satnaing)
 ## License
 
 Licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
+
+## Docker Setup
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Running with Docker Compose
+
+1. Build and start the services:
+
+```bash
+docker compose up -d --build
+```
+
+2. Access the application at `http://localhost`.
+
+3. To stop the services:
+
+```bash
+docker compose down
+```
+
+The setup includes:
+
+- **app**: 3 replicas of the React application served by Nginx.
+- **lb**: A load balancer (Nginx) distributing traffic to the app instances.
