@@ -34,6 +34,7 @@ import { useCustomers } from '@/features/customers/hooks/use-customers'
 import {
   useCreateCustomerCard,
   useUpdateCustomerCard,
+  usePaymentTypes,
 } from '../hooks/use-customer-cards'
 import { useCustomerCardsContext } from './customer-cards-provider'
 
@@ -55,6 +56,7 @@ export function CustomerCardsActionDialog() {
   const createMutation = useCreateCustomerCard()
   const updateMutation = useUpdateCustomerCard()
   const { data: customers } = useCustomers()
+  const { data: paymentTypes } = usePaymentTypes()
 
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
@@ -187,9 +189,32 @@ export function CustomerCardsActionDialog() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Card Type</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Visa, MasterCard' {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || undefined}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select type' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {paymentTypes?.map((type) => (
+                          <SelectItem key={type.id} value={type.name}>
+                            {type.name === 'visa'
+                              ? 'Visa'
+                              : type.name === 'master-card'
+                                ? 'MasterCard'
+                                : type.name === 'instapay'
+                                  ? 'InstaPay'
+                                  : type.name === 'paypal'
+                                    ? 'PayPal'
+                                    : type.name.charAt(0).toUpperCase() +
+                                      type.name.slice(1)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -207,6 +232,7 @@ export function CustomerCardsActionDialog() {
                 )}
               />
             </div>
+
             <div className='grid grid-cols-2 gap-4'>
               <FormField
                 name='expiry_month'

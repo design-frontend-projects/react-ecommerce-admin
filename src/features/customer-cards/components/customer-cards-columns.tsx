@@ -45,7 +45,21 @@ export const columns: ColumnDef<CustomerCard>[] = [
   {
     accessorKey: 'card_type',
     header: 'Card Type',
+    cell: ({ row }) => {
+      const type = row.original.card_type
+      if (!type) return 'N/A'
+      return type === 'visa'
+        ? 'Visa'
+        : type === 'master-card'
+          ? 'MasterCard'
+          : type === 'instapay'
+            ? 'InstaPay'
+            : type === 'paypal'
+              ? 'PayPal'
+              : type.charAt(0).toUpperCase() + type.slice(1)
+    },
   },
+
   {
     accessorKey: 'last_four_digits',
     header: 'Last 4 Digits',

@@ -19,6 +19,12 @@ export interface CustomerCard {
   }
 }
 
+export interface PaymentType {
+  id: string
+  name: string
+  is_enabled: boolean
+}
+
 export interface CustomerCardInput {
   customer_id: number
   card_type?: string
@@ -104,6 +110,22 @@ export const useDeleteCustomerCard = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customer-cards'] })
+    },
+  })
+}
+
+export const usePaymentTypes = () => {
+  return useQuery({
+    queryKey: ['payment-types'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('payment_types')
+        .select('*')
+        .eq('is_enabled', true)
+        .order('name', { ascending: true })
+
+      if (error) throw error
+      return data as PaymentType[]
     },
   })
 }
