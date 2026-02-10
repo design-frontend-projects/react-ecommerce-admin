@@ -1,4 +1,3 @@
-
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { ExternalLink, Key } from 'lucide-react'

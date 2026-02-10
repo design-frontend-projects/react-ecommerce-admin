@@ -26,6 +26,7 @@ export function SignIn() {
 
   return (
     <AuthLayout>
+      <ProfileDropdown />
       <Card className='w-full max-w-md gap-4'>
         <CardHeader className='text-center'>
           <CardTitle className='text-2xl font-bold tracking-tight'>

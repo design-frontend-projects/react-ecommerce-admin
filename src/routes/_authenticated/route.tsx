@@ -10,7 +10,12 @@ const AuthenticatedRoute = () => {
   const hasToasted = useRef(false)
 
   useEffect(() => {
-    if (isLoaded && !userId && !hasToasted.current) {
+    if (!isLoaded) {
+      toast.error('You must be logged in to access this page.')
+      hasToasted.current = true
+      navigate({ to: '/sign-in' })
+    }
+    if (!userId && !hasToasted.current) {
       toast.error('You must be logged in to access this page.')
       hasToasted.current = true
       navigate({ to: '/sign-in' })
