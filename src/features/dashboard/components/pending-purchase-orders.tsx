@@ -36,7 +36,7 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
         </TableHeader>
         <TableBody>
           {data.map((po) => (
-            <TableRow key={po.purchase_order_id}>
+            <TableRow key={po.po_id}>
               <TableCell className='font-medium'>{po.po_number}</TableCell>
               <TableCell>{po.suppliers?.name}</TableCell>
               <TableCell>
