@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Edit,
   MoreHorizontal,
@@ -117,6 +117,11 @@ export function UserManagement() {
       toast.error('Failed to update employee status')
     }
   }
+
+  useEffect(() => {
+    console.log('isAdmin', isAdmin)
+    console.log('employees', employees)
+  }, [isAdmin, employees])
 
   if (!isAdmin) {
     return (

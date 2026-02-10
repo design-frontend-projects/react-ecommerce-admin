@@ -97,10 +97,11 @@ export function useDashboardData() {
         .from('purchase_orders')
         .select(
           `
-          purchase_order_id,
+          po_id,
           po_number,
           order_date,
           total_amount,
+          expected_delivery_date,
           status,
           suppliers (
             name
