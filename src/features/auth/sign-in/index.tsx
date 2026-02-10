@@ -1,4 +1,6 @@
-import { useSearch } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
+import { useAuth } from '@clerk/clerk-react'
 import {
   Card,
   CardContent,
@@ -7,11 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
 
 export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
+  const { isSignedIn } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate({ to: redirect || '/' })
+    }
+  }, [isSignedIn, navigate, redirect])
 
   return (
     <AuthLayout>
@@ -27,7 +38,14 @@ export function SignIn() {
         <CardContent>
           <UserAuthForm redirectTo={redirect} />
         </CardContent>
-        <CardFooter>
+        <CardFooter className='flex flex-col'>
+          {/* add sign up routing  */}
+          <Link
+            to='/sign-up'
+            className='mb-3 underline underline-offset-4 hover:text-primary'
+          >
+            Don't have an account? Sign Up
+          </Link>
           <p className='px-8 text-center text-sm text-muted-foreground'>
             By clicking sign in, you agree to our{' '}
             <a
