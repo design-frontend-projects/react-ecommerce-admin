@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
@@ -39,6 +40,7 @@ import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_a
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
@@ -49,7 +51,19 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedResposUsersRouteImport } from './routes/_authenticated/respos/users'
+import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
+import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
+import { Route as AuthenticatedResposProfileRouteImport } from './routes/_authenticated/respos/profile'
+import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
+import { Route as AuthenticatedResposPaymentsRouteImport } from './routes/_authenticated/respos/payments'
+import { Route as AuthenticatedResposNotificationsRouteImport } from './routes/_authenticated/respos/notifications'
+import { Route as AuthenticatedResposMenuRouteImport } from './routes/_authenticated/respos/menu'
+import { Route as AuthenticatedResposKitchenRouteImport } from './routes/_authenticated/respos/kitchen'
+import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authenticated/respos/floors'
+import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
 const SsoCallbackRoute = SsoCallbackRouteImport.update({
   id: '/sso-callback',
@@ -63,6 +77,11 @@ const ClerkRouteRoute = ClerkRouteRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuIndexRoute = MenuIndexRouteImport.update({
+  id: '/menu/',
+  path: '/menu/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -209,6 +228,12 @@ const AuthenticatedSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedResposIndexRoute =
+  AuthenticatedResposIndexRouteImport.update({
+    id: '/respos/',
+    path: '/respos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProductsIndexRoute =
   AuthenticatedProductsIndexRouteImport.update({
     id: '/products/',
@@ -266,10 +291,80 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedResposUsersRoute =
+  AuthenticatedResposUsersRouteImport.update({
+    id: '/respos/users',
+    path: '/respos/users',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposShiftsRoute =
+  AuthenticatedResposShiftsRouteImport.update({
+    id: '/respos/shifts',
+    path: '/respos/shifts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposReservationsRoute =
+  AuthenticatedResposReservationsRouteImport.update({
+    id: '/respos/reservations',
+    path: '/respos/reservations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposProfileRoute =
+  AuthenticatedResposProfileRouteImport.update({
+    id: '/respos/profile',
+    path: '/respos/profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposPosRoute = AuthenticatedResposPosRouteImport.update({
+  id: '/respos/pos',
+  path: '/respos/pos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedResposPaymentsRoute =
+  AuthenticatedResposPaymentsRouteImport.update({
+    id: '/respos/payments',
+    path: '/respos/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposNotificationsRoute =
+  AuthenticatedResposNotificationsRouteImport.update({
+    id: '/respos/notifications',
+    path: '/respos/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposMenuRoute = AuthenticatedResposMenuRouteImport.update({
+  id: '/respos/menu',
+  path: '/respos/menu',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedResposKitchenRoute =
+  AuthenticatedResposKitchenRouteImport.update({
+    id: '/respos/kitchen',
+    path: '/respos/kitchen',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposFloorsRoute =
+  AuthenticatedResposFloorsRouteImport.update({
+    id: '/respos/floors',
+    path: '/respos/floors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposAnalyticsRoute =
+  AuthenticatedResposAnalyticsRouteImport.update({
+    id: '/respos/analytics',
+    path: '/respos/analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedErrorsErrorRoute =
   AuthenticatedErrorsErrorRouteImport.update({
     id: '/errors/$error',
     path: '/errors/$error',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedResposInvoiceOrderIdRoute =
+  AuthenticatedResposInvoiceOrderIdRouteImport.update({
+    id: '/respos/invoice/$orderId',
+    path: '/respos/invoice/$orderId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -300,7 +395,19 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/respos/floors': typeof AuthenticatedResposFloorsRoute
+  '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
+  '/respos/menu': typeof AuthenticatedResposMenuRoute
+  '/respos/notifications': typeof AuthenticatedResposNotificationsRoute
+  '/respos/payments': typeof AuthenticatedResposPaymentsRoute
+  '/respos/pos': typeof AuthenticatedResposPosRoute
+  '/respos/profile': typeof AuthenticatedResposProfileRoute
+  '/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -311,7 +418,9 @@ export interface FileRoutesByFullPath {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
+  '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -339,7 +448,19 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/respos/floors': typeof AuthenticatedResposFloorsRoute
+  '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
+  '/respos/menu': typeof AuthenticatedResposMenuRoute
+  '/respos/notifications': typeof AuthenticatedResposNotificationsRoute
+  '/respos/payments': typeof AuthenticatedResposPaymentsRoute
+  '/respos/pos': typeof AuthenticatedResposPosRoute
+  '/respos/profile': typeof AuthenticatedResposProfileRoute
+  '/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -350,7 +471,9 @@ export interface FileRoutesByTo {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
+  '/respos': typeof AuthenticatedResposIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -383,7 +506,19 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/menu/': typeof MenuIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/_authenticated/respos/floors': typeof AuthenticatedResposFloorsRoute
+  '/_authenticated/respos/kitchen': typeof AuthenticatedResposKitchenRoute
+  '/_authenticated/respos/menu': typeof AuthenticatedResposMenuRoute
+  '/_authenticated/respos/notifications': typeof AuthenticatedResposNotificationsRoute
+  '/_authenticated/respos/payments': typeof AuthenticatedResposPaymentsRoute
+  '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
+  '/_authenticated/respos/profile': typeof AuthenticatedResposProfileRoute
+  '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/_authenticated/respos/users': typeof AuthenticatedResposUsersRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -394,7 +529,9 @@ export interface FileRoutesById {
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
+  '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -425,7 +562,19 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/menu'
     | '/errors/$error'
+    | '/respos/analytics'
+    | '/respos/floors'
+    | '/respos/kitchen'
+    | '/respos/menu'
+    | '/respos/notifications'
+    | '/respos/payments'
+    | '/respos/pos'
+    | '/respos/profile'
+    | '/respos/reservations'
+    | '/respos/shifts'
+    | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -436,7 +585,9 @@ export interface FileRouteTypes {
     | '/chats'
     | '/inventory'
     | '/products'
+    | '/respos'
     | '/settings/'
+    | '/respos/invoice/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -464,7 +615,19 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/menu'
     | '/errors/$error'
+    | '/respos/analytics'
+    | '/respos/floors'
+    | '/respos/kitchen'
+    | '/respos/menu'
+    | '/respos/notifications'
+    | '/respos/payments'
+    | '/respos/pos'
+    | '/respos/profile'
+    | '/respos/reservations'
+    | '/respos/shifts'
+    | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -475,7 +638,9 @@ export interface FileRouteTypes {
     | '/chats'
     | '/inventory'
     | '/products'
+    | '/respos'
     | '/settings'
+    | '/respos/invoice/$orderId'
   id:
     | '__root__'
     | '/_authenticated'
@@ -507,7 +672,19 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/menu/'
     | '/_authenticated/errors/$error'
+    | '/_authenticated/respos/analytics'
+    | '/_authenticated/respos/floors'
+    | '/_authenticated/respos/kitchen'
+    | '/_authenticated/respos/menu'
+    | '/_authenticated/respos/notifications'
+    | '/_authenticated/respos/payments'
+    | '/_authenticated/respos/pos'
+    | '/_authenticated/respos/profile'
+    | '/_authenticated/respos/reservations'
+    | '/_authenticated/respos/shifts'
+    | '/_authenticated/respos/users'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -518,7 +695,9 @@ export interface FileRouteTypes {
     | '/_authenticated/chats/'
     | '/_authenticated/inventory/'
     | '/_authenticated/products/'
+    | '/_authenticated/respos/'
     | '/_authenticated/settings/'
+    | '/_authenticated/respos/invoice/$orderId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -535,6 +714,7 @@ export interface RootRouteChildren {
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
+  MenuIndexRoute: typeof MenuIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -558,6 +738,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu/': {
+      id: '/menu/'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -749,6 +936,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/respos/': {
+      id: '/_authenticated/respos/'
+      path: '/respos'
+      fullPath: '/respos'
+      preLoaderRoute: typeof AuthenticatedResposIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/products/': {
       id: '/_authenticated/products/'
       path: '/products'
@@ -819,11 +1013,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/respos/users': {
+      id: '/_authenticated/respos/users'
+      path: '/respos/users'
+      fullPath: '/respos/users'
+      preLoaderRoute: typeof AuthenticatedResposUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/shifts': {
+      id: '/_authenticated/respos/shifts'
+      path: '/respos/shifts'
+      fullPath: '/respos/shifts'
+      preLoaderRoute: typeof AuthenticatedResposShiftsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/reservations': {
+      id: '/_authenticated/respos/reservations'
+      path: '/respos/reservations'
+      fullPath: '/respos/reservations'
+      preLoaderRoute: typeof AuthenticatedResposReservationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/profile': {
+      id: '/_authenticated/respos/profile'
+      path: '/respos/profile'
+      fullPath: '/respos/profile'
+      preLoaderRoute: typeof AuthenticatedResposProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/pos': {
+      id: '/_authenticated/respos/pos'
+      path: '/respos/pos'
+      fullPath: '/respos/pos'
+      preLoaderRoute: typeof AuthenticatedResposPosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/payments': {
+      id: '/_authenticated/respos/payments'
+      path: '/respos/payments'
+      fullPath: '/respos/payments'
+      preLoaderRoute: typeof AuthenticatedResposPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/notifications': {
+      id: '/_authenticated/respos/notifications'
+      path: '/respos/notifications'
+      fullPath: '/respos/notifications'
+      preLoaderRoute: typeof AuthenticatedResposNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/menu': {
+      id: '/_authenticated/respos/menu'
+      path: '/respos/menu'
+      fullPath: '/respos/menu'
+      preLoaderRoute: typeof AuthenticatedResposMenuRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/kitchen': {
+      id: '/_authenticated/respos/kitchen'
+      path: '/respos/kitchen'
+      fullPath: '/respos/kitchen'
+      preLoaderRoute: typeof AuthenticatedResposKitchenRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/floors': {
+      id: '/_authenticated/respos/floors'
+      path: '/respos/floors'
+      fullPath: '/respos/floors'
+      preLoaderRoute: typeof AuthenticatedResposFloorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/analytics': {
+      id: '/_authenticated/respos/analytics'
+      path: '/respos/analytics'
+      fullPath: '/respos/analytics'
+      preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/errors/$error': {
       id: '/_authenticated/errors/$error'
       path: '/errors/$error'
       fullPath: '/errors/$error'
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/respos/invoice/$orderId': {
+      id: '/_authenticated/respos/invoice/$orderId'
+      path: '/respos/invoice/$orderId'
+      fullPath: '/respos/invoice/$orderId'
+      preLoaderRoute: typeof AuthenticatedResposInvoiceOrderIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -868,9 +1146,22 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
+  AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
+  AuthenticatedResposFloorsRoute: typeof AuthenticatedResposFloorsRoute
+  AuthenticatedResposKitchenRoute: typeof AuthenticatedResposKitchenRoute
+  AuthenticatedResposMenuRoute: typeof AuthenticatedResposMenuRoute
+  AuthenticatedResposNotificationsRoute: typeof AuthenticatedResposNotificationsRoute
+  AuthenticatedResposPaymentsRoute: typeof AuthenticatedResposPaymentsRoute
+  AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
+  AuthenticatedResposProfileRoute: typeof AuthenticatedResposProfileRoute
+  AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
+  AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
+  AuthenticatedResposUsersRoute: typeof AuthenticatedResposUsersRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
+  AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -889,9 +1180,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
+  AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
+  AuthenticatedResposFloorsRoute: AuthenticatedResposFloorsRoute,
+  AuthenticatedResposKitchenRoute: AuthenticatedResposKitchenRoute,
+  AuthenticatedResposMenuRoute: AuthenticatedResposMenuRoute,
+  AuthenticatedResposNotificationsRoute: AuthenticatedResposNotificationsRoute,
+  AuthenticatedResposPaymentsRoute: AuthenticatedResposPaymentsRoute,
+  AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
+  AuthenticatedResposProfileRoute: AuthenticatedResposProfileRoute,
+  AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
+  AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
+  AuthenticatedResposUsersRoute: AuthenticatedResposUsersRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
+  AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedResposInvoiceOrderIdRoute:
+    AuthenticatedResposInvoiceOrderIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -954,6 +1259,7 @@ const rootRouteChildren: RootRouteChildren = {
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
+  MenuIndexRoute: MenuIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
