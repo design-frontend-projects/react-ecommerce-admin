@@ -118,7 +118,7 @@ export function UserAuthForm({
               type='button'
               onClick={() => setSelectedModule(tab.id)}
               className={cn(
-                'relative flex flex-col items-center gap-1 rounded-md px-3 py-3 text-sm font-medium transition-all duration-200',
+                'relative flex flex-col items-center gap-1 rounded-md px-3 py-3 text-sm font-medium transition-all duration-100',
                 isActive
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:bg-background/50 hover:text-foreground'
@@ -128,7 +128,7 @@ export function UserAuthForm({
                 <motion.div
                   layoutId='activeModuleTab'
                   className={cn(
-                    'absolute inset-0 rounded-md bg-gradient-to-r opacity-10',
+                    'bg-linear-to absolute inset-0 rounded-md opacity-10',
                     tab.gradient
                   )}
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
@@ -200,7 +200,7 @@ export function UserAuthForm({
           />
           <Button
             className={cn(
-              'mt-2 bg-gradient-to-r',
+              'mt-2 bg-linear-to-r',
               selectedModule === 'restaurant'
                 ? 'from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'
                 : 'from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600'

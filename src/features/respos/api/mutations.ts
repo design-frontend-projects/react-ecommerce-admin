@@ -776,7 +776,7 @@ export function useUpdateMenuItem() {
       allergens?: string[]
       tags?: string[]
     }) => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('res_menu_items')
         .update({
           category_id: updates.categoryId,
@@ -1324,6 +1324,9 @@ export function useDeleteTable() {
 
 // ============ User/Employee Mutations ============
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
 export function useCreateUser() {
   const queryClient = useQueryClient()
 
@@ -1335,6 +1338,7 @@ export function useCreateUser() {
       password,
       phone,
       pinCode,
+      idNumber,
       roles,
     }: {
       firstName: string
@@ -1343,46 +1347,66 @@ export function useCreateUser() {
       password?: string
       phone?: string
       pinCode?: string
+      idNumber?: string
       roles: string[]
     }) => {
-      // 1. Clerk User Creation (Client-side simulation)
-      // NOTE: In a real app, this should call a Secure Edge Function
-      console.warn(
-        'Clerk User Creation skipped (Client-side). Assuming user created in Dashboard.'
-      )
+      let clerkUserId: string | null = null
 
-      // 2. Generate/Use a ID (In real flow, this comes from Clerk)
-      // For now, we simulate an ID if not provided by backend logic
-      const userId = `user_${crypto.randomUUID().split('-')[0]}`
+      // 1. Create user in Clerk via Edge Function
+      if (password) {
+        const edgeFnUrl = `${SUPABASE_URL}/functions/v1/create-clerk-user`
+        const response = await fetch(edgeFnUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            firstName,
+            lastName,
+          }),
+        })
 
-      // 3. Create public.users record
-      // This might fail if RLS prevents client creation, but assuming admin has rights
+        if (!response.ok) {
+          const errData = await response.json()
+          throw new Error(errData.error || 'Failed to create Clerk user')
+        }
+
+        const clerkData = await response.json()
+        clerkUserId = clerkData.clerkUserId as string
+      } else {
+        // Fallback simulated ID for when no password provided
+        clerkUserId = `user_${crypto.randomUUID().split('-')[0]}`
+      }
+
+      // 2. Create public.users record
       const { error: userError } = await supabase.from('users').insert({
+        clerk_user_id: clerkUserId,
         email,
         first_name: firstName,
         last_name: lastName,
-        password: password || 'placeholder', // Should be hashed in backend
-        default_role: 'user', // Default
-        active: true,
-        inserted_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        default_role: 'user',
+        is_restuarant_user: true,
+        is_active: true,
       })
 
       if (userError) {
-        console.error('Failed to create public user:', userError)
-        // Continue if it fails? Maybe user already exists.
+        throw userError
       }
 
-      // 4. Create res_employees record
+      // 3. Create res_employees record
       const { data: employee, error: empError } = await supabase
         .from('res_employees')
         .insert({
-          user_id: userId,
+          user_id: clerkUserId,
           first_name: firstName,
           last_name: lastName,
           email,
           phone,
           pin_code: pinCode,
+          id_number: idNumber,
           is_active: true,
         })
         .select()
@@ -1390,7 +1414,7 @@ export function useCreateUser() {
 
       if (empError) throw empError
 
-      // 5. Assign Roles
+      // 4. Assign Roles
       if (roles.length > 0) {
         const roleAssignments = roles.map((roleId) => ({
           employee_id: employee.id,
@@ -1423,6 +1447,8 @@ export function useUpdateUser() {
       email,
       phone,
       pinCode,
+      idNumber,
+      isActive,
       roles,
     }: {
       id: string
@@ -1431,6 +1457,8 @@ export function useUpdateUser() {
       email: string
       phone?: string
       pinCode?: string
+      idNumber?: string
+      isActive?: boolean
       roles: string[]
     }) => {
       // 1. Update res_employees
@@ -1442,6 +1470,8 @@ export function useUpdateUser() {
           email,
           phone,
           pin_code: pinCode,
+          id_number: idNumber,
+          is_active: isActive,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
@@ -1450,8 +1480,7 @@ export function useUpdateUser() {
 
       if (empError) throw empError
 
-      // 2. Update Roles (Sync)
-      // First delete existing roles
+      // 2. Sync Roles (delete + insert)
       const { error: deleteError } = await supabase
         .from('res_employee_roles')
         .delete()
@@ -1459,7 +1488,6 @@ export function useUpdateUser() {
 
       if (deleteError) throw deleteError
 
-      // Then insert new roles
       if (roles.length > 0) {
         const roleAssignments = roles.map((roleId) => ({
           employee_id: id,
@@ -1477,7 +1505,120 @@ export function useUpdateUser() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
-      // Invalidate specific employee query if needed
+    },
+  })
+}
+
+export function useUploadAvatar() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      employeeId,
+      file,
+    }: {
+      employeeId: string
+      file: File
+    }) => {
+      const fileExt = file.name.split('.').pop()
+      const filePath = `employees/${employeeId}/avatar.${fileExt}`
+
+      // Upload to avatars bucket
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, { upsert: true })
+
+      if (uploadError) throw uploadError
+
+      // Get public URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('avatars').getPublicUrl(filePath)
+
+      // Update employee record
+      const { data, error: updateError } = await supabase
+        .from('res_employees')
+        .update({
+          avatar_url: publicUrl,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', employeeId)
+        .select()
+        .single()
+
+      if (updateError) throw updateError
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
+    },
+  })
+}
+
+export function useDeleteAvatar() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      employeeId,
+      avatarUrl,
+    }: {
+      employeeId: string
+      avatarUrl: string
+    }) => {
+      // Extract file path from URL
+      const url = new URL(avatarUrl)
+      const pathMatch = url.pathname.match(/\/avatars\/(.+)$/)
+      if (pathMatch) {
+        await supabase.storage.from('avatars').remove([pathMatch[1]])
+      }
+
+      // Clear avatar_url in employee record
+      const { data, error } = await supabase
+        .from('res_employees')
+        .update({
+          avatar_url: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', employeeId)
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
+    },
+  })
+}
+
+export function useToggleEmployeeStatus() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      employeeId,
+      isActive,
+    }: {
+      employeeId: string
+      isActive: boolean
+    }) => {
+      const { data, error } = await supabase
+        .from('res_employees')
+        .update({
+          is_active: isActive,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', employeeId)
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
     },
   })
 }

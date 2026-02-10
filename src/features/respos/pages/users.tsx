@@ -1,6 +1,17 @@
 import { useState } from 'react'
-import { Plus, Search, Shield, User } from 'lucide-react'
+import {
+  Edit,
+  MoreHorizontal,
+  Plus,
+  Search,
+  Shield,
+  ShieldAlert,
+  ToggleLeft,
+  User,
+  Users,
+} from 'lucide-react'
 import { toast } from 'sonner'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -10,6 +21,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -23,7 +41,11 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useCreateUser, useUpdateUser } from '../api/mutations'
+import {
+  useCreateUser,
+  useUpdateUser,
+  useToggleEmployeeStatus,
+} from '../api/mutations'
 import { useEmployees } from '../api/queries'
 import { UserDialog } from '../components/user-dialog'
 import { useResposAuth } from '../hooks'
@@ -40,6 +62,7 @@ export function UserManagement() {
 
   const createUser = useCreateUser()
   const updateUser = useUpdateUser()
+  const toggleStatus = useToggleEmployeeStatus()
 
   const filteredEmployees =
     employees?.filter((emp) =>
@@ -48,26 +71,31 @@ export function UserManagement() {
         .includes(searchQuery.toLowerCase())
     ) || []
 
-  const handleCreateUser = async (values: any) => {
+  const activeCount = filteredEmployees.filter((e) => e.is_active).length
+  const inactiveCount = filteredEmployees.length - activeCount
+
+  const handleCreateUser = async (values: Record<string, unknown>) => {
     try {
-      await createUser.mutateAsync(values)
-      toast.success('User created successfully')
+      await createUser.mutateAsync(
+        values as Parameters<typeof createUser.mutateAsync>[0]
+      )
+      toast.success('Employee created successfully')
       setIsUserDialogOpen(false)
-    } catch (error) {
-      toast.error('Failed to create user')
-      console.error(error)
+    } catch {
+      toast.error('Failed to create employee')
     }
   }
 
-  const handleUpdateUser = async (values: any) => {
+  const handleUpdateUser = async (values: Record<string, unknown>) => {
     try {
-      await updateUser.mutateAsync(values)
-      toast.success('User updated successfully')
+      await updateUser.mutateAsync(
+        values as Parameters<typeof updateUser.mutateAsync>[0]
+      )
+      toast.success('Employee updated successfully')
       setIsUserDialogOpen(false)
       setSelectedUser(null)
-    } catch (error) {
-      toast.error('Failed to update user')
-      console.error(error)
+    } catch {
+      toast.error('Failed to update employee')
     }
   }
 
@@ -76,14 +104,28 @@ export function UserManagement() {
     setIsUserDialogOpen(true)
   }
 
+  const handleToggleStatus = async (emp: ResEmployeeWithRoles) => {
+    try {
+      await toggleStatus.mutateAsync({
+        employeeId: emp.id,
+        isActive: !emp.is_active,
+      })
+      toast.success(
+        `Employee ${emp.is_active ? 'deactivated' : 'activated'} successfully`
+      )
+    } catch {
+      toast.error('Failed to update employee status')
+    }
+  }
+
   if (!isAdmin) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
-          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <ShieldAlert className='mx-auto h-16 w-16 text-red-400 opacity-80' />
           <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
-          <p className='text-muted-foreground'>
-            You do not have permission to view this page.
+          <p className='mt-1 text-muted-foreground'>
+            You need admin privileges to manage employees.
           </p>
         </div>
       </div>
@@ -104,8 +146,8 @@ export function UserManagement() {
 
       <Header>
         <div className='flex items-center gap-2'>
-          <User className='h-5 w-5 text-orange-500' />
-          <h1 className='text-lg font-semibold'>User Management</h1>
+          <Users className='h-5 w-5 text-orange-500' />
+          <h1 className='text-lg font-semibold'>Employee Management</h1>
         </div>
         <div className='ml-auto flex items-center gap-4'>
           <ThemeSwitch />
@@ -115,11 +157,53 @@ export function UserManagement() {
 
       <Main>
         <div className='flex flex-col gap-4'>
+          {/* Stats Bar */}
+          <div className='grid grid-cols-3 gap-4'>
+            <Card>
+              <CardContent className='flex items-center gap-3 p-4'>
+                <div className='rounded-lg bg-orange-100 p-2 dark:bg-orange-900/30'>
+                  <Users className='h-5 w-5 text-orange-600 dark:text-orange-400' />
+                </div>
+                <div>
+                  <p className='text-2xl font-bold'>
+                    {filteredEmployees.length}
+                  </p>
+                  <p className='text-xs text-muted-foreground'>
+                    Total Employees
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className='flex items-center gap-3 p-4'>
+                <div className='rounded-lg bg-green-100 p-2 dark:bg-green-900/30'>
+                  <User className='h-5 w-5 text-green-600 dark:text-green-400' />
+                </div>
+                <div>
+                  <p className='text-2xl font-bold'>{activeCount}</p>
+                  <p className='text-xs text-muted-foreground'>Active</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className='flex items-center gap-3 p-4'>
+                <div className='rounded-lg bg-gray-100 p-2 dark:bg-gray-800'>
+                  <Shield className='h-5 w-5 text-gray-500' />
+                </div>
+                <div>
+                  <p className='text-2xl font-bold'>{inactiveCount}</p>
+                  <p className='text-xs text-muted-foreground'>Inactive</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Search + Add */}
           <div className='flex items-center justify-between'>
             <div className='relative w-72'>
               <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
               <Input
-                placeholder='Search users...'
+                placeholder='Search employees...'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className='pl-9'
@@ -127,23 +211,25 @@ export function UserManagement() {
             </div>
             <Button onClick={() => setIsUserDialogOpen(true)}>
               <Plus className='mr-2 h-4 w-4' />
-              Add User
+              Add Employee
             </Button>
           </div>
 
+          {/* Employees Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Users ({filteredEmployees.length})</CardTitle>
+              <CardTitle>Employees ({filteredEmployees.length})</CardTitle>
               <CardDescription>
-                Manage system users and their roles.
+                Manage restaurant employees, roles, and access.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User</TableHead>
+                    <TableHead>Employee</TableHead>
                     <TableHead>Email</TableHead>
+                    <TableHead>ID Number</TableHead>
                     <TableHead>Roles</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className='text-right'>Actions</TableHead>
@@ -152,57 +238,110 @@ export function UserManagement() {
                 <TableBody>
                   {isLoading ? (
                     <TableRow>
-                      <TableCell colSpan={5} className='text-center'>
-                        Loading users...
+                      <TableCell colSpan={6} className='py-8 text-center'>
+                        <div className='flex items-center justify-center gap-2'>
+                          <div className='h-4 w-4 animate-spin rounded-full border-2 border-orange-500 border-t-transparent' />
+                          Loading employees...
+                        </div>
                       </TableCell>
                     </TableRow>
                   ) : filteredEmployees.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className='text-center'>
-                        No users found.
+                      <TableCell colSpan={6} className='py-8 text-center'>
+                        <Users className='mx-auto h-8 w-8 text-muted-foreground/50' />
+                        <p className='mt-2 text-sm text-muted-foreground'>
+                          No employees found.
+                        </p>
                       </TableCell>
                     </TableRow>
                   ) : (
-                    filteredEmployees.map((emp) => (
-                      <TableRow key={emp.id}>
-                        <TableCell>
-                          <div className='font-medium'>
-                            {emp.first_name} {emp.last_name}
-                          </div>
-                          {emp.pin_code && (
-                            <div className='text-xs text-muted-foreground'>
-                              PIN: {emp.pin_code}
+                    filteredEmployees.map((emp) => {
+                      const initials =
+                        `${emp.first_name[0]}${emp.last_name[0]}`.toUpperCase()
+                      return (
+                        <TableRow
+                          key={emp.id}
+                          className={!emp.is_active ? 'opacity-60' : ''}
+                        >
+                          <TableCell>
+                            <div className='flex items-center gap-3'>
+                              <Avatar className='h-9 w-9'>
+                                <AvatarImage
+                                  src={emp.avatar_url || ''}
+                                  alt={`${emp.first_name} ${emp.last_name}`}
+                                />
+                                <AvatarFallback className='bg-orange-100 text-xs font-semibold text-orange-700'>
+                                  {initials}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <div className='font-medium'>
+                                  {emp.first_name} {emp.last_name}
+                                </div>
+                                {emp.pin_code && (
+                                  <div className='text-xs text-muted-foreground'>
+                                    PIN: ••••{emp.pin_code.slice(-2)}
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          )}
-                        </TableCell>
-                        <TableCell>{emp.email}</TableCell>
-                        <TableCell>
-                          <div className='flex flex-wrap gap-1'>
-                            {emp.roles.map((role) => (
-                              <Badge key={role.id} variant='outline'>
-                                {role.display_name}
-                              </Badge>
-                            ))}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={emp.is_active ? 'default' : 'secondary'}
-                          >
-                            {emp.is_active ? 'Active' : 'Inactive'}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className='text-right'>
-                          <Button
-                            variant='ghost'
-                            size='sm'
-                            onClick={() => handleEditUser(emp)}
-                          >
-                            Edit
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
+                          </TableCell>
+                          <TableCell className='text-sm'>{emp.email}</TableCell>
+                          <TableCell className='text-sm text-muted-foreground'>
+                            {emp.id_number || '—'}
+                          </TableCell>
+                          <TableCell>
+                            <div className='flex flex-wrap gap-1'>
+                              {emp.roles.map((role) => (
+                                <Badge
+                                  key={role.id}
+                                  variant='outline'
+                                  className='text-xs'
+                                >
+                                  {role.display_name}
+                                </Badge>
+                              ))}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={emp.is_active ? 'default' : 'secondary'}
+                              className={
+                                emp.is_active
+                                  ? 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400'
+                                  : ''
+                              }
+                            >
+                              {emp.is_active ? 'Active' : 'Inactive'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className='text-right'>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant='ghost' size='icon'>
+                                  <MoreHorizontal className='h-4 w-4' />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align='end'>
+                                <DropdownMenuItem
+                                  onClick={() => handleEditUser(emp)}
+                                >
+                                  <Edit className='mr-2 h-4 w-4' />
+                                  Edit Profile
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  onClick={() => handleToggleStatus(emp)}
+                                >
+                                  <ToggleLeft className='mr-2 h-4 w-4' />
+                                  {emp.is_active ? 'Deactivate' : 'Activate'}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })
                   )}
                 </TableBody>
               </Table>
