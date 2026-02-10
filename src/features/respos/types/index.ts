@@ -38,7 +38,7 @@ export interface ResRole {
 
 export interface ResEmployee {
   id: string
-  user_id: string
+  user_id?: string | null
   first_name: string
   last_name: string
   email: string
@@ -58,8 +58,22 @@ export interface ResEmployeeRole {
   assigned_at: string
 }
 
+export interface PublicUser {
+  id: number
+  clerk_user_id: string | null
+  email: string
+  first_name: string
+  last_name: string
+  is_active: boolean
+  is_restuarant_user: boolean
+  default_role: string | null
+  created_at?: string
+  updated_at?: string
+}
+
 export interface ResEmployeeWithRoles extends ResEmployee {
   roles: ResRole[]
+  public_user?: PublicUser
 }
 
 // ============ Location Types ============

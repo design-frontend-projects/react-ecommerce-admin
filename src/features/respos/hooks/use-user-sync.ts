@@ -3,10 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
+import { useSupabaseClient } from '@/hooks/use-supabase-client'
 
 export function useUserSync() {
   const { user, isLoaded, isSignedIn } = useUser()
+  const { getClient } = useSupabaseClient()
   const hasSynced = useRef(false)
 
   useEffect(() => {
@@ -14,6 +15,7 @@ export function useUserSync() {
 
     const syncUser = async () => {
       try {
+        const supabase = await getClient()
         const clerkUserId = user.id
         const email =
           user.primaryEmailAddress?.emailAddress ||

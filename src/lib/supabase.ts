@@ -8,3 +8,17 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+/**
+ * Creates a Supabase client with the Clerk JWT token in the Authorization header.
+ * This is used to enable Row Level Security (RLS) with Clerk identities.
+ */
+export const createClerkSupabaseClient = (clerkToken: string) => {
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${clerkToken}`,
+      },
+    },
+  })
+}

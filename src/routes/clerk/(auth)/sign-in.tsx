@@ -4,11 +4,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/clerk/(auth)/sign-in')({
   component: () => (
-    <SignIn
-      initialValues={{
-        emailAddress: 'your_mail+shadcn_admin@gmail.com',
-      }}
-      fallback={<Skeleton className='h-120 w-100' />}
-    />
+    <div className='flex flex-col items-center gap-4'>
+      <SignIn
+        initialValues={{
+          emailAddress: 'your_mail+shadcn_admin@gmail.com',
+        }}
+        fallback={<Skeleton className='h-120 w-100' />}
+        signUpUrl='/clerk/sign-up'
+      />
+    </div>
   ),
 })

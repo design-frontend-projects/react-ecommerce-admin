@@ -1,6 +1,7 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { useSupabaseClient } from '@/hooks/use-supabase-client'
 import { generateOrderNumber } from '../lib/formatters'
 import type {
   OrderItemStatus,
@@ -17,6 +18,7 @@ import { resposQueryKeys } from './queries'
 
 export function useUpdateTableStatus() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -26,7 +28,8 @@ export function useUpdateTableStatus() {
       tableId: string
       status: TableStatus
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_tables')
         .update({ status })
         .eq('id', tableId)
@@ -49,6 +52,7 @@ export function useUpdateTableStatus() {
 
 export function useOpenShift() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -58,7 +62,8 @@ export function useOpenShift() {
       employeeId: string
       openingCash: number
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_shifts')
         .insert({
           opened_by: employeeId,
@@ -80,6 +85,7 @@ export function useOpenShift() {
 
 export function useCloseShift() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -93,7 +99,8 @@ export function useCloseShift() {
       closingCash: number
       notes?: string
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_shifts')
         .update({
           closed_by: employeeId,
@@ -120,6 +127,7 @@ export function useCloseShift() {
 
 export function useCreateOrder() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -142,6 +150,7 @@ export function useCreateOrder() {
         notes?: string
       }>
     }) => {
+      const client = await getClient()
       // Create order
       const orderNumber = generateOrderNumber()
       const subtotal = items.reduce(
@@ -149,7 +158,7 @@ export function useCreateOrder() {
         0
       )
 
-      const { data: order, error: orderError } = await supabase
+      const { data: order, error: orderError } = await client
         .from('res_orders')
         .insert({
           order_number: orderNumber,
@@ -177,7 +186,7 @@ export function useCreateOrder() {
         notes: item.notes,
       }))
 
-      const { error: itemsError } = await supabase
+      const { error: itemsError } = await client
         .from('res_order_items')
         .insert(orderItems)
 
@@ -185,7 +194,7 @@ export function useCreateOrder() {
 
       // Update table status
       if (tableId) {
-        await supabase
+        await client
           .from('res_tables')
           .update({ status: 'occupied' })
           .eq('id', tableId)
@@ -205,6 +214,7 @@ export function useCreateOrder() {
 
 export function useUpdateOrderStatus() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -222,6 +232,7 @@ export function useUpdateOrderStatus() {
       discountAmount?: number
       discountType?: string
     }) => {
+      const client = await getClient()
       interface OrderUpdate {
         status: OrderStatus
         updated_at: string
@@ -243,7 +254,7 @@ export function useUpdateOrderStatus() {
       if (discountType) updates.discount_type = discountType
       if (status === 'paid') updates.paid_at = new Date().toISOString()
 
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('res_orders')
         .update(updates)
         .eq('id', orderId)
@@ -267,6 +278,7 @@ export function useUpdateOrderStatus() {
 
 export function useAddOrderItem() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -286,13 +298,14 @@ export function useAddOrderItem() {
       properties?: unknown[]
       notes?: string
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_order_items')
         .insert({
           order_id: orderId,
           item_id: itemId,
           variant_id: variantId,
-          quantity,
+          quantity: quantity,
           unit_price: unitPrice,
           properties: properties || [],
           notes,
@@ -303,7 +316,7 @@ export function useAddOrderItem() {
       if (error) throw error
 
       // Recalculate order totals
-      const { data: items } = await supabase
+      const { data: items } = await client
         .from('res_order_items')
         .select('unit_price, quantity')
         .eq('order_id', orderId)
@@ -311,7 +324,7 @@ export function useAddOrderItem() {
       const subtotal =
         items?.reduce((sum, i) => sum + i.unit_price * i.quantity, 0) || 0
 
-      await supabase
+      await client
         .from('res_orders')
         .update({ subtotal, total_amount: subtotal })
         .eq('id', orderId)
@@ -329,6 +342,7 @@ export function useAddOrderItem() {
 
 export function useAddOrderItems() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -345,6 +359,7 @@ export function useAddOrderItems() {
         notes?: string
       }>
     }) => {
+      const client = await getClient()
       const orderItems = items.map((item) => ({
         order_id: orderId,
         item_id: item.item_id,
@@ -355,7 +370,7 @@ export function useAddOrderItems() {
         notes: item.notes,
       }))
 
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('res_order_items')
         .insert(orderItems)
         .select()
@@ -363,7 +378,7 @@ export function useAddOrderItems() {
       if (error) throw error
 
       // Recalculate order totals once
-      const { data: allItems } = await supabase
+      const { data: allItems } = await client
         .from('res_order_items')
         .select('unit_price, quantity')
         .eq('order_id', orderId)
@@ -371,7 +386,7 @@ export function useAddOrderItems() {
       const subtotal =
         allItems?.reduce((sum, i) => sum + i.unit_price * i.quantity, 0) || 0
 
-      await supabase
+      await client
         .from('res_orders')
         .update({ subtotal, total_amount: subtotal })
         .eq('id', orderId)
@@ -389,6 +404,7 @@ export function useAddOrderItems() {
 
 export function useUpdateOrderItemStatus() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -398,7 +414,8 @@ export function useUpdateOrderItemStatus() {
       itemId: string
       status: OrderItemStatus
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_order_items')
         .update({ status })
         .eq('id', itemId)
@@ -418,6 +435,7 @@ export function useUpdateOrderItemStatus() {
 
 export function useCreateVoidRequest() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -431,8 +449,9 @@ export function useCreateVoidRequest() {
       reason: string
       shiftAdminId: string
     }) => {
+      const client = await getClient()
       // Create void request
-      const { data: request, error: requestError } = await supabase
+      const { data: request, error: requestError } = await client
         .from('res_void_requests')
         .insert({
           order_id: orderId,
@@ -445,13 +464,13 @@ export function useCreateVoidRequest() {
       if (requestError) throw requestError
 
       // Update order status
-      await supabase
+      await client
         .from('res_orders')
         .update({ status: 'void_pending' })
         .eq('id', orderId)
 
       // Create notification for shift admin
-      await supabase.from('res_notifications').insert({
+      await client.from('res_notifications').insert({
         recipient_id: shiftAdminId,
         type: 'void_request',
         title: 'Void Order Request',
@@ -472,6 +491,7 @@ export function useCreateVoidRequest() {
 
 export function useProcessVoidRequest() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -489,8 +509,9 @@ export function useProcessVoidRequest() {
       rejectionReason?: string
       requesterId: string
     }) => {
+      const client = await getClient()
       // Update void request
-      const { data: request, error: requestError } = await supabase
+      const { data: request, error: requestError } = await client
         .from('res_void_requests')
         .update({
           approved_by: approvedBy,
@@ -506,21 +527,21 @@ export function useProcessVoidRequest() {
 
       // Update order status
       const newOrderStatus = status === 'approved' ? 'void' : 'open'
-      await supabase
+      await client
         .from('res_orders')
         .update({ status: newOrderStatus })
         .eq('id', orderId)
 
       // If approved and table exists, free the table
       if (status === 'approved') {
-        const { data: order } = await supabase
+        const { data: order } = await client
           .from('res_orders')
           .select('table_id')
           .eq('id', orderId)
           .single()
 
         if (order?.table_id) {
-          await supabase
+          await client
             .from('res_tables')
             .update({ status: 'dirty' })
             .eq('id', order.table_id)
@@ -528,7 +549,7 @@ export function useProcessVoidRequest() {
       }
 
       // Notify requester
-      await supabase.from('res_notifications').insert({
+      await client.from('res_notifications').insert({
         recipient_id: requesterId,
         type: status === 'approved' ? 'void_approved' : 'void_rejected',
         title:
@@ -555,10 +576,12 @@ export function useProcessVoidRequest() {
 
 export function useMarkNotificationRead() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async (notificationId: string) => {
-      const { error } = await supabase
+      const client = await getClient()
+      const { error } = await client
         .from('res_notifications')
         .update({ is_read: true })
         .eq('id', notificationId)
@@ -575,10 +598,12 @@ export function useMarkNotificationRead() {
 
 export function useMarkAllNotificationsRead() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async (employeeId: string) => {
-      const { error } = await supabase
+      const client = await getClient()
+      const { error } = await client
         .from('res_notifications')
         .update({ is_read: true })
         .eq('recipient_id', employeeId)
@@ -596,10 +621,12 @@ export function useMarkAllNotificationsRead() {
 
 export function useDeleteNotification() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async (notificationId: string) => {
-      const { error } = await supabase
+      const client = await getClient()
+      const { error } = await client
         .from('res_notifications')
         .delete()
         .eq('id', notificationId)
@@ -618,6 +645,7 @@ export function useDeleteNotification() {
 
 export function useCreateReservation() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -643,7 +671,8 @@ export function useCreateReservation() {
       notes?: string
       createdBy?: string
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_reservations')
         .insert({
           table_id: tableId,
@@ -673,6 +702,7 @@ export function useCreateReservation() {
 
 export function useUpdateReservationStatus() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -682,7 +712,8 @@ export function useUpdateReservationStatus() {
       reservationId: string
       status: ReservationStatus
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_reservations')
         .update({ status })
         .eq('id', reservationId)
@@ -704,6 +735,7 @@ export function useUpdateReservationStatus() {
 
 export function useCreateMenuItem() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -729,7 +761,8 @@ export function useCreateMenuItem() {
       allergens?: string[]
       tags?: string[]
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_menu_items')
         .insert({
           category_id: categoryId,
@@ -757,6 +790,7 @@ export function useCreateMenuItem() {
 
 export function useUpdateMenuItem() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -776,7 +810,8 @@ export function useUpdateMenuItem() {
       allergens?: string[]
       tags?: string[]
     }) => {
-      const { data } = await supabase
+      const client = await getClient()
+      const { data } = await client
         .from('res_menu_items')
         .update({
           category_id: updates.categoryId,
@@ -794,8 +829,10 @@ export function useUpdateMenuItem() {
         })
         .eq('id', itemId)
         .select()
+
+      const itemData = Array.isArray(data) ? data[0] : data
       queryClient.invalidateQueries({
-        queryKey: resposQueryKeys.menuItem((data as any)?.id || ''),
+        queryKey: resposQueryKeys.menuItem(itemData?.id || ''),
       })
     },
   })
@@ -1324,18 +1361,15 @@ export function useDeleteTable() {
 
 // ============ User/Employee Mutations ============
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
-
 export function useCreateUser() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
       firstName,
       lastName,
       email,
-      password,
       phone,
       pinCode,
       idNumber,
@@ -1344,84 +1378,78 @@ export function useCreateUser() {
       firstName: string
       lastName: string
       email: string
-      password?: string
+      password?: string // Keep in type for compatibility but unused
       phone?: string
       pinCode?: string
       idNumber?: string
       roles: string[]
     }) => {
-      let clerkUserId: string | null = null
+      const client = await getClient()
+      // 1. Check if user already exists
+      const { data: existingUser } = await client
+        .from('users')
+        .select('id, clerk_user_id')
+        .eq('email', email)
+        .single()
 
-      // 1. Create user in Clerk via Edge Function
-      if (password) {
-        const edgeFnUrl = `${SUPABASE_URL}/functions/v1/create-clerk-user`
-        const response = await fetch(edgeFnUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            firstName,
-            lastName,
-          }),
-        })
+      let clerkUserId = existingUser?.clerk_user_id
 
-        if (!response.ok) {
-          const errData = await response.json()
-          throw new Error(errData.error || 'Failed to create Clerk user')
-        }
+      // If no user exists, create one with a placeholder/generated ID
+      // Real ID will be synced when user signs up via Clerk
+      if (!existingUser) {
+        // Generate a temporary ID if not present
+        // In a real scenario, this might wait for webhook, but here we assume pre-creation
+        clerkUserId = `temp_${crypto.randomUUID()}`
 
-        const clerkData = await response.json()
-        clerkUserId = clerkData.clerkUserId as string
-      } else {
-        // Fallback simulated ID for when no password provided
-        clerkUserId = `user_${crypto.randomUUID().split('-')[0]}`
-      }
-
-      // 2. Create public.users record
-      const { error: userError } = await supabase.from('users').insert({
-        clerk_user_id: clerkUserId,
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        default_role: 'user',
-        is_restuarant_user: true,
-        is_active: true,
-      })
-
-      if (userError) {
-        throw userError
-      }
-
-      // 3. Create res_employees record
-      const { data: employee, error: empError } = await supabase
-        .from('res_employees')
-        .insert({
-          user_id: clerkUserId,
+        const { error: userError } = await client.from('users').insert({
+          clerk_user_id: clerkUserId,
+          email,
           first_name: firstName,
           last_name: lastName,
-          email,
-          phone,
-          pin_code: pinCode,
-          id_number: idNumber,
+          default_role: 'user', // Will be updated by role logic if needed
+          is_restuarant_user: true,
           is_active: true,
         })
+
+        if (userError) throw userError
+      }
+
+      // 2. Create/Update res_employees record
+      // We upsert based on email to be safe, though ideally email is unique
+      const { data: employee, error: empError } = await client
+        .from('res_employees')
+        .upsert(
+          {
+            user_id: clerkUserId,
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone,
+            pin_code: pinCode,
+            id_number: idNumber,
+            is_active: true,
+          },
+          { onConflict: 'email' }
+        )
         .select()
         .single()
 
       if (empError) throw empError
 
-      // 4. Assign Roles
+      // 3. Assign Roles
       if (roles.length > 0) {
+        // First remove existing roles if this was an upsert/re-add
+        await client
+          .from('res_employee_roles')
+          .delete()
+          .eq('employee_id', employee.id)
+
         const roleAssignments = roles.map((roleId) => ({
           employee_id: employee.id,
           role_id: roleId,
         }))
 
-        const { error: roleError } = await supabase
+        const { error: roleError } = await client
           .from('res_employee_roles')
           .insert(roleAssignments)
 
@@ -1438,6 +1466,7 @@ export function useCreateUser() {
 
 export function useUpdateUser() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -1461,8 +1490,9 @@ export function useUpdateUser() {
       isActive?: boolean
       roles: string[]
     }) => {
+      const client = await getClient()
       // 1. Update res_employees
-      const { data: employee, error: empError } = await supabase
+      const { data: employee, error: empError } = await client
         .from('res_employees')
         .update({
           first_name: firstName,
@@ -1481,7 +1511,7 @@ export function useUpdateUser() {
       if (empError) throw empError
 
       // 2. Sync Roles (delete + insert)
-      const { error: deleteError } = await supabase
+      const { error: deleteError } = await client
         .from('res_employee_roles')
         .delete()
         .eq('employee_id', id)
@@ -1494,7 +1524,7 @@ export function useUpdateUser() {
           role_id: roleId,
         }))
 
-        const { error: insertError } = await supabase
+        const { error: insertError } = await client
           .from('res_employee_roles')
           .insert(roleAssignments)
 
@@ -1511,6 +1541,7 @@ export function useUpdateUser() {
 
 export function useUploadAvatar() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -1520,11 +1551,12 @@ export function useUploadAvatar() {
       employeeId: string
       file: File
     }) => {
+      const client = await getClient()
       const fileExt = file.name.split('.').pop()
       const filePath = `employees/${employeeId}/avatar.${fileExt}`
 
       // Upload to avatars bucket
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await client.storage
         .from('avatars')
         .upload(filePath, file, { upsert: true })
 
@@ -1533,10 +1565,10 @@ export function useUploadAvatar() {
       // Get public URL
       const {
         data: { publicUrl },
-      } = supabase.storage.from('avatars').getPublicUrl(filePath)
+      } = client.storage.from('avatars').getPublicUrl(filePath)
 
       // Update employee record
-      const { data, error: updateError } = await supabase
+      const { data, error: updateError } = await client
         .from('res_employees')
         .update({
           avatar_url: publicUrl,
@@ -1557,6 +1589,7 @@ export function useUploadAvatar() {
 
 export function useDeleteAvatar() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -1566,15 +1599,16 @@ export function useDeleteAvatar() {
       employeeId: string
       avatarUrl: string
     }) => {
+      const client = await getClient()
       // Extract file path from URL
       const url = new URL(avatarUrl)
       const pathMatch = url.pathname.match(/\/avatars\/(.+)$/)
       if (pathMatch) {
-        await supabase.storage.from('avatars').remove([pathMatch[1]])
+        await client.storage.from('avatars').remove([pathMatch[1]])
       }
 
       // Clear avatar_url in employee record
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('res_employees')
         .update({
           avatar_url: null,
@@ -1595,6 +1629,7 @@ export function useDeleteAvatar() {
 
 export function useToggleEmployeeStatus() {
   const queryClient = useQueryClient()
+  const { getClient } = useSupabaseClient()
 
   return useMutation({
     mutationFn: async ({
@@ -1604,7 +1639,8 @@ export function useToggleEmployeeStatus() {
       employeeId: string
       isActive: boolean
     }) => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_employees')
         .update({
           is_active: isActive,

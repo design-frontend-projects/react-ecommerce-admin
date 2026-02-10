@@ -49,6 +49,7 @@ export function useResposAuth() {
     // Current user data
     clerkUser: user,
     employee: employee || null,
+    publicUser: employee?.public_user || null,
 
     // Permission helpers
     hasPermission: (permission: Permission) =>

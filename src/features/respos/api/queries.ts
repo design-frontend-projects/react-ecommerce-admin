@@ -1,6 +1,7 @@
 // ResPOS API Queries - TanStack Query hooks
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { useSupabaseClient } from '@/hooks/use-supabase-client'
 import type {
   ResEmployee,
   ResEmployeeRole,
@@ -74,10 +75,12 @@ export const resposQueryKeys = {
 // ============ Roles ============
 
 export function useRoles() {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.roles,
     queryFn: async () => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_roles')
         .select('*')
         .order('name')
@@ -91,10 +94,12 @@ export function useRoles() {
 // ============ Employees ============
 
 export function useEmployees() {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.employees,
     queryFn: async () => {
-      const { data: employees, error: empError } = await supabase
+      const client = await getClient()
+      const { data: employees, error: empError } = await client
         .from('res_employees')
         .select('*')
         .eq('is_active', true)
@@ -103,7 +108,7 @@ export function useEmployees() {
       if (empError) throw empError
 
       // Get roles for all employees
-      const { data: employeeRoles, error: rolesError } = await supabase
+      const { data: employeeRoles, error: rolesError } = await client
         .from('res_employee_roles')
         .select('*, role:res_roles(*)')
 
@@ -121,12 +126,14 @@ export function useEmployees() {
 }
 
 export function useEmployeeByUserId(userId: string | undefined) {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.employeeByUserId(userId || ''),
     queryFn: async () => {
       if (!userId) return null
 
-      const { data: employee, error: empError } = await supabase
+      const client = await getClient()
+      const { data: employee, error: empError } = await client
         .from('res_employees')
         .select('*')
         .eq('user_id', userId)
@@ -139,18 +146,26 @@ export function useEmployeeByUserId(userId: string | undefined) {
       }
 
       // Get roles
-      const { data: employeeRoles, error: rolesError } = await supabase
+      const { data: employeeRoles, error: rolesError } = await client
         .from('res_employee_roles')
         .select('*, role:res_roles(*)')
         .eq('employee_id', employee.id)
 
       if (rolesError) throw rolesError
 
+      // Get public user data
+      const { data: publicUser } = await client
+        .from('users')
+        .select('*')
+        .eq('clerk_user_id', userId)
+        .single()
+
       return {
         ...employee,
         roles: (
           employeeRoles as Array<ResEmployeeRole & { role: ResRole }>
         ).map((er) => er.role),
+        public_user: publicUser,
       } as ResEmployeeWithRoles
     },
     enabled: !!userId,
@@ -487,10 +502,12 @@ export function useUnreadNotificationCount(employeeId: string) {
 // ============ Void Requests ============
 
 export function useVoidRequests(status?: string) {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.voidRequests(status),
     queryFn: async () => {
-      let query = supabase
+      const client = await getClient()
+      let query = client
         .from('res_void_requests')
         .select(
           '*, order:res_orders(*), requester:res_employees!requested_by(*), approver:res_employees!approved_by(*)'
@@ -511,10 +528,12 @@ export function useVoidRequests(status?: string) {
 // ============ Reservations ============
 
 export function useReservations(date?: string) {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.reservations(date),
     queryFn: async () => {
-      let query = supabase
+      const client = await getClient()
+      let query = client
         .from('res_reservations')
         .select('*, table:res_tables(*)')
         .order('reservation_time')
@@ -533,10 +552,12 @@ export function useReservations(date?: string) {
 // ============ Payment Methods ============
 
 export function usePaymentMethods() {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.paymentMethods,
     queryFn: async () => {
-      const { data, error } = await supabase
+      const client = await getClient()
+      const { data, error } = await client
         .from('res_payment_methods')
         .select('*')
         .eq('is_enabled', true)
@@ -551,11 +572,13 @@ export function usePaymentMethods() {
 // ============ Dashboard Stats ============
 
 export function useDashboardStats() {
+  const { getClient } = useSupabaseClient()
   return useQuery({
     queryKey: resposQueryKeys.dashboardStats,
     queryFn: async () => {
+      const client = await getClient()
       // Get table stats
-      const { data: tables, error: tablesError } = await supabase
+      const { data: tables, error: tablesError } = await client
         .from('res_tables')
         .select('status')
         .eq('is_active', true)
@@ -563,7 +586,7 @@ export function useDashboardStats() {
       if (tablesError) throw tablesError
 
       // Get open orders count
-      const { count: openOrders, error: ordersError } = await supabase
+      const { count: openOrders, error: ordersError } = await client
         .from('res_orders')
         .select('*', { count: 'exact', head: true })
         .in('status', ['open', 'in_progress', 'ready'])
@@ -572,7 +595,7 @@ export function useDashboardStats() {
 
       // Get today's sales
       const today = new Date().toISOString().split('T')[0]
-      const { data: todaySales, error: salesError } = await supabase
+      const { data: todaySales, error: salesError } = await client
         .from('res_orders')
         .select('total_amount')
         .eq('status', 'paid')
