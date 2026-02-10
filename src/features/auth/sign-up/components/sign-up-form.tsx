@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
-import { IconFacebook, IconGithub } from '@/assets/brand-icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -64,26 +63,26 @@ export function SignUpForm({
     }
   }
 
-  async function handleOAuthSignUp(
-    strategy: 'oauth_github' | 'oauth_facebook'
-  ) {
-    if (!isLoaded) return
+  // async function handleOAuthSignUp(
+  //   strategy: 'oauth_github' | 'oauth_facebook'
+  // ) {
+  //   if (!isLoaded) return
 
-    try {
-      setIsLoading(true)
-      await signUp.authenticateWithRedirect({
-        strategy,
-        redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/',
-      })
-    } catch (err: unknown) {
-      const errorMsg =
-        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
-        'Something went wrong. Please try again.'
-      toast.error(errorMsg)
-      setIsLoading(false)
-    }
-  }
+  //   try {
+  //     setIsLoading(true)
+  //     await signUp.authenticateWithRedirect({
+  //       strategy,
+  //       redirectUrl: '/sso-callback',
+  //       redirectUrlComplete: '/',
+  //     })
+  //   } catch (err: unknown) {
+  //     const errorMsg =
+  //       (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+  //       'Something went wrong. Please try again.'
+  //     toast.error(errorMsg)
+  //     setIsLoading(false)
+  //   }
+  // }
 
   return (
     <Form {...form}>
@@ -144,27 +143,6 @@ export function SignUpForm({
               Or continue with
             </span>
           </div>
-        </div>
-
-        <div className='grid grid-cols-2 gap-2'>
-          <Button
-            variant='outline'
-            className='w-full'
-            type='button'
-            disabled={isLoading}
-            onClick={() => handleOAuthSignUp('oauth_github')}
-          >
-            <IconGithub className='h-4 w-4' /> GitHub
-          </Button>
-          <Button
-            variant='outline'
-            className='w-full'
-            type='button'
-            disabled={isLoading}
-            onClick={() => handleOAuthSignUp('oauth_facebook')}
-          >
-            <IconFacebook className='h-4 w-4' /> Facebook
-          </Button>
         </div>
       </form>
     </Form>

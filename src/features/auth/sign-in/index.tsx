@@ -15,12 +15,13 @@ export function SignIn() {
 
   return (
     <AuthLayout>
-      <Card className='gap-4'>
-        <CardHeader>
-          <CardTitle className='text-lg tracking-tight'>Sign in</CardTitle>
-          <CardDescription>
-            Enter your email and password below to <br />
-            log into your account
+      <Card className='w-full max-w-md gap-4'>
+        <CardHeader className='text-center'>
+          <CardTitle className='text-2xl font-bold tracking-tight'>
+            Welcome Back
+          </CardTitle>
+          <CardDescription className='text-base'>
+            Choose your module and sign in to continue
           </CardDescription>
         </CardHeader>
         <CardContent>

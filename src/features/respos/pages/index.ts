@@ -1,0 +1,13 @@
+// ResPOS Pages Index
+export { ResposDashboard } from './dashboard'
+export { POSScreen } from './pos'
+export { KitchenDisplay } from './kitchen'
+export { MenuManagement } from './menu-management'
+export { FloorsAndTables } from './floors-tables'
+export { Reservations } from './reservations'
+export { Analytics } from './analytics'
+export { ShiftManagement } from './shifts'
+export { Payments } from './payments'
+export { DigitalMenu } from './digital-menu'
+export { InvoiceViewer } from './invoice'
+export { NotificationsCenter } from './notifications'
