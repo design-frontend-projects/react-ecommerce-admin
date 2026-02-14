@@ -30,6 +30,7 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { useDashboardStats, useActiveShift } from '../api/queries'
 import { NotificationsDropdown } from '../components'
+import { ReservationWidget } from '../components/reservation-widget'
 import { useResposAuth } from '../hooks'
 import { formatCurrency } from '../lib/formatters'
 import type { Permission } from '../types'
@@ -199,21 +200,28 @@ export function ResposDashboard() {
           </motion.div>
 
           {/* Recent Activity */}
-          <motion.div variants={item}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Orders</CardTitle>
-                <CardDescription>
-                  Latest orders from today's shift
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className='text-sm text-muted-foreground'>
-                  No orders yet. Start taking orders from the POS screen.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+
+          {/* Dashboard Widgets */}
+          <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
+            <motion.div variants={item} className='col-span-4'>
+              <Card className='h-full'>
+                <CardHeader>
+                  <CardTitle>Recent Orders</CardTitle>
+                  <CardDescription>
+                    Latest orders from today's shift
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className='text-sm text-muted-foreground'>
+                    No orders yet. Start taking orders from the POS screen.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div variants={item} className='col-span-3'>
+              <ReservationWidget />
+            </motion.div>
+          </div>
         </motion.div>
       </Main>
     </>

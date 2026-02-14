@@ -510,17 +510,25 @@ export function useVoidRequests(status?: string) {
 
 // ============ Reservations ============
 
-export function useReservations(date?: string) {
+export function useReservations(params?: {
+  date?: string
+  from?: string
+  to?: string
+}) {
   return useQuery({
-    queryKey: resposQueryKeys.reservations(date),
+    queryKey: ['respos', 'reservations', params] as const,
     queryFn: async () => {
       let query = supabase
         .from('res_reservations')
         .select('*, table:res_tables(*)')
         .order('reservation_time')
 
-      if (date) {
-        query = query.eq('reservation_date', date)
+      if (params?.date) {
+        query = query.eq('reservation_date', params.date)
+      } else if (params?.from && params?.to) {
+        query = query
+          .gte('reservation_date', params.from)
+          .lte('reservation_date', params.to)
       }
 
       const { data, error } = await query

@@ -12,6 +12,7 @@ type RealtimeTable =
   | 'res_order_items'
   | 'res_notifications'
   | 'res_void_requests'
+  | 'res_reservations'
 
 interface UseRealtimeOptions {
   tables?: RealtimeTable[]
@@ -145,6 +146,26 @@ export function useResposRealtime(options: UseRealtimeOptions = {}) {
         () => {
           queryClient.invalidateQueries({
             queryKey: resposQueryKeys.voidRequests(),
+          })
+        }
+      )
+    }
+
+    // Subscribe to reservation changes
+    if (tables.includes('res_reservations')) {
+      channel.on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'res_reservations',
+        },
+        () => {
+          queryClient.invalidateQueries({
+            queryKey: resposQueryKeys.reservations(),
+          })
+          queryClient.invalidateQueries({
+            queryKey: resposQueryKeys.dashboardStats,
           })
         }
       )

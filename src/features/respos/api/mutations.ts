@@ -700,6 +700,75 @@ export function useUpdateReservationStatus() {
   })
 }
 
+export function useUpdateReservation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      ...updates
+    }: {
+      id: string
+      tableId?: string
+      customerName?: string
+      customerPhone?: string
+      customerEmail?: string
+      partySize?: number
+      reservationDate?: string
+      reservationTime?: string
+      durationMinutes?: number
+      status?: ReservationStatus
+      notes?: string
+    }) => {
+      const { data, error } = await supabase
+        .from('res_reservations')
+        .update({
+          table_id: updates.tableId,
+          customer_name: updates.customerName,
+          customer_phone: updates.customerPhone,
+          customer_email: updates.customerEmail,
+          party_size: updates.partySize,
+          reservation_date: updates.reservationDate,
+          reservation_time: updates.reservationTime,
+          duration_minutes: updates.durationMinutes,
+          status: updates.status,
+          notes: updates.notes,
+        })
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: resposQueryKeys.reservations(),
+      })
+    },
+  })
+}
+
+export function useDeleteReservation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('res_reservations')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: resposQueryKeys.reservations(),
+      })
+    },
+  })
+}
+
 // ============ Menu Mutations (Admin) ============
 
 export function useCreateMenuItem() {
