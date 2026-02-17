@@ -42,9 +42,9 @@ const checkoutSchema = z
     paymentMethodId: z.string().min(1, 'Payment method is required'),
     customerName: z.string().optional(),
     discountType: z.enum(['percent', 'amount']),
-    discountValue: z.number().min(0).default(0),
+    discountValue: z.number().min(0),
     amountPaid: z.number().min(0, 'Amount paid is required'),
-    tipAmount: z.number().min(0).default(0),
+    tipAmount: z.number().min(0),
     // Card details (UI only, not stored in DB)
     cardNumber: z.string().optional(),
     holderName: z.string().optional(),

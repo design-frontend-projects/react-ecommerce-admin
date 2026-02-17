@@ -461,7 +461,7 @@ function MenuGridItem({
       onClick={onClick}
       className='group relative flex flex-col overflow-hidden rounded-xl border bg-card text-left shadow-sm transition-all hover:border-orange-300 hover:shadow-lg dark:hover:border-orange-700'
     >
-      <div className='aspect-[4/3] w-full overflow-hidden bg-muted'>
+      <div className='aspect-4/3 w-full overflow-hidden bg-muted'>
         {item.image_url ? (
           <img
             src={item.image_url}
