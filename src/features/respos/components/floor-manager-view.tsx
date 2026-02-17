@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Users, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { TABLE_STATUS_COLORS } from '../constants'
@@ -27,17 +26,22 @@ export function FloorManagerView({
   const floorTables = tables.filter((t) => t.floor_id === activeFloorId)
 
   return (
-    <div className='flex h-full flex-col bg-background'>
+    <div className='flex h-full flex-col bg-muted/5'>
       {/* Floor Tabs */}
-      <div className='border-b p-2'>
-        <ScrollArea className='w-full whitespace-nowrap'>
-          <div className='flex gap-2 p-2'>
+      <div className='bg-background/80 px-4 py-3 backdrop-blur-md'>
+        <ScrollArea className='w-full'>
+          <div className='flex gap-2 pb-1'>
             {floors.map((floor) => (
               <Button
                 key={floor.id}
-                variant={activeFloorId === floor.id ? 'default' : 'outline'}
+                variant={activeFloorId === floor.id ? 'default' : 'ghost'}
                 onClick={() => onSelectFloor(floor.id)}
-                className='rounded-full px-6'
+                className={cn(
+                  'relative rounded-full px-6 transition-all',
+                  activeFloorId === floor.id
+                    ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/20'
+                    : 'hover:bg-orange-50 dark:hover:bg-orange-950/20'
+                )}
               >
                 {floor.name}
               </Button>
@@ -47,44 +51,48 @@ export function FloorManagerView({
       </div>
 
       {/* Tables Grid */}
-      <ScrollArea className='flex-1 p-6'>
-        <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
-          {floorTables.map((table) => (
-            <TableCard
-              key={table.id}
-              table={table}
-              onClick={() => onSelectTable(table)}
-            />
-          ))}
-          {floorTables.length === 0 && (
-            <div className='col-span-full flex h-40 items-center justify-center text-muted-foreground'>
-              No tables found in this floor.
-            </div>
-          )}
+      <ScrollArea className='flex-1'>
+        <div className='p-6'>
+          <div className='grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+            {floorTables.map((table) => (
+              <TableCard
+                key={table.id}
+                table={table}
+                onClick={() => onSelectTable(table)}
+              />
+            ))}
+            {floorTables.length === 0 && (
+              <div className='col-span-full flex h-60 flex-col items-center justify-center gap-4 text-muted-foreground'>
+                <div className='rounded-full bg-muted p-6'>
+                  <Users className='h-10 w-10 opacity-20' />
+                </div>
+                <p className='text-sm font-medium'>
+                  No tables found on this floor.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </ScrollArea>
 
       {/* Legend */}
-      <div className='border-t bg-muted/10 p-4'>
-        <div className='flex flex-wrap items-center justify-center gap-4 text-sm'>
-          <div className='flex items-center gap-2'>
-            <div className='h-3 w-3 rounded-full bg-green-500' />
-            <span>Free</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div className='h-3 w-3 rounded-full bg-orange-500' />
-            <span>Occupied</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div className='h-3 w-3 rounded-full bg-purple-500' />
-            <span>Reserved</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div className='h-3 w-3 rounded-full bg-yellow-500' />
-            <span>Dirty</span>
-          </div>
+      <div className='border-t bg-background/50 p-4 backdrop-blur-sm'>
+        <div className='flex flex-wrap items-center justify-center gap-6 text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+          <LegendItem color='bg-emerald-500' label='Free' />
+          <LegendItem color='bg-orange-500' label='Occupied' />
+          <LegendItem color='bg-indigo-500' label='Reserved' />
+          <LegendItem color='bg-amber-500' label='Dirty' />
         </div>
       </div>
+    </div>
+  )
+}
+
+function LegendItem({ color, label }: { color: string; label: string }) {
+  return (
+    <div className='flex items-center gap-2'>
+      <div className={cn('h-2 w-2 rounded-full', color)} />
+      <span>{label}</span>
     </div>
   )
 }
@@ -96,52 +104,62 @@ function TableCard({
   table: ResTable
   onClick: () => void
 }) {
-  const statusColor = TABLE_STATUS_COLORS[table.status] || 'bg-gray-100'
+  const statusStyles =
+    TABLE_STATUS_COLORS[table.status] || 'bg-muted border-muted'
   const isOccupied = table.status === 'occupied'
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      whileTap={{ scale: 0.96 }}
       onClick={onClick}
       className={cn(
-        'relative flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 shadow-sm transition-all hover:shadow-md',
-        statusColor,
-        isOccupied && 'border-orange-500 ring-2 ring-orange-200 ring-offset-2',
-        table.status === 'free' && 'border-green-200 hover:border-green-500'
+        'group relative flex aspect-square flex-col items-center justify-center gap-1 rounded-3xl border-2 p-4 transition-all duration-300',
+        'hover:shadow-2xl hover:shadow-orange-500/10 dark:hover:shadow-orange-950/20',
+        statusStyles,
+        isOccupied && 'shadow-inner'
       )}
     >
-      {/* Header / Status Badge */}
-      <div className='absolute top-2 right-2'>
-        <Badge
-          variant='secondary'
-          className={cn(
-            'h-6 bg-white/50 px-2 text-[10px] tracking-wider uppercase backdrop-blur-md',
-            isOccupied && 'bg-orange-100 text-orange-700'
-          )}
-        >
-          {table.status}
-        </Badge>
-      </div>
+      {/* Dynamic Pulse for Occupied */}
+      {isOccupied && (
+        <span className='absolute inset-0 z-0 animate-pulse rounded-[inherit] bg-orange-400/10' />
+      )}
 
       {/* Table Number */}
-      <span className='text-3xl font-black tracking-tighter opacity-80'>
-        {table.table_number}
-      </span>
+      <div className='relative z-10'>
+        <span className='text-4xl font-black tracking-tighter'>
+          {table.table_number}
+        </span>
+      </div>
 
       {/* Info Row */}
-      <div className='flex items-center gap-3 text-xs font-medium text-muted-foreground/80'>
-        <div className='flex items-center gap-1'>
+      <div className='relative z-10 mt-1 flex flex-col items-center gap-0.5 leading-none'>
+        <div className='flex items-center gap-1 opacity-70'>
           <Users className='h-3 w-3' />
-          <span>{table.seats}</span>
+          <span className='text-[10px] font-bold'>{table.seats} seats</span>
         </div>
+
         {isOccupied && (
-          <div className='flex items-center gap-1 text-orange-700'>
-            <Clock className='h-3 w-3' />
-            <span>12m</span> {/* Placeholder for time occupied */}
+          <div className='mt-1 flex items-center gap-1 text-[10px] font-black text-orange-600 uppercase dark:text-orange-400'>
+            <Clock className='h-2.5 w-2.5' />
+            <span>12m</span>
           </div>
         )}
       </div>
+
+      {/* Status Dot */}
+      <div className='absolute top-3 right-3 flex h-2 w-2 items-center justify-center'>
+        <span
+          className={cn(
+            'absolute h-full w-full rounded-full opacity-75',
+            table.status === 'free' ? 'animate-ping bg-emerald-400' : ''
+          )}
+        />
+        <span className='relative h-1.5 w-1.5 rounded-full bg-current' />
+      </div>
+
+      {/* Select Overlay */}
+      <div className='absolute inset-0 rounded-[inherit] bg-white opacity-0 transition-opacity group-hover:opacity-5 dark:bg-black' />
     </motion.button>
   )
 }

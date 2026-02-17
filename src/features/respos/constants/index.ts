@@ -77,17 +77,20 @@ export const PROTECTED_ROUTES: Record<string, Permission[]> = {
 
 // Table status colors (Tailwind classes)
 export const TABLE_STATUS_COLORS: Record<string, string> = {
-  free: 'bg-green-500',
-  occupied: 'bg-red-500',
-  reserved: 'bg-yellow-500',
-  dirty: 'bg-orange-500',
+  free: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400',
+  occupied:
+    'bg-orange-500/10 border-orange-500/20 text-orange-700 dark:text-orange-400',
+  reserved:
+    'bg-indigo-500/10 border-indigo-500/20 text-indigo-700 dark:text-indigo-400',
+  dirty:
+    'bg-amber-500/10 border-amber-500/20 text-amber-700 dark:text-amber-400',
 }
 
 export const TABLE_STATUS_TEXT_COLORS: Record<string, string> = {
-  free: 'text-green-500',
-  occupied: 'text-red-500',
-  reserved: 'text-yellow-500',
-  dirty: 'text-orange-500',
+  free: 'text-emerald-600 dark:text-emerald-400',
+  occupied: 'text-orange-600 dark:text-orange-400',
+  reserved: 'text-indigo-600 dark:text-indigo-400',
+  dirty: 'text-amber-600 dark:text-amber-400',
 }
 
 // Order status colors

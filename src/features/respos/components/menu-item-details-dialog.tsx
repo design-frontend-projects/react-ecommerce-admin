@@ -1,17 +1,19 @@
 import { useState, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { Loader2, Minus, Plus } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 import { useMenuItem } from '../api/queries'
 import { formatCurrency } from '../lib/formatters'
@@ -40,7 +42,7 @@ export function MenuItemDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='flex max-h-[90vh] flex-col sm:max-w-[425px]'>
+      <DialogContent className='flex max-h-[90vh] flex-col overflow-hidden rounded-[2.5rem] border-0 p-0 outline-none sm:max-w-[425px]'>
         {isLoading || !itemDetails ? (
           <div className='flex h-40 items-center justify-center'>
             <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
@@ -120,59 +122,84 @@ function MenuItemDetailsContent({
   }
 
   return (
-    <>
-      <DialogHeader>
-        <DialogTitle>{itemDetails.name}</DialogTitle>
-      </DialogHeader>
+    <div className='flex h-full flex-col bg-background'>
+      <div className='px-6 pt-6 pb-2'>
+        <DialogHeader>
+          <DialogTitle className='text-2xl font-black tracking-tight'>
+            {itemDetails.name}
+          </DialogTitle>
+        </DialogHeader>
+      </div>
 
-      <ScrollArea className='-mr-4 flex-1 pr-4'>
-        <div className='space-y-6 py-4'>
+      <ScrollArea className='flex-1 px-6'>
+        <div className='space-y-8 py-4'>
           {/* Image */}
           {itemDetails.image_url && (
-            <div className='aspect-video w-full overflow-hidden rounded-md'>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className='aspect-video w-full overflow-hidden rounded-3xl border shadow-inner'
+            >
               <img
                 src={itemDetails.image_url}
                 alt={itemDetails.name}
-                className='h-full w-full object-cover'
+                className='h-full w-full object-cover transition-transform hover:scale-105'
               />
-            </div>
+            </motion.div>
           )}
 
           {itemDetails.description && (
-            <p className='text-sm text-muted-foreground'>
+            <p className='text-sm leading-relaxed font-medium text-muted-foreground'>
               {itemDetails.description}
             </p>
           )}
 
           {/* Variants */}
           {itemDetails.variants.length > 0 && (
-            <div className='space-y-3'>
-              <Label className='text-base font-semibold'>Size / Option</Label>
+            <div className='space-y-4'>
+              <Label className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
+                Size / Option
+              </Label>
               <RadioGroup
                 value={selectedVariantId || ''}
                 onValueChange={setSelectedVariantId}
+                className='grid grid-cols-1 gap-3'
               >
                 {itemDetails.variants.map((variant) => (
-                  <div
-                    key={variant.id}
-                    className='flex items-center justify-between space-x-2 rounded-md border p-3 hover:bg-accent/50'
-                  >
-                    <div className='flex items-center space-x-2'>
-                      <RadioGroupItem value={variant.id} id={variant.id} />
-                      <Label
-                        htmlFor={variant.id}
-                        className='cursor-pointer font-medium'
-                      >
-                        {variant.name}
-                      </Label>
-                    </div>
-                    {variant.price_adjustment !== 0 && (
-                      <span className='text-sm text-muted-foreground'>
-                        {variant.price_adjustment > 0 ? '+' : ''}
-                        {formatCurrency(variant.price_adjustment)}
-                      </span>
-                    )}
-                  </div>
+                  <motion.div key={variant.id} whileTap={{ scale: 0.98 }}>
+                    <Label
+                      htmlFor={variant.id}
+                      className={cn(
+                        'flex cursor-pointer items-center justify-between rounded-2xl border-2 p-4 transition-all duration-200',
+                        'hover:border-orange-500/50 hover:bg-orange-500/5 dark:hover:bg-orange-500/10',
+                        selectedVariantId === variant.id
+                          ? 'border-orange-500 bg-orange-500/5 shadow-lg shadow-orange-500/10 dark:bg-orange-500/10'
+                          : 'border-transparent bg-muted/30'
+                      )}
+                    >
+                      <div className='flex items-center gap-3'>
+                        <RadioGroupItem
+                          value={variant.id}
+                          id={variant.id}
+                          className='sr-only'
+                        />
+                        <span className='font-bold'>{variant.name}</span>
+                      </div>
+                      {variant.price_adjustment !== 0 && (
+                        <span
+                          className={cn(
+                            'text-sm font-bold',
+                            selectedVariantId === variant.id
+                              ? 'text-orange-600 dark:text-orange-400'
+                              : 'text-muted-foreground'
+                          )}
+                        >
+                          {variant.price_adjustment > 0 ? '+' : ''}
+                          {formatCurrency(variant.price_adjustment)}
+                        </span>
+                      )}
+                    </Label>
+                  </motion.div>
                 ))}
               </RadioGroup>
             </div>
@@ -180,44 +207,60 @@ function MenuItemDetailsContent({
 
           {/* Properties / Add-ons */}
           {itemDetails.properties.length > 0 && (
-            <div className='space-y-3'>
-              <Label className='text-base font-semibold'>Add-ons</Label>
-              <div className='space-y-2'>
+            <div className='space-y-4'>
+              <Label className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
+                Add-ons
+              </Label>
+              <div className='grid grid-cols-1 gap-3'>
                 {itemDetails.properties.map((property) => (
-                  <div
-                    key={property.id}
-                    className='flex items-center justify-between space-x-2 rounded-md border p-3 hover:bg-accent/50'
-                  >
-                    <div className='flex items-center space-x-2'>
-                      <Checkbox
-                        id={property.id}
-                        checked={!!selectedProperties[property.id]}
-                        onCheckedChange={(checked) =>
-                          setSelectedProperties((prev) => ({
-                            ...prev,
-                            [property.id]: !!checked,
-                          }))
-                        }
-                      />
-                      <Label
-                        htmlFor={property.id}
-                        className='cursor-pointer font-medium'
+                  <motion.div key={property.id} whileTap={{ scale: 0.98 }}>
+                    <Label
+                      htmlFor={property.id}
+                      className={cn(
+                        'flex cursor-pointer items-center justify-between rounded-2xl border-2 p-4 transition-all duration-200',
+                        'hover:border-orange-500/50 hover:bg-orange-500/5 dark:hover:bg-orange-500/10',
+                        selectedProperties[property.id]
+                          ? 'border-orange-500 bg-orange-500/5 shadow-lg shadow-orange-500/10 dark:bg-orange-500/10'
+                          : 'border-transparent bg-muted/30'
+                      )}
+                    >
+                      <div className='flex items-center gap-3'>
+                        <Checkbox
+                          id={property.id}
+                          checked={!!selectedProperties[property.id]}
+                          onCheckedChange={(checked) =>
+                            setSelectedProperties((prev) => ({
+                              ...prev,
+                              [property.id]: !!checked,
+                            }))
+                          }
+                          className='sr-only'
+                        />
+                        <span className='font-bold'>{property.name}</span>
+                      </div>
+                      <span
+                        className={cn(
+                          'text-sm font-bold',
+                          selectedProperties[property.id]
+                            ? 'text-orange-600 dark:text-orange-400'
+                            : 'text-muted-foreground'
+                        )}
                       >
-                        {property.name}
-                      </Label>
-                    </div>
-                    <span className='text-sm text-muted-foreground'>
-                      +{formatCurrency(property.price)}
-                    </span>
-                  </div>
+                        +{formatCurrency(property.price)}
+                      </span>
+                    </Label>
+                  </motion.div>
                 ))}
               </div>
             </div>
           )}
 
           {/* Notes */}
-          <div className='space-y-3'>
-            <Label htmlFor='notes' className='text-base font-semibold'>
+          <div className='space-y-4'>
+            <Label
+              htmlFor='notes'
+              className='text-xs font-black tracking-widest text-muted-foreground uppercase'
+            >
               Special Instructions
             </Label>
             <Textarea
@@ -225,50 +268,55 @@ function MenuItemDetailsContent({
               placeholder='E.g. No onions, extra spicy...'
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className='resize-none'
+              className='min-h-[100px] rounded-3xl border-0 bg-muted/50 p-4 transition-all focus-visible:ring-2 focus-visible:ring-orange-500/30'
             />
           </div>
         </div>
       </ScrollArea>
 
-      <DialogFooter className='flex-col gap-3 sm:flex-col'>
-        {/* Quantity */}
-        <div className='flex items-center justify-between rounded-lg border bg-muted/20 p-2'>
-          <span className='font-medium'>Quantity</span>
-          <div className='flex items-center gap-3'>
-            <Button
-              variant='outline'
-              size='icon'
-              className='h-8 w-8'
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              <Minus className='h-4 w-4' />
-            </Button>
-            <span className='w-8 text-center text-lg font-bold'>
-              {quantity}
+      <div className='z-10 border-t bg-background/80 p-6 backdrop-blur-xl'>
+        <div className='flex flex-col gap-4'>
+          <div className='flex items-center justify-between'>
+            <span className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
+              Quantity
             </span>
-            <Button
-              variant='outline'
-              size='icon'
-              className='h-8 w-8'
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              <Plus className='h-4 w-4' />
-            </Button>
+            <div className='flex items-center gap-1 rounded-2xl border-2 bg-muted/30 p-1'>
+              <Button
+                variant='ghost'
+                size='icon'
+                className='h-10 w-10 rounded-xl hover:bg-background'
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              >
+                <Minus className='h-4 w-4' />
+              </Button>
+              <span className='w-12 text-center text-lg font-black'>
+                {quantity}
+              </span>
+              <Button
+                variant='ghost'
+                size='icon'
+                className='h-10 w-10 rounded-xl hover:bg-background'
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <Plus className='h-4 w-4' />
+              </Button>
+            </div>
           </div>
-        </div>
 
-        {/* Add Button */}
-        <Button
-          size='lg'
-          className='w-full justify-between bg-orange-600 text-lg font-bold hover:bg-orange-700'
-          onClick={handleAddToCart}
-          disabled={itemDetails.variants.length > 0 && !selectedVariantId}
-        >
-          <span>Add to Order</span>
-          <span>{formatCurrency(totalPrice)}</span>
-        </Button>
-      </DialogFooter>
-    </>
+          <Button
+            size='lg'
+            className='h-14 w-full justify-between rounded-2xl bg-orange-600 px-8 text-lg font-black shadow-xl shadow-orange-600/20 hover:bg-orange-700 hover:shadow-orange-600/30 active:scale-[0.98]'
+            onClick={handleAddToCart}
+            disabled={itemDetails.variants.length > 0 && !selectedVariantId}
+          >
+            <span>Add to Order</span>
+            <div className='flex items-center gap-2'>
+              <Separator orientation='vertical' className='h-4 bg-white/20' />
+              <span>{formatCurrency(totalPrice)}</span>
+            </div>
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
