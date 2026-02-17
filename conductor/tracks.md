@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement a comprehensive Product Management feature, allowing for the creation, editing, and deletion of products, including their details, categories, and inventory.**
+- [~] **Track: Implement a comprehensive Product Management feature, allowing for the creation, editing, and deletion of products, including their details, categories, and inventory.**
   *Link: [./tracks/product_management_20260208/](./tracks/product_management_20260208/)*
 
 ---

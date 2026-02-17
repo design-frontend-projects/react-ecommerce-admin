@@ -4,9 +4,9 @@ This plan outlines the phases and tasks required to implement the comprehensive 
 
 ## Phase 1: Backend API Development and Database Integration
 
-- [ ] Task: Define Product Data Model
-    - [ ] Sub-task: Create or update Prisma schema for Product entity.
-    - [ ] Sub-task: Define relationships with Categories and Images.
+- [x] Task: Define Product Data Model
+    - [x] Sub-task: Create or update Prisma schema for Product entity.
+    - [x] Sub-task: Define relationships with Categories and Images.
 - [ ] Task: Implement Product API Endpoints
     - [ ] Sub-task: Develop `GET /products` endpoint with pagination, sorting, and filtering.
     - [ ] Sub-task: Develop `GET /products/{id}` endpoint.
