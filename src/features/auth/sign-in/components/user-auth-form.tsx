@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useSignIn } from '@clerk/clerk-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -25,7 +25,7 @@ import {
   type UserModule,
 } from './sign-in.schema'
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
+interface UserAuthFormProps extends Omit<HTMLMotionProps<'form'>, 'ref'> {
   redirectTo?: string
 }
 
@@ -104,10 +104,25 @@ export function UserAuthForm({
   //   }
   // }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 },
+  }
+
   return (
     <div className='space-y-4'>
       {/* Module Selector Tabs */}
-      <div className='grid grid-cols-2 gap-2 rounded-lg bg-muted p-1'>
+      <div className='grid grid-cols-2 gap-2 rounded-xl bg-muted/50 p-1.5 backdrop-blur-sm'>
         {MODULE_TABS.map((tab) => {
           const Icon = tab.icon
           const isActive = selectedModule === tab.id
@@ -118,9 +133,9 @@ export function UserAuthForm({
               type='button'
               onClick={() => setSelectedModule(tab.id)}
               className={cn(
-                'relative flex flex-col items-center gap-1 rounded-md px-3 py-3 text-sm font-medium transition-all duration-200',
+                'relative flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 sm:min-h-[44px]',
                 isActive
-                  ? 'bg-background text-foreground shadow-sm'
+                  ? 'bg-background text-foreground shadow-sm ring-1 ring-border/50'
                   : 'text-muted-foreground hover:bg-background/50 hover:text-foreground'
               )}
             >
@@ -128,7 +143,7 @@ export function UserAuthForm({
                 <motion.div
                   layoutId='activeModuleTab'
                   className={cn(
-                    'absolute inset-0 rounded-md bg-gradient-to-r opacity-10',
+                    'absolute inset-0 rounded-lg bg-linear-to-r opacity-10',
                     tab.gradient
                   )}
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
@@ -136,11 +151,13 @@ export function UserAuthForm({
               )}
               <Icon
                 className={cn(
-                  'h-5 w-5',
-                  isActive && `text-${tab.gradient.split('-')[1]}-500`
+                  'h-5 w-5 transition-transform duration-300',
+                  isActive
+                    ? `scale-110 text-${tab.gradient.split('-')[1]}-500`
+                    : 'scale-100'
                 )}
               />
-              <span>{tab.label}</span>
+              <span className='z-10'>{tab.label}</span>
             </button>
           )
         })}
@@ -150,10 +167,10 @@ export function UserAuthForm({
       <AnimatePresence mode='wait'>
         <motion.p
           key={selectedModule}
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className='text-center text-xs text-muted-foreground'
+          exit={{ opacity: 0, y: 5 }}
+          className='text-center text-xs font-medium text-muted-foreground'
         >
           {MODULE_TABS.find((t) => t.id === selectedModule)?.description}
         </motion.p>
@@ -161,87 +178,89 @@ export function UserAuthForm({
 
       {/* Sign-in Form */}
       <Form {...form}>
-        <form
+        <motion.form
+          variants={containerVariants}
+          initial='hidden'
+          animate='show'
           onSubmit={form.handleSubmit(onSubmit)}
-          className={cn('grid gap-3', className)}
+          className={cn('grid gap-4', className)}
           {...props}
         >
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='name@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem className='relative'>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <PasswordInput placeholder='Enter your password' {...field} />
-                </FormControl>
-                <FormMessage />
-                <Link
-                  to='/forgot-password'
-                  className='absolute end-0 -top-0.5 text-sm font-medium text-muted-foreground hover:opacity-75'
-                >
-                  Forgot password?
-                </Link>
-              </FormItem>
-            )}
-          />
-          <Button
-            className={cn(
-              'mt-2 bg-gradient-to-r',
-              selectedModule === 'restaurant'
-                ? 'from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'
-                : 'from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600'
-            )}
-            disabled={isLoading}
-          >
-            {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
-            Sign in to{' '}
-            {selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'}
-          </Button>
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='name@example.com'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder='Enter your password'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <Link
+                    to='/forgot-password'
+                    className='absolute end-0 -top-0.5 text-xs font-medium text-primary transition-colors hover:text-primary/80 sm:text-sm'
+                  >
+                    Forgot password?
+                  </Link>
+                </FormItem>
+              )}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <Button
+              className={cn(
+                'mt-2 h-11 w-full bg-linear-to-r text-base font-semibold transition-all duration-300 active:scale-95',
+                selectedModule === 'restaurant'
+                  ? 'from-orange-500 to-red-500 shadow-orange-500/20 hover:from-orange-600 hover:to-red-600 hover:shadow-orange-500/30'
+                  : 'from-blue-500 to-cyan-500 shadow-blue-500/20 hover:from-blue-600 hover:to-cyan-600 hover:shadow-blue-500/30'
+              )}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className='mr-2 h-5 w-5 animate-spin' />
+              ) : (
+                <LogIn className='mr-2 h-5 w-5' />
+              )}
+              Sign in to{' '}
+              {selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'}
+            </Button>
+          </motion.div>
 
-          <div className='relative my-2'>
+          <motion.div variants={itemVariants} className='relative my-4'>
             <div className='absolute inset-0 flex items-center'>
-              <span className='w-full border-t' />
+              <span className='w-full border-t border-border/50' />
             </div>
-            {/* <div className='relative flex justify-center text-xs uppercase'>
+            <div className='relative flex justify-center text-xs uppercase'>
               <span className='bg-background px-2 text-muted-foreground'>
                 Or continue with
               </span>
-            </div> */}
-          </div>
-
-          {/* <div className='grid grid-cols-2 gap-2'>
-            <Button
-              variant='outline'
-              type='button'
-              disabled={isLoading}
-              onClick={() => handleOAuthSignIn('oauth_github')}
-            >
-              <IconGithub className='h-4 w-4' /> GitHub
-            </Button>
-            <Button
-              variant='outline'
-              type='button'
-              disabled={isLoading}
-              onClick={() => handleOAuthSignIn('oauth_facebook')}
-            >
-              <IconFacebook className='h-4 w-4' /> Facebook
-            </Button>
-          </div> */}
-        </form>
+            </div>
+          </motion.div>
+        </motion.form>
       </Form>
     </div>
   )

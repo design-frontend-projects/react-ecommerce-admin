@@ -42,8 +42,8 @@ export function ReservationCalendar({
   }))
 
   return (
-    <Card className='h-full'>
-      <CardContent className='p-0 [&_.fc-toolbar-title]:text-xl [&_.fc-toolbar-title]:font-bold'>
+    <Card className='h-full overflow-hidden'>
+      <CardContent className='h-full overflow-hidden p-0 [&_.fc]:h-full [&_.fc-toolbar-title]:text-xl [&_.fc-toolbar-title]:font-bold'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView='timeGridWeek'
@@ -63,12 +63,12 @@ export function ReservationCalendar({
           select={(info) => {
             onDateSelect(info.start)
           }}
-          height='auto'
-          aspectRatio={1.8}
+          height='100%'
           allDaySlot={false}
           slotMinTime='08:00:00'
           slotMaxTime='24:00:00'
           nowIndicator={true}
+          stickyHeaderDates={true}
         />
       </CardContent>
     </Card>

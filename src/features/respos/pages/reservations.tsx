@@ -68,17 +68,17 @@ export function Reservations() {
 
       <Main fixed>
         <div className='flex h-full flex-col gap-4 p-4'>
-          <Card className='flex-1 overflow-hidden'>
+          <Card className='min-h-0 flex-1 overflow-hidden'>
             <CardHeader className='pb-2'>
               <CardTitle>Management</CardTitle>
             </CardHeader>
-            <CardContent className='h-[calc(100%-4rem)] p-0'>
+            <CardContent className='h-[calc(100%-4rem)] overflow-hidden p-0'>
               {isLoading ? (
                 <div className='flex h-full items-center justify-center'>
                   <div className='h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent' />
                 </div>
               ) : (
-                <div className='h-full p-2'>
+                <div className='h-full overflow-hidden p-2'>
                   <ReservationCalendar
                     reservations={reservations}
                     onEventClick={handleEventClick}

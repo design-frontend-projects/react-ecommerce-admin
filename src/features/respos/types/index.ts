@@ -119,6 +119,8 @@ export interface ResMenuItem {
   tags: string[]
   created_at: string
   updated_at: string
+  variants: ResItemVariant[]
+  properties: ResItemProperty[]
 }
 
 export interface ResItemVariant {
@@ -143,6 +145,7 @@ export interface ResItemProperty {
   is_required: boolean
   max_selections: number
   created_at: string
+  price: number
 }
 
 export interface ResMenuItemWithDetails extends ResMenuItem {
@@ -202,8 +205,8 @@ export interface ResOrder {
 }
 
 export interface SelectedProperty {
-  property_id: string
-  option_name: string
+  id: string
+  name: string
   price: number
 }
 

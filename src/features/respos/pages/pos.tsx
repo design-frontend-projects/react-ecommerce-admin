@@ -1,14 +1,19 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useMemo, useState } from 'react'
+import { useAuth } from '@clerk/clerk-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronLeft,
   LayoutGrid,
   Loader2,
   Lock,
+  Minus,
+  Plus,
+  Receipt,
   Search,
   ShoppingCart,
+  Trash2,
   UtensilsCrossed,
   X,
 } from 'lucide-react'
@@ -36,13 +41,13 @@ import {
 import { Header } from '@/components/layout/header'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useCreateOrder, useAddOrderItems } from '../api/mutations'
+import { useAddOrderItems, useCreateOrder } from '../api/mutations'
 import {
+  useActiveOrderByTable,
   useFloors,
-  useTables,
   useMenuCategories,
   useMenuItemsWithDetails,
-  useActiveOrderByTable,
+  useTables,
 } from '../api/queries'
 import { CheckoutDialog } from '../components/checkout-dialog'
 import { FloorManagerView } from '../components/floor-manager-view'
@@ -51,10 +56,11 @@ import { NotificationsDropdown } from '../components/notifications-dropdown'
 import { useResposAuth, useResposRealtime } from '../hooks'
 import { formatCurrency } from '../lib/formatters'
 import type {
-  ResTable,
-  ResMenuItem,
+  Cart,
   CartItem,
+  ResMenuItem,
   ResOrderWithDetails,
+  ResTable,
   SelectedProperty,
 } from '../types'
 
@@ -89,12 +95,9 @@ export function POSScreen() {
   } = useResposStore()
 
   // Auth & Permissions
-  const {
-    canAccessPayment,
-    hasAnyRole,
-    isLoading: authLoading,
-    employee,
-  } = useResposAuth()
+  const { canAccessPayment, isLoading: authLoading, employee } = useResposAuth()
+
+  const { has, isLoaded: isUserLoading, isSignedIn: isUserSignin } = useAuth()
 
   // Real-time
   useResposRealtime({
@@ -109,14 +112,6 @@ export function POSScreen() {
   // Mutations
   const { mutate: createOrder, isPending: isCreating } = useCreateOrder()
   const { mutate: addItems, isPending: isAdding } = useAddOrderItems()
-
-  // Role Access Check
-  const hasAccess = hasAnyRole([
-    'super_admin',
-    'res_manager',
-    'captain',
-    'cashier',
-  ])
 
   const isLoading =
     floorsLoading ||
@@ -194,7 +189,26 @@ export function POSScreen() {
     }
   }
 
-  if (!isLoading && !hasAccess) {
+  if (!isUserLoading) {
+    if (!isUserSignin) {
+      return (
+        <div className='flex h-screen flex-col items-center justify-center gap-4 bg-muted/40'>
+          <div className='rounded-full bg-red-100 p-4 text-red-600'>
+            <Lock className='h-8 w-8' />
+          </div>
+          <h2 className='text-xl font-bold'>Access Restricted</h2>
+          <p className='max-w-md text-center text-muted-foreground'>
+            This terminal is restricted to authorized staff only.
+          </p>
+          <Button onClick={() => (window.location.href = '/')}>
+            Return to Dashboard
+          </Button>
+        </div>
+      )
+    }
+  }
+
+  if (isUserLoading && !has({ role: 'org:super_admin' })) {
     return (
       <div className='flex h-screen flex-col items-center justify-center gap-4 bg-muted/40'>
         <div className='rounded-full bg-red-100 p-4 text-red-600'>
@@ -445,36 +459,32 @@ function MenuGridItem({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className='group relative flex flex-col overflow-hidden rounded-xl border bg-background text-left shadow-sm transition-all hover:border-orange-200 hover:shadow-md'
+      className='group relative flex flex-col overflow-hidden rounded-xl border bg-card text-left shadow-sm transition-all hover:border-orange-300 hover:shadow-lg dark:hover:border-orange-700'
     >
       <div className='aspect-[4/3] w-full overflow-hidden bg-muted'>
         {item.image_url ? (
           <img
             src={item.image_url}
             alt={item.name}
-            className='h-full w-full object-cover transition-transform group-hover:scale-105'
+            className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-110'
           />
         ) : (
-          <div className='flex h-full items-center justify-center text-muted-foreground/20'>
-            <UtensilsCrossed className='h-12 w-12' />
+          <div className='flex h-full items-center justify-center bg-linear-to-br from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30'>
+            <UtensilsCrossed className='h-10 w-10 text-orange-300 dark:text-orange-700' />
           </div>
         )}
       </div>
-      <div className='flex w-full flex-1 flex-col p-3'>
-        <h3 className='line-clamp-1 text-left font-semibold group-hover:text-orange-600'>
+      <div className='flex w-full flex-1 flex-col gap-1 p-3'>
+        <h3 className='line-clamp-1 text-left text-sm font-semibold transition-colors group-hover:text-orange-600'>
           {item.name}
         </h3>
-        <div className='mt-auto flex w-full items-center justify-between pt-2'>
-          <span className='font-bold text-orange-600'>
+        <div className='mt-auto flex w-full items-center justify-between pt-1'>
+          <span className='rounded-full bg-orange-100 px-2.5 py-0.5 text-sm font-bold text-orange-700 dark:bg-orange-950/50 dark:text-orange-400'>
             {formatCurrency(item.base_price)}
           </span>
-          <Button
-            size='icon'
-            variant='secondary'
-            className='h-6 w-6 rounded-full opacity-0 transition-opacity group-hover:opacity-100'
-          >
-            <LayoutGrid className='h-3 w-3' />
-          </Button>
+          <div className='flex h-7 w-7 items-center justify-center rounded-full bg-orange-600 text-white opacity-0 shadow-md transition-all group-hover:opacity-100'>
+            <Plus className='h-4 w-4' />
+          </div>
         </div>
       </div>
     </motion.button>
@@ -483,7 +493,7 @@ function MenuGridItem({
 
 interface OrderPanelProps {
   activeOrder: ResOrderWithDetails | null
-  cart: any // Typed in store
+  cart: Cart
   onPlaceOrder: () => void
   isProcessing: boolean
   onCheckout: () => void
@@ -506,19 +516,31 @@ function OrderPanel({
   onRemoveItem,
   selectedTable,
 }: OrderPanelProps) {
-  const cartTotal = cart.total || 0
   const activeTotal = activeOrder?.total_amount || 0
+
+  // Cart breakdown
+  const cartSubtotal = cart.subtotal || 0
+  const cartTax = cart.taxAmount || 0
+  const cartDiscount = cart.discountAmount || 0
+  const cartTip = cart.tipAmount || 0
+  const cartTotal = cart.total || 0
   const grandTotal = activeTotal + cartTotal
+
+  const totalItemsInCart = useMemo(
+    () =>
+      cart.items.reduce((sum: number, ci: CartItem) => sum + ci.quantity, 0),
+    [cart.items]
+  )
 
   if (!selectedTable) {
     return (
       <div className='flex flex-1 flex-col items-center justify-center p-8 text-center text-muted-foreground'>
-        <div className='mb-4 rounded-full bg-muted p-4'>
-          <LayoutGrid className='h-8 w-8 opacity-50' />
+        <div className='mb-4 rounded-full bg-muted p-5'>
+          <Receipt className='h-8 w-8 opacity-40' />
         </div>
-        <h3 className='font-semibold'>No Table Selected</h3>
-        <p className='mt-1 text-sm'>
-          Select a table from the floor plan to start an order.
+        <h3 className='text-base font-semibold'>No Table Selected</h3>
+        <p className='mt-1 max-w-[200px] text-xs leading-relaxed'>
+          Select a table from the floor plan to start taking orders.
         </p>
       </div>
     )
@@ -526,12 +548,25 @@ function OrderPanel({
 
   return (
     <div className='flex h-full flex-col'>
-      <div className='z-10 flex items-center justify-between border-b p-4 shadow-xs'>
+      {/* Order Header */}
+      <div className='z-10 flex items-center justify-between border-b bg-card p-4'>
         <div>
-          <h2 className='text-lg font-bold'>Order Details</h2>
-          <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-            <span>Table {selectedTable.table_number}</span>
-            {activeOrder && <span>• Order #{activeOrder.order_number}</span>}
+          <div className='flex items-center gap-2'>
+            <h2 className='text-base font-bold'>Order</h2>
+            {totalItemsInCart > 0 && (
+              <Badge className='h-5 min-w-5 justify-center rounded-full bg-orange-600 px-1.5 text-[10px] font-bold text-white'>
+                {totalItemsInCart}
+              </Badge>
+            )}
+          </div>
+          <div className='flex items-center gap-1.5 text-xs text-muted-foreground'>
+            <span className='font-medium'>T-{selectedTable.table_number}</span>
+            {activeOrder && (
+              <>
+                <span className='text-muted-foreground/40'>•</span>
+                <span>#{activeOrder.order_number}</span>
+              </>
+            )}
           </div>
         </div>
         {cart.items.length > 0 && (
@@ -539,34 +574,42 @@ function OrderPanel({
             variant='ghost'
             size='sm'
             onClick={onClearCart}
-            className='text-red-500 hover:bg-red-50 hover:text-red-600'
+            className='h-8 gap-1 text-xs text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30'
           >
-            <X className='mr-1 h-3 w-3' /> Clear
+            <Trash2 className='h-3 w-3' />
+            Clear
           </Button>
         )}
       </div>
 
-      <ScrollArea className='flex-1 bg-muted/5 p-4'>
+      <ScrollArea className='flex-1 p-3'>
         {/* Active Order Items (Sent to Kitchen) */}
         {activeOrder && activeOrder.items && activeOrder.items.length > 0 && (
-          <div className='mb-6'>
-            <div className='mb-2 flex items-center justify-between text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
-              <span>Sent to Kitchen</span>
-              <Badge variant='outline' className='text-[10px]'>
-                {activeOrder.status}
+          <div className='mb-4'>
+            <div className='mb-2 flex items-center justify-between'>
+              <span className='text-[11px] font-semibold tracking-wider text-muted-foreground uppercase'>
+                Sent to Kitchen
+              </span>
+              <Badge
+                variant='outline'
+                className='h-5 text-[10px] font-medium capitalize'
+              >
+                {activeOrder.status.replace('_', ' ')}
               </Badge>
             </div>
-            <div className='space-y-1'>
+            <div className='space-y-1.5'>
               {activeOrder.items.map((item) => (
                 <div
                   key={item.id}
-                  className='mb-2 flex gap-3 rounded-lg border bg-white px-3 py-2 opacity-80'
+                  className='flex gap-3 rounded-lg border bg-muted/40 px-3 py-2.5 dark:bg-muted/20'
                 >
-                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600'>
+                  <div className='flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[11px] font-bold text-muted-foreground'>
                     {item.quantity}
                   </div>
-                  <div className='flex-1'>
-                    <div className='text-sm font-medium'>{item.item.name}</div>
+                  <div className='min-w-0 flex-1'>
+                    <div className='truncate text-sm font-medium'>
+                      {item.item.name}
+                    </div>
                     {item.variant && (
                       <div className='text-xs text-muted-foreground'>
                         {item.variant.name}
@@ -574,59 +617,62 @@ function OrderPanel({
                     )}
                     {item.properties && item.properties.length > 0 && (
                       <div className='mt-0.5 text-xs text-muted-foreground'>
-                        {item.properties.map((p) => p.option_name).join(', ')}
+                        {item.properties.map((p) => p.name).join(', ')}
                       </div>
                     )}
                     {item.notes && (
-                      <div className='mt-0.5 text-xs text-orange-600 italic'>
+                      <div className='mt-0.5 text-[11px] text-orange-600 italic'>
                         "{item.notes}"
                       </div>
                     )}
                   </div>
-                  <div className='text-sm font-medium text-slate-600'>
+                  <div className='shrink-0 text-sm font-semibold'>
                     {formatCurrency(item.unit_price * item.quantity)}
                   </div>
                 </div>
               ))}
             </div>
-            <Separator className='my-4' />
+            <Separator className='my-3' />
           </div>
         )}
 
         {/* New Cart Items */}
         {cart.items.length > 0 ? (
           <div>
-            <div className='mb-2 flex items-center justify-between text-xs font-semibold tracking-wider text-orange-600 uppercase'>
-              <span>New Items</span>
+            <div className='mb-2'>
+              <span className='text-[11px] font-semibold tracking-wider text-orange-600 uppercase'>
+                New Items
+              </span>
             </div>
-            <div className='space-y-2'>
+            <div className='space-y-1.5'>
               <AnimatePresence initial={false}>
                 {cart.items.map((cartItem: CartItem, index: number) => (
                   <motion.div
                     key={`${cartItem.item.id}-${index}`}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className='group relative flex flex-col gap-2 rounded-lg border bg-white p-3 shadow-sm'
+                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className='group rounded-lg border bg-card p-3 shadow-sm transition-colors hover:border-orange-200 dark:hover:border-orange-800'
                   >
-                    <div className='flex items-start justify-between'>
-                      <div className='flex-1 pr-2'>
-                        <span className='text-sm font-medium'>
-                          {cartItem.item.name}
-                        </span>
-                        {cartItem.variant && (
-                          <span className='ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs text-muted-foreground'>
-                            {cartItem.variant.name}
+                    {/* Item name + remove */}
+                    <div className='flex items-start justify-between gap-2'>
+                      <div className='min-w-0 flex-1'>
+                        <div className='flex items-center gap-2'>
+                          <span className='truncate text-sm font-medium'>
+                            {cartItem.item.name}
                           </span>
-                        )}
-                        <div className='mt-0.5 text-xs font-bold text-orange-600'>
-                          {formatCurrency(cartItem.lineTotal)}
+                          {cartItem.variant && (
+                            <span className='shrink-0 rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground'>
+                              {cartItem.variant.name}
+                            </span>
+                          )}
                         </div>
                       </div>
                       <Button
                         variant='ghost'
                         size='icon'
-                        className='h-6 w-6 text-slate-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-500'
+                        className='h-6 w-6 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-500'
                         onClick={() => onRemoveItem(index)}
                       >
                         <X className='h-3 w-3' />
@@ -636,45 +682,58 @@ function OrderPanel({
                     {/* Properties & Notes */}
                     {(cartItem.selectedProperties.length > 0 ||
                       cartItem.notes) && (
-                      <div className='rounded bg-slate-50 p-2 text-xs text-muted-foreground'>
+                      <div className='mt-1.5 rounded bg-muted/50 px-2 py-1.5 text-xs dark:bg-muted/20'>
                         {cartItem.selectedProperties.map((p) => (
-                          <span key={p.id} className='block'>
-                            • {p.name} (+{formatCurrency(p.price)})
+                          <span
+                            key={p.id}
+                            className='flex items-center justify-between'
+                          >
+                            <span className='text-muted-foreground'>
+                              • {p.name}
+                            </span>
+                            <span className='font-medium text-foreground'>
+                              +{formatCurrency(p.price)}
+                            </span>
                           </span>
                         ))}
                         {cartItem.notes && (
-                          <span className='block text-orange-700 italic'>
-                            Note: {cartItem.notes}
+                          <span className='mt-0.5 block text-orange-600 italic dark:text-orange-400'>
+                            "{cartItem.notes}"
                           </span>
                         )}
                       </div>
                     )}
 
-                    {/* Quantity Controls */}
-                    <div className='mt-1 flex items-center gap-3 self-end'>
-                      <Button
-                        size='icon'
-                        variant='outline'
-                        className='h-6 w-6'
-                        onClick={() =>
-                          onUpdateQuantity(index, cartItem.quantity - 1)
-                        }
-                      >
-                        <span className='text-xs font-bold'>-</span>
-                      </Button>
-                      <span className='w-4 text-center text-sm font-semibold'>
-                        {cartItem.quantity}
+                    {/* Quantity + Line Total */}
+                    <div className='mt-2 flex items-center justify-between'>
+                      <div className='flex items-center gap-1'>
+                        <Button
+                          size='icon'
+                          variant='outline'
+                          className='h-6 w-6 rounded-md'
+                          onClick={() =>
+                            onUpdateQuantity(index, cartItem.quantity - 1)
+                          }
+                        >
+                          <Minus className='h-3 w-3' />
+                        </Button>
+                        <span className='min-w-[28px] text-center text-sm font-semibold'>
+                          {cartItem.quantity}
+                        </span>
+                        <Button
+                          size='icon'
+                          variant='outline'
+                          className='h-6 w-6 rounded-md'
+                          onClick={() =>
+                            onUpdateQuantity(index, cartItem.quantity + 1)
+                          }
+                        >
+                          <Plus className='h-3 w-3' />
+                        </Button>
+                      </div>
+                      <span className='text-sm font-bold text-orange-600 dark:text-orange-400'>
+                        {formatCurrency(cartItem.lineTotal)}
                       </span>
-                      <Button
-                        size='icon'
-                        variant='outline'
-                        className='h-6 w-6'
-                        onClick={() =>
-                          onUpdateQuantity(index, cartItem.quantity + 1)
-                        }
-                      >
-                        <span className='text-xs font-bold'>+</span>
-                      </Button>
                     </div>
                   </motion.div>
                 ))}
@@ -683,41 +742,78 @@ function OrderPanel({
           </div>
         ) : (
           !activeOrder && (
-            <div className='flex flex-col items-center justify-center py-10 text-sm text-muted-foreground opacity-60'>
-              <ShoppingCart className='mb-2 h-10 w-10' />
-              <p>Cart is empty</p>
+            <div className='flex flex-col items-center justify-center py-12 text-muted-foreground'>
+              <div className='mb-3 rounded-full bg-muted/50 p-4'>
+                <ShoppingCart className='h-8 w-8 opacity-40' />
+              </div>
+              <p className='text-sm font-medium'>No items yet</p>
+              <p className='mt-0.5 text-xs opacity-60'>
+                Tap a menu item to add it
+              </p>
             </div>
           )
         )}
       </ScrollArea>
 
-      <div className='space-y-4 border-t bg-background p-4 shadow-inner'>
-        <div className='space-y-2 text-sm'>
-          {cart.total > 0 && (
+      {/* Order Footer — Totals Breakdown */}
+      <div className='border-t bg-card p-4'>
+        <div className='space-y-1.5 text-sm'>
+          {/* Cart subtotal */}
+          {cartSubtotal > 0 && (
             <div className='flex justify-between text-muted-foreground'>
-              <span>Current Order</span>
-              <span>{formatCurrency(cart.total)}</span>
+              <span>Subtotal</span>
+              <span>{formatCurrency(cartSubtotal)}</span>
             </div>
           )}
+          {/* Discount */}
+          {cartDiscount > 0 && (
+            <div className='flex justify-between text-emerald-600 dark:text-emerald-400'>
+              <span>Discount</span>
+              <span>−{formatCurrency(cartDiscount)}</span>
+            </div>
+          )}
+          {/* Tax */}
+          {cartTax > 0 && (
+            <div className='flex justify-between text-muted-foreground'>
+              <span>Tax (14%)</span>
+              <span>{formatCurrency(cartTax)}</span>
+            </div>
+          )}
+          {/* Tip */}
+          {cartTip > 0 && (
+            <div className='flex justify-between text-muted-foreground'>
+              <span>Tip</span>
+              <span>{formatCurrency(cartTip)}</span>
+            </div>
+          )}
+          {/* New items total */}
+          {cartTotal > 0 && (
+            <div className='flex justify-between font-medium'>
+              <span>New Items</span>
+              <span>{formatCurrency(cartTotal)}</span>
+            </div>
+          )}
+          {/* Active order total */}
           {activeOrder && (
             <div className='flex justify-between text-muted-foreground'>
-              <span>Previous Orders</span>
+              <span>Previous</span>
               <span>{formatCurrency(activeTotal)}</span>
             </div>
           )}
-          <div className='flex justify-between border-t pt-2 text-lg font-black'>
+          {/* Grand total */}
+          <Separator />
+          <div className='flex justify-between pt-1 text-lg font-black'>
             <span>Total</span>
-            <span className='text-orange-600'>
+            <span className='text-orange-600 dark:text-orange-400'>
               {formatCurrency(grandTotal)}
             </span>
           </div>
         </div>
 
-        <div className='grid gap-3'>
+        <div className='mt-3 grid gap-2'>
           <Button
             size='lg'
-            className='w-full bg-orange-600 text-lg font-bold shadow-lg shadow-orange-200 hover:bg-orange-700'
-            title='Place Order'
+            className='w-full bg-orange-600 text-base font-bold shadow-lg shadow-orange-600/20 hover:bg-orange-700 dark:shadow-orange-900/30'
             onClick={onPlaceOrder}
             disabled={isProcessing || cart.items.length === 0}
           >
@@ -732,9 +828,9 @@ function OrderPanel({
 
           {activeOrder && canCheckout && (
             <Button
-              variant='secondary'
+              variant='outline'
               size='lg'
-              className='w-full border-2 border-orange-100 bg-orange-50 text-orange-900 hover:border-orange-200 hover:bg-orange-100'
+              className='w-full border-orange-200 text-orange-700 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-400 dark:hover:bg-orange-950/30'
               onClick={onCheckout}
               disabled={isProcessing}
             >
