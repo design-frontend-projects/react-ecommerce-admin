@@ -102,6 +102,12 @@ export const sidebarData: SidebarData = {
           icon: Receipt,
         },
         {
+          title: 'Captain Station',
+          url: '/respos/captain',
+          icon: Users,
+          roles: ['captain', 'admin', 'super_admin'],
+        },
+        {
           title: 'Kitchen Display',
           url: '/respos/kitchen',
           icon: ChefHat,

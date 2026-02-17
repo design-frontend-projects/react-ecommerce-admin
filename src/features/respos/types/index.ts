@@ -221,6 +221,7 @@ export interface ResOrderItem {
   notes?: string
   status: OrderItemStatus
   created_at: string
+  updated_at: string
 }
 
 export interface ResOrderItemWithDetails extends ResOrderItem {

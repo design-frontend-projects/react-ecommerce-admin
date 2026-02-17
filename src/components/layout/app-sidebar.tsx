@@ -6,6 +6,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { useResposAuth } from '@/features/respos/hooks/use-roles'
+import type { RoleName } from '@/features/respos/types'
 // import { AppTitle } from './app-title'
 import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
@@ -14,6 +16,27 @@ import { TeamSwitcher } from './team-switcher'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
+  const { employee } = useResposAuth()
+
+  // Filter navigation items based on user roles
+  const filteredNavGroups = sidebarData.navGroups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => {
+        // If no roles specified, everyone can access
+        if (!item.roles || item.roles.length === 0) return true
+
+        // If roles specified but no employee (not authenticated in POS), hid
+        if (!employee) return false
+
+        // Check if employee has any of the required roles
+        return item.roles.some((role) =>
+          employee.roles.some((r) => r.name === (role as RoleName))
+        )
+      }),
+    }))
+    .filter((group) => group.items.length > 0)
+
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
@@ -24,7 +47,7 @@ export function AppSidebar() {
         {/* <AppTitle /> */}
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
+        {filteredNavGroups.map((props) => (
           <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>

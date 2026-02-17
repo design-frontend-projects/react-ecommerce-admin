@@ -60,6 +60,7 @@ import { Route as AuthenticatedResposNotificationsRouteImport } from './routes/_
 import { Route as AuthenticatedResposMenuRouteImport } from './routes/_authenticated/respos/menu'
 import { Route as AuthenticatedResposKitchenRouteImport } from './routes/_authenticated/respos/kitchen'
 import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authenticated/respos/floors'
+import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
@@ -343,6 +344,12 @@ const AuthenticatedResposFloorsRoute =
     path: '/respos/floors',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedResposCaptainRoute =
+  AuthenticatedResposCaptainRouteImport.update({
+    id: '/respos/captain',
+    path: '/respos/captain',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposAnalyticsRoute =
   AuthenticatedResposAnalyticsRouteImport.update({
     id: '/respos/analytics',
@@ -391,6 +398,7 @@ export interface FileRoutesByFullPath {
   '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -443,6 +451,7 @@ export interface FileRoutesByTo {
   '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -500,6 +509,7 @@ export interface FileRoutesById {
   '/menu/': typeof MenuIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
+  '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/_authenticated/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/_authenticated/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -555,6 +565,7 @@ export interface FileRouteTypes {
     | '/menu'
     | '/errors/$error'
     | '/respos/analytics'
+    | '/respos/captain'
     | '/respos/floors'
     | '/respos/kitchen'
     | '/respos/menu'
@@ -607,6 +618,7 @@ export interface FileRouteTypes {
     | '/menu'
     | '/errors/$error'
     | '/respos/analytics'
+    | '/respos/captain'
     | '/respos/floors'
     | '/respos/kitchen'
     | '/respos/menu'
@@ -663,6 +675,7 @@ export interface FileRouteTypes {
     | '/menu/'
     | '/_authenticated/errors/$error'
     | '/_authenticated/respos/analytics'
+    | '/_authenticated/respos/captain'
     | '/_authenticated/respos/floors'
     | '/_authenticated/respos/kitchen'
     | '/_authenticated/respos/menu'
@@ -1063,6 +1076,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposFloorsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/respos/captain': {
+      id: '/_authenticated/respos/captain'
+      path: '/respos/captain'
+      fullPath: '/respos/captain'
+      preLoaderRoute: typeof AuthenticatedResposCaptainRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/analytics': {
       id: '/_authenticated/respos/analytics'
       path: '/respos/analytics'
@@ -1127,6 +1147,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
+  AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposFloorsRoute: typeof AuthenticatedResposFloorsRoute
   AuthenticatedResposKitchenRoute: typeof AuthenticatedResposKitchenRoute
   AuthenticatedResposMenuRoute: typeof AuthenticatedResposMenuRoute
@@ -1161,6 +1182,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
+  AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposFloorsRoute: AuthenticatedResposFloorsRoute,
   AuthenticatedResposKitchenRoute: AuthenticatedResposKitchenRoute,
   AuthenticatedResposMenuRoute: AuthenticatedResposMenuRoute,
