@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import CaptainDashboard from '@/features/respos/pages/captain'
+import CaptainDashboard from '@/features/respos/pages/captain-dashboard'
 
 export const Route = createFileRoute('/_authenticated/respos/captain')({
   component: RouteComponent,

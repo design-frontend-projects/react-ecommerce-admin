@@ -1,5 +1,6 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { generateOrderNumber } from '../lib/formatters'
 import type {
@@ -849,7 +850,7 @@ export function useUpdateMenuItem() {
       allergens?: string[]
       tags?: string[]
     }) => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('res_menu_items')
         .update({
           category_id: updates.categoryId,
@@ -1420,9 +1421,6 @@ export function useCreateUser() {
     }) => {
       // 1. Clerk User Creation (Client-side simulation)
       // NOTE: In a real app, this should call a Secure Edge Function
-      console.warn(
-        'Clerk User Creation skipped (Client-side). Assuming user created in Dashboard.'
-      )
 
       // 2. Generate/Use a ID (In real flow, this comes from Clerk)
       // For now, we simulate an ID if not provided by backend logic
@@ -1442,7 +1440,7 @@ export function useCreateUser() {
       })
 
       if (userError) {
-        console.error('Failed to create public user:', userError)
+        toast.error(userError.message)
         // Continue if it fails? Maybe user already exists.
       }
 
