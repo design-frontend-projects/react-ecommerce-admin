@@ -4,6 +4,7 @@ This document outlines the core technologies and frameworks utilized in the Shad
 
 ## 1. Frontend & UI
 
+*   **Framework:** [Next.js](https://nextjs.org/)
 *   **UI Framework:** [ShadcnUI](https://ui.shadcn.com)
     *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
     *   **Component Primitives:** [Radix UI](https://www.radix-ui.com/)
@@ -21,3 +22,6 @@ This document outlines the core technologies and frameworks utilized in the Shad
 *   **Code Formatting:** [Prettier](https://prettier.io/)
 
 This stack provides a modern, efficient, and scalable foundation for building and maintaining the admin dashboard.
+
+---
+**2026-02-17:** Added Next.js to the tech stack to support backend API development.

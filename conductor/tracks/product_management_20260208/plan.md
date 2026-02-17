@@ -7,8 +7,8 @@ This plan outlines the phases and tasks required to implement the comprehensive 
 - [x] Task: Define Product Data Model [8296c62]
     - [x] Sub-task: Create or update Prisma schema for Product entity.
     - [x] Sub-task: Define relationships with Categories and Images.
-- [ ] Task: Implement Product API Endpoints
-    - [ ] Sub-task: Develop `GET /products` endpoint with pagination, sorting, and filtering.
+- [~] Task: Implement Product API Endpoints
+    - [~] Sub-task: Develop `GET /products` endpoint with pagination, sorting, and filtering.
     - [ ] Sub-task: Develop `GET /products/{id}` endpoint.
     - [ ] Sub-task: Develop `POST /products` endpoint with validation.
     - [ ] Sub-task: Develop `PUT /products/{id}` endpoint with validation.
