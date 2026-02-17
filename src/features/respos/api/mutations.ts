@@ -214,6 +214,7 @@ export function useUpdateOrderStatus() {
       tipAmount,
       discountAmount,
       discountType,
+      customerName,
     }: {
       orderId: string
       status: OrderStatus
@@ -221,6 +222,7 @@ export function useUpdateOrderStatus() {
       tipAmount?: number
       discountAmount?: number
       discountType?: string
+      customerName?: string
     }) => {
       interface OrderUpdate {
         status: OrderStatus
@@ -230,6 +232,7 @@ export function useUpdateOrderStatus() {
         discount_amount?: number
         discount_type?: string
         paid_at?: string
+        customer_name?: string
       }
 
       const updates: OrderUpdate = {
@@ -237,6 +240,7 @@ export function useUpdateOrderStatus() {
         updated_at: new Date().toISOString(),
       }
 
+      if (customerName) updates.customer_name = customerName
       if (paymentMethod) updates.payment_method = paymentMethod
       if (tipAmount !== undefined) updates.tip_amount = tipAmount
       if (discountAmount !== undefined) updates.discount_amount = discountAmount
