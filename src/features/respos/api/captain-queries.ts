@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
@@ -38,8 +38,27 @@ export function useReadyOrderItems() {
   })
 }
 
+/**
+ * Subscribes to realtime changes on `res_order_items`.
+ * No row-level filter — catches ALL status transitions:
+ *  - kitchen marks item 'ready'  → dashboard adds it
+ *  - captain marks item 'served' → dashboard removes it
+ *  - new items inserted directly as 'ready'
+ *
+ * Returns `isConnected` so the UI can show a live indicator.
+ */
 export function useCaptainRealtime() {
   const queryClient = useQueryClient()
+  const [isConnected, setIsConnected] = useState(false)
+  // Debounce rapid-fire events (e.g., bulk "mark all served")
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const invalidate = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: captainKeys.readyItems })
+    }, 300)
+  }, [queryClient])
 
   useEffect(() => {
     const channel = supabase
@@ -50,24 +69,51 @@ export function useCaptainRealtime() {
           event: 'UPDATE',
           schema: 'public',
           table: 'res_order_items',
-          filter: 'status=eq.ready',
         },
-        (_payload) => {
-          // When an item becomes ready, invalidate the query
-          queryClient.invalidateQueries({ queryKey: captainKeys.readyItems })
+        (payload) => {
+          const newStatus = (payload.new as Record<string, unknown>)?.status
+          const oldStatus = (payload.old as Record<string, unknown>)?.status
 
-          // Optionally show a toast here or let the UI handle it via data changes
-          toast.info('New item ready!', {
-            description: 'Check the dashboard for details.',
-          })
+          // Only invalidate + notify when the status actually changed
+          if (newStatus !== oldStatus) {
+            invalidate()
+
+            if (newStatus === 'ready') {
+              toast.info('🍽️ New item ready!', {
+                description: 'A kitchen item is ready for serving.',
+              })
+            }
+          }
         }
       )
-      .subscribe()
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'res_order_items',
+        },
+        (payload) => {
+          const status = (payload.new as Record<string, unknown>)?.status
+          if (status === 'ready') {
+            invalidate()
+            toast.info('🍽️ New ready item!', {
+              description: 'A new item was added as ready.',
+            })
+          }
+        }
+      )
+      .subscribe((status) => {
+        setIsConnected(status === 'SUBSCRIBED')
+      })
 
     return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
       supabase.removeChannel(channel)
     }
-  }, [queryClient])
+  }, [invalidate])
+
+  return { isConnected }
 }
 
 export function useMarkItemsServed() {
@@ -84,12 +130,39 @@ export function useMarkItemsServed() {
       if (error) throw error
       return data
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: captainKeys.readyItems })
-      toast.success('Items marked as served')
+    // Optimistic update — remove served items from the cache instantly
+    onMutate: async (itemIds: string[]) => {
+      // Cancel in-flight fetches so they don't overwrite our optimistic data
+      await queryClient.cancelQueries({ queryKey: captainKeys.readyItems })
+
+      // Snapshot current cache for rollback
+      const previousItems = queryClient.getQueryData<ReadyOrderItem[]>(
+        captainKeys.readyItems
+      )
+
+      // Optimistically remove the served items
+      queryClient.setQueryData<ReadyOrderItem[]>(
+        captainKeys.readyItems,
+        (old) => (old ? old.filter((item) => !itemIds.includes(item.id)) : [])
+      )
+
+      return { previousItems }
     },
-    onError: (error) => {
+    onSuccess: (_data, itemIds) => {
+      toast.success(
+        `${itemIds.length} item${itemIds.length > 1 ? 's' : ''} marked as served`
+      )
+    },
+    onError: (error, _itemIds, context) => {
+      // Rollback to previous state
+      if (context?.previousItems) {
+        queryClient.setQueryData(captainKeys.readyItems, context.previousItems)
+      }
       toast.error('Failed to update items: ' + error.message)
+    },
+    onSettled: () => {
+      // Always refetch to ensure cache is in sync with server
+      queryClient.invalidateQueries({ queryKey: captainKeys.readyItems })
     },
   })
 }

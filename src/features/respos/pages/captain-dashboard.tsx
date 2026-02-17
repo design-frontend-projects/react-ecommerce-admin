@@ -13,7 +13,7 @@ export default function CaptainDashboard() {
   const { has, isLoaded, isSignedIn } = useAuth()
 
   // Enable realtime updates
-  useCaptainRealtime()
+  const { isConnected } = useCaptainRealtime()
 
   const { data: readyItems, isRefetching, refetch } = useReadyOrderItems()
   const { mutate: markServed } = useMarkItemsServed()
@@ -60,7 +60,25 @@ export default function CaptainDashboard() {
     <div className='flex flex-col gap-6 p-6'>
       <div className='flex items-center justify-between'>
         <div>
-          <h1 className='text-3xl font-bold tracking-tight'>Captain Station</h1>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-3xl font-bold tracking-tight'>
+              Captain Station
+            </h1>
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                isConnected
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                  : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+              }`}
+            >
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  isConnected ? 'animate-pulse bg-green-500' : 'bg-gray-400'
+                }`}
+              />
+              {isConnected ? 'Live' : 'Connecting…'}
+            </span>
+          </div>
           <p className='text-muted-foreground'>
             Manage ready orders and table service
           </p>
