@@ -31,7 +31,7 @@ function generateUsers() {
         'suspended',
       ]),
       role: faker.helpers.arrayElement([
-        'superadmin',
+        'super_admin',
         'admin',
         'cashier',
         'manager',
