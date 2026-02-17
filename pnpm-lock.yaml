@@ -186,6 +186,9 @@ importers:
       '@faker-js/faker':
         specifier: ^10.1.0
         version: 10.1.0
+      '@prisma/config':
+        specifier: ^7.4.0
+        version: 7.4.0
       '@tanstack/eslint-plugin-query':
         specifier: ^5.91.2
         version: 5.91.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
