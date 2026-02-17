@@ -68,24 +68,6 @@ export const sidebarData: SidebarData = {
           url: '/products',
           icon: Package,
         },
-        // {
-        //   title: 'Secured by Clerk',
-        //   icon: ClerkLogo,
-        //   items: [
-        //     {
-        //       title: 'Sign In',
-        //       url: '/clerk/sign-in',
-        //     },
-        //     {
-        //       title: 'Sign Up',
-        //       url: '/clerk/sign-up',
-        //     },
-        //     {
-        //       title: 'User Management',
-        //       url: '/clerk/user-management',
-        //     },
-        //   ],
-        // },
       ],
     },
     {
@@ -95,42 +77,49 @@ export const sidebarData: SidebarData = {
           title: 'POS Dashboard',
           url: '/respos',
           icon: LayoutDashboard,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'POS Screen',
           url: '/respos/pos',
           icon: Receipt,
+          // roles: ['captain', 'admin', 'super_admin'],
         },
         {
           title: 'Captain Station',
           url: '/respos/captain',
           icon: Users,
-          roles: ['captain', 'admin', 'super_admin'],
+          // roles: ['captain', 'admin', 'super_admin'],
         },
         {
           title: 'Kitchen Display',
           url: '/respos/kitchen',
           icon: ChefHat,
+          // roles: ['kitchen', 'admin', 'super_admin'],
         },
         {
           title: 'Menu Management',
           url: '/respos/menu',
           icon: UtensilsCrossed,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'Floors & Tables',
           url: '/respos/floors',
           icon: Grid3X3,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'Reservations',
           url: '/respos/reservations',
           icon: CalendarClock,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'Analytics',
           url: '/respos/analytics',
           icon: LineChart,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'Shifts',
@@ -141,12 +130,14 @@ export const sidebarData: SidebarData = {
           title: 'Payments',
           url: '/respos/payments',
           icon: CreditCard,
+          // roles: ['admin', 'super_admin'],
         },
         // Admin only
         {
           title: 'Users',
           url: '/respos/users',
           icon: Users,
+          // roles: ['admin', 'super_admin'],
         },
         {
           title: 'My Profile',

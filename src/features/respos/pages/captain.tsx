@@ -1,3 +1,4 @@
+import { useAuth } from '@clerk/clerk-react'
 import { Loader2, RefreshCw, ShieldAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -7,27 +8,17 @@ import {
   useReadyOrderItems,
 } from '../api/captain-queries'
 import { ReadyTableCard } from '../components/captain/ready-table-card'
-import { useRequireRole } from '../hooks'
 
 export default function CaptainDashboard() {
-  const { hasAccess, isLoading: isRoleLoading } = useRequireRole([
-    'captain',
-    'admin',
-    'super_admin',
-  ])
+  const { has, isLoaded, isSignedIn } = useAuth()
 
   // Enable realtime updates
   useCaptainRealtime()
 
-  const {
-    data: readyItems,
-    isLoading: isDataLoading,
-    isRefetching,
-    refetch,
-  } = useReadyOrderItems()
+  const { data: readyItems, isRefetching, refetch } = useReadyOrderItems()
   const { mutate: markServed } = useMarkItemsServed()
 
-  if (isRoleLoading || isDataLoading) {
+  if (!isLoaded) {
     return (
       <div className='flex h-full items-center justify-center'>
         <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
@@ -35,16 +26,18 @@ export default function CaptainDashboard() {
     )
   }
 
-  if (!hasAccess) {
-    return (
-      <div className='flex h-full flex-col items-center justify-center gap-4 text-center'>
-        <ShieldAlert className='h-16 w-16 text-destructive' />
-        <h2 className='text-2xl font-bold'>Access Denied</h2>
-        <p className='text-muted-foreground'>
-          You do not have permission to view this page.
-        </p>
-      </div>
-    )
+  if (isLoaded && isSignedIn) {
+    if (!has({ role: 'captain' }) && !has({ role: 'super_admin' })) {
+      return (
+        <div className='flex h-full flex-col items-center justify-center gap-4 text-center'>
+          <ShieldAlert className='h-16 w-16 text-destructive' />
+          <h2 className='text-2xl font-bold'>Access Denied</h2>
+          <p className='text-muted-foreground'>
+            You do not have permission to view this page.
+          </p>
+        </div>
+      )
+    }
   }
 
   // Group items by table
