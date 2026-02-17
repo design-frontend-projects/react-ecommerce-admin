@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '@clerk/clerk-react'
 import { Plus, Search, Shield, User } from 'lucide-react'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
@@ -26,11 +27,10 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useCreateUser, useUpdateUser } from '../api/mutations'
 import { useEmployees } from '../api/queries'
 import { UserDialog } from '../components/user-dialog'
-import { useResposAuth } from '../hooks'
 import type { ResEmployeeWithRoles } from '../types'
 
 export function UserManagement() {
-  const { isAdmin } = useResposAuth()
+  const { has, isLoaded, isSignedIn } = useAuth()
   const { data: employees, isLoading } = useEmployees()
   const [searchQuery, setSearchQuery] = useState('')
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false)
@@ -54,8 +54,7 @@ export function UserManagement() {
       toast.success('User created successfully')
       setIsUserDialogOpen(false)
     } catch (error) {
-      toast.error('Failed to create user')
-      console.error(error)
+      toast.error(`Failed to create user, ${(error as Error).message}`)
     }
   }
 
@@ -66,8 +65,7 @@ export function UserManagement() {
       setIsUserDialogOpen(false)
       setSelectedUser(null)
     } catch (error) {
-      toast.error('Failed to update user')
-      console.error(error)
+      toast.error(`Failed to update user, ${(error as Error).message}`)
     }
   }
 
@@ -76,7 +74,18 @@ export function UserManagement() {
     setIsUserDialogOpen(true)
   }
 
-  if (!isAdmin) {
+  if (!isSignedIn && !isLoaded) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-center'>
+          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+        </div>
+      </div>
+    )
+  }
+
+  if (!has({ role: 'admin' }) || !has({ role: 'super_admin' })) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>

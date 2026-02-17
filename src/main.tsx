@@ -11,6 +11,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
+import { PwaUpdatePrompt } from './components/pwa-update-prompt'
 // import i18n (needs to be bundled ;))
 import './config/i18n'
 import { DirectionProvider } from './context/direction-provider'
@@ -108,6 +109,7 @@ if (!rootElement.innerHTML) {
           <ThemeProvider>
             <FontProvider>
               <DirectionProvider>
+                <PwaUpdatePrompt />
                 <RouterProvider router={router} />
               </DirectionProvider>
             </FontProvider>
