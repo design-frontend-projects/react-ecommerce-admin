@@ -127,6 +127,12 @@ export const sidebarData: SidebarData = {
           icon: Timer,
         },
         {
+          title: 'Cashier Checkout',
+          url: '/respos/cashier',
+          icon: CreditCard,
+          // roles: ['cashier', 'admin', 'super_admin'],
+        },
+        {
           title: 'Payments',
           url: '/respos/payments',
           icon: CreditCard,
@@ -134,7 +140,7 @@ export const sidebarData: SidebarData = {
         },
         // Admin only
         {
-          title: 'Users',
+          title: 'Users & Roles',
           url: '/respos/users',
           icon: Users,
           // roles: ['admin', 'super_admin'],

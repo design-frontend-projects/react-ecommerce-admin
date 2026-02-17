@@ -60,6 +60,7 @@ import { Route as AuthenticatedResposNotificationsRouteImport } from './routes/_
 import { Route as AuthenticatedResposMenuRouteImport } from './routes/_authenticated/respos/menu'
 import { Route as AuthenticatedResposKitchenRouteImport } from './routes/_authenticated/respos/kitchen'
 import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authenticated/respos/floors'
+import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
@@ -344,6 +345,12 @@ const AuthenticatedResposFloorsRoute =
     path: '/respos/floors',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedResposCashierRoute =
+  AuthenticatedResposCashierRouteImport.update({
+    id: '/respos/cashier',
+    path: '/respos/cashier',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposCaptainRoute =
   AuthenticatedResposCaptainRouteImport.update({
     id: '/respos/captain',
@@ -399,6 +406,7 @@ export interface FileRoutesByFullPath {
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
+  '/respos/cashier': typeof AuthenticatedResposCashierRoute
   '/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -452,6 +460,7 @@ export interface FileRoutesByTo {
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
+  '/respos/cashier': typeof AuthenticatedResposCashierRoute
   '/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -510,6 +519,7 @@ export interface FileRoutesById {
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
+  '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
   '/_authenticated/respos/floors': typeof AuthenticatedResposFloorsRoute
   '/_authenticated/respos/kitchen': typeof AuthenticatedResposKitchenRoute
   '/_authenticated/respos/menu': typeof AuthenticatedResposMenuRoute
@@ -566,6 +576,7 @@ export interface FileRouteTypes {
     | '/errors/$error'
     | '/respos/analytics'
     | '/respos/captain'
+    | '/respos/cashier'
     | '/respos/floors'
     | '/respos/kitchen'
     | '/respos/menu'
@@ -619,6 +630,7 @@ export interface FileRouteTypes {
     | '/errors/$error'
     | '/respos/analytics'
     | '/respos/captain'
+    | '/respos/cashier'
     | '/respos/floors'
     | '/respos/kitchen'
     | '/respos/menu'
@@ -676,6 +688,7 @@ export interface FileRouteTypes {
     | '/_authenticated/errors/$error'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
+    | '/_authenticated/respos/cashier'
     | '/_authenticated/respos/floors'
     | '/_authenticated/respos/kitchen'
     | '/_authenticated/respos/menu'
@@ -1076,6 +1089,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposFloorsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/respos/cashier': {
+      id: '/_authenticated/respos/cashier'
+      path: '/respos/cashier'
+      fullPath: '/respos/cashier'
+      preLoaderRoute: typeof AuthenticatedResposCashierRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/captain': {
       id: '/_authenticated/respos/captain'
       path: '/respos/captain'
@@ -1148,6 +1168,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
+  AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
   AuthenticatedResposFloorsRoute: typeof AuthenticatedResposFloorsRoute
   AuthenticatedResposKitchenRoute: typeof AuthenticatedResposKitchenRoute
   AuthenticatedResposMenuRoute: typeof AuthenticatedResposMenuRoute
@@ -1183,6 +1204,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
+  AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,
   AuthenticatedResposFloorsRoute: AuthenticatedResposFloorsRoute,
   AuthenticatedResposKitchenRoute: AuthenticatedResposKitchenRoute,
   AuthenticatedResposMenuRoute: AuthenticatedResposMenuRoute,
