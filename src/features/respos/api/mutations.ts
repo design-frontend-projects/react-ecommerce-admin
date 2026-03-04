@@ -1552,3 +1552,79 @@ export function useUpdateUser() {
     },
   })
 }
+
+// ============ Role Mutations (Admin) ============
+
+export function useCreateRole() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      name,
+      display_name,
+      permissions,
+    }: {
+      name: string
+      display_name: string
+      permissions: string[]
+    }) => {
+      const { data, error } = await supabase
+        .from('res_roles')
+        .insert({ name, display_name, permissions })
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.roles })
+    },
+  })
+}
+
+export function useUpdateRole() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      name,
+      display_name,
+      permissions,
+    }: {
+      id: string
+      name: string
+      display_name: string
+      permissions: string[]
+    }) => {
+      const { data, error } = await supabase
+        .from('res_roles')
+        .update({ name, display_name, permissions })
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.roles })
+    },
+  })
+}
+
+export function useDeleteRole() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('res_roles').delete().eq('id', id)
+
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.roles })
+    },
+  })
+}

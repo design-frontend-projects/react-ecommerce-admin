@@ -8,7 +8,6 @@ import {
   Home,
   LayoutGrid,
   Loader2,
-  Lock,
   Minus,
   Plus,
   Receipt,
@@ -31,7 +30,6 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useAddOrderItems, useCreateOrder } from '../api/mutations'
 import {
   useActiveOrderByTable,
-  useEmployees,
   useFloors,
   useMenuCategories,
   useMenuItemsWithDetails,
@@ -96,7 +94,7 @@ export function POSScreen() {
   const { data: menuItems, isLoading: itemsLoading } = useMenuItemsWithDetails()
 
   const { has, isLoaded, isSignedIn } = useAuth()
-  const { data: employees, isLoading } = useEmployees()
+  // const { data: employees, isLoading } = useEmployees()
   // Store
   const {
     selectedFloorId,
