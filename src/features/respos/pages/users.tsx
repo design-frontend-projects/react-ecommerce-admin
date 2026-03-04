@@ -74,7 +74,7 @@ export function UserManagement() {
     setIsUserDialogOpen(true)
   }
 
-  if (!isSignedIn && !isLoaded) {
+  if (!isSignedIn || !isLoaded) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
@@ -85,7 +85,7 @@ export function UserManagement() {
     )
   }
 
-  if (!has({ role: 'admin' }) || !has({ role: 'super_admin' })) {
+  if (!has({ role: 'admin' }) && !has({ role: 'super_admin' })) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>

@@ -1,7 +1,7 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
 import { useState } from 'react'
-import { UserButton } from '@clerk/clerk-react'
+import { useAuth, UserButton } from '@clerk/clerk-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,
@@ -13,6 +13,7 @@ import {
   Plus,
   Receipt,
   Search,
+  Shield,
   ShoppingCart,
   Trash2,
   UtensilsCrossed,
@@ -30,6 +31,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useAddOrderItems, useCreateOrder } from '../api/mutations'
 import {
   useActiveOrderByTable,
+  useEmployees,
   useFloors,
   useMenuCategories,
   useMenuItemsWithDetails,
@@ -93,6 +95,8 @@ export function POSScreen() {
   const { data: categories, isLoading: categoriesLoading } = useMenuCategories()
   const { data: menuItems, isLoading: itemsLoading } = useMenuItemsWithDetails()
 
+  const { has, isLoaded, isSignedIn } = useAuth()
+  const { data: employees, isLoading } = useEmployees()
   // Store
   const {
     selectedFloorId,
@@ -206,23 +210,33 @@ export function POSScreen() {
     }
   }
 
-  if (!authLoading) {
-    if (!employee) {
-      return (
-        <div className='flex h-screen flex-col items-center justify-center gap-4 bg-muted/40'>
-          <div className='rounded-full bg-red-100 p-4 text-red-600'>
-            <Lock className='h-8 w-8' />
-          </div>
-          <h2 className='text-xl font-bold'>Access Restricted</h2>
-          <p className='max-w-md text-center text-muted-foreground'>
-            This terminal is restricted to authorized staff only.
-          </p>
-          <Button onClick={() => (window.location.href = '/')}>
-            Return to Dashboard
-          </Button>
+  if (!isSignedIn || !isLoaded) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-center'>
+          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
         </div>
-      )
-    }
+      </div>
+    )
+  }
+
+  if (
+    !has({ role: 'admin' }) &&
+    !has({ role: 'super_admin' }) &&
+    !has({ role: 'captain' })
+  ) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-center'>
+          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+          <p className='text-muted-foreground'>
+            You do not have permission to view this page.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   if (authLoading || isLoadingData) {

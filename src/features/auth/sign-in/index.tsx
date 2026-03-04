@@ -15,14 +15,17 @@ import { UserAuthForm } from './components/user-auth-form'
 
 export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, isLoaded } = useAuth()
   const navigate = useNavigate()
-
   useEffect(() => {
-    if (isSignedIn) {
+    if (isSignedIn && isLoaded) {
       navigate({ to: redirect || '/' })
     }
-  }, [isSignedIn, navigate, redirect])
+  }, [isSignedIn, isLoaded, navigate, redirect])
+
+  if (isSignedIn && isLoaded) {
+    return null
+  }
 
   return (
     <AuthLayout>

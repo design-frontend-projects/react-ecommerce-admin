@@ -111,6 +111,13 @@ export function canOpenShift(employee: ResEmployeeWithRoles | null): boolean {
 }
 
 /**
+ * Check if user is captain
+ */
+export function isCaptain(employee: ResEmployeeWithRoles | null): boolean {
+  return hasRole(employee, 'captain')
+}
+
+/**
  * Get all permissions for a role
  */
 export function getPermissionsForRole(roleName: RoleName): Permission[] {

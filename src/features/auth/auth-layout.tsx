@@ -17,7 +17,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
             <Logo className='h-full w-full' />
           </div>
           <h1 className='text-2xl font-bold tracking-tight text-foreground sm:text-3xl'>
-            Ecommerce admin
+            Bluewave POS
           </h1>
         </div>
         <div className='animate-in delay-150 duration-700 fade-in slide-in-from-bottom-4'>
