@@ -45,6 +45,7 @@ export interface ResEmployee {
   phone?: string
   avatar_url?: string
   pin_code?: string
+  id_number?: string
   is_active: boolean
   created_at: string
   updated_at: string

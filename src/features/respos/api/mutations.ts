@@ -1,6 +1,5 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { generateOrderNumber } from '../lib/formatters'
 import type {
@@ -1406,54 +1405,47 @@ export function useCreateUser() {
       firstName,
       lastName,
       email,
-      password,
       phone,
       pinCode,
+      idNumber,
       roles,
+      organizationId,
+      inviterUserId,
+      orgRole,
     }: {
       firstName: string
       lastName: string
       email: string
-      password?: string
       phone?: string
       pinCode?: string
+      idNumber?: string
       roles: string[]
+      organizationId: string
+      inviterUserId: string
+      orgRole?: string
     }) => {
-      // 1. Clerk User Creation (Client-side simulation)
-      // NOTE: In a real app, this should call a Secure Edge Function
+      // 1. Invite user to the organization via Clerk Backend SDK
+      const { clerkClient } = await import('../lib/clerk.server')
 
-      // 2. Generate/Use a ID (In real flow, this comes from Clerk)
-      // For now, we simulate an ID if not provided by backend logic
-      const userId = `user_${crypto.randomUUID().split('-')[0]}`
+      const invitation =
+        await clerkClient.organizations.createOrganizationInvitation({
+          organizationId,
+          inviterUserId,
+          emailAddress: email,
+          role: orgRole || 'org:member',
+        })
 
-      // 3. Create public.users record
-      // This might fail if RLS prevents client creation, but assuming admin has rights
-      const { error: userError } = await supabase.from('users').insert({
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        password: password || 'placeholder', // Should be hashed in backend
-        default_role: 'user', // Default
-        active: true,
-        inserted_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-
-      if (userError) {
-        toast.error(userError.message)
-        // Continue if it fails? Maybe user already exists.
-      }
-
-      // 4. Create res_employees record
+      // 2. Create res_employees record after invitation is sent
       const { data: employee, error: empError } = await supabase
         .from('res_employees')
         .insert({
-          user_id: userId,
+          user_id: invitation.id, // Temporary: replaced with real Clerk user ID when invite is accepted
           first_name: firstName,
           last_name: lastName,
           email,
           phone,
           pin_code: pinCode,
+          id_number: idNumber || null,
           is_active: true,
         })
         .select()
@@ -1461,7 +1453,7 @@ export function useCreateUser() {
 
       if (empError) throw empError
 
-      // 5. Assign Roles
+      // 3. Assign POS Roles
       if (roles.length > 0) {
         const roleAssignments = roles.map((roleId) => ({
           employee_id: employee.id,
@@ -1494,6 +1486,7 @@ export function useUpdateUser() {
       email,
       phone,
       pinCode,
+      idNumber,
       roles,
     }: {
       id: string
@@ -1502,9 +1495,27 @@ export function useUpdateUser() {
       email: string
       phone?: string
       pinCode?: string
+      idNumber?: string
       roles: string[]
     }) => {
-      // 1. Update res_employees
+      // 1. Get the employee record to retrieve the Clerk user_id
+      const { data: existing, error: fetchError } = await supabase
+        .from('res_employees')
+        .select('user_id')
+        .eq('id', id)
+        .single()
+
+      if (fetchError) throw fetchError
+
+      // 2. Update user in Clerk via Backend SDK
+      const { clerkClient } = await import('../lib/clerk.server')
+
+      await clerkClient.users.updateUser(existing.user_id, {
+        firstName,
+        lastName,
+      })
+
+      // 3. Update res_employees record
       const { data: employee, error: empError } = await supabase
         .from('res_employees')
         .update({
@@ -1513,6 +1524,7 @@ export function useUpdateUser() {
           email,
           phone,
           pin_code: pinCode,
+          id_number: idNumber || null,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
@@ -1521,8 +1533,7 @@ export function useUpdateUser() {
 
       if (empError) throw empError
 
-      // 2. Update Roles (Sync)
-      // First delete existing roles
+      // 4. Sync Roles — delete existing, insert new
       const { error: deleteError } = await supabase
         .from('res_employee_roles')
         .delete()
@@ -1530,7 +1541,6 @@ export function useUpdateUser() {
 
       if (deleteError) throw deleteError
 
-      // Then insert new roles
       if (roles.length > 0) {
         const roleAssignments = roles.map((roleId) => ({
           employee_id: id,
@@ -1548,7 +1558,6 @@ export function useUpdateUser() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
-      // Invalidate specific employee query if needed
     },
   })
 }
