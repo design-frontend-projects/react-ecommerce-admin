@@ -210,6 +210,12 @@ export const sidebarData: SidebarData = {
           icon: Package,
           roles: ['admin', 'super_admin'],
         },
+        {
+          title: 'Transactions',
+          url: '/transactions',
+          icon: Receipt,
+          roles: ['admin', 'super_admin'],
+        },
       ],
     },
     {
