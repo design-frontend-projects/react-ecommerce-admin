@@ -16,3 +16,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Create new module for point of sales for retail environments (supermarket, clothes shop, etc.) with barcode scanning, manual entry, discounts, refunds, reorders, and real-time shift analytics.**
 *Link: [./tracks/pos_module_20260308/](./tracks/pos_module_20260308/)*
+
+---
+
+- [ ] **Track: Multi-tenant SaaS transactions module suitable for inventory + e-commerce with strict tenant isolation and Clerk authentication.**
+*Link: [./tracks/transactions_module_20260308/](./tracks/transactions_module_20260308/)*
