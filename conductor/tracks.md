@@ -11,3 +11,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: create rbac module to manage restuarant users and manage thier roles and permissions using the current app structure**
   *Link: [./tracks/rbac_module_20260217/](./tracks/rbac_module_20260217/)*
+
+---
+
+- [ ] **Track: Create new module for point of sales for retail environments (supermarket, clothes shop, etc.) with barcode scanning, manual entry, discounts, refunds, reorders, and real-time shift analytics.**
+*Link: [./tracks/pos_module_20260308/](./tracks/pos_module_20260308/)*
