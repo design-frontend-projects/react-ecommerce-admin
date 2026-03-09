@@ -89,6 +89,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.89.0
         version: 2.89.0
+      '@syncfusion/ej2-react-barcode-generator':
+        specifier: ^32.2.3
+        version: 32.2.3
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(vite@7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0))
@@ -104,6 +107,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@yudiel/react-qr-scanner':
+        specifier: ^2.5.1
+        version: 2.5.1(@types/emscripten@1.41.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       axios:
         specifier: ^1.13.2
         version: 1.13.2
@@ -240,6 +246,9 @@ importers:
       globals:
         specifier: ^16.5.0
         version: 16.5.0
+      html5-qrcode:
+        specifier: ^2.3.8
+        version: 2.3.8
       jsdom:
         specifier: ^28.1.0
         version: 28.1.0
@@ -2284,6 +2293,25 @@ packages:
   '@swc/types@0.1.25':
     resolution: {integrity: sha512-iAoY/qRhNH8a/hBvm3zKj9qQ4oc2+3w1unPJa2XvTK3XjeLXtzcCingVPw/9e5mn1+0yPqxcBGp9Jf0pkfMb1g==}
 
+  '@syncfusion/ej2-barcode-generator@32.2.3':
+    resolution: {integrity: sha512-g6EW4W2kkGA5Adc80R/zCY5pHp98zUcf45b9XPDyTdbMqeV8KLZ6Omr4WAUXvPwtw2X7uqL445KhePlJ3r/FEg==}
+
+  '@syncfusion/ej2-base@32.2.6':
+    resolution: {integrity: sha512-H7L8WT0+o5oSo+CTGjSWj5H+UFkQSEgkC5YpLMZJ+/LkdVTrTnw+iuwdWwd8miNEualm12QmZf8RnXccHPfg9w==}
+    hasBin: true
+
+  '@syncfusion/ej2-data@32.2.3':
+    resolution: {integrity: sha512-5m/8v7MLl2m63QNj++oVh/It82pGdB1mL3M8rxTnKni3w5L4tWb78s5LNKEzvz4x8/lcaC3Kg5vnS8ZJqNOI2g==}
+
+  '@syncfusion/ej2-icons@32.2.3':
+    resolution: {integrity: sha512-bZn+4SWasVNRLB0C1Gt6Z4NAM1MDYIqU/uRlhAPJK9itPAvxo3buQAcrokm+3te6k39vxwFuNlMn0dFoI1zWuw==}
+
+  '@syncfusion/ej2-react-barcode-generator@32.2.3':
+    resolution: {integrity: sha512-ewsm0pMpWj/tTDtZTBbVBrBXSEA/urGaFQDPp5dkjON77kgaVH1bLqZSC4FOrNFPyHW3C+8rE8LgDyNCVbN0gA==}
+
+  '@syncfusion/ej2-react-base@32.2.3':
+    resolution: {integrity: sha512-xAh78u1v4QSce/KlDIcZiZmjiGwmEFIjWqFRAqI69YJ8vdfmrrITj9ybZiWYtcDXvsxgWAhOvX6uPE3neI3vqg==}
+
   '@tailwindcss/node@4.1.18':
     resolution: {integrity: sha512-DoR7U1P7iYhw16qJ49fgXUlry1t4CpXeErJHnQ44JgTSKMaZUdf17cfn5mHchfJ4KRBZRFA/Coo+MUF5+gOaCQ==}
 
@@ -2576,6 +2604,9 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
+  '@types/emscripten@1.41.5':
+    resolution: {integrity: sha512-cMQm7pxu6BxtHyqJ7mQZ2kXWV5SLmugybFdHCBbJ5eHzOo6VhBckEgAT3//rP5FwPHNPeEiq4SmQ5ucBwsOo4Q==}
+
   '@types/estree@0.0.39':
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
 
@@ -2710,6 +2741,12 @@ packages:
   '@vitest/utils@4.0.18':
     resolution: {integrity: sha512-msMRKLMVLWygpK3u2Hybgi4MNjcYJvwTb0Ru09+fOyCXIgT5raYP041DRRdiJiI3k/2U6SEbAETB3YtBrUkCFA==}
 
+  '@yudiel/react-qr-scanner@2.5.1':
+    resolution: {integrity: sha512-FWzHaCneu30mQpE80VNWx4IPtBjXFEiTzhwWunZy3afvvAy/x0aVIgYijJKEbROoaAeDfcJ/gIyUCqPBP7bMOw==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+      react-dom: ^17 || ^18 || ^19
+
   '@zxing/text-encoding@0.9.0':
     resolution: {integrity: sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==}
 
@@ -2821,6 +2858,9 @@ packages:
   balanced-match@4.0.2:
     resolution: {integrity: sha512-x0K50QvKQ97fdEz2kPehIerj+YTeptKF9hyYkKf6egnwmMWAkADiO0QCzSp0R5xN8FTZgYaBfSaue46Ej62nMg==}
     engines: {node: 20 || >=22}
+
+  barcode-detector@3.0.8:
+    resolution: {integrity: sha512-Z9jzzE8ngEDyN9EU7lWdGgV07mcnEQnrX8W9WecXDqD2v+5CcVjt9+a134a5zb+kICvpsrDx6NYA6ay4LGFs8A==}
 
   baseline-browser-mapping@2.9.11:
     resolution: {integrity: sha512-Sg0xJUNDU1sJNGdfGWhVHX0kkZ+HWcvmVymJbj6NSgZZmW/8S9Y2HQ5euytnIgakgxN6papOAWiwDo1ctFDcoQ==}
@@ -3552,6 +3592,9 @@ packages:
 
   html-parse-stringify@3.0.1:
     resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+
+  html5-qrcode@2.3.8:
+    resolution: {integrity: sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==}
 
   http-proxy-agent@7.0.2:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
@@ -4562,6 +4605,9 @@ packages:
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
+  sdp@3.2.1:
+    resolution: {integrity: sha512-lwsAIzOPlH8/7IIjjz3K0zYBk7aBVVcvjMwt3M4fLxpjMYyy7i3I97SLHebgn4YBjirkzfp3RvRDWSKsh/+WFw==}
+
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -4777,6 +4823,10 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
+  tagged-tag@1.0.0:
+    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
+    engines: {node: '>=20'}
+
   tailwind-merge@3.4.0:
     resolution: {integrity: sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==}
 
@@ -4877,6 +4927,10 @@ packages:
   type-fest@0.16.0:
     resolution: {integrity: sha512-eaBzG6MxNzEn9kiwvtre90cXaNLkmadMWa1zQMs3XORCXNbsH/OewwbxC5ia9dCxIxnTAsSxXJaa/p5y8DlvJg==}
     engines: {node: '>=10'}
+
+  type-fest@5.4.4:
+    resolution: {integrity: sha512-JnTrzGu+zPV3aXIUhnyWJj4z/wigMsdYajGLIYakqyOW1nPllzXEJee0QQbHj+CTIQtXGlAjuK0UY+2xTyjVAw==}
+    engines: {node: '>=20'}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -5114,6 +5168,10 @@ packages:
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
 
+  webrtc-adapter@9.0.3:
+    resolution: {integrity: sha512-5fALBcroIl31OeXAdd1YUntxiZl1eHlZZWzNg3U4Fn+J9/cGL3eT80YlrsWGvj2ojuz1rZr2OXkgCzIxAZ7vRQ==}
+    engines: {node: '>=6.0.0', npm: '>=3.10.0'}
+
   whatwg-mimetype@5.0.0:
     resolution: {integrity: sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==}
     engines: {node: '>=20'}
@@ -5273,6 +5331,11 @@ packages:
         optional: true
       use-sync-external-store:
         optional: true
+
+  zxing-wasm@2.2.4:
+    resolution: {integrity: sha512-1gq5zs4wuNTs5umWLypzNNeuJoluFvwmvjiiT3L9z/TMlVveeJRWy7h90xyUqCe+Qq0zL0w7o5zkdDMWDr9aZA==}
+    peerDependencies:
+      '@types/emscripten': '>=1.39.6'
 
 snapshots:
 
@@ -7341,6 +7404,31 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
+  '@syncfusion/ej2-barcode-generator@32.2.3':
+    dependencies:
+      '@syncfusion/ej2-base': 32.2.6
+      '@syncfusion/ej2-data': 32.2.3
+
+  '@syncfusion/ej2-base@32.2.6':
+    dependencies:
+      '@syncfusion/ej2-icons': 32.2.3
+
+  '@syncfusion/ej2-data@32.2.3':
+    dependencies:
+      '@syncfusion/ej2-base': 32.2.6
+
+  '@syncfusion/ej2-icons@32.2.3': {}
+
+  '@syncfusion/ej2-react-barcode-generator@32.2.3':
+    dependencies:
+      '@syncfusion/ej2-barcode-generator': 32.2.3
+      '@syncfusion/ej2-base': 32.2.6
+      '@syncfusion/ej2-react-base': 32.2.3
+
+  '@syncfusion/ej2-react-base@32.2.3':
+    dependencies:
+      '@syncfusion/ej2-base': 32.2.6
+
   '@tailwindcss/node@4.1.18':
     dependencies:
       '@jridgewell/remapping': 2.3.5
@@ -7624,6 +7712,8 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
+  '@types/emscripten@1.41.5': {}
+
   '@types/estree@0.0.39': {}
 
   '@types/estree@1.0.8': {}
@@ -7803,6 +7893,15 @@ snapshots:
       '@vitest/pretty-format': 4.0.18
       tinyrainbow: 3.0.3
 
+  '@yudiel/react-qr-scanner@2.5.1(@types/emscripten@1.41.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      barcode-detector: 3.0.8(@types/emscripten@1.41.5)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      webrtc-adapter: 9.0.3
+    transitivePeerDependencies:
+      - '@types/emscripten'
+
   '@zxing/text-encoding@0.9.0':
     optional: true
 
@@ -7928,6 +8027,12 @@ snapshots:
   balanced-match@4.0.2:
     dependencies:
       jackspeak: 4.2.3
+
+  barcode-detector@3.0.8(@types/emscripten@1.41.5):
+    dependencies:
+      zxing-wasm: 2.2.4(@types/emscripten@1.41.5)
+    transitivePeerDependencies:
+      - '@types/emscripten'
 
   baseline-browser-mapping@2.9.11: {}
 
@@ -8736,6 +8841,8 @@ snapshots:
   html-parse-stringify@3.0.1:
     dependencies:
       void-elements: 3.1.0
+
+  html5-qrcode@2.3.8: {}
 
   http-proxy-agent@7.0.2:
     dependencies:
@@ -9697,6 +9804,8 @@ snapshots:
 
   scheduler@0.27.0: {}
 
+  sdp@3.2.1: {}
+
   semver@6.3.1: {}
 
   semver@7.7.3: {}
@@ -9920,6 +10029,8 @@ snapshots:
 
   symbol-tree@3.2.4: {}
 
+  tagged-tag@1.0.0: {}
+
   tailwind-merge@3.4.0: {}
 
   tailwindcss@4.1.18: {}
@@ -10007,6 +10118,10 @@ snapshots:
       prelude-ls: 1.2.1
 
   type-fest@0.16.0: {}
+
+  type-fest@5.4.4:
+    dependencies:
+      tagged-tag: 1.0.0
 
   typed-array-buffer@1.0.3:
     dependencies:
@@ -10239,6 +10354,10 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
+  webrtc-adapter@9.0.3:
+    dependencies:
+      sdp: 3.2.1
+
   whatwg-mimetype@5.0.0: {}
 
   whatwg-url@16.0.0:
@@ -10461,3 +10580,8 @@ snapshots:
       immer: 11.1.0
       react: 19.2.3
       use-sync-external-store: 1.6.0(react@19.2.3)
+
+  zxing-wasm@2.2.4(@types/emscripten@1.41.5):
+    dependencies:
+      '@types/emscripten': 1.41.5
+      type-fest: 5.4.4
