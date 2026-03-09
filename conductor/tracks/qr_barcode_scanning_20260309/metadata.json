@@ -1,0 +1,8 @@
+{
+  "track_id": "qr_barcode_scanning_20260309",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-09T14:15:00Z",
+  "updated_at": "2026-03-09T14:15:00Z",
+  "description": "add qrcode reader or barcode with @yudiel/react-qr-scanner and add feature in products page to generate barcode image automatically for the product @src/features/products/index.tsx barcode field @syncfusion/ej2-react-barcode-generator also allow search when qrcode or barcode scanned for the item in database in pos page @src/features/pos/index.ts"
+}

@@ -21,3 +21,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Multi-tenant SaaS transactions module suitable for inventory + e-commerce with strict tenant isolation and Clerk authentication.**
 *Link: [./tracks/transactions_module_20260308/](./tracks/transactions_module_20260308/)*
+
+---
+
+- [ ] **Track: add qrcode reader or barcode with @yudiel/react-qr-scanner and add feature in products page to generate barcode image automatically for the product @src/features/products/index.tsx barcode field @syncfusion/ej2-react-barcode-generator also allow search when qrcode or barcode scanned for the item in database in pos page @src/features/pos/index.ts**
+*Link: [./tracks/qr_barcode_scanning_20260309/](./tracks/qr_barcode_scanning_20260309/)*
