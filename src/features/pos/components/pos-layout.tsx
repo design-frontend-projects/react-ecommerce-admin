@@ -6,6 +6,7 @@ import {
   Loader2,
   LayoutDashboard,
   ShoppingCart,
+  Scan,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { getPosProducts } from '../data/api'
 import { useBasket } from '../store/use-basket'
 import { BarcodeScannerListener } from './barcode-scanner-listener'
@@ -24,6 +26,7 @@ export function PosLayout() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeTab, setActiveTab] = useState('checkout')
   const [isManualSkuOpen, setIsManualSkuOpen] = useState(false)
+  const [isScannerOpen, setIsScannerOpen] = useState(false)
   const { addItem } = useBasket()
 
   const { data: products, isLoading } = useQuery({
@@ -75,6 +78,12 @@ export function PosLayout() {
   return (
     <div className='flex h-[calc(100vh-4rem)] flex-col bg-muted/20 p-4'>
       <BarcodeScannerListener onScan={handleScan} />
+      <QRCodeScanner
+        open={isScannerOpen}
+        onOpenChange={setIsScannerOpen}
+        onScan={handleScan}
+        allowMultiple
+      />
 
       <Tabs
         value={activeTab}
@@ -111,6 +120,14 @@ export function PosLayout() {
               >
                 <Keyboard className='mr-2 h-4 w-4' />
                 Manual SKU
+              </Button>
+              <Button
+                variant='outline'
+                className='h-10 px-4'
+                onClick={() => setIsScannerOpen(true)}
+              >
+                <Scan className='mr-2 h-4 w-4' />
+                Scan
               </Button>
             </div>
           )}

@@ -1,0 +1,8 @@
+{
+  "track_id": "pos_responsive_20260309",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-09T14:30:00Z",
+  "updated_at": "2026-03-09T14:30:00Z",
+  "description": "Enhance responsiveness for @src/features/pos screens (mobile, tablet, desktop). Toggleable search field on small screens, minimized scan dialog option, and toggled basket drawer."
+}

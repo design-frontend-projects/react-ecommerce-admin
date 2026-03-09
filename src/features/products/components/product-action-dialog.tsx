@@ -1,8 +1,8 @@
-'use client'
-
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Scan as LucideScan } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -31,7 +31,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { productSchema, type Product } from '../data/schema'
+import { BarcodeDisplay } from './barcode-display'
 
 interface Props {
   currentRow?: Product
@@ -42,6 +44,7 @@ interface Props {
 export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isEdit = !!currentRow
   const queryClient = useQueryClient()
+  const [isScannerOpen, setIsScannerOpen] = useState(false)
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -162,13 +165,41 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Barcode</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Optional'
-                        {...field}
-                        value={field.value || ''}
-                      />
-                    </FormControl>
+                    <div className='flex gap-2'>
+                      <FormControl>
+                        <Input
+                          placeholder='Optional'
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+                      <Button
+                        type='button'
+                        variant='outline'
+                        size='icon'
+                        title='Scan Barcode'
+                        onClick={() => setIsScannerOpen(true)}
+                      >
+                        <LucideScan className='h-4 w-4' />
+                      </Button>
+                    </div>
+
+                    <QRCodeScanner
+                      open={isScannerOpen}
+                      onOpenChange={setIsScannerOpen}
+                      onScan={(data: string) => {
+                        field.onChange(data)
+                        setIsScannerOpen(false)
+                      }}
+                    />
+                    {field.value && (
+                      <div className='mt-2'>
+                        <BarcodeDisplay
+                          value={field.value}
+                          type={field.value.length > 20 ? 'qrcode' : 'barcode'}
+                        />
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}

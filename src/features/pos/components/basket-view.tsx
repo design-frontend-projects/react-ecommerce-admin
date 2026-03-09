@@ -111,7 +111,7 @@ export function BasketView() {
 
       <ScrollArea className='flex-1 p-4'>
         {items.length === 0 ? (
-          <div className='flex h-full items-center justify-center py-20 text-muted-foreground'>
+          <div className='flex h-full items-center justify-center py-20 text-slate-500'>
             Basket is empty. Scan an item.
           </div>
         ) : (
@@ -144,7 +144,7 @@ export function BasketView() {
                       updateQuantity(item.productId, item.quantity - 1)
                     }
                   >
-                    <Minus className='h-4 w-4' />
+                    <Minus className='h-4 w-4 text-slate-500' />
                   </Button>
                   <span className='w-6 text-center tabular-nums'>
                     {item.quantity}
@@ -157,7 +157,7 @@ export function BasketView() {
                       updateQuantity(item.productId, item.quantity + 1)
                     }
                   >
-                    <Plus className='h-4 w-4' />
+                    <Plus className='h-4 w-4 text-slate-500' />
                   </Button>
                   <Button
                     variant='ghost'
@@ -165,10 +165,10 @@ export function BasketView() {
                     className='ml-2 h-8 w-8 text-destructive'
                     onClick={() => removeItem(item.productId)}
                   >
-                    <Trash2 className='h-4 w-4' />
+                    <Trash2 className='h-4 w-4 text-red-500' />
                   </Button>
                 </div>
-                <div className='w-20 text-right font-medium tabular-nums'>
+                <div className='w-20 text-right font-medium text-slate-800 tabular-nums'>
                   {formatCurrency(item.total)}
                 </div>
               </li>

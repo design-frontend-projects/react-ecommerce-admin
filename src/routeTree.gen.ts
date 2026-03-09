@@ -38,9 +38,11 @@ import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_
 import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
+import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
+import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
@@ -218,6 +220,12 @@ const AuthenticatedAppsRouteRoute = AuthenticatedAppsRouteRouteImport.update({
   path: '/apps',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTransactionsIndexRoute =
+  AuthenticatedTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -236,6 +244,11 @@ const AuthenticatedProductsIndexRoute =
     path: '/products/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPosIndexRoute = AuthenticatedPosIndexRouteImport.update({
+  id: '/pos/',
+  path: '/pos/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedInventoryIndexRoute =
   AuthenticatedInventoryIndexRouteImport.update({
     id: '/inventory/',
@@ -426,9 +439,11 @@ export interface FileRoutesByFullPath {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
+  '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRoutesByTo {
@@ -480,9 +495,11 @@ export interface FileRoutesByTo {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
+  '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRoutesById {
@@ -539,9 +556,11 @@ export interface FileRoutesById {
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 export interface FileRouteTypes {
@@ -596,9 +615,11 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/chats'
     | '/inventory'
+    | '/pos'
     | '/products'
     | '/respos'
     | '/settings/'
+    | '/transactions'
     | '/respos/invoice/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -650,9 +671,11 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/chats'
     | '/inventory'
+    | '/pos'
     | '/products'
     | '/respos'
     | '/settings'
+    | '/transactions'
     | '/respos/invoice/$orderId'
   id:
     | '__root__'
@@ -708,9 +731,11 @@ export interface FileRouteTypes {
     | '/clerk/_authenticated/user-management'
     | '/_authenticated/chats/'
     | '/_authenticated/inventory/'
+    | '/_authenticated/pos/'
     | '/_authenticated/products/'
     | '/_authenticated/respos/'
     | '/_authenticated/settings/'
+    | '/_authenticated/transactions/'
     | '/_authenticated/respos/invoice/$orderId'
   fileRoutesById: FileRoutesById
 }
@@ -935,6 +960,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/transactions/': {
+      id: '/_authenticated/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/'
@@ -954,6 +986,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof AuthenticatedProductsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pos/': {
+      id: '/_authenticated/pos/'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof AuthenticatedPosIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory/': {
@@ -1181,8 +1220,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposUsersRoute: typeof AuthenticatedResposUsersRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
+  AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 
@@ -1217,8 +1258,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposUsersRoute: AuthenticatedResposUsersRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
+  AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,
 }
