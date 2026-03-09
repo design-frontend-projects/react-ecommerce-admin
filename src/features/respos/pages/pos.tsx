@@ -700,7 +700,7 @@ function OrderPanel({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ duration: 0.2 }}
-                    className='group relative rounded-3xl border-2 border-orange-500/10 bg-orange-500/[0.02] p-4 shadow-sm transition-all hover:border-orange-500/20'
+                    className='group relative rounded-3xl border-2 border-orange-500/10 bg-orange-500/5 p-4 shadow-sm transition-all hover:border-orange-500/20'
                   >
                     <div className='flex items-start justify-between gap-4'>
                       <div className='min-w-0 flex-1'>

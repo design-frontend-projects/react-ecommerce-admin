@@ -1,8 +1,8 @@
 import { format } from 'date-fns'
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
-import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { TransactionRow } from '../data/schema'
+import { DataTableColumnHeader } from '@/components/data-table'
+import { type TransactionRow } from '../data/schema'
 
 export const columns: ColumnDef<TransactionRow>[] = [
   {

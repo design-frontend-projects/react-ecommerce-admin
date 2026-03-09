@@ -5,6 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function formatCurrency(
+  amount: number | string | null | undefined
+): string {
+  if (amount === null || amount === undefined) return '$0.00'
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount
+  if (isNaN(numericAmount)) return '$0.00'
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(numericAmount)
+}
+
 export function sleep(ms: number = 1000) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }

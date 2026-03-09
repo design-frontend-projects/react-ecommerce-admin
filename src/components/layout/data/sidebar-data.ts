@@ -57,6 +57,12 @@ export const sidebarData: SidebarData = {
           icon: LayoutDashboard,
         },
         {
+          title: 'POS System',
+          url: '/pos',
+          icon: Receipt,
+          roles: ['admin', 'super_admin'],
+        },
+        {
           title: 'Products',
           url: '/products',
           icon: Package,
