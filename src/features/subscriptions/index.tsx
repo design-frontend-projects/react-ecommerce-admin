@@ -7,6 +7,7 @@ import { ConfigDrawer } from '@/components/config-drawer';
 import { ProfileDropdown } from '@/components/profile-dropdown';
 import { SubscriptionAssignment } from './components/subscription-assignment';
 import { TenantSubscriptionList } from './components/tenant-subscription-list';
+import { SubscriptionStats } from './components/subscription-stats';
 
 export function SubscriptionsFeature() {
   return (
@@ -30,6 +31,8 @@ export function SubscriptionsFeature() {
           </div>
           <SubscriptionAssignment />
         </div>
+        
+        <SubscriptionStats />
         
         <TenantSubscriptionList />
       </Main>

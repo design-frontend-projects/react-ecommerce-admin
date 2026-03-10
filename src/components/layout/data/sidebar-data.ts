@@ -68,6 +68,12 @@ export const sidebarData: SidebarData = {
           icon: Package,
           roles: ['admin', 'super_admin'],
         },
+        {
+          title: 'Subscriptions',
+          url: '/subscriptions',
+          icon: CreditCard,
+          roles: ['super_admin'],
+        },
       ],
     },
     {
