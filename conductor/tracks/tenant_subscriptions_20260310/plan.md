@@ -1,6 +1,6 @@
 # Implementation Plan: Tenant Subscriptions Management
 
-## Phase 1: Database Schema & Backend Core
+## Phase 1: Database Schema & Backend Core [checkpoint: 0bb2339]
 - [x] Task: Define Prisma Models for Subscriptions (f1a2b3c)
     - [x] Write unit tests for subscription model validation.
     - [x] Add `subscriptions` and `tenant_subscriptions` models to `schema.prisma`.
@@ -8,7 +8,7 @@
 - [x] Task: Implement Subscription Business Logic (d4e5f6g)
     - [x] Write unit tests for `end_date` calculation based on plan duration.
     - [x] Implement utility functions for creating/updating tenant subscriptions with status validation.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Backend Core' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Backend Core' (0bb2339)
 
 ## Phase 2: Clerk Integration & User Assignment
 - [ ] Task: Implement Clerk User Service
