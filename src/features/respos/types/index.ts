@@ -197,7 +197,7 @@ export interface ResOrder {
   discount_amount: number
   discount_type?: string
   promo_discount_amount: number
-  promotion_id?: string
+  promotion_id?: number
   tax_amount: number
   tip_amount: number
   total_amount: number

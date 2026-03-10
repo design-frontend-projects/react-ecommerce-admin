@@ -550,15 +550,41 @@ function OrderPanel({
   onRemoveItem,
   selectedTable,
 }: OrderPanelProps) {
+  const {
+    setManualDiscount,
+    applyPromoCode,
+    removePromoCode,
+    setCustomerMobile,
+    setPaymentMethod,
+    setReceivedAmount,
+  } = useResposStore()
+
+  const [promoInput, setPromoInput] = useState('')
+  const [isApplyingPromo, setIsApplyingPromo] = useState(false)
+
   const activeTotal = activeOrder?.total_amount || 0
 
   // Cart breakdown
   const cartSubtotal = cart.subtotal || 0
   const cartTax = cart.taxAmount || 0
-  const cartDiscount = cart.discountAmount || 0
+  const manualDiscount = cart.manualDiscountAmount || 0
+  const promoDiscount = cart.promoDiscountAmount || 0
   const cartTip = cart.tipAmount || 0
   const cartTotal = cart.total || 0
   const grandTotal = activeTotal + cartTotal
+
+  const handleApplyPromo = async () => {
+    if (!promoInput.trim()) return
+    setIsApplyingPromo(true)
+    const result = await applyPromoCode(promoInput)
+    setIsApplyingPromo(false)
+    if (result.success) {
+      toast.success('Promo code applied!')
+      setPromoInput('')
+    } else {
+      toast.error(result.error || 'Invalid promo code')
+    }
+  }
 
   if (!selectedTable) {
     return (
@@ -791,6 +817,145 @@ function OrderPanel({
             </div>
           )
         )}
+
+        {/* Enhanced Checkout Section */}
+        <div className='mt-4 space-y-6 pb-10'>
+          {/* Customer Info */}
+          <div className='space-y-3'>
+            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+              Customer Information
+            </span>
+            <Input
+              placeholder='Mobile Number'
+              className='h-12 rounded-2xl'
+              value={cart.customerMobile || ''}
+              onChange={(e) => setCustomerMobile(e.target.value)}
+            />
+          </div>
+
+          {/* Discounts */}
+          <div className='space-y-3'>
+            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+              Discounts
+            </span>
+            <div className='flex gap-2'>
+              <div className='relative flex-1'>
+                <Input
+                  placeholder='Manual Discount'
+                  type='number'
+                  className='h-12 rounded-2xl pr-12'
+                  value={cart.manualDiscountAmount || ''}
+                  onChange={(e) =>
+                    setManualDiscount(
+                      Number(e.target.value),
+                      cart.manualDiscountType
+                    )
+                  }
+                />
+                <Button
+                  variant='ghost'
+                  size='sm'
+                  className='absolute top-1 right-1 h-10 w-10 rounded-xl font-bold'
+                  onClick={() =>
+                    setManualDiscount(
+                      cart.manualDiscountAmount,
+                      cart.manualDiscountType === 'percentage'
+                        ? 'fixed'
+                        : 'percentage'
+                    )
+                  }
+                >
+                  {cart.manualDiscountType === 'percentage' ? '%' : '$'}
+                </Button>
+              </div>
+            </div>
+
+            <div className='flex gap-2'>
+              <Input
+                placeholder='Promo Code'
+                className='h-12 rounded-2xl uppercase'
+                value={promoInput}
+                onChange={(e) => setPromoInput(e.target.value)}
+                disabled={!!cart.promoCode}
+              />
+              {cart.promoCode ? (
+                <Button
+                  variant='destructive'
+                  className='h-12 w-12 shrink-0 rounded-2xl'
+                  onClick={removePromoCode}
+                >
+                  <X className='h-5 w-5' />
+                </Button>
+              ) : (
+                <Button
+                  variant='outline'
+                  className='h-12 px-4 shrink-0 rounded-2xl font-bold'
+                  onClick={handleApplyPromo}
+                  disabled={isApplyingPromo || !promoInput.trim()}
+                >
+                  {isApplyingPromo ? (
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                  ) : (
+                    'Apply'
+                  )}
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Payment Method */}
+          <div className='space-y-3'>
+            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+              Payment Method
+            </span>
+            <div className='grid grid-cols-2 gap-2'>
+              {['Cash', 'Visa', 'NFC', 'QR Code'].map((method) => (
+                <Button
+                  key={method}
+                  variant={cart.paymentMethod === method ? 'default' : 'outline'}
+                  className={cn(
+                    'h-12 rounded-2xl font-bold transition-all',
+                    cart.paymentMethod === method &&
+                      'bg-orange-600 text-white shadow-lg shadow-orange-600/20'
+                  )}
+                  onClick={() => setPaymentMethod(method)}
+                >
+                  {method}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Cash Handling */}
+          {cart.paymentMethod === 'Cash' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className='space-y-3'
+            >
+              <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+                Cash Received
+              </span>
+              <div className='grid grid-cols-2 gap-4'>
+                <Input
+                  placeholder='Amount Received'
+                  type='number'
+                  className='h-12 rounded-2xl'
+                  value={cart.receivedAmount || ''}
+                  onChange={(e) => setReceivedAmount(Number(e.target.value))}
+                />
+                <div className='flex h-12 items-center justify-between rounded-2xl bg-emerald-500/10 px-4 ring-1 ring-emerald-500/20'>
+                  <span className='text-[10px] font-black text-emerald-600 uppercase'>
+                    Change
+                  </span>
+                  <span className='font-black text-emerald-600'>
+                    {formatCurrency(cart.changeAmount)}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
       </ScrollArea>
 
       {/* Order Footer */}
@@ -800,6 +965,23 @@ function OrderPanel({
             <span>Subtotal</span>
             <span>{formatCurrency(cartSubtotal + activeTotal)}</span>
           </div>
+          {manualDiscount > 0 && (
+            <div className='flex justify-between text-xs font-bold tracking-wider text-orange-600 uppercase'>
+              <span>Manual Discount</span>
+              <span>
+                -{' '}
+                {cart.manualDiscountType === 'percentage'
+                  ? `${cart.manualDiscountAmount}%`
+                  : formatCurrency(manualDiscount)}
+              </span>
+            </div>
+          )}
+          {promoDiscount > 0 && (
+            <div className='flex justify-between text-xs font-bold tracking-wider text-orange-600 uppercase'>
+              <span>Promo ({cart.promoCode})</span>
+              <span>- {formatCurrency(promoDiscount)}</span>
+            </div>
+          )}
           <div className='flex justify-between text-xs font-bold tracking-wider text-muted-foreground uppercase'>
             <span>Service & Tax</span>
             <span>{formatCurrency(cartTax)}</span>
@@ -810,7 +992,7 @@ function OrderPanel({
               Total Amount
             </span>
             <span className='text-3xl font-black tracking-tighter text-orange-600 dark:text-orange-400'>
-              {formatCurrency(grandTotal - cartDiscount + cartTip)}
+              {formatCurrency(cartTotal + activeTotal)}
             </span>
           </div>
         </div>

@@ -215,6 +215,11 @@ export function useUpdateOrderStatus() {
       discountAmount,
       discountType,
       customerName,
+      mobileNumber,
+      promotionId,
+      promoDiscountAmount,
+      receivedAmount,
+      changeAmount,
     }: {
       orderId: string
       status: OrderStatus
@@ -223,6 +228,11 @@ export function useUpdateOrderStatus() {
       discountAmount?: number
       discountType?: string
       customerName?: string
+      mobileNumber?: string
+      promotionId?: number
+      promoDiscountAmount?: number
+      receivedAmount?: number
+      changeAmount?: number
     }) => {
       interface OrderUpdate {
         status: OrderStatus
@@ -233,6 +243,11 @@ export function useUpdateOrderStatus() {
         discount_type?: string
         paid_at?: string
         customer_name?: string
+        mobile_number?: string
+        promotion_id?: number
+        promo_discount_amount?: number
+        received_amount?: number
+        change_amount?: number
       }
 
       const updates: OrderUpdate = {
@@ -241,10 +256,15 @@ export function useUpdateOrderStatus() {
       }
 
       if (customerName) updates.customer_name = customerName
+      if (mobileNumber !== undefined) updates.mobile_number = mobileNumber
       if (paymentMethod) updates.payment_method = paymentMethod
       if (tipAmount !== undefined) updates.tip_amount = tipAmount
       if (discountAmount !== undefined) updates.discount_amount = discountAmount
       if (discountType) updates.discount_type = discountType
+      if (promotionId) updates.promotion_id = promotionId
+      if (promoDiscountAmount !== undefined) updates.promo_discount_amount = promoDiscountAmount
+      if (receivedAmount !== undefined) updates.received_amount = receivedAmount
+      if (changeAmount !== undefined) updates.change_amount = changeAmount
       if (status === 'paid') updates.paid_at = new Date().toISOString()
 
       const { data, error } = await supabase
@@ -265,6 +285,28 @@ export function useUpdateOrderStatus() {
       queryClient.invalidateQueries({
         queryKey: resposQueryKeys.dashboardStats,
       })
+    },
+  })
+}
+
+export function useRecordPromotionUsage() {
+  return useMutation({
+    mutationFn: async ({
+      promotionId,
+      orderId,
+    }: {
+      promotionId: number
+      orderId: string
+    }) => {
+      // Record usage log
+      const { data, error } = await supabase
+        .from('promotion_usage')
+        .insert({ promotion_id: promotionId, res_order_id: orderId })
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
     },
   })
 }

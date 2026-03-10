@@ -233,12 +233,14 @@ model promotion_usage {
   sale_id        Int?
   used_at        DateTime?     @default(now()) @db.Timestamp(6)
   order_id       Int?
+  res_order_id   String?       @db.Uuid
   transaction_id String?       @db.Uuid
   customers      customers?    @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
   orders         orders?       @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
   promotions     promotions    @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
   pos_sales      pos_sales?    @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
   transactions   transactions? @relation(fields: [transaction_id], references: [id], onUpdate: NoAction)
+  res_orders     res_orders?   @relation(fields: [res_order_id], references: [id], onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -261,6 +263,7 @@ model promotions {
   pos_sales          pos_sales[]
   promotion_usage    promotion_usage[]
   transactions       transactions[]
+  res_orders         res_orders[]
 
   @@index([start_date, end_date], map: "idx_promotions_active_dates", where: raw("(is_active = true)"))
   @@index([code], map: "idx_promotions_code")
@@ -489,29 +492,36 @@ model res_order_items {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_orders {
-  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  order_number      String              @unique @db.VarChar(20)
-  table_id          String?             @db.Uuid
-  shift_id          String?             @db.Uuid
-  created_by        String?             @db.Uuid
-  customer_name     String?             @db.VarChar(200)
-  status            String?             @default("open") @db.VarChar(30)
-  subtotal          Decimal?            @default(0) @db.Decimal(10, 2)
-  discount_amount   Decimal?            @default(0) @db.Decimal(10, 2)
-  discount_type     String?             @db.VarChar(20)
-  tax_amount        Decimal?            @default(0) @db.Decimal(10, 2)
-  tip_amount        Decimal?            @default(0) @db.Decimal(10, 2)
-  total_amount      Decimal?            @default(0) @db.Decimal(10, 2)
-  payment_method    String?             @db.VarChar(50)
-  paid_at           DateTime?           @db.Timestamptz(6)
-  notes             String?
-  created_at        DateTime?           @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime?           @default(now()) @db.Timestamptz(6)
-  res_order_items   res_order_items[]
-  res_employees     res_employees?      @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_shifts        res_shifts?         @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_tables        res_tables?         @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_void_requests res_void_requests[]
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  order_number          String              @unique @db.VarChar(20)
+  table_id              String?             @db.Uuid
+  shift_id              String?             @db.Uuid
+  created_by            String?             @db.Uuid
+  customer_name         String?             @db.VarChar(200)
+  mobile_number         String?             @db.VarChar(20)
+  status                String?             @default("open") @db.VarChar(30)
+  subtotal              Decimal?            @default(0) @db.Decimal(10, 2)
+  discount_amount       Decimal?            @default(0) @db.Decimal(10, 2)
+  discount_type         String?             @db.VarChar(20)
+  promotion_id          Int?
+  promo_discount_amount Decimal?            @default(0) @db.Decimal(10, 2)
+  tax_amount            Decimal?            @default(0) @db.Decimal(10, 2)
+  tip_amount            Decimal?            @default(0) @db.Decimal(10, 2)
+  total_amount          Decimal?            @default(0) @db.Decimal(10, 2)
+  received_amount       Decimal?            @default(0) @db.Decimal(10, 2)
+  change_amount         Decimal?            @default(0) @db.Decimal(10, 2)
+  payment_method        String?             @db.VarChar(50)
+  paid_at               DateTime?           @db.Timestamptz(6)
+  notes                 String?
+  created_at            DateTime?           @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime?           @default(now()) @db.Timestamptz(6)
+  res_order_items       res_order_items[]
+  res_employees         res_employees?      @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  res_shifts            res_shifts?         @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  res_tables            res_tables?         @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  promotions            promotions?         @relation(fields: [promotion_id], references: [promotion_id], onDelete: NoAction, onUpdate: NoAction)
+  res_void_requests     res_void_requests[]
+  promotion_usage       promotion_usage[]
 
   @@index([shift_id], map: "idx_res_orders_shift")
   @@index([status], map: "idx_res_orders_status")
