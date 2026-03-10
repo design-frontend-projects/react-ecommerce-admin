@@ -1,0 +1,152 @@
+import { supabase } from '@/lib/supabase'
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+export interface PosTransactionDetail {
+  detail_id: number
+  product_id: number
+  quantity: number
+  unit_price: number
+  discount_amount: number
+  tax_amount: number
+  subtotal: number
+  products: { name: string; sku: string } | null
+}
+
+export interface PosTransactionRecord {
+  transaction_id: string
+  transaction_number: string
+  transaction_type: string
+  status: string
+  subtotal: number
+  tax_amount: number
+  discount_amount: number
+  total_amount: number
+  notes: string | null
+  created_at: string
+  transaction_details: PosTransactionDetail[]
+}
+
+export interface CreateRefundPayload {
+  /** UUID of the original transaction being refunded */
+  saleId: string
+  /** The cash/card amount being refunded */
+  refundAmount: number
+  reason: string
+  /** clerk userId of the manager who authorized */
+  processedBy: string
+  notes?: string
+}
+
+// ─── Queries ──────────────────────────────────────────────────────────────────
+
+/**
+ * Fetch the last 50 completed POS sales from the last 7 days.
+ * Used for the transaction-lookup step in the refund dialog.
+ */
+export async function getRecentPosSales(): Promise<PosTransactionRecord[]> {
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
+  const { data, error } = await supabase
+    .from('transactions')
+    .select(
+      `
+      transaction_id,
+      transaction_number,
+      transaction_type,
+      status,
+      subtotal,
+      tax_amount,
+      discount_amount,
+      total_amount,
+      notes,
+      created_at,
+      transaction_details (
+        detail_id,
+        product_id,
+        quantity,
+        unit_price,
+        discount_amount,
+        tax_amount,
+        subtotal,
+        products ( name, sku )
+      )
+    `
+    )
+    .eq('transaction_type', 'sale')
+    .eq('status', 'completed')
+    .gte('created_at', sevenDaysAgo.toISOString())
+    .order('created_at', { ascending: false })
+    .limit(50)
+
+  if (error) throw error
+  return (data ?? []) as unknown as PosTransactionRecord[]
+}
+
+/**
+ * Fetch a single transaction by its UUID with full line-item details.
+ */
+export async function getTransactionById(
+  transactionId: string
+): Promise<PosTransactionRecord | null> {
+  const { data, error } = await supabase
+    .from('transactions')
+    .select(
+      `
+      transaction_id,
+      transaction_number,
+      transaction_type,
+      status,
+      subtotal,
+      tax_amount,
+      discount_amount,
+      total_amount,
+      notes,
+      created_at,
+      transaction_details (
+        detail_id,
+        product_id,
+        quantity,
+        unit_price,
+        discount_amount,
+        tax_amount,
+        subtotal,
+        products ( name, sku )
+      )
+    `
+    )
+    .eq('transaction_id', transactionId)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') return null // not found
+    throw error
+  }
+  return data as unknown as PosTransactionRecord
+}
+
+// ─── Mutations ────────────────────────────────────────────────────────────────
+
+/**
+ * Insert a refund record into the `refunds` table.
+ * Returns the new refund_id on success.
+ */
+export async function createRefund(
+  payload: CreateRefundPayload
+): Promise<string> {
+  const { data, error } = await supabase
+    .from('refunds')
+    .insert({
+      sale_id: payload.saleId,
+      refund_amount: payload.refundAmount,
+      reason: payload.reason,
+      processed_by: payload.processedBy,
+      notes: payload.notes ?? null,
+    })
+    .select('refund_id')
+    .single()
+
+  if (error) throw error
+  return String((data as { refund_id: string | number }).refund_id)
+}

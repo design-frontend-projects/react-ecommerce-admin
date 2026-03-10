@@ -32,3 +32,18 @@ export const posTransactionSchema = z.object({
 })
 
 export type PosTransaction = z.infer<typeof posTransactionSchema>
+
+// ─── Refund Form ─────────────────────────────────────────────────────────────
+
+export const refundFormSchema = z.object({
+  transactionId: z
+    .string()
+    .uuid('Please select a valid transaction to refund.'),
+  refundAmount: z
+    .number()
+    .positive('Refund amount must be greater than zero.'),
+  reason: z.string().min(1, 'Please select a reason for the refund.'),
+  notes: z.string().optional(),
+})
+
+export type RefundFormValues = z.infer<typeof refundFormSchema>

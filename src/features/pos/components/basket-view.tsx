@@ -11,6 +11,7 @@ import { useBasket } from '../store/use-basket'
 import { printReceipt } from '../utils/receipt-printer'
 import { DiscountToggle } from './discount-toggle'
 import { ReorderDialog } from './reorder-dialog'
+import { RefundDialog } from './refund-dialog'
 
 export function BasketView() {
   const {
@@ -94,6 +95,7 @@ export function BasketView() {
       <div className='flex items-center justify-between rounded-t-lg border-b bg-muted/50 p-4'>
         <h2 className='text-lg font-bold'>Current Order</h2>
         <div className='flex items-center gap-2'>
+          <RefundDialog />
           <ReorderDialog />
           <DiscountToggle />
           {items.length > 0 && (
