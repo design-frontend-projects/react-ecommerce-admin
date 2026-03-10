@@ -46,3 +46,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Implement shifts module for inventory and respos app to manage opening and closing cash, shift tracking, and analytics.**
 *Link: [./tracks/pos_shifts_module_20260310/](./tracks/pos_shifts_module_20260310/)*
+
+---
+
+- [ ] **Track: Add manual discount (max 10%), promo code validation via Supabase/Prisma tables, and an updated checkout workflow in the side basket view including mobile number, payment methods, and cash/change calculation.**
+*Link: [./tracks/pos_enhanced_discounts_20260310/](./tracks/pos_enhanced_discounts_20260310/)*
