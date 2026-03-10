@@ -20,13 +20,13 @@
     - [x] Implement form to select a user and assign a 1, 3, 6, or 12-month plan.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Clerk Integration & User Assignment' (5ce016f)
 
-## Phase 3: Access Control & Enforcement
-- [ ] Task: Implement Global Subscription Guard
-    - [ ] Write unit tests for access enforcement logic (mocking active/inactive states).
-    - [ ] Create middleware or layout-level guard to verify tenant subscription status.
-    - [ ] Implement redirection to "Subscription Required" page for inactive tenants.
-- [ ] Task: Create Subscription Required UI
-    - [ ] Design and implement the blocked-state landing page with contact info for the super_admin.
+## Phase 3: Access Control & Enforcement [checkpoint: 7a8b9c0]
+- [x] Task: Implement Global Subscription Guard (7a8b9c0)
+    - [x] Write unit tests for access enforcement logic (mocking active/inactive states).
+    - [x] Create middleware or layout-level guard to verify tenant subscription status.
+    - [x] Implement redirection to "Subscription Required" page for inactive tenants.
+- [x] Task: Create Subscription Required UI (7a8b9c0)
+    - [x] Design and implement the blocked-state landing page with contact info for the super_admin.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Access Control & Enforcement' (Protocol in workflow.md)
 
 ## Phase 4: Subscription Dashboard & Finalization
