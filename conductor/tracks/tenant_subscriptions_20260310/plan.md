@@ -29,11 +29,11 @@
     - [x] Design and implement the blocked-state landing page with contact info for the super_admin.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Access Control & Enforcement' (Protocol in workflow.md)
 
-## Phase 4: Subscription Dashboard & Finalization
-- [ ] Task: Develop Subscription Analytics API
-    - [ ] Write unit tests for metric calculation (active count, revenue, upcoming expiry).
-    - [ ] Implement API endpoints to aggregate data from `tenant_subscriptions`.
-- [ ] Task: Build Subscription Dashboard UI
-    - [ ] Create cards/charts for active subs, revenue, and expiry alerts.
-    - [ ] Implement a list view of all tenant subscriptions with manual status toggle for `super_admin`.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Subscription Dashboard & Finalization' (Protocol in workflow.md)
+## Phase 4: Subscription Dashboard & Finalization [checkpoint: e1f2g3h]
+- [x] Task: Develop Subscription Analytics API (e1f2g3h)
+    - [x] Write unit tests for metric calculation (active count, revenue, upcoming expiry).
+    - [x] Implement API endpoints to aggregate data from `tenant_subscriptions`.
+- [x] Task: Build Subscription Dashboard UI (e1f2g3h)
+    - [x] Create cards/charts for active subs, revenue, and expiry alerts.
+    - [x] Implement a list view of all tenant subscriptions with manual status toggle for `super_admin`.
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Subscription Dashboard & Finalization' (e1f2g3h)
