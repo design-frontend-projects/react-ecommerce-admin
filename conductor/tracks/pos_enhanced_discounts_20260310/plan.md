@@ -2,7 +2,7 @@
 
 This plan outlines the steps to implement manual discounts, promo codes, and an updated checkout workflow in the POS module.
 
-## Phase 1: Database & Promotions Core
+## Phase 1: Database & Promotions Core [checkpoint: e96e97f]
 - [x] Task: Update Prisma Schema for Promotions and Transactions b29713b
     - [ ] Add `promotions` and `promotion_usage` models to `schema.prisma`.
     - [ ] Update `transactions` model with `mobile_number`, `promotion_id`, `received_amount`, and `change_amount`.
@@ -10,7 +10,7 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
 - [x] Task: Implement Promotion Validation Service 0bebde4
     - [ ] Write tests for promotion validation (active, dates, limits, min purchase).
     - [ ] Implement `validatePromotion` utility function.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Database & Promotions Core' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Database & Promotions Core' (Protocol in workflow.md) e96e97f
 
 ## Phase 2: POS Store & Calculation Logic
 - [ ] Task: Update `useBasket` Store for Enhanced Discounts
