@@ -1,0 +1,8 @@
+{
+  "track_id": "tenant_subscriptions_20260310",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-10T18:26:00Z",
+  "updated_at": "2026-03-10T18:26:00Z",
+  "description": "subscriptions management for tenanats this modul is used to manage subscriptions by enable of diable it for tenants using clerk, this module for users with roles(admin, super_admin) only and type of subscriptions is(1 month, 3months, 6 months, yearly), this module will affect the whole system and the build tables in prisma and supabase and build the module and add roles and validation for users you can list users when add record frol clerk server and select user by id and email to save it in subscript table also add another table for tenant_subscriptions to manage thier rela subscripts and it's status like(new,paid, canceled) for every subscriptions add re record to easily track it and build small dashboard for his module specifically"
+}
