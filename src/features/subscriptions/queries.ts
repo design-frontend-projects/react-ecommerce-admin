@@ -79,3 +79,30 @@ export function useAssignSubscription() {
     },
   });
 }
+
+// Fetch current user's subscription status
+async function getCurrentUserSubscription(clerkUserId: string) {
+  if (!clerkUserId) return null;
+
+  const { data, error } = await supabase
+    .from('tenant_subscriptions')
+    .select('*, subscriptions(*)')
+    .eq('clerk_user_id', clerkUserId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null; // No record found
+    throw error;
+  }
+  return data;
+}
+
+export function useSubscriptionStatus(clerkUserId: string | undefined) {
+  return useQuery({
+    queryKey: subscriptionQueryKeys.byTenantId(clerkUserId ?? ''),
+    queryFn: () => getCurrentUserSubscription(clerkUserId!),
+    enabled: !!clerkUserId,
+  });
+}
