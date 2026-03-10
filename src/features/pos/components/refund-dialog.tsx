@@ -505,6 +505,7 @@ export function RefundDialog() {
         open={authOpen}
         onOpenChange={setAuthOpen}
         onSuccess={handleManagerApproved}
+        isLoading={refundMutation.isPending}
       />
     </Dialog>
   )

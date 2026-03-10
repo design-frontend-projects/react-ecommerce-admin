@@ -17,6 +17,7 @@
 - [ ] Task: API Hooks for Sale History & Search
     - [ ] [TDD] Create unit tests for sale history fetching hooks.
     - [ ] Implement `useSaleHistory` and `useSaleSearch` hooks.
+    - [ ] Implement connection to search the Supabase `inventory` project for item verification before adding to the refund basket.
 - [ ] Task: Manager Approval & PIN Component
     - [ ] [TDD] Create unit tests for PIN verification logic.
     - [ ] Implement a reusable `ManagerApprovalDialog` component with PIN entry.
@@ -32,6 +33,7 @@
 - [ ] Task: Sale Selection & Item Selection UI
     - [ ] [TDD] Create unit tests for item selection logic.
     - [ ] Implement a user-friendly UI for choosing items and quantities for refund.
+    - [ ] Search the item in the Supabase `inventory` project first and preview it in the refund basket before finalizing.
     - [ ] Add toggles for 'Restock Item' for each refunded line item.
 - [ ] Task: Refund Summary & Final Confirmation
     - [ ] [TDD] Create unit tests for the final summary view.

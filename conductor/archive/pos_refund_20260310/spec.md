@@ -7,6 +7,7 @@ Implement a robust refund system within the POS module (`src/features/pos/`). Th
 - **Refund Processing**:
     - Support both **Full Refunds** (refunding an entire transaction) and **Partial Refunds** (refunding specific items/quantities).
     - Allow employees to search for previous sales by Sale ID or Transaction Number.
+    - **Inventory Project Verification**: After a user chooses an item to refund, the system must search inside the Supabase `inventory` project first and then preview it in the refund basket.
 - **Approval Workflow**:
     - **Manager Approval Required**: Refunds cannot be processed without a manager's PIN or explicit authorization.
 - **Inventory Integration (Conditional Restock)**:

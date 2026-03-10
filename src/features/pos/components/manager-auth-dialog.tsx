@@ -16,12 +16,14 @@ interface ManagerAuthDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSuccess: () => void
+  isLoading?: boolean
 }
 
 export function ManagerAuthDialog({
   open,
   onOpenChange,
   onSuccess,
+  isLoading = false,
 }: ManagerAuthDialogProps) {
   const [pin, setPin] = useState('')
   const [error, setError] = useState(false)
@@ -29,6 +31,7 @@ export function ManagerAuthDialog({
   const CORRECT_PIN = '1234' // Dummy pin for implementation
 
   const handleKeyPress = (key: string) => {
+    if (isLoading) return
     setError(false)
     if (pin.length < 4) {
       setPin((prev) => prev + key)
@@ -36,16 +39,18 @@ export function ManagerAuthDialog({
   }
 
   const handleBackspace = () => {
+    if (isLoading) return
     setError(false)
     setPin((prev) => prev.slice(0, -1))
   }
 
   const handleVerify = () => {
+    if (isLoading) return
     if (pin === CORRECT_PIN) {
       toast.success('Manager authorized')
       onSuccess()
       setPin('')
-      onOpenChange(false)
+
     } else {
       setError(true)
       setPin('')
@@ -74,6 +79,7 @@ export function ManagerAuthDialog({
               type='password'
               value={pin}
               readOnly
+              disabled={isLoading}
               className={`h-16 text-center text-4xl tracking-[1em] ${
                 error ? 'border-destructive ring-destructive' : ''
               }`}
@@ -94,7 +100,7 @@ export function ManagerAuthDialog({
         </div>
 
         <div className='flex justify-center'>
-          <Button variant='ghost' onClick={() => onOpenChange(false)}>
+          <Button variant='ghost' onClick={() => onOpenChange(false)} disabled={isLoading}>
             Cancel
           </Button>
         </div>

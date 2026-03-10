@@ -9,11 +9,12 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model categories {
-  category_id Int        @id @default(autoincrement())
-  name        String     @db.VarChar(100)
-  description String?
-  created_at  DateTime?  @default(now()) @db.Timestamp(6)
-  products    products[]
+  category_id   Int        @id @default(autoincrement())
+  name          String     @db.VarChar(100)
+  description   String?
+  created_at    DateTime?  @default(now()) @db.Timestamp(6)
+  clerk_user_id String?
+  products      products[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -44,6 +45,7 @@ model customer_groups {
   minimum_order_amount Decimal?     @default(0) @db.Decimal(10, 2)
   discount_percentage  Decimal?     @default(0) @db.Decimal(5, 2)
   created_at           DateTime?    @default(now()) @db.Timestamp(6)
+  clerk_user_id        String?
   customers            customers[]
   price_list           price_list[]
 }
@@ -67,6 +69,7 @@ model customers {
   created_at      DateTime?         @default(now()) @db.Timestamp(6)
   updated_at      DateTime?         @default(now()) @db.Timestamp(6)
   group_id        Int?
+  clerk_user_id   String?
   customer_cards  customer_cards[]
   customer_groups customer_groups?  @relation(fields: [group_id], references: [group_id], onUpdate: NoAction)
   orders          orders[]
@@ -212,6 +215,7 @@ model products {
   updated_at             DateTime?              @default(now()) @db.Timestamp(6)
   reorder_level          Decimal?               @db.Decimal
   product_name_embedding Unsupported("vector")?
+  clerk_user_id          String?
   inventory              inventory?
   order_items            order_items[]
   price_list             price_list[]
@@ -768,10 +772,10 @@ model transaction_details {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model users {
-  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id      String        @unique
-  email              String        @unique @db.VarChar(255)
+model tenant_users {
+  id                 String        @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id      String        @unique(map: "users_clerk_user_id_key")
+  email              String        @unique(map: "users_email_key") @db.VarChar(255)
   first_name         String?       @db.VarChar(100)
   last_name          String?       @db.VarChar(100)
   avatar_url         String?
@@ -811,6 +815,33 @@ model res_promotions {
   created_at          DateTime?             @default(now()) @db.Timestamptz(6)
   res_orders          res_orders[]
   res_promotion_usage res_promotion_usage[]
+}
+
+model subscriptions {
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @db.VarChar(100)
+  duration_months      Int
+  price                Decimal                @db.Decimal(10, 2)
+  created_at           DateTime?              @default(now()) @db.Timestamp(6)
+  tenant_subscriptions tenant_subscriptions[]
+}
+
+model tenant_subscriptions {
+  id                String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id     String                       @db.VarChar(255)
+  email             String                       @db.VarChar(255)
+  subscription_id   Int
+  status            subscription_status          @default(new)
+  start_date        DateTime?                    @db.Timestamp(6)
+  end_date          DateTime?                    @db.Timestamp(6)
+  created_at        DateTime?                    @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?                    @default(now()) @db.Timestamp(6)
+  commission_amount Decimal?                     @default(0) @db.Decimal(10, 2)
+  commission_type   subscription_commission_type @default(subscription)
+  subscriptions     subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([clerk_user_id], map: "idx_tenant_subscriptions_clerk_id")
+  @@index([status], map: "idx_tenant_subscriptions_status")
 }
 
 enum discount_type {
@@ -874,31 +905,4 @@ enum subscription_commission_type {
   fixed
   percentage
   subscription
-}
-
-model subscriptions {
-  id                   Int                    @id @default(autoincrement())
-  name                 String                 @db.VarChar(100)
-  duration_months      Int
-  price                Decimal                @db.Decimal(10, 2)
-  created_at           DateTime?              @default(now()) @db.Timestamp(6)
-  tenant_subscriptions tenant_subscriptions[]
-}
-
-model tenant_subscriptions {
-  id                String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id     String                       @db.VarChar(255)
-  email             String                       @db.VarChar(255)
-  subscription_id   Int
-  status            subscription_status          @default(new)
-  start_date        DateTime?                    @db.Timestamp(6)
-  end_date          DateTime?                    @db.Timestamp(6)
-  created_at        DateTime?                    @default(now()) @db.Timestamp(6)
-  updated_at        DateTime?                    @default(now()) @db.Timestamp(6)
-  commission_amount Decimal?                     @default(0) @db.Decimal(10, 2)
-  commission_type   subscription_commission_type @default(subscription)
-  subscriptions     subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([clerk_user_id], map: "idx_tenant_subscriptions_clerk_id")
-  @@index([status], map: "idx_tenant_subscriptions_status")
 }
