@@ -55,7 +55,6 @@ import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_auth
 import { Route as AuthenticatedResposUsersRouteImport } from './routes/_authenticated/respos/users'
 import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
-import { Route as AuthenticatedResposProfileRouteImport } from './routes/_authenticated/respos/profile'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
 import { Route as AuthenticatedResposPaymentsRouteImport } from './routes/_authenticated/respos/payments'
 import { Route as AuthenticatedResposNotificationsRouteImport } from './routes/_authenticated/respos/notifications'
@@ -318,12 +317,6 @@ const AuthenticatedResposReservationsRoute =
     path: '/respos/reservations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedResposProfileRoute =
-  AuthenticatedResposProfileRouteImport.update({
-    id: '/respos/profile',
-    path: '/respos/profile',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedResposPosRoute = AuthenticatedResposPosRouteImport.update({
   id: '/respos/pos',
   path: '/respos/pos',
@@ -426,7 +419,6 @@ export interface FileRoutesByFullPath {
   '/respos/notifications': typeof AuthenticatedResposNotificationsRoute
   '/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/respos/pos': typeof AuthenticatedResposPosRoute
-  '/respos/profile': typeof AuthenticatedResposProfileRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/users': typeof AuthenticatedResposUsersRoute
@@ -482,7 +474,6 @@ export interface FileRoutesByTo {
   '/respos/notifications': typeof AuthenticatedResposNotificationsRoute
   '/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/respos/pos': typeof AuthenticatedResposPosRoute
-  '/respos/profile': typeof AuthenticatedResposProfileRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/users': typeof AuthenticatedResposUsersRoute
@@ -543,7 +534,6 @@ export interface FileRoutesById {
   '/_authenticated/respos/notifications': typeof AuthenticatedResposNotificationsRoute
   '/_authenticated/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
-  '/_authenticated/respos/profile': typeof AuthenticatedResposProfileRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/_authenticated/respos/users': typeof AuthenticatedResposUsersRoute
@@ -602,7 +592,6 @@ export interface FileRouteTypes {
     | '/respos/notifications'
     | '/respos/payments'
     | '/respos/pos'
-    | '/respos/profile'
     | '/respos/reservations'
     | '/respos/shifts'
     | '/respos/users'
@@ -658,7 +647,6 @@ export interface FileRouteTypes {
     | '/respos/notifications'
     | '/respos/payments'
     | '/respos/pos'
-    | '/respos/profile'
     | '/respos/reservations'
     | '/respos/shifts'
     | '/respos/users'
@@ -718,7 +706,6 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/notifications'
     | '/_authenticated/respos/payments'
     | '/_authenticated/respos/pos'
-    | '/_authenticated/respos/profile'
     | '/_authenticated/respos/reservations'
     | '/_authenticated/respos/shifts'
     | '/_authenticated/respos/users'
@@ -1079,13 +1066,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposReservationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/respos/profile': {
-      id: '/_authenticated/respos/profile'
-      path: '/respos/profile'
-      fullPath: '/respos/profile'
-      preLoaderRoute: typeof AuthenticatedResposProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/respos/pos': {
       id: '/_authenticated/respos/pos'
       path: '/respos/pos'
@@ -1214,7 +1194,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposNotificationsRoute: typeof AuthenticatedResposNotificationsRoute
   AuthenticatedResposPaymentsRoute: typeof AuthenticatedResposPaymentsRoute
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
-  AuthenticatedResposProfileRoute: typeof AuthenticatedResposProfileRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
   AuthenticatedResposUsersRoute: typeof AuthenticatedResposUsersRoute
@@ -1252,7 +1231,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposNotificationsRoute: AuthenticatedResposNotificationsRoute,
   AuthenticatedResposPaymentsRoute: AuthenticatedResposPaymentsRoute,
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
-  AuthenticatedResposProfileRoute: AuthenticatedResposProfileRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
   AuthenticatedResposUsersRoute: AuthenticatedResposUsersRoute,

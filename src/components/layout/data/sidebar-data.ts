@@ -146,11 +146,6 @@ export const sidebarData: SidebarData = {
           icon: Users,
           roles: ['admin', 'super_admin'],
         },
-        {
-          title: 'My Profile',
-          url: '/respos/profile',
-          icon: UserCog,
-        },
       ],
     },
     {
