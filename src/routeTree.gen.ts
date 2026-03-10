@@ -53,6 +53,7 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedResposUsersRouteImport } from './routes/_authenticated/respos/users'
+import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
 import { Route as AuthenticatedResposProfileRouteImport } from './routes/_authenticated/respos/profile'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
@@ -305,6 +306,12 @@ const AuthenticatedResposUsersRoute =
     path: '/respos/users',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedResposShiftsRoute =
+  AuthenticatedResposShiftsRouteImport.update({
+    id: '/respos/shifts',
+    path: '/respos/shifts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposReservationsRoute =
   AuthenticatedResposReservationsRouteImport.update({
     id: '/respos/reservations',
@@ -421,6 +428,7 @@ export interface FileRoutesByFullPath {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/profile': typeof AuthenticatedResposProfileRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -476,6 +484,7 @@ export interface FileRoutesByTo {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/profile': typeof AuthenticatedResposProfileRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -536,6 +545,7 @@ export interface FileRoutesById {
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
   '/_authenticated/respos/profile': typeof AuthenticatedResposProfileRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
+  '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/_authenticated/respos/users': typeof AuthenticatedResposUsersRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -594,6 +604,7 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/profile'
     | '/respos/reservations'
+    | '/respos/shifts'
     | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
@@ -649,6 +660,7 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/profile'
     | '/respos/reservations'
+    | '/respos/shifts'
     | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
@@ -708,6 +720,7 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/pos'
     | '/_authenticated/respos/profile'
     | '/_authenticated/respos/reservations'
+    | '/_authenticated/respos/shifts'
     | '/_authenticated/respos/users'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
@@ -1052,6 +1065,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposUsersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/respos/shifts': {
+      id: '/_authenticated/respos/shifts'
+      path: '/respos/shifts'
+      fullPath: '/respos/shifts'
+      preLoaderRoute: typeof AuthenticatedResposShiftsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/reservations': {
       id: '/_authenticated/respos/reservations'
       path: '/respos/reservations'
@@ -1196,6 +1216,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposProfileRoute: typeof AuthenticatedResposProfileRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
+  AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
   AuthenticatedResposUsersRoute: typeof AuthenticatedResposUsersRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
@@ -1233,6 +1254,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposProfileRoute: AuthenticatedResposProfileRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
+  AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
   AuthenticatedResposUsersRoute: AuthenticatedResposUsersRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
