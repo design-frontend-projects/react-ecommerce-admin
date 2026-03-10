@@ -1,6 +1,7 @@
 // ResPOS API Queries - TanStack Query hooks
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { validatePromoCode } from '../lib/promotion-validator'
 import type {
   ResEmployee,
   ResEmployeeRole,
@@ -68,6 +69,8 @@ export const resposQueryKeys = {
       ? (['respos', 'events', date] as const)
       : (['respos', 'events'] as const),
   paymentMethods: ['respos', 'payment-methods'] as const,
+  promotions: (code: string, subtotal: number) =>
+    ['respos', 'promotions', 'validate', code, subtotal] as const,
   dashboardStats: ['respos', 'dashboard-stats'] as const,
 }
 
@@ -600,5 +603,17 @@ export function useDashboardStats() {
         pendingNotifications: 0, // Will be updated per user
       }
     },
+  })
+}
+
+// ============ Promotions ============
+
+export function useValidatePromoCode(code: string, subtotal: number) {
+  return useQuery({
+    queryKey: resposQueryKeys.promotions(code, subtotal),
+    queryFn: () => validatePromoCode(code, subtotal),
+    enabled: !!code.trim() && subtotal > 0,
+    staleTime: 30_000,
+    retry: false,
   })
 }
