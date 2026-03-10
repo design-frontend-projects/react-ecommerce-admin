@@ -1,0 +1,8 @@
+{
+  "track_id": "pos_refund_20260310",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-10T02:45:00Z",
+  "updated_at": "2026-03-10T02:45:00Z",
+  "description": "Implement refund in module @src/features/pos/ add new table for it and allow current employee to do the refund and create the necessary database function in supabase to handle it and handle the stock in products and inventory, also create transaction for the refund in refund table, save the refund with it's notes in refund table, create easy to use tab and use ui ux skills ad make it resonsive also"
+}
