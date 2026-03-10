@@ -44,5 +44,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement shifts module for inventory and respos app to manage opening and closing cash, shift tracking, and analytics.**
-*Link: [./tracks/pos_shifts_module_20260310/](./tracks/pos_shifts_module_20260310/)*
+- [ ] **Track: Create profiles table with Clerk integration, activity types, and a system owner management UI for profiles and subscriptions.**
+*Link: [./tracks/profile_system_owner_20260310/](./tracks/profile_system_owner_20260310/)*
