@@ -191,14 +191,19 @@ export interface ResOrder {
   shift_id?: string
   created_by?: string
   customer_name?: string
+  mobile_number?: string
   status: OrderStatus
   subtotal: number
   discount_amount: number
   discount_type?: string
+  promo_discount_amount: number
+  promotion_id?: string
   tax_amount: number
   tip_amount: number
   total_amount: number
   payment_method?: string
+  received_amount: number
+  change_amount: number
   paid_at?: string
   notes?: string
   created_at: string
@@ -327,6 +332,38 @@ export interface ResPaymentMethod {
   is_enabled: boolean
   sort_order: number
   created_at: string
+}
+
+export type DiscountType = 'percent' | 'amount'
+
+export interface ResPromotion {
+  promotion_id: number
+  code: string | null
+  name: string
+  description?: string | null
+  discount_type: string | null
+  discount_value: number
+  minimum_purchase: number | null
+  start_date: string
+  end_date: string
+  usage_limit?: number | null
+  usage_per_customer?: number | null
+  is_active: boolean | null
+  created_at: string
+}
+
+export interface ResPromotionUsage {
+  id: string
+  promotion_id: string
+  order_id: string
+  applied_at: string
+}
+
+export interface PromoValidationResult {
+  valid: boolean
+  promotion?: ResPromotion
+  discountAmount: number
+  error?: string
 }
 
 // ============ Cart Types ============
