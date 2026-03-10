@@ -9,11 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
 import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -67,6 +69,11 @@ import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_auth
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
+const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
+  id: '/subscription-required',
+  path: '/subscription-required',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SsoCallbackRoute = SsoCallbackRouteImport.update({
   id: '/sso-callback',
   path: '/sso-callback',
@@ -91,6 +98,12 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSubscriptionsRoute =
+  AuthenticatedSubscriptionsRouteImport.update({
+    id: '/subscriptions',
+    path: '/subscriptions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const errors503Route = errors503RouteImport.update({
   id: '/(errors)/503',
   path: '/503',
@@ -385,6 +398,7 @@ const AuthenticatedResposInvoiceOrderIdRoute =
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/sso-callback': typeof SsoCallbackRoute
+  '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -407,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -441,6 +456,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/sso-callback': typeof SsoCallbackRoute
+  '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -462,6 +478,7 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -498,6 +515,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
   '/sso-callback': typeof SsoCallbackRoute
+  '/subscription-required': typeof SubscriptionRequiredRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
   '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -522,6 +540,7 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -558,6 +577,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/clerk'
     | '/sso-callback'
+    | '/subscription-required'
     | '/apps'
     | '/categories'
     | '/customer-cards'
@@ -580,6 +600,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/subscriptions'
     | '/'
     | '/menu'
     | '/errors/$error'
@@ -614,6 +635,7 @@ export interface FileRouteTypes {
   to:
     | '/clerk'
     | '/sso-callback'
+    | '/subscription-required'
     | '/apps'
     | '/categories'
     | '/customer-cards'
@@ -635,6 +657,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/subscriptions'
     | '/'
     | '/menu'
     | '/errors/$error'
@@ -670,6 +693,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/clerk'
     | '/sso-callback'
+    | '/subscription-required'
     | '/_authenticated/apps'
     | '/_authenticated/categories'
     | '/_authenticated/customer-cards'
@@ -694,6 +718,7 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/subscriptions'
     | '/_authenticated/'
     | '/menu/'
     | '/_authenticated/errors/$error'
@@ -730,6 +755,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
   SsoCallbackRoute: typeof SsoCallbackRoute
+  SubscriptionRequiredRoute: typeof SubscriptionRequiredRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
@@ -744,6 +770,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/subscription-required': {
+      id: '/subscription-required'
+      path: '/subscription-required'
+      fullPath: '/subscription-required'
+      preLoaderRoute: typeof SubscriptionRequiredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sso-callback': {
       id: '/sso-callback'
       path: '/sso-callback'
@@ -777,6 +810,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/subscriptions': {
+      id: '/_authenticated/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/subscriptions'
+      preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -1183,6 +1223,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTasksRouteRoute: typeof AuthenticatedTasksRouteRoute
   AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
+  AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
@@ -1220,6 +1261,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTasksRouteRoute: AuthenticatedTasksRouteRoute,
   AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
+  AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
@@ -1294,6 +1336,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
   SsoCallbackRoute: SsoCallbackRoute,
+  SubscriptionRequiredRoute: SubscriptionRequiredRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
