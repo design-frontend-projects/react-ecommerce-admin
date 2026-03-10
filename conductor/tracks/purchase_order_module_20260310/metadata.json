@@ -1,0 +1,8 @@
+{
+  "track_id": "purchase_order_module_20260310",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-10T02:39:00Z",
+  "updated_at": "2026-03-10T02:39:00Z",
+  "description": "Implement purchase order module using supabase inventory project and use the current tables purchase_orders, purchase_order_items to manage pruchanse operations and use products table to read the products that employee want to make order for it, also in purchse order screen add tab for orders that have less quantity and need reorder join it with inventory table to facilitate filtring and to allow employee make the order fast create creative and easy to use ui using ui/ux skills with clear colors and vision."
+}
