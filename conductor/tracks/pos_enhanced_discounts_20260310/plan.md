@@ -12,7 +12,7 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
     - [ ] Implement `validatePromotion` utility function.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database & Promotions Core' (Protocol in workflow.md) e96e97f
 
-## Phase 2: POS Store & Calculation Logic
+## Phase 2: POS Store & Calculation Logic [checkpoint: 4315c2f]
 - [x] Task: Update `useBasket` Store for Enhanced Discounts 7044c54
     - [ ] Write tests for `useBasket` with manual discount (max 10%) and promo codes.
     - [ ] Update `BasketState` and `useBasket` to include `manualDiscount`, `promoCode`, and `customerMobile`.
@@ -21,7 +21,7 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
 - [x] Task: Update Total Calculation Logic 7044c54
     - [ ] Update `getTotalAmount` to handle additive manual and promo discounts.
     - [ ] Ensure subtotal is calculated correctly before any discounts.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: POS Store & Calculation Logic' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: POS Store & Calculation Logic' (Protocol in workflow.md) 4315c2f
 
 ## Phase 3: UI Implementation (In-Basket View)
 - [ ] Task: Implement Discount UI in Basket View
