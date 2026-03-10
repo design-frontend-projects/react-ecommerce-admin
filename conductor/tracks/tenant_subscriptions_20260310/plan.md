@@ -10,15 +10,15 @@
     - [x] Implement utility functions for creating/updating tenant subscriptions with status validation.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Backend Core' (0bb2339)
 
-## Phase 2: Clerk Integration & User Assignment
-- [~] Task: Implement Clerk User Service
-    - [ ] Write unit tests for fetching/searching users from Clerk API.
-    - [ ] Develop backend service to list users by ID and Email.
-- [ ] Task: Build Subscription Assignment UI
-    - [ ] Write unit tests for the assignment form components.
-    - [ ] Create an admin-only view to search for Clerk users.
-    - [ ] Implement form to select a user and assign a 1, 3, 6, or 12-month plan.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Clerk Integration & User Assignment' (Protocol in workflow.md)
+## Phase 2: Clerk Integration & User Assignment [checkpoint: 5ce016f]
+- [x] Task: Implement Clerk User Service (db419d9)
+    - [x] Write unit tests for fetching/searching users from Clerk API.
+    - [x] Develop backend service to list users by ID and Email.
+- [x] Task: Build Subscription Assignment UI (db419d9)
+    - [x] Write unit tests for the assignment form components.
+    - [x] Create an admin-only view to search for Clerk users.
+    - [x] Implement form to select a user and assign a 1, 3, 6, or 12-month plan.
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Clerk Integration & User Assignment' (5ce016f)
 
 ## Phase 3: Access Control & Enforcement
 - [ ] Task: Implement Global Subscription Guard
