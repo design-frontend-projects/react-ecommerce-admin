@@ -7,7 +7,7 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
     - [ ] Add `promotions` and `promotion_usage` models to `schema.prisma`.
     - [ ] Update `transactions` model with `mobile_number`, `promotion_id`, `received_amount`, and `change_amount`.
     - [ ] Run `npx prisma generate`.
-- [ ] Task: Implement Promotion Validation Service
+- [x] Task: Implement Promotion Validation Service 0bebde4
     - [ ] Write tests for promotion validation (active, dates, limits, min purchase).
     - [ ] Implement `validatePromotion` utility function.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database & Promotions Core' (Protocol in workflow.md)
