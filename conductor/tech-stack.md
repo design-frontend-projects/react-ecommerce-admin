@@ -15,7 +15,12 @@ This document outlines the core technologies and frameworks utilized in the Shad
     *   [Tabler Icons](https://tabler.io/icons) (specifically for brand icons)
 *   **Authentication (Partial):** [Clerk](https://clerk.com/)
 
-## 2. Development & Tooling
+## 2. Backend & Database
+
+*   **Database:** [PostgreSQL](https://www.postgresql.org/) (via [Supabase](https://supabase.com/))
+*   **ORM:** [Prisma](https://www.prisma.io/)
+
+## 3. Development & Tooling
 
 *   **Language:** [TypeScript](https://www.typescriptlang.org/) (for type checking)
 *   **Linting:** [ESLint](https://eslint.org/)
@@ -25,3 +30,4 @@ This stack provides a modern, efficient, and scalable foundation for building an
 
 ---
 **2026-02-17:** Added Next.js to the tech stack to support backend API development.
+**2026-03-10:** Integrated Supabase and Prisma for database management and persistence.

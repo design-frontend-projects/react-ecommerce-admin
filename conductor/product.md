@@ -25,6 +25,7 @@ The Shadcn Admin Dashboard offers a rich set of features designed to enhance use
     *   **Global Search Command:** Enables quick access to information and functionalities across the dashboard.
     *   **Custom Components:** Includes extra custom components beyond standard ShadcnUI offerings, providing enhanced functionality or specialized UI elements.
     *   **10+ Pre-built Pages:** Provides a foundational set of common administrative pages, reducing initial development time.
+    *   **Advanced POS Module:** Feature-rich Point of Sale interface with manual/promo discounts, customer capture, and multi-method payment handling.
 
 ## 4. Business Goals
 
