@@ -11,7 +11,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Backend Core' (0bb2339)
 
 ## Phase 2: Clerk Integration & User Assignment
-- [ ] Task: Implement Clerk User Service
+- [~] Task: Implement Clerk User Service
     - [ ] Write unit tests for fetching/searching users from Clerk API.
     - [ ] Develop backend service to list users by ID and Email.
 - [ ] Task: Build Subscription Assignment UI
