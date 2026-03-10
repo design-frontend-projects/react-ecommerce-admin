@@ -2,6 +2,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { DEFAULT_TAX_RATE } from '@/features/respos/constants'
+import { validatePromoCode } from '@/features/respos/lib/promotion-validator'
 import type {
   Cart,
   CartItem,
@@ -39,7 +40,12 @@ interface ResposState {
   updateCartItemQuantity: (index: number, quantity: number) => void
   removeFromCart: (index: number) => void
   clearCart: () => void
-  setDiscount: (amount: number, type: 'percentage' | 'fixed') => void
+  setManualDiscount: (amount: number, type: 'percentage' | 'fixed') => void
+  applyPromoCode: (code: string) => Promise<{ success: boolean; error?: string }>
+  removePromoCode: () => void
+  setCustomerMobile: (mobile: string) => void
+  setPaymentMethod: (method: string) => void
+  setReceivedAmount: (amount: number) => void
   setTip: (amount: number) => void
 
   // UI state
@@ -53,8 +59,11 @@ const initialCart: Cart = {
   tableId: undefined,
   items: [],
   subtotal: 0,
-  discountAmount: 0,
-  discountType: undefined,
+  manualDiscountAmount: 0,
+  manualDiscountType: 'percentage',
+  promoDiscountAmount: 0,
+  receivedAmount: 0,
+  changeAmount: 0,
   taxAmount: 0,
   tipAmount: 0,
   total: 0,
@@ -63,23 +72,31 @@ const initialCart: Cart = {
 const calculateCartTotals = (cart: Cart): Cart => {
   const subtotal = cart.items.reduce((sum, item) => sum + item.lineTotal, 0)
 
-  let discountAmount = 0
-  if (cart.discountType === 'percentage' && cart.discountAmount > 0) {
-    discountAmount = subtotal * (cart.discountAmount / 100)
-  } else if (cart.discountType === 'fixed') {
-    discountAmount = cart.discountAmount
+  let manualDiscountAmount = 0
+  if (cart.manualDiscountType === 'percentage' && cart.manualDiscountAmount > 0) {
+    manualDiscountAmount = subtotal * (cart.manualDiscountAmount / 100)
+  } else if (cart.manualDiscountType === 'fixed') {
+    manualDiscountAmount = cart.manualDiscountAmount
   }
 
-  const taxableAmount = Math.max(0, subtotal - discountAmount)
+  const promoDiscountAmount = cart.promoDiscountAmount || 0
+  const totalDiscount = manualDiscountAmount + promoDiscountAmount
+
+  const taxableAmount = Math.max(0, subtotal - totalDiscount)
   const taxAmount = taxableAmount * DEFAULT_TAX_RATE
-  const total = taxableAmount + taxAmount + cart.tipAmount
+  
+  // Received - Total = Change
+  const totalWithoutChange = taxableAmount + taxAmount + cart.tipAmount
+  const changeAmount = cart.receivedAmount > 0 ? Math.max(0, cart.receivedAmount - totalWithoutChange) : 0
 
   return {
     ...cart,
     subtotal: Math.round(subtotal * 100) / 100,
-    discountAmount: Math.round(discountAmount * 100) / 100,
+    manualDiscountAmount: cart.manualDiscountAmount, // Keep the input value
+    promoDiscountAmount: Math.round(promoDiscountAmount * 100) / 100,
     taxAmount: Math.round(taxAmount * 100) / 100,
-    total: Math.round(total * 100) / 100,
+    total: Math.round(totalWithoutChange * 100) / 100,
+    changeAmount: Math.round(changeAmount * 100) / 100,
   }
 }
 
@@ -191,12 +208,77 @@ export const useResposStore = create<ResposState>()(
         set({ cart: { ...initialCart, tableId: get().selectedTable?.id } })
       },
 
-      setDiscount: (amount, type) => {
+      setManualDiscount: (amount, type) => {
+        const cart = get().cart
+        
+        // Validation: Max 10%
+        let validatedAmount = amount
+        const subtotal = cart.items.reduce((sum, item) => sum + item.lineTotal, 0)
+        const maxDiscount = subtotal * 0.1
+
+        if (type === 'percentage' && amount > 10) {
+          validatedAmount = 10
+        } else if (type === 'fixed' && amount > maxDiscount) {
+          validatedAmount = maxDiscount
+        }
+
+        const updatedCart = calculateCartTotals({
+          ...cart,
+          manualDiscountAmount: validatedAmount,
+          manualDiscountType: type,
+        })
+        set({ cart: updatedCart })
+      },
+
+      applyPromoCode: async (code) => {
+        const cart = get().cart
+        const result = await validatePromoCode(code, cart.subtotal)
+        
+        if (result.valid && result.promotion) {
+          const updatedCart = calculateCartTotals({
+            ...cart,
+            promoCode: code,
+            promoDiscountAmount: result.discountAmount,
+            promotion: result.promotion,
+          })
+          set({ cart: updatedCart })
+          return { success: true }
+        }
+        
+        return { success: false, error: result.error }
+      },
+
+      removePromoCode: () => {
         const cart = get().cart
         const updatedCart = calculateCartTotals({
           ...cart,
-          discountAmount: amount,
-          discountType: type,
+          promoCode: undefined,
+          promoDiscountAmount: 0,
+          promotion: undefined,
+        })
+        set({ cart: updatedCart })
+      },
+
+      setCustomerMobile: (mobile) => {
+        set({ cart: { ...get().cart, customerMobile: mobile } })
+      },
+
+      setPaymentMethod: (method) => {
+        const cart = get().cart
+        const updatedCart = calculateCartTotals({
+          ...cart,
+          paymentMethod: method,
+          // Reset received amount if not cash? Or keep it.
+          receivedAmount: method === 'Cash' ? cart.receivedAmount : 0
+        })
+        set({ cart: updatedCart })
+      },
+
+      setReceivedAmount: (amount) => {
+        const cart = get().cart
+        const updatedCart = calculateCartTotals({
+          ...cart,
+          receivedAmount: amount,
         })
         set({ cart: updatedCart })
       },

@@ -381,8 +381,19 @@ export interface Cart {
   tableId?: string
   items: CartItem[]
   subtotal: number
-  discountAmount: number
-  discountType?: 'percentage' | 'fixed'
+  // Manual discount
+  manualDiscountAmount: number
+  manualDiscountType: 'percentage' | 'fixed'
+  // Promo code
+  promoCode?: string
+  promoDiscountAmount: number
+  promotion?: ResPromotion
+  // Customer & Payment
+  customerMobile?: string
+  paymentMethod?: string
+  receivedAmount: number
+  changeAmount: number
+  
   taxAmount: number
   tipAmount: number
   total: number
