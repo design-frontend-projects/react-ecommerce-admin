@@ -24,11 +24,11 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
 - [x] Task: Conductor - User Manual Verification 'Phase 2: POS Store & Calculation Logic' (Protocol in workflow.md) 4315c2f
 
 ## Phase 3: UI Implementation (In-Basket View)
-- [ ] Task: Implement Discount UI in Basket View
+- [x] Task: Implement Discount UI in Basket View 65b516a
     - [ ] Write tests for the new discount UI components.
     - [ ] Add Manual Discount input (Amount/Percentage toggle) to `basket-view.tsx`.
     - [ ] Add Promo Code input field with apply/remove actions.
-- [ ] Task: Implement Customer & Payment UI
+- [x] Task: Implement Customer & Payment UI 65b516a
     - [ ] Write tests for payment selection and change calculation.
     - [ ] Add Mobile Number input field.
     - [ ] Add Payment Method selection (Single choice: Visa, NFC, QR Code, Cash).
@@ -36,7 +36,7 @@ This plan outlines the steps to implement manual discounts, promo codes, and an 
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: UI Implementation (In-Basket View)' (Protocol in workflow.md)
 
 ## Phase 4: Persistence & Integration
-- [ ] Task: Implement Enhanced Sale Completion
+- [x] Task: Implement Enhanced Sale Completion 65b516a
     - [ ] Write integration tests for completing a sale with discounts and promo codes.
     - [ ] Update the sale submission logic to save to `transactions` and `transaction_details`.
     - [ ] Implement `promotion_usage` recording upon successful sale.
