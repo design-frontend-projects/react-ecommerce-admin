@@ -26,6 +26,7 @@ The Shadcn Admin Dashboard offers a rich set of features designed to enhance use
     *   **Custom Components:** Includes extra custom components beyond standard ShadcnUI offerings, providing enhanced functionality or specialized UI elements.
     *   **10+ Pre-built Pages:** Provides a foundational set of common administrative pages, reducing initial development time.
     *   **Advanced POS Module:** Feature-rich Point of Sale interface with manual/promo discounts, customer capture, and multi-method payment handling.
+    *   **Tenant Subscriptions Management:** A comprehensive module for managing Clerk user subscriptions, including plan assignment (1, 3, 6, 12 months), status tracking, and access enforcement.
 
 ## 4. Business Goals
 
