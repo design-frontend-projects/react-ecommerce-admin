@@ -13,6 +13,13 @@ import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { getPosProducts } from '../data/api'
@@ -27,7 +34,9 @@ export function PosLayout() {
   const [activeTab, setActiveTab] = useState('checkout')
   const [isManualSkuOpen, setIsManualSkuOpen] = useState(false)
   const [isScannerOpen, setIsScannerOpen] = useState(false)
-  const { addItem } = useBasket()
+  const [isBasketOpen, setIsBasketOpen] = useState(false)
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
+  const { addItem, items } = useBasket()
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['pos-products'],
@@ -103,32 +112,127 @@ export function PosLayout() {
           </TabsList>
 
           {activeTab === 'checkout' && (
-            <div className='flex flex-1 items-center gap-4'>
-              <div className='relative flex-1'>
-                <Search className='absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground' />
-                <Input
-                  placeholder='Search products or scan...'
-                  className='h-10 pl-10'
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+            <div className='flex flex-1 items-center justify-end gap-2 sm:gap-4'>
+              <div
+                className={`relative flex transition-all duration-300 ${
+                  isSearchExpanded
+                    ? 'absolute inset-x-0 z-10 flex-1 px-4 sm:relative sm:inset-auto sm:px-0'
+                    : 'w-10 sm:flex-1'
+                }`}
+              >
+                {isSearchExpanded ? (
+                  <div className='flex w-full items-center gap-2 rounded-md bg-background py-1 sm:bg-transparent sm:py-0'>
+                    <div className='relative flex-1'>
+                      <Search className='absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground' />
+                      <Input
+                        autoFocus
+                        placeholder='Search products...'
+                        className='h-10 pl-10'
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onBlur={() =>
+                          !searchQuery && setIsSearchExpanded(false)
+                        }
+                      />
+                    </div>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      className='sm:hidden'
+                      onClick={() => setIsSearchExpanded(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      variant='outline'
+                      size='icon'
+                      className='h-10 w-10 sm:hidden'
+                      onClick={() => setIsSearchExpanded(true)}
+                    >
+                      <Search className='h-4 w-4' />
+                    </Button>
+                    <div className='relative hidden flex-1 sm:block'>
+                      <Search className='absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground' />
+                      <Input
+                        placeholder='Search products...'
+                        className='h-10 pl-10'
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-              <Button
-                variant='outline'
-                className='h-10 px-4'
-                onClick={() => setIsManualSkuOpen(true)}
-              >
-                <Keyboard className='mr-2 h-4 w-4' />
-                Manual SKU
-              </Button>
-              <Button
-                variant='outline'
-                className='h-10 px-4'
-                onClick={() => setIsScannerOpen(true)}
-              >
-                <Scan className='mr-2 h-4 w-4' />
-                Scan
-              </Button>
+
+              {!isSearchExpanded && (
+                <div className='flex items-center gap-2'>
+                  <Button
+                    variant='outline'
+                    size='icon'
+                    className='h-10 w-10 sm:hidden'
+                    onClick={() => setIsManualSkuOpen(true)}
+                    title='Manual SKU'
+                  >
+                    <Keyboard className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='outline'
+                    className='hidden h-10 px-4 sm:flex'
+                    onClick={() => setIsManualSkuOpen(true)}
+                  >
+                    <Keyboard className='mr-2 h-4 w-4' />
+                    Manual SKU
+                  </Button>
+
+                  <Button
+                    variant='outline'
+                    size='icon'
+                    className='h-10 w-10 sm:hidden'
+                    onClick={() => setIsScannerOpen(true)}
+                    title='Scan'
+                  >
+                    <Scan className='h-4 w-4' />
+                  </Button>
+                  <Button
+                    variant='outline'
+                    className='hidden h-10 px-4 sm:flex'
+                    onClick={() => setIsScannerOpen(true)}
+                  >
+                    <Scan className='mr-2 h-4 w-4' />
+                    Scan
+                  </Button>
+
+                  <Sheet open={isBasketOpen} onOpenChange={setIsBasketOpen}>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant='outline'
+                        size='icon'
+                        className='relative h-10 w-10 md:hidden'
+                        title='View Basket'
+                      >
+                        <ShoppingCart className='h-4 w-4' />
+                        {items.length > 0 && (
+                          <span className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground'>
+                            {items.length}
+                          </span>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent
+                      side='right'
+                      className='w-full p-0 sm:max-w-md'
+                    >
+                      <SheetHeader className='sr-only'>
+                        <SheetTitle>Current Basket</SheetTitle>
+                      </SheetHeader>
+                      <BasketView />
+                    </SheetContent>
+                  </Sheet>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -170,7 +274,7 @@ export function PosLayout() {
               </div>
             </div>
 
-            {/* Right Sidebar: Basket */}
+            {/* Right Sidebar: Basket (Desktop only) */}
             <div className='hidden w-full max-w-sm md:block'>
               <BasketView />
             </div>

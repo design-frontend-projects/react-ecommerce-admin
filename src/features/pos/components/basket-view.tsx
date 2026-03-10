@@ -122,7 +122,9 @@ export function BasketView() {
                 className='flex items-center justify-between'
               >
                 <div className='min-w-0 flex-1 pr-4'>
-                  <p className='truncate font-medium'>{item.name}</p>
+                  <p className='truncate font-medium text-slate-600'>
+                    {item.name}
+                  </p>
                   <p className='text-sm text-muted-foreground'>
                     {formatCurrency(item.unitPrice)} x {item.quantity}
                   </p>
@@ -139,33 +141,33 @@ export function BasketView() {
                   <Button
                     variant='outline'
                     size='icon'
-                    className='h-8 w-8'
+                    className='h-10 w-10'
                     onClick={() =>
                       updateQuantity(item.productId, item.quantity - 1)
                     }
                   >
-                    <Minus className='h-4 w-4 text-slate-500' />
+                    <Minus className='h-5 w-5 text-slate-500' />
                   </Button>
-                  <span className='w-6 text-center tabular-nums'>
+                  <span className='w-8 text-center text-lg text-slate-900 tabular-nums'>
                     {item.quantity}
                   </span>
                   <Button
                     variant='outline'
                     size='icon'
-                    className='h-8 w-8'
+                    className='h-10 w-10'
                     onClick={() =>
                       updateQuantity(item.productId, item.quantity + 1)
                     }
                   >
-                    <Plus className='h-4 w-4 text-slate-500' />
+                    <Plus className='h-5 w-5 text-slate-500' />
                   </Button>
                   <Button
                     variant='ghost'
                     size='icon'
-                    className='ml-2 h-8 w-8 text-destructive'
+                    className='ml-2 h-10 w-10 text-destructive'
                     onClick={() => removeItem(item.productId)}
                   >
-                    <Trash2 className='h-4 w-4 text-red-500' />
+                    <Trash2 className='h-5 w-5 text-red-500' />
                   </Button>
                 </div>
                 <div className='w-20 text-right font-medium text-slate-800 tabular-nums'>

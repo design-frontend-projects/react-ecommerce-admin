@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Scanner } from '@yudiel/react-qr-scanner'
-import { Volume2, VolumeX } from 'lucide-react'
+import { Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -25,8 +25,9 @@ export function QRCodeScanner({
 }: QRCodeScannerProps) {
   const [isPaused, setIsPaused] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(false)
 
-  const handleScan = (result: any) => {
+  const handleScan = (result: { rawValue: string }[]) => {
     if (result && result.length > 0) {
       const data = result[0].rawValue
       onScan(data)
@@ -50,15 +51,27 @@ export function QRCodeScanner({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-md'>
-        <DialogHeader>
-          <DialogTitle>Scan QR/Barcode</DialogTitle>
-          <DialogDescription>
-            Position the code within the camera frame to scan.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent
+        className={`transition-all duration-300 ${
+          isMinimized
+            ? 'fixed right-4 bottom-4 w-60 p-2 sm:max-w-[240px]'
+            : 'sm:max-w-md'
+        }`}
+      >
+        {!isMinimized && (
+          <DialogHeader>
+            <DialogTitle>Scan QR/Barcode</DialogTitle>
+            <DialogDescription>
+              Position the code within the camera frame to scan.
+            </DialogDescription>
+          </DialogHeader>
+        )}
 
-        <div className='relative aspect-square overflow-hidden rounded-lg bg-black'>
+        <div
+          className={`relative overflow-hidden rounded-lg bg-black transition-all duration-300 ${
+            isMinimized ? 'aspect-video' : 'aspect-square'
+          }`}
+        >
           {!isPaused && open && (
             <Scanner
               onScan={handleScan}
@@ -81,28 +94,46 @@ export function QRCodeScanner({
           )}
         </div>
 
-        <div className='flex items-center justify-between'>
-          <Button
-            variant='ghost'
-            size='sm'
-            onClick={() => setIsMuted(!isMuted)}
-            className='gap-2'
-          >
-            {isMuted ? (
-              <VolumeX className='h-4 w-4' />
-            ) : (
-              <Volume2 className='h-4 w-4' />
-            )}
-            {isMuted ? 'Muted' : 'Sound On'}
-          </Button>
+        <div className='flex items-center justify-between gap-2'>
+          <div className='flex items-center gap-1'>
+            <Button
+              variant='ghost'
+              size='icon'
+              className='h-8 w-8'
+              onClick={() => setIsMuted(!isMuted)}
+              title={isMuted ? 'Unmute' : 'Mute'}
+            >
+              {isMuted ? (
+                <VolumeX className='h-4 w-4 text-muted-foreground' />
+              ) : (
+                <Volume2 className='h-4 w-4' />
+              )}
+            </Button>
 
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => onOpenChange(false)}
-          >
-            Close
-          </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              className='h-8 w-8'
+              onClick={() => setIsMinimized(!isMinimized)}
+              title={isMinimized ? 'Maximize' : 'Minimize'}
+            >
+              {isMinimized ? (
+                <Maximize2 className='h-4 w-4' />
+              ) : (
+                <Minimize2 className='h-4 w-4' />
+              )}
+            </Button>
+          </div>
+
+          {!isMinimized && (
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => onOpenChange(false)}
+            >
+              Close
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
