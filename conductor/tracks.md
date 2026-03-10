@@ -48,3 +48,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 *Link: [./tracks/pos_shifts_module_20260310/](./tracks/pos_shifts_module_20260310/)*
 
 ---
+
+- [ ] **Track: Implement a comprehensive subscriptions management module for individual tenants (Clerk users), including plan management (1, 3, 6, 12 months), manual status updates by super_admins, system-wide access enforcement, and a dedicated dashboard.**
+*Link: [./tracks/tenant_subscriptions_20260310/](./tracks/tenant_subscriptions_20260310/)*
