@@ -88,7 +88,7 @@ function MenuItemDetailsContent({
   const [notes, setNotes] = useState('')
 
   // Calculate total price
-  const basePrice = itemDetails.base_price || 0
+  // const basePrice = itemDetails.base_price || 0
   const variantPrice =
     itemDetails.variants.find((v) => v.id === selectedVariantId)
       ?.price_adjustment || 0
@@ -98,7 +98,7 @@ function MenuItemDetailsContent({
       .filter((p) => selectedProperties[p.id])
       .reduce((sum, p) => sum + p.price, 0) || 0
 
-  const unitPrice = basePrice + variantPrice + propertiesPrice
+  const unitPrice = variantPrice + propertiesPrice
   const totalPrice = unitPrice * quantity
 
   const handleAddToCart = () => {

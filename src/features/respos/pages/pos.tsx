@@ -459,7 +459,7 @@ export function POSScreen() {
           </div>
 
           {/* Right Side: Order Panel (Desktop) */}
-          <div className='relative z-30 hidden w-[420px] flex-col border-l bg-background shadow-[-10px_0_30px_rgba(0,0,0,0.05)] lg:flex'>
+          <div className='relative z-30 hidden w-[420px] flex-col overflow-y-scroll border-l bg-background shadow-[-10px_0_30px_rgba(0,0,0,0.05)] lg:flex'>
             <OrderPanel
               activeOrder={activeOrder || null}
               cart={cart}
@@ -569,9 +569,9 @@ function OrderPanel({
   const cartTax = cart.taxAmount || 0
   const manualDiscount = cart.manualDiscountAmount || 0
   const promoDiscount = cart.promoDiscountAmount || 0
-  const cartTip = cart.tipAmount || 0
+  // const cartTip = cart.tipAmount || 0
   const cartTotal = cart.total || 0
-  const grandTotal = activeTotal + cartTotal
+  // const grandTotal = activeTotal + cartTotal
 
   const handleApplyPromo = async () => {
     if (!promoInput.trim()) return
@@ -822,7 +822,7 @@ function OrderPanel({
         <div className='mt-4 space-y-6 pb-10'>
           {/* Customer Info */}
           <div className='space-y-3'>
-            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+            <span className='px-1 text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60'>
               Customer Information
             </span>
             <Input
@@ -835,7 +835,7 @@ function OrderPanel({
 
           {/* Discounts */}
           <div className='space-y-3'>
-            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+            <span className='px-1 text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60'>
               Discounts
             </span>
             <div className='flex gap-2'>
@@ -889,7 +889,7 @@ function OrderPanel({
               ) : (
                 <Button
                   variant='outline'
-                  className='h-12 px-4 shrink-0 rounded-2xl font-bold'
+                  className='h-12 shrink-0 rounded-2xl px-4 font-bold'
                   onClick={handleApplyPromo}
                   disabled={isApplyingPromo || !promoInput.trim()}
                 >
@@ -905,14 +905,16 @@ function OrderPanel({
 
           {/* Payment Method */}
           <div className='space-y-3'>
-            <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+            <span className='px-1 text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60'>
               Payment Method
             </span>
             <div className='grid grid-cols-2 gap-2'>
               {['Cash', 'Visa', 'NFC', 'QR Code'].map((method) => (
                 <Button
                   key={method}
-                  variant={cart.paymentMethod === method ? 'default' : 'outline'}
+                  variant={
+                    cart.paymentMethod === method ? 'default' : 'outline'
+                  }
                   className={cn(
                     'h-12 rounded-2xl font-bold transition-all',
                     cart.paymentMethod === method &&
@@ -933,7 +935,7 @@ function OrderPanel({
               animate={{ opacity: 1, y: 0 }}
               className='space-y-3'
             >
-              <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60 px-1'>
+              <span className='px-1 text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60'>
                 Cash Received
               </span>
               <div className='grid grid-cols-2 gap-4'>

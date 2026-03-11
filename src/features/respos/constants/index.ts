@@ -103,7 +103,7 @@ export const ORDER_STATUS_COLORS: Record<string, string> = {
   void_pending: 'bg-orange-500',
 }
 
-// Default tax rate (14% for Egypt)
+// Default tax rate (14% for Egypt) additional tax ضريبة القيمة المضافة
 export const DEFAULT_TAX_RATE = 0.14
 
 // Order number prefix

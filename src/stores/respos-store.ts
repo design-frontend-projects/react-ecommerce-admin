@@ -41,7 +41,9 @@ interface ResposState {
   removeFromCart: (index: number) => void
   clearCart: () => void
   setManualDiscount: (amount: number, type: 'percentage' | 'fixed') => void
-  applyPromoCode: (code: string) => Promise<{ success: boolean; error?: string }>
+  applyPromoCode: (
+    code: string
+  ) => Promise<{ success: boolean; error?: string }>
   removePromoCode: () => void
   setCustomerMobile: (mobile: string) => void
   setPaymentMethod: (method: string) => void
@@ -73,7 +75,10 @@ const calculateCartTotals = (cart: Cart): Cart => {
   const subtotal = cart.items.reduce((sum, item) => sum + item.lineTotal, 0)
 
   let manualDiscountAmount = 0
-  if (cart.manualDiscountType === 'percentage' && cart.manualDiscountAmount > 0) {
+  if (
+    cart.manualDiscountType === 'percentage' &&
+    cart.manualDiscountAmount > 0
+  ) {
     manualDiscountAmount = subtotal * (cart.manualDiscountAmount / 100)
   } else if (cart.manualDiscountType === 'fixed') {
     manualDiscountAmount = cart.manualDiscountAmount
@@ -84,10 +89,13 @@ const calculateCartTotals = (cart: Cart): Cart => {
 
   const taxableAmount = Math.max(0, subtotal - totalDiscount)
   const taxAmount = taxableAmount * DEFAULT_TAX_RATE
-  
+
   // Received - Total = Change
   const totalWithoutChange = taxableAmount + taxAmount + cart.tipAmount
-  const changeAmount = cart.receivedAmount > 0 ? Math.max(0, cart.receivedAmount - totalWithoutChange) : 0
+  const changeAmount =
+    cart.receivedAmount > 0
+      ? Math.max(0, cart.receivedAmount - totalWithoutChange)
+      : 0
 
   return {
     ...cart,
@@ -128,10 +136,10 @@ export const useResposStore = create<ResposState>()(
 
       addToCart: (item, variant, properties = [], notes) => {
         const cart = get().cart
-        const basePrice = item.base_price
+        // const basePrice = item.base_price
         const variantAdjustment = variant?.price_adjustment || 0
         const propertiesTotal = properties.reduce((sum, p) => sum + p.price, 0)
-        const unitPrice = basePrice + variantAdjustment + propertiesTotal
+        const unitPrice = variantAdjustment + propertiesTotal
 
         // Check if same item with same variant and properties exists
         const existingIndex = cart.items.findIndex(
@@ -210,10 +218,13 @@ export const useResposStore = create<ResposState>()(
 
       setManualDiscount: (amount, type) => {
         const cart = get().cart
-        
+
         // Validation: Max 10%
         let validatedAmount = amount
-        const subtotal = cart.items.reduce((sum, item) => sum + item.lineTotal, 0)
+        const subtotal = cart.items.reduce(
+          (sum, item) => sum + item.lineTotal,
+          0
+        )
         const maxDiscount = subtotal * 0.1
 
         if (type === 'percentage' && amount > 10) {
@@ -233,7 +244,7 @@ export const useResposStore = create<ResposState>()(
       applyPromoCode: async (code) => {
         const cart = get().cart
         const result = await validatePromoCode(code, cart.subtotal)
-        
+
         if (result.valid && result.promotion) {
           const updatedCart = calculateCartTotals({
             ...cart,
@@ -244,7 +255,7 @@ export const useResposStore = create<ResposState>()(
           set({ cart: updatedCart })
           return { success: true }
         }
-        
+
         return { success: false, error: result.error }
       },
 
@@ -269,7 +280,7 @@ export const useResposStore = create<ResposState>()(
           ...cart,
           paymentMethod: method,
           // Reset received amount if not cash? Or keep it.
-          receivedAmount: method === 'Cash' ? cart.receivedAmount : 0
+          receivedAmount: method === 'Cash' ? cart.receivedAmount : 0,
         })
         set({ cart: updatedCart })
       },
