@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckCircle2, Loader2, Tag, X } from 'lucide-react'
 import { toast } from 'sonner'
+import { useResposStore } from '@/stores/respos-store'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -25,7 +27,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
 import { useRecordPromotionUsage, useUpdateOrderStatus } from '../api/mutations'
 import { usePaymentMethods, useValidatePromoCode } from '../api/queries'
 import { formatCurrency } from '../lib/formatters'
@@ -75,9 +76,11 @@ export function CheckoutDialog({
   order,
   onSuccess,
 }: CheckoutDialogProps) {
-  const { cart, clearCart } = useResposStore()
-  const { data: paymentMethods, isLoading: methodsLoading } = usePaymentMethods()
-  const { mutate: updateOrder, isPending: isProcessing } = useUpdateOrderStatus()
+  const { cart } = useResposStore()
+  const { data: paymentMethods, isLoading: methodsLoading } =
+    usePaymentMethods()
+  const { mutate: updateOrder, isPending: isProcessing } =
+    useUpdateOrderStatus()
   const { mutate: recordPromoUsage } = useRecordPromotionUsage()
 
   // Promo code state — debounced input drives the query
@@ -113,13 +116,15 @@ export function CheckoutDialog({
   useEffect(() => {
     if (order && open) {
       // Find payment method ID if name matches
-      const methodId = paymentMethods?.find(m => m.name === cart.paymentMethod)?.id || ''
-      
+      const methodId =
+        paymentMethods?.find((m) => m.name === cart.paymentMethod)?.id || ''
+
       form.reset({
         paymentMethodId: methodId,
         customerName: order.customer_name ?? '',
         mobileNumber: cart.customerMobile || order.mobile_number || '',
-        discountType: cart.manualDiscountType === 'percentage' ? 'percent' : 'amount',
+        discountType:
+          cart.manualDiscountType === 'percentage' ? 'percent' : 'amount',
         discountValue: cart.manualDiscountAmount || 0,
         promoCode: cart.promoCode || '',
         receivedAmount: cart.receivedAmount || 0,
@@ -155,8 +160,12 @@ export function CheckoutDialog({
   }
 
   // Promo discount (only when a valid promo is applied)
-  const promoDiscount = appliedPromoCode && promoResult?.valid ? (promoResult.discountAmount ?? 0) : 0
-  const appliedPromotion = appliedPromoCode && promoResult?.valid ? promoResult.promotion : undefined
+  const promoDiscount =
+    appliedPromoCode && promoResult?.valid
+      ? (promoResult.discountAmount ?? 0)
+      : 0
+  const appliedPromotion =
+    appliedPromoCode && promoResult?.valid ? promoResult.promotion : undefined
 
   // Total calculations
   const totalDiscount = manualDiscount + promoDiscount
@@ -166,7 +175,10 @@ export function CheckoutDialog({
 
   // Change / tip
   const change = Math.max(0, (receivedAmount || 0) - grandTotal)
-  const shortfall = receivedAmount > 0 && receivedAmount < grandTotal ? grandTotal - receivedAmount : 0
+  const shortfall =
+    receivedAmount > 0 && receivedAmount < grandTotal
+      ? grandTotal - receivedAmount
+      : 0
 
   // Enforce 10% max for manual discount amounts
   useEffect(() => {
@@ -188,7 +200,9 @@ export function CheckoutDialog({
     if (!promoResult) return
     if (promoResult.valid) {
       setAppliedPromoCode(promoInput.toUpperCase().trim())
-      toast.success(`Promo "${promoInput.toUpperCase().trim()}" applied — ${formatCurrency(promoResult.discountAmount)} off`)
+      toast.success(
+        `Promo "${promoInput.toUpperCase().trim()}" applied — ${formatCurrency(promoResult.discountAmount)} off`
+      )
     } else {
       toast.error(promoResult.error ?? 'Invalid promo code')
     }
@@ -220,7 +234,7 @@ export function CheckoutDialog({
         mobileNumber: values.mobileNumber,
         discountType: values.discountType,
         discountAmount: manualDiscount,
-        promotionId: appliedPromotion?.id,
+        promotionId: appliedPromotion?.promotion_id,
         promoDiscountAmount: promoDiscount,
         receivedAmount: values.receivedAmount,
         changeAmount: change,
@@ -229,9 +243,9 @@ export function CheckoutDialog({
       {
         onSuccess: (data) => {
           // Record promo usage after successful payment
-          if (appliedPromotion?.id) {
+          if (appliedPromotion?.promotion_id) {
             recordPromoUsage({
-              promotionId: appliedPromotion.id,
+              promotionId: appliedPromotion.promotion_id,
               orderId: data.id,
             })
           }
@@ -263,7 +277,10 @@ export function CheckoutDialog({
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5 py-2'>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-5 py-2'
+          >
             {/* Customer Info */}
             <div className='grid grid-cols-2 gap-4'>
               <FormField
@@ -381,7 +398,9 @@ export function CheckoutDialog({
                   <Input
                     placeholder='Enter promo code'
                     value={promoInput}
-                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setPromoInput(e.target.value.toUpperCase())
+                    }
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault()
@@ -394,10 +413,12 @@ export function CheckoutDialog({
                     type='button'
                     variant='outline'
                     onClick={handleApplyPromo}
-                    disabled={!promoInput.trim() || isValidatingPromo || isFetchingPromo}
+                    disabled={
+                      !promoInput.trim() || isValidatingPromo || isFetchingPromo
+                    }
                     className='shrink-0'
                   >
-                    {(isValidatingPromo || isFetchingPromo) ? (
+                    {isValidatingPromo || isFetchingPromo ? (
                       <Loader2 className='h-4 w-4 animate-spin' />
                     ) : (
                       <Tag className='h-4 w-4' />
@@ -406,9 +427,14 @@ export function CheckoutDialog({
                   </Button>
                 </div>
               )}
-              {promoInput && !appliedPromoCode && promoResult && !promoResult.valid && (
-                <p className='text-xs text-destructive'>{promoResult.error}</p>
-              )}
+              {promoInput &&
+                !appliedPromoCode &&
+                promoResult &&
+                !promoResult.valid && (
+                  <p className='text-xs text-destructive'>
+                    {promoResult.error}
+                  </p>
+                )}
             </div>
 
             <Separator />
@@ -440,7 +466,9 @@ export function CheckoutDialog({
               <Separator className='my-2' />
               <div className='flex justify-between text-lg font-bold'>
                 <span>Total Due</span>
-                <span className='text-orange-600'>{formatCurrency(grandTotal)}</span>
+                <span className='text-orange-600'>
+                  {formatCurrency(grandTotal)}
+                </span>
               </div>
               {receivedAmount > 0 && change > 0 && (
                 <div className='flex justify-between text-sm font-semibold text-emerald-600'>
@@ -483,7 +511,7 @@ export function CheckoutDialog({
                             />
                             <Label
                               htmlFor={method.id}
-                              className='flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-3 text-sm peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary cursor-pointer'
+                              className='flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-3 text-sm peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary'
                             >
                               {method.name}
                             </Label>
@@ -603,7 +631,9 @@ export function CheckoutDialog({
                 disabled={isProcessing}
                 className='bg-orange-600 hover:bg-orange-700'
               >
-                {isProcessing && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                {isProcessing && (
+                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                )}
                 Process Payment
               </Button>
             </DialogFooter>

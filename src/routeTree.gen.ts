@@ -16,6 +16,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedSystemRouteImport } from './routes/_authenticated/_system'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -67,6 +68,7 @@ import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authen
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
 const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
@@ -104,6 +106,10 @@ const AuthenticatedSubscriptionsRoute =
     path: '/subscriptions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemRoute = AuthenticatedSystemRouteImport.update({
+  id: '/_system',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const errors503Route = errors503RouteImport.update({
   id: '/(errors)/503',
   path: '/503',
@@ -388,6 +394,12 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemSystemManagementRoute =
+  AuthenticatedSystemSystemManagementRouteImport.update({
+    id: '/system-management',
+    path: '/system-management',
+    getParentRoute: () => AuthenticatedSystemRoute,
+  } as any)
 const AuthenticatedResposInvoiceOrderIdRoute =
   AuthenticatedResposInvoiceOrderIdRouteImport.update({
     id: '/respos/invoice/$orderId',
@@ -424,6 +436,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
+  '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
@@ -481,6 +494,7 @@ export interface FileRoutesByTo {
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
+  '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
@@ -540,9 +554,11 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/_system': typeof AuthenticatedSystemRouteWithChildren
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
+  '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
@@ -603,6 +619,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/'
     | '/menu'
+    | '/system-management'
     | '/errors/$error'
     | '/respos/analytics'
     | '/respos/captain'
@@ -660,6 +677,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/'
     | '/menu'
+    | '/system-management'
     | '/errors/$error'
     | '/respos/analytics'
     | '/respos/captain'
@@ -718,9 +736,11 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/_system'
     | '/_authenticated/subscriptions'
     | '/_authenticated/'
     | '/menu/'
+    | '/_authenticated/_system/system-management'
     | '/_authenticated/errors/$error'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
@@ -817,6 +837,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/_system': {
+      id: '/_authenticated/_system'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedSystemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -1176,6 +1203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/_system/system-management': {
+      id: '/_authenticated/_system/system-management'
+      path: '/system-management'
+      fullPath: '/system-management'
+      preLoaderRoute: typeof AuthenticatedSystemSystemManagementRouteImport
+      parentRoute: typeof AuthenticatedSystemRoute
+    }
     '/_authenticated/respos/invoice/$orderId': {
       id: '/_authenticated/respos/invoice/$orderId'
       path: '/respos/invoice/$orderId'
@@ -1209,6 +1243,18 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedSystemRouteChildren {
+  AuthenticatedSystemSystemManagementRoute: typeof AuthenticatedSystemSystemManagementRoute
+}
+
+const AuthenticatedSystemRouteChildren: AuthenticatedSystemRouteChildren = {
+  AuthenticatedSystemSystemManagementRoute:
+    AuthenticatedSystemSystemManagementRoute,
+}
+
+const AuthenticatedSystemRouteWithChildren =
+  AuthenticatedSystemRoute._addFileChildren(AuthenticatedSystemRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
@@ -1223,6 +1269,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTasksRouteRoute: typeof AuthenticatedTasksRouteRoute
   AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
+  AuthenticatedSystemRoute: typeof AuthenticatedSystemRouteWithChildren
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
@@ -1261,6 +1308,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTasksRouteRoute: AuthenticatedTasksRouteRoute,
   AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
+  AuthenticatedSystemRoute: AuthenticatedSystemRouteWithChildren,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
