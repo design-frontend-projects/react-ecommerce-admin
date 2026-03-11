@@ -9,7 +9,8 @@ import { Separator } from '@/components/ui/separator'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { useOrder } from '../api/queries'
 import { formatCurrency } from '../lib/formatters'
 import type { ResOrderItemWithDetails } from '../types'
@@ -103,6 +104,7 @@ export function InvoiceViewer() {
             <Printer className='mr-2 h-4 w-4' />
             Print
           </Button>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

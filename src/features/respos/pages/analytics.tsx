@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 
 export function Analytics() {
   return (
@@ -15,6 +16,7 @@ export function Analytics() {
           <h1 className='text-lg font-semibold'>Analytics</h1>
         </div>
         <div className='ml-auto flex items-center gap-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

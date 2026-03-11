@@ -3,7 +3,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { PromotionsDialogs } from './components/promotions-dialogs'
 import { PromotionsPrimaryButtons } from './components/promotions-primary-buttons'
 import { PromotionsProvider } from './components/promotions-provider'
@@ -18,6 +19,7 @@ export function Promotions() {
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

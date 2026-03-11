@@ -4,7 +4,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { LanguageSwitch } from "@/components/language-switch"
 import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
@@ -23,6 +24,7 @@ export function Users() {
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
+          <LanguageSwitch />
           <LanguageSwitch />
           <ThemeSwitch />
           <ConfigDrawer />

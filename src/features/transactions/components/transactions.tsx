@@ -3,7 +3,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { getTransactions } from '../data/api'
 import { TransactionsDialogs } from './transactions-dialogs'
 import { TransactionsPrimaryButtons } from './transactions-primary-buttons'
@@ -25,7 +26,8 @@ export function Transactions() {
         <Header>
           <Search />
           <div className='ml-auto flex items-center space-x-4'>
-            <ThemeSwitch />
+            <LanguageSwitch />
+          <ThemeSwitch />
             <ProfileDropdown />
           </div>
         </Header>

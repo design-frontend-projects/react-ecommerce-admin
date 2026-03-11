@@ -27,7 +27,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import {
   useMarkNotificationRead,
   useMarkAllNotificationsRead,
@@ -258,6 +259,7 @@ export function NotificationsCenter() {
         </div>
         <div className='ml-auto flex items-center gap-4'>
           <NotificationsDropdown />
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

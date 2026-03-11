@@ -27,7 +27,8 @@ import {
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { useDashboardStats, useActiveShift } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
@@ -106,6 +107,7 @@ export function ResposDashboard() {
         </div>
         <div className='ml-auto flex items-center gap-4'>
           <NotificationsDropdown />
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

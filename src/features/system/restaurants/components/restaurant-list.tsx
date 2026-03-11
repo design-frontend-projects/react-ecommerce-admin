@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 
 export function RestaurantList() {
   return (
@@ -13,7 +14,8 @@ export function RestaurantList() {
         <div className='w-full flex-1'>
           <Search />
         </div>
-        <ThemeSwitch />
+        <LanguageSwitch />
+          <ThemeSwitch />
         <ProfileDropdown />
       </header>
 

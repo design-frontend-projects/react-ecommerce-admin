@@ -1,7 +1,7 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { generateOrderNumber } from '../lib/formatters'
+// generateOrderNumber imported via ./api instead
 import type {
   OrderItemStatus,
   OrderStatus,
@@ -12,6 +12,9 @@ import type {
   VoidRequestStatus,
 } from '../types'
 import { resposQueryKeys } from './queries'
+import { offlineOrderService } from '@/lib/offline-order-service'
+import { toast } from 'sonner'
+import { createResOrder, generateOrderNumber } from './api'
 
 // ============ Table Mutations ============
 
@@ -142,56 +145,46 @@ export function useCreateOrder() {
         notes?: string
       }>
     }) => {
-      // Create order
-      const orderNumber = generateOrderNumber()
-      const subtotal = items.reduce(
-        (sum, item) => sum + item.unit_price * item.quantity,
-        0
-      )
+      // If offline, save locally
+      if (typeof window !== 'undefined' && !window.navigator.onLine) {
+        const orderNumber = generateOrderNumber()
+        const subtotal = items.reduce(
+          (sum, item) => sum + item.unit_price * item.quantity,
+          0
+        )
 
-      const { data: order, error: orderError } = await supabase
-        .from('res_orders')
-        .insert({
+        const offlineOrder = await offlineOrderService.saveOfflineOrder({
+          store_id: 'default', // TODO: Get store_id from context
+          total_amount: subtotal,
+          items,
+          id: orderNumber, // Use order number as ID for reference
+          customer_id: createdBy,
+          payment_method: 'PENDING',
+        })
+
+        toast.info('Đơn hàng đã được lưu offline')
+        return {
+          id: offlineOrder.id,
           order_number: orderNumber,
+          status: 'open',
+          total_amount: subtotal,
+          subtotal,
           table_id: tableId,
           shift_id: shiftId,
           created_by: createdBy,
           customer_name: customerName,
-          status: 'open',
-          subtotal,
-          total_amount: subtotal,
-        })
-        .select()
-        .single()
-
-      if (orderError) throw orderError
-
-      // Create order items
-      const orderItems = items.map((item) => ({
-        order_id: order.id,
-        item_id: item.item_id,
-        variant_id: item.variant_id,
-        quantity: item.quantity,
-        unit_price: item.unit_price,
-        properties: item.properties || [],
-        notes: item.notes,
-      }))
-
-      const { error: itemsError } = await supabase
-        .from('res_order_items')
-        .insert(orderItems)
-
-      if (itemsError) throw itemsError
-
-      // Update table status
-      if (tableId) {
-        await supabase
-          .from('res_tables')
-          .update({ status: 'occupied' })
-          .eq('id', tableId)
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        } as ResOrder
       }
 
-      return order as ResOrder
+      return createResOrder({
+        tableId,
+        shiftId,
+        createdBy,
+        customerName,
+        items,
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })

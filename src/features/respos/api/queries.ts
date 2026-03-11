@@ -21,6 +21,7 @@ import type {
   ResTable,
   ResVoidRequestWithDetails,
 } from '../types'
+import { db } from '@/lib/db/indexed-db'
 
 // ============ Query Keys ============
 
@@ -205,6 +206,27 @@ export function useMenuCategories() {
   return useQuery({
     queryKey: resposQueryKeys.menuCategories,
     queryFn: async () => {
+      // If offline, serve from Dexie
+      if (typeof window !== 'undefined' && !window.navigator.onLine) {
+        try {
+          const cached = await db.categories
+            .where('is_active')
+            .equals(1) // Use numeric index for Dexie
+            .sortBy('sort_order')
+          if (cached.length > 0) {
+            return cached.map(c => ({
+              id: c.id,
+              name: c.name,
+              sort_order: c.sort_order || 0,
+              is_active: c.is_active === 1, // Convert numeric index back to boolean
+              created_at: c.created_at
+            })) as ResMenuCategory[]
+          }
+        } catch (_error) {
+          // Silent catch for offline fetch failures
+        }
+      }
+
       const { data, error } = await supabase
         .from('res_menu_categories')
         .select('*')
@@ -212,6 +234,26 @@ export function useMenuCategories() {
         .order('sort_order')
 
       if (error) throw error
+
+      // Cache to Dexie
+      if (typeof window !== 'undefined' && data) {
+        try {
+          const categories = data as ResMenuCategory[]
+          await db.categories.bulkPut(categories.map(c => ({
+            id: c.id,
+            name: c.name,
+            slug: c.name.toLowerCase().replace(/\s+/g, '-'),
+            store_id: 'default',
+            is_active: c.is_active ? 1 : 0, // Use numeric index for Dexie
+            created_at: c.created_at,
+            updated_at: new Date().toISOString(),
+            sort_order: c.sort_order
+          })))
+        } catch (_error) {
+          // Silent catch
+        }
+      }
+
       return data as ResMenuCategory[]
     },
   })
@@ -241,6 +283,39 @@ export function useMenuItemsWithDetails(categoryId?: string) {
   return useQuery({
     queryKey: ['respos', 'menu-items', 'details', categoryId] as const,
     queryFn: async () => {
+      // If offline Land
+      if (typeof window !== 'undefined' && !window.navigator.onLine) {
+        try {
+          let cachedQuery = db.products.where('is_active').equals(1) // Use numeric index for Dexie
+          if (categoryId) {
+            cachedQuery = cachedQuery.and(p => p.category_id === categoryId)
+          }
+          const cachedItems = await cachedQuery.toArray()
+
+          if (cachedItems.length > 0) {
+            return cachedItems.map(p => ({
+              ...p,
+              base_price: p.price,
+              is_active: p.is_active === 1,
+              is_available: p.is_available === 1,
+              variants: p.variants || [],
+              properties: p.properties || [],
+            })) as unknown as ResMenuItemWithDetails[]
+          }
+          const results = await cachedQuery.toArray()
+          return results.map(p => ({
+            ...p,
+            base_price: p.price,
+            is_active: p.is_active === 1,
+            is_available: p.is_available === 1,
+            variants: p.variants || [],
+            properties: p.properties || [],
+          })) as unknown as ResMenuItemWithDetails[]
+        } catch (_error) {
+          // Silent catch for offline fetch failures
+        }
+      }
+
       // Fetch items
       let query = supabase
         .from('res_menu_items')
@@ -274,11 +349,42 @@ export function useMenuItemsWithDetails(categoryId?: string) {
       if (propError) throw propError
 
       // Map details to items
-      return items.map((item) => ({
+      const mappedItems = items.map((item) => ({
         ...item,
         variants: variants?.filter((v) => v.item_id === item.id) || [],
         properties: properties?.filter((p) => p.item_id === item.id) || [],
       })) as ResMenuItemWithDetails[]
+
+      // Cache to Dexie
+      if (typeof window !== 'undefined') {
+        try {
+          await db.products.bulkPut(mappedItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            slug: item.name.toLowerCase().replace(/\s+/g, '-'),
+            description: item.description,
+            price: item.base_price,
+            track_inventory: false,
+            stock_quantity: 0,
+            category_id: item.category_id || '',
+            store_id: 'default',
+            is_active: item.is_active ? 1 : 0, // Use numeric index for Dexie
+            created_at: item.created_at,
+            updated_at: item.updated_at,
+            base_price: item.base_price,
+            is_available: item.is_available ? 1 : 0, // Use numeric index for Dexie
+            preparation_time: item.preparation_time,
+            allergens: item.allergens,
+            tags: item.tags,
+            variants: item.variants,
+            properties: item.properties
+          })))
+        } catch (_error) {
+          // Silent catch for caching failures
+        }
+      }
+
+      return mappedItems
     },
   })
 }

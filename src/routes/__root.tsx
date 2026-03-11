@@ -9,6 +9,8 @@ import { NotFoundError } from '@/features/errors/not-found-error'
 import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
 
 import { Loader2 } from 'lucide-react'
+import { NetworkStatusProvider } from '@/context/network-status-provider'
+import { OfflineBadge, OnlineBadge } from '@/components/offline-badge'
 
 const RootComponent = () => {
   const { isLoading } = useSyncUser()
@@ -22,17 +24,19 @@ const RootComponent = () => {
   }
 
   return (
-    <>
+    <NetworkStatusProvider>
       <NavigationProgress />
       <Outlet />
       <Toaster duration={5000} />
+      <OfflineBadge />
+      <OnlineBadge />
       {import.meta.env.MODE === 'development' && (
         <>
           <ReactQueryDevtools buttonPosition='bottom-left' />
           <TanStackRouterDevtools position='bottom-right' />
         </>
       )}
-    </>
+    </NetworkStatusProvider>
   )
 }
 

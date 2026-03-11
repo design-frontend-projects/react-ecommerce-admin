@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { useReservations } from '../api/queries'
 import { ReservationCalendar } from '../components/reservation-calendar'
 import { ReservationDialog } from '../components/reservation-dialog'
@@ -61,6 +62,7 @@ export function Reservations() {
             <Plus className='h-4 w-4' />
             New Reservation
           </Button>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

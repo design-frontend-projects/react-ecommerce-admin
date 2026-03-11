@@ -57,7 +57,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { useShifts } from '../api/queries'
 import { useShift } from '../hooks/use-shift'
 import { useResposAuth } from '../hooks'
@@ -128,6 +129,7 @@ export function ShiftManagement() {
           <h1 className='text-lg font-semibold'>Shift Management</h1>
         </div>
         <div className='ml-auto flex items-center gap-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

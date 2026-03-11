@@ -26,7 +26,8 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Header } from '@/components/layout/header'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { LanguageSwitch } from "@/components/language-switch"
 import { useAddOrderItems, useCreateOrder } from '../api/mutations'
 import {
@@ -322,6 +323,7 @@ export function POSScreen() {
             </div>
             <div className='mx-2 h-8 w-px bg-border/50' />
             <LanguageSwitch />
+          <LanguageSwitch />
           <ThemeSwitch />
             <UserButton afterSignOutUrl='/res_pos/sign-in' />
           </div>

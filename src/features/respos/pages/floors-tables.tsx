@@ -14,7 +14,8 @@ import {
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { useDeleteFloor, useDeleteTable } from '../api/mutations'
 import { useFloors, useTables } from '../api/queries'
 import { FloorDialog } from '../components/floor-dialog'
@@ -95,6 +96,7 @@ export function FloorsAndTables() {
           <h1 className='text-lg font-semibold'>Floors & Tables</h1>
         </div>
         <div className='ml-auto flex items-center gap-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

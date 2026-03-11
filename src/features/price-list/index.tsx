@@ -3,7 +3,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { PriceListDialogs } from './components/price-list-dialogs'
 import { PriceListPrimaryButtons } from './components/price-list-primary-buttons'
 import { PriceListProvider } from './components/price-list-provider'
@@ -18,6 +19,7 @@ export function PriceList() {
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

@@ -114,6 +114,7 @@ export interface ResMenuItem {
   description_ar?: string
   base_price: number
   image_url?: string
+  is_active: boolean
   is_available: boolean
   preparation_time: number
   allergens: string[]

@@ -2,7 +2,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { CustomerGroupsActionDialog } from './components/customer-groups-action-dialog'
 import { CustomerGroupsDeleteDialog } from './components/customer-groups-delete-dialog'
 import { CustomerGroupsPrimaryButtons } from './components/customer-groups-primary-buttons'
@@ -22,6 +23,7 @@ export default function CustomerGroups() {
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>

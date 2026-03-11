@@ -2,7 +2,8 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { ThemeSwitch } from ''
+import { LanguageSwitch } from '@/components/language-switch'
 import { TaxDialogs } from './components/tax-rates-dialogs'
 import { TaxPrimaryButtons } from './components/tax-rates-primary-buttons'
 import { TaxProvider } from './components/tax-rates-provider'
@@ -17,6 +18,7 @@ export function TaxRates() {
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>
