@@ -26,3 +26,4 @@ dist-ssr
 *.sw?
 .agent/
 /generated/prisma
+nul
