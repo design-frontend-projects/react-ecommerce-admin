@@ -46,3 +46,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Create profiles table with Clerk integration, activity types, and a system owner management UI for profiles and subscriptions.**
 *Link: [./tracks/profile_system_owner_20260310/](./tracks/profile_system_owner_20260310/)*
+
+---
+
+- [ ] **Track: Implement PWA capabilities for Bluewave POS**
+*Link: [./tracks/pwa_implementation_20260311/](./tracks/pwa_implementation_20260311/)*
