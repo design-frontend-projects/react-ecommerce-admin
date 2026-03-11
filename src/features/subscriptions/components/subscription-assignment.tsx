@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
+import { toast } from 'sonner'
+import { calculateEndDate } from '@/lib/subscription_utils'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -13,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -21,35 +22,35 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { useSubscriptionPlans, useAssignSubscription } from '../queries';
-import { useSearchClerkUsers } from '../data/users_query';
-import { calculateEndDate } from '@/lib/subscription_utils';
+} from '@/components/ui/select'
+import { useSearchClerkUsers } from '../data/users_query'
+import { useSubscriptionPlans, useAssignSubscription } from '../queries'
 
 const assignmentSchema = z.object({
   clerk_user_id: z.string().min(1, 'Please select a user'),
-  email: z.string().email('Please enter a valid email'),
+  email: z.email('Please enter a valid email'),
   subscription_id: z.string().min(1, 'Please select a plan'),
   status: z.enum(['new', 'paid', 'canceled']),
-});
+})
 
-type AssignmentForm = z.infer<typeof assignmentSchema>;
+type AssignmentForm = z.infer<typeof assignmentSchema>
 
 export function SubscriptionAssignment() {
-  const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  const { data: plans } = useSubscriptionPlans();
-  const { data: users, isLoading: usersLoading } = useSearchClerkUsers(searchQuery);
-  const assignMutation = useAssignSubscription();
+  const [open, setOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const { data: plans } = useSubscriptionPlans()
+  const { data: users, isLoading: usersLoading } =
+    useSearchClerkUsers(searchQuery)
+  const assignMutation = useAssignSubscription()
 
   const form = useForm<AssignmentForm>({
     resolver: zodResolver(assignmentSchema),
@@ -59,14 +60,16 @@ export function SubscriptionAssignment() {
       subscription_id: '',
       status: 'paid',
     },
-  });
+  })
 
   const onSubmit = async (values: AssignmentForm) => {
-    const selectedPlan = plans?.find(p => p.id.toString() === values.subscription_id);
-    if (!selectedPlan) return;
+    const selectedPlan = plans?.find(
+      (p) => p.id.toString() === values.subscription_id
+    )
+    if (!selectedPlan) return
 
-    const startDate = new Date();
-    const endDate = calculateEndDate(startDate, selectedPlan.duration_months);
+    const startDate = new Date()
+    const endDate = calculateEndDate(startDate, selectedPlan.duration_months)
 
     try {
       await assignMutation.mutateAsync({
@@ -74,14 +77,14 @@ export function SubscriptionAssignment() {
         subscription_id: parseInt(values.subscription_id),
         start_date: startDate,
         end_date: endDate,
-      });
-      toast.success('Subscription assigned successfully');
-      setOpen(false);
-      form.reset();
-    } catch (error) {
-      toast.error('Failed to assign subscription');
+      })
+      toast.success('Subscription assigned successfully')
+      setOpen(false)
+      form.reset()
+    } catch (error: unknown) {
+      toast.error((error as Error).message)
     }
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -98,27 +101,29 @@ export function SubscriptionAssignment() {
             Search for a user and assign them a subscription plan.
           </DialogDescription>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <div className='space-y-2'>
               <FormLabel>Search User (Email or Name)</FormLabel>
-              <Input 
-                placeholder='Search...' 
+              <Input
+                placeholder='Search...'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              {usersLoading && <p className='text-xs text-muted-foreground'>Searching...</p>}
+              {usersLoading && (
+                <p className='text-xs text-muted-foreground'>Searching...</p>
+              )}
               {users && users.length > 0 && (
-                <div className='max-h-32 overflow-y-auto border rounded-md p-1'>
+                <div className='max-h-32 overflow-y-auto rounded-md border p-1'>
                   {users.map((user) => (
-                    <div 
+                    <div
                       key={user.clerk_user_id}
-                      className='p-2 hover:bg-accent rounded-sm cursor-pointer text-sm'
+                      className='cursor-pointer rounded-sm p-2 text-sm hover:bg-accent'
                       onClick={() => {
-                        form.setValue('clerk_user_id', user.clerk_user_id);
-                        form.setValue('email', user.email);
-                        setSearchQuery(user.email);
+                        form.setValue('clerk_user_id', user.clerk_user_id)
+                        form.setValue('email', user.email)
+                        setSearchQuery(user.email)
                       }}
                     >
                       {user.first_name} {user.last_name} ({user.email})
@@ -148,7 +153,10 @@ export function SubscriptionAssignment() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Plan</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder='Select a plan' />
@@ -173,7 +181,10 @@ export function SubscriptionAssignment() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Initial Status</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder='Select status' />
@@ -199,5 +210,5 @@ export function SubscriptionAssignment() {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

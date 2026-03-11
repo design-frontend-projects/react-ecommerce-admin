@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useUser } from '@clerk/clerk-react'
 import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { Header } from '@/components/layout/header'
@@ -12,16 +13,19 @@ import { ProductsProvider } from './components/products-provider'
 import { ProductsTable } from './components/products-table'
 
 export function Products() {
+  const { user } = useUser()
   const {
     data: products,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', user?.id],
     queryFn: async () => {
+      if (!user?.id) return []
       const { data, error } = await supabase
         .from('products')
         .select('*, categories(name)')
+        .eq('clerk_user_id', user.id)
         .order('created_at', { ascending: false })
 
       if (error) throw error

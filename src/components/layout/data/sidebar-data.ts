@@ -49,6 +49,17 @@ export const sidebarData: SidebarData = {
   ],
   navGroups: [
     {
+      title: 'System',
+      items: [
+        {
+          title: 'System Management',
+          url: '/system',
+          icon: Wrench,
+          isSystemOwner: true,
+        },
+      ],
+    },
+    {
       title: 'General',
       items: [
         {

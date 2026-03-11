@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
+import type { Profile } from '@/features/auth/services/profile-service'
+
 
 const ACCESS_TOKEN = 'thisisjustarandomstring'
 
@@ -14,6 +16,8 @@ interface AuthState {
   auth: {
     user: AuthUser | null
     setUser: (user: AuthUser | null) => void
+    profile: Profile | null
+    setProfile: (profile: Profile | null) => void
     accessToken: string
     setAccessToken: (accessToken: string) => void
     resetAccessToken: () => void
@@ -29,6 +33,9 @@ export const useAuthStore = create<AuthState>()((set) => {
       user: null,
       setUser: (user) =>
         set((state) => ({ ...state, auth: { ...state.auth, user } })),
+      profile: null,
+      setProfile: (profile) =>
+        set((state) => ({ ...state, auth: { ...state.auth, profile } })),
       accessToken: initToken,
       setAccessToken: (accessToken) =>
         set((state) => {
@@ -45,7 +52,7 @@ export const useAuthStore = create<AuthState>()((set) => {
           removeCookie(ACCESS_TOKEN)
           return {
             ...state,
-            auth: { ...state.auth, user: null, accessToken: '' },
+            auth: { ...state.auth, user: null, profile: null, accessToken: '' },
           }
         }),
     },

@@ -1,5 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
+  engineType      = "library"
   previewFeatures = ["partialIndexes"]
 }
 
@@ -88,6 +89,7 @@ model inventory {
   max_stock_level Int?      @default(100)
   location        String?   @db.VarChar(100)
   last_restocked  DateTime? @db.Timestamp(6)
+  clerk_user_id   String?
   products        products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([quantity], map: "idx_inventory_quantity", where: raw("(quantity < reorder_level)"))
@@ -102,6 +104,7 @@ model order_items {
   quantity      Int
   unit_price    Decimal  @db.Decimal(10, 2)
   subtotal      Decimal? @default(dbgenerated("((quantity)::numeric * unit_price)")) @db.Decimal(10, 2)
+  clerk_user_id String?
   orders        orders   @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: NoAction)
   products      products @relation(fields: [product_id], references: [product_id], onUpdate: NoAction)
 
@@ -132,6 +135,7 @@ model orders {
   shipping_country       String?           @default("USA") @db.VarChar(100)
   notes                  String?
   payment_status         String?           @default("pending") @db.VarChar(20)
+  clerk_user_id          String?
   order_items            order_items[]
   customers              customers         @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
   promotions             promotions?       @relation(fields: [promotion_id], references: [promotion_id], onUpdate: NoAction)
@@ -148,11 +152,12 @@ model orders {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model payment_types {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String    @unique
-  is_enabled Boolean   @default(true)
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @unique
+  is_enabled    Boolean   @default(true)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime? @default(now()) @db.Timestamptz(6)
+  clerk_user_id String?
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -188,6 +193,7 @@ model price_list {
   start_date      DateTime         @default(dbgenerated("CURRENT_DATE")) @db.Date
   end_date        DateTime?        @db.Date
   is_active       Boolean?         @default(true)
+  clerk_user_id   String?
   customer_groups customer_groups? @relation(fields: [group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction)
   products        products         @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -232,16 +238,17 @@ model products {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model promotion_usage {
-  usage_id     Int        @id @default(autoincrement())
-  promotion_id Int
-  customer_id  Int?
-  sale_id      Int?
-  used_at      DateTime?  @default(now()) @db.Timestamp(6)
-  order_id     Int?
-  customers    customers? @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
-  orders       orders?    @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
-  promotions   promotions @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
-  pos_sales    pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
+  usage_id      Int        @id @default(autoincrement())
+  promotion_id  Int
+  customer_id   Int?
+  sale_id       Int?
+  used_at       DateTime?  @default(now()) @db.Timestamp(6)
+  order_id      Int?
+  clerk_user_id String?
+  customers     customers? @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
+  orders        orders?    @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
+  promotions    promotions @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
+  pos_sales     pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -260,6 +267,7 @@ model promotions {
   usage_per_customer Int?              @default(1)
   is_active          Boolean?          @default(true)
   created_at         DateTime?         @default(now()) @db.Timestamp(6)
+  clerk_user_id      String?
   orders             orders[]
   pos_sales          pos_sales[]
   promotion_usage    promotion_usage[]
@@ -294,6 +302,7 @@ model purchase_orders {
   po_number              Int?
   created_at             DateTime?              @db.Date
   user_id                String?                @default("auth.jwt() ->> 'sub'")
+  clerk_user_id          String?
   purchase_order_items   purchase_order_items[]
   suppliers              suppliers              @relation(fields: [supplier_id], references: [supplier_id], onUpdate: NoAction)
 
@@ -311,6 +320,7 @@ model refunds {
   reason        String?    @db.VarChar(255)
   processed_by  Int?
   notes         String?
+  clerk_user_id String?
   orders        orders?    @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
   customers     customers? @relation(fields: [processed_by], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
   pos_sales     pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
@@ -702,6 +712,7 @@ model suppliers {
   website         String?           @db.VarChar(200)
   notes           String?
   created_at      DateTime?         @default(now()) @db.Timestamp(6)
+  clerk_user_id   String?
   products        products[]
   purchase_orders purchase_orders[]
 }
@@ -838,6 +849,8 @@ model tenant_subscriptions {
   updated_at        DateTime?                    @default(now()) @db.Timestamp(6)
   commission_amount Decimal?                     @default(0) @db.Decimal(10, 2)
   commission_type   subscription_commission_type @default(subscription)
+  first_name        String?
+  last_name         String?
   subscriptions     subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([clerk_user_id], map: "idx_tenant_subscriptions_clerk_id")
@@ -905,4 +918,54 @@ enum subscription_commission_type {
   fixed
   percentage
   subscription
+}
+
+model profiles {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id String       @unique @db.VarChar(255)
+  email         String       @unique @db.VarChar(255)
+  first_name    String?      @db.VarChar(100)
+  last_name     String?      @db.VarChar(100)
+  phone         String?      @db.VarChar(20)
+  is_owner      Boolean      @default(true)
+  system_owner  Boolean      @default(false)
+  created_at    DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?    @default(now()) @db.Timestamp(6)
+  audit_logs    audit_logs[]
+
+  @@index([clerk_user_id], map: "idx_profiles_clerk_id")
+  @@index([email], map: "idx_profiles_email")
+}
+
+model activity_types {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String       @unique @db.VarChar(50)
+  name        String       @db.VarChar(100)
+  description String?      @db.Text
+  is_active   Boolean      @default(true)
+  created_at  DateTime?    @default(now()) @db.Timestamp(6)
+  audit_logs  audit_logs[]
+}
+
+model audit_logs {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profile_id       String    @db.Uuid
+  activity_type_id String    @db.Uuid
+  action           String    @db.VarChar(255)
+  entity_type      String    @db.VarChar(100)
+  entity_id        String    @db.VarChar(100)
+  old_values       Json?     @db.JsonB
+  new_values       Json?     @db.JsonB
+  metadata         Json?     @db.JsonB
+  ip_address       String?   @db.VarChar(45)
+  user_agent       String?   @db.Text
+  created_at       DateTime? @default(now()) @db.Timestamp(6)
+
+  profiles       profiles       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  activity_types activity_types @relation(fields: [activity_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([profile_id], map: "idx_audit_logs_profile_id")
+  @@index([activity_type_id], map: "idx_audit_logs_activity_type_id")
+  @@index([entity_type, entity_id], map: "idx_audit_logs_entity")
+  @@index([created_at], map: "idx_audit_logs_created_at")
 }

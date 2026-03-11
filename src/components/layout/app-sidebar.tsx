@@ -1,5 +1,6 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useLayout } from '@/context/layout-provider'
+import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 import {
   Sidebar,
   SidebarContent,
@@ -16,13 +17,17 @@ import { NavUser } from './nav-user'
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   const { has, isSignedIn } = useAuth()
+  const { isSystemOwner } = useSystemOwner()
 
-  // Filter navigation items based on user roles
+  // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sidebarData.navGroups
     .map((group) => ({
       ...group,
       items: group.items.filter((item) => {
-        // If no roles specified, everyone can access
+        // Check for system owner restriction
+        if (item.isSystemOwner && !isSystemOwner) return false
+
+        // If no roles specified, everyone can access (provided it passed isSystemOwner check)
         if (!item.roles || item.roles.length === 0) return true
 
         // If roles specified but no employee (not authenticated in POS), hid
