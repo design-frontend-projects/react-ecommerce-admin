@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
-  engineType      = "library"
   previewFeatures = ["partialIndexes"]
+  engineType      = "library"
 }
 
 datasource db {
@@ -89,7 +89,7 @@ model inventory {
   max_stock_level Int?      @default(100)
   location        String?   @db.VarChar(100)
   last_restocked  DateTime? @db.Timestamp(6)
-  clerk_user_id   String?
+  clerk_user_id   String?   @default(dbgenerated("(auth.jwt() ->> 'sub'::text)"))
   products        products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([quantity], map: "idx_inventory_quantity", where: raw("(quantity < reorder_level)"))
@@ -221,7 +221,7 @@ model products {
   updated_at             DateTime?              @default(now()) @db.Timestamp(6)
   reorder_level          Decimal?               @db.Decimal
   product_name_embedding Unsupported("vector")?
-  clerk_user_id          String?
+  clerk_user_id          String?                @default(dbgenerated("(auth.jwt() ->> 'sub'::text)"))
   inventory              inventory?
   order_items            order_items[]
   price_list             price_list[]
@@ -330,59 +330,17 @@ model refunds {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model res_employee_roles {
-  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  employee_id   String?        @db.Uuid
-  role_id       String?        @db.Uuid
-  assigned_at   DateTime?      @default(now()) @db.Timestamptz(6)
-  res_employees res_employees? @relation(fields: [employee_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  res_roles     res_roles?     @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@unique([employee_id, role_id])
-  @@index([employee_id], map: "idx_res_employee_roles_employee_id")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model res_employees {
-  id                                                              String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id                                                         String
-  first_name                                                      String               @db.VarChar(100)
-  last_name                                                       String               @db.VarChar(100)
-  email                                                           String               @unique @db.VarChar(255)
-  phone                                                           String?              @db.VarChar(20)
-  avatar_url                                                      String?
-  pin_code                                                        String?              @db.VarChar(6)
-  is_active                                                       Boolean?             @default(true)
-  created_at                                                      DateTime?            @default(now()) @db.Timestamptz(6)
-  updated_at                                                      DateTime?            @default(now()) @db.Timestamptz(6)
-  id_number                                                       String?              @unique
-  res_employee_roles                                              res_employee_roles[]
-  res_events                                                      res_events[]
-  res_notifications                                               res_notifications[]
-  res_orders                                                      res_orders[]
-  res_reservations                                                res_reservations[]
-  res_shifts_res_shifts_closed_byTores_employees                  res_shifts[]         @relation("res_shifts_closed_byTores_employees")
-  res_shifts_res_shifts_opened_byTores_employees                  res_shifts[]         @relation("res_shifts_opened_byTores_employees")
-  res_void_requests_res_void_requests_approved_byTores_employees  res_void_requests[]  @relation("res_void_requests_approved_byTores_employees")
-  res_void_requests_res_void_requests_requested_byTores_employees res_void_requests[]  @relation("res_void_requests_requested_byTores_employees")
-
-  @@index([user_id], map: "idx_res_employees_user_id")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_events {
-  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title          String         @db.VarChar(200)
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title          String    @db.VarChar(200)
   description    String?
-  event_date     DateTime       @db.Date
-  start_time     DateTime       @db.Time(6)
-  end_time       DateTime       @db.Time(6)
-  blocked_tables String[]       @default([]) @db.Uuid
-  is_active      Boolean?       @default(true)
-  created_by     String?        @db.Uuid
-  created_at     DateTime?      @default(now()) @db.Timestamptz(6)
-  res_employees  res_employees? @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  event_date     DateTime  @db.Date
+  start_time     DateTime  @db.Time(6)
+  end_time       DateTime  @db.Time(6)
+  blocked_tables String[]  @default([]) @db.Uuid
+  is_active      Boolean?  @default(true)
+  created_by     String?   @db.Uuid
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
 
   @@index([event_date], map: "idx_res_events_date")
 }
@@ -463,15 +421,14 @@ model res_menu_items {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_notifications {
-  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  recipient_id  String?        @db.Uuid
-  type          String         @db.VarChar(50)
-  title         String         @db.VarChar(200)
-  message       String?
-  data          Json?          @default("{}")
-  is_read       Boolean?       @default(false)
-  created_at    DateTime?      @default(now()) @db.Timestamptz(6)
-  res_employees res_employees? @relation(fields: [recipient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  recipient_id String?   @db.Uuid
+  type         String    @db.VarChar(50)
+  title        String    @db.VarChar(200)
+  message      String?
+  data         Json?     @default("{}")
+  is_read      Boolean?  @default(false)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
 
   @@index([recipient_id], map: "idx_res_notifications_recipient")
   @@index([recipient_id, is_read], map: "idx_res_notifications_unread", where: raw("(is_read = false)"))
@@ -525,7 +482,6 @@ model res_orders {
   received_amount       Decimal?            @default(0) @db.Decimal(10, 2)
   change_amount         Decimal?            @default(0) @db.Decimal(10, 2)
   res_order_items       res_order_items[]
-  res_employees         res_employees?      @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   promotions            res_promotions?     @relation(fields: [promotion_id], references: [id], onUpdate: NoAction)
   res_shifts            res_shifts?         @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   res_tables            res_tables?         @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -549,51 +505,38 @@ model res_payment_methods {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_reservations {
-  id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  table_id         String?        @db.Uuid
-  customer_name    String         @db.VarChar(200)
-  customer_phone   String?        @db.VarChar(20)
-  customer_email   String?        @db.VarChar(255)
-  party_size       Int?           @default(2)
-  reservation_date DateTime       @db.Date
-  reservation_time DateTime       @db.Time(6)
-  duration_minutes Int?           @default(90)
-  status           String?        @default("confirmed") @db.VarChar(20)
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  table_id         String?     @db.Uuid
+  customer_name    String      @db.VarChar(200)
+  customer_phone   String?     @db.VarChar(20)
+  customer_email   String?     @db.VarChar(255)
+  party_size       Int?        @default(2)
+  reservation_date DateTime    @db.Date
+  reservation_time DateTime    @db.Time(6)
+  duration_minutes Int?        @default(90)
+  status           String?     @default("confirmed") @db.VarChar(20)
   notes            String?
-  created_by       String?        @db.Uuid
-  created_at       DateTime?      @default(now()) @db.Timestamptz(6)
-  res_employees    res_employees? @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_tables       res_tables?    @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  created_by       String?     @db.Uuid
+  created_at       DateTime?   @default(now()) @db.Timestamptz(6)
+  res_tables       res_tables? @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([reservation_date], map: "idx_res_reservations_date")
   @@index([table_id], map: "idx_res_reservations_table")
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model res_roles {
-  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name               String               @unique @db.VarChar(50)
-  display_name       String               @db.VarChar(100)
-  permissions        Json?                @default("[]")
-  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
-  res_employee_roles res_employee_roles[]
-}
-
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_shifts {
-  id                                                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  opened_by                                         String?        @db.Uuid
-  closed_by                                         String?        @db.Uuid
-  opening_cash                                      Decimal?       @default(0) @db.Decimal(10, 2)
-  closing_cash                                      Decimal?       @db.Decimal(10, 2)
-  status                                            String?        @default("open") @db.VarChar(20)
-  opened_at                                         DateTime?      @default(now()) @db.Timestamptz(6)
-  closed_at                                         DateTime?      @db.Timestamptz(6)
-  notes                                             String?
-  res_orders                                        res_orders[]
-  res_employees_res_shifts_closed_byTores_employees res_employees? @relation("res_shifts_closed_byTores_employees", fields: [closed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_employees_res_shifts_opened_byTores_employees res_employees? @relation("res_shifts_opened_byTores_employees", fields: [opened_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  opened_by    String?      @db.Uuid
+  closed_by    String?      @db.Uuid
+  opening_cash Decimal?     @default(0) @db.Decimal(10, 2)
+  closing_cash Decimal?     @db.Decimal(10, 2)
+  status       String?      @default("open") @db.VarChar(20)
+  opened_at    DateTime?    @default(now()) @db.Timestamptz(6)
+  closed_at    DateTime?    @db.Timestamptz(6)
+  notes        String?
+  res_orders   res_orders[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -620,18 +563,16 @@ model res_tables {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_void_requests {
-  id                                                          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  order_id                                                    String?        @db.Uuid
-  requested_by                                                String?        @db.Uuid
-  approved_by                                                 String?        @db.Uuid
-  reason                                                      String
-  status                                                      String?        @default("pending") @db.VarChar(20)
-  rejection_reason                                            String?
-  created_at                                                  DateTime?      @default(now()) @db.Timestamptz(6)
-  processed_at                                                DateTime?      @db.Timestamptz(6)
-  res_employees_res_void_requests_approved_byTores_employees  res_employees? @relation("res_void_requests_approved_byTores_employees", fields: [approved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_orders                                                  res_orders?    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  res_employees_res_void_requests_requested_byTores_employees res_employees? @relation("res_void_requests_requested_byTores_employees", fields: [requested_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  order_id         String?     @db.Uuid
+  requested_by     String?     @db.Uuid
+  approved_by      String?     @db.Uuid
+  reason           String
+  status           String?     @default("pending") @db.VarChar(20)
+  rejection_reason String?
+  created_at       DateTime?   @default(now()) @db.Timestamptz(6)
+  processed_at     DateTime?   @db.Timestamptz(6)
+  res_orders       res_orders? @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([order_id], map: "idx_res_void_requests_order")
   @@index([status], map: "idx_res_void_requests_status")
@@ -857,6 +798,55 @@ model tenant_subscriptions {
   @@index([status], map: "idx_tenant_subscriptions_status")
 }
 
+model profiles {
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id String       @unique @db.VarChar(255)
+  email         String       @unique @db.VarChar(255)
+  first_name    String?      @db.VarChar(100)
+  last_name     String?      @db.VarChar(100)
+  phone         String?      @db.VarChar(20)
+  is_owner      Boolean      @default(true)
+  system_owner  Boolean      @default(false)
+  created_at    DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?    @default(now()) @db.Timestamp(6)
+  audit_logs    audit_logs[]
+
+  @@index([clerk_user_id], map: "idx_profiles_clerk_id")
+  @@index([email], map: "idx_profiles_email")
+}
+
+model activity_types {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String       @unique @db.VarChar(50)
+  name        String       @db.VarChar(100)
+  description String?
+  is_active   Boolean      @default(true)
+  created_at  DateTime?    @default(now()) @db.Timestamp(6)
+  audit_logs  audit_logs[]
+}
+
+model audit_logs {
+  id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profile_id       String         @db.Uuid
+  activity_type_id String         @db.Uuid
+  action           String         @db.VarChar(255)
+  entity_type      String         @db.VarChar(100)
+  entity_id        String         @db.VarChar(100)
+  old_values       Json?
+  new_values       Json?
+  metadata         Json?
+  ip_address       String?        @db.VarChar(45)
+  user_agent       String?
+  created_at       DateTime?      @default(now()) @db.Timestamp(6)
+  activity_types   activity_types @relation(fields: [activity_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles         profiles       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([profile_id], map: "idx_audit_logs_profile_id")
+  @@index([activity_type_id], map: "idx_audit_logs_activity_type_id")
+  @@index([entity_type, entity_id], map: "idx_audit_logs_entity")
+  @@index([created_at], map: "idx_audit_logs_created_at")
+}
+
 enum discount_type {
   percentage
   fixed
@@ -918,54 +908,4 @@ enum subscription_commission_type {
   fixed
   percentage
   subscription
-}
-
-model profiles {
-  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id String       @unique @db.VarChar(255)
-  email         String       @unique @db.VarChar(255)
-  first_name    String?      @db.VarChar(100)
-  last_name     String?      @db.VarChar(100)
-  phone         String?      @db.VarChar(20)
-  is_owner      Boolean      @default(true)
-  system_owner  Boolean      @default(false)
-  created_at    DateTime?    @default(now()) @db.Timestamp(6)
-  updated_at    DateTime?    @default(now()) @db.Timestamp(6)
-  audit_logs    audit_logs[]
-
-  @@index([clerk_user_id], map: "idx_profiles_clerk_id")
-  @@index([email], map: "idx_profiles_email")
-}
-
-model activity_types {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String       @unique @db.VarChar(50)
-  name        String       @db.VarChar(100)
-  description String?      @db.Text
-  is_active   Boolean      @default(true)
-  created_at  DateTime?    @default(now()) @db.Timestamp(6)
-  audit_logs  audit_logs[]
-}
-
-model audit_logs {
-  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  profile_id       String    @db.Uuid
-  activity_type_id String    @db.Uuid
-  action           String    @db.VarChar(255)
-  entity_type      String    @db.VarChar(100)
-  entity_id        String    @db.VarChar(100)
-  old_values       Json?     @db.JsonB
-  new_values       Json?     @db.JsonB
-  metadata         Json?     @db.JsonB
-  ip_address       String?   @db.VarChar(45)
-  user_agent       String?   @db.Text
-  created_at       DateTime? @default(now()) @db.Timestamp(6)
-
-  profiles       profiles       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  activity_types activity_types @relation(fields: [activity_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([profile_id], map: "idx_audit_logs_profile_id")
-  @@index([activity_type_id], map: "idx_audit_logs_activity_type_id")
-  @@index([entity_type, entity_id], map: "idx_audit_logs_entity")
-  @@index([created_at], map: "idx_audit_logs_created_at")
 }

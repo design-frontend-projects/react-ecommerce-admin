@@ -16,6 +16,7 @@ import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { LanguageSwitch } from "@/components/language-switch"
 import { Analytics } from './components/analytics'
 import { Overview } from './components/overview'
 import { PendingPurchaseOrders } from './components/pending-purchase-orders'
@@ -31,7 +32,7 @@ export function Dashboard() {
   if (isLoading) {
     return (
       <div className='flex h-full w-full items-center justify-center'>
-        Loading dashboard data...
+        Đang tải dữ liệu tổng quan...
       </div>
     )
   }
@@ -46,6 +47,7 @@ export function Dashboard() {
         <TopNav links={topNav} />
         <div className='ms-auto flex items-center space-x-4'>
           <Search />
+          <LanguageSwitch />
           <ThemeSwitch />
           <ConfigDrawer />
           {isSignedIn && <ProfileDropdown />}
@@ -57,9 +59,9 @@ export function Dashboard() {
       {/* ===== Main ===== */}
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>Dashboard</h1>
+          <h1 className='text-2xl font-bold tracking-tight'>Tổng quan</h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            <Button>Tải về</Button>
           </div>
         </div>
         <Tabs
@@ -69,13 +71,13 @@ export function Dashboard() {
         >
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
-              <TabsTrigger value='overview'>Overview</TabsTrigger>
-              <TabsTrigger value='analytics'>Analytics</TabsTrigger>
+              <TabsTrigger value='overview'>Tổng quan</TabsTrigger>
+              <TabsTrigger value='analytics'>Phân tích</TabsTrigger>
               <TabsTrigger value='reports' disabled>
-                Reports
+                Báo cáo
               </TabsTrigger>
               <TabsTrigger value='notifications' disabled>
-                Notifications
+                Thông báo
               </TabsTrigger>
             </TabsList>
           </div>
@@ -84,7 +86,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Total Revenue
+                    Tổng doanh thu
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -107,14 +109,14 @@ export function Dashboard() {
                       : '0.00'}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Total revenue from orders
+                    Tổng doanh thu từ các đơn hàng
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Customers
+                    Khách hàng
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -137,7 +139,7 @@ export function Dashboard() {
                   </div>
                   <p className='text-xs text-muted-foreground'>
                     <Link to='/customers' className='hover:underline'>
-                      View all customers
+                      Xem tất cả khách hàng
                     </Link>
                   </p>
                 </CardContent>
@@ -145,7 +147,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Total Orders
+                    Tổng đơn hàng
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -166,14 +168,14 @@ export function Dashboard() {
                     +{stats?.totalOrders || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Total completed orders
+                    Tổng số đơn hàng đã hoàn thành
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Suppliers
+                    Nhà cung cấp
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -194,7 +196,7 @@ export function Dashboard() {
                   </div>
                   <p className='text-xs text-muted-foreground'>
                     <a href='#' className='hover:underline'>
-                      View active suppliers
+                      Xem nhà cung cấp hoạt động
                     </a>
                   </p>
                 </CardContent>
@@ -203,7 +205,7 @@ export function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>Tổng quan</CardTitle>
                 </CardHeader>
                 <CardContent className='ps-2'>
                   <Overview data={chartData || []} />
@@ -211,8 +213,8 @@ export function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
-                  <CardDescription>Latest sales transactions.</CardDescription>
+                  <CardTitle>Đơn hàng gần đây</CardTitle>
+                  <CardDescription>Các giao dịch bán hàng mới nhất.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentSales data={dashboardData?.recentSales || []} />
@@ -223,8 +225,8 @@ export function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Recent Refunds</CardTitle>
-                  <CardDescription>Latest processed refunds.</CardDescription>
+                  <CardTitle>Hoàn tiền gần đây</CardTitle>
+                  <CardDescription>Các khoản hoàn tiền vừa xử lý.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentRefunds data={recentRefunds || []} />
@@ -232,9 +234,9 @@ export function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Pending Incoming Stock</CardTitle>
+                  <CardTitle>Hàng đang chờ nhập</CardTitle>
                   <CardDescription>
-                    Purchase orders waiting to be received.
+                    Đơn đặt hàng đang cấu hình chở nhập.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -247,7 +249,7 @@ export function Dashboard() {
             <Analytics />
             <div className='pt-4'>
               <h2 className='mb-4 text-xl font-bold tracking-tight'>
-                Purchase Orders
+                Đơn đặt mua hàng
               </h2>
               <PurchaseOrderAnalytics />
             </div>
@@ -260,25 +262,25 @@ export function Dashboard() {
 
 const topNav = [
   {
-    title: 'Overview',
+    title: 'Tổng quan',
     href: 'dashboard/overview',
     isActive: true,
     disabled: false,
   },
   {
-    title: 'Customers',
+    title: 'Khách hàng',
     href: 'dashboard/customers',
     isActive: false,
     disabled: true,
   },
   {
-    title: 'Products',
+    title: 'Sản phẩm',
     href: 'dashboard/products',
     isActive: false,
     disabled: true,
   },
   {
-    title: 'Settings',
+    title: 'Cài đặt',
     href: 'dashboard/settings',
     isActive: false,
     disabled: true,

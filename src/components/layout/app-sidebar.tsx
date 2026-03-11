@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sidebar'
 import type { RoleName } from '@/features/respos/types'
 import { AppTitle } from './app-title'
-import { sidebarData } from './data/sidebar-data'
+import { useSidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
 import { NavUser } from './nav-user'
 
@@ -18,6 +18,7 @@ export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   const { has, isSignedIn } = useAuth()
   const { isSystemOwner } = useSystemOwner()
+  const sidebarData = useSidebarData()
 
   // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sidebarData.navGroups

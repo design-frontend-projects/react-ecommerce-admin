@@ -21,7 +21,7 @@ export function PwaUpdatePrompt() {
 
   useEffect(() => {
     if (offlineReady) {
-      toast.success('App ready to work offline', {
+      toast.success('Ứng dụng sẵn sàng hoạt động ngoại tuyến', {
         duration: 5000,
       })
       setOfflineReady(false)
@@ -30,8 +30,8 @@ export function PwaUpdatePrompt() {
 
   useEffect(() => {
     if (needRefresh) {
-      toast('A new version is available', {
-        description: 'Update now to get the latest features.',
+      toast('Có phiên bản mới', {
+        description: 'Cập nhật ngay để nhận các tính năng mới nhất.',
         duration: Infinity,
         action: (
           <Button
@@ -39,11 +39,11 @@ export function PwaUpdatePrompt() {
             size='sm'
             onClick={() => updateServiceWorker(true)}
           >
-            Reload
+            Tải lại
           </Button>
         ),
         cancel: {
-          label: 'Dismiss',
+          label: 'Bỏ qua',
           onClick: () => setNeedRefresh(false),
         },
       })
