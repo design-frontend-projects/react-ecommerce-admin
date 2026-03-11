@@ -51,3 +51,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Implement PWA capabilities for Bluewave POS**
 *Link: [./tracks/pwa_implementation_20260311/](./tracks/pwa_implementation_20260311/)*
+
+---
+
+- [ ] **Track: apply i18 for the whole app and translate labels, messages, fields for 2 languages arabic (ar), english (en)**
+*Link: [./tracks/i18n_implementation_20260311/](./tracks/i18n_implementation_20260311/)*
