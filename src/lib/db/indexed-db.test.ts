@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import 'fake-indexeddb/auto';
-import { db, OfflineDatabase } from './indexed-db';
+import { db } from './indexed-db';
 
 describe('OfflineDatabase (Dexie)', () => {
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('OfflineDatabase (Dexie)', () => {
       stock_quantity: 10,
       category_id: 'cat_1',
       store_id: 'store_1',
-      is_active: true,
+      is_active: 1,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -39,9 +39,9 @@ describe('OfflineDatabase (Dexie)', () => {
 
   it('should be able to filter categories by store_id and is_active', async () => {
     await db.categories.bulkAdd([
-      { id: 'cat_1', name: 'Drinks', slug: 'drinks', store_id: 'store_1', is_active: true, created_at: '', updated_at: '' },
-      { id: 'cat_2', name: 'Food', slug: 'food', store_id: 'store_1', is_active: false, created_at: '', updated_at: '' },
-      { id: 'cat_3', name: 'Merch', slug: 'merch', store_id: 'store_2', is_active: true, created_at: '', updated_at: '' }
+      { id: 'cat_1', name: 'Drinks', slug: 'drinks', store_id: 'store_1', is_active: 1, created_at: '', updated_at: '' },
+      { id: 'cat_2', name: 'Food', slug: 'food', store_id: 'store_1', is_active: 0, created_at: '', updated_at: '' },
+      { id: 'cat_3', name: 'Merch', slug: 'merch', store_id: 'store_2', is_active: 1, created_at: '', updated_at: '' }
     ]);
 
     /*
@@ -53,7 +53,7 @@ describe('OfflineDatabase (Dexie)', () => {
 
     const categoriesByStore = await db.categories
       .where('store_id').equals('store_1')
-      .filter(c => c.is_active === true)
+      .filter(c => c.is_active === 1)
       .toArray();
 
     expect(categoriesByStore).toHaveLength(1);

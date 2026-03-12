@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { toast } from 'sonner'
 
 interface UseBarcodeScannerProps {
   onScan: (barcode: string) => void

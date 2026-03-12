@@ -19,14 +19,19 @@ export function AppTitle() {
           className='gap-0 py-0 hover:bg-transparent active:bg-transparent'
           asChild
         >
-          <div>
+          <div className='flex w-full items-center justify-between'>
             <Link
               to='/'
               onClick={() => setOpenMobile(false)}
-              className='grid flex-1 text-start text-sm leading-tight'
+              className='flex items-center gap-2'
             >
-              <span className='truncate font-bold'>Restaurant POS</span>
-              <span className='truncate text-xs'>Free</span>
+              <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
+                <img src='/images/logo.png' alt='ResPOS' className='size-6 rounded-sm' />
+              </div>
+              <div className='grid flex-1 text-left text-sm leading-tight'>
+                <span className='truncate font-semibold'>ResPOS</span>
+                <span className='truncate text-xs text-muted-foreground'>Premium Edition</span>
+              </div>
             </Link>
             <ToggleSidebar />
           </div>

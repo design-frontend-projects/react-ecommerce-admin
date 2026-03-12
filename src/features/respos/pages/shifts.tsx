@@ -45,6 +45,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import {
   Table,
   TableBody,
@@ -59,6 +60,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitch } from '@/components/language-switch'
+import { NotificationsDropdown } from '../components/notifications-dropdown'
 import { useShifts } from '../api/queries'
 import { useShift } from '../hooks/use-shift'
 import { useResposAuth } from '../hooks'
@@ -84,13 +86,13 @@ const item = {
 
 const openShiftSchema = z.object({
   openingCash: z
-    .number({ invalid_type_error: 'Please enter a valid amount' })
+    .number({ message: 'Please enter a valid amount' })
     .min(0, 'Opening cash cannot be negative'),
 })
 
 const closeShiftSchema = z.object({
   closingCash: z
-    .number({ invalid_type_error: 'Please enter a valid amount' })
+    .number({ message: 'Please enter a valid amount' })
     .min(0, 'Closing cash cannot be negative'),
   notes: z.string().optional(),
 })
@@ -124,11 +126,18 @@ export function ShiftManagement() {
   return (
     <>
       <Header>
-        <div className='flex items-center gap-2'>
-          <Timer className='h-5 w-5 text-orange-500' />
-          <h1 className='text-lg font-semibold'>Shift Management</h1>
+        <div className='flex items-center gap-3'>
+          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 shadow-sm'>
+            <Timer className='h-5 w-5' />
+          </div>
+          <div>
+            <h1 className='text-xl font-bold tracking-tight'>Shift Control</h1>
+            <p className='text-xs text-muted-foreground font-medium'>Manage station sessions and cash flow</p>
+          </div>
         </div>
-        <div className='ml-auto flex items-center gap-4'>
+        <div className='ml-auto flex items-center gap-2'>
+          <NotificationsDropdown />
+          <Separator orientation='vertical' className='mx-2 h-6' />
           <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
@@ -140,7 +149,7 @@ export function ShiftManagement() {
           variants={container}
           initial='hidden'
           animate='show'
-          className='space-y-6'
+          className='max-w-5xl mx-auto space-y-8 pb-12'
         >
           {/* Active Shift Section */}
           <motion.div variants={item}>
@@ -606,7 +615,7 @@ function CloseShiftDialog({
 
 function ShiftHistoryRow({ shift }: { shift: ResShift }) {
   const variance =
-    shift.closing_cash != null
+    typeof shift.closing_cash === 'number'
       ? shift.closing_cash - shift.opening_cash
       : null
 

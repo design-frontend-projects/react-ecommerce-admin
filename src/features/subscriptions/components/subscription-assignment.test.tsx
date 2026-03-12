@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
 import { SubscriptionAssignment } from '../components/subscription-assignment';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -1,0 +1,5 @@
+src/features/pos/components/barcode-scanner-listener.tsx(2,1): error TS6133: 'toast' is declared but its value is never read.
+src/features/pos/components/numpad.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/features/subscriptions/components/subscription-assignment.test.tsx(1,37): error TS6133: 'waitFor' is declared but its value is never read.
+src/features/system/dashboard/components/system-dashboard.tsx(1,29): error TS6133: 'CardDescription' is declared but its value is never read.
+src/features/system/restaurants/components/restaurant-list.tsx(1,1): error TS6133: 'useState' is declared but its value is never read.

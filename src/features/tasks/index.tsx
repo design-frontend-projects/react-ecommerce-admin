@@ -5,7 +5,6 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitch } from '@/components/language-switch'
-import { LanguageSwitch } from "@/components/language-switch"
 import { TasksDialogs } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import { TasksProvider } from './components/tasks-provider'
@@ -18,7 +17,6 @@ export function Tasks() {
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
-          <LanguageSwitch />
           <LanguageSwitch />
           <ThemeSwitch />
           <ConfigDrawer />

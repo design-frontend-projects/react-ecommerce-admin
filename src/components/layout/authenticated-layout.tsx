@@ -1,4 +1,5 @@
 import { Outlet } from '@tanstack/react-router'
+import { motion, AnimatePresence } from 'framer-motion'
 import { getCookie } from '@/lib/cookies'
 import { cn } from '@/lib/utils'
 import { LayoutProvider } from '@/context/layout-provider'
@@ -21,19 +22,23 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
           <AppSidebar />
           <SidebarInset
             className={cn(
-              // Set content container, so we can use container queries
               '@container/content',
-
-              // If layout is fixed, set the height
-              // to 100svh to prevent overflow
               'has-data-[layout=fixed]:h-svh',
-
-              // If layout is fixed and sidebar is inset,
-              // set the height to 100svh - spacing (total margins) to prevent overflow
-              'peer-data-[variant=inset]:has-data-[layout=fixed]:h-[calc(100svh-(var(--spacing)*4))]'
+              'peer-data-[variant=inset]:has-data-[layout=fixed]:h-[calc(100svh-(var(--spacing)*4))]',
+              'bg-background/80 backdrop-blur-sm'
             )}
           >
-            {children ?? <Outlet />}
+            <AnimatePresence mode='wait'>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className='flex flex-1 flex-col'
+              >
+                {children ?? <Outlet />}
+              </motion.div>
+            </AnimatePresence>
           </SidebarInset>
         </SidebarProvider>
       </LayoutProvider>

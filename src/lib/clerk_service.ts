@@ -7,7 +7,8 @@ const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY 
  * Lists all users from Clerk and maps them to the application's User schema.
  */
 export async function listClerkUsers(): Promise<User[]> {
-  const clerkUsers = await clerkClient.users.getUserList();
+  const clerkUsersResponse = await clerkClient.users.getUserList();
+  const clerkUsers = clerkUsersResponse.data;
   
   return clerkUsers.map((user) => ({
     id: user.id,
@@ -27,11 +28,11 @@ export async function listClerkUsers(): Promise<User[]> {
  * Finds a Clerk user by their email address.
  */
 export async function findClerkUserByEmail(email: string): Promise<User | null> {
-  const users = await clerkClient.users.getUserList({
+  const usersResponse = await clerkClient.users.getUserList({
     emailAddress: [email],
   });
   
-  const user = users[0];
+  const user = usersResponse.data[0];
   if (!user) return null;
 
   return {
@@ -68,7 +69,7 @@ export async function findClerkUserById(clerkId: string): Promise<User | null> {
       createdAt: new Date(user.createdAt),
       updatedAt: new Date(user.updatedAt),
     };
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }

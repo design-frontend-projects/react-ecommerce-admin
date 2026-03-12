@@ -19,9 +19,9 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Bluewave POS',
-        short_name: 'Bluewave',
-        description: 'Premium POS and Management System for Bluewave',
+        name: 'Bluewave POS - Premium Restaurant Management',
+        short_name: 'Bluewave POS',
+        description: 'Advanced Point of Sale and Restaurant Management System',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
@@ -29,17 +29,13 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'images/pwa-192x192.png',
+            src: 'images/logo-192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any maskable',
           },
           {
-            src: 'images/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: 'images/maskable-icon.png',
+            src: 'images/logo-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
@@ -87,6 +83,20 @@ export default defineConfig({
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/qihgtllyfkoynorwazfn\.supabase\.co\/rest\/v1\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'supabase-api-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24, // 24 hours
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
               },
             },
           },

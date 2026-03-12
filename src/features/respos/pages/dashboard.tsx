@@ -17,6 +17,7 @@ import {
   UtensilsCrossed,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import {
   Card,
   CardContent,
@@ -100,15 +101,23 @@ export function ResposDashboard() {
 
   return (
     <>
-      <Header>
-        <div className='flex items-center gap-2'>
-          <UtensilsCrossed className='h-5 w-5 text-orange-500' />
-          <h1 className='text-lg font-semibold'>Restaurant POS</h1>
+      <Header fixed>
+        <div className='flex items-center gap-3'>
+          <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+            <UtensilsCrossed className='h-5 w-5' />
+          </div>
+          <div className='flex flex-col'>
+            <h1 className='text-sm font-semibold leading-none'>Dashboard</h1>
+            <p className='text-[10px] text-muted-foreground uppercase tracking-wider font-medium'>Control Center</p>
+          </div>
         </div>
-        <div className='ml-auto flex items-center gap-4'>
+        <div className='ml-auto flex items-center gap-2'>
           <NotificationsDropdown />
-          <LanguageSwitch />
-          <ThemeSwitch />
+          <Separator orientation='vertical' className='mx-1 h-6' />
+          <div className='hidden items-center gap-2 sm:flex'>
+            <LanguageSwitch />
+            <ThemeSwitch />
+          </div>
           <ProfileDropdown />
         </div>
       </Header>
@@ -249,31 +258,43 @@ function StatsCard({
   color,
 }: StatsCardProps) {
   return (
-    <Card>
-      <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium text-muted-foreground'>
-          {title}
-        </CardTitle>
-        <Icon className={`h-4 w-4 ${color}`} />
-      </CardHeader>
-      <CardContent>
-        <div className='flex items-baseline gap-2'>
-          <div className='text-2xl font-bold'>{value}</div>
-          {total !== undefined && (
-            <span className='text-sm text-muted-foreground'>/ {total}</span>
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
+      <Card className='overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm transition-colors hover:border-primary/50'>
+        <CardHeader className='flex flex-row items-center justify-between pb-2'>
+          <CardTitle className='text-xs font-medium uppercase tracking-wider text-muted-foreground'>
+            {title}
+          </CardTitle>
+          <div className={`rounded-md ${color.replace('text-', 'bg-')}/10 p-2`}>
+            <Icon className={`h-4 w-4 ${color}`} />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className='flex items-baseline gap-2'>
+            <div className='text-2xl font-bold tracking-tight'>{value}</div>
+            {total !== undefined && (
+              <span className='text-xs font-medium text-muted-foreground'>
+                / {total}
+              </span>
+            )}
+          </div>
+          {trend !== undefined && (
+            <motion.p
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className={`mt-2 flex items-center text-xs font-medium ${trend >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}
+            >
+              <TrendingUp className={`mr-1 h-3 w-3 ${trend < 0 ? 'rotate-180' : ''}`} />
+              {trend >= 0 ? '+' : ''}
+              {trend}%
+              <span className='ml-1 text-muted-foreground font-normal'>from last shift</span>
+            </motion.p>
           )}
-        </div>
-        {trend !== undefined && (
-          <p
-            className={`mt-1 text-xs ${trend >= 0 ? 'text-green-500' : 'text-red-500'}`}
-          >
-            <TrendingUp className='mr-1 inline h-3 w-3' />
-            {trend >= 0 ? '+' : ''}
-            {trend}% from yesterday
-          </p>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </motion.div>
   )
 }
 
@@ -295,19 +316,27 @@ function QuickActionCard({
 }: QuickActionCardProps) {
   return (
     <Link to={href}>
-      <Card className='group cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md'>
-        <CardContent className='flex items-center gap-4 p-4'>
-          <div
-            className={`rounded-lg bg-gradient-to-br ${color} p-3 text-white transition-transform group-hover:scale-110`}
-          >
-            <Icon className='h-5 w-5' />
-          </div>
-          <div>
-            <p className='font-medium'>{title}</p>
-            <p className='text-xs text-muted-foreground'>{description}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      >
+        <Card className='group cursor-pointer border-border/50 bg-background/50 backdrop-blur-sm transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5'>
+          <CardContent className='flex items-center gap-4 p-4'>
+            <div
+              className={`rounded-xl bg-linear-to-br ${color} p-3 text-white shadow-lg shadow-black/5 transition-transform group-hover:rotate-6 group-hover:scale-110`}
+            >
+              <Icon className='h-5 w-5' />
+            </div>
+            <div className='space-y-1'>
+              <p className='text-sm font-semibold leading-none'>{title}</p>
+              <p className='text-[11px] text-muted-foreground transition-colors group-hover:text-primary/80'>
+                {description}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     </Link>
   )
 }

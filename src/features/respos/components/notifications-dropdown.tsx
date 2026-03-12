@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
   Bell,
@@ -50,37 +51,43 @@ function NotificationItem({ notification, onMarkRead }: NotificationItemProps) {
   const Icon = config?.icon || Bell
 
   return (
-    <button
+    <motion.button
+      layout
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 10 }}
       type='button'
       onClick={() => !notification.is_read && onMarkRead(notification.id)}
-      className={`flex w-full items-start gap-3 p-3 text-left transition-colors hover:bg-muted/50 ${
+      className={`flex w-full items-start gap-4 p-4 text-left transition-all hover:bg-muted/50 ${
         !notification.is_read ? 'bg-muted/30' : ''
       }`}
     >
       <div
-        className={`mt-0.5 rounded-full p-1.5 ${config?.color || 'text-muted-foreground'} bg-background`}
+        className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${config?.color || 'text-muted-foreground'} bg-background shadow-sm ring-1 ring-border/50`}
       >
-        <Icon className='h-4 w-4' />
+        <Icon className='h-4.5 w-4.5' />
       </div>
-      <div className='min-w-0 flex-1'>
-        <div className='flex items-center gap-2'>
-          <p className='truncate text-sm font-medium'>{notification.title}</p>
+      <div className='min-w-0 flex-1 space-y-1'>
+        <div className='flex items-center justify-between gap-2'>
+          <p className='truncate text-sm font-semibold tracking-tight'>
+            {notification.title}
+          </p>
           {!notification.is_read && (
-            <span className='h-2 w-2 shrink-0 rounded-full bg-blue-500' />
+            <span className='h-2 w-2 shrink-0 rounded-full bg-primary animate-pulse' />
           )}
         </div>
         {notification.message && (
-          <p className='mt-0.5 line-clamp-2 text-xs text-muted-foreground'>
+          <p className='line-clamp-2 text-xs text-muted-foreground leading-relaxed'>
             {notification.message}
           </p>
         )}
-        <p className='mt-1 text-xs text-muted-foreground'>
+        <p className='text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60'>
           {formatDistanceToNow(new Date(notification.created_at), {
             addSuffix: true,
           })}
         </p>
       </div>
-    </button>
+    </motion.button>
   )
 }
 
@@ -157,14 +164,16 @@ export function NotificationsDropdown() {
               </p>
             </div>
           ) : (
-            <div className='divide-y'>
-              {displayNotifications.map((notification) => (
-                <NotificationItem
-                  key={notification.id}
-                  notification={notification}
-                  onMarkRead={handleMarkRead}
-                />
-              ))}
+            <div className='divide-y divide-border/50'>
+              <AnimatePresence mode='popLayout'>
+                {displayNotifications.map((notification) => (
+                  <NotificationItem
+                    key={notification.id}
+                    notification={notification}
+                    onMarkRead={handleMarkRead}
+                  />
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </ScrollArea>

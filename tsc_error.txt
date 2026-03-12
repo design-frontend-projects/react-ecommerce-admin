@@ -1,0 +1,28 @@
+src/features/chats/index.tsx(28,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/features/chats/index.tsx(29,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/features/pos/components/barcode-scanner-listener.tsx(2,1): error TS6133: 'toast' is declared but its value is never read.
+src/features/pos/components/numpad.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/features/respos/pages/shifts.tsx(87,15): error TS2353: Object literal may only specify known properties, and 'invalid_type_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+src/features/respos/pages/shifts.tsx(93,15): error TS2353: Object literal may only specify known properties, and 'invalid_type_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+src/features/settings/index.tsx(10,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/features/settings/index.tsx(11,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/features/subscriptions/components/subscription-assignment.test.tsx(1,37): error TS6133: 'waitFor' is declared but its value is never read.
+src/features/system/dashboard/components/system-dashboard.tsx(1,29): error TS6133: 'CardDescription' is declared but its value is never read.
+src/features/system/restaurants/components/restaurant-list.tsx(1,1): error TS6133: 'useState' is declared but its value is never read.
+src/features/tasks/index.tsx(7,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/features/tasks/index.tsx(8,10): error TS2300: Duplicate identifier 'LanguageSwitch'.
+src/hooks/use-network-status.test.ts(4,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/hooks/use-network-status.test.ts(7,3): error TS2304: Cannot find name 'beforeAll'.
+src/hooks/use-network-status.test.ts(13,3): error TS2304: Cannot find name 'afterAll'.
+src/hooks/use-network-status.test.ts(21,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/hooks/use-network-status.test.ts(28,5): error TS2304: Cannot find name 'expect'.
+src/hooks/use-network-status.test.ts(31,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/hooks/use-network-status.test.ts(38,5): error TS2304: Cannot find name 'expect'.
+src/hooks/use-network-status.test.ts(48,5): error TS2304: Cannot find name 'expect'.
+src/hooks/use-network-status.test.ts(51,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/hooks/use-network-status.test.ts(62,5): error TS2304: Cannot find name 'expect'.
+src/hooks/use-network-status.test.ts(72,5): error TS2304: Cannot find name 'expect'.
+src/lib/clerk_service.ts(12,21): error TS2339: Property 'map' does not exist on type 'PaginatedResourceResponse<User[]>'.
+src/lib/clerk_service.ts(12,26): error TS7006: Parameter 'user' implicitly has an 'any' type.
+src/lib/clerk_service.ts(34,16): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'PaginatedResourceResponse<User[]>'.
+  Property '0' does not exist on type 'PaginatedResourceResponse<User[]>'.
