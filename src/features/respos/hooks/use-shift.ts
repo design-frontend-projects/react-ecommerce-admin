@@ -4,9 +4,15 @@ import { useResposStore } from '@/stores/respos-store'
 import { useOpenShift, useCloseShift } from '../api/mutations'
 import { useActiveShift } from '../api/queries'
 
-export function useShift() {
+interface UseShiftOptions {
+  clerkUserId?: string | null
+  restaurantId?: string | null
+}
+
+export function useShift(options: UseShiftOptions = {}) {
+  const { clerkUserId, restaurantId } = options
   const { activeShift, setActiveShift } = useResposStore()
-  const { data: fetchedShift, isLoading, error, refetch } = useActiveShift()
+  const { data: fetchedShift, isLoading, error, refetch } = useActiveShift(clerkUserId)
 
   const openShiftMutation = useOpenShift()
   const closeShiftMutation = useCloseShift()
@@ -22,6 +28,8 @@ export function useShift() {
     const result = await openShiftMutation.mutateAsync({
       employeeId,
       openingCash,
+      clerkUserId: clerkUserId ?? undefined,
+      restaurantId: restaurantId ?? undefined,
     })
     setActiveShift(result)
     return result

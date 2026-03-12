@@ -106,7 +106,8 @@ export function ShiftManagement() {
   const [openDialogOpen, setOpenDialogOpen] = useState(false)
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
 
-  const { employee, canOpenShift, isLoading: authLoading } = useResposAuth()
+  const { employee, clerkUser, canOpenShift, isLoading: authLoading } = useResposAuth()
+  const clerkUserId = clerkUser?.id ?? null
   const {
     shift: activeShift,
     isLoading: shiftLoading,
@@ -115,8 +116,8 @@ export function ShiftManagement() {
     closeShift,
     isOpening,
     isClosing,
-  } = useShift()
-  const { data: allShifts = [], isLoading: historyLoading } = useShifts()
+  } = useShift({ clerkUserId })
+  const { data: allShifts = [], isLoading: historyLoading } = useShifts(clerkUserId)
 
   const isLoading = authLoading || shiftLoading
 

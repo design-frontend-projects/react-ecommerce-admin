@@ -527,16 +527,22 @@ model res_reservations {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_shifts {
-  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  opened_by    String?      @db.Uuid
-  closed_by    String?      @db.Uuid
-  opening_cash Decimal?     @default(0) @db.Decimal(10, 2)
-  closing_cash Decimal?     @db.Decimal(10, 2)
-  status       String?      @default("open") @db.VarChar(20)
-  opened_at    DateTime?    @default(now()) @db.Timestamptz(6)
-  closed_at    DateTime?    @db.Timestamptz(6)
-  notes        String?
-  res_orders   res_orders[]
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id String?      @db.VarChar(255)
+  closed_by     String?      @db.Uuid
+  opening_cash  Decimal?     @default(0) @db.Decimal(10, 2)
+  closing_cash  Decimal?     @db.Decimal(10, 2)
+  status        String?      @default("open") @db.VarChar(20)
+  opened_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  closed_at     DateTime?    @db.Timestamptz(6)
+  notes         String?
+  opened_by     String?      @db.Uuid
+  restaurant_id String?      @db.VarChar(255)
+  res_orders    res_orders[]
+
+  @@index([clerk_user_id], map: "idx_res_shifts_clerk_user_id")
+  @@index([restaurant_id], map: "idx_res_shifts_restaurant_id")
+  @@index([status], map: "idx_res_shifts_status")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

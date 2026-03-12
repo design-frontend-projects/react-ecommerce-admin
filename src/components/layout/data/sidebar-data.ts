@@ -62,6 +62,12 @@ export function useSidebarData(): SidebarData {
             icon: Wrench,
             isSystemOwner: true,
           },
+          {
+            title: t('auditLogs'),
+            url: '/system/audit-logs',
+            icon: LineChart,
+            isSystemOwner: true,
+          },
         ],
       },
       {

@@ -1,6 +1,7 @@
 {
   "system": "Hệ thống",
   "systemManagement": "Quản lý hệ thống",
+  "auditLogs": "Nhật ký hệ thống",
   "general": "Chung",
   "dashboard": "Bảng điều khiển",
   "posSystem": "Hệ thống POS",

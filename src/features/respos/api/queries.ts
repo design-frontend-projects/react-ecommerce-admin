@@ -42,8 +42,14 @@ export const resposQueryKeys = {
       ? (['respos', 'menu-items', categoryId] as const)
       : (['respos', 'menu-items'] as const),
   menuItem: (id: string) => ['respos', 'menu-items', 'detail', id] as const,
-  shifts: ['respos', 'shifts'] as const,
-  activeShift: ['respos', 'shifts', 'active'] as const,
+  shifts: (clerkUserId?: string) =>
+    clerkUserId
+      ? (['respos', 'shifts', clerkUserId] as const)
+      : (['respos', 'shifts'] as const),
+  activeShift: (clerkUserId?: string) =>
+    clerkUserId
+      ? (['respos', 'shifts', 'active', clerkUserId] as const)
+      : (['respos', 'shifts', 'active'] as const),
   activeOrder: (tableId: string) =>
     ['respos', 'orders', 'active', tableId] as const,
   orders: (status?: string) =>
@@ -428,36 +434,49 @@ export function useMenuItem(id: string) {
 
 // ============ Shifts ============
 
-export function useActiveShift() {
+export function useActiveShift(clerkUserId?: string | null) {
   return useQuery({
-    queryKey: resposQueryKeys.activeShift,
+    queryKey: resposQueryKeys.activeShift(clerkUserId ?? undefined),
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('res_shifts')
         .select('*')
         .eq('status', 'open')
         .order('opened_at', { ascending: false })
         .limit(1)
-        .maybeSingle()
+
+      if (clerkUserId) {
+        query = query.eq('clerk_user_id', clerkUserId)
+      }
+
+      const { data, error } = await query.maybeSingle()
 
       if (error) throw error
       return data as ResShift | null
     },
+    enabled: !!clerkUserId,
   })
 }
 
-export function useShifts() {
+export function useShifts(clerkUserId?: string | null) {
   return useQuery({
-    queryKey: resposQueryKeys.shifts,
+    queryKey: resposQueryKeys.shifts(clerkUserId ?? undefined),
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('res_shifts')
         .select('*')
         .order('opened_at', { ascending: false })
 
+      if (clerkUserId) {
+        query = query.eq('clerk_user_id', clerkUserId)
+      }
+
+      const { data, error } = await query
+
       if (error) throw error
       return data as ResShift[]
     },
+    enabled: !!clerkUserId,
   })
 }
 

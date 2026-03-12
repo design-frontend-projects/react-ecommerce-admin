@@ -1,6 +1,7 @@
 {
   "system": "System",
   "systemManagement": "System Management",
+  "auditLogs": "Audit Logs",
   "general": "General",
   "dashboard": "Dashboard",
   "posSystem": "POS System",

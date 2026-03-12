@@ -57,9 +57,13 @@ export function useOpenShift() {
     mutationFn: async ({
       employeeId,
       openingCash,
+      clerkUserId,
+      restaurantId,
     }: {
       employeeId: string
       openingCash: number
+      clerkUserId?: string
+      restaurantId?: string
     }) => {
       const { data, error } = await supabase
         .from('res_shifts')
@@ -67,6 +71,8 @@ export function useOpenShift() {
           opened_by: employeeId,
           opening_cash: openingCash,
           status: 'open',
+          clerk_user_id: clerkUserId,
+          restaurant_id: restaurantId,
         })
         .select()
         .single()

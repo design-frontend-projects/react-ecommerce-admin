@@ -170,6 +170,8 @@ export type OrderItemStatus = 'pending' | 'preparing' | 'ready' | 'served'
 
 export interface ResShift {
   id: string
+  clerk_user_id?: string
+  restaurant_id?: string
   opened_by: string
   closed_by?: string
   opening_cash: number
