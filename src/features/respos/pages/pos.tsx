@@ -26,7 +26,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Header } from '@/components/layout/header'
-import { ThemeSwitch } from ''
+import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitch } from '@/components/language-switch'
 import { LanguageSwitch } from "@/components/language-switch"
 import { useAddOrderItems, useCreateOrder } from '../api/mutations'

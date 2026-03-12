@@ -1,4 +1,4 @@
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import { isSubscriptionActive } from '../lib/subscription_utils';
 
 describe('Subscription Guard Logic', () => {

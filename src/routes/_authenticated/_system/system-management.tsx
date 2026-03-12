@@ -41,7 +41,7 @@ const SystemManagementPage = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p>Welcome, {profile?.full_name || profile?.email || 'System Administrator'}.</p>
+            <p>Welcome, {profile?.first_name || profile?.email || 'System Administrator'}.</p>
             <p className="text-sm text-muted-foreground italic">
               This dashboard is only visible to system owners.
             </p>

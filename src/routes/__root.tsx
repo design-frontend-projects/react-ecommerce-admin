@@ -11,6 +11,7 @@ import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
 import { Loader2 } from 'lucide-react'
 import { NetworkStatusProvider } from '@/context/network-status-provider'
 import { OfflineBadge, OnlineBadge } from '@/components/offline-badge'
+import { PwaUpdatePrompt } from '@/components/pwa-update-prompt'
 
 const RootComponent = () => {
   const { isLoading } = useSyncUser()
@@ -26,6 +27,7 @@ const RootComponent = () => {
   return (
     <NetworkStatusProvider>
       <NavigationProgress />
+      <PwaUpdatePrompt />
       <Outlet />
       <Toaster duration={5000} />
       <OfflineBadge />

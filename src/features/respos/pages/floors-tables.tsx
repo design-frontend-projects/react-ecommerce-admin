@@ -14,7 +14,7 @@ import {
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from ''
+import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitch } from '@/components/language-switch'
 import { useDeleteFloor, useDeleteTable } from '../api/mutations'
 import { useFloors, useTables } from '../api/queries'
