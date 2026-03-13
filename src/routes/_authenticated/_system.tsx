@@ -6,19 +6,19 @@ const SystemLayout = () => {
   const { isSystemOwner, profile } = useSystemOwner()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (profile && !isSystemOwner) {
-  //     navigate({ to: '/' })
-  //   }
-  // }, [profile, isSystemOwner, navigate])
+  useEffect(() => {
+    if (profile && !isSystemOwner) {
+      navigate({ to: '/' })
+    }
+  }, [profile, isSystemOwner, navigate])
 
-  // if (!profile) {
-  //   return <div>Loading...</div>
-  // }
+  if (!profile) {
+    return <div>Loading...</div>
+  }
 
-  // if (!isSystemOwner) {
-  //   return null
-  // }
+  if (!isSystemOwner) {
+    return null
+  }
 
   return <Outlet />
 }

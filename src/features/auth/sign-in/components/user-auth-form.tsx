@@ -56,8 +56,6 @@ export function UserAuthForm({
         identifier: data.email,
         password: data.password,
       })
-      console.log('result')
-      console.log(result)
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId })
