@@ -1,3 +1,57 @@
 {
-  "hello": "مرحباً بكم"
+  "hello": "مرحباً بكم",
+  "signOutDialog": {
+    "title": "تسجيل الخروج",
+    "desc": "هل أنت متأكد من تسجيل الخروج؟",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "confirmText": "تأكيد تسجيل الخروج"
+  },
+  "offlineBadge": {
+    "title": "أنت غير متصل - سيتم حفظ الطلبات مؤقتًا",
+    "reconnected": "تم إعادة الاتصال - جاري المزامنة...",
+    "retry": "إعادة المحاولة"
+  },
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "sidebar": {
+    "profile": "الملف الشخصي",
+    "billing": "الفواتير",
+    "settings": "الإعدادات",
+    "signOut": "تسجيل الخروج"
+  },
+  "dashboard": {
+    "loading": "جاري تحميل لوحة التحكم...",
+    "download": "تحميل",
+    "overview": "نظرة عامة",
+    "analytics": "تحليلات",
+    "reports": "تقارير",
+    "notifications": "إشعارات",
+    "viewActiveSuppliers": "عرض الموردين النشطين",
+    "recentSales": "المبيعات الأخيرة",
+    "recentSalesDescription": "معاملات المبيعات الأخيرة",
+    "recentRefunds": "الاستردادات الأخيرة",
+    "recentRefundsDescription": "معاملات الاسترداد الأخيرة",
+    "pendingPurchaseOrders": "أوامر الشراء المعلقة",
+    "pendingPurchaseOrdersDescription": "أوامر الشراء قيد الإعداد",
+    "purchaseOrders": "أوامر الشراء",
+    "totalRevenue": "إجمالي الإيرادات",
+    "totalRevenueDescription": "إجمالي الإيرادات من المبيعات",
+    "customers": "العملاء",
+    "customersDescription": "إجمالي عدد العملاء",
+    "activeCustomers": "العملاء النشطين",
+    "activeCustomersDescription": "العملاء النشطين في الفترة الحالية",
+    "totalOrders": "إجمالي الطلبات",
+    "totalOrdersDescription": "إجمالي عدد الطلبات في الفترة الحالية",
+    "pendingOrders": "الطلبات المعلقة",
+    "pendingOrdersDescription": "الطلبات قيد المعالجة",
+    "viewAllCustomers": "عرض جميع العملاء",
+    "viewAllOrders": "عرض جميع الطلبات",
+    "viewAllPurchaseOrders": "عرض جميع أوامر الشراء",
+    "viewAllRefunds": "عرض جميع الاستردادات",
+    "viewAllSales": "عرض جميع المبيعات"
+  }
 }

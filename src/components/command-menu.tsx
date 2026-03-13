@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { ArrowRight, ChevronRight, Laptop, Moon, Sun } from 'lucide-react'
+import { Trans } from 'react-i18next'
 import { useSearch } from '@/context/search-provider'
 import { useTheme } from '@/context/theme-provider'
 import {
@@ -12,8 +13,8 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { type NavGroup, type NavItem } from './layout/types'
 import { useSidebarData } from './layout/data/sidebar-data'
+import { type NavGroup, type NavItem } from './layout/types'
 import { ScrollArea } from './ui/scroll-area'
 
 export function CommandMenu() {
@@ -75,15 +76,22 @@ export function CommandMenu() {
           <CommandSeparator />
           <CommandGroup heading='Chủ đề'>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <Sun /> <span>Sáng</span>
+              <Sun />{' '}
+              <span>
+                <Trans i18nKey='theme.light' />
+              </span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
               <Moon className='scale-90' />
-              <span>Tối</span>
+              <span>
+                <Trans i18nKey='theme.dark' />
+              </span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
               <Laptop />
-              <span>Hệ thống</span>
+              <span>
+                <Trans i18nKey='theme.system' />
+              </span>
             </CommandItem>
           </CommandGroup>
         </ScrollArea>

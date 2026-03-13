@@ -56,6 +56,8 @@ export function UserAuthForm({
         identifier: data.email,
         password: data.password,
       })
+      console.log('result')
+      console.log(result)
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId })
@@ -70,6 +72,9 @@ export function UserAuthForm({
         toast.success(
           `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
         )
+      } else if (result.status === 'needs_second_factor') {
+        toast.info('Sign in requires further steps.')
+        navigate({ to: '/sso-callback', replace: true })
       } else {
         toast.info('Sign in requires further steps.')
       }
@@ -83,26 +88,26 @@ export function UserAuthForm({
     }
   }
 
-  // const handleOAuthSignIn = async (
-  //   strategy: 'oauth_github' | 'oauth_facebook'
-  // ) => {
-  //   if (!isLoaded) return
-  //   try {
-  //     setIsLoading(true)
-  //     const redirectPath = selectedModule === 'restaurant' ? '/respos' : '/'
-  //     await signIn.authenticateWithRedirect({
-  //       strategy,
-  //       redirectUrl: '/sso-callback',
-  //       redirectUrlComplete: redirectTo || redirectPath,
-  //     })
-  //   } catch (err: unknown) {
-  //     const errorMsg =
-  //       (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
-  //       'OAuth invalid'
-  //     toast.error(errorMsg)
-  //     setIsLoading(false)
-  //   }
-  // }
+  const handleOAuthSignIn = async (
+    strategy: 'oauth_github' | 'oauth_facebook'
+  ) => {
+    if (!isLoaded) return
+    try {
+      setIsLoading(true)
+      const redirectPath = selectedModule === 'restaurant' ? '/respos' : '/'
+      await signIn.authenticateWithRedirect({
+        strategy,
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: redirectTo || redirectPath,
+      })
+    } catch (err: unknown) {
+      const errorMsg =
+        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        'OAuth invalid'
+      toast.error(errorMsg)
+      setIsLoading(false)
+    }
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },

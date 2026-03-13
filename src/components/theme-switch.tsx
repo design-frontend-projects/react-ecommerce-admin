@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Check, Moon, Sun } from 'lucide-react'
+import { Trans } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
@@ -32,21 +33,21 @@ export function ThemeSwitch() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          Sáng{' '}
+          <Trans i18nKey='theme.light' />{' '}
           <Check
             size={14}
             className={cn('ms-auto', theme !== 'light' && 'hidden')}
           />
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Tối
+          <Trans i18nKey='theme.dark' />
           <Check
             size={14}
             className={cn('ms-auto', theme !== 'dark' && 'hidden')}
           />
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          Hệ thống
+          <Trans i18nKey='theme.system' />
           <Check
             size={14}
             className={cn('ms-auto', theme !== 'system' && 'hidden')}

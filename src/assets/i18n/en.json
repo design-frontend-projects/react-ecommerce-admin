@@ -1,3 +1,56 @@
 {
-  "hello": "Hello world"
+  "hello": "Hello world",
+  "signOutDialog": {
+    "desc": "Are you sure you want to sign out?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "confirmText": "Confirm Sign Out"
+  },
+  "offlineBadge": {
+    "title": "You are offline - Orders will be saved locally",
+    "reconnected": "Reconnected - Syncing...",
+    "retry": "Retry"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "sidebar": {
+    "profile": "Profile",
+    "billing": "Billing",
+    "settings": "Settings",
+    "signOut": "Sign Out"
+  },
+  "dashboard": {
+    "loading": "Loading dashboard...",
+    "download": "Download",
+    "overview": "Overview",
+    "analytics": "Analytics",
+    "reports": "Reports",
+    "notifications": "Notifications",
+    "viewActiveSuppliers": "View active suppliers",
+    "recentSales": "Recent Sales",
+    "recentSalesDescription": "Recent sales transactions",
+    "recentRefunds": "Recent Refunds",
+    "recentRefundsDescription": "Recent refund transactions",
+    "pendingPurchaseOrders": "Pending Purchase Orders",
+    "pendingPurchaseOrdersDescription": "Purchase orders pending configuration",
+    "purchaseOrders": "Purchase Orders",
+    "totalRevenue": "Total Revenue",
+    "totalRevenueDescription": "Total revenue from sales",
+    "customers": "Customers",
+    "customersDescription": "Total number of customers",
+    "activeCustomers": "Active Customers",
+    "activeCustomersDescription": "Active customers in the current period",
+    "totalOrders": "Total Orders",
+    "totalOrdersDescription": "Total number of orders in the current period",
+    "pendingOrders": "Pending Orders",
+    "pendingOrdersDescription": "Orders pending processing",
+    "viewAllCustomers": "View all customers",
+    "viewAllOrders": "View all orders",
+    "viewAllPurchaseOrders": "View all purchase orders",
+    "viewAllRefunds": "View all refunds",
+    "viewAllSales": "View all sales"
+  }
 }

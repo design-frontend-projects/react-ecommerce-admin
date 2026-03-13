@@ -1,6 +1,7 @@
 import { type SVGProps } from 'react'
 import { Root as Radio, Item } from '@radix-ui/react-radio-group'
 import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
+import { Trans } from 'react-i18next'
 import { IconDir } from '@/assets/custom/icon-dir'
 import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
 import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
@@ -187,17 +188,17 @@ function ThemeConfig() {
         {[
           {
             value: 'system',
-            label: 'Hệ thống',
+            label: <Trans i18nKey='theme.system' />,
             icon: IconThemeSystem,
           },
           {
             value: 'light',
-            label: 'Sáng',
+            label: <Trans i18nKey='theme.light' />,
             icon: IconThemeLight,
           },
           {
             value: 'dark',
-            label: 'Tối',
+            label: <Trans i18nKey='theme.dark' />,
             icon: IconThemeDark,
           },
         ].map((item) => (
@@ -305,7 +306,8 @@ function LayoutConfig() {
         ))}
       </Radio>
       <div id='layout-description' className='sr-only'>
-        Chọn giữa chế độ mở rộng mặc định, thu gọn chỉ biểu tượng hoặc toàn màn hình
+        Chọn giữa chế độ mở rộng mặc định, thu gọn chỉ biểu tượng hoặc toàn màn
+        hình
       </div>
     </div>
   )

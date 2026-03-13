@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { useClerk } from '@clerk/clerk-react'
+import { Trans } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { useTranslation } from 'react-i18next'
 
 interface SignOutDialogProps {
   open: boolean
@@ -14,7 +14,6 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const location = useLocation()
   const { auth } = useAuthStore()
   const clerk = useClerk()
-  const { t } = useTranslation('sidebar')
 
   const handleSignOut = async () => {
     await clerk.signOut()
@@ -32,9 +31,9 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
     <ConfirmDialog
       open={open}
       onOpenChange={onOpenChange}
-      title={t('signOutDialog.title')}
-      desc={t('signOutDialog.desc')}
-      confirmText={t('signOutDialog.confirmText')}
+      title={<Trans i18nKey='sidebar.signOut' />}
+      desc={<Trans i18nKey='signOutDialog.desc' />}
+      confirmText={<Trans i18nKey='signOutDialog.confirmText' />}
       destructive
       handleConfirm={handleSignOut}
       className='sm:max-w-sm'

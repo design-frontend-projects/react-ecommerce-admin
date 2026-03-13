@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { SignInButton, useAuth } from '@clerk/clerk-react'
+import { Trans } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,13 +11,13 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ConfigDrawer } from '@/components/config-drawer'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { Analytics } from './components/analytics'
 import { Overview } from './components/overview'
 import { PendingPurchaseOrders } from './components/pending-purchase-orders'
@@ -32,7 +33,7 @@ export function Dashboard() {
   if (isLoading) {
     return (
       <div className='flex h-full w-full items-center justify-center'>
-        Đang tải dữ liệu tổng quan...
+        <Trans i18nKey='dashboard.loading' />
       </div>
     )
   }
@@ -59,9 +60,13 @@ export function Dashboard() {
       {/* ===== Main ===== */}
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>Tổng quan</h1>
+          <h1 className='text-2xl font-bold tracking-tight'>
+            <Trans i18nKey='dashboard.overview' />
+          </h1>
           <div className='flex items-center space-x-2'>
-            <Button>Tải về</Button>
+            <Button>
+              <Trans i18nKey='dashboard.download' />
+            </Button>
           </div>
         </div>
         <Tabs
@@ -71,13 +76,17 @@ export function Dashboard() {
         >
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
-              <TabsTrigger value='overview'>Tổng quan</TabsTrigger>
-              <TabsTrigger value='analytics'>Phân tích</TabsTrigger>
+              <TabsTrigger value='overview'>
+                <Trans i18nKey='dashboard.overview' />
+              </TabsTrigger>
+              <TabsTrigger value='analytics'>
+                <Trans i18nKey='dashboard.analytics' />
+              </TabsTrigger>
               <TabsTrigger value='reports' disabled>
-                Báo cáo
+                <Trans i18nKey='dashboard.reports' />
               </TabsTrigger>
               <TabsTrigger value='notifications' disabled>
-                Thông báo
+                <Trans i18nKey='dashboard.notifications' />
               </TabsTrigger>
             </TabsList>
           </div>
@@ -86,7 +95,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Tổng doanh thu
+                    <Trans i18nKey='dashboard.totalRevenue' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -109,14 +118,14 @@ export function Dashboard() {
                       : '0.00'}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Tổng doanh thu từ các đơn hàng
+                    <Trans i18nKey='dashboard.totalRevenueDescription' />
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Khách hàng
+                    <Trans i18nKey='dashboard.customers' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -139,7 +148,7 @@ export function Dashboard() {
                   </div>
                   <p className='text-xs text-muted-foreground'>
                     <Link to='/customers' className='hover:underline'>
-                      Xem tất cả khách hàng
+                      <Trans i18nKey='dashboard.viewAllCustomers' />
                     </Link>
                   </p>
                 </CardContent>
@@ -147,7 +156,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Tổng đơn hàng
+                    <Trans i18nKey='dashboard.totalOrders' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -168,14 +177,14 @@ export function Dashboard() {
                     +{stats?.totalOrders || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Tổng số đơn hàng đã hoàn thành
+                    <Trans i18nKey='dashboard.totalOrdersDescription' />
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Nhà cung cấp
+                    <Trans i18nKey='dashboard.suppliers' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -196,7 +205,7 @@ export function Dashboard() {
                   </div>
                   <p className='text-xs text-muted-foreground'>
                     <a href='#' className='hover:underline'>
-                      Xem nhà cung cấp hoạt động
+                      <Trans i18nKey='dashboard.viewActiveSuppliers' />
                     </a>
                   </p>
                 </CardContent>
@@ -205,7 +214,9 @@ export function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Tổng quan</CardTitle>
+                  <CardTitle>
+                    <Trans i18nKey='dashboard.overview' />
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className='ps-2'>
                   <Overview data={chartData || []} />
@@ -213,8 +224,12 @@ export function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Đơn hàng gần đây</CardTitle>
-                  <CardDescription>Các giao dịch bán hàng mới nhất.</CardDescription>
+                  <CardTitle>
+                    <Trans i18nKey='dashboard.recentSales' />
+                  </CardTitle>
+                  <CardDescription>
+                    <Trans i18nKey='dashboard.recentSalesDescription' />
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentSales data={dashboardData?.recentSales || []} />
@@ -225,8 +240,12 @@ export function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Hoàn tiền gần đây</CardTitle>
-                  <CardDescription>Các khoản hoàn tiền vừa xử lý.</CardDescription>
+                  <CardTitle>
+                    <Trans i18nKey='dashboard.recentRefunds' />
+                  </CardTitle>
+                  <CardDescription>
+                    <Trans i18nKey='dashboard.recentRefundsDescription' />
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentRefunds data={recentRefunds || []} />
@@ -234,9 +253,11 @@ export function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Hàng đang chờ nhập</CardTitle>
+                  <CardTitle>
+                    <Trans i18nKey='dashboard.pendingPurchaseOrders' />
+                  </CardTitle>
                   <CardDescription>
-                    Đơn đặt hàng đang cấu hình chở nhập.
+                    <Trans i18nKey='dashboard.pendingPurchaseOrdersDescription' />
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -249,7 +270,7 @@ export function Dashboard() {
             <Analytics />
             <div className='pt-4'>
               <h2 className='mb-4 text-xl font-bold tracking-tight'>
-                Đơn đặt mua hàng
+                <Trans i18nKey='dashboard.purchaseOrders' />
               </h2>
               <PurchaseOrderAnalytics />
             </div>

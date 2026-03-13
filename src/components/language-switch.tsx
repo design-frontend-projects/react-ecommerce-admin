@@ -11,7 +11,7 @@ import {
 
 const languages = [
   { code: 'en', label: 'English' },
-  { code: 'vi', label: 'Tiếng Việt' },
+  { code: 'ar', label: 'العربية' },
 ]
 
 export function LanguageSwitch() {
@@ -34,10 +34,7 @@ export function LanguageSwitch() {
             {lang.label}
             <Check
               size={14}
-              className={cn(
-                'ms-auto',
-                i18n.language !== lang.code && 'hidden'
-              )}
+              className={cn('ms-auto', i18n.language !== lang.code && 'hidden')}
             />
           </DropdownMenuItem>
         ))}
