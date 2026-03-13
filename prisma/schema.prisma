@@ -1,5 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
   previewFeatures = ["partialIndexes"]
   engineType      = "library"
 }
@@ -744,9 +745,47 @@ model tenant_users {
   updated_at         DateTime?     @default(now()) @db.Timestamptz(6)
   default_role       String?
   is_restuarant_user Boolean?      @default(false)
+  user_roles         user_roles[]
 
   @@index([clerk_user_id], map: "idx_users_clerk_id")
   @@index([primary_module], map: "idx_users_primary_module")
+}
+
+model roles {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String            @unique @db.VarChar(100)
+  description      String?           @db.VarChar(255)
+  created_at       DateTime?         @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?         @default(now()) @db.Timestamptz(6)
+  role_permissions role_permissions[]
+  user_roles       user_roles[]
+}
+
+model permissions {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String            @unique @db.VarChar(100)
+  description      String?           @db.VarChar(255)
+  created_at       DateTime?         @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?         @default(now()) @db.Timestamptz(6)
+  role_permissions role_permissions[]
+}
+
+model role_permissions {
+  role_id       String      @db.Uuid
+  permission_id String      @db.Uuid
+  roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  @@id([role_id, permission_id])
+}
+
+model user_roles {
+  user_id String       @db.Uuid
+  role_id String       @db.Uuid
+  users   tenant_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  roles   roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, role_id])
 }
 
 model res_promotion_usage {

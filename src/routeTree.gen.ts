@@ -71,6 +71,7 @@ import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_auth
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
+import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
@@ -414,6 +415,12 @@ const AuthenticatedSystemSystemDashboardRoute =
     path: '/system-dashboard',
     getParentRoute: () => AuthenticatedSystemRoute,
   } as any)
+const AuthenticatedSystemAuditLogsRoute =
+  AuthenticatedSystemAuditLogsRouteImport.update({
+    id: '/audit-logs',
+    path: '/audit-logs',
+    getParentRoute: () => AuthenticatedSystemRoute,
+  } as any)
 const AuthenticatedSystemRestaurantsIndexRoute =
   AuthenticatedSystemRestaurantsIndexRouteImport.update({
     id: '/restaurants/',
@@ -457,6 +464,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
+  '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -518,6 +526,7 @@ export interface FileRoutesByTo {
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
+  '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -585,6 +594,7 @@ export interface FileRoutesById {
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
+  '/_authenticated/_system/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/_authenticated/_system/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -649,6 +659,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/'
     | '/menu'
+    | '/audit-logs'
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
@@ -710,6 +721,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/'
     | '/menu'
+    | '/audit-logs'
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
@@ -776,6 +788,7 @@ export interface FileRouteTypes {
     | '/_authenticated/subscriptions'
     | '/_authenticated/'
     | '/menu/'
+    | '/_authenticated/_system/audit-logs'
     | '/_authenticated/_system/system-dashboard'
     | '/_authenticated/_system/system-management'
     | '/_authenticated/errors/$error'
@@ -1263,6 +1276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSystemSystemDashboardRouteImport
       parentRoute: typeof AuthenticatedSystemRoute
     }
+    '/_authenticated/_system/audit-logs': {
+      id: '/_authenticated/_system/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuthenticatedSystemAuditLogsRouteImport
+      parentRoute: typeof AuthenticatedSystemRoute
+    }
     '/_authenticated/_system/restaurants/': {
       id: '/_authenticated/_system/restaurants/'
       path: '/restaurants'
@@ -1304,12 +1324,14 @@ const AuthenticatedSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedSystemRouteChildren {
+  AuthenticatedSystemAuditLogsRoute: typeof AuthenticatedSystemAuditLogsRoute
   AuthenticatedSystemSystemDashboardRoute: typeof AuthenticatedSystemSystemDashboardRoute
   AuthenticatedSystemSystemManagementRoute: typeof AuthenticatedSystemSystemManagementRoute
   AuthenticatedSystemRestaurantsIndexRoute: typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 
 const AuthenticatedSystemRouteChildren: AuthenticatedSystemRouteChildren = {
+  AuthenticatedSystemAuditLogsRoute: AuthenticatedSystemAuditLogsRoute,
   AuthenticatedSystemSystemDashboardRoute:
     AuthenticatedSystemSystemDashboardRoute,
   AuthenticatedSystemSystemManagementRoute:

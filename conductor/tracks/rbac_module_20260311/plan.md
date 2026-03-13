@@ -1,7 +1,7 @@
 # Implementation Plan: RBAC and User Management Module
 
 ## Phase 1: Database & Schema Setup
-- [ ] Task: Update Prisma Schema for RBAC
+- [x] Task: Update Prisma Schema for RBAC
     - [ ] **Red Phase:** Write validation tests for the expected database models.
     - [ ] **Green Phase:** Update `prisma/schema.prisma` with `roles`, `permissions`, `role_permissions`, `user_roles`, and `tenant_users`.
     - [ ] **Refactor:** Ensure indices and foreign key constraints are correctly defined.
