@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
+import { useUser } from '@clerk/clerk-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -27,7 +28,6 @@ import {
   useMarkAllNotificationsRead,
 } from '../api/mutations'
 import { useNotifications, useUnreadNotificationCount } from '../api/queries'
-import { useResposAuth } from '../hooks'
 import type { NotificationType, ResNotification } from '../types'
 
 const notificationConfig: Record<
@@ -73,15 +73,15 @@ function NotificationItem({ notification, onMarkRead }: NotificationItemProps) {
             {notification.title}
           </p>
           {!notification.is_read && (
-            <span className='h-2 w-2 shrink-0 rounded-full bg-primary animate-pulse' />
+            <span className='h-2 w-2 shrink-0 animate-pulse rounded-full bg-primary' />
           )}
         </div>
         {notification.message && (
-          <p className='line-clamp-2 text-xs text-muted-foreground leading-relaxed'>
+          <p className='line-clamp-2 text-xs leading-relaxed text-muted-foreground'>
             {notification.message}
           </p>
         )}
-        <p className='text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60'>
+        <p className='text-[10px] font-medium tracking-wider text-muted-foreground/60 uppercase'>
           {formatDistanceToNow(new Date(notification.created_at), {
             addSuffix: true,
           })}
@@ -92,8 +92,8 @@ function NotificationItem({ notification, onMarkRead }: NotificationItemProps) {
 }
 
 export function NotificationsDropdown() {
+  const { user: employee } = useUser()
   const [open, setOpen] = useState(false)
-  const { employee, isLoading: authLoading } = useResposAuth()
   const employeeId = employee?.id || ''
 
   const { data: notifications, isLoading: notificationsLoading } =
@@ -102,7 +102,7 @@ export function NotificationsDropdown() {
   const markRead = useMarkNotificationRead()
   const markAllRead = useMarkAllNotificationsRead()
 
-  const isLoading = authLoading || notificationsLoading
+  const isLoading = notificationsLoading
   const displayNotifications = notifications?.slice(0, 5) || []
 
   const handleMarkRead = (id: string) => {

@@ -1,11 +1,9 @@
 // ResPOS API Queries - TanStack Query hooks
 import { useQuery } from '@tanstack/react-query'
+import { db } from '@/lib/db/indexed-db'
 import { supabase } from '@/lib/supabase'
 import { validatePromoCode } from '../lib/promotion-validator'
 import type {
-  ResEmployee,
-  ResEmployeeRole,
-  ResEmployeeWithRoles,
   ResFloor,
   ResMenuCategory,
   ResMenuItem,
@@ -21,7 +19,6 @@ import type {
   ResTable,
   ResVoidRequestWithDetails,
 } from '../types'
-import { db } from '@/lib/db/indexed-db'
 
 // ============ Query Keys ============
 
@@ -98,75 +95,6 @@ export function useRoles() {
   })
 }
 
-// ============ Employees ============
-
-export function useEmployees() {
-  return useQuery({
-    queryKey: resposQueryKeys.employees,
-    queryFn: async () => {
-      const { data: employees, error: empError } = await supabase
-        .from('res_employees')
-        .select('*')
-        .eq('is_active', true)
-        .order('first_name')
-
-      if (empError) throw empError
-
-      // Get roles for all employees
-      const { data: employeeRoles, error: rolesError } = await supabase
-        .from('res_employee_roles')
-        .select('*, role:res_roles(*)')
-
-      if (rolesError) throw rolesError
-
-      // Map roles to employees
-      return (employees as ResEmployee[]).map((emp) => ({
-        ...emp,
-        roles: (employeeRoles as Array<ResEmployeeRole & { role: ResRole }>)
-          .filter((er) => er.employee_id === emp.id)
-          .map((er) => er.role),
-      })) as ResEmployeeWithRoles[]
-    },
-  })
-}
-
-export function useEmployeeByUserId(userId: string | undefined) {
-  return useQuery({
-    queryKey: resposQueryKeys.employeeByUserId(userId || ''),
-    queryFn: async () => {
-      if (!userId) return null
-
-      const { data: employee, error: empError } = await supabase
-        .from('res_employees')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('is_active', true)
-        .single()
-
-      if (empError) {
-        if (empError.code === 'PGRST116') return null
-        throw empError
-      }
-
-      // Get roles
-      const { data: employeeRoles, error: rolesError } = await supabase
-        .from('res_employee_roles')
-        .select('*, role:res_roles(*)')
-        .eq('employee_id', employee.id)
-
-      if (rolesError) throw rolesError
-
-      return {
-        ...employee,
-        roles: (
-          employeeRoles as Array<ResEmployeeRole & { role: ResRole }>
-        ).map((er) => er.role),
-      } as ResEmployeeWithRoles
-    },
-    enabled: !!userId,
-  })
-}
-
 // ============ Floors & Tables ============
 
 export function useFloors() {
@@ -220,12 +148,12 @@ export function useMenuCategories() {
             .equals(1) // Use numeric index for Dexie
             .sortBy('sort_order')
           if (cached.length > 0) {
-            return cached.map(c => ({
+            return cached.map((c) => ({
               id: c.id,
               name: c.name,
               sort_order: c.sort_order || 0,
               is_active: c.is_active === 1, // Convert numeric index back to boolean
-              created_at: c.created_at
+              created_at: c.created_at,
             })) as ResMenuCategory[]
           }
         } catch (_error) {
@@ -245,16 +173,18 @@ export function useMenuCategories() {
       if (typeof window !== 'undefined' && data) {
         try {
           const categories = data as ResMenuCategory[]
-          await db.categories.bulkPut(categories.map(c => ({
-            id: c.id,
-            name: c.name,
-            slug: c.name.toLowerCase().replace(/\s+/g, '-'),
-            store_id: 'default',
-            is_active: c.is_active ? 1 : 0, // Use numeric index for Dexie
-            created_at: c.created_at,
-            updated_at: new Date().toISOString(),
-            sort_order: c.sort_order
-          })))
+          await db.categories.bulkPut(
+            categories.map((c) => ({
+              id: c.id,
+              name: c.name,
+              slug: c.name.toLowerCase().replace(/\s+/g, '-'),
+              store_id: 'default',
+              is_active: c.is_active ? 1 : 0, // Use numeric index for Dexie
+              created_at: c.created_at,
+              updated_at: new Date().toISOString(),
+              sort_order: c.sort_order,
+            }))
+          )
         } catch (_error) {
           // Silent catch
         }
@@ -294,12 +224,12 @@ export function useMenuItemsWithDetails(categoryId?: string) {
         try {
           let cachedQuery = db.products.where('is_active').equals(1) // Use numeric index for Dexie
           if (categoryId) {
-            cachedQuery = cachedQuery.and(p => p.category_id === categoryId)
+            cachedQuery = cachedQuery.and((p) => p.category_id === categoryId)
           }
           const cachedItems = await cachedQuery.toArray()
 
           if (cachedItems.length > 0) {
-            return cachedItems.map(p => ({
+            return cachedItems.map((p) => ({
               ...p,
               base_price: p.price,
               is_active: p.is_active === 1,
@@ -309,7 +239,7 @@ export function useMenuItemsWithDetails(categoryId?: string) {
             })) as unknown as ResMenuItemWithDetails[]
           }
           const results = await cachedQuery.toArray()
-          return results.map(p => ({
+          return results.map((p) => ({
             ...p,
             base_price: p.price,
             is_active: p.is_active === 1,
@@ -364,27 +294,29 @@ export function useMenuItemsWithDetails(categoryId?: string) {
       // Cache to Dexie
       if (typeof window !== 'undefined') {
         try {
-          await db.products.bulkPut(mappedItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            slug: item.name.toLowerCase().replace(/\s+/g, '-'),
-            description: item.description,
-            price: item.base_price,
-            track_inventory: false,
-            stock_quantity: 0,
-            category_id: item.category_id || '',
-            store_id: 'default',
-            is_active: item.is_active ? 1 : 0, // Use numeric index for Dexie
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-            base_price: item.base_price,
-            is_available: item.is_available ? 1 : 0, // Use numeric index for Dexie
-            preparation_time: item.preparation_time,
-            allergens: item.allergens,
-            tags: item.tags,
-            variants: item.variants,
-            properties: item.properties
-          })))
+          await db.products.bulkPut(
+            mappedItems.map((item) => ({
+              id: item.id,
+              name: item.name,
+              slug: item.name.toLowerCase().replace(/\s+/g, '-'),
+              description: item.description,
+              price: item.base_price,
+              track_inventory: false,
+              stock_quantity: 0,
+              category_id: item.category_id || '',
+              store_id: 'default',
+              is_active: item.is_active ? 1 : 0, // Use numeric index for Dexie
+              created_at: item.created_at,
+              updated_at: item.updated_at,
+              base_price: item.base_price,
+              is_available: item.is_available ? 1 : 0, // Use numeric index for Dexie
+              preparation_time: item.preparation_time,
+              allergens: item.allergens,
+              tags: item.tags,
+              variants: item.variants,
+              properties: item.properties,
+            }))
+          )
         } catch (_error) {
           // Silent catch for caching failures
         }

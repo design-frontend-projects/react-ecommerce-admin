@@ -95,7 +95,6 @@ export function POSScreen() {
   const { data: menuItems, isLoading: itemsLoading } = useMenuItemsWithDetails()
 
   const { has, isLoaded, isSignedIn } = useAuth()
-  // const { data: employees, isLoading } = useEmployees()
   // Store
   const {
     selectedFloorId,
