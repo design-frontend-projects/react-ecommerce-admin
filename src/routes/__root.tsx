@@ -7,6 +7,7 @@ import { NavigationProgress } from '@/components/navigation-progress'
 import { GeneralError } from '@/features/errors/general-error'
 import { NotFoundError } from '@/features/errors/not-found-error'
 import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
+import { SupabaseTokenSync } from '@/components/supabase-token-sync'
 
 import { Loader2 } from 'lucide-react'
 import { NetworkStatusProvider } from '@/context/network-status-provider'
@@ -27,6 +28,7 @@ const RootComponent = () => {
   return (
     <NetworkStatusProvider>
       <NavigationProgress />
+      <SupabaseTokenSync />
       <PwaUpdatePrompt />
       <Outlet />
       <Toaster duration={5000} />
