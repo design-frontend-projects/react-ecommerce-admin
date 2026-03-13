@@ -13,3 +13,8 @@
 
 - [ ] **Track: Implement RBAC UI module for managing users, roles, and permissions.**
 *Link: [./tracks/rbac_ui_module_20260313/](./tracks/rbac_ui_module_20260313/)*
+
+---
+
+- [ ] **Track: Enhance @src/routes/subscription-required.tsx component and add new option to open modal to allow tenant to choose and register his subscription**
+*Link: [./tracks/tenant_subscription_module_20260313/](./tracks/tenant_subscription_module_20260313/)*
