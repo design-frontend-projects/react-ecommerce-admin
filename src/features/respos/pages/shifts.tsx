@@ -1,9 +1,11 @@
 // ResPOS Shift Management Page
 // Manage cashier shifts: open, close, and view shift history
 import { useState } from 'react'
+import { z } from 'zod'
+import { format, formatDistanceToNow } from 'date-fns'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format, formatDistanceToNow } from 'date-fns'
+import { useAuth, useUser } from '@clerk/clerk-react'
 import { motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -18,7 +20,6 @@ import {
   X,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -55,15 +56,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Textarea } from '@/components/ui/textarea'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { NotificationsDropdown } from '../components/notifications-dropdown'
 import { useShifts } from '../api/queries'
+import { NotificationsDropdown } from '../components/notifications-dropdown'
+import { RoleNames } from '../constants'
 import { useShift } from '../hooks/use-shift'
-import { useResposAuth } from '../hooks'
 import { formatCurrency } from '../lib/formatters'
 import type { ResShift } from '../types'
 
@@ -106,8 +107,9 @@ export function ShiftManagement() {
   const [openDialogOpen, setOpenDialogOpen] = useState(false)
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
 
-  const { employee, clerkUser, canOpenShift, isLoading: authLoading } = useResposAuth()
-  const clerkUserId = clerkUser?.id ?? null
+  const { has, isLoaded, isSignedIn } = useAuth()
+  const { user } = useUser()
+  const clerkUserId = user?.id ?? null
   const {
     shift: activeShift,
     isLoading: shiftLoading,
@@ -117,23 +119,56 @@ export function ShiftManagement() {
     isOpening,
     isClosing,
   } = useShift({ clerkUserId })
-  const { data: allShifts = [], isLoading: historyLoading } = useShifts(clerkUserId)
+  const { data: allShifts = [], isLoading: historyLoading } =
+    useShifts(clerkUserId)
 
-  const isLoading = authLoading || shiftLoading
+  const isLoading = !isLoaded || shiftLoading
 
   // Separate closed shifts for history
   const closedShifts = allShifts.filter((s) => s.status === 'closed')
+
+  if (!isSignedIn && !isLoaded) {
+    // return redirect({ to: "/sign-in" })
+    return (
+      <>
+        <Header>
+          <div className='flex items-center gap-3'>
+            <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20'>
+              <Timer className='h-5 w-5' />
+            </div>
+            <div>
+              <h1 className='text-xl font-bold tracking-tight'>
+                Shift Control
+              </h1>
+              <p className='text-xs font-medium text-muted-foreground'>
+                Manage station sessions and cash flow
+              </p>
+            </div>
+          </div>
+          <div className='ml-auto flex items-center gap-2'>
+            <NotificationsDropdown />
+            <Separator orientation='vertical' className='mx-2 h-6' />
+            <LanguageSwitch />
+            <ThemeSwitch />
+            <ProfileDropdown />
+          </div>
+        </Header>
+      </>
+    )
+  }
 
   return (
     <>
       <Header>
         <div className='flex items-center gap-3'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 shadow-sm'>
+          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20'>
             <Timer className='h-5 w-5' />
           </div>
           <div>
             <h1 className='text-xl font-bold tracking-tight'>Shift Control</h1>
-            <p className='text-xs text-muted-foreground font-medium'>Manage station sessions and cash flow</p>
+            <p className='text-xs font-medium text-muted-foreground'>
+              Manage station sessions and cash flow
+            </p>
           </div>
         </div>
         <div className='ml-auto flex items-center gap-2'>
@@ -150,7 +185,7 @@ export function ShiftManagement() {
           variants={container}
           initial='hidden'
           animate='show'
-          className='max-w-5xl mx-auto space-y-8 pb-12'
+          className='mx-auto max-w-5xl space-y-8 pb-12'
         >
           {/* Active Shift Section */}
           <motion.div variants={item}>
@@ -169,7 +204,11 @@ export function ShiftManagement() {
             ) : (
               <NoActiveShiftCard
                 onOpen={() => setOpenDialogOpen(true)}
-                canOpen={canOpenShift}
+                canOpen={
+                  isLoaded &&
+                  (has({ permission: RoleNames.admin }) ||
+                    has({ permission: RoleNames.super_admin }))
+                }
               />
             )}
           </motion.div>
@@ -182,9 +221,7 @@ export function ShiftManagement() {
                   <Clock className='h-5 w-5 text-muted-foreground' />
                   Shift History
                 </CardTitle>
-                <CardDescription>
-                  Past shifts and their details
-                </CardDescription>
+                <CardDescription>Past shifts and their details</CardDescription>
               </CardHeader>
               <CardContent>
                 {historyLoading ? (
@@ -210,9 +247,7 @@ export function ShiftManagement() {
                           <TableHead className='text-right'>
                             Closing Cash
                           </TableHead>
-                          <TableHead className='text-right'>
-                            Variance
-                          </TableHead>
+                          <TableHead className='text-right'>Variance</TableHead>
                           <TableHead>Notes</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -234,16 +269,12 @@ export function ShiftManagement() {
       <OpenShiftDialog
         open={openDialogOpen}
         onOpenChange={setOpenDialogOpen}
-        employeeName={
-          employee
-            ? `${employee.first_name} ${employee.last_name}`
-            : 'Unknown'
-        }
+        employeeName={user ? `${user.firstName} ${user.lastName}` : 'Unknown'}
         isPending={isOpening}
         onSubmit={async (values) => {
-          if (!employee) return
+          if (!user) return
           try {
-            await openShift(employee.id, values.openingCash)
+            await openShift(user.id, values.openingCash)
             toast.success('Shift opened successfully')
             setOpenDialogOpen(false)
           } catch {
@@ -259,9 +290,9 @@ export function ShiftManagement() {
         openingCash={activeShift?.opening_cash ?? 0}
         isPending={isClosing}
         onSubmit={async (values) => {
-          if (!employee) return
+          if (!user) return
           try {
-            await closeShift(employee.id, values.closingCash, values.notes)
+            await closeShift(user.id, values.closingCash, values.notes)
             toast.success('Shift closed successfully')
             setCloseDialogOpen(false)
           } catch {
@@ -324,9 +355,7 @@ function ActiveShiftCard({
           </div>
           <div className='space-y-1'>
             <p className='text-sm text-muted-foreground'>Opening Cash</p>
-            <p className='font-medium'>
-              {formatCurrency(shift.opening_cash)}
-            </p>
+            <p className='font-medium'>{formatCurrency(shift.opening_cash)}</p>
           </div>
           <div className='space-y-1'>
             <p className='text-sm text-muted-foreground'>Duration</p>
@@ -426,7 +455,7 @@ function OpenShiftDialog({
                   <FormLabel>Opening Cash</FormLabel>
                   <FormControl>
                     <div className='relative'>
-                      <DollarSign className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                      <DollarSign className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
                       <Input
                         type='number'
                         step='0.01'
@@ -529,7 +558,7 @@ function CloseShiftDialog({
                   <FormLabel>Closing Cash</FormLabel>
                   <FormControl>
                     <div className='relative'>
-                      <DollarSign className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                      <DollarSign className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
                       <Input
                         type='number'
                         step='0.01'

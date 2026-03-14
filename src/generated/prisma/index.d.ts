@@ -286,16 +286,15 @@ export type audit_logs = $Result.DefaultSelection<Prisma.$audit_logsPayload>
  */
 export type res_employee_roles = $Result.DefaultSelection<Prisma.$res_employee_rolesPayload>
 /**
+ * Model res_employees
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type res_employees = $Result.DefaultSelection<Prisma.$res_employeesPayload>
+/**
  * Model res_roles
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type res_roles = $Result.DefaultSelection<Prisma.$res_rolesPayload>
-/**
- * Model res_employees
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type res_employees = $Result.DefaultSelection<Prisma.$res_employeesPayload>
 
 /**
  * Enums
@@ -1067,16 +1066,6 @@ export class PrismaClient<
   get res_employee_roles(): Prisma.res_employee_rolesDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.res_roles`: Exposes CRUD operations for the **res_roles** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Res_roles
-    * const res_roles = await prisma.res_roles.findMany()
-    * ```
-    */
-  get res_roles(): Prisma.res_rolesDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.res_employees`: Exposes CRUD operations for the **res_employees** model.
     * Example usage:
     * ```ts
@@ -1085,6 +1074,16 @@ export class PrismaClient<
     * ```
     */
   get res_employees(): Prisma.res_employeesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.res_roles`: Exposes CRUD operations for the **res_roles** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Res_roles
+    * const res_roles = await prisma.res_roles.findMany()
+    * ```
+    */
+  get res_roles(): Prisma.res_rolesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1570,8 +1569,8 @@ export namespace Prisma {
     activity_types: 'activity_types',
     audit_logs: 'audit_logs',
     res_employee_roles: 'res_employee_roles',
-    res_roles: 'res_roles',
-    res_employees: 'res_employees'
+    res_employees: 'res_employees',
+    res_roles: 'res_roles'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1587,7 +1586,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "order_items" | "orders" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_roles" | "res_employees"
+      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "order_items" | "orders" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_employees" | "res_roles"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5365,80 +5364,6 @@ export namespace Prisma {
           }
         }
       }
-      res_roles: {
-        payload: Prisma.$res_rolesPayload<ExtArgs>
-        fields: Prisma.res_rolesFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.res_rolesFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.res_rolesFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          findFirst: {
-            args: Prisma.res_rolesFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.res_rolesFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          findMany: {
-            args: Prisma.res_rolesFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-          }
-          create: {
-            args: Prisma.res_rolesCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          createMany: {
-            args: Prisma.res_rolesCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.res_rolesCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-          }
-          delete: {
-            args: Prisma.res_rolesDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          update: {
-            args: Prisma.res_rolesUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          deleteMany: {
-            args: Prisma.res_rolesDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.res_rolesUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.res_rolesUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-          }
-          upsert: {
-            args: Prisma.res_rolesUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
-          }
-          aggregate: {
-            args: Prisma.Res_rolesAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRes_roles>
-          }
-          groupBy: {
-            args: Prisma.res_rolesGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Res_rolesGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.res_rolesCountArgs<ExtArgs>
-            result: $Utils.Optional<Res_rolesCountAggregateOutputType> | number
-          }
-        }
-      }
       res_employees: {
         payload: Prisma.$res_employeesPayload<ExtArgs>
         fields: Prisma.res_employeesFieldRefs
@@ -5510,6 +5435,80 @@ export namespace Prisma {
           count: {
             args: Prisma.res_employeesCountArgs<ExtArgs>
             result: $Utils.Optional<Res_employeesCountAggregateOutputType> | number
+          }
+        }
+      }
+      res_roles: {
+        payload: Prisma.$res_rolesPayload<ExtArgs>
+        fields: Prisma.res_rolesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.res_rolesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.res_rolesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          findFirst: {
+            args: Prisma.res_rolesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.res_rolesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          findMany: {
+            args: Prisma.res_rolesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
+          }
+          create: {
+            args: Prisma.res_rolesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          createMany: {
+            args: Prisma.res_rolesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.res_rolesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
+          }
+          delete: {
+            args: Prisma.res_rolesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          update: {
+            args: Prisma.res_rolesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          deleteMany: {
+            args: Prisma.res_rolesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.res_rolesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.res_rolesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
+          }
+          upsert: {
+            args: Prisma.res_rolesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$res_rolesPayload>
+          }
+          aggregate: {
+            args: Prisma.Res_rolesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRes_roles>
+          }
+          groupBy: {
+            args: Prisma.res_rolesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Res_rolesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.res_rolesCountArgs<ExtArgs>
+            result: $Utils.Optional<Res_rolesCountAggregateOutputType> | number
           }
         }
       }
@@ -5672,8 +5671,8 @@ export namespace Prisma {
     activity_types?: activity_typesOmit
     audit_logs?: audit_logsOmit
     res_employee_roles?: res_employee_rolesOmit
-    res_roles?: res_rolesOmit
     res_employees?: res_employeesOmit
+    res_roles?: res_rolesOmit
   }
 
   /* Types for Logging */
@@ -6710,6 +6709,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type Tenant_subscriptionsCountOutputType
+   */
+
+  export type Tenant_subscriptionsCountOutputType = {
+    tenant_users: number
+  }
+
+  export type Tenant_subscriptionsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant_users?: boolean | Tenant_subscriptionsCountOutputTypeCountTenant_usersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Tenant_subscriptionsCountOutputType without action
+   */
+  export type Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tenant_subscriptionsCountOutputType
+     */
+    select?: Tenant_subscriptionsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Tenant_subscriptionsCountOutputType without action
+   */
+  export type Tenant_subscriptionsCountOutputTypeCountTenant_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tenant_usersWhereInput
+  }
+
+
+  /**
    * Count Type ProfilesCountOutputType
    */
 
@@ -6772,37 +6802,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type Res_rolesCountOutputType
-   */
-
-  export type Res_rolesCountOutputType = {
-    res_employee_roles: number
-  }
-
-  export type Res_rolesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    res_employee_roles?: boolean | Res_rolesCountOutputTypeCountRes_employee_rolesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * Res_rolesCountOutputType without action
-   */
-  export type Res_rolesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Res_rolesCountOutputType
-     */
-    select?: Res_rolesCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * Res_rolesCountOutputType without action
-   */
-  export type Res_rolesCountOutputTypeCountRes_employee_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: res_employee_rolesWhereInput
-  }
-
-
-  /**
    * Count Type Res_employeesCountOutputType
    */
 
@@ -6816,7 +6815,7 @@ export namespace Prisma {
     res_shifts_res_shifts_opened_byTores_employees: number
     res_void_requests_res_void_requests_approved_byTores_employees: number
     res_void_requests_res_void_requests_requested_byTores_employees: number
-    resVoidRequests: number
+    res_void_requests_res_void_requests_res_employeesIdTores_employees: number
   }
 
   export type Res_employeesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6829,7 +6828,7 @@ export namespace Prisma {
     res_shifts_res_shifts_opened_byTores_employees?: boolean | Res_employeesCountOutputTypeCountRes_shifts_res_shifts_opened_byTores_employeesArgs
     res_void_requests_res_void_requests_approved_byTores_employees?: boolean | Res_employeesCountOutputTypeCountRes_void_requests_res_void_requests_approved_byTores_employeesArgs
     res_void_requests_res_void_requests_requested_byTores_employees?: boolean | Res_employeesCountOutputTypeCountRes_void_requests_res_void_requests_requested_byTores_employeesArgs
-    resVoidRequests?: boolean | Res_employeesCountOutputTypeCountResVoidRequestsArgs
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: boolean | Res_employeesCountOutputTypeCountRes_void_requests_res_void_requests_res_employeesIdTores_employeesArgs
   }
 
   // Custom InputTypes
@@ -6909,8 +6908,39 @@ export namespace Prisma {
   /**
    * Res_employeesCountOutputType without action
    */
-  export type Res_employeesCountOutputTypeCountResVoidRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Res_employeesCountOutputTypeCountRes_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: res_void_requestsWhereInput
+  }
+
+
+  /**
+   * Count Type Res_rolesCountOutputType
+   */
+
+  export type Res_rolesCountOutputType = {
+    res_employee_roles: number
+  }
+
+  export type Res_rolesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    res_employee_roles?: boolean | Res_rolesCountOutputTypeCountRes_employee_rolesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Res_rolesCountOutputType without action
+   */
+  export type Res_rolesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Res_rolesCountOutputType
+     */
+    select?: Res_rolesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Res_rolesCountOutputType without action
+   */
+  export type Res_rolesCountOutputTypeCountRes_employee_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: res_employee_rolesWhereInput
   }
 
 
@@ -27002,7 +27032,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_events"]>
 
   export type res_eventsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -27017,7 +27047,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_events"]>
 
   export type res_eventsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -27032,7 +27062,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_events"]>
 
   export type res_eventsSelectScalar = {
@@ -27051,19 +27081,19 @@ export namespace Prisma {
 
   export type res_eventsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "event_date" | "start_time" | "end_time" | "blocked_tables" | "is_active" | "created_by" | "created_at" | "res_employeesId", ExtArgs["result"]["res_events"]>
   export type res_eventsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }
   export type res_eventsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }
   export type res_eventsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_events$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_events$res_employeesArgs<ExtArgs>
   }
 
   export type $res_eventsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "res_events"
     objects: {
-      resEmployees: Prisma.$res_employeesPayload<ExtArgs> | null
+      res_employees: Prisma.$res_employeesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -27471,7 +27501,7 @@ export namespace Prisma {
    */
   export interface Prisma__res_eventsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    resEmployees<T extends res_events$resEmployeesArgs<ExtArgs> = {}>(args?: Subset<T, res_events$resEmployeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    res_employees<T extends res_events$res_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_events$res_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27913,9 +27943,9 @@ export namespace Prisma {
   }
 
   /**
-   * res_events.resEmployees
+   * res_events.res_employees
    */
-  export type res_events$resEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type res_events$res_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the res_employees
      */
@@ -34028,7 +34058,7 @@ export namespace Prisma {
     is_read?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_notifications"]>
 
   export type res_notificationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -34041,7 +34071,7 @@ export namespace Prisma {
     is_read?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_notifications"]>
 
   export type res_notificationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -34054,7 +34084,7 @@ export namespace Prisma {
     is_read?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_notifications"]>
 
   export type res_notificationsSelectScalar = {
@@ -34071,19 +34101,19 @@ export namespace Prisma {
 
   export type res_notificationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "recipient_id" | "type" | "title" | "message" | "data" | "is_read" | "created_at" | "res_employeesId", ExtArgs["result"]["res_notifications"]>
   export type res_notificationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }
   export type res_notificationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }
   export type res_notificationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_notifications$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_notifications$res_employeesArgs<ExtArgs>
   }
 
   export type $res_notificationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "res_notifications"
     objects: {
-      resEmployees: Prisma.$res_employeesPayload<ExtArgs> | null
+      res_employees: Prisma.$res_employeesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -34489,7 +34519,7 @@ export namespace Prisma {
    */
   export interface Prisma__res_notificationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    resEmployees<T extends res_notifications$resEmployeesArgs<ExtArgs> = {}>(args?: Subset<T, res_notifications$resEmployeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    res_employees<T extends res_notifications$res_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_notifications$res_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34929,9 +34959,9 @@ export namespace Prisma {
   }
 
   /**
-   * res_notifications.resEmployees
+   * res_notifications.res_employees
    */
-  export type res_notifications$resEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type res_notifications$res_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the res_employees
      */
@@ -36594,7 +36624,7 @@ export namespace Prisma {
     res_employeesId?: boolean
     res_order_items?: boolean | res_orders$res_order_itemsArgs<ExtArgs>
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
     res_void_requests?: boolean | res_orders$res_void_requestsArgs<ExtArgs>
@@ -36627,7 +36657,7 @@ export namespace Prisma {
     change_amount?: boolean
     res_employeesId?: boolean
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
   }, ExtArgs["result"]["res_orders"]>
@@ -36658,7 +36688,7 @@ export namespace Prisma {
     change_amount?: boolean
     res_employeesId?: boolean
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
   }, ExtArgs["result"]["res_orders"]>
@@ -36694,7 +36724,7 @@ export namespace Prisma {
   export type res_ordersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     res_order_items?: boolean | res_orders$res_order_itemsArgs<ExtArgs>
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
     res_void_requests?: boolean | res_orders$res_void_requestsArgs<ExtArgs>
@@ -36702,13 +36732,13 @@ export namespace Prisma {
   }
   export type res_ordersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
   }
   export type res_ordersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
-    resEmployees?: boolean | res_orders$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
     res_tables?: boolean | res_orders$res_tablesArgs<ExtArgs>
   }
@@ -36718,7 +36748,7 @@ export namespace Prisma {
     objects: {
       res_order_items: Prisma.$res_order_itemsPayload<ExtArgs>[]
       promotions: Prisma.$res_promotionsPayload<ExtArgs> | null
-      resEmployees: Prisma.$res_employeesPayload<ExtArgs> | null
+      res_employees: Prisma.$res_employeesPayload<ExtArgs> | null
       res_shifts: Prisma.$res_shiftsPayload<ExtArgs> | null
       res_tables: Prisma.$res_tablesPayload<ExtArgs> | null
       res_void_requests: Prisma.$res_void_requestsPayload<ExtArgs>[]
@@ -37144,7 +37174,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     res_order_items<T extends res_orders$res_order_itemsArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$res_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotions<T extends res_orders$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$promotionsArgs<ExtArgs>>): Prisma__res_promotionsClient<$Result.GetResult<Prisma.$res_promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    resEmployees<T extends res_orders$resEmployeesArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$resEmployeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    res_employees<T extends res_orders$res_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$res_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_shifts<T extends res_orders$res_shiftsArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$res_shiftsArgs<ExtArgs>>): Prisma__res_shiftsClient<$Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_tables<T extends res_orders$res_tablesArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$res_tablesArgs<ExtArgs>>): Prisma__res_tablesClient<$Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_void_requests<T extends res_orders$res_void_requestsArgs<ExtArgs> = {}>(args?: Subset<T, res_orders$res_void_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -37645,9 +37675,9 @@ export namespace Prisma {
   }
 
   /**
-   * res_orders.resEmployees
+   * res_orders.res_employees
    */
-  export type res_orders$resEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type res_orders$res_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the res_employees
      */
@@ -39065,7 +39095,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }, ExtArgs["result"]["res_reservations"]>
 
@@ -39084,7 +39114,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }, ExtArgs["result"]["res_reservations"]>
 
@@ -39103,7 +39133,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     res_employeesId?: boolean
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }, ExtArgs["result"]["res_reservations"]>
 
@@ -39126,22 +39156,22 @@ export namespace Prisma {
 
   export type res_reservationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "table_id" | "customer_name" | "customer_phone" | "customer_email" | "party_size" | "reservation_date" | "reservation_time" | "duration_minutes" | "status" | "notes" | "created_by" | "created_at" | "res_employeesId", ExtArgs["result"]["res_reservations"]>
   export type res_reservationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }
   export type res_reservationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }
   export type res_reservationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resEmployees?: boolean | res_reservations$resEmployeesArgs<ExtArgs>
+    res_employees?: boolean | res_reservations$res_employeesArgs<ExtArgs>
     res_tables?: boolean | res_reservations$res_tablesArgs<ExtArgs>
   }
 
   export type $res_reservationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "res_reservations"
     objects: {
-      resEmployees: Prisma.$res_employeesPayload<ExtArgs> | null
+      res_employees: Prisma.$res_employeesPayload<ExtArgs> | null
       res_tables: Prisma.$res_tablesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -39553,7 +39583,7 @@ export namespace Prisma {
    */
   export interface Prisma__res_reservationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    resEmployees<T extends res_reservations$resEmployeesArgs<ExtArgs> = {}>(args?: Subset<T, res_reservations$resEmployeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    res_employees<T extends res_reservations$res_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_reservations$res_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_tables<T extends res_reservations$res_tablesArgs<ExtArgs> = {}>(args?: Subset<T, res_reservations$res_tablesArgs<ExtArgs>>): Prisma__res_tablesClient<$Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -39999,9 +40029,9 @@ export namespace Prisma {
   }
 
   /**
-   * res_reservations.resEmployees
+   * res_reservations.res_employees
    */
-  export type res_reservations$resEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type res_reservations$res_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the res_employees
      */
@@ -42764,7 +42794,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_void_requests"]>
 
   export type res_void_requestsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -42781,7 +42811,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_void_requests"]>
 
   export type res_void_requestsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -42798,7 +42828,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }, ExtArgs["result"]["res_void_requests"]>
 
   export type res_void_requestsSelectScalar = {
@@ -42819,19 +42849,19 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }
   export type res_void_requestsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }
   export type res_void_requestsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     res_employees_res_void_requests_approved_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
     res_orders?: boolean | res_void_requests$res_ordersArgs<ExtArgs>
     res_employees_res_void_requests_requested_byTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resEmployees?: boolean | res_void_requests$resEmployeesArgs<ExtArgs>
+    res_employees_res_void_requests_res_employeesIdTores_employees?: boolean | res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
   }
 
   export type $res_void_requestsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -42840,7 +42870,7 @@ export namespace Prisma {
       res_employees_res_void_requests_approved_byTores_employees: Prisma.$res_employeesPayload<ExtArgs> | null
       res_orders: Prisma.$res_ordersPayload<ExtArgs> | null
       res_employees_res_void_requests_requested_byTores_employees: Prisma.$res_employeesPayload<ExtArgs> | null
-      resEmployees: Prisma.$res_employeesPayload<ExtArgs> | null
+      res_employees_res_void_requests_res_employeesIdTores_employees: Prisma.$res_employeesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -43250,7 +43280,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees<T extends res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_void_requests$res_employees_res_void_requests_approved_byTores_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_orders<T extends res_void_requests$res_ordersArgs<ExtArgs> = {}>(args?: Subset<T, res_void_requests$res_ordersArgs<ExtArgs>>): Prisma__res_ordersClient<$Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     res_employees_res_void_requests_requested_byTores_employees<T extends res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_void_requests$res_employees_res_void_requests_requested_byTores_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    resEmployees<T extends res_void_requests$resEmployeesArgs<ExtArgs> = {}>(args?: Subset<T, res_void_requests$resEmployeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    res_employees_res_void_requests_res_employeesIdTores_employees<T extends res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43748,9 +43778,9 @@ export namespace Prisma {
   }
 
   /**
-   * res_void_requests.resEmployees
+   * res_void_requests.res_employees_res_void_requests_res_employeesIdTores_employees
    */
-  export type res_void_requests$resEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type res_void_requests$res_employees_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the res_employees
      */
@@ -53211,6 +53241,7 @@ export namespace Prisma {
     updated_at: Date | null
     default_role: string | null
     is_restuarant_user: boolean | null
+    parent_tenant_id: string | null
   }
 
   export type Tenant_usersMaxAggregateOutputType = {
@@ -53226,6 +53257,7 @@ export namespace Prisma {
     updated_at: Date | null
     default_role: string | null
     is_restuarant_user: boolean | null
+    parent_tenant_id: string | null
   }
 
   export type Tenant_usersCountAggregateOutputType = {
@@ -53242,6 +53274,7 @@ export namespace Prisma {
     updated_at: number
     default_role: number
     is_restuarant_user: number
+    parent_tenant_id: number
     _all: number
   }
 
@@ -53259,6 +53292,7 @@ export namespace Prisma {
     updated_at?: true
     default_role?: true
     is_restuarant_user?: true
+    parent_tenant_id?: true
   }
 
   export type Tenant_usersMaxAggregateInputType = {
@@ -53274,6 +53308,7 @@ export namespace Prisma {
     updated_at?: true
     default_role?: true
     is_restuarant_user?: true
+    parent_tenant_id?: true
   }
 
   export type Tenant_usersCountAggregateInputType = {
@@ -53290,6 +53325,7 @@ export namespace Prisma {
     updated_at?: true
     default_role?: true
     is_restuarant_user?: true
+    parent_tenant_id?: true
     _all?: true
   }
 
@@ -53379,6 +53415,7 @@ export namespace Prisma {
     updated_at: Date | null
     default_role: string | null
     is_restuarant_user: boolean | null
+    parent_tenant_id: string | null
     _count: Tenant_usersCountAggregateOutputType | null
     _min: Tenant_usersMinAggregateOutputType | null
     _max: Tenant_usersMaxAggregateOutputType | null
@@ -53412,6 +53449,8 @@ export namespace Prisma {
     updated_at?: boolean
     default_role?: boolean
     is_restuarant_user?: boolean
+    parent_tenant_id?: boolean
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
     user_roles?: boolean | tenant_users$user_rolesArgs<ExtArgs>
     _count?: boolean | Tenant_usersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_users"]>
@@ -53430,6 +53469,8 @@ export namespace Prisma {
     updated_at?: boolean
     default_role?: boolean
     is_restuarant_user?: boolean
+    parent_tenant_id?: boolean
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_users"]>
 
   export type tenant_usersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -53446,6 +53487,8 @@ export namespace Prisma {
     updated_at?: boolean
     default_role?: boolean
     is_restuarant_user?: boolean
+    parent_tenant_id?: boolean
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_users"]>
 
   export type tenant_usersSelectScalar = {
@@ -53462,19 +53505,26 @@ export namespace Prisma {
     updated_at?: boolean
     default_role?: boolean
     is_restuarant_user?: boolean
+    parent_tenant_id?: boolean
   }
 
-  export type tenant_usersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerk_user_id" | "email" | "first_name" | "last_name" | "avatar_url" | "primary_module" | "modules" | "is_active" | "created_at" | "updated_at" | "default_role" | "is_restuarant_user", ExtArgs["result"]["tenant_users"]>
+  export type tenant_usersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerk_user_id" | "email" | "first_name" | "last_name" | "avatar_url" | "primary_module" | "modules" | "is_active" | "created_at" | "updated_at" | "default_role" | "is_restuarant_user" | "parent_tenant_id", ExtArgs["result"]["tenant_users"]>
   export type tenant_usersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
     user_roles?: boolean | tenant_users$user_rolesArgs<ExtArgs>
     _count?: boolean | Tenant_usersCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type tenant_usersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type tenant_usersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type tenant_usersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
+  }
+  export type tenant_usersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant_subscriptions?: boolean | tenant_users$tenant_subscriptionsArgs<ExtArgs>
+  }
 
   export type $tenant_usersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "tenant_users"
     objects: {
+      tenant_subscriptions: Prisma.$tenant_subscriptionsPayload<ExtArgs> | null
       user_roles: Prisma.$user_rolesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -53491,6 +53541,7 @@ export namespace Prisma {
       updated_at: Date | null
       default_role: string | null
       is_restuarant_user: boolean | null
+      parent_tenant_id: string | null
     }, ExtArgs["result"]["tenant_users"]>
     composites: {}
   }
@@ -53885,6 +53936,7 @@ export namespace Prisma {
    */
   export interface Prisma__tenant_usersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant_subscriptions<T extends tenant_users$tenant_subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, tenant_users$tenant_subscriptionsArgs<ExtArgs>>): Prisma__tenant_subscriptionsClient<$Result.GetResult<Prisma.$tenant_subscriptionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user_roles<T extends tenant_users$user_rolesArgs<ExtArgs> = {}>(args?: Subset<T, tenant_users$user_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$user_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -53928,6 +53980,7 @@ export namespace Prisma {
     readonly updated_at: FieldRef<"tenant_users", 'DateTime'>
     readonly default_role: FieldRef<"tenant_users", 'String'>
     readonly is_restuarant_user: FieldRef<"tenant_users", 'Boolean'>
+    readonly parent_tenant_id: FieldRef<"tenant_users", 'String'>
   }
     
 
@@ -54182,6 +54235,10 @@ export namespace Prisma {
      */
     data: tenant_usersCreateManyInput | tenant_usersCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tenant_usersIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -54252,6 +54309,10 @@ export namespace Prisma {
      * Limit how many tenant_users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tenant_usersIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -54318,6 +54379,25 @@ export namespace Prisma {
      * Limit how many tenant_users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * tenant_users.tenant_subscriptions
+   */
+  export type tenant_users$tenant_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tenant_subscriptions
+     */
+    select?: tenant_subscriptionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tenant_subscriptions
+     */
+    omit?: tenant_subscriptionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tenant_subscriptionsInclude<ExtArgs> | null
+    where?: tenant_subscriptionsWhereInput
   }
 
   /**
@@ -62048,6 +62128,7 @@ export namespace Prisma {
     commission_type: $Enums.subscription_commission_type | null
     first_name: string | null
     last_name: string | null
+    is_owner: boolean | null
   }
 
   export type Tenant_subscriptionsMaxAggregateOutputType = {
@@ -62064,6 +62145,7 @@ export namespace Prisma {
     commission_type: $Enums.subscription_commission_type | null
     first_name: string | null
     last_name: string | null
+    is_owner: boolean | null
   }
 
   export type Tenant_subscriptionsCountAggregateOutputType = {
@@ -62080,6 +62162,7 @@ export namespace Prisma {
     commission_type: number
     first_name: number
     last_name: number
+    is_owner: number
     _all: number
   }
 
@@ -62108,6 +62191,7 @@ export namespace Prisma {
     commission_type?: true
     first_name?: true
     last_name?: true
+    is_owner?: true
   }
 
   export type Tenant_subscriptionsMaxAggregateInputType = {
@@ -62124,6 +62208,7 @@ export namespace Prisma {
     commission_type?: true
     first_name?: true
     last_name?: true
+    is_owner?: true
   }
 
   export type Tenant_subscriptionsCountAggregateInputType = {
@@ -62140,6 +62225,7 @@ export namespace Prisma {
     commission_type?: true
     first_name?: true
     last_name?: true
+    is_owner?: true
     _all?: true
   }
 
@@ -62243,6 +62329,7 @@ export namespace Prisma {
     commission_type: $Enums.subscription_commission_type
     first_name: string | null
     last_name: string | null
+    is_owner: boolean | null
     _count: Tenant_subscriptionsCountAggregateOutputType | null
     _avg: Tenant_subscriptionsAvgAggregateOutputType | null
     _sum: Tenant_subscriptionsSumAggregateOutputType | null
@@ -62278,7 +62365,10 @@ export namespace Prisma {
     commission_type?: boolean
     first_name?: boolean
     last_name?: boolean
+    is_owner?: boolean
     subscriptions?: boolean | subscriptionsDefaultArgs<ExtArgs>
+    tenant_users?: boolean | tenant_subscriptions$tenant_usersArgs<ExtArgs>
+    _count?: boolean | Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_subscriptions"]>
 
   export type tenant_subscriptionsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -62295,6 +62385,7 @@ export namespace Prisma {
     commission_type?: boolean
     first_name?: boolean
     last_name?: boolean
+    is_owner?: boolean
     subscriptions?: boolean | subscriptionsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_subscriptions"]>
 
@@ -62312,6 +62403,7 @@ export namespace Prisma {
     commission_type?: boolean
     first_name?: boolean
     last_name?: boolean
+    is_owner?: boolean
     subscriptions?: boolean | subscriptionsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant_subscriptions"]>
 
@@ -62329,11 +62421,14 @@ export namespace Prisma {
     commission_type?: boolean
     first_name?: boolean
     last_name?: boolean
+    is_owner?: boolean
   }
 
-  export type tenant_subscriptionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerk_user_id" | "email" | "subscription_id" | "status" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name", ExtArgs["result"]["tenant_subscriptions"]>
+  export type tenant_subscriptionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerk_user_id" | "email" | "subscription_id" | "status" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner", ExtArgs["result"]["tenant_subscriptions"]>
   export type tenant_subscriptionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subscriptions?: boolean | subscriptionsDefaultArgs<ExtArgs>
+    tenant_users?: boolean | tenant_subscriptions$tenant_usersArgs<ExtArgs>
+    _count?: boolean | Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type tenant_subscriptionsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subscriptions?: boolean | subscriptionsDefaultArgs<ExtArgs>
@@ -62346,6 +62441,7 @@ export namespace Prisma {
     name: "tenant_subscriptions"
     objects: {
       subscriptions: Prisma.$subscriptionsPayload<ExtArgs>
+      tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -62361,6 +62457,7 @@ export namespace Prisma {
       commission_type: $Enums.subscription_commission_type
       first_name: string | null
       last_name: string | null
+      is_owner: boolean | null
     }, ExtArgs["result"]["tenant_subscriptions"]>
     composites: {}
   }
@@ -62756,6 +62853,7 @@ export namespace Prisma {
   export interface Prisma__tenant_subscriptionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     subscriptions<T extends subscriptionsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, subscriptionsDefaultArgs<ExtArgs>>): Prisma__subscriptionsClient<$Result.GetResult<Prisma.$subscriptionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tenant_users<T extends tenant_subscriptions$tenant_usersArgs<ExtArgs> = {}>(args?: Subset<T, tenant_subscriptions$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -62798,6 +62896,7 @@ export namespace Prisma {
     readonly commission_type: FieldRef<"tenant_subscriptions", 'subscription_commission_type'>
     readonly first_name: FieldRef<"tenant_subscriptions", 'String'>
     readonly last_name: FieldRef<"tenant_subscriptions", 'String'>
+    readonly is_owner: FieldRef<"tenant_subscriptions", 'Boolean'>
   }
     
 
@@ -63196,6 +63295,30 @@ export namespace Prisma {
      * Limit how many tenant_subscriptions to delete.
      */
     limit?: number
+  }
+
+  /**
+   * tenant_subscriptions.tenant_users
+   */
+  export type tenant_subscriptions$tenant_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tenant_users
+     */
+    select?: tenant_usersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tenant_users
+     */
+    omit?: tenant_usersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tenant_usersInclude<ExtArgs> | null
+    where?: tenant_usersWhereInput
+    orderBy?: tenant_usersOrderByWithRelationInput | tenant_usersOrderByWithRelationInput[]
+    cursor?: tenant_usersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Tenant_usersScalarFieldEnum | Tenant_usersScalarFieldEnum[]
   }
 
   /**
@@ -67692,6 +67815,1424 @@ export namespace Prisma {
 
 
   /**
+   * Model res_employees
+   */
+
+  export type AggregateRes_employees = {
+    _count: Res_employeesCountAggregateOutputType | null
+    _min: Res_employeesMinAggregateOutputType | null
+    _max: Res_employeesMaxAggregateOutputType | null
+  }
+
+  export type Res_employeesMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    first_name: string | null
+    last_name: string | null
+    email: string | null
+    phone: string | null
+    avatar_url: string | null
+    pin_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    id_number: string | null
+  }
+
+  export type Res_employeesMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    first_name: string | null
+    last_name: string | null
+    email: string | null
+    phone: string | null
+    avatar_url: string | null
+    pin_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    id_number: string | null
+  }
+
+  export type Res_employeesCountAggregateOutputType = {
+    id: number
+    user_id: number
+    first_name: number
+    last_name: number
+    email: number
+    phone: number
+    avatar_url: number
+    pin_code: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    id_number: number
+    _all: number
+  }
+
+
+  export type Res_employeesMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    first_name?: true
+    last_name?: true
+    email?: true
+    phone?: true
+    avatar_url?: true
+    pin_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    id_number?: true
+  }
+
+  export type Res_employeesMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    first_name?: true
+    last_name?: true
+    email?: true
+    phone?: true
+    avatar_url?: true
+    pin_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    id_number?: true
+  }
+
+  export type Res_employeesCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    first_name?: true
+    last_name?: true
+    email?: true
+    phone?: true
+    avatar_url?: true
+    pin_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    id_number?: true
+    _all?: true
+  }
+
+  export type Res_employeesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which res_employees to aggregate.
+     */
+    where?: res_employeesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of res_employees to fetch.
+     */
+    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: res_employeesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` res_employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` res_employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned res_employees
+    **/
+    _count?: true | Res_employeesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Res_employeesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Res_employeesMaxAggregateInputType
+  }
+
+  export type GetRes_employeesAggregateType<T extends Res_employeesAggregateArgs> = {
+        [P in keyof T & keyof AggregateRes_employees]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRes_employees[P]>
+      : GetScalarType<T[P], AggregateRes_employees[P]>
+  }
+
+
+
+
+  export type res_employeesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: res_employeesWhereInput
+    orderBy?: res_employeesOrderByWithAggregationInput | res_employeesOrderByWithAggregationInput[]
+    by: Res_employeesScalarFieldEnum[] | Res_employeesScalarFieldEnum
+    having?: res_employeesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Res_employeesCountAggregateInputType | true
+    _min?: Res_employeesMinAggregateInputType
+    _max?: Res_employeesMaxAggregateInputType
+  }
+
+  export type Res_employeesGroupByOutputType = {
+    id: string
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    phone: string | null
+    avatar_url: string | null
+    pin_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    id_number: string | null
+    _count: Res_employeesCountAggregateOutputType | null
+    _min: Res_employeesMinAggregateOutputType | null
+    _max: Res_employeesMaxAggregateOutputType | null
+  }
+
+  type GetRes_employeesGroupByPayload<T extends res_employeesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Res_employeesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Res_employeesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Res_employeesGroupByOutputType[P]>
+            : GetScalarType<T[P], Res_employeesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type res_employeesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    first_name?: boolean
+    last_name?: boolean
+    email?: boolean
+    phone?: boolean
+    avatar_url?: boolean
+    pin_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    id_number?: boolean
+    res_employee_roles?: boolean | res_employees$res_employee_rolesArgs<ExtArgs>
+    res_events?: boolean | res_employees$res_eventsArgs<ExtArgs>
+    res_notifications?: boolean | res_employees$res_notificationsArgs<ExtArgs>
+    res_orders?: boolean | res_employees$res_ordersArgs<ExtArgs>
+    res_reservations?: boolean | res_employees$res_reservationsArgs<ExtArgs>
+    res_shifts_res_shifts_closed_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>
+    res_shifts_res_shifts_opened_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_approved_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_requested_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
+    _count?: boolean | Res_employeesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["res_employees"]>
+
+  export type res_employeesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    first_name?: boolean
+    last_name?: boolean
+    email?: boolean
+    phone?: boolean
+    avatar_url?: boolean
+    pin_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    id_number?: boolean
+  }, ExtArgs["result"]["res_employees"]>
+
+  export type res_employeesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    first_name?: boolean
+    last_name?: boolean
+    email?: boolean
+    phone?: boolean
+    avatar_url?: boolean
+    pin_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    id_number?: boolean
+  }, ExtArgs["result"]["res_employees"]>
+
+  export type res_employeesSelectScalar = {
+    id?: boolean
+    user_id?: boolean
+    first_name?: boolean
+    last_name?: boolean
+    email?: boolean
+    phone?: boolean
+    avatar_url?: boolean
+    pin_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    id_number?: boolean
+  }
+
+  export type res_employeesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "first_name" | "last_name" | "email" | "phone" | "avatar_url" | "pin_code" | "is_active" | "created_at" | "updated_at" | "id_number", ExtArgs["result"]["res_employees"]>
+  export type res_employeesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    res_employee_roles?: boolean | res_employees$res_employee_rolesArgs<ExtArgs>
+    res_events?: boolean | res_employees$res_eventsArgs<ExtArgs>
+    res_notifications?: boolean | res_employees$res_notificationsArgs<ExtArgs>
+    res_orders?: boolean | res_employees$res_ordersArgs<ExtArgs>
+    res_reservations?: boolean | res_employees$res_reservationsArgs<ExtArgs>
+    res_shifts_res_shifts_closed_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>
+    res_shifts_res_shifts_opened_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_approved_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_requested_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>
+    _count?: boolean | Res_employeesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type res_employeesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type res_employeesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $res_employeesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "res_employees"
+    objects: {
+      res_employee_roles: Prisma.$res_employee_rolesPayload<ExtArgs>[]
+      res_events: Prisma.$res_eventsPayload<ExtArgs>[]
+      res_notifications: Prisma.$res_notificationsPayload<ExtArgs>[]
+      res_orders: Prisma.$res_ordersPayload<ExtArgs>[]
+      res_reservations: Prisma.$res_reservationsPayload<ExtArgs>[]
+      res_shifts_res_shifts_closed_byTores_employees: Prisma.$res_shiftsPayload<ExtArgs>[]
+      res_shifts_res_shifts_opened_byTores_employees: Prisma.$res_shiftsPayload<ExtArgs>[]
+      res_void_requests_res_void_requests_approved_byTores_employees: Prisma.$res_void_requestsPayload<ExtArgs>[]
+      res_void_requests_res_void_requests_requested_byTores_employees: Prisma.$res_void_requestsPayload<ExtArgs>[]
+      res_void_requests_res_void_requests_res_employeesIdTores_employees: Prisma.$res_void_requestsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      user_id: string
+      first_name: string
+      last_name: string
+      email: string
+      phone: string | null
+      avatar_url: string | null
+      pin_code: string | null
+      is_active: boolean | null
+      created_at: Date | null
+      updated_at: Date | null
+      id_number: string | null
+    }, ExtArgs["result"]["res_employees"]>
+    composites: {}
+  }
+
+  type res_employeesGetPayload<S extends boolean | null | undefined | res_employeesDefaultArgs> = $Result.GetResult<Prisma.$res_employeesPayload, S>
+
+  type res_employeesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<res_employeesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Res_employeesCountAggregateInputType | true
+    }
+
+  export interface res_employeesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['res_employees'], meta: { name: 'res_employees' } }
+    /**
+     * Find zero or one Res_employees that matches the filter.
+     * @param {res_employeesFindUniqueArgs} args - Arguments to find a Res_employees
+     * @example
+     * // Get one Res_employees
+     * const res_employees = await prisma.res_employees.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends res_employeesFindUniqueArgs>(args: SelectSubset<T, res_employeesFindUniqueArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Res_employees that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {res_employeesFindUniqueOrThrowArgs} args - Arguments to find a Res_employees
+     * @example
+     * // Get one Res_employees
+     * const res_employees = await prisma.res_employees.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends res_employeesFindUniqueOrThrowArgs>(args: SelectSubset<T, res_employeesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Res_employees that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesFindFirstArgs} args - Arguments to find a Res_employees
+     * @example
+     * // Get one Res_employees
+     * const res_employees = await prisma.res_employees.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends res_employeesFindFirstArgs>(args?: SelectSubset<T, res_employeesFindFirstArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Res_employees that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesFindFirstOrThrowArgs} args - Arguments to find a Res_employees
+     * @example
+     * // Get one Res_employees
+     * const res_employees = await prisma.res_employees.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends res_employeesFindFirstOrThrowArgs>(args?: SelectSubset<T, res_employeesFindFirstOrThrowArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Res_employees that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Res_employees
+     * const res_employees = await prisma.res_employees.findMany()
+     * 
+     * // Get first 10 Res_employees
+     * const res_employees = await prisma.res_employees.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const res_employeesWithIdOnly = await prisma.res_employees.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends res_employeesFindManyArgs>(args?: SelectSubset<T, res_employeesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Res_employees.
+     * @param {res_employeesCreateArgs} args - Arguments to create a Res_employees.
+     * @example
+     * // Create one Res_employees
+     * const Res_employees = await prisma.res_employees.create({
+     *   data: {
+     *     // ... data to create a Res_employees
+     *   }
+     * })
+     * 
+     */
+    create<T extends res_employeesCreateArgs>(args: SelectSubset<T, res_employeesCreateArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Res_employees.
+     * @param {res_employeesCreateManyArgs} args - Arguments to create many Res_employees.
+     * @example
+     * // Create many Res_employees
+     * const res_employees = await prisma.res_employees.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends res_employeesCreateManyArgs>(args?: SelectSubset<T, res_employeesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Res_employees and returns the data saved in the database.
+     * @param {res_employeesCreateManyAndReturnArgs} args - Arguments to create many Res_employees.
+     * @example
+     * // Create many Res_employees
+     * const res_employees = await prisma.res_employees.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Res_employees and only return the `id`
+     * const res_employeesWithIdOnly = await prisma.res_employees.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends res_employeesCreateManyAndReturnArgs>(args?: SelectSubset<T, res_employeesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Res_employees.
+     * @param {res_employeesDeleteArgs} args - Arguments to delete one Res_employees.
+     * @example
+     * // Delete one Res_employees
+     * const Res_employees = await prisma.res_employees.delete({
+     *   where: {
+     *     // ... filter to delete one Res_employees
+     *   }
+     * })
+     * 
+     */
+    delete<T extends res_employeesDeleteArgs>(args: SelectSubset<T, res_employeesDeleteArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Res_employees.
+     * @param {res_employeesUpdateArgs} args - Arguments to update one Res_employees.
+     * @example
+     * // Update one Res_employees
+     * const res_employees = await prisma.res_employees.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends res_employeesUpdateArgs>(args: SelectSubset<T, res_employeesUpdateArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Res_employees.
+     * @param {res_employeesDeleteManyArgs} args - Arguments to filter Res_employees to delete.
+     * @example
+     * // Delete a few Res_employees
+     * const { count } = await prisma.res_employees.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends res_employeesDeleteManyArgs>(args?: SelectSubset<T, res_employeesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Res_employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Res_employees
+     * const res_employees = await prisma.res_employees.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends res_employeesUpdateManyArgs>(args: SelectSubset<T, res_employeesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Res_employees and returns the data updated in the database.
+     * @param {res_employeesUpdateManyAndReturnArgs} args - Arguments to update many Res_employees.
+     * @example
+     * // Update many Res_employees
+     * const res_employees = await prisma.res_employees.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Res_employees and only return the `id`
+     * const res_employeesWithIdOnly = await prisma.res_employees.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends res_employeesUpdateManyAndReturnArgs>(args: SelectSubset<T, res_employeesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Res_employees.
+     * @param {res_employeesUpsertArgs} args - Arguments to update or create a Res_employees.
+     * @example
+     * // Update or create a Res_employees
+     * const res_employees = await prisma.res_employees.upsert({
+     *   create: {
+     *     // ... data to create a Res_employees
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Res_employees we want to update
+     *   }
+     * })
+     */
+    upsert<T extends res_employeesUpsertArgs>(args: SelectSubset<T, res_employeesUpsertArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Res_employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesCountArgs} args - Arguments to filter Res_employees to count.
+     * @example
+     * // Count the number of Res_employees
+     * const count = await prisma.res_employees.count({
+     *   where: {
+     *     // ... the filter for the Res_employees we want to count
+     *   }
+     * })
+    **/
+    count<T extends res_employeesCountArgs>(
+      args?: Subset<T, res_employeesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Res_employeesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Res_employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Res_employeesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Res_employeesAggregateArgs>(args: Subset<T, Res_employeesAggregateArgs>): Prisma.PrismaPromise<GetRes_employeesAggregateType<T>>
+
+    /**
+     * Group by Res_employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {res_employeesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends res_employeesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: res_employeesGroupByArgs['orderBy'] }
+        : { orderBy?: res_employeesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, res_employeesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRes_employeesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the res_employees model
+   */
+  readonly fields: res_employeesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for res_employees.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__res_employeesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    res_employee_roles<T extends res_employees$res_employee_rolesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_employee_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employee_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_events<T extends res_employees$res_eventsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_eventsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_notifications<T extends res_employees$res_notificationsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_notificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_orders<T extends res_employees$res_ordersArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_reservations<T extends res_employees$res_reservationsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_reservationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_shifts_res_shifts_closed_byTores_employees<T extends res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_shifts_res_shifts_opened_byTores_employees<T extends res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_void_requests_res_void_requests_approved_byTores_employees<T extends res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_void_requests_res_void_requests_requested_byTores_employees<T extends res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    res_void_requests_res_void_requests_res_employeesIdTores_employees<T extends res_employees$res_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the res_employees model
+   */
+  interface res_employeesFieldRefs {
+    readonly id: FieldRef<"res_employees", 'String'>
+    readonly user_id: FieldRef<"res_employees", 'String'>
+    readonly first_name: FieldRef<"res_employees", 'String'>
+    readonly last_name: FieldRef<"res_employees", 'String'>
+    readonly email: FieldRef<"res_employees", 'String'>
+    readonly phone: FieldRef<"res_employees", 'String'>
+    readonly avatar_url: FieldRef<"res_employees", 'String'>
+    readonly pin_code: FieldRef<"res_employees", 'String'>
+    readonly is_active: FieldRef<"res_employees", 'Boolean'>
+    readonly created_at: FieldRef<"res_employees", 'DateTime'>
+    readonly updated_at: FieldRef<"res_employees", 'DateTime'>
+    readonly id_number: FieldRef<"res_employees", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * res_employees findUnique
+   */
+  export type res_employeesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter, which res_employees to fetch.
+     */
+    where: res_employeesWhereUniqueInput
+  }
+
+  /**
+   * res_employees findUniqueOrThrow
+   */
+  export type res_employeesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter, which res_employees to fetch.
+     */
+    where: res_employeesWhereUniqueInput
+  }
+
+  /**
+   * res_employees findFirst
+   */
+  export type res_employeesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter, which res_employees to fetch.
+     */
+    where?: res_employeesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of res_employees to fetch.
+     */
+    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for res_employees.
+     */
+    cursor?: res_employeesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` res_employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` res_employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of res_employees.
+     */
+    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees findFirstOrThrow
+   */
+  export type res_employeesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter, which res_employees to fetch.
+     */
+    where?: res_employeesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of res_employees to fetch.
+     */
+    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for res_employees.
+     */
+    cursor?: res_employeesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` res_employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` res_employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of res_employees.
+     */
+    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees findMany
+   */
+  export type res_employeesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter, which res_employees to fetch.
+     */
+    where?: res_employeesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of res_employees to fetch.
+     */
+    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing res_employees.
+     */
+    cursor?: res_employeesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` res_employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` res_employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of res_employees.
+     */
+    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees create
+   */
+  export type res_employeesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a res_employees.
+     */
+    data: XOR<res_employeesCreateInput, res_employeesUncheckedCreateInput>
+  }
+
+  /**
+   * res_employees createMany
+   */
+  export type res_employeesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many res_employees.
+     */
+    data: res_employeesCreateManyInput | res_employeesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * res_employees createManyAndReturn
+   */
+  export type res_employeesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * The data used to create many res_employees.
+     */
+    data: res_employeesCreateManyInput | res_employeesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * res_employees update
+   */
+  export type res_employeesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a res_employees.
+     */
+    data: XOR<res_employeesUpdateInput, res_employeesUncheckedUpdateInput>
+    /**
+     * Choose, which res_employees to update.
+     */
+    where: res_employeesWhereUniqueInput
+  }
+
+  /**
+   * res_employees updateMany
+   */
+  export type res_employeesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update res_employees.
+     */
+    data: XOR<res_employeesUpdateManyMutationInput, res_employeesUncheckedUpdateManyInput>
+    /**
+     * Filter which res_employees to update
+     */
+    where?: res_employeesWhereInput
+    /**
+     * Limit how many res_employees to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * res_employees updateManyAndReturn
+   */
+  export type res_employeesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * The data used to update res_employees.
+     */
+    data: XOR<res_employeesUpdateManyMutationInput, res_employeesUncheckedUpdateManyInput>
+    /**
+     * Filter which res_employees to update
+     */
+    where?: res_employeesWhereInput
+    /**
+     * Limit how many res_employees to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * res_employees upsert
+   */
+  export type res_employeesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the res_employees to update in case it exists.
+     */
+    where: res_employeesWhereUniqueInput
+    /**
+     * In case the res_employees found by the `where` argument doesn't exist, create a new res_employees with this data.
+     */
+    create: XOR<res_employeesCreateInput, res_employeesUncheckedCreateInput>
+    /**
+     * In case the res_employees was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<res_employeesUpdateInput, res_employeesUncheckedUpdateInput>
+  }
+
+  /**
+   * res_employees delete
+   */
+  export type res_employeesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+    /**
+     * Filter which res_employees to delete.
+     */
+    where: res_employeesWhereUniqueInput
+  }
+
+  /**
+   * res_employees deleteMany
+   */
+  export type res_employeesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which res_employees to delete
+     */
+    where?: res_employeesWhereInput
+    /**
+     * Limit how many res_employees to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * res_employees.res_employee_roles
+   */
+  export type res_employees$res_employee_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employee_roles
+     */
+    select?: res_employee_rolesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employee_roles
+     */
+    omit?: res_employee_rolesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employee_rolesInclude<ExtArgs> | null
+    where?: res_employee_rolesWhereInput
+    orderBy?: res_employee_rolesOrderByWithRelationInput | res_employee_rolesOrderByWithRelationInput[]
+    cursor?: res_employee_rolesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_employee_rolesScalarFieldEnum | Res_employee_rolesScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_events
+   */
+  export type res_employees$res_eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_events
+     */
+    select?: res_eventsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_events
+     */
+    omit?: res_eventsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_eventsInclude<ExtArgs> | null
+    where?: res_eventsWhereInput
+    orderBy?: res_eventsOrderByWithRelationInput | res_eventsOrderByWithRelationInput[]
+    cursor?: res_eventsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_eventsScalarFieldEnum | Res_eventsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_notifications
+   */
+  export type res_employees$res_notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_notifications
+     */
+    select?: res_notificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_notifications
+     */
+    omit?: res_notificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_notificationsInclude<ExtArgs> | null
+    where?: res_notificationsWhereInput
+    orderBy?: res_notificationsOrderByWithRelationInput | res_notificationsOrderByWithRelationInput[]
+    cursor?: res_notificationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_notificationsScalarFieldEnum | Res_notificationsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_orders
+   */
+  export type res_employees$res_ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_orders
+     */
+    select?: res_ordersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_orders
+     */
+    omit?: res_ordersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_ordersInclude<ExtArgs> | null
+    where?: res_ordersWhereInput
+    orderBy?: res_ordersOrderByWithRelationInput | res_ordersOrderByWithRelationInput[]
+    cursor?: res_ordersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_ordersScalarFieldEnum | Res_ordersScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_reservations
+   */
+  export type res_employees$res_reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_reservations
+     */
+    select?: res_reservationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_reservations
+     */
+    omit?: res_reservationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_reservationsInclude<ExtArgs> | null
+    where?: res_reservationsWhereInput
+    orderBy?: res_reservationsOrderByWithRelationInput | res_reservationsOrderByWithRelationInput[]
+    cursor?: res_reservationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_reservationsScalarFieldEnum | Res_reservationsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_shifts_res_shifts_closed_byTores_employees
+   */
+  export type res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_shifts
+     */
+    select?: res_shiftsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_shifts
+     */
+    omit?: res_shiftsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_shiftsInclude<ExtArgs> | null
+    where?: res_shiftsWhereInput
+    orderBy?: res_shiftsOrderByWithRelationInput | res_shiftsOrderByWithRelationInput[]
+    cursor?: res_shiftsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_shiftsScalarFieldEnum | Res_shiftsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_shifts_res_shifts_opened_byTores_employees
+   */
+  export type res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_shifts
+     */
+    select?: res_shiftsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_shifts
+     */
+    omit?: res_shiftsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_shiftsInclude<ExtArgs> | null
+    where?: res_shiftsWhereInput
+    orderBy?: res_shiftsOrderByWithRelationInput | res_shiftsOrderByWithRelationInput[]
+    cursor?: res_shiftsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_shiftsScalarFieldEnum | Res_shiftsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_void_requests_res_void_requests_approved_byTores_employees
+   */
+  export type res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_void_requests
+     */
+    select?: res_void_requestsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_void_requests
+     */
+    omit?: res_void_requestsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_void_requestsInclude<ExtArgs> | null
+    where?: res_void_requestsWhereInput
+    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
+    cursor?: res_void_requestsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_void_requests_res_void_requests_requested_byTores_employees
+   */
+  export type res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_void_requests
+     */
+    select?: res_void_requestsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_void_requests
+     */
+    omit?: res_void_requestsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_void_requestsInclude<ExtArgs> | null
+    where?: res_void_requestsWhereInput
+    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
+    cursor?: res_void_requestsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees.res_void_requests_res_void_requests_res_employeesIdTores_employees
+   */
+  export type res_employees$res_void_requests_res_void_requests_res_employeesIdTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_void_requests
+     */
+    select?: res_void_requestsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_void_requests
+     */
+    omit?: res_void_requestsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_void_requestsInclude<ExtArgs> | null
+    where?: res_void_requestsWhereInput
+    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
+    cursor?: res_void_requestsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
+  }
+
+  /**
+   * res_employees without action
+   */
+  export type res_employeesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the res_employees
+     */
+    select?: res_employeesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the res_employees
+     */
+    omit?: res_employeesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: res_employeesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model res_roles
    */
 
@@ -68763,1424 +70304,6 @@ export namespace Prisma {
 
 
   /**
-   * Model res_employees
-   */
-
-  export type AggregateRes_employees = {
-    _count: Res_employeesCountAggregateOutputType | null
-    _min: Res_employeesMinAggregateOutputType | null
-    _max: Res_employeesMaxAggregateOutputType | null
-  }
-
-  export type Res_employeesMinAggregateOutputType = {
-    id: string | null
-    user_id: string | null
-    first_name: string | null
-    last_name: string | null
-    email: string | null
-    phone: string | null
-    avatar_url: string | null
-    pin_code: string | null
-    is_active: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
-    id_number: string | null
-  }
-
-  export type Res_employeesMaxAggregateOutputType = {
-    id: string | null
-    user_id: string | null
-    first_name: string | null
-    last_name: string | null
-    email: string | null
-    phone: string | null
-    avatar_url: string | null
-    pin_code: string | null
-    is_active: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
-    id_number: string | null
-  }
-
-  export type Res_employeesCountAggregateOutputType = {
-    id: number
-    user_id: number
-    first_name: number
-    last_name: number
-    email: number
-    phone: number
-    avatar_url: number
-    pin_code: number
-    is_active: number
-    created_at: number
-    updated_at: number
-    id_number: number
-    _all: number
-  }
-
-
-  export type Res_employeesMinAggregateInputType = {
-    id?: true
-    user_id?: true
-    first_name?: true
-    last_name?: true
-    email?: true
-    phone?: true
-    avatar_url?: true
-    pin_code?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
-    id_number?: true
-  }
-
-  export type Res_employeesMaxAggregateInputType = {
-    id?: true
-    user_id?: true
-    first_name?: true
-    last_name?: true
-    email?: true
-    phone?: true
-    avatar_url?: true
-    pin_code?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
-    id_number?: true
-  }
-
-  export type Res_employeesCountAggregateInputType = {
-    id?: true
-    user_id?: true
-    first_name?: true
-    last_name?: true
-    email?: true
-    phone?: true
-    avatar_url?: true
-    pin_code?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
-    id_number?: true
-    _all?: true
-  }
-
-  export type Res_employeesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which res_employees to aggregate.
-     */
-    where?: res_employeesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of res_employees to fetch.
-     */
-    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: res_employeesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` res_employees from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` res_employees.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned res_employees
-    **/
-    _count?: true | Res_employeesCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Res_employeesMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Res_employeesMaxAggregateInputType
-  }
-
-  export type GetRes_employeesAggregateType<T extends Res_employeesAggregateArgs> = {
-        [P in keyof T & keyof AggregateRes_employees]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRes_employees[P]>
-      : GetScalarType<T[P], AggregateRes_employees[P]>
-  }
-
-
-
-
-  export type res_employeesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: res_employeesWhereInput
-    orderBy?: res_employeesOrderByWithAggregationInput | res_employeesOrderByWithAggregationInput[]
-    by: Res_employeesScalarFieldEnum[] | Res_employeesScalarFieldEnum
-    having?: res_employeesScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Res_employeesCountAggregateInputType | true
-    _min?: Res_employeesMinAggregateInputType
-    _max?: Res_employeesMaxAggregateInputType
-  }
-
-  export type Res_employeesGroupByOutputType = {
-    id: string
-    user_id: string
-    first_name: string
-    last_name: string
-    email: string
-    phone: string | null
-    avatar_url: string | null
-    pin_code: string | null
-    is_active: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
-    id_number: string | null
-    _count: Res_employeesCountAggregateOutputType | null
-    _min: Res_employeesMinAggregateOutputType | null
-    _max: Res_employeesMaxAggregateOutputType | null
-  }
-
-  type GetRes_employeesGroupByPayload<T extends res_employeesGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Res_employeesGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Res_employeesGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Res_employeesGroupByOutputType[P]>
-            : GetScalarType<T[P], Res_employeesGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type res_employeesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    user_id?: boolean
-    first_name?: boolean
-    last_name?: boolean
-    email?: boolean
-    phone?: boolean
-    avatar_url?: boolean
-    pin_code?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    id_number?: boolean
-    res_employee_roles?: boolean | res_employees$res_employee_rolesArgs<ExtArgs>
-    res_events?: boolean | res_employees$res_eventsArgs<ExtArgs>
-    res_notifications?: boolean | res_employees$res_notificationsArgs<ExtArgs>
-    res_orders?: boolean | res_employees$res_ordersArgs<ExtArgs>
-    res_reservations?: boolean | res_employees$res_reservationsArgs<ExtArgs>
-    res_shifts_res_shifts_closed_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>
-    res_shifts_res_shifts_opened_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>
-    res_void_requests_res_void_requests_approved_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
-    res_void_requests_res_void_requests_requested_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resVoidRequests?: boolean | res_employees$resVoidRequestsArgs<ExtArgs>
-    _count?: boolean | Res_employeesCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["res_employees"]>
-
-  export type res_employeesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    user_id?: boolean
-    first_name?: boolean
-    last_name?: boolean
-    email?: boolean
-    phone?: boolean
-    avatar_url?: boolean
-    pin_code?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    id_number?: boolean
-  }, ExtArgs["result"]["res_employees"]>
-
-  export type res_employeesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    user_id?: boolean
-    first_name?: boolean
-    last_name?: boolean
-    email?: boolean
-    phone?: boolean
-    avatar_url?: boolean
-    pin_code?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    id_number?: boolean
-  }, ExtArgs["result"]["res_employees"]>
-
-  export type res_employeesSelectScalar = {
-    id?: boolean
-    user_id?: boolean
-    first_name?: boolean
-    last_name?: boolean
-    email?: boolean
-    phone?: boolean
-    avatar_url?: boolean
-    pin_code?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    id_number?: boolean
-  }
-
-  export type res_employeesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "first_name" | "last_name" | "email" | "phone" | "avatar_url" | "pin_code" | "is_active" | "created_at" | "updated_at" | "id_number", ExtArgs["result"]["res_employees"]>
-  export type res_employeesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    res_employee_roles?: boolean | res_employees$res_employee_rolesArgs<ExtArgs>
-    res_events?: boolean | res_employees$res_eventsArgs<ExtArgs>
-    res_notifications?: boolean | res_employees$res_notificationsArgs<ExtArgs>
-    res_orders?: boolean | res_employees$res_ordersArgs<ExtArgs>
-    res_reservations?: boolean | res_employees$res_reservationsArgs<ExtArgs>
-    res_shifts_res_shifts_closed_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>
-    res_shifts_res_shifts_opened_byTores_employees?: boolean | res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>
-    res_void_requests_res_void_requests_approved_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>
-    res_void_requests_res_void_requests_requested_byTores_employees?: boolean | res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>
-    resVoidRequests?: boolean | res_employees$resVoidRequestsArgs<ExtArgs>
-    _count?: boolean | Res_employeesCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type res_employeesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type res_employeesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $res_employeesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "res_employees"
-    objects: {
-      res_employee_roles: Prisma.$res_employee_rolesPayload<ExtArgs>[]
-      res_events: Prisma.$res_eventsPayload<ExtArgs>[]
-      res_notifications: Prisma.$res_notificationsPayload<ExtArgs>[]
-      res_orders: Prisma.$res_ordersPayload<ExtArgs>[]
-      res_reservations: Prisma.$res_reservationsPayload<ExtArgs>[]
-      res_shifts_res_shifts_closed_byTores_employees: Prisma.$res_shiftsPayload<ExtArgs>[]
-      res_shifts_res_shifts_opened_byTores_employees: Prisma.$res_shiftsPayload<ExtArgs>[]
-      res_void_requests_res_void_requests_approved_byTores_employees: Prisma.$res_void_requestsPayload<ExtArgs>[]
-      res_void_requests_res_void_requests_requested_byTores_employees: Prisma.$res_void_requestsPayload<ExtArgs>[]
-      resVoidRequests: Prisma.$res_void_requestsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      user_id: string
-      first_name: string
-      last_name: string
-      email: string
-      phone: string | null
-      avatar_url: string | null
-      pin_code: string | null
-      is_active: boolean | null
-      created_at: Date | null
-      updated_at: Date | null
-      id_number: string | null
-    }, ExtArgs["result"]["res_employees"]>
-    composites: {}
-  }
-
-  type res_employeesGetPayload<S extends boolean | null | undefined | res_employeesDefaultArgs> = $Result.GetResult<Prisma.$res_employeesPayload, S>
-
-  type res_employeesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<res_employeesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Res_employeesCountAggregateInputType | true
-    }
-
-  export interface res_employeesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['res_employees'], meta: { name: 'res_employees' } }
-    /**
-     * Find zero or one Res_employees that matches the filter.
-     * @param {res_employeesFindUniqueArgs} args - Arguments to find a Res_employees
-     * @example
-     * // Get one Res_employees
-     * const res_employees = await prisma.res_employees.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends res_employeesFindUniqueArgs>(args: SelectSubset<T, res_employeesFindUniqueArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Res_employees that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {res_employeesFindUniqueOrThrowArgs} args - Arguments to find a Res_employees
-     * @example
-     * // Get one Res_employees
-     * const res_employees = await prisma.res_employees.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends res_employeesFindUniqueOrThrowArgs>(args: SelectSubset<T, res_employeesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Res_employees that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesFindFirstArgs} args - Arguments to find a Res_employees
-     * @example
-     * // Get one Res_employees
-     * const res_employees = await prisma.res_employees.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends res_employeesFindFirstArgs>(args?: SelectSubset<T, res_employeesFindFirstArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Res_employees that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesFindFirstOrThrowArgs} args - Arguments to find a Res_employees
-     * @example
-     * // Get one Res_employees
-     * const res_employees = await prisma.res_employees.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends res_employeesFindFirstOrThrowArgs>(args?: SelectSubset<T, res_employeesFindFirstOrThrowArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Res_employees that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Res_employees
-     * const res_employees = await prisma.res_employees.findMany()
-     * 
-     * // Get first 10 Res_employees
-     * const res_employees = await prisma.res_employees.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const res_employeesWithIdOnly = await prisma.res_employees.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends res_employeesFindManyArgs>(args?: SelectSubset<T, res_employeesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Res_employees.
-     * @param {res_employeesCreateArgs} args - Arguments to create a Res_employees.
-     * @example
-     * // Create one Res_employees
-     * const Res_employees = await prisma.res_employees.create({
-     *   data: {
-     *     // ... data to create a Res_employees
-     *   }
-     * })
-     * 
-     */
-    create<T extends res_employeesCreateArgs>(args: SelectSubset<T, res_employeesCreateArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Res_employees.
-     * @param {res_employeesCreateManyArgs} args - Arguments to create many Res_employees.
-     * @example
-     * // Create many Res_employees
-     * const res_employees = await prisma.res_employees.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends res_employeesCreateManyArgs>(args?: SelectSubset<T, res_employeesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Res_employees and returns the data saved in the database.
-     * @param {res_employeesCreateManyAndReturnArgs} args - Arguments to create many Res_employees.
-     * @example
-     * // Create many Res_employees
-     * const res_employees = await prisma.res_employees.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Res_employees and only return the `id`
-     * const res_employeesWithIdOnly = await prisma.res_employees.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends res_employeesCreateManyAndReturnArgs>(args?: SelectSubset<T, res_employeesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Res_employees.
-     * @param {res_employeesDeleteArgs} args - Arguments to delete one Res_employees.
-     * @example
-     * // Delete one Res_employees
-     * const Res_employees = await prisma.res_employees.delete({
-     *   where: {
-     *     // ... filter to delete one Res_employees
-     *   }
-     * })
-     * 
-     */
-    delete<T extends res_employeesDeleteArgs>(args: SelectSubset<T, res_employeesDeleteArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Res_employees.
-     * @param {res_employeesUpdateArgs} args - Arguments to update one Res_employees.
-     * @example
-     * // Update one Res_employees
-     * const res_employees = await prisma.res_employees.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends res_employeesUpdateArgs>(args: SelectSubset<T, res_employeesUpdateArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Res_employees.
-     * @param {res_employeesDeleteManyArgs} args - Arguments to filter Res_employees to delete.
-     * @example
-     * // Delete a few Res_employees
-     * const { count } = await prisma.res_employees.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends res_employeesDeleteManyArgs>(args?: SelectSubset<T, res_employeesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Res_employees.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Res_employees
-     * const res_employees = await prisma.res_employees.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends res_employeesUpdateManyArgs>(args: SelectSubset<T, res_employeesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Res_employees and returns the data updated in the database.
-     * @param {res_employeesUpdateManyAndReturnArgs} args - Arguments to update many Res_employees.
-     * @example
-     * // Update many Res_employees
-     * const res_employees = await prisma.res_employees.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Res_employees and only return the `id`
-     * const res_employeesWithIdOnly = await prisma.res_employees.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends res_employeesUpdateManyAndReturnArgs>(args: SelectSubset<T, res_employeesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Res_employees.
-     * @param {res_employeesUpsertArgs} args - Arguments to update or create a Res_employees.
-     * @example
-     * // Update or create a Res_employees
-     * const res_employees = await prisma.res_employees.upsert({
-     *   create: {
-     *     // ... data to create a Res_employees
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Res_employees we want to update
-     *   }
-     * })
-     */
-    upsert<T extends res_employeesUpsertArgs>(args: SelectSubset<T, res_employeesUpsertArgs<ExtArgs>>): Prisma__res_employeesClient<$Result.GetResult<Prisma.$res_employeesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Res_employees.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesCountArgs} args - Arguments to filter Res_employees to count.
-     * @example
-     * // Count the number of Res_employees
-     * const count = await prisma.res_employees.count({
-     *   where: {
-     *     // ... the filter for the Res_employees we want to count
-     *   }
-     * })
-    **/
-    count<T extends res_employeesCountArgs>(
-      args?: Subset<T, res_employeesCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Res_employeesCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Res_employees.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Res_employeesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Res_employeesAggregateArgs>(args: Subset<T, Res_employeesAggregateArgs>): Prisma.PrismaPromise<GetRes_employeesAggregateType<T>>
-
-    /**
-     * Group by Res_employees.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {res_employeesGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends res_employeesGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: res_employeesGroupByArgs['orderBy'] }
-        : { orderBy?: res_employeesGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, res_employeesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRes_employeesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the res_employees model
-   */
-  readonly fields: res_employeesFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for res_employees.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__res_employeesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    res_employee_roles<T extends res_employees$res_employee_rolesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_employee_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_employee_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_events<T extends res_employees$res_eventsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_eventsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_notifications<T extends res_employees$res_notificationsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_notificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_orders<T extends res_employees$res_ordersArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_reservations<T extends res_employees$res_reservationsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_reservationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_shifts_res_shifts_closed_byTores_employees<T extends res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_shifts_res_shifts_opened_byTores_employees<T extends res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_void_requests_res_void_requests_approved_byTores_employees<T extends res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    res_void_requests_res_void_requests_requested_byTores_employees<T extends res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    resVoidRequests<T extends res_employees$resVoidRequestsArgs<ExtArgs> = {}>(args?: Subset<T, res_employees$resVoidRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the res_employees model
-   */
-  interface res_employeesFieldRefs {
-    readonly id: FieldRef<"res_employees", 'String'>
-    readonly user_id: FieldRef<"res_employees", 'String'>
-    readonly first_name: FieldRef<"res_employees", 'String'>
-    readonly last_name: FieldRef<"res_employees", 'String'>
-    readonly email: FieldRef<"res_employees", 'String'>
-    readonly phone: FieldRef<"res_employees", 'String'>
-    readonly avatar_url: FieldRef<"res_employees", 'String'>
-    readonly pin_code: FieldRef<"res_employees", 'String'>
-    readonly is_active: FieldRef<"res_employees", 'Boolean'>
-    readonly created_at: FieldRef<"res_employees", 'DateTime'>
-    readonly updated_at: FieldRef<"res_employees", 'DateTime'>
-    readonly id_number: FieldRef<"res_employees", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * res_employees findUnique
-   */
-  export type res_employeesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter, which res_employees to fetch.
-     */
-    where: res_employeesWhereUniqueInput
-  }
-
-  /**
-   * res_employees findUniqueOrThrow
-   */
-  export type res_employeesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter, which res_employees to fetch.
-     */
-    where: res_employeesWhereUniqueInput
-  }
-
-  /**
-   * res_employees findFirst
-   */
-  export type res_employeesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter, which res_employees to fetch.
-     */
-    where?: res_employeesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of res_employees to fetch.
-     */
-    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for res_employees.
-     */
-    cursor?: res_employeesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` res_employees from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` res_employees.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of res_employees.
-     */
-    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees findFirstOrThrow
-   */
-  export type res_employeesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter, which res_employees to fetch.
-     */
-    where?: res_employeesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of res_employees to fetch.
-     */
-    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for res_employees.
-     */
-    cursor?: res_employeesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` res_employees from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` res_employees.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of res_employees.
-     */
-    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees findMany
-   */
-  export type res_employeesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter, which res_employees to fetch.
-     */
-    where?: res_employeesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of res_employees to fetch.
-     */
-    orderBy?: res_employeesOrderByWithRelationInput | res_employeesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing res_employees.
-     */
-    cursor?: res_employeesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` res_employees from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` res_employees.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of res_employees.
-     */
-    distinct?: Res_employeesScalarFieldEnum | Res_employeesScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees create
-   */
-  export type res_employeesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * The data needed to create a res_employees.
-     */
-    data: XOR<res_employeesCreateInput, res_employeesUncheckedCreateInput>
-  }
-
-  /**
-   * res_employees createMany
-   */
-  export type res_employeesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many res_employees.
-     */
-    data: res_employeesCreateManyInput | res_employeesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * res_employees createManyAndReturn
-   */
-  export type res_employeesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * The data used to create many res_employees.
-     */
-    data: res_employeesCreateManyInput | res_employeesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * res_employees update
-   */
-  export type res_employeesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * The data needed to update a res_employees.
-     */
-    data: XOR<res_employeesUpdateInput, res_employeesUncheckedUpdateInput>
-    /**
-     * Choose, which res_employees to update.
-     */
-    where: res_employeesWhereUniqueInput
-  }
-
-  /**
-   * res_employees updateMany
-   */
-  export type res_employeesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update res_employees.
-     */
-    data: XOR<res_employeesUpdateManyMutationInput, res_employeesUncheckedUpdateManyInput>
-    /**
-     * Filter which res_employees to update
-     */
-    where?: res_employeesWhereInput
-    /**
-     * Limit how many res_employees to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * res_employees updateManyAndReturn
-   */
-  export type res_employeesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * The data used to update res_employees.
-     */
-    data: XOR<res_employeesUpdateManyMutationInput, res_employeesUncheckedUpdateManyInput>
-    /**
-     * Filter which res_employees to update
-     */
-    where?: res_employeesWhereInput
-    /**
-     * Limit how many res_employees to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * res_employees upsert
-   */
-  export type res_employeesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * The filter to search for the res_employees to update in case it exists.
-     */
-    where: res_employeesWhereUniqueInput
-    /**
-     * In case the res_employees found by the `where` argument doesn't exist, create a new res_employees with this data.
-     */
-    create: XOR<res_employeesCreateInput, res_employeesUncheckedCreateInput>
-    /**
-     * In case the res_employees was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<res_employeesUpdateInput, res_employeesUncheckedUpdateInput>
-  }
-
-  /**
-   * res_employees delete
-   */
-  export type res_employeesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-    /**
-     * Filter which res_employees to delete.
-     */
-    where: res_employeesWhereUniqueInput
-  }
-
-  /**
-   * res_employees deleteMany
-   */
-  export type res_employeesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which res_employees to delete
-     */
-    where?: res_employeesWhereInput
-    /**
-     * Limit how many res_employees to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * res_employees.res_employee_roles
-   */
-  export type res_employees$res_employee_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employee_roles
-     */
-    select?: res_employee_rolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employee_roles
-     */
-    omit?: res_employee_rolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employee_rolesInclude<ExtArgs> | null
-    where?: res_employee_rolesWhereInput
-    orderBy?: res_employee_rolesOrderByWithRelationInput | res_employee_rolesOrderByWithRelationInput[]
-    cursor?: res_employee_rolesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_employee_rolesScalarFieldEnum | Res_employee_rolesScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_events
-   */
-  export type res_employees$res_eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_events
-     */
-    select?: res_eventsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_events
-     */
-    omit?: res_eventsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_eventsInclude<ExtArgs> | null
-    where?: res_eventsWhereInput
-    orderBy?: res_eventsOrderByWithRelationInput | res_eventsOrderByWithRelationInput[]
-    cursor?: res_eventsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_eventsScalarFieldEnum | Res_eventsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_notifications
-   */
-  export type res_employees$res_notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_notifications
-     */
-    select?: res_notificationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_notifications
-     */
-    omit?: res_notificationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_notificationsInclude<ExtArgs> | null
-    where?: res_notificationsWhereInput
-    orderBy?: res_notificationsOrderByWithRelationInput | res_notificationsOrderByWithRelationInput[]
-    cursor?: res_notificationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_notificationsScalarFieldEnum | Res_notificationsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_orders
-   */
-  export type res_employees$res_ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_orders
-     */
-    select?: res_ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_orders
-     */
-    omit?: res_ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_ordersInclude<ExtArgs> | null
-    where?: res_ordersWhereInput
-    orderBy?: res_ordersOrderByWithRelationInput | res_ordersOrderByWithRelationInput[]
-    cursor?: res_ordersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_ordersScalarFieldEnum | Res_ordersScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_reservations
-   */
-  export type res_employees$res_reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_reservations
-     */
-    select?: res_reservationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_reservations
-     */
-    omit?: res_reservationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_reservationsInclude<ExtArgs> | null
-    where?: res_reservationsWhereInput
-    orderBy?: res_reservationsOrderByWithRelationInput | res_reservationsOrderByWithRelationInput[]
-    cursor?: res_reservationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_reservationsScalarFieldEnum | Res_reservationsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_shifts_res_shifts_closed_byTores_employees
-   */
-  export type res_employees$res_shifts_res_shifts_closed_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_shifts
-     */
-    select?: res_shiftsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_shifts
-     */
-    omit?: res_shiftsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_shiftsInclude<ExtArgs> | null
-    where?: res_shiftsWhereInput
-    orderBy?: res_shiftsOrderByWithRelationInput | res_shiftsOrderByWithRelationInput[]
-    cursor?: res_shiftsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_shiftsScalarFieldEnum | Res_shiftsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_shifts_res_shifts_opened_byTores_employees
-   */
-  export type res_employees$res_shifts_res_shifts_opened_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_shifts
-     */
-    select?: res_shiftsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_shifts
-     */
-    omit?: res_shiftsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_shiftsInclude<ExtArgs> | null
-    where?: res_shiftsWhereInput
-    orderBy?: res_shiftsOrderByWithRelationInput | res_shiftsOrderByWithRelationInput[]
-    cursor?: res_shiftsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_shiftsScalarFieldEnum | Res_shiftsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_void_requests_res_void_requests_approved_byTores_employees
-   */
-  export type res_employees$res_void_requests_res_void_requests_approved_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_void_requests
-     */
-    select?: res_void_requestsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_void_requests
-     */
-    omit?: res_void_requestsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_void_requestsInclude<ExtArgs> | null
-    where?: res_void_requestsWhereInput
-    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
-    cursor?: res_void_requestsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.res_void_requests_res_void_requests_requested_byTores_employees
-   */
-  export type res_employees$res_void_requests_res_void_requests_requested_byTores_employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_void_requests
-     */
-    select?: res_void_requestsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_void_requests
-     */
-    omit?: res_void_requestsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_void_requestsInclude<ExtArgs> | null
-    where?: res_void_requestsWhereInput
-    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
-    cursor?: res_void_requestsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees.resVoidRequests
-   */
-  export type res_employees$resVoidRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_void_requests
-     */
-    select?: res_void_requestsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_void_requests
-     */
-    omit?: res_void_requestsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_void_requestsInclude<ExtArgs> | null
-    where?: res_void_requestsWhereInput
-    orderBy?: res_void_requestsOrderByWithRelationInput | res_void_requestsOrderByWithRelationInput[]
-    cursor?: res_void_requestsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Res_void_requestsScalarFieldEnum | Res_void_requestsScalarFieldEnum[]
-  }
-
-  /**
-   * res_employees without action
-   */
-  export type res_employeesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the res_employees
-     */
-    select?: res_employeesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the res_employees
-     */
-    omit?: res_employeesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: res_employeesInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Enums
    */
 
@@ -70825,7 +70948,8 @@ export namespace Prisma {
     created_at: 'created_at',
     updated_at: 'updated_at',
     default_role: 'default_role',
-    is_restuarant_user: 'is_restuarant_user'
+    is_restuarant_user: 'is_restuarant_user',
+    parent_tenant_id: 'parent_tenant_id'
   };
 
   export type Tenant_usersScalarFieldEnum = (typeof Tenant_usersScalarFieldEnum)[keyof typeof Tenant_usersScalarFieldEnum]
@@ -70921,7 +71045,8 @@ export namespace Prisma {
     commission_amount: 'commission_amount',
     commission_type: 'commission_type',
     first_name: 'first_name',
-    last_name: 'last_name'
+    last_name: 'last_name',
+    is_owner: 'is_owner'
   };
 
   export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
@@ -70983,17 +71108,6 @@ export namespace Prisma {
   export type Res_employee_rolesScalarFieldEnum = (typeof Res_employee_rolesScalarFieldEnum)[keyof typeof Res_employee_rolesScalarFieldEnum]
 
 
-  export const Res_rolesScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    display_name: 'display_name',
-    permissions: 'permissions',
-    created_at: 'created_at'
-  };
-
-  export type Res_rolesScalarFieldEnum = (typeof Res_rolesScalarFieldEnum)[keyof typeof Res_rolesScalarFieldEnum]
-
-
   export const Res_employeesScalarFieldEnum: {
     id: 'id',
     user_id: 'user_id',
@@ -71010,6 +71124,17 @@ export namespace Prisma {
   };
 
   export type Res_employeesScalarFieldEnum = (typeof Res_employeesScalarFieldEnum)[keyof typeof Res_employeesScalarFieldEnum]
+
+
+  export const Res_rolesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    display_name: 'display_name',
+    permissions: 'permissions',
+    created_at: 'created_at'
+  };
+
+  export type Res_rolesScalarFieldEnum = (typeof Res_rolesScalarFieldEnum)[keyof typeof Res_rolesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -72650,7 +72775,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"res_events"> | string | null
     created_at?: DateTimeNullableFilter<"res_events"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_events"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }
 
   export type res_eventsOrderByWithRelationInput = {
@@ -72665,7 +72790,7 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     res_employeesId?: SortOrderInput | SortOrder
-    resEmployees?: res_employeesOrderByWithRelationInput
+    res_employees?: res_employeesOrderByWithRelationInput
   }
 
   export type res_eventsWhereUniqueInput = Prisma.AtLeast<{
@@ -72683,7 +72808,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"res_events"> | string | null
     created_at?: DateTimeNullableFilter<"res_events"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_events"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }, "id">
 
   export type res_eventsOrderByWithAggregationInput = {
@@ -73102,7 +73227,7 @@ export namespace Prisma {
     OR?: res_notificationsWhereInput[]
     NOT?: res_notificationsWhereInput | res_notificationsWhereInput[]
     id?: UuidFilter<"res_notifications"> | string
-    recipient_id?: UuidNullableFilter<"res_notifications"> | string | null
+    recipient_id?: StringNullableFilter<"res_notifications"> | string | null
     type?: StringFilter<"res_notifications"> | string
     title?: StringFilter<"res_notifications"> | string
     message?: StringNullableFilter<"res_notifications"> | string | null
@@ -73110,7 +73235,7 @@ export namespace Prisma {
     is_read?: BoolNullableFilter<"res_notifications"> | boolean | null
     created_at?: DateTimeNullableFilter<"res_notifications"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_notifications"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }
 
   export type res_notificationsOrderByWithRelationInput = {
@@ -73123,7 +73248,7 @@ export namespace Prisma {
     is_read?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     res_employeesId?: SortOrderInput | SortOrder
-    resEmployees?: res_employeesOrderByWithRelationInput
+    res_employees?: res_employeesOrderByWithRelationInput
   }
 
   export type res_notificationsWhereUniqueInput = Prisma.AtLeast<{
@@ -73131,7 +73256,7 @@ export namespace Prisma {
     AND?: res_notificationsWhereInput | res_notificationsWhereInput[]
     OR?: res_notificationsWhereInput[]
     NOT?: res_notificationsWhereInput | res_notificationsWhereInput[]
-    recipient_id?: UuidNullableFilter<"res_notifications"> | string | null
+    recipient_id?: StringNullableFilter<"res_notifications"> | string | null
     type?: StringFilter<"res_notifications"> | string
     title?: StringFilter<"res_notifications"> | string
     message?: StringNullableFilter<"res_notifications"> | string | null
@@ -73139,7 +73264,7 @@ export namespace Prisma {
     is_read?: BoolNullableFilter<"res_notifications"> | boolean | null
     created_at?: DateTimeNullableFilter<"res_notifications"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_notifications"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }, "id">
 
   export type res_notificationsOrderByWithAggregationInput = {
@@ -73162,7 +73287,7 @@ export namespace Prisma {
     OR?: res_notificationsScalarWhereWithAggregatesInput[]
     NOT?: res_notificationsScalarWhereWithAggregatesInput | res_notificationsScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"res_notifications"> | string
-    recipient_id?: UuidNullableWithAggregatesFilter<"res_notifications"> | string | null
+    recipient_id?: StringNullableWithAggregatesFilter<"res_notifications"> | string | null
     type?: StringWithAggregatesFilter<"res_notifications"> | string
     title?: StringWithAggregatesFilter<"res_notifications"> | string
     message?: StringNullableWithAggregatesFilter<"res_notifications"> | string | null
@@ -73295,7 +73420,7 @@ export namespace Prisma {
     res_employeesId?: UuidNullableFilter<"res_orders"> | string | null
     res_order_items?: Res_order_itemsListRelationFilter
     promotions?: XOR<Res_promotionsNullableScalarRelationFilter, res_promotionsWhereInput> | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_shifts?: XOR<Res_shiftsNullableScalarRelationFilter, res_shiftsWhereInput> | null
     res_tables?: XOR<Res_tablesNullableScalarRelationFilter, res_tablesWhereInput> | null
     res_void_requests?: Res_void_requestsListRelationFilter
@@ -73328,7 +73453,7 @@ export namespace Prisma {
     res_employeesId?: SortOrderInput | SortOrder
     res_order_items?: res_order_itemsOrderByRelationAggregateInput
     promotions?: res_promotionsOrderByWithRelationInput
-    resEmployees?: res_employeesOrderByWithRelationInput
+    res_employees?: res_employeesOrderByWithRelationInput
     res_shifts?: res_shiftsOrderByWithRelationInput
     res_tables?: res_tablesOrderByWithRelationInput
     res_void_requests?: res_void_requestsOrderByRelationAggregateInput
@@ -73364,7 +73489,7 @@ export namespace Prisma {
     res_employeesId?: UuidNullableFilter<"res_orders"> | string | null
     res_order_items?: Res_order_itemsListRelationFilter
     promotions?: XOR<Res_promotionsNullableScalarRelationFilter, res_promotionsWhereInput> | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_shifts?: XOR<Res_shiftsNullableScalarRelationFilter, res_shiftsWhereInput> | null
     res_tables?: XOR<Res_tablesNullableScalarRelationFilter, res_tablesWhereInput> | null
     res_void_requests?: Res_void_requestsListRelationFilter
@@ -73509,7 +73634,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"res_reservations"> | string | null
     created_at?: DateTimeNullableFilter<"res_reservations"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_reservations"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_tables?: XOR<Res_tablesNullableScalarRelationFilter, res_tablesWhereInput> | null
   }
 
@@ -73528,7 +73653,7 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     res_employeesId?: SortOrderInput | SortOrder
-    resEmployees?: res_employeesOrderByWithRelationInput
+    res_employees?: res_employeesOrderByWithRelationInput
     res_tables?: res_tablesOrderByWithRelationInput
   }
 
@@ -73550,7 +73675,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"res_reservations"> | string | null
     created_at?: DateTimeNullableFilter<"res_reservations"> | Date | string | null
     res_employeesId?: UuidNullableFilter<"res_reservations"> | string | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_tables?: XOR<Res_tablesNullableScalarRelationFilter, res_tablesWhereInput> | null
   }, "id">
 
@@ -73794,7 +73919,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_orders?: XOR<Res_ordersNullableScalarRelationFilter, res_ordersWhereInput> | null
     res_employees_res_void_requests_requested_byTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees_res_void_requests_res_employeesIdTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }
 
   export type res_void_requestsOrderByWithRelationInput = {
@@ -73811,7 +73936,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesOrderByWithRelationInput
     res_orders?: res_ordersOrderByWithRelationInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesOrderByWithRelationInput
-    resEmployees?: res_employeesOrderByWithRelationInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesOrderByWithRelationInput
   }
 
   export type res_void_requestsWhereUniqueInput = Prisma.AtLeast<{
@@ -73831,7 +73956,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
     res_orders?: XOR<Res_ordersNullableScalarRelationFilter, res_ordersWhereInput> | null
     res_employees_res_void_requests_requested_byTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
-    resEmployees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
+    res_employees_res_void_requests_res_employeesIdTores_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
   }, "id">
 
   export type res_void_requestsOrderByWithAggregationInput = {
@@ -74540,6 +74665,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"tenant_users"> | Date | string | null
     default_role?: StringNullableFilter<"tenant_users"> | string | null
     is_restuarant_user?: BoolNullableFilter<"tenant_users"> | boolean | null
+    parent_tenant_id?: UuidNullableFilter<"tenant_users"> | string | null
+    tenant_subscriptions?: XOR<Tenant_subscriptionsNullableScalarRelationFilter, tenant_subscriptionsWhereInput> | null
     user_roles?: User_rolesListRelationFilter
   }
 
@@ -74557,6 +74684,8 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     default_role?: SortOrderInput | SortOrder
     is_restuarant_user?: SortOrderInput | SortOrder
+    parent_tenant_id?: SortOrderInput | SortOrder
+    tenant_subscriptions?: tenant_subscriptionsOrderByWithRelationInput
     user_roles?: user_rolesOrderByRelationAggregateInput
   }
 
@@ -74577,6 +74706,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"tenant_users"> | Date | string | null
     default_role?: StringNullableFilter<"tenant_users"> | string | null
     is_restuarant_user?: BoolNullableFilter<"tenant_users"> | boolean | null
+    parent_tenant_id?: UuidNullableFilter<"tenant_users"> | string | null
+    tenant_subscriptions?: XOR<Tenant_subscriptionsNullableScalarRelationFilter, tenant_subscriptionsWhereInput> | null
     user_roles?: User_rolesListRelationFilter
   }, "id" | "clerk_user_id" | "email">
 
@@ -74594,6 +74725,7 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     default_role?: SortOrderInput | SortOrder
     is_restuarant_user?: SortOrderInput | SortOrder
+    parent_tenant_id?: SortOrderInput | SortOrder
     _count?: tenant_usersCountOrderByAggregateInput
     _max?: tenant_usersMaxOrderByAggregateInput
     _min?: tenant_usersMinOrderByAggregateInput
@@ -74616,6 +74748,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter<"tenant_users"> | Date | string | null
     default_role?: StringNullableWithAggregatesFilter<"tenant_users"> | string | null
     is_restuarant_user?: BoolNullableWithAggregatesFilter<"tenant_users"> | boolean | null
+    parent_tenant_id?: UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
   }
 
   export type rolesWhereInput = {
@@ -75038,7 +75171,9 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFilter<"tenant_subscriptions"> | $Enums.subscription_commission_type
     first_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
     last_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
+    is_owner?: BoolNullableFilter<"tenant_subscriptions"> | boolean | null
     subscriptions?: XOR<SubscriptionsScalarRelationFilter, subscriptionsWhereInput>
+    tenant_users?: Tenant_usersListRelationFilter
   }
 
   export type tenant_subscriptionsOrderByWithRelationInput = {
@@ -75055,7 +75190,9 @@ export namespace Prisma {
     commission_type?: SortOrder
     first_name?: SortOrderInput | SortOrder
     last_name?: SortOrderInput | SortOrder
+    is_owner?: SortOrderInput | SortOrder
     subscriptions?: subscriptionsOrderByWithRelationInput
+    tenant_users?: tenant_usersOrderByRelationAggregateInput
   }
 
   export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
@@ -75075,7 +75212,9 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFilter<"tenant_subscriptions"> | $Enums.subscription_commission_type
     first_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
     last_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
+    is_owner?: BoolNullableFilter<"tenant_subscriptions"> | boolean | null
     subscriptions?: XOR<SubscriptionsScalarRelationFilter, subscriptionsWhereInput>
+    tenant_users?: Tenant_usersListRelationFilter
   }, "id">
 
   export type tenant_subscriptionsOrderByWithAggregationInput = {
@@ -75092,6 +75231,7 @@ export namespace Prisma {
     commission_type?: SortOrder
     first_name?: SortOrderInput | SortOrder
     last_name?: SortOrderInput | SortOrder
+    is_owner?: SortOrderInput | SortOrder
     _count?: tenant_subscriptionsCountOrderByAggregateInput
     _avg?: tenant_subscriptionsAvgOrderByAggregateInput
     _max?: tenant_subscriptionsMaxOrderByAggregateInput
@@ -75116,6 +75256,7 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeWithAggregatesFilter<"tenant_subscriptions"> | $Enums.subscription_commission_type
     first_name?: StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
     last_name?: StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
+    is_owner?: BoolNullableWithAggregatesFilter<"tenant_subscriptions"> | boolean | null
   }
 
   export type profilesWhereInput = {
@@ -75405,6 +75546,123 @@ export namespace Prisma {
     assigned_at?: DateTimeNullableWithAggregatesFilter<"res_employee_roles"> | Date | string | null
   }
 
+  export type res_employeesWhereInput = {
+    AND?: res_employeesWhereInput | res_employeesWhereInput[]
+    OR?: res_employeesWhereInput[]
+    NOT?: res_employeesWhereInput | res_employeesWhereInput[]
+    id?: UuidFilter<"res_employees"> | string
+    user_id?: StringFilter<"res_employees"> | string
+    first_name?: StringFilter<"res_employees"> | string
+    last_name?: StringFilter<"res_employees"> | string
+    email?: StringFilter<"res_employees"> | string
+    phone?: StringNullableFilter<"res_employees"> | string | null
+    avatar_url?: StringNullableFilter<"res_employees"> | string | null
+    pin_code?: StringNullableFilter<"res_employees"> | string | null
+    is_active?: BoolNullableFilter<"res_employees"> | boolean | null
+    created_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
+    id_number?: StringNullableFilter<"res_employees"> | string | null
+    res_employee_roles?: Res_employee_rolesListRelationFilter
+    res_events?: Res_eventsListRelationFilter
+    res_notifications?: Res_notificationsListRelationFilter
+    res_orders?: Res_ordersListRelationFilter
+    res_reservations?: Res_reservationsListRelationFilter
+    res_shifts_res_shifts_closed_byTores_employees?: Res_shiftsListRelationFilter
+    res_shifts_res_shifts_opened_byTores_employees?: Res_shiftsListRelationFilter
+    res_void_requests_res_void_requests_approved_byTores_employees?: Res_void_requestsListRelationFilter
+    res_void_requests_res_void_requests_requested_byTores_employees?: Res_void_requestsListRelationFilter
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: Res_void_requestsListRelationFilter
+  }
+
+  export type res_employeesOrderByWithRelationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    avatar_url?: SortOrderInput | SortOrder
+    pin_code?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    id_number?: SortOrderInput | SortOrder
+    res_employee_roles?: res_employee_rolesOrderByRelationAggregateInput
+    res_events?: res_eventsOrderByRelationAggregateInput
+    res_notifications?: res_notificationsOrderByRelationAggregateInput
+    res_orders?: res_ordersOrderByRelationAggregateInput
+    res_reservations?: res_reservationsOrderByRelationAggregateInput
+    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsOrderByRelationAggregateInput
+    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsOrderByRelationAggregateInput
+    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsOrderByRelationAggregateInput
+    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsOrderByRelationAggregateInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsOrderByRelationAggregateInput
+  }
+
+  export type res_employeesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email?: string
+    id_number?: string
+    AND?: res_employeesWhereInput | res_employeesWhereInput[]
+    OR?: res_employeesWhereInput[]
+    NOT?: res_employeesWhereInput | res_employeesWhereInput[]
+    user_id?: StringFilter<"res_employees"> | string
+    first_name?: StringFilter<"res_employees"> | string
+    last_name?: StringFilter<"res_employees"> | string
+    phone?: StringNullableFilter<"res_employees"> | string | null
+    avatar_url?: StringNullableFilter<"res_employees"> | string | null
+    pin_code?: StringNullableFilter<"res_employees"> | string | null
+    is_active?: BoolNullableFilter<"res_employees"> | boolean | null
+    created_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
+    res_employee_roles?: Res_employee_rolesListRelationFilter
+    res_events?: Res_eventsListRelationFilter
+    res_notifications?: Res_notificationsListRelationFilter
+    res_orders?: Res_ordersListRelationFilter
+    res_reservations?: Res_reservationsListRelationFilter
+    res_shifts_res_shifts_closed_byTores_employees?: Res_shiftsListRelationFilter
+    res_shifts_res_shifts_opened_byTores_employees?: Res_shiftsListRelationFilter
+    res_void_requests_res_void_requests_approved_byTores_employees?: Res_void_requestsListRelationFilter
+    res_void_requests_res_void_requests_requested_byTores_employees?: Res_void_requestsListRelationFilter
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: Res_void_requestsListRelationFilter
+  }, "id" | "email" | "id_number">
+
+  export type res_employeesOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    avatar_url?: SortOrderInput | SortOrder
+    pin_code?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    id_number?: SortOrderInput | SortOrder
+    _count?: res_employeesCountOrderByAggregateInput
+    _max?: res_employeesMaxOrderByAggregateInput
+    _min?: res_employeesMinOrderByAggregateInput
+  }
+
+  export type res_employeesScalarWhereWithAggregatesInput = {
+    AND?: res_employeesScalarWhereWithAggregatesInput | res_employeesScalarWhereWithAggregatesInput[]
+    OR?: res_employeesScalarWhereWithAggregatesInput[]
+    NOT?: res_employeesScalarWhereWithAggregatesInput | res_employeesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"res_employees"> | string
+    user_id?: StringWithAggregatesFilter<"res_employees"> | string
+    first_name?: StringWithAggregatesFilter<"res_employees"> | string
+    last_name?: StringWithAggregatesFilter<"res_employees"> | string
+    email?: StringWithAggregatesFilter<"res_employees"> | string
+    phone?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
+    avatar_url?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
+    pin_code?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
+    is_active?: BoolNullableWithAggregatesFilter<"res_employees"> | boolean | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"res_employees"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"res_employees"> | Date | string | null
+    id_number?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
+  }
+
   export type res_rolesWhereInput = {
     AND?: res_rolesWhereInput | res_rolesWhereInput[]
     OR?: res_rolesWhereInput[]
@@ -75458,123 +75716,6 @@ export namespace Prisma {
     display_name?: StringWithAggregatesFilter<"res_roles"> | string
     permissions?: JsonNullableWithAggregatesFilter<"res_roles">
     created_at?: DateTimeNullableWithAggregatesFilter<"res_roles"> | Date | string | null
-  }
-
-  export type res_employeesWhereInput = {
-    AND?: res_employeesWhereInput | res_employeesWhereInput[]
-    OR?: res_employeesWhereInput[]
-    NOT?: res_employeesWhereInput | res_employeesWhereInput[]
-    id?: UuidFilter<"res_employees"> | string
-    user_id?: StringFilter<"res_employees"> | string
-    first_name?: StringFilter<"res_employees"> | string
-    last_name?: StringFilter<"res_employees"> | string
-    email?: StringFilter<"res_employees"> | string
-    phone?: StringNullableFilter<"res_employees"> | string | null
-    avatar_url?: StringNullableFilter<"res_employees"> | string | null
-    pin_code?: StringNullableFilter<"res_employees"> | string | null
-    is_active?: BoolNullableFilter<"res_employees"> | boolean | null
-    created_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
-    id_number?: StringNullableFilter<"res_employees"> | string | null
-    res_employee_roles?: Res_employee_rolesListRelationFilter
-    res_events?: Res_eventsListRelationFilter
-    res_notifications?: Res_notificationsListRelationFilter
-    res_orders?: Res_ordersListRelationFilter
-    res_reservations?: Res_reservationsListRelationFilter
-    res_shifts_res_shifts_closed_byTores_employees?: Res_shiftsListRelationFilter
-    res_shifts_res_shifts_opened_byTores_employees?: Res_shiftsListRelationFilter
-    res_void_requests_res_void_requests_approved_byTores_employees?: Res_void_requestsListRelationFilter
-    res_void_requests_res_void_requests_requested_byTores_employees?: Res_void_requestsListRelationFilter
-    resVoidRequests?: Res_void_requestsListRelationFilter
-  }
-
-  export type res_employeesOrderByWithRelationInput = {
-    id?: SortOrder
-    user_id?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
-    email?: SortOrder
-    phone?: SortOrderInput | SortOrder
-    avatar_url?: SortOrderInput | SortOrder
-    pin_code?: SortOrderInput | SortOrder
-    is_active?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    id_number?: SortOrderInput | SortOrder
-    res_employee_roles?: res_employee_rolesOrderByRelationAggregateInput
-    res_events?: res_eventsOrderByRelationAggregateInput
-    res_notifications?: res_notificationsOrderByRelationAggregateInput
-    res_orders?: res_ordersOrderByRelationAggregateInput
-    res_reservations?: res_reservationsOrderByRelationAggregateInput
-    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsOrderByRelationAggregateInput
-    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsOrderByRelationAggregateInput
-    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsOrderByRelationAggregateInput
-    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsOrderByRelationAggregateInput
-    resVoidRequests?: res_void_requestsOrderByRelationAggregateInput
-  }
-
-  export type res_employeesWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    email?: string
-    id_number?: string
-    AND?: res_employeesWhereInput | res_employeesWhereInput[]
-    OR?: res_employeesWhereInput[]
-    NOT?: res_employeesWhereInput | res_employeesWhereInput[]
-    user_id?: StringFilter<"res_employees"> | string
-    first_name?: StringFilter<"res_employees"> | string
-    last_name?: StringFilter<"res_employees"> | string
-    phone?: StringNullableFilter<"res_employees"> | string | null
-    avatar_url?: StringNullableFilter<"res_employees"> | string | null
-    pin_code?: StringNullableFilter<"res_employees"> | string | null
-    is_active?: BoolNullableFilter<"res_employees"> | boolean | null
-    created_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"res_employees"> | Date | string | null
-    res_employee_roles?: Res_employee_rolesListRelationFilter
-    res_events?: Res_eventsListRelationFilter
-    res_notifications?: Res_notificationsListRelationFilter
-    res_orders?: Res_ordersListRelationFilter
-    res_reservations?: Res_reservationsListRelationFilter
-    res_shifts_res_shifts_closed_byTores_employees?: Res_shiftsListRelationFilter
-    res_shifts_res_shifts_opened_byTores_employees?: Res_shiftsListRelationFilter
-    res_void_requests_res_void_requests_approved_byTores_employees?: Res_void_requestsListRelationFilter
-    res_void_requests_res_void_requests_requested_byTores_employees?: Res_void_requestsListRelationFilter
-    resVoidRequests?: Res_void_requestsListRelationFilter
-  }, "id" | "email" | "id_number">
-
-  export type res_employeesOrderByWithAggregationInput = {
-    id?: SortOrder
-    user_id?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
-    email?: SortOrder
-    phone?: SortOrderInput | SortOrder
-    avatar_url?: SortOrderInput | SortOrder
-    pin_code?: SortOrderInput | SortOrder
-    is_active?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    id_number?: SortOrderInput | SortOrder
-    _count?: res_employeesCountOrderByAggregateInput
-    _max?: res_employeesMaxOrderByAggregateInput
-    _min?: res_employeesMinOrderByAggregateInput
-  }
-
-  export type res_employeesScalarWhereWithAggregatesInput = {
-    AND?: res_employeesScalarWhereWithAggregatesInput | res_employeesScalarWhereWithAggregatesInput[]
-    OR?: res_employeesScalarWhereWithAggregatesInput[]
-    NOT?: res_employeesScalarWhereWithAggregatesInput | res_employeesScalarWhereWithAggregatesInput[]
-    id?: UuidWithAggregatesFilter<"res_employees"> | string
-    user_id?: StringWithAggregatesFilter<"res_employees"> | string
-    first_name?: StringWithAggregatesFilter<"res_employees"> | string
-    last_name?: StringWithAggregatesFilter<"res_employees"> | string
-    email?: StringWithAggregatesFilter<"res_employees"> | string
-    phone?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
-    avatar_url?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
-    pin_code?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
-    is_active?: BoolNullableWithAggregatesFilter<"res_employees"> | boolean | null
-    created_at?: DateTimeNullableWithAggregatesFilter<"res_employees"> | Date | string | null
-    updated_at?: DateTimeNullableWithAggregatesFilter<"res_employees"> | Date | string | null
-    id_number?: StringNullableWithAggregatesFilter<"res_employees"> | string | null
   }
 
   export type categoriesCreateInput = {
@@ -77113,7 +77254,7 @@ export namespace Prisma {
     is_active?: boolean | null
     created_by?: string | null
     created_at?: Date | string | null
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_eventsInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_eventsInput
   }
 
   export type res_eventsUncheckedCreateInput = {
@@ -77141,7 +77282,7 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resEmployees?: res_employeesUpdateOneWithoutRes_eventsNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_eventsNestedInput
   }
 
   export type res_eventsUncheckedUpdateInput = {
@@ -77621,7 +77762,7 @@ export namespace Prisma {
     data?: NullableJsonNullValueInput | InputJsonValue
     is_read?: boolean | null
     created_at?: Date | string | null
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_notificationsInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_notificationsInput
   }
 
   export type res_notificationsUncheckedCreateInput = {
@@ -77645,7 +77786,7 @@ export namespace Prisma {
     data?: NullableJsonNullValueInput | InputJsonValue
     is_read?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resEmployees?: res_employeesUpdateOneWithoutRes_notificationsNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_notificationsNestedInput
   }
 
   export type res_notificationsUncheckedUpdateInput = {
@@ -77813,7 +77954,7 @@ export namespace Prisma {
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_ordersInput
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
@@ -77871,7 +78012,7 @@ export namespace Prisma {
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
@@ -78059,7 +78200,7 @@ export namespace Prisma {
     notes?: string | null
     created_by?: string | null
     created_at?: Date | string | null
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_reservationsInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_reservationsInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_reservationsInput
   }
 
@@ -78093,7 +78234,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resEmployees?: res_employeesUpdateOneWithoutRes_reservationsNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_reservationsNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_reservationsNestedInput
   }
 
@@ -78371,7 +78512,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput
     res_orders?: res_ordersCreateNestedOneWithoutRes_void_requestsInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput
-    resEmployees?: res_employeesCreateNestedOneWithoutResVoidRequestsInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_void_requestsUncheckedCreateInput = {
@@ -78397,7 +78538,7 @@ export namespace Prisma {
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesNestedInput
     res_orders?: res_ordersUpdateOneWithoutRes_void_requestsNestedInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutResVoidRequestsNestedInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_void_requestsUncheckedUpdateInput = {
@@ -79172,6 +79313,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     default_role?: string | null
     is_restuarant_user?: boolean | null
+    tenant_subscriptions?: tenant_subscriptionsCreateNestedOneWithoutTenant_usersInput
     user_roles?: user_rolesCreateNestedManyWithoutUsersInput
   }
 
@@ -79189,6 +79331,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     default_role?: string | null
     is_restuarant_user?: boolean | null
+    parent_tenant_id?: string | null
     user_roles?: user_rolesUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -79206,6 +79349,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_role?: NullableStringFieldUpdateOperationsInput | string | null
     is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenant_subscriptions?: tenant_subscriptionsUpdateOneWithoutTenant_usersNestedInput
     user_roles?: user_rolesUpdateManyWithoutUsersNestedInput
   }
 
@@ -79223,6 +79367,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_role?: NullableStringFieldUpdateOperationsInput | string | null
     is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    parent_tenant_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: user_rolesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -79240,6 +79385,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     default_role?: string | null
     is_restuarant_user?: boolean | null
+    parent_tenant_id?: string | null
   }
 
   export type tenant_usersUpdateManyMutationInput = {
@@ -79272,6 +79418,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_role?: NullableStringFieldUpdateOperationsInput | string | null
     is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    parent_tenant_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type rolesCreateInput = {
@@ -79697,7 +79844,9 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
     subscriptions: subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
+    tenant_users?: tenant_usersCreateNestedManyWithoutTenant_subscriptionsInput
   }
 
   export type tenant_subscriptionsUncheckedCreateInput = {
@@ -79714,6 +79863,8 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
+    tenant_users?: tenant_usersUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
   }
 
   export type tenant_subscriptionsUpdateInput = {
@@ -79729,7 +79880,9 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     subscriptions?: subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
+    tenant_users?: tenant_usersUpdateManyWithoutTenant_subscriptionsNestedInput
   }
 
   export type tenant_subscriptionsUncheckedUpdateInput = {
@@ -79746,6 +79899,8 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenant_users?: tenant_usersUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
   }
 
   export type tenant_subscriptionsCreateManyInput = {
@@ -79762,6 +79917,7 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
   }
 
   export type tenant_subscriptionsUpdateManyMutationInput = {
@@ -79777,6 +79933,7 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type tenant_subscriptionsUncheckedUpdateManyInput = {
@@ -79793,6 +79950,7 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type profilesCreateInput = {
@@ -80107,6 +80265,151 @@ export namespace Prisma {
     assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type res_employeesCreateInput = {
+    id?: string
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    phone?: string | null
+    avatar_url?: string | null
+    pin_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    id_number?: string | null
+    res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
+    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
+    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
+    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
+    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
+  }
+
+  export type res_employeesUncheckedCreateInput = {
+    id?: string
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    phone?: string | null
+    avatar_url?: string | null
+    pin_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    id_number?: string | null
+    res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
+    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
+    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
+    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
+  }
+
+  export type res_employeesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id_number?: NullableStringFieldUpdateOperationsInput | string | null
+    res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
+    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
+    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
+  }
+
+  export type res_employeesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id_number?: NullableStringFieldUpdateOperationsInput | string | null
+    res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
+    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
+  }
+
+  export type res_employeesCreateManyInput = {
+    id?: string
+    user_id: string
+    first_name: string
+    last_name: string
+    email: string
+    phone?: string | null
+    avatar_url?: string | null
+    pin_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    id_number?: string | null
+  }
+
+  export type res_employeesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id_number?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type res_employeesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    first_name?: StringFieldUpdateOperationsInput | string
+    last_name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id_number?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type res_rolesCreateInput = {
     id?: string
     name: string
@@ -80165,151 +80468,6 @@ export namespace Prisma {
     display_name?: StringFieldUpdateOperationsInput | string
     permissions?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type res_employeesCreateInput = {
-    id?: string
-    user_id: string
-    first_name: string
-    last_name: string
-    email: string
-    phone?: string | null
-    avatar_url?: string | null
-    pin_code?: string | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    id_number?: string | null
-    res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
-    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
-    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
-    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
-    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
-  }
-
-  export type res_employeesUncheckedCreateInput = {
-    id?: string
-    user_id: string
-    first_name: string
-    last_name: string
-    email: string
-    phone?: string | null
-    avatar_url?: string | null
-    pin_code?: string | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    id_number?: string | null
-    res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
-    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
-    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
-    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
-  }
-
-  export type res_employeesUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
-    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    id_number?: NullableStringFieldUpdateOperationsInput | string | null
-    res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
-    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
-    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
-    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
-    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
-  }
-
-  export type res_employeesUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
-    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    id_number?: NullableStringFieldUpdateOperationsInput | string | null
-    res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
-    res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
-    res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
-    res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
-  }
-
-  export type res_employeesCreateManyInput = {
-    id?: string
-    user_id: string
-    first_name: string
-    last_name: string
-    email: string
-    phone?: string | null
-    avatar_url?: string | null
-    pin_code?: string | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    id_number?: string | null
-  }
-
-  export type res_employeesUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
-    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    id_number?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type res_employeesUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
-    pin_code?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    id_number?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -83047,6 +83205,11 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type Tenant_subscriptionsNullableScalarRelationFilter = {
+    is?: tenant_subscriptionsWhereInput | null
+    isNot?: tenant_subscriptionsWhereInput | null
+  }
+
   export type User_rolesListRelationFilter = {
     every?: user_rolesWhereInput
     some?: user_rolesWhereInput
@@ -83071,6 +83234,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     default_role?: SortOrder
     is_restuarant_user?: SortOrder
+    parent_tenant_id?: SortOrder
   }
 
   export type tenant_usersMaxOrderByAggregateInput = {
@@ -83086,6 +83250,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     default_role?: SortOrder
     is_restuarant_user?: SortOrder
+    parent_tenant_id?: SortOrder
   }
 
   export type tenant_usersMinOrderByAggregateInput = {
@@ -83101,6 +83266,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     default_role?: SortOrder
     is_restuarant_user?: SortOrder
+    parent_tenant_id?: SortOrder
   }
 
   export type Enumuser_moduleNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -83386,6 +83552,16 @@ export namespace Prisma {
     isNot?: subscriptionsWhereInput
   }
 
+  export type Tenant_usersListRelationFilter = {
+    every?: tenant_usersWhereInput
+    some?: tenant_usersWhereInput
+    none?: tenant_usersWhereInput
+  }
+
+  export type tenant_usersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type tenant_subscriptionsCountOrderByAggregateInput = {
     id?: SortOrder
     clerk_user_id?: SortOrder
@@ -83400,6 +83576,7 @@ export namespace Prisma {
     commission_type?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    is_owner?: SortOrder
   }
 
   export type tenant_subscriptionsAvgOrderByAggregateInput = {
@@ -83421,6 +83598,7 @@ export namespace Prisma {
     commission_type?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    is_owner?: SortOrder
   }
 
   export type tenant_subscriptionsMinOrderByAggregateInput = {
@@ -83437,6 +83615,7 @@ export namespace Prisma {
     commission_type?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    is_owner?: SortOrder
   }
 
   export type tenant_subscriptionsSumOrderByAggregateInput = {
@@ -83626,32 +83805,6 @@ export namespace Prisma {
     none?: res_employee_rolesWhereInput
   }
 
-  export type res_employee_rolesOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type res_rolesCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    display_name?: SortOrder
-    permissions?: SortOrder
-    created_at?: SortOrder
-  }
-
-  export type res_rolesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    display_name?: SortOrder
-    created_at?: SortOrder
-  }
-
-  export type res_rolesMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    display_name?: SortOrder
-    created_at?: SortOrder
-  }
-
   export type Res_eventsListRelationFilter = {
     every?: res_eventsWhereInput
     some?: res_eventsWhereInput
@@ -83668,6 +83821,10 @@ export namespace Prisma {
     every?: res_shiftsWhereInput
     some?: res_shiftsWhereInput
     none?: res_shiftsWhereInput
+  }
+
+  export type res_employee_rolesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type res_eventsOrderByRelationAggregateInput = {
@@ -83725,6 +83882,28 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     id_number?: SortOrder
+  }
+
+  export type res_rolesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    display_name?: SortOrder
+    permissions?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type res_rolesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    display_name?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type res_rolesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    display_name?: SortOrder
+    created_at?: SortOrder
   }
 
   export type productsCreateNestedManyWithoutCategoriesInput = {
@@ -86006,9 +86185,9 @@ export namespace Prisma {
     connect?: res_employeesWhereUniqueInput
   }
 
-  export type res_employeesCreateNestedOneWithoutResVoidRequestsInput = {
-    create?: XOR<res_employeesCreateWithoutResVoidRequestsInput, res_employeesUncheckedCreateWithoutResVoidRequestsInput>
-    connectOrCreate?: res_employeesCreateOrConnectWithoutResVoidRequestsInput
+  export type res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
+    create?: XOR<res_employeesCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
+    connectOrCreate?: res_employeesCreateOrConnectWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
     connect?: res_employeesWhereUniqueInput
   }
 
@@ -86042,14 +86221,14 @@ export namespace Prisma {
     update?: XOR<XOR<res_employeesUpdateToOneWithWhereWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput, res_employeesUpdateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput>, res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput>
   }
 
-  export type res_employeesUpdateOneWithoutResVoidRequestsNestedInput = {
-    create?: XOR<res_employeesCreateWithoutResVoidRequestsInput, res_employeesUncheckedCreateWithoutResVoidRequestsInput>
-    connectOrCreate?: res_employeesCreateOrConnectWithoutResVoidRequestsInput
-    upsert?: res_employeesUpsertWithoutResVoidRequestsInput
+  export type res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesNestedInput = {
+    create?: XOR<res_employeesCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
+    connectOrCreate?: res_employeesCreateOrConnectWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
+    upsert?: res_employeesUpsertWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
     disconnect?: res_employeesWhereInput | boolean
     delete?: res_employeesWhereInput | boolean
     connect?: res_employeesWhereUniqueInput
-    update?: XOR<XOR<res_employeesUpdateToOneWithWhereWithoutResVoidRequestsInput, res_employeesUpdateWithoutResVoidRequestsInput>, res_employeesUncheckedUpdateWithoutResVoidRequestsInput>
+    update?: XOR<XOR<res_employeesUpdateToOneWithWhereWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>, res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
   export type productsCreateNestedOneWithoutSale_itemsInput = {
@@ -86350,6 +86529,12 @@ export namespace Prisma {
     set: $Enums.user_module[]
   }
 
+  export type tenant_subscriptionsCreateNestedOneWithoutTenant_usersInput = {
+    create?: XOR<tenant_subscriptionsCreateWithoutTenant_usersInput, tenant_subscriptionsUncheckedCreateWithoutTenant_usersInput>
+    connectOrCreate?: tenant_subscriptionsCreateOrConnectWithoutTenant_usersInput
+    connect?: tenant_subscriptionsWhereUniqueInput
+  }
+
   export type user_rolesCreateNestedManyWithoutUsersInput = {
     create?: XOR<user_rolesCreateWithoutUsersInput, user_rolesUncheckedCreateWithoutUsersInput> | user_rolesCreateWithoutUsersInput[] | user_rolesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: user_rolesCreateOrConnectWithoutUsersInput | user_rolesCreateOrConnectWithoutUsersInput[]
@@ -86371,6 +86556,16 @@ export namespace Prisma {
   export type tenant_usersUpdatemodulesInput = {
     set?: $Enums.user_module[]
     push?: $Enums.user_module | $Enums.user_module[]
+  }
+
+  export type tenant_subscriptionsUpdateOneWithoutTenant_usersNestedInput = {
+    create?: XOR<tenant_subscriptionsCreateWithoutTenant_usersInput, tenant_subscriptionsUncheckedCreateWithoutTenant_usersInput>
+    connectOrCreate?: tenant_subscriptionsCreateOrConnectWithoutTenant_usersInput
+    upsert?: tenant_subscriptionsUpsertWithoutTenant_usersInput
+    disconnect?: tenant_subscriptionsWhereInput | boolean
+    delete?: tenant_subscriptionsWhereInput | boolean
+    connect?: tenant_subscriptionsWhereUniqueInput
+    update?: XOR<XOR<tenant_subscriptionsUpdateToOneWithWhereWithoutTenant_usersInput, tenant_subscriptionsUpdateWithoutTenant_usersInput>, tenant_subscriptionsUncheckedUpdateWithoutTenant_usersInput>
   }
 
   export type user_rolesUpdateManyWithoutUsersNestedInput = {
@@ -86729,6 +86924,20 @@ export namespace Prisma {
     connect?: subscriptionsWhereUniqueInput
   }
 
+  export type tenant_usersCreateNestedManyWithoutTenant_subscriptionsInput = {
+    create?: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput> | tenant_usersCreateWithoutTenant_subscriptionsInput[] | tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput[]
+    connectOrCreate?: tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput | tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput[]
+    createMany?: tenant_usersCreateManyTenant_subscriptionsInputEnvelope
+    connect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+  }
+
+  export type tenant_usersUncheckedCreateNestedManyWithoutTenant_subscriptionsInput = {
+    create?: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput> | tenant_usersCreateWithoutTenant_subscriptionsInput[] | tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput[]
+    connectOrCreate?: tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput | tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput[]
+    createMany?: tenant_usersCreateManyTenant_subscriptionsInputEnvelope
+    connect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+  }
+
   export type Enumsubscription_statusFieldUpdateOperationsInput = {
     set?: $Enums.subscription_status
   }
@@ -86743,6 +86952,34 @@ export namespace Prisma {
     upsert?: subscriptionsUpsertWithoutTenant_subscriptionsInput
     connect?: subscriptionsWhereUniqueInput
     update?: XOR<XOR<subscriptionsUpdateToOneWithWhereWithoutTenant_subscriptionsInput, subscriptionsUpdateWithoutTenant_subscriptionsInput>, subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersUpdateManyWithoutTenant_subscriptionsNestedInput = {
+    create?: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput> | tenant_usersCreateWithoutTenant_subscriptionsInput[] | tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput[]
+    connectOrCreate?: tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput | tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput[]
+    upsert?: tenant_usersUpsertWithWhereUniqueWithoutTenant_subscriptionsInput | tenant_usersUpsertWithWhereUniqueWithoutTenant_subscriptionsInput[]
+    createMany?: tenant_usersCreateManyTenant_subscriptionsInputEnvelope
+    set?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    disconnect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    delete?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    connect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    update?: tenant_usersUpdateWithWhereUniqueWithoutTenant_subscriptionsInput | tenant_usersUpdateWithWhereUniqueWithoutTenant_subscriptionsInput[]
+    updateMany?: tenant_usersUpdateManyWithWhereWithoutTenant_subscriptionsInput | tenant_usersUpdateManyWithWhereWithoutTenant_subscriptionsInput[]
+    deleteMany?: tenant_usersScalarWhereInput | tenant_usersScalarWhereInput[]
+  }
+
+  export type tenant_usersUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput = {
+    create?: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput> | tenant_usersCreateWithoutTenant_subscriptionsInput[] | tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput[]
+    connectOrCreate?: tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput | tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput[]
+    upsert?: tenant_usersUpsertWithWhereUniqueWithoutTenant_subscriptionsInput | tenant_usersUpsertWithWhereUniqueWithoutTenant_subscriptionsInput[]
+    createMany?: tenant_usersCreateManyTenant_subscriptionsInputEnvelope
+    set?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    disconnect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    delete?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    connect?: tenant_usersWhereUniqueInput | tenant_usersWhereUniqueInput[]
+    update?: tenant_usersUpdateWithWhereUniqueWithoutTenant_subscriptionsInput | tenant_usersUpdateWithWhereUniqueWithoutTenant_subscriptionsInput[]
+    updateMany?: tenant_usersUpdateManyWithWhereWithoutTenant_subscriptionsInput | tenant_usersUpdateManyWithWhereWithoutTenant_subscriptionsInput[]
+    deleteMany?: tenant_usersScalarWhereInput | tenant_usersScalarWhereInput[]
   }
 
   export type audit_logsCreateNestedManyWithoutProfilesInput = {
@@ -86889,48 +87126,6 @@ export namespace Prisma {
     update?: XOR<XOR<res_rolesUpdateToOneWithWhereWithoutRes_employee_rolesInput, res_rolesUpdateWithoutRes_employee_rolesInput>, res_rolesUncheckedUpdateWithoutRes_employee_rolesInput>
   }
 
-  export type res_employee_rolesCreateNestedManyWithoutRes_rolesInput = {
-    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
-    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
-    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
-    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-  }
-
-  export type res_employee_rolesUncheckedCreateNestedManyWithoutRes_rolesInput = {
-    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
-    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
-    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
-    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-  }
-
-  export type res_employee_rolesUpdateManyWithoutRes_rolesNestedInput = {
-    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
-    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
-    upsert?: res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput[]
-    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
-    set?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    disconnect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    delete?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    update?: res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput[]
-    updateMany?: res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput | res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput[]
-    deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
-  }
-
-  export type res_employee_rolesUncheckedUpdateManyWithoutRes_rolesNestedInput = {
-    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
-    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
-    upsert?: res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput[]
-    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
-    set?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    disconnect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    delete?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
-    update?: res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput[]
-    updateMany?: res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput | res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput[]
-    deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
-  }
-
   export type res_employee_rolesCreateNestedManyWithoutRes_employeesInput = {
     create?: XOR<res_employee_rolesCreateWithoutRes_employeesInput, res_employee_rolesUncheckedCreateWithoutRes_employeesInput> | res_employee_rolesCreateWithoutRes_employeesInput[] | res_employee_rolesUncheckedCreateWithoutRes_employeesInput[]
     connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_employeesInput | res_employee_rolesCreateOrConnectWithoutRes_employeesInput[]
@@ -86938,31 +87133,31 @@ export namespace Prisma {
     connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
   }
 
-  export type res_eventsCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput> | res_eventsCreateWithoutResEmployeesInput[] | res_eventsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_eventsCreateOrConnectWithoutResEmployeesInput | res_eventsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_eventsCreateManyResEmployeesInputEnvelope
+  export type res_eventsCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput> | res_eventsCreateWithoutRes_employeesInput[] | res_eventsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_eventsCreateOrConnectWithoutRes_employeesInput | res_eventsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_eventsCreateManyRes_employeesInputEnvelope
     connect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
   }
 
-  export type res_notificationsCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput> | res_notificationsCreateWithoutResEmployeesInput[] | res_notificationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_notificationsCreateOrConnectWithoutResEmployeesInput | res_notificationsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_notificationsCreateManyResEmployeesInputEnvelope
+  export type res_notificationsCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput> | res_notificationsCreateWithoutRes_employeesInput[] | res_notificationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_notificationsCreateOrConnectWithoutRes_employeesInput | res_notificationsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_notificationsCreateManyRes_employeesInputEnvelope
     connect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
   }
 
-  export type res_ordersCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput> | res_ordersCreateWithoutResEmployeesInput[] | res_ordersUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_ordersCreateOrConnectWithoutResEmployeesInput | res_ordersCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_ordersCreateManyResEmployeesInputEnvelope
+  export type res_ordersCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput> | res_ordersCreateWithoutRes_employeesInput[] | res_ordersUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_ordersCreateOrConnectWithoutRes_employeesInput | res_ordersCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_ordersCreateManyRes_employeesInputEnvelope
     connect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
   }
 
-  export type res_reservationsCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput> | res_reservationsCreateWithoutResEmployeesInput[] | res_reservationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_reservationsCreateOrConnectWithoutResEmployeesInput | res_reservationsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_reservationsCreateManyResEmployeesInputEnvelope
+  export type res_reservationsCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput> | res_reservationsCreateWithoutRes_employeesInput[] | res_reservationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_reservationsCreateOrConnectWithoutRes_employeesInput | res_reservationsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_reservationsCreateManyRes_employeesInputEnvelope
     connect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
   }
 
@@ -86994,10 +87189,10 @@ export namespace Prisma {
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
   }
 
-  export type res_void_requestsCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput> | res_void_requestsCreateWithoutResEmployeesInput[] | res_void_requestsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_void_requestsCreateOrConnectWithoutResEmployeesInput | res_void_requestsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_void_requestsCreateManyResEmployeesInputEnvelope
+  export type res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
+    create?: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput> | res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[] | res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    connectOrCreate?: res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    createMany?: res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInputEnvelope
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
   }
 
@@ -87008,31 +87203,31 @@ export namespace Prisma {
     connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
   }
 
-  export type res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput> | res_eventsCreateWithoutResEmployeesInput[] | res_eventsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_eventsCreateOrConnectWithoutResEmployeesInput | res_eventsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_eventsCreateManyResEmployeesInputEnvelope
+  export type res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput> | res_eventsCreateWithoutRes_employeesInput[] | res_eventsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_eventsCreateOrConnectWithoutRes_employeesInput | res_eventsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_eventsCreateManyRes_employeesInputEnvelope
     connect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
   }
 
-  export type res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput> | res_notificationsCreateWithoutResEmployeesInput[] | res_notificationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_notificationsCreateOrConnectWithoutResEmployeesInput | res_notificationsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_notificationsCreateManyResEmployeesInputEnvelope
+  export type res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput> | res_notificationsCreateWithoutRes_employeesInput[] | res_notificationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_notificationsCreateOrConnectWithoutRes_employeesInput | res_notificationsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_notificationsCreateManyRes_employeesInputEnvelope
     connect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
   }
 
-  export type res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput> | res_ordersCreateWithoutResEmployeesInput[] | res_ordersUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_ordersCreateOrConnectWithoutResEmployeesInput | res_ordersCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_ordersCreateManyResEmployeesInputEnvelope
+  export type res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput> | res_ordersCreateWithoutRes_employeesInput[] | res_ordersUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_ordersCreateOrConnectWithoutRes_employeesInput | res_ordersCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_ordersCreateManyRes_employeesInputEnvelope
     connect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
   }
 
-  export type res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput> | res_reservationsCreateWithoutResEmployeesInput[] | res_reservationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_reservationsCreateOrConnectWithoutResEmployeesInput | res_reservationsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_reservationsCreateManyResEmployeesInputEnvelope
+  export type res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput = {
+    create?: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput> | res_reservationsCreateWithoutRes_employeesInput[] | res_reservationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_reservationsCreateOrConnectWithoutRes_employeesInput | res_reservationsCreateOrConnectWithoutRes_employeesInput[]
+    createMany?: res_reservationsCreateManyRes_employeesInputEnvelope
     connect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
   }
 
@@ -87064,10 +87259,10 @@ export namespace Prisma {
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
   }
 
-  export type res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput = {
-    create?: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput> | res_void_requestsCreateWithoutResEmployeesInput[] | res_void_requestsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_void_requestsCreateOrConnectWithoutResEmployeesInput | res_void_requestsCreateOrConnectWithoutResEmployeesInput[]
-    createMany?: res_void_requestsCreateManyResEmployeesInputEnvelope
+  export type res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
+    create?: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput> | res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[] | res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    connectOrCreate?: res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    createMany?: res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInputEnvelope
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
   }
 
@@ -87085,59 +87280,59 @@ export namespace Prisma {
     deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
   }
 
-  export type res_eventsUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput> | res_eventsCreateWithoutResEmployeesInput[] | res_eventsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_eventsCreateOrConnectWithoutResEmployeesInput | res_eventsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_eventsUpsertWithWhereUniqueWithoutResEmployeesInput | res_eventsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_eventsCreateManyResEmployeesInputEnvelope
+  export type res_eventsUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput> | res_eventsCreateWithoutRes_employeesInput[] | res_eventsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_eventsCreateOrConnectWithoutRes_employeesInput | res_eventsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_eventsUpsertWithWhereUniqueWithoutRes_employeesInput | res_eventsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_eventsCreateManyRes_employeesInputEnvelope
     set?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     disconnect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     delete?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     connect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
-    update?: res_eventsUpdateWithWhereUniqueWithoutResEmployeesInput | res_eventsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_eventsUpdateManyWithWhereWithoutResEmployeesInput | res_eventsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_eventsUpdateWithWhereUniqueWithoutRes_employeesInput | res_eventsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_eventsUpdateManyWithWhereWithoutRes_employeesInput | res_eventsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_eventsScalarWhereInput | res_eventsScalarWhereInput[]
   }
 
-  export type res_notificationsUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput> | res_notificationsCreateWithoutResEmployeesInput[] | res_notificationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_notificationsCreateOrConnectWithoutResEmployeesInput | res_notificationsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_notificationsUpsertWithWhereUniqueWithoutResEmployeesInput | res_notificationsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_notificationsCreateManyResEmployeesInputEnvelope
+  export type res_notificationsUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput> | res_notificationsCreateWithoutRes_employeesInput[] | res_notificationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_notificationsCreateOrConnectWithoutRes_employeesInput | res_notificationsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_notificationsUpsertWithWhereUniqueWithoutRes_employeesInput | res_notificationsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_notificationsCreateManyRes_employeesInputEnvelope
     set?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     disconnect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     delete?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     connect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
-    update?: res_notificationsUpdateWithWhereUniqueWithoutResEmployeesInput | res_notificationsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_notificationsUpdateManyWithWhereWithoutResEmployeesInput | res_notificationsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_notificationsUpdateWithWhereUniqueWithoutRes_employeesInput | res_notificationsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_notificationsUpdateManyWithWhereWithoutRes_employeesInput | res_notificationsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_notificationsScalarWhereInput | res_notificationsScalarWhereInput[]
   }
 
-  export type res_ordersUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput> | res_ordersCreateWithoutResEmployeesInput[] | res_ordersUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_ordersCreateOrConnectWithoutResEmployeesInput | res_ordersCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_ordersUpsertWithWhereUniqueWithoutResEmployeesInput | res_ordersUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_ordersCreateManyResEmployeesInputEnvelope
+  export type res_ordersUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput> | res_ordersCreateWithoutRes_employeesInput[] | res_ordersUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_ordersCreateOrConnectWithoutRes_employeesInput | res_ordersCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_ordersUpsertWithWhereUniqueWithoutRes_employeesInput | res_ordersUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_ordersCreateManyRes_employeesInputEnvelope
     set?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     disconnect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     delete?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     connect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
-    update?: res_ordersUpdateWithWhereUniqueWithoutResEmployeesInput | res_ordersUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_ordersUpdateManyWithWhereWithoutResEmployeesInput | res_ordersUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_ordersUpdateWithWhereUniqueWithoutRes_employeesInput | res_ordersUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_ordersUpdateManyWithWhereWithoutRes_employeesInput | res_ordersUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_ordersScalarWhereInput | res_ordersScalarWhereInput[]
   }
 
-  export type res_reservationsUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput> | res_reservationsCreateWithoutResEmployeesInput[] | res_reservationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_reservationsCreateOrConnectWithoutResEmployeesInput | res_reservationsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_reservationsUpsertWithWhereUniqueWithoutResEmployeesInput | res_reservationsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_reservationsCreateManyResEmployeesInputEnvelope
+  export type res_reservationsUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput> | res_reservationsCreateWithoutRes_employeesInput[] | res_reservationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_reservationsCreateOrConnectWithoutRes_employeesInput | res_reservationsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_reservationsUpsertWithWhereUniqueWithoutRes_employeesInput | res_reservationsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_reservationsCreateManyRes_employeesInputEnvelope
     set?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     disconnect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     delete?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     connect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
-    update?: res_reservationsUpdateWithWhereUniqueWithoutResEmployeesInput | res_reservationsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_reservationsUpdateManyWithWhereWithoutResEmployeesInput | res_reservationsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_reservationsUpdateWithWhereUniqueWithoutRes_employeesInput | res_reservationsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_reservationsUpdateManyWithWhereWithoutRes_employeesInput | res_reservationsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_reservationsScalarWhereInput | res_reservationsScalarWhereInput[]
   }
 
@@ -87197,17 +87392,17 @@ export namespace Prisma {
     deleteMany?: res_void_requestsScalarWhereInput | res_void_requestsScalarWhereInput[]
   }
 
-  export type res_void_requestsUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput> | res_void_requestsCreateWithoutResEmployeesInput[] | res_void_requestsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_void_requestsCreateOrConnectWithoutResEmployeesInput | res_void_requestsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_void_requestsUpsertWithWhereUniqueWithoutResEmployeesInput | res_void_requestsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_void_requestsCreateManyResEmployeesInputEnvelope
+  export type res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput = {
+    create?: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput> | res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[] | res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    connectOrCreate?: res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    upsert?: res_void_requestsUpsertWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpsertWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    createMany?: res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInputEnvelope
     set?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     disconnect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     delete?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
-    update?: res_void_requestsUpdateWithWhereUniqueWithoutResEmployeesInput | res_void_requestsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_void_requestsUpdateManyWithWhereWithoutResEmployeesInput | res_void_requestsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_void_requestsUpdateWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpdateWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    updateMany?: res_void_requestsUpdateManyWithWhereWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpdateManyWithWhereWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
     deleteMany?: res_void_requestsScalarWhereInput | res_void_requestsScalarWhereInput[]
   }
 
@@ -87225,59 +87420,59 @@ export namespace Prisma {
     deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
   }
 
-  export type res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput> | res_eventsCreateWithoutResEmployeesInput[] | res_eventsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_eventsCreateOrConnectWithoutResEmployeesInput | res_eventsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_eventsUpsertWithWhereUniqueWithoutResEmployeesInput | res_eventsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_eventsCreateManyResEmployeesInputEnvelope
+  export type res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput> | res_eventsCreateWithoutRes_employeesInput[] | res_eventsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_eventsCreateOrConnectWithoutRes_employeesInput | res_eventsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_eventsUpsertWithWhereUniqueWithoutRes_employeesInput | res_eventsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_eventsCreateManyRes_employeesInputEnvelope
     set?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     disconnect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     delete?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
     connect?: res_eventsWhereUniqueInput | res_eventsWhereUniqueInput[]
-    update?: res_eventsUpdateWithWhereUniqueWithoutResEmployeesInput | res_eventsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_eventsUpdateManyWithWhereWithoutResEmployeesInput | res_eventsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_eventsUpdateWithWhereUniqueWithoutRes_employeesInput | res_eventsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_eventsUpdateManyWithWhereWithoutRes_employeesInput | res_eventsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_eventsScalarWhereInput | res_eventsScalarWhereInput[]
   }
 
-  export type res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput> | res_notificationsCreateWithoutResEmployeesInput[] | res_notificationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_notificationsCreateOrConnectWithoutResEmployeesInput | res_notificationsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_notificationsUpsertWithWhereUniqueWithoutResEmployeesInput | res_notificationsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_notificationsCreateManyResEmployeesInputEnvelope
+  export type res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput> | res_notificationsCreateWithoutRes_employeesInput[] | res_notificationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_notificationsCreateOrConnectWithoutRes_employeesInput | res_notificationsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_notificationsUpsertWithWhereUniqueWithoutRes_employeesInput | res_notificationsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_notificationsCreateManyRes_employeesInputEnvelope
     set?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     disconnect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     delete?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
     connect?: res_notificationsWhereUniqueInput | res_notificationsWhereUniqueInput[]
-    update?: res_notificationsUpdateWithWhereUniqueWithoutResEmployeesInput | res_notificationsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_notificationsUpdateManyWithWhereWithoutResEmployeesInput | res_notificationsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_notificationsUpdateWithWhereUniqueWithoutRes_employeesInput | res_notificationsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_notificationsUpdateManyWithWhereWithoutRes_employeesInput | res_notificationsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_notificationsScalarWhereInput | res_notificationsScalarWhereInput[]
   }
 
-  export type res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput> | res_ordersCreateWithoutResEmployeesInput[] | res_ordersUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_ordersCreateOrConnectWithoutResEmployeesInput | res_ordersCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_ordersUpsertWithWhereUniqueWithoutResEmployeesInput | res_ordersUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_ordersCreateManyResEmployeesInputEnvelope
+  export type res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput> | res_ordersCreateWithoutRes_employeesInput[] | res_ordersUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_ordersCreateOrConnectWithoutRes_employeesInput | res_ordersCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_ordersUpsertWithWhereUniqueWithoutRes_employeesInput | res_ordersUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_ordersCreateManyRes_employeesInputEnvelope
     set?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     disconnect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     delete?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
     connect?: res_ordersWhereUniqueInput | res_ordersWhereUniqueInput[]
-    update?: res_ordersUpdateWithWhereUniqueWithoutResEmployeesInput | res_ordersUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_ordersUpdateManyWithWhereWithoutResEmployeesInput | res_ordersUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_ordersUpdateWithWhereUniqueWithoutRes_employeesInput | res_ordersUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_ordersUpdateManyWithWhereWithoutRes_employeesInput | res_ordersUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_ordersScalarWhereInput | res_ordersScalarWhereInput[]
   }
 
-  export type res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput> | res_reservationsCreateWithoutResEmployeesInput[] | res_reservationsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_reservationsCreateOrConnectWithoutResEmployeesInput | res_reservationsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_reservationsUpsertWithWhereUniqueWithoutResEmployeesInput | res_reservationsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_reservationsCreateManyResEmployeesInputEnvelope
+  export type res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput = {
+    create?: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput> | res_reservationsCreateWithoutRes_employeesInput[] | res_reservationsUncheckedCreateWithoutRes_employeesInput[]
+    connectOrCreate?: res_reservationsCreateOrConnectWithoutRes_employeesInput | res_reservationsCreateOrConnectWithoutRes_employeesInput[]
+    upsert?: res_reservationsUpsertWithWhereUniqueWithoutRes_employeesInput | res_reservationsUpsertWithWhereUniqueWithoutRes_employeesInput[]
+    createMany?: res_reservationsCreateManyRes_employeesInputEnvelope
     set?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     disconnect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     delete?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
     connect?: res_reservationsWhereUniqueInput | res_reservationsWhereUniqueInput[]
-    update?: res_reservationsUpdateWithWhereUniqueWithoutResEmployeesInput | res_reservationsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_reservationsUpdateManyWithWhereWithoutResEmployeesInput | res_reservationsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_reservationsUpdateWithWhereUniqueWithoutRes_employeesInput | res_reservationsUpdateWithWhereUniqueWithoutRes_employeesInput[]
+    updateMany?: res_reservationsUpdateManyWithWhereWithoutRes_employeesInput | res_reservationsUpdateManyWithWhereWithoutRes_employeesInput[]
     deleteMany?: res_reservationsScalarWhereInput | res_reservationsScalarWhereInput[]
   }
 
@@ -87337,18 +87532,60 @@ export namespace Prisma {
     deleteMany?: res_void_requestsScalarWhereInput | res_void_requestsScalarWhereInput[]
   }
 
-  export type res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput = {
-    create?: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput> | res_void_requestsCreateWithoutResEmployeesInput[] | res_void_requestsUncheckedCreateWithoutResEmployeesInput[]
-    connectOrCreate?: res_void_requestsCreateOrConnectWithoutResEmployeesInput | res_void_requestsCreateOrConnectWithoutResEmployeesInput[]
-    upsert?: res_void_requestsUpsertWithWhereUniqueWithoutResEmployeesInput | res_void_requestsUpsertWithWhereUniqueWithoutResEmployeesInput[]
-    createMany?: res_void_requestsCreateManyResEmployeesInputEnvelope
+  export type res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput = {
+    create?: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput> | res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[] | res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    connectOrCreate?: res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    upsert?: res_void_requestsUpsertWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpsertWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    createMany?: res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInputEnvelope
     set?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     disconnect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     delete?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
     connect?: res_void_requestsWhereUniqueInput | res_void_requestsWhereUniqueInput[]
-    update?: res_void_requestsUpdateWithWhereUniqueWithoutResEmployeesInput | res_void_requestsUpdateWithWhereUniqueWithoutResEmployeesInput[]
-    updateMany?: res_void_requestsUpdateManyWithWhereWithoutResEmployeesInput | res_void_requestsUpdateManyWithWhereWithoutResEmployeesInput[]
+    update?: res_void_requestsUpdateWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpdateWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
+    updateMany?: res_void_requestsUpdateManyWithWhereWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsUpdateManyWithWhereWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
     deleteMany?: res_void_requestsScalarWhereInput | res_void_requestsScalarWhereInput[]
+  }
+
+  export type res_employee_rolesCreateNestedManyWithoutRes_rolesInput = {
+    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
+    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
+    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
+    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+  }
+
+  export type res_employee_rolesUncheckedCreateNestedManyWithoutRes_rolesInput = {
+    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
+    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
+    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
+    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+  }
+
+  export type res_employee_rolesUpdateManyWithoutRes_rolesNestedInput = {
+    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
+    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
+    upsert?: res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput[]
+    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
+    set?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    disconnect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    delete?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    update?: res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput[]
+    updateMany?: res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput | res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput[]
+    deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
+  }
+
+  export type res_employee_rolesUncheckedUpdateManyWithoutRes_rolesNestedInput = {
+    create?: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput> | res_employee_rolesCreateWithoutRes_rolesInput[] | res_employee_rolesUncheckedCreateWithoutRes_rolesInput[]
+    connectOrCreate?: res_employee_rolesCreateOrConnectWithoutRes_rolesInput | res_employee_rolesCreateOrConnectWithoutRes_rolesInput[]
+    upsert?: res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput[]
+    createMany?: res_employee_rolesCreateManyRes_rolesInputEnvelope
+    set?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    disconnect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    delete?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    connect?: res_employee_rolesWhereUniqueInput | res_employee_rolesWhereUniqueInput[]
+    update?: res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput[]
+    updateMany?: res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput | res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput[]
+    deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -91604,14 +91841,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_eventsInput = {
@@ -91628,14 +91865,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_eventsInput = {
@@ -91668,14 +91905,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_eventsInput = {
@@ -91692,14 +91929,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_tablesCreateWithoutRes_floorsInput = {
@@ -92347,14 +92584,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_notificationsInput = {
@@ -92371,14 +92608,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_notificationsInput = {
@@ -92411,14 +92648,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_notificationsInput = {
@@ -92435,14 +92672,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_menu_itemsCreateWithoutRes_order_itemsInput = {
@@ -92510,7 +92747,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_ordersInput
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
@@ -92654,7 +92891,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
@@ -92804,14 +93041,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_ordersInput = {
@@ -92828,14 +93065,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_ordersInput = {
@@ -92918,7 +93155,7 @@ export namespace Prisma {
     processed_at?: Date | string | null
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput
-    resEmployees?: res_employeesCreateNestedOneWithoutResVoidRequestsInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_void_requestsUncheckedCreateWithoutRes_ordersInput = {
@@ -93027,14 +93264,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_ordersInput = {
@@ -93051,14 +93288,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_shiftsUpsertWithoutRes_ordersInput = {
@@ -93185,14 +93422,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_reservationsInput = {
@@ -93209,14 +93446,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_reservationsInput = {
@@ -93282,14 +93519,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_reservationsInput = {
@@ -93306,14 +93543,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_tablesUpsertWithoutRes_reservationsInput = {
@@ -93378,7 +93615,7 @@ export namespace Prisma {
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_ordersInput
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
   }
@@ -93435,14 +93672,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_shifts_res_shifts_closed_byTores_employeesInput = {
@@ -93459,14 +93696,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_shifts_res_shifts_closed_byTores_employeesInput = {
@@ -93488,14 +93725,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_shifts_res_shifts_opened_byTores_employeesInput = {
@@ -93512,14 +93749,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_shifts_res_shifts_opened_byTores_employeesInput = {
@@ -93598,14 +93835,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_shifts_res_shifts_closed_byTores_employeesInput = {
@@ -93622,14 +93859,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUpsertWithoutRes_shifts_res_shifts_opened_byTores_employeesInput = {
@@ -93657,14 +93894,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_shifts_res_shifts_opened_byTores_employeesInput = {
@@ -93681,14 +93918,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_ordersCreateWithoutRes_tablesInput = {
@@ -93714,7 +93951,7 @@ export namespace Prisma {
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
   }
@@ -93770,7 +94007,7 @@ export namespace Prisma {
     notes?: string | null
     created_by?: string | null
     created_at?: Date | string | null
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_reservationsInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_reservationsInput
   }
 
   export type res_reservationsUncheckedCreateWithoutRes_tablesInput = {
@@ -93917,14 +94154,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput = {
@@ -93941,14 +94178,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput = {
@@ -93979,7 +94216,7 @@ export namespace Prisma {
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_ordersInput
   }
@@ -94031,14 +94268,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput = {
@@ -94055,14 +94292,14 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput = {
@@ -94070,7 +94307,7 @@ export namespace Prisma {
     create: XOR<res_employeesCreateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput, res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput>
   }
 
-  export type res_employeesCreateWithoutResVoidRequestsInput = {
+  export type res_employeesCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: string
     user_id: string
     first_name: string
@@ -94084,17 +94321,17 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
   }
 
-  export type res_employeesUncheckedCreateWithoutResVoidRequestsInput = {
+  export type res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: string
     user_id: string
     first_name: string
@@ -94108,19 +94345,19 @@ export namespace Prisma {
     updated_at?: Date | string | null
     id_number?: string | null
     res_employee_roles?: res_employee_rolesUncheckedCreateNestedManyWithoutRes_employeesInput
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
   }
 
-  export type res_employeesCreateOrConnectWithoutResVoidRequestsInput = {
+  export type res_employeesCreateOrConnectWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     where: res_employeesWhereUniqueInput
-    create: XOR<res_employeesCreateWithoutResVoidRequestsInput, res_employeesUncheckedCreateWithoutResVoidRequestsInput>
+    create: XOR<res_employeesCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
   export type res_employeesUpsertWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput = {
@@ -94148,14 +94385,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput = {
@@ -94172,14 +94409,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_ordersUpsertWithoutRes_void_requestsInput = {
@@ -94216,7 +94453,7 @@ export namespace Prisma {
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_ordersNestedInput
   }
@@ -94274,14 +94511,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput = {
@@ -94298,28 +94535,28 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
-  export type res_employeesUpsertWithoutResVoidRequestsInput = {
-    update: XOR<res_employeesUpdateWithoutResVoidRequestsInput, res_employeesUncheckedUpdateWithoutResVoidRequestsInput>
-    create: XOR<res_employeesCreateWithoutResVoidRequestsInput, res_employeesUncheckedCreateWithoutResVoidRequestsInput>
+  export type res_employeesUpsertWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
+    update: XOR<res_employeesUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
+    create: XOR<res_employeesCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedCreateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
     where?: res_employeesWhereInput
   }
 
-  export type res_employeesUpdateToOneWithWhereWithoutResVoidRequestsInput = {
+  export type res_employeesUpdateToOneWithWhereWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     where?: res_employeesWhereInput
-    data: XOR<res_employeesUpdateWithoutResVoidRequestsInput, res_employeesUncheckedUpdateWithoutResVoidRequestsInput>
+    data: XOR<res_employeesUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput, res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
-  export type res_employeesUpdateWithoutResVoidRequestsInput = {
+  export type res_employeesUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
@@ -94333,17 +94570,17 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
   }
 
-  export type res_employeesUncheckedUpdateWithoutResVoidRequestsInput = {
+  export type res_employeesUncheckedUpdateWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     first_name?: StringFieldUpdateOperationsInput | string
@@ -94357,10 +94594,10 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
     res_employee_roles?: res_employee_rolesUncheckedUpdateManyWithoutRes_employeesNestedInput
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
@@ -95279,6 +95516,45 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type tenant_subscriptionsCreateWithoutTenant_usersInput = {
+    id?: string
+    clerk_user_id: string
+    email: string
+    status?: $Enums.subscription_status
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    commission_amount?: Decimal | DecimalJsLike | number | string | null
+    commission_type?: $Enums.subscription_commission_type
+    first_name?: string | null
+    last_name?: string | null
+    is_owner?: boolean | null
+    subscriptions: subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
+  }
+
+  export type tenant_subscriptionsUncheckedCreateWithoutTenant_usersInput = {
+    id?: string
+    clerk_user_id: string
+    email: string
+    subscription_id: number
+    status?: $Enums.subscription_status
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    commission_amount?: Decimal | DecimalJsLike | number | string | null
+    commission_type?: $Enums.subscription_commission_type
+    first_name?: string | null
+    last_name?: string | null
+    is_owner?: boolean | null
+  }
+
+  export type tenant_subscriptionsCreateOrConnectWithoutTenant_usersInput = {
+    where: tenant_subscriptionsWhereUniqueInput
+    create: XOR<tenant_subscriptionsCreateWithoutTenant_usersInput, tenant_subscriptionsUncheckedCreateWithoutTenant_usersInput>
+  }
+
   export type user_rolesCreateWithoutUsersInput = {
     roles: rolesCreateNestedOneWithoutUser_rolesInput
   }
@@ -95295,6 +95571,51 @@ export namespace Prisma {
   export type user_rolesCreateManyUsersInputEnvelope = {
     data: user_rolesCreateManyUsersInput | user_rolesCreateManyUsersInput[]
     skipDuplicates?: boolean
+  }
+
+  export type tenant_subscriptionsUpsertWithoutTenant_usersInput = {
+    update: XOR<tenant_subscriptionsUpdateWithoutTenant_usersInput, tenant_subscriptionsUncheckedUpdateWithoutTenant_usersInput>
+    create: XOR<tenant_subscriptionsCreateWithoutTenant_usersInput, tenant_subscriptionsUncheckedCreateWithoutTenant_usersInput>
+    where?: tenant_subscriptionsWhereInput
+  }
+
+  export type tenant_subscriptionsUpdateToOneWithWhereWithoutTenant_usersInput = {
+    where?: tenant_subscriptionsWhereInput
+    data: XOR<tenant_subscriptionsUpdateWithoutTenant_usersInput, tenant_subscriptionsUncheckedUpdateWithoutTenant_usersInput>
+  }
+
+  export type tenant_subscriptionsUpdateWithoutTenant_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    status?: Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commission_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subscriptions?: subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
+  }
+
+  export type tenant_subscriptionsUncheckedUpdateWithoutTenant_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    subscription_id?: IntFieldUpdateOperationsInput | number
+    status?: Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commission_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type user_rolesUpsertWithWhereUniqueWithoutUsersInput = {
@@ -95568,6 +95889,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     default_role?: string | null
     is_restuarant_user?: boolean | null
+    tenant_subscriptions?: tenant_subscriptionsCreateNestedOneWithoutTenant_usersInput
   }
 
   export type tenant_usersUncheckedCreateWithoutUser_rolesInput = {
@@ -95584,6 +95906,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     default_role?: string | null
     is_restuarant_user?: boolean | null
+    parent_tenant_id?: string | null
   }
 
   export type tenant_usersCreateOrConnectWithoutUser_rolesInput = {
@@ -95645,6 +95968,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_role?: NullableStringFieldUpdateOperationsInput | string | null
     is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenant_subscriptions?: tenant_subscriptionsUpdateOneWithoutTenant_usersNestedInput
   }
 
   export type tenant_usersUncheckedUpdateWithoutUser_rolesInput = {
@@ -95661,6 +95985,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     default_role?: NullableStringFieldUpdateOperationsInput | string | null
     is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    parent_tenant_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_promotionsCreateWithoutRes_promotion_usageInput = {
@@ -95765,7 +96090,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
-    resEmployees?: res_employeesCreateNestedOneWithoutRes_ordersInput
+    res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
     res_tables?: res_tablesCreateNestedOneWithoutRes_ordersInput
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
@@ -95886,6 +96211,8 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
+    tenant_users?: tenant_usersCreateNestedManyWithoutTenant_subscriptionsInput
   }
 
   export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
@@ -95901,6 +96228,8 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
+    tenant_users?: tenant_usersUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
   }
 
   export type tenant_subscriptionsCreateOrConnectWithoutSubscriptionsInput = {
@@ -95946,6 +96275,7 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFilter<"tenant_subscriptions"> | $Enums.subscription_commission_type
     first_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
     last_name?: StringNullableFilter<"tenant_subscriptions"> | string | null
+    is_owner?: BoolNullableFilter<"tenant_subscriptions"> | boolean | null
   }
 
   export type subscriptionsCreateWithoutTenant_subscriptionsInput = {
@@ -95966,6 +96296,50 @@ export namespace Prisma {
   export type subscriptionsCreateOrConnectWithoutTenant_subscriptionsInput = {
     where: subscriptionsWhereUniqueInput
     create: XOR<subscriptionsCreateWithoutTenant_subscriptionsInput, subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersCreateWithoutTenant_subscriptionsInput = {
+    id?: string
+    clerk_user_id: string
+    email: string
+    first_name?: string | null
+    last_name?: string | null
+    avatar_url?: string | null
+    primary_module?: $Enums.user_module | null
+    modules?: tenant_usersCreatemodulesInput | $Enums.user_module[]
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    default_role?: string | null
+    is_restuarant_user?: boolean | null
+    user_roles?: user_rolesCreateNestedManyWithoutUsersInput
+  }
+
+  export type tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput = {
+    id?: string
+    clerk_user_id: string
+    email: string
+    first_name?: string | null
+    last_name?: string | null
+    avatar_url?: string | null
+    primary_module?: $Enums.user_module | null
+    modules?: tenant_usersCreatemodulesInput | $Enums.user_module[]
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    default_role?: string | null
+    is_restuarant_user?: boolean | null
+    user_roles?: user_rolesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type tenant_usersCreateOrConnectWithoutTenant_subscriptionsInput = {
+    where: tenant_usersWhereUniqueInput
+    create: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersCreateManyTenant_subscriptionsInputEnvelope = {
+    data: tenant_usersCreateManyTenant_subscriptionsInput | tenant_usersCreateManyTenant_subscriptionsInput[]
+    skipDuplicates?: boolean
   }
 
   export type subscriptionsUpsertWithoutTenant_subscriptionsInput = {
@@ -95992,6 +96366,42 @@ export namespace Prisma {
     duration_months?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type tenant_usersUpsertWithWhereUniqueWithoutTenant_subscriptionsInput = {
+    where: tenant_usersWhereUniqueInput
+    update: XOR<tenant_usersUpdateWithoutTenant_subscriptionsInput, tenant_usersUncheckedUpdateWithoutTenant_subscriptionsInput>
+    create: XOR<tenant_usersCreateWithoutTenant_subscriptionsInput, tenant_usersUncheckedCreateWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersUpdateWithWhereUniqueWithoutTenant_subscriptionsInput = {
+    where: tenant_usersWhereUniqueInput
+    data: XOR<tenant_usersUpdateWithoutTenant_subscriptionsInput, tenant_usersUncheckedUpdateWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersUpdateManyWithWhereWithoutTenant_subscriptionsInput = {
+    where: tenant_usersScalarWhereInput
+    data: XOR<tenant_usersUpdateManyMutationInput, tenant_usersUncheckedUpdateManyWithoutTenant_subscriptionsInput>
+  }
+
+  export type tenant_usersScalarWhereInput = {
+    AND?: tenant_usersScalarWhereInput | tenant_usersScalarWhereInput[]
+    OR?: tenant_usersScalarWhereInput[]
+    NOT?: tenant_usersScalarWhereInput | tenant_usersScalarWhereInput[]
+    id?: UuidFilter<"tenant_users"> | string
+    clerk_user_id?: StringFilter<"tenant_users"> | string
+    email?: StringFilter<"tenant_users"> | string
+    first_name?: StringNullableFilter<"tenant_users"> | string | null
+    last_name?: StringNullableFilter<"tenant_users"> | string | null
+    avatar_url?: StringNullableFilter<"tenant_users"> | string | null
+    primary_module?: Enumuser_moduleNullableFilter<"tenant_users"> | $Enums.user_module | null
+    modules?: Enumuser_moduleNullableListFilter<"tenant_users">
+    is_active?: BoolNullableFilter<"tenant_users"> | boolean | null
+    created_at?: DateTimeNullableFilter<"tenant_users"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"tenant_users"> | Date | string | null
+    default_role?: StringNullableFilter<"tenant_users"> | string | null
+    is_restuarant_user?: BoolNullableFilter<"tenant_users"> | boolean | null
+    parent_tenant_id?: UuidNullableFilter<"tenant_users"> | string | null
   }
 
   export type audit_logsCreateWithoutProfilesInput = {
@@ -96253,15 +96663,15 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     id_number?: string | null
-    res_events?: res_eventsCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesUncheckedCreateWithoutRes_employee_rolesInput = {
@@ -96277,15 +96687,15 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     id_number?: string | null
-    res_events?: res_eventsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_orders?: res_ordersUncheckedCreateNestedManyWithoutResEmployeesInput
-    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_events?: res_eventsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_notifications?: res_notificationsUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_orders?: res_ordersUncheckedCreateNestedManyWithoutRes_employeesInput
+    res_reservations?: res_reservationsUncheckedCreateNestedManyWithoutRes_employeesInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_closed_byTores_employeesInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedCreateNestedManyWithoutRes_employees_res_shifts_opened_byTores_employeesInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_approved_byTores_employeesInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput
-    resVoidRequests?: res_void_requestsUncheckedCreateNestedManyWithoutResEmployeesInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedCreateNestedManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_employeesCreateOrConnectWithoutRes_employee_rolesInput = {
@@ -96338,15 +96748,15 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
-    res_events?: res_eventsUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_employeesUncheckedUpdateWithoutRes_employee_rolesInput = {
@@ -96362,15 +96772,15 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id_number?: NullableStringFieldUpdateOperationsInput | string | null
-    res_events?: res_eventsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_notifications?: res_notificationsUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_orders?: res_ordersUncheckedUpdateManyWithoutResEmployeesNestedInput
-    res_reservations?: res_reservationsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_events?: res_eventsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_notifications?: res_notificationsUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_orders?: res_ordersUncheckedUpdateManyWithoutRes_employeesNestedInput
+    res_reservations?: res_reservationsUncheckedUpdateManyWithoutRes_employeesNestedInput
     res_shifts_res_shifts_closed_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_closed_byTores_employeesNestedInput
     res_shifts_res_shifts_opened_byTores_employees?: res_shiftsUncheckedUpdateManyWithoutRes_employees_res_shifts_opened_byTores_employeesNestedInput
     res_void_requests_res_void_requests_approved_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_approved_byTores_employeesNestedInput
     res_void_requests_res_void_requests_requested_byTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesNestedInput
-    resVoidRequests?: res_void_requestsUncheckedUpdateManyWithoutResEmployeesNestedInput
+    res_void_requests_res_void_requests_res_employeesIdTores_employees?: res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_rolesUpsertWithoutRes_employee_rolesInput = {
@@ -96400,54 +96810,6 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_employee_rolesCreateWithoutRes_rolesInput = {
-    id?: string
-    assigned_at?: Date | string | null
-    res_employees?: res_employeesCreateNestedOneWithoutRes_employee_rolesInput
-  }
-
-  export type res_employee_rolesUncheckedCreateWithoutRes_rolesInput = {
-    id?: string
-    employee_id?: string | null
-    assigned_at?: Date | string | null
-  }
-
-  export type res_employee_rolesCreateOrConnectWithoutRes_rolesInput = {
-    where: res_employee_rolesWhereUniqueInput
-    create: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput>
-  }
-
-  export type res_employee_rolesCreateManyRes_rolesInputEnvelope = {
-    data: res_employee_rolesCreateManyRes_rolesInput | res_employee_rolesCreateManyRes_rolesInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput = {
-    where: res_employee_rolesWhereUniqueInput
-    update: XOR<res_employee_rolesUpdateWithoutRes_rolesInput, res_employee_rolesUncheckedUpdateWithoutRes_rolesInput>
-    create: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput>
-  }
-
-  export type res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput = {
-    where: res_employee_rolesWhereUniqueInput
-    data: XOR<res_employee_rolesUpdateWithoutRes_rolesInput, res_employee_rolesUncheckedUpdateWithoutRes_rolesInput>
-  }
-
-  export type res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput = {
-    where: res_employee_rolesScalarWhereInput
-    data: XOR<res_employee_rolesUpdateManyMutationInput, res_employee_rolesUncheckedUpdateManyWithoutRes_rolesInput>
-  }
-
-  export type res_employee_rolesScalarWhereInput = {
-    AND?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
-    OR?: res_employee_rolesScalarWhereInput[]
-    NOT?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
-    id?: UuidFilter<"res_employee_roles"> | string
-    employee_id?: UuidNullableFilter<"res_employee_roles"> | string | null
-    role_id?: UuidNullableFilter<"res_employee_roles"> | string | null
-    assigned_at?: DateTimeNullableFilter<"res_employee_roles"> | Date | string | null
-  }
-
   export type res_employee_rolesCreateWithoutRes_employeesInput = {
     id?: string
     assigned_at?: Date | string | null
@@ -96470,7 +96832,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type res_eventsCreateWithoutResEmployeesInput = {
+  export type res_eventsCreateWithoutRes_employeesInput = {
     id?: string
     title: string
     description?: string | null
@@ -96483,7 +96845,7 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_eventsUncheckedCreateWithoutResEmployeesInput = {
+  export type res_eventsUncheckedCreateWithoutRes_employeesInput = {
     id?: string
     title: string
     description?: string | null
@@ -96496,17 +96858,17 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_eventsCreateOrConnectWithoutResEmployeesInput = {
+  export type res_eventsCreateOrConnectWithoutRes_employeesInput = {
     where: res_eventsWhereUniqueInput
-    create: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput>
+    create: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_eventsCreateManyResEmployeesInputEnvelope = {
-    data: res_eventsCreateManyResEmployeesInput | res_eventsCreateManyResEmployeesInput[]
+  export type res_eventsCreateManyRes_employeesInputEnvelope = {
+    data: res_eventsCreateManyRes_employeesInput | res_eventsCreateManyRes_employeesInput[]
     skipDuplicates?: boolean
   }
 
-  export type res_notificationsCreateWithoutResEmployeesInput = {
+  export type res_notificationsCreateWithoutRes_employeesInput = {
     id?: string
     recipient_id?: string | null
     type: string
@@ -96517,7 +96879,7 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_notificationsUncheckedCreateWithoutResEmployeesInput = {
+  export type res_notificationsUncheckedCreateWithoutRes_employeesInput = {
     id?: string
     recipient_id?: string | null
     type: string
@@ -96528,17 +96890,17 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_notificationsCreateOrConnectWithoutResEmployeesInput = {
+  export type res_notificationsCreateOrConnectWithoutRes_employeesInput = {
     where: res_notificationsWhereUniqueInput
-    create: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput>
+    create: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_notificationsCreateManyResEmployeesInputEnvelope = {
-    data: res_notificationsCreateManyResEmployeesInput | res_notificationsCreateManyResEmployeesInput[]
+  export type res_notificationsCreateManyRes_employeesInputEnvelope = {
+    data: res_notificationsCreateManyRes_employeesInput | res_notificationsCreateManyRes_employeesInput[]
     skipDuplicates?: boolean
   }
 
-  export type res_ordersCreateWithoutResEmployeesInput = {
+  export type res_ordersCreateWithoutRes_employeesInput = {
     id?: string
     order_number: string
     created_by?: string | null
@@ -96566,7 +96928,7 @@ export namespace Prisma {
     res_void_requests?: res_void_requestsCreateNestedManyWithoutRes_ordersInput
   }
 
-  export type res_ordersUncheckedCreateWithoutResEmployeesInput = {
+  export type res_ordersUncheckedCreateWithoutRes_employeesInput = {
     id?: string
     order_number: string
     table_id?: string | null
@@ -96594,17 +96956,17 @@ export namespace Prisma {
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
 
-  export type res_ordersCreateOrConnectWithoutResEmployeesInput = {
+  export type res_ordersCreateOrConnectWithoutRes_employeesInput = {
     where: res_ordersWhereUniqueInput
-    create: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput>
+    create: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_ordersCreateManyResEmployeesInputEnvelope = {
-    data: res_ordersCreateManyResEmployeesInput | res_ordersCreateManyResEmployeesInput[]
+  export type res_ordersCreateManyRes_employeesInputEnvelope = {
+    data: res_ordersCreateManyRes_employeesInput | res_ordersCreateManyRes_employeesInput[]
     skipDuplicates?: boolean
   }
 
-  export type res_reservationsCreateWithoutResEmployeesInput = {
+  export type res_reservationsCreateWithoutRes_employeesInput = {
     id?: string
     customer_name: string
     customer_phone?: string | null
@@ -96620,7 +96982,7 @@ export namespace Prisma {
     res_tables?: res_tablesCreateNestedOneWithoutRes_reservationsInput
   }
 
-  export type res_reservationsUncheckedCreateWithoutResEmployeesInput = {
+  export type res_reservationsUncheckedCreateWithoutRes_employeesInput = {
     id?: string
     table_id?: string | null
     customer_name: string
@@ -96636,13 +96998,13 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_reservationsCreateOrConnectWithoutResEmployeesInput = {
+  export type res_reservationsCreateOrConnectWithoutRes_employeesInput = {
     where: res_reservationsWhereUniqueInput
-    create: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput>
+    create: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_reservationsCreateManyResEmployeesInputEnvelope = {
-    data: res_reservationsCreateManyResEmployeesInput | res_reservationsCreateManyResEmployeesInput[]
+  export type res_reservationsCreateManyRes_employeesInputEnvelope = {
+    data: res_reservationsCreateManyRes_employeesInput | res_reservationsCreateManyRes_employeesInput[]
     skipDuplicates?: boolean
   }
 
@@ -96731,7 +97093,7 @@ export namespace Prisma {
     processed_at?: Date | string | null
     res_orders?: res_ordersCreateNestedOneWithoutRes_void_requestsInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput
-    resEmployees?: res_employeesCreateNestedOneWithoutResVoidRequestsInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_approved_byTores_employeesInput = {
@@ -96765,7 +97127,7 @@ export namespace Prisma {
     processed_at?: Date | string | null
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesInput
     res_orders?: res_ordersCreateNestedOneWithoutRes_void_requestsInput
-    resEmployees?: res_employeesCreateNestedOneWithoutResVoidRequestsInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesInput
   }
 
   export type res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_requested_byTores_employeesInput = {
@@ -96790,7 +97152,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type res_void_requestsCreateWithoutResEmployeesInput = {
+  export type res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: string
     reason: string
     status?: string | null
@@ -96802,7 +97164,7 @@ export namespace Prisma {
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesCreateNestedOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesInput
   }
 
-  export type res_void_requestsUncheckedCreateWithoutResEmployeesInput = {
+  export type res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: string
     order_id?: string | null
     requested_by?: string | null
@@ -96814,13 +97176,13 @@ export namespace Prisma {
     processed_at?: Date | string | null
   }
 
-  export type res_void_requestsCreateOrConnectWithoutResEmployeesInput = {
+  export type res_void_requestsCreateOrConnectWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     where: res_void_requestsWhereUniqueInput
-    create: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput>
+    create: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
-  export type res_void_requestsCreateManyResEmployeesInputEnvelope = {
-    data: res_void_requestsCreateManyResEmployeesInput | res_void_requestsCreateManyResEmployeesInput[]
+  export type res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInputEnvelope = {
+    data: res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInput | res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInput[]
     skipDuplicates?: boolean
   }
 
@@ -96840,20 +97202,30 @@ export namespace Prisma {
     data: XOR<res_employee_rolesUpdateManyMutationInput, res_employee_rolesUncheckedUpdateManyWithoutRes_employeesInput>
   }
 
-  export type res_eventsUpsertWithWhereUniqueWithoutResEmployeesInput = {
-    where: res_eventsWhereUniqueInput
-    update: XOR<res_eventsUpdateWithoutResEmployeesInput, res_eventsUncheckedUpdateWithoutResEmployeesInput>
-    create: XOR<res_eventsCreateWithoutResEmployeesInput, res_eventsUncheckedCreateWithoutResEmployeesInput>
+  export type res_employee_rolesScalarWhereInput = {
+    AND?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
+    OR?: res_employee_rolesScalarWhereInput[]
+    NOT?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
+    id?: UuidFilter<"res_employee_roles"> | string
+    employee_id?: UuidNullableFilter<"res_employee_roles"> | string | null
+    role_id?: UuidNullableFilter<"res_employee_roles"> | string | null
+    assigned_at?: DateTimeNullableFilter<"res_employee_roles"> | Date | string | null
   }
 
-  export type res_eventsUpdateWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_eventsUpsertWithWhereUniqueWithoutRes_employeesInput = {
     where: res_eventsWhereUniqueInput
-    data: XOR<res_eventsUpdateWithoutResEmployeesInput, res_eventsUncheckedUpdateWithoutResEmployeesInput>
+    update: XOR<res_eventsUpdateWithoutRes_employeesInput, res_eventsUncheckedUpdateWithoutRes_employeesInput>
+    create: XOR<res_eventsCreateWithoutRes_employeesInput, res_eventsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_eventsUpdateManyWithWhereWithoutResEmployeesInput = {
+  export type res_eventsUpdateWithWhereUniqueWithoutRes_employeesInput = {
+    where: res_eventsWhereUniqueInput
+    data: XOR<res_eventsUpdateWithoutRes_employeesInput, res_eventsUncheckedUpdateWithoutRes_employeesInput>
+  }
+
+  export type res_eventsUpdateManyWithWhereWithoutRes_employeesInput = {
     where: res_eventsScalarWhereInput
-    data: XOR<res_eventsUpdateManyMutationInput, res_eventsUncheckedUpdateManyWithoutResEmployeesInput>
+    data: XOR<res_eventsUpdateManyMutationInput, res_eventsUncheckedUpdateManyWithoutRes_employeesInput>
   }
 
   export type res_eventsScalarWhereInput = {
@@ -96873,20 +97245,20 @@ export namespace Prisma {
     res_employeesId?: UuidNullableFilter<"res_events"> | string | null
   }
 
-  export type res_notificationsUpsertWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_notificationsUpsertWithWhereUniqueWithoutRes_employeesInput = {
     where: res_notificationsWhereUniqueInput
-    update: XOR<res_notificationsUpdateWithoutResEmployeesInput, res_notificationsUncheckedUpdateWithoutResEmployeesInput>
-    create: XOR<res_notificationsCreateWithoutResEmployeesInput, res_notificationsUncheckedCreateWithoutResEmployeesInput>
+    update: XOR<res_notificationsUpdateWithoutRes_employeesInput, res_notificationsUncheckedUpdateWithoutRes_employeesInput>
+    create: XOR<res_notificationsCreateWithoutRes_employeesInput, res_notificationsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_notificationsUpdateWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_notificationsUpdateWithWhereUniqueWithoutRes_employeesInput = {
     where: res_notificationsWhereUniqueInput
-    data: XOR<res_notificationsUpdateWithoutResEmployeesInput, res_notificationsUncheckedUpdateWithoutResEmployeesInput>
+    data: XOR<res_notificationsUpdateWithoutRes_employeesInput, res_notificationsUncheckedUpdateWithoutRes_employeesInput>
   }
 
-  export type res_notificationsUpdateManyWithWhereWithoutResEmployeesInput = {
+  export type res_notificationsUpdateManyWithWhereWithoutRes_employeesInput = {
     where: res_notificationsScalarWhereInput
-    data: XOR<res_notificationsUpdateManyMutationInput, res_notificationsUncheckedUpdateManyWithoutResEmployeesInput>
+    data: XOR<res_notificationsUpdateManyMutationInput, res_notificationsUncheckedUpdateManyWithoutRes_employeesInput>
   }
 
   export type res_notificationsScalarWhereInput = {
@@ -96894,7 +97266,7 @@ export namespace Prisma {
     OR?: res_notificationsScalarWhereInput[]
     NOT?: res_notificationsScalarWhereInput | res_notificationsScalarWhereInput[]
     id?: UuidFilter<"res_notifications"> | string
-    recipient_id?: UuidNullableFilter<"res_notifications"> | string | null
+    recipient_id?: StringNullableFilter<"res_notifications"> | string | null
     type?: StringFilter<"res_notifications"> | string
     title?: StringFilter<"res_notifications"> | string
     message?: StringNullableFilter<"res_notifications"> | string | null
@@ -96904,36 +97276,36 @@ export namespace Prisma {
     res_employeesId?: UuidNullableFilter<"res_notifications"> | string | null
   }
 
-  export type res_ordersUpsertWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_ordersUpsertWithWhereUniqueWithoutRes_employeesInput = {
     where: res_ordersWhereUniqueInput
-    update: XOR<res_ordersUpdateWithoutResEmployeesInput, res_ordersUncheckedUpdateWithoutResEmployeesInput>
-    create: XOR<res_ordersCreateWithoutResEmployeesInput, res_ordersUncheckedCreateWithoutResEmployeesInput>
+    update: XOR<res_ordersUpdateWithoutRes_employeesInput, res_ordersUncheckedUpdateWithoutRes_employeesInput>
+    create: XOR<res_ordersCreateWithoutRes_employeesInput, res_ordersUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_ordersUpdateWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_ordersUpdateWithWhereUniqueWithoutRes_employeesInput = {
     where: res_ordersWhereUniqueInput
-    data: XOR<res_ordersUpdateWithoutResEmployeesInput, res_ordersUncheckedUpdateWithoutResEmployeesInput>
+    data: XOR<res_ordersUpdateWithoutRes_employeesInput, res_ordersUncheckedUpdateWithoutRes_employeesInput>
   }
 
-  export type res_ordersUpdateManyWithWhereWithoutResEmployeesInput = {
+  export type res_ordersUpdateManyWithWhereWithoutRes_employeesInput = {
     where: res_ordersScalarWhereInput
-    data: XOR<res_ordersUpdateManyMutationInput, res_ordersUncheckedUpdateManyWithoutResEmployeesInput>
+    data: XOR<res_ordersUpdateManyMutationInput, res_ordersUncheckedUpdateManyWithoutRes_employeesInput>
   }
 
-  export type res_reservationsUpsertWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_reservationsUpsertWithWhereUniqueWithoutRes_employeesInput = {
     where: res_reservationsWhereUniqueInput
-    update: XOR<res_reservationsUpdateWithoutResEmployeesInput, res_reservationsUncheckedUpdateWithoutResEmployeesInput>
-    create: XOR<res_reservationsCreateWithoutResEmployeesInput, res_reservationsUncheckedCreateWithoutResEmployeesInput>
+    update: XOR<res_reservationsUpdateWithoutRes_employeesInput, res_reservationsUncheckedUpdateWithoutRes_employeesInput>
+    create: XOR<res_reservationsCreateWithoutRes_employeesInput, res_reservationsUncheckedCreateWithoutRes_employeesInput>
   }
 
-  export type res_reservationsUpdateWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_reservationsUpdateWithWhereUniqueWithoutRes_employeesInput = {
     where: res_reservationsWhereUniqueInput
-    data: XOR<res_reservationsUpdateWithoutResEmployeesInput, res_reservationsUncheckedUpdateWithoutResEmployeesInput>
+    data: XOR<res_reservationsUpdateWithoutRes_employeesInput, res_reservationsUncheckedUpdateWithoutRes_employeesInput>
   }
 
-  export type res_reservationsUpdateManyWithWhereWithoutResEmployeesInput = {
+  export type res_reservationsUpdateManyWithWhereWithoutRes_employeesInput = {
     where: res_reservationsScalarWhereInput
-    data: XOR<res_reservationsUpdateManyMutationInput, res_reservationsUncheckedUpdateManyWithoutResEmployeesInput>
+    data: XOR<res_reservationsUpdateManyMutationInput, res_reservationsUncheckedUpdateManyWithoutRes_employeesInput>
   }
 
   export type res_shiftsUpsertWithWhereUniqueWithoutRes_employees_res_shifts_closed_byTores_employeesInput = {
@@ -97017,20 +97389,58 @@ export namespace Prisma {
     data: XOR<res_void_requestsUpdateManyMutationInput, res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_requested_byTores_employeesInput>
   }
 
-  export type res_void_requestsUpsertWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_void_requestsUpsertWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     where: res_void_requestsWhereUniqueInput
-    update: XOR<res_void_requestsUpdateWithoutResEmployeesInput, res_void_requestsUncheckedUpdateWithoutResEmployeesInput>
-    create: XOR<res_void_requestsCreateWithoutResEmployeesInput, res_void_requestsUncheckedCreateWithoutResEmployeesInput>
+    update: XOR<res_void_requestsUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput>
+    create: XOR<res_void_requestsCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedCreateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
-  export type res_void_requestsUpdateWithWhereUniqueWithoutResEmployeesInput = {
+  export type res_void_requestsUpdateWithWhereUniqueWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     where: res_void_requestsWhereUniqueInput
-    data: XOR<res_void_requestsUpdateWithoutResEmployeesInput, res_void_requestsUncheckedUpdateWithoutResEmployeesInput>
+    data: XOR<res_void_requestsUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput, res_void_requestsUncheckedUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput>
   }
 
-  export type res_void_requestsUpdateManyWithWhereWithoutResEmployeesInput = {
+  export type res_void_requestsUpdateManyWithWhereWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     where: res_void_requestsScalarWhereInput
-    data: XOR<res_void_requestsUpdateManyMutationInput, res_void_requestsUncheckedUpdateManyWithoutResEmployeesInput>
+    data: XOR<res_void_requestsUpdateManyMutationInput, res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput>
+  }
+
+  export type res_employee_rolesCreateWithoutRes_rolesInput = {
+    id?: string
+    assigned_at?: Date | string | null
+    res_employees?: res_employeesCreateNestedOneWithoutRes_employee_rolesInput
+  }
+
+  export type res_employee_rolesUncheckedCreateWithoutRes_rolesInput = {
+    id?: string
+    employee_id?: string | null
+    assigned_at?: Date | string | null
+  }
+
+  export type res_employee_rolesCreateOrConnectWithoutRes_rolesInput = {
+    where: res_employee_rolesWhereUniqueInput
+    create: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput>
+  }
+
+  export type res_employee_rolesCreateManyRes_rolesInputEnvelope = {
+    data: res_employee_rolesCreateManyRes_rolesInput | res_employee_rolesCreateManyRes_rolesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type res_employee_rolesUpsertWithWhereUniqueWithoutRes_rolesInput = {
+    where: res_employee_rolesWhereUniqueInput
+    update: XOR<res_employee_rolesUpdateWithoutRes_rolesInput, res_employee_rolesUncheckedUpdateWithoutRes_rolesInput>
+    create: XOR<res_employee_rolesCreateWithoutRes_rolesInput, res_employee_rolesUncheckedCreateWithoutRes_rolesInput>
+  }
+
+  export type res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput = {
+    where: res_employee_rolesWhereUniqueInput
+    data: XOR<res_employee_rolesUpdateWithoutRes_rolesInput, res_employee_rolesUncheckedUpdateWithoutRes_rolesInput>
+  }
+
+  export type res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput = {
+    where: res_employee_rolesScalarWhereInput
+    data: XOR<res_employee_rolesUpdateManyMutationInput, res_employee_rolesUncheckedUpdateManyWithoutRes_rolesInput>
   }
 
   export type productsCreateManyCategoriesInput = {
@@ -98624,7 +99034,7 @@ export namespace Prisma {
     processed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesNestedInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutResVoidRequestsNestedInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_void_requestsUncheckedUpdateWithoutRes_ordersInput = {
@@ -98700,7 +99110,7 @@ export namespace Prisma {
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
   }
@@ -98824,7 +99234,7 @@ export namespace Prisma {
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
   }
@@ -98896,7 +99306,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resEmployees?: res_employeesUpdateOneWithoutRes_reservationsNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_reservationsNestedInput
   }
 
   export type res_reservationsUncheckedUpdateWithoutRes_tablesInput = {
@@ -99379,7 +99789,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
+    res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
     res_tables?: res_tablesUpdateOneWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
@@ -99470,6 +99880,7 @@ export namespace Prisma {
     commission_type?: $Enums.subscription_commission_type
     first_name?: string | null
     last_name?: string | null
+    is_owner?: boolean | null
   }
 
   export type tenant_subscriptionsUpdateWithoutSubscriptionsInput = {
@@ -99485,6 +99896,8 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenant_users?: tenant_usersUpdateManyWithoutTenant_subscriptionsNestedInput
   }
 
   export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
@@ -99500,6 +99913,8 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tenant_users?: tenant_usersUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
   }
 
   export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
@@ -99515,6 +99930,73 @@ export namespace Prisma {
     commission_type?: Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_owner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type tenant_usersCreateManyTenant_subscriptionsInput = {
+    id?: string
+    clerk_user_id: string
+    email: string
+    first_name?: string | null
+    last_name?: string | null
+    avatar_url?: string | null
+    primary_module?: $Enums.user_module | null
+    modules?: tenant_usersCreatemodulesInput | $Enums.user_module[]
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    default_role?: string | null
+    is_restuarant_user?: boolean | null
+  }
+
+  export type tenant_usersUpdateWithoutTenant_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    primary_module?: NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+    modules?: tenant_usersUpdatemodulesInput | $Enums.user_module[]
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    default_role?: NullableStringFieldUpdateOperationsInput | string | null
+    is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    user_roles?: user_rolesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type tenant_usersUncheckedUpdateWithoutTenant_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    primary_module?: NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+    modules?: tenant_usersUpdatemodulesInput | $Enums.user_module[]
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    default_role?: NullableStringFieldUpdateOperationsInput | string | null
+    is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    user_roles?: user_rolesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type tenant_usersUncheckedUpdateManyWithoutTenant_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    primary_module?: NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+    modules?: tenant_usersUpdatemodulesInput | $Enums.user_module[]
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    default_role?: NullableStringFieldUpdateOperationsInput | string | null
+    is_restuarant_user?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type audit_logsCreateManyProfilesInput = {
@@ -99629,37 +100111,13 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_employee_rolesCreateManyRes_rolesInput = {
-    id?: string
-    employee_id?: string | null
-    assigned_at?: Date | string | null
-  }
-
-  export type res_employee_rolesUpdateWithoutRes_rolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    res_employees?: res_employeesUpdateOneWithoutRes_employee_rolesNestedInput
-  }
-
-  export type res_employee_rolesUncheckedUpdateWithoutRes_rolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
-    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type res_employee_rolesUncheckedUpdateManyWithoutRes_rolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
-    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type res_employee_rolesCreateManyRes_employeesInput = {
     id?: string
     role_id?: string | null
     assigned_at?: Date | string | null
   }
 
-  export type res_eventsCreateManyResEmployeesInput = {
+  export type res_eventsCreateManyRes_employeesInput = {
     id?: string
     title: string
     description?: string | null
@@ -99672,7 +100130,7 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_notificationsCreateManyResEmployeesInput = {
+  export type res_notificationsCreateManyRes_employeesInput = {
     id?: string
     recipient_id?: string | null
     type: string
@@ -99683,7 +100141,7 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
-  export type res_ordersCreateManyResEmployeesInput = {
+  export type res_ordersCreateManyRes_employeesInput = {
     id?: string
     order_number: string
     table_id?: string | null
@@ -99709,7 +100167,7 @@ export namespace Prisma {
     change_amount?: Decimal | DecimalJsLike | number | string | null
   }
 
-  export type res_reservationsCreateManyResEmployeesInput = {
+  export type res_reservationsCreateManyRes_employeesInput = {
     id?: string
     table_id?: string | null
     customer_name: string
@@ -99775,7 +100233,7 @@ export namespace Prisma {
     res_employeesId?: string | null
   }
 
-  export type res_void_requestsCreateManyResEmployeesInput = {
+  export type res_void_requestsCreateManyRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: string
     order_id?: string | null
     requested_by?: string | null
@@ -99805,7 +100263,7 @@ export namespace Prisma {
     assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_eventsUpdateWithoutResEmployeesInput = {
+  export type res_eventsUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99818,7 +100276,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_eventsUncheckedUpdateWithoutResEmployeesInput = {
+  export type res_eventsUncheckedUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99831,7 +100289,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_eventsUncheckedUpdateManyWithoutResEmployeesInput = {
+  export type res_eventsUncheckedUpdateManyWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99844,7 +100302,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_notificationsUpdateWithoutResEmployeesInput = {
+  export type res_notificationsUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipient_id?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
@@ -99855,7 +100313,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_notificationsUncheckedUpdateWithoutResEmployeesInput = {
+  export type res_notificationsUncheckedUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipient_id?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
@@ -99866,7 +100324,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_notificationsUncheckedUpdateManyWithoutResEmployeesInput = {
+  export type res_notificationsUncheckedUpdateManyWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipient_id?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
@@ -99877,7 +100335,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_ordersUpdateWithoutResEmployeesInput = {
+  export type res_ordersUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_number?: StringFieldUpdateOperationsInput | string
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99905,7 +100363,7 @@ export namespace Prisma {
     res_void_requests?: res_void_requestsUpdateManyWithoutRes_ordersNestedInput
   }
 
-  export type res_ordersUncheckedUpdateWithoutResEmployeesInput = {
+  export type res_ordersUncheckedUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_number?: StringFieldUpdateOperationsInput | string
     table_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99933,7 +100391,7 @@ export namespace Prisma {
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
 
-  export type res_ordersUncheckedUpdateManyWithoutResEmployeesInput = {
+  export type res_ordersUncheckedUpdateManyWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_number?: StringFieldUpdateOperationsInput | string
     table_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99959,7 +100417,7 @@ export namespace Prisma {
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type res_reservationsUpdateWithoutResEmployeesInput = {
+  export type res_reservationsUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     customer_name?: StringFieldUpdateOperationsInput | string
     customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99975,7 +100433,7 @@ export namespace Prisma {
     res_tables?: res_tablesUpdateOneWithoutRes_reservationsNestedInput
   }
 
-  export type res_reservationsUncheckedUpdateWithoutResEmployeesInput = {
+  export type res_reservationsUncheckedUpdateWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     table_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_name?: StringFieldUpdateOperationsInput | string
@@ -99991,7 +100449,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_reservationsUncheckedUpdateManyWithoutResEmployeesInput = {
+  export type res_reservationsUncheckedUpdateManyWithoutRes_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     table_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_name?: StringFieldUpdateOperationsInput | string
@@ -100098,7 +100556,7 @@ export namespace Prisma {
     processed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     res_orders?: res_ordersUpdateOneWithoutRes_void_requestsNestedInput
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutResVoidRequestsNestedInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_void_requestsUncheckedUpdateWithoutRes_employees_res_void_requests_approved_byTores_employeesInput = {
@@ -100134,7 +100592,7 @@ export namespace Prisma {
     processed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     res_employees_res_void_requests_approved_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_approved_byTores_employeesNestedInput
     res_orders?: res_ordersUpdateOneWithoutRes_void_requestsNestedInput
-    resEmployees?: res_employeesUpdateOneWithoutResVoidRequestsNestedInput
+    res_employees_res_void_requests_res_employeesIdTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_res_employeesIdTores_employeesNestedInput
   }
 
   export type res_void_requestsUncheckedUpdateWithoutRes_employees_res_void_requests_requested_byTores_employeesInput = {
@@ -100161,7 +100619,7 @@ export namespace Prisma {
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type res_void_requestsUpdateWithoutResEmployeesInput = {
+  export type res_void_requestsUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100173,7 +100631,7 @@ export namespace Prisma {
     res_employees_res_void_requests_requested_byTores_employees?: res_employeesUpdateOneWithoutRes_void_requests_res_void_requests_requested_byTores_employeesNestedInput
   }
 
-  export type res_void_requestsUncheckedUpdateWithoutResEmployeesInput = {
+  export type res_void_requestsUncheckedUpdateWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_id?: NullableStringFieldUpdateOperationsInput | string | null
     requested_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100185,7 +100643,7 @@ export namespace Prisma {
     processed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type res_void_requestsUncheckedUpdateManyWithoutResEmployeesInput = {
+  export type res_void_requestsUncheckedUpdateManyWithoutRes_employees_res_void_requests_res_employeesIdTores_employeesInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_id?: NullableStringFieldUpdateOperationsInput | string | null
     requested_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100195,6 +100653,30 @@ export namespace Prisma {
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     processed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type res_employee_rolesCreateManyRes_rolesInput = {
+    id?: string
+    employee_id?: string | null
+    assigned_at?: Date | string | null
+  }
+
+  export type res_employee_rolesUpdateWithoutRes_rolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    res_employees?: res_employeesUpdateOneWithoutRes_employee_rolesNestedInput
+  }
+
+  export type res_employee_rolesUncheckedUpdateWithoutRes_rolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type res_employee_rolesUncheckedUpdateManyWithoutRes_rolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

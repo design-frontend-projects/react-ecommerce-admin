@@ -2,17 +2,16 @@ import { type QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { Toaster } from '@/components/ui/sonner'
-import { NavigationProgress } from '@/components/navigation-progress'
-import { GeneralError } from '@/features/errors/general-error'
-import { NotFoundError } from '@/features/errors/not-found-error'
-import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
-import { SupabaseTokenSync } from '@/components/supabase-token-sync'
-
 import { Loader2 } from 'lucide-react'
 import { NetworkStatusProvider } from '@/context/network-status-provider'
+import { Toaster } from '@/components/ui/sonner'
+import { NavigationProgress } from '@/components/navigation-progress'
 import { OfflineBadge, OnlineBadge } from '@/components/offline-badge'
 import { PwaUpdatePrompt } from '@/components/pwa-update-prompt'
+import { SupabaseTokenSync } from '@/components/supabase-token-sync'
+import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
+import { GeneralError } from '@/features/errors/general-error'
+import { NotFoundError } from '@/features/errors/not-found-error'
 
 const RootComponent = () => {
   const { isLoading } = useSyncUser()

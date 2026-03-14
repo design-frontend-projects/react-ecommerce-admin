@@ -637,7 +637,8 @@ exports.Prisma.Tenant_usersScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   default_role: 'default_role',
-  is_restuarant_user: 'is_restuarant_user'
+  is_restuarant_user: 'is_restuarant_user',
+  parent_tenant_id: 'parent_tenant_id'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
@@ -709,7 +710,8 @@ exports.Prisma.Tenant_subscriptionsScalarFieldEnum = {
   commission_amount: 'commission_amount',
   commission_type: 'commission_type',
   first_name: 'first_name',
-  last_name: 'last_name'
+  last_name: 'last_name',
+  is_owner: 'is_owner'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
@@ -756,14 +758,6 @@ exports.Prisma.Res_employee_rolesScalarFieldEnum = {
   assigned_at: 'assigned_at'
 };
 
-exports.Prisma.Res_rolesScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  display_name: 'display_name',
-  permissions: 'permissions',
-  created_at: 'created_at'
-};
-
 exports.Prisma.Res_employeesScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
@@ -777,6 +771,14 @@ exports.Prisma.Res_employeesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   id_number: 'id_number'
+};
+
+exports.Prisma.Res_rolesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  display_name: 'display_name',
+  permissions: 'permissions',
+  created_at: 'created_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -873,8 +875,8 @@ exports.Prisma.ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
   res_employee_roles: 'res_employee_roles',
-  res_roles: 'res_roles',
-  res_employees: 'res_employees'
+  res_employees: 'res_employees',
+  res_roles: 'res_roles'
 };
 
 /**

@@ -1,7 +1,7 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
 import { useState } from 'react'
-import { useAuth, UserButton } from '@clerk/clerk-react'
+import { useAuth, UserButton, useUser } from '@clerk/clerk-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,
@@ -40,7 +40,7 @@ import { CheckoutDialog } from '../components/checkout-dialog'
 import { FloorManagerView } from '../components/floor-manager-view'
 import { MenuItemDetailsDialog } from '../components/menu-item-details-dialog'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
-import { useResposAuth, useResposRealtime } from '../hooks'
+import { useResposRealtime } from '../hooks'
 import { formatCurrency } from '../lib/formatters'
 import type {
   Cart,
@@ -94,7 +94,6 @@ export function POSScreen() {
   const { data: categories, isLoading: categoriesLoading } = useMenuCategories()
   const { data: menuItems, isLoading: itemsLoading } = useMenuItemsWithDetails()
 
-  const { has, isLoaded, isSignedIn } = useAuth()
   // Store
   const {
     selectedFloorId,
@@ -109,14 +108,8 @@ export function POSScreen() {
   } = useResposStore()
 
   // Auth & Permissions
-  const {
-    canAccessPayment,
-    isLoading: authLoading,
-    employee,
-    clerkUser,
-  } = useResposAuth()
-
-  const roles = employee?.roles || []
+  const { user: employee } = useUser()
+  const { has, isLoaded, isSignedIn } = useAuth()
 
   // Real-time
   useResposRealtime({
@@ -137,8 +130,7 @@ export function POSScreen() {
     tablesLoading ||
     categoriesLoading ||
     itemsLoading ||
-    activeOrderLoading ||
-    authLoading
+    activeOrderLoading
 
   // Table Selection Logic with Locking
   const handleTableSelect = (table: ResTable) => {
@@ -208,7 +200,18 @@ export function POSScreen() {
     }
   }
 
-  if (!isSignedIn || !isLoaded) {
+  if (!isSignedIn) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-center'>
+          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isLoaded) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
@@ -237,7 +240,7 @@ export function POSScreen() {
     )
   }
 
-  if (authLoading || isLoadingData) {
+  if (isLoadingData) {
     return (
       <div className='flex h-screen items-center justify-center bg-muted/40'>
         <Loader2 className='h-10 w-10 animate-spin text-orange-500' />
@@ -314,10 +317,10 @@ export function POSScreen() {
 
           <div className='flex items-center gap-3'>
             <div className='hidden flex-col items-end sm:flex'>
-              <span className='text-sm font-bold'>{clerkUser?.fullName}</span>
-              <span className='text-[10px] font-bold text-orange-600 uppercase'>
-                {roles.join(' • ')}
-              </span>
+              <span className='text-sm font-bold'>{employee?.fullName}</span>
+              {/* <span className='text-[10px] font-bold text-orange-600 uppercase'>
+                {roles.length > 0 ? roles.join(' • ') : 'No Role'}
+              </span> */}
             </div>
             <div className='mx-2 h-8 w-px bg-border/50' />
             <LanguageSwitch />
@@ -468,7 +471,9 @@ export function POSScreen() {
               onPlaceOrder={handlePlaceOrder}
               isProcessing={isCreating || isAdding}
               onCheckout={() => setIsCheckoutOpen(true)}
-              canCheckout={canAccessPayment}
+              canCheckout={
+                has({ role: 'admin' }) || has({ role: 'super_admin' })
+              }
               onClearCart={clearCart}
               onUpdateQuantity={updateCartItemQuantity}
               onRemoveItem={removeFromCart}

@@ -1,15 +1,15 @@
-import { db } from './db/indexed-db';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid'
+import { db } from './db/indexed-db'
 
 export interface OfflineOrder {
-  id: string;
-  store_id: string;
-  total_amount: number;
-  items: unknown[];
-  status: 'PENDING' | 'SYNCED' | 'FAILED';
-  created_at: string;
-  customer_id?: string;
-  payment_method?: string;
+  id: string
+  store_id: string
+  total_amount: number
+  items: unknown[]
+  status: 'PENDING' | 'SYNCED' | 'FAILED'
+  created_at: string
+  customer_id?: string
+  payment_method?: string
 }
 
 export const offlineOrderService = {
@@ -17,7 +17,7 @@ export const offlineOrderService = {
    * Saves an order locally when offline
    */
   async saveOfflineOrder(order: Partial<OfflineOrder>) {
-    const id = order.id || uuidv4();
+    const id = order.id || uuidv7()
     const newOrder: OfflineOrder = {
       id,
       store_id: order.store_id || 'default',
@@ -25,8 +25,8 @@ export const offlineOrderService = {
       items: order.items || [],
       status: 'PENDING',
       created_at: new Date().toISOString(),
-      ...order
-    };
+      ...order,
+    }
 
     // Save to syncActions table for synchronization later
     await db.syncActions.add({
@@ -36,10 +36,10 @@ export const offlineOrderService = {
       data: newOrder,
       createdAt: Date.now(),
       status: 'pending',
-      retryCount: 0
-    });
+      retryCount: 0,
+    })
 
-    return newOrder;
+    return newOrder
   },
 
   /**
@@ -49,8 +49,10 @@ export const offlineOrderService = {
     return await db.syncActions
       .where('table')
       .equals('orders')
-      .and(action => action.status === 'pending' || action.status === 'failed')
-      .toArray();
+      .and(
+        (action) => action.status === 'pending' || action.status === 'failed'
+      )
+      .toArray()
   },
 
   /**
@@ -59,21 +61,21 @@ export const offlineOrderService = {
   async markAsCompleted(actionId: number) {
     return await db.syncActions.update(actionId, {
       status: 'completed',
-      error: undefined
-    });
+      error: undefined,
+    })
   },
 
   /**
    * Marks an order action as failed
    */
   async markAsFailed(actionId: number, error: string) {
-    const action = await db.syncActions.get(actionId);
-    if (!action) return;
+    const action = await db.syncActions.get(actionId)
+    if (!action) return
 
     return await db.syncActions.update(actionId, {
       status: 'failed',
       error,
-      retryCount: action.retryCount + 1
-    });
-  }
-};
+      retryCount: action.retryCount + 1,
+    })
+  },
+}

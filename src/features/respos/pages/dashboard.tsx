@@ -2,6 +2,7 @@
 // Main dashboard for restaurant staff with role-based widgets
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
+import { useAuth } from '@clerk/clerk-react'
 import { motion } from 'framer-motion'
 import {
   CalendarClock,
@@ -11,13 +12,13 @@ import {
   Grid3X3,
   Loader2,
   Receipt,
+  Shield,
   Timer,
   TrendingUp,
   Users,
   UtensilsCrossed,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import {
   Card,
   CardContent,
@@ -25,15 +26,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { useDashboardStats, useActiveShift } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
-import { useResposAuth } from '../hooks'
 import { formatCurrency } from '../lib/formatters'
 import type { Permission } from '../types'
 
@@ -53,9 +54,9 @@ const item = {
 export function ResposDashboard() {
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
   const { data: activeShift, isLoading: shiftLoading } = useActiveShift()
-  const { isLoading: rolesLoading, hasPermission } = useResposAuth()
+  const { has, isLoaded, isSignedIn } = useAuth()
 
-  const isLoading = statsLoading || shiftLoading || rolesLoading
+  const isLoading = statsLoading || shiftLoading || isLoaded
 
   const quickActions: Array<{
     title: string
@@ -99,6 +100,17 @@ export function ResposDashboard() {
     },
   ]
 
+  if (!isSignedIn) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-center'>
+          <Shield className='mx-auto h-12 w-12 text-red-500' />
+          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <Header fixed>
@@ -107,8 +119,10 @@ export function ResposDashboard() {
             <UtensilsCrossed className='h-5 w-5' />
           </div>
           <div className='flex flex-col'>
-            <h1 className='text-sm font-semibold leading-none'>Dashboard</h1>
-            <p className='text-[10px] text-muted-foreground uppercase tracking-wider font-medium'>Control Center</p>
+            <h1 className='text-sm leading-none font-semibold'>Dashboard</h1>
+            <p className='text-[10px] font-medium tracking-wider text-muted-foreground uppercase'>
+              Control Center
+            </p>
           </div>
         </div>
         <div className='ml-auto flex items-center gap-2'>
@@ -203,7 +217,7 @@ export function ResposDashboard() {
             <h3 className='mb-4 text-lg font-semibold'>Quick Actions</h3>
             <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
               {quickActions
-                .filter((action) => hasPermission(action.permission))
+                .filter((action) => has({ role: action.permission }))
                 .map((action) => (
                   <QuickActionCard key={action.href} {...action} />
                 ))}
@@ -264,7 +278,7 @@ function StatsCard({
     >
       <Card className='overflow-hidden border-border/50 bg-background/50 backdrop-blur-sm transition-colors hover:border-primary/50'>
         <CardHeader className='flex flex-row items-center justify-between pb-2'>
-          <CardTitle className='text-xs font-medium uppercase tracking-wider text-muted-foreground'>
+          <CardTitle className='text-xs font-medium tracking-wider text-muted-foreground uppercase'>
             {title}
           </CardTitle>
           <div className={`rounded-md ${color.replace('text-', 'bg-')}/10 p-2`}>
@@ -286,10 +300,14 @@ function StatsCard({
               animate={{ opacity: 1, x: 0 }}
               className={`mt-2 flex items-center text-xs font-medium ${trend >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}
             >
-              <TrendingUp className={`mr-1 h-3 w-3 ${trend < 0 ? 'rotate-180' : ''}`} />
+              <TrendingUp
+                className={`mr-1 h-3 w-3 ${trend < 0 ? 'rotate-180' : ''}`}
+              />
               {trend >= 0 ? '+' : ''}
               {trend}%
-              <span className='ml-1 text-muted-foreground font-normal'>from last shift</span>
+              <span className='ml-1 font-normal text-muted-foreground'>
+                from last shift
+              </span>
             </motion.p>
           )}
         </CardContent>
@@ -324,12 +342,12 @@ function QuickActionCard({
         <Card className='group cursor-pointer border-border/50 bg-background/50 backdrop-blur-sm transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5'>
           <CardContent className='flex items-center gap-4 p-4'>
             <div
-              className={`rounded-xl bg-linear-to-br ${color} p-3 text-white shadow-lg shadow-black/5 transition-transform group-hover:rotate-6 group-hover:scale-110`}
+              className={`rounded-xl bg-linear-to-br ${color} p-3 text-white shadow-lg shadow-black/5 transition-transform group-hover:scale-110 group-hover:rotate-6`}
             >
               <Icon className='h-5 w-5' />
             </div>
             <div className='space-y-1'>
-              <p className='text-sm font-semibold leading-none'>{title}</p>
+              <p className='text-sm leading-none font-semibold'>{title}</p>
               <p className='text-[11px] text-muted-foreground transition-colors group-hover:text-primary/80'>
                 {description}
               </p>

@@ -11,6 +11,14 @@ export const ROLE_HIERARCHY: RoleName[] = [
   'super_admin',
 ]
 
+export enum RoleNames {
+  super_admin = 'super_admin',
+  admin = 'admin',
+  cashier = 'cashier',
+  captain = 'captain',
+  kitchen = 'kitchen',
+}
+
 // Role display names
 export const ROLE_DISPLAY_NAMES: Record<RoleName, string> = {
   super_admin: 'Super Administrator',
