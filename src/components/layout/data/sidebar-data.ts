@@ -22,9 +22,8 @@ import {
   UtensilsCrossed,
   Wrench,
 } from 'lucide-react'
-import { type SidebarData } from '../types'
-
 import { useTranslation } from 'react-i18next'
+import { type SidebarData } from '../types'
 
 export function useSidebarData(): SidebarData {
   const { t } = useTranslation('sidebar')
@@ -168,12 +167,12 @@ export function useSidebarData(): SidebarData {
             roles: ['admin', 'super_admin'],
           },
           // Admin only
-          {
-            title: t('usersRoles'),
-            url: '/respos/users',
-            icon: Users,
-            roles: ['admin', 'super_admin'],
-          },
+          // {
+          //   title: t('usersRoles'),
+          //   url: '/respos/users',
+          //   icon: Users,
+          //   roles: ['admin', 'super_admin'],
+          // },
         ],
       },
       {
