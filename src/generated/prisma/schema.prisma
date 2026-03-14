@@ -74,7 +74,6 @@ model customers {
   clerk_user_id   String?
   customer_cards  customer_cards[]
   customer_groups customer_groups?  @relation(fields: [group_id], references: [group_id], onUpdate: NoAction)
-  orders          orders[]
   pos_sales       pos_sales[]
   promotion_usage promotion_usage[]
   refunds         refunds[]
@@ -90,65 +89,10 @@ model inventory {
   max_stock_level Int?      @default(100)
   location        String?   @db.VarChar(100)
   last_restocked  DateTime? @db.Timestamp(6)
-  clerk_user_id   String?   @default(dbgenerated("(auth.jwt() ->> 'sub'::text)"))
+  clerk_user_id   String?   @default(dbgenerated("clerk_user_id()"))
   products        products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([quantity], map: "idx_inventory_quantity", where: raw("(quantity < reorder_level)"))
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model order_items {
-  order_item_id Int      @id @default(autoincrement())
-  order_id      Int
-  product_id    Int
-  quantity      Int
-  unit_price    Decimal  @db.Decimal(10, 2)
-  subtotal      Decimal? @default(dbgenerated("((quantity)::numeric * unit_price)")) @db.Decimal(10, 2)
-  clerk_user_id String?
-  orders        orders   @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: NoAction)
-  products      products @relation(fields: [product_id], references: [product_id], onUpdate: NoAction)
-
-  @@index([order_id], map: "idx_order_items_order")
-  @@index([product_id], map: "idx_order_items_product")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model orders {
-  order_id               Int               @id @default(autoincrement())
-  customer_id            Int
-  order_number           String            @unique @db.VarChar(50)
-  order_date             DateTime?         @default(now()) @db.Timestamp(6)
-  status                 String?           @default("pending") @db.VarChar(30)
-  subtotal               Decimal           @db.Decimal(10, 2)
-  discount_amount        Decimal?          @default(0) @db.Decimal(10, 2)
-  shipping_amount        Decimal?          @default(0) @db.Decimal(10, 2)
-  tax_amount             Decimal?          @default(0) @db.Decimal(10, 2)
-  total_amount           Decimal           @db.Decimal(10, 2)
-  promotion_id           Int?
-  shipping_method_id     Int?
-  shipping_address_line1 String?           @db.VarChar(200)
-  shipping_address_line2 String?           @db.VarChar(200)
-  shipping_city          String?           @db.VarChar(100)
-  shipping_state         String?           @db.VarChar(100)
-  shipping_postal_code   String?           @db.VarChar(20)
-  shipping_country       String?           @default("USA") @db.VarChar(100)
-  notes                  String?
-  payment_status         String?           @default("pending") @db.VarChar(20)
-  clerk_user_id          String?
-  order_items            order_items[]
-  customers              customers         @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
-  promotions             promotions?       @relation(fields: [promotion_id], references: [promotion_id], onUpdate: NoAction)
-  shipping_methods       shipping_methods? @relation(fields: [shipping_method_id], references: [method_id], onUpdate: NoAction)
-  promotion_usage        promotion_usage[]
-  refunds                refunds[]
-  shipments              shipments[]
-
-  @@index([customer_id], map: "idx_orders_customer")
-  @@index([order_date], map: "idx_orders_date")
-  @@index([order_number], map: "idx_orders_number")
-  @@index([status], map: "idx_orders_status")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -223,8 +167,8 @@ model products {
   reorder_level          Decimal?               @db.Decimal
   product_name_embedding Unsupported("vector")?
   clerk_user_id          String?                @default(dbgenerated("clerk_user_id()"))
+  store_id               String?
   inventory              inventory?
-  order_items            order_items[]
   price_list             price_list[]
   categories             categories?            @relation(fields: [category_id], references: [category_id], onUpdate: NoAction)
   suppliers              suppliers?             @relation(fields: [supplier_id], references: [supplier_id], onUpdate: NoAction)
@@ -247,7 +191,6 @@ model promotion_usage {
   order_id      Int?
   clerk_user_id String?
   customers     customers? @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
-  orders        orders?    @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
   promotions    promotions @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
   pos_sales     pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
 }
@@ -269,7 +212,6 @@ model promotions {
   is_active          Boolean?          @default(true)
   created_at         DateTime?         @default(now()) @db.Timestamp(6)
   clerk_user_id      String?
-  orders             orders[]
   pos_sales          pos_sales[]
   promotion_usage    promotion_usage[]
 
@@ -285,7 +227,8 @@ model purchase_order_items {
   product_id       Int
   quantity_ordered Int
   unit_cost        Decimal         @db.Decimal(10, 2)
-  subtotal         Decimal?        @default(dbgenerated("((quantity_ordered)::numeric * unit_cost)")) @db.Decimal(10, 2)
+  clerk_user_id    String?         @default(dbgenerated("clerk_user_id()"))
+  subtotal         Decimal?        @db.Decimal
   purchase_orders  purchase_orders @relation(fields: [po_id], references: [po_id], onDelete: Cascade, onUpdate: NoAction)
   products         products        @relation(fields: [product_id], references: [product_id], onUpdate: NoAction)
 }
@@ -303,7 +246,11 @@ model purchase_orders {
   po_number              Int?
   created_at             DateTime?              @db.Date
   user_id                String?                @default("auth.jwt() ->> 'sub'")
-  clerk_user_id          String?
+  clerk_user_id          String?                @default(dbgenerated("clerk_user_id()"))
+  discounnt_amount       Decimal?               @db.Decimal
+  shipping_amount        Decimal?               @db.Decimal
+  tax_amount             Decimal?               @db.Decimal
+  payment_status         String?
   purchase_order_items   purchase_order_items[]
   suppliers              suppliers              @relation(fields: [supplier_id], references: [supplier_id], onUpdate: NoAction)
 
@@ -322,7 +269,6 @@ model refunds {
   processed_by  Int?
   notes         String?
   clerk_user_id String?
-  orders        orders?    @relation(fields: [order_id], references: [order_id], onUpdate: NoAction)
   customers     customers? @relation(fields: [processed_by], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
   pos_sales     pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
 
@@ -626,7 +572,6 @@ model shipments {
   carrier         String?   @db.VarChar(100)
   status          String?   @default("prepared") @db.VarChar(30)
   notes           String?
-  orders          orders    @relation(fields: [order_id], references: [order_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([order_id], map: "idx_shipments_order")
 }
@@ -640,7 +585,6 @@ model shipping_methods {
   estimated_days_min Int?
   estimated_days_max Int?
   is_active          Boolean?         @default(true)
-  orders             orders[]
   shipping_rates     shipping_rates[]
 }
 

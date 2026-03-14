@@ -184,40 +184,6 @@ exports.Prisma.InventoryScalarFieldEnum = {
   clerk_user_id: 'clerk_user_id'
 };
 
-exports.Prisma.Order_itemsScalarFieldEnum = {
-  order_item_id: 'order_item_id',
-  order_id: 'order_id',
-  product_id: 'product_id',
-  quantity: 'quantity',
-  unit_price: 'unit_price',
-  subtotal: 'subtotal',
-  clerk_user_id: 'clerk_user_id'
-};
-
-exports.Prisma.OrdersScalarFieldEnum = {
-  order_id: 'order_id',
-  customer_id: 'customer_id',
-  order_number: 'order_number',
-  order_date: 'order_date',
-  status: 'status',
-  subtotal: 'subtotal',
-  discount_amount: 'discount_amount',
-  shipping_amount: 'shipping_amount',
-  tax_amount: 'tax_amount',
-  total_amount: 'total_amount',
-  promotion_id: 'promotion_id',
-  shipping_method_id: 'shipping_method_id',
-  shipping_address_line1: 'shipping_address_line1',
-  shipping_address_line2: 'shipping_address_line2',
-  shipping_city: 'shipping_city',
-  shipping_state: 'shipping_state',
-  shipping_postal_code: 'shipping_postal_code',
-  shipping_country: 'shipping_country',
-  notes: 'notes',
-  payment_status: 'payment_status',
-  clerk_user_id: 'clerk_user_id'
-};
-
 exports.Prisma.Payment_typesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -268,7 +234,8 @@ exports.Prisma.ProductsScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   reorder_level: 'reorder_level',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  store_id: 'store_id'
 };
 
 exports.Prisma.Promotion_usageScalarFieldEnum = {
@@ -304,6 +271,7 @@ exports.Prisma.Purchase_order_itemsScalarFieldEnum = {
   product_id: 'product_id',
   quantity_ordered: 'quantity_ordered',
   unit_cost: 'unit_cost',
+  clerk_user_id: 'clerk_user_id',
   subtotal: 'subtotal'
 };
 
@@ -318,7 +286,11 @@ exports.Prisma.Purchase_ordersScalarFieldEnum = {
   po_number: 'po_number',
   created_at: 'created_at',
   user_id: 'user_id',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  discounnt_amount: 'discounnt_amount',
+  shipping_amount: 'shipping_amount',
+  tax_amount: 'tax_amount',
+  payment_status: 'payment_status'
 };
 
 exports.Prisma.RefundsScalarFieldEnum = {
@@ -829,8 +801,6 @@ exports.Prisma.ModelName = {
   customer_groups: 'customer_groups',
   customers: 'customers',
   inventory: 'inventory',
-  order_items: 'order_items',
-  orders: 'orders',
   payment_types: 'payment_types',
   pos_sales: 'pos_sales',
   price_list: 'price_list',

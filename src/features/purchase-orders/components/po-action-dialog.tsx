@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react'
-import { useForm, type SubmitHandler } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { format } from 'date-fns'
-import { toast } from 'sonner'
+import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -30,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Table,
   TableBody,
@@ -39,8 +38,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
+import { Textarea } from '@/components/ui/textarea'
 import { useProducts } from '@/features/products/hooks/use-products'
+import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
 import {
   useCreatePurchaseOrder,
   useUpdatePurchaseOrder,
@@ -51,7 +51,7 @@ import { usePOContext } from './po-provider'
 
 // ─── Schema ───────────────────────────────────────────────
 const poFormSchema = z.object({
-  supplier_id: z.number().min(1, 'Supplier is required'),
+  supplier_id: z.string().min(1, 'Supplier is required'),
   order_date: z.string().min(1, 'Order date is required'),
   expected_delivery_date: z.string().optional(),
   notes: z.string().optional(),
@@ -62,7 +62,7 @@ type POFormValues = z.infer<typeof poFormSchema>
 // ─── Line item type ───────────────────────────────────────
 interface LineItem {
   product_id: number
-  quantity: number
+  quantity_ordered: number
   unit_cost: number
   subtotal: number
 }
@@ -87,21 +87,18 @@ export function POActionDialog() {
   const formDefaults = useMemo<POFormValues>(() => {
     if (isEdit && currentRow && fullPO) {
       return {
-        supplier_id: currentRow.supplier_id ?? 0,
+        supplier_id: String(currentRow.supplier_id ?? 0),
         order_date: currentRow.order_date
           ? format(new Date(currentRow.order_date), 'yyyy-MM-dd')
           : format(new Date(), 'yyyy-MM-dd'),
         expected_delivery_date: currentRow.expected_delivery_date
-          ? format(
-              new Date(currentRow.expected_delivery_date),
-              'yyyy-MM-dd'
-            )
+          ? format(new Date(currentRow.expected_delivery_date), 'yyyy-MM-dd')
           : '',
         notes: currentRow.notes || '',
       }
     }
     return {
-      supplier_id: 0,
+      supplier_id: '0',
       order_date: format(new Date(), 'yyyy-MM-dd'),
       expected_delivery_date: '',
       notes: '',
@@ -119,7 +116,7 @@ export function POActionDialog() {
     if (isEdit && fullPO) {
       return fullPO.purchase_order_items.map((item) => ({
         product_id: item.product_id,
-        quantity: item.quantity,
+        quantity_ordered: item.quantity_ordered,
         unit_cost: item.unit_cost,
         subtotal: item.subtotal,
       }))
@@ -128,9 +125,9 @@ export function POActionDialog() {
   }, [isEdit, fullPO])
 
   // User edits tracked separately; null = no user edits yet
-  const [lineItemOverrides, setLineItemOverrides] = useState<
-    LineItem[] | null
-  >(null)
+  const [lineItemOverrides, setLineItemOverrides] = useState<LineItem[] | null>(
+    null
+  )
 
   // Active line items: user-edited values or computed initial values
   const lineItems = lineItemOverrides ?? initialLineItems
@@ -140,7 +137,7 @@ export function POActionDialog() {
     const current = lineItemOverrides ?? initialLineItems
     setLineItemOverrides([
       ...current,
-      { product_id: 0, quantity: 1, unit_cost: 0, subtotal: 0 },
+      { product_id: 0, quantity_ordered: 1, unit_cost: 0, subtotal: 0 },
     ])
   }
 
@@ -159,9 +156,9 @@ export function POActionDialog() {
     updated[index] = { ...updated[index], [field]: value }
 
     // Auto-calc subtotal
-    if (field === 'quantity' || field === 'unit_cost') {
+    if (field === 'quantity_ordered' || field === 'unit_cost') {
       updated[index].subtotal =
-        updated[index].quantity * updated[index].unit_cost
+        updated[index].quantity_ordered * updated[index].unit_cost
     }
 
     // When product changes, try to use cost_price
@@ -170,17 +167,14 @@ export function POActionDialog() {
       if (product?.cost_price) {
         updated[index].unit_cost = product.cost_price
         updated[index].subtotal =
-          updated[index].quantity * product.cost_price
+          updated[index].quantity_ordered * product.cost_price
       }
     }
 
     setLineItemOverrides(updated)
   }
 
-  const totalAmount = lineItems.reduce(
-    (sum, item) => sum + item.subtotal,
-    0
-  )
+  const totalAmount = lineItems.reduce((sum, item) => sum + item.subtotal, 0)
 
   // ─── Submit ─────────────────────────────────────────────
   const onSubmit: SubmitHandler<POFormValues> = async (values) => {
@@ -192,7 +186,7 @@ export function POActionDialog() {
 
     const items: PurchaseOrderItemInput[] = validItems.map((item) => ({
       product_id: item.product_id,
-      quantity: item.quantity,
+      quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
       subtotal: item.subtotal,
     }))
@@ -201,10 +195,9 @@ export function POActionDialog() {
       if (isCreate) {
         await createMutation.mutateAsync({
           order: {
-            supplier_id: values.supplier_id,
+            supplier_id: +values.supplier_id,
             order_date: values.order_date,
-            expected_delivery_date:
-              values.expected_delivery_date || null,
+            expected_delivery_date: values.expected_delivery_date || null,
             notes: values.notes || undefined,
           },
           items,
@@ -214,10 +207,9 @@ export function POActionDialog() {
         await updateMutation.mutateAsync({
           id: currentRow.po_id,
           order: {
-            supplier_id: values.supplier_id,
+            supplier_id: +values.supplier_id,
             order_date: values.order_date,
-            expected_delivery_date:
-              values.expected_delivery_date || null,
+            expected_delivery_date: values.expected_delivery_date || null,
             notes: values.notes || undefined,
           },
           items,
@@ -229,8 +221,7 @@ export function POActionDialog() {
     } catch (error: unknown) {
       toast.error('Error', {
         description:
-          (error as Error)?.message ||
-          'Failed to save purchase order.',
+          (error as Error)?.message || 'Failed to save purchase order.',
       })
     }
   }
@@ -252,10 +243,7 @@ export function POActionDialog() {
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6'
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
             {/* Header fields */}
             <div className='grid gap-4 sm:grid-cols-2'>
               <FormField
@@ -370,11 +358,7 @@ export function POActionDialog() {
                             <Select
                               value={String(item.product_id)}
                               onValueChange={(v) =>
-                                updateLineItem(
-                                  index,
-                                  'product_id',
-                                  Number(v)
-                                )
+                                updateLineItem(index, 'product_id', Number(v))
                               }
                             >
                               <SelectTrigger className='h-9'>
@@ -397,11 +381,11 @@ export function POActionDialog() {
                               type='number'
                               min={1}
                               className='h-9'
-                              value={item.quantity}
+                              value={item.quantity_ordered}
                               onChange={(e) =>
                                 updateLineItem(
                                   index,
-                                  'quantity',
+                                  'quantity_ordered',
                                   Number(e.target.value)
                                 )
                               }
@@ -451,9 +435,7 @@ export function POActionDialog() {
               {/* Total */}
               <div className='flex justify-end'>
                 <div className='text-right'>
-                  <span className='text-sm text-muted-foreground'>
-                    Total:{' '}
-                  </span>
+                  <span className='text-sm text-muted-foreground'>Total: </span>
                   <span className='text-lg font-semibold'>
                     ${totalAmount.toFixed(2)}
                   </span>

@@ -6,6 +6,7 @@ export interface PurchaseOrder {
   po_id: number
   supplier_id: number | null
   order_date: string
+  quantity_ordered: number
   expected_delivery_date: string | null
   status: 'pending' | 'received' | 'partial' | 'cancelled'
   notes: string | null
@@ -22,7 +23,7 @@ export interface PurchaseOrderItem {
   po_item_id: number
   po_id: number
   product_id: number
-  quantity: number
+  quantity_ordered: number
   unit_cost: number
   subtotal: number
   received_quantity: number
@@ -40,7 +41,7 @@ export interface PurchaseOrderInput {
 
 export interface PurchaseOrderItemInput {
   product_id: number
-  quantity: number
+  quantity_ordered: number
   unit_cost: number
   subtotal: number
 }

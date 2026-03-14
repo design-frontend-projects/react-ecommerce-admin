@@ -41,18 +41,6 @@ export type customers = $Result.DefaultSelection<Prisma.$customersPayload>
  */
 export type inventory = $Result.DefaultSelection<Prisma.$inventoryPayload>
 /**
- * Model order_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type order_items = $Result.DefaultSelection<Prisma.$order_itemsPayload>
-/**
- * Model orders
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type orders = $Result.DefaultSelection<Prisma.$ordersPayload>
-/**
  * Model payment_types
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
@@ -604,26 +592,6 @@ export class PrismaClient<
     * ```
     */
   get inventory(): Prisma.inventoryDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.order_items`: Exposes CRUD operations for the **order_items** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Order_items
-    * const order_items = await prisma.order_items.findMany()
-    * ```
-    */
-  get order_items(): Prisma.order_itemsDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.orders`: Exposes CRUD operations for the **orders** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Orders
-    * const orders = await prisma.orders.findMany()
-    * ```
-    */
-  get orders(): Prisma.ordersDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.payment_types`: Exposes CRUD operations for the **payment_types** model.
@@ -1523,8 +1491,6 @@ export namespace Prisma {
     customer_groups: 'customer_groups',
     customers: 'customers',
     inventory: 'inventory',
-    order_items: 'order_items',
-    orders: 'orders',
     payment_types: 'payment_types',
     pos_sales: 'pos_sales',
     price_list: 'price_list',
@@ -1586,7 +1552,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "order_items" | "orders" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_employees" | "res_roles"
+      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_employees" | "res_roles"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1957,154 +1923,6 @@ export namespace Prisma {
           count: {
             args: Prisma.inventoryCountArgs<ExtArgs>
             result: $Utils.Optional<InventoryCountAggregateOutputType> | number
-          }
-        }
-      }
-      order_items: {
-        payload: Prisma.$order_itemsPayload<ExtArgs>
-        fields: Prisma.order_itemsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.order_itemsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.order_itemsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          findFirst: {
-            args: Prisma.order_itemsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.order_itemsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          findMany: {
-            args: Prisma.order_itemsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>[]
-          }
-          create: {
-            args: Prisma.order_itemsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          createMany: {
-            args: Prisma.order_itemsCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.order_itemsCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>[]
-          }
-          delete: {
-            args: Prisma.order_itemsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          update: {
-            args: Prisma.order_itemsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          deleteMany: {
-            args: Prisma.order_itemsDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.order_itemsUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.order_itemsUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>[]
-          }
-          upsert: {
-            args: Prisma.order_itemsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$order_itemsPayload>
-          }
-          aggregate: {
-            args: Prisma.Order_itemsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateOrder_items>
-          }
-          groupBy: {
-            args: Prisma.order_itemsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Order_itemsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.order_itemsCountArgs<ExtArgs>
-            result: $Utils.Optional<Order_itemsCountAggregateOutputType> | number
-          }
-        }
-      }
-      orders: {
-        payload: Prisma.$ordersPayload<ExtArgs>
-        fields: Prisma.ordersFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ordersFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ordersFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          findFirst: {
-            args: Prisma.ordersFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ordersFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          findMany: {
-            args: Prisma.ordersFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>[]
-          }
-          create: {
-            args: Prisma.ordersCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          createMany: {
-            args: Prisma.ordersCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ordersCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>[]
-          }
-          delete: {
-            args: Prisma.ordersDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          update: {
-            args: Prisma.ordersUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          deleteMany: {
-            args: Prisma.ordersDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ordersUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ordersUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>[]
-          }
-          upsert: {
-            args: Prisma.ordersUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ordersPayload>
-          }
-          aggregate: {
-            args: Prisma.OrdersAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateOrders>
-          }
-          groupBy: {
-            args: Prisma.ordersGroupByArgs<ExtArgs>
-            result: $Utils.Optional<OrdersGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ordersCountArgs<ExtArgs>
-            result: $Utils.Optional<OrdersCountAggregateOutputType> | number
           }
         }
       }
@@ -5625,8 +5443,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsOmit
     customers?: customersOmit
     inventory?: inventoryOmit
-    order_items?: order_itemsOmit
-    orders?: ordersOmit
     payment_types?: payment_typesOmit
     pos_sales?: pos_salesOmit
     price_list?: price_listOmit
@@ -5856,7 +5672,6 @@ export namespace Prisma {
 
   export type CustomersCountOutputType = {
     customer_cards: number
-    orders: number
     pos_sales: number
     promotion_usage: number
     refunds: number
@@ -5864,7 +5679,6 @@ export namespace Prisma {
 
   export type CustomersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer_cards?: boolean | CustomersCountOutputTypeCountCustomer_cardsArgs
-    orders?: boolean | CustomersCountOutputTypeCountOrdersArgs
     pos_sales?: boolean | CustomersCountOutputTypeCountPos_salesArgs
     promotion_usage?: boolean | CustomersCountOutputTypeCountPromotion_usageArgs
     refunds?: boolean | CustomersCountOutputTypeCountRefundsArgs
@@ -5891,13 +5705,6 @@ export namespace Prisma {
   /**
    * CustomersCountOutputType without action
    */
-  export type CustomersCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ordersWhereInput
-  }
-
-  /**
-   * CustomersCountOutputType without action
-   */
   export type CustomersCountOutputTypeCountPos_salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: pos_salesWhereInput
   }
@@ -5914,64 +5721,6 @@ export namespace Prisma {
    */
   export type CustomersCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: refundsWhereInput
-  }
-
-
-  /**
-   * Count Type OrdersCountOutputType
-   */
-
-  export type OrdersCountOutputType = {
-    order_items: number
-    promotion_usage: number
-    refunds: number
-    shipments: number
-  }
-
-  export type OrdersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order_items?: boolean | OrdersCountOutputTypeCountOrder_itemsArgs
-    promotion_usage?: boolean | OrdersCountOutputTypeCountPromotion_usageArgs
-    refunds?: boolean | OrdersCountOutputTypeCountRefundsArgs
-    shipments?: boolean | OrdersCountOutputTypeCountShipmentsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the OrdersCountOutputType
-     */
-    select?: OrdersCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeCountOrder_itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: order_itemsWhereInput
-  }
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeCountPromotion_usageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: promotion_usageWhereInput
-  }
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: refundsWhereInput
-  }
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeCountShipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: shipmentsWhereInput
   }
 
 
@@ -6029,7 +5778,6 @@ export namespace Prisma {
    */
 
   export type ProductsCountOutputType = {
-    order_items: number
     price_list: number
     purchase_order_items: number
     sale_items: number
@@ -6037,7 +5785,6 @@ export namespace Prisma {
   }
 
   export type ProductsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order_items?: boolean | ProductsCountOutputTypeCountOrder_itemsArgs
     price_list?: boolean | ProductsCountOutputTypeCountPrice_listArgs
     purchase_order_items?: boolean | ProductsCountOutputTypeCountPurchase_order_itemsArgs
     sale_items?: boolean | ProductsCountOutputTypeCountSale_itemsArgs
@@ -6053,13 +5800,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProductsCountOutputType
      */
     select?: ProductsCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProductsCountOutputType without action
-   */
-  export type ProductsCountOutputTypeCountOrder_itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: order_itemsWhereInput
   }
 
   /**
@@ -6096,13 +5836,11 @@ export namespace Prisma {
    */
 
   export type PromotionsCountOutputType = {
-    orders: number
     pos_sales: number
     promotion_usage: number
   }
 
   export type PromotionsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | PromotionsCountOutputTypeCountOrdersArgs
     pos_sales?: boolean | PromotionsCountOutputTypeCountPos_salesArgs
     promotion_usage?: boolean | PromotionsCountOutputTypeCountPromotion_usageArgs
   }
@@ -6116,13 +5854,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the PromotionsCountOutputType
      */
     select?: PromotionsCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * PromotionsCountOutputType without action
-   */
-  export type PromotionsCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ordersWhereInput
   }
 
   /**
@@ -6429,12 +6160,10 @@ export namespace Prisma {
    */
 
   export type Shipping_methodsCountOutputType = {
-    orders: number
     shipping_rates: number
   }
 
   export type Shipping_methodsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | Shipping_methodsCountOutputTypeCountOrdersArgs
     shipping_rates?: boolean | Shipping_methodsCountOutputTypeCountShipping_ratesArgs
   }
 
@@ -6447,13 +6176,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the Shipping_methodsCountOutputType
      */
     select?: Shipping_methodsCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * Shipping_methodsCountOutputType without action
-   */
-  export type Shipping_methodsCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ordersWhereInput
   }
 
   /**
@@ -10757,7 +10479,6 @@ export namespace Prisma {
     clerk_user_id?: boolean
     customer_cards?: boolean | customers$customer_cardsArgs<ExtArgs>
     customer_groups?: boolean | customers$customer_groupsArgs<ExtArgs>
-    orders?: boolean | customers$ordersArgs<ExtArgs>
     pos_sales?: boolean | customers$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | customers$promotion_usageArgs<ExtArgs>
     refunds?: boolean | customers$refundsArgs<ExtArgs>
@@ -10833,7 +10554,6 @@ export namespace Prisma {
   export type customersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer_cards?: boolean | customers$customer_cardsArgs<ExtArgs>
     customer_groups?: boolean | customers$customer_groupsArgs<ExtArgs>
-    orders?: boolean | customers$ordersArgs<ExtArgs>
     pos_sales?: boolean | customers$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | customers$promotion_usageArgs<ExtArgs>
     refunds?: boolean | customers$refundsArgs<ExtArgs>
@@ -10851,7 +10571,6 @@ export namespace Prisma {
     objects: {
       customer_cards: Prisma.$customer_cardsPayload<ExtArgs>[]
       customer_groups: Prisma.$customer_groupsPayload<ExtArgs> | null
-      orders: Prisma.$ordersPayload<ExtArgs>[]
       pos_sales: Prisma.$pos_salesPayload<ExtArgs>[]
       promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
       refunds: Prisma.$refundsPayload<ExtArgs>[]
@@ -11271,7 +10990,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer_cards<T extends customers$customer_cardsArgs<ExtArgs> = {}>(args?: Subset<T, customers$customer_cardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$customer_cardsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customer_groups<T extends customers$customer_groupsArgs<ExtArgs> = {}>(args?: Subset<T, customers$customer_groupsArgs<ExtArgs>>): Prisma__customer_groupsClient<$Result.GetResult<Prisma.$customer_groupsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    orders<T extends customers$ordersArgs<ExtArgs> = {}>(args?: Subset<T, customers$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pos_sales<T extends customers$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, customers$pos_salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotion_usage<T extends customers$promotion_usageArgs<ExtArgs> = {}>(args?: Subset<T, customers$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refunds<T extends customers$refundsArgs<ExtArgs> = {}>(args?: Subset<T, customers$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11763,30 +11481,6 @@ export namespace Prisma {
      */
     include?: customer_groupsInclude<ExtArgs> | null
     where?: customer_groupsWhereInput
-  }
-
-  /**
-   * customers.orders
-   */
-  export type customers$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    where?: ordersWhereInput
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    cursor?: ordersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
   }
 
   /**
@@ -13029,2662 +12723,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: inventoryInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model order_items
-   */
-
-  export type AggregateOrder_items = {
-    _count: Order_itemsCountAggregateOutputType | null
-    _avg: Order_itemsAvgAggregateOutputType | null
-    _sum: Order_itemsSumAggregateOutputType | null
-    _min: Order_itemsMinAggregateOutputType | null
-    _max: Order_itemsMaxAggregateOutputType | null
-  }
-
-  export type Order_itemsAvgAggregateOutputType = {
-    order_item_id: number | null
-    order_id: number | null
-    product_id: number | null
-    quantity: number | null
-    unit_price: Decimal | null
-    subtotal: Decimal | null
-  }
-
-  export type Order_itemsSumAggregateOutputType = {
-    order_item_id: number | null
-    order_id: number | null
-    product_id: number | null
-    quantity: number | null
-    unit_price: Decimal | null
-    subtotal: Decimal | null
-  }
-
-  export type Order_itemsMinAggregateOutputType = {
-    order_item_id: number | null
-    order_id: number | null
-    product_id: number | null
-    quantity: number | null
-    unit_price: Decimal | null
-    subtotal: Decimal | null
-    clerk_user_id: string | null
-  }
-
-  export type Order_itemsMaxAggregateOutputType = {
-    order_item_id: number | null
-    order_id: number | null
-    product_id: number | null
-    quantity: number | null
-    unit_price: Decimal | null
-    subtotal: Decimal | null
-    clerk_user_id: string | null
-  }
-
-  export type Order_itemsCountAggregateOutputType = {
-    order_item_id: number
-    order_id: number
-    product_id: number
-    quantity: number
-    unit_price: number
-    subtotal: number
-    clerk_user_id: number
-    _all: number
-  }
-
-
-  export type Order_itemsAvgAggregateInputType = {
-    order_item_id?: true
-    order_id?: true
-    product_id?: true
-    quantity?: true
-    unit_price?: true
-    subtotal?: true
-  }
-
-  export type Order_itemsSumAggregateInputType = {
-    order_item_id?: true
-    order_id?: true
-    product_id?: true
-    quantity?: true
-    unit_price?: true
-    subtotal?: true
-  }
-
-  export type Order_itemsMinAggregateInputType = {
-    order_item_id?: true
-    order_id?: true
-    product_id?: true
-    quantity?: true
-    unit_price?: true
-    subtotal?: true
-    clerk_user_id?: true
-  }
-
-  export type Order_itemsMaxAggregateInputType = {
-    order_item_id?: true
-    order_id?: true
-    product_id?: true
-    quantity?: true
-    unit_price?: true
-    subtotal?: true
-    clerk_user_id?: true
-  }
-
-  export type Order_itemsCountAggregateInputType = {
-    order_item_id?: true
-    order_id?: true
-    product_id?: true
-    quantity?: true
-    unit_price?: true
-    subtotal?: true
-    clerk_user_id?: true
-    _all?: true
-  }
-
-  export type Order_itemsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which order_items to aggregate.
-     */
-    where?: order_itemsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of order_items to fetch.
-     */
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: order_itemsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` order_items from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` order_items.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned order_items
-    **/
-    _count?: true | Order_itemsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Order_itemsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Order_itemsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Order_itemsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Order_itemsMaxAggregateInputType
-  }
-
-  export type GetOrder_itemsAggregateType<T extends Order_itemsAggregateArgs> = {
-        [P in keyof T & keyof AggregateOrder_items]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateOrder_items[P]>
-      : GetScalarType<T[P], AggregateOrder_items[P]>
-  }
-
-
-
-
-  export type order_itemsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: order_itemsWhereInput
-    orderBy?: order_itemsOrderByWithAggregationInput | order_itemsOrderByWithAggregationInput[]
-    by: Order_itemsScalarFieldEnum[] | Order_itemsScalarFieldEnum
-    having?: order_itemsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Order_itemsCountAggregateInputType | true
-    _avg?: Order_itemsAvgAggregateInputType
-    _sum?: Order_itemsSumAggregateInputType
-    _min?: Order_itemsMinAggregateInputType
-    _max?: Order_itemsMaxAggregateInputType
-  }
-
-  export type Order_itemsGroupByOutputType = {
-    order_item_id: number
-    order_id: number
-    product_id: number
-    quantity: number
-    unit_price: Decimal
-    subtotal: Decimal | null
-    clerk_user_id: string | null
-    _count: Order_itemsCountAggregateOutputType | null
-    _avg: Order_itemsAvgAggregateOutputType | null
-    _sum: Order_itemsSumAggregateOutputType | null
-    _min: Order_itemsMinAggregateOutputType | null
-    _max: Order_itemsMaxAggregateOutputType | null
-  }
-
-  type GetOrder_itemsGroupByPayload<T extends order_itemsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Order_itemsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Order_itemsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Order_itemsGroupByOutputType[P]>
-            : GetScalarType<T[P], Order_itemsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type order_itemsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_item_id?: boolean
-    order_id?: boolean
-    product_id?: boolean
-    quantity?: boolean
-    unit_price?: boolean
-    subtotal?: boolean
-    clerk_user_id?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order_items"]>
-
-  export type order_itemsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_item_id?: boolean
-    order_id?: boolean
-    product_id?: boolean
-    quantity?: boolean
-    unit_price?: boolean
-    subtotal?: boolean
-    clerk_user_id?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order_items"]>
-
-  export type order_itemsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_item_id?: boolean
-    order_id?: boolean
-    product_id?: boolean
-    quantity?: boolean
-    unit_price?: boolean
-    subtotal?: boolean
-    clerk_user_id?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order_items"]>
-
-  export type order_itemsSelectScalar = {
-    order_item_id?: boolean
-    order_id?: boolean
-    product_id?: boolean
-    quantity?: boolean
-    unit_price?: boolean
-    subtotal?: boolean
-    clerk_user_id?: boolean
-  }
-
-  export type order_itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"order_item_id" | "order_id" | "product_id" | "quantity" | "unit_price" | "subtotal" | "clerk_user_id", ExtArgs["result"]["order_items"]>
-  export type order_itemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }
-  export type order_itemsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }
-  export type order_itemsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-    products?: boolean | productsDefaultArgs<ExtArgs>
-  }
-
-  export type $order_itemsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "order_items"
-    objects: {
-      orders: Prisma.$ordersPayload<ExtArgs>
-      products: Prisma.$productsPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      order_item_id: number
-      order_id: number
-      product_id: number
-      quantity: number
-      unit_price: Prisma.Decimal
-      subtotal: Prisma.Decimal | null
-      clerk_user_id: string | null
-    }, ExtArgs["result"]["order_items"]>
-    composites: {}
-  }
-
-  type order_itemsGetPayload<S extends boolean | null | undefined | order_itemsDefaultArgs> = $Result.GetResult<Prisma.$order_itemsPayload, S>
-
-  type order_itemsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<order_itemsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Order_itemsCountAggregateInputType | true
-    }
-
-  export interface order_itemsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['order_items'], meta: { name: 'order_items' } }
-    /**
-     * Find zero or one Order_items that matches the filter.
-     * @param {order_itemsFindUniqueArgs} args - Arguments to find a Order_items
-     * @example
-     * // Get one Order_items
-     * const order_items = await prisma.order_items.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends order_itemsFindUniqueArgs>(args: SelectSubset<T, order_itemsFindUniqueArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Order_items that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {order_itemsFindUniqueOrThrowArgs} args - Arguments to find a Order_items
-     * @example
-     * // Get one Order_items
-     * const order_items = await prisma.order_items.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends order_itemsFindUniqueOrThrowArgs>(args: SelectSubset<T, order_itemsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Order_items that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsFindFirstArgs} args - Arguments to find a Order_items
-     * @example
-     * // Get one Order_items
-     * const order_items = await prisma.order_items.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends order_itemsFindFirstArgs>(args?: SelectSubset<T, order_itemsFindFirstArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Order_items that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsFindFirstOrThrowArgs} args - Arguments to find a Order_items
-     * @example
-     * // Get one Order_items
-     * const order_items = await prisma.order_items.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends order_itemsFindFirstOrThrowArgs>(args?: SelectSubset<T, order_itemsFindFirstOrThrowArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Order_items that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Order_items
-     * const order_items = await prisma.order_items.findMany()
-     * 
-     * // Get first 10 Order_items
-     * const order_items = await prisma.order_items.findMany({ take: 10 })
-     * 
-     * // Only select the `order_item_id`
-     * const order_itemsWithOrder_item_idOnly = await prisma.order_items.findMany({ select: { order_item_id: true } })
-     * 
-     */
-    findMany<T extends order_itemsFindManyArgs>(args?: SelectSubset<T, order_itemsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Order_items.
-     * @param {order_itemsCreateArgs} args - Arguments to create a Order_items.
-     * @example
-     * // Create one Order_items
-     * const Order_items = await prisma.order_items.create({
-     *   data: {
-     *     // ... data to create a Order_items
-     *   }
-     * })
-     * 
-     */
-    create<T extends order_itemsCreateArgs>(args: SelectSubset<T, order_itemsCreateArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Order_items.
-     * @param {order_itemsCreateManyArgs} args - Arguments to create many Order_items.
-     * @example
-     * // Create many Order_items
-     * const order_items = await prisma.order_items.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends order_itemsCreateManyArgs>(args?: SelectSubset<T, order_itemsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Order_items and returns the data saved in the database.
-     * @param {order_itemsCreateManyAndReturnArgs} args - Arguments to create many Order_items.
-     * @example
-     * // Create many Order_items
-     * const order_items = await prisma.order_items.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Order_items and only return the `order_item_id`
-     * const order_itemsWithOrder_item_idOnly = await prisma.order_items.createManyAndReturn({
-     *   select: { order_item_id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends order_itemsCreateManyAndReturnArgs>(args?: SelectSubset<T, order_itemsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Order_items.
-     * @param {order_itemsDeleteArgs} args - Arguments to delete one Order_items.
-     * @example
-     * // Delete one Order_items
-     * const Order_items = await prisma.order_items.delete({
-     *   where: {
-     *     // ... filter to delete one Order_items
-     *   }
-     * })
-     * 
-     */
-    delete<T extends order_itemsDeleteArgs>(args: SelectSubset<T, order_itemsDeleteArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Order_items.
-     * @param {order_itemsUpdateArgs} args - Arguments to update one Order_items.
-     * @example
-     * // Update one Order_items
-     * const order_items = await prisma.order_items.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends order_itemsUpdateArgs>(args: SelectSubset<T, order_itemsUpdateArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Order_items.
-     * @param {order_itemsDeleteManyArgs} args - Arguments to filter Order_items to delete.
-     * @example
-     * // Delete a few Order_items
-     * const { count } = await prisma.order_items.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends order_itemsDeleteManyArgs>(args?: SelectSubset<T, order_itemsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Order_items.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Order_items
-     * const order_items = await prisma.order_items.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends order_itemsUpdateManyArgs>(args: SelectSubset<T, order_itemsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Order_items and returns the data updated in the database.
-     * @param {order_itemsUpdateManyAndReturnArgs} args - Arguments to update many Order_items.
-     * @example
-     * // Update many Order_items
-     * const order_items = await prisma.order_items.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Order_items and only return the `order_item_id`
-     * const order_itemsWithOrder_item_idOnly = await prisma.order_items.updateManyAndReturn({
-     *   select: { order_item_id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends order_itemsUpdateManyAndReturnArgs>(args: SelectSubset<T, order_itemsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Order_items.
-     * @param {order_itemsUpsertArgs} args - Arguments to update or create a Order_items.
-     * @example
-     * // Update or create a Order_items
-     * const order_items = await prisma.order_items.upsert({
-     *   create: {
-     *     // ... data to create a Order_items
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Order_items we want to update
-     *   }
-     * })
-     */
-    upsert<T extends order_itemsUpsertArgs>(args: SelectSubset<T, order_itemsUpsertArgs<ExtArgs>>): Prisma__order_itemsClient<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Order_items.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsCountArgs} args - Arguments to filter Order_items to count.
-     * @example
-     * // Count the number of Order_items
-     * const count = await prisma.order_items.count({
-     *   where: {
-     *     // ... the filter for the Order_items we want to count
-     *   }
-     * })
-    **/
-    count<T extends order_itemsCountArgs>(
-      args?: Subset<T, order_itemsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Order_itemsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Order_items.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Order_itemsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Order_itemsAggregateArgs>(args: Subset<T, Order_itemsAggregateArgs>): Prisma.PrismaPromise<GetOrder_itemsAggregateType<T>>
-
-    /**
-     * Group by Order_items.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {order_itemsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends order_itemsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: order_itemsGroupByArgs['orderBy'] }
-        : { orderBy?: order_itemsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, order_itemsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrder_itemsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the order_items model
-   */
-  readonly fields: order_itemsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for order_items.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__order_itemsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    orders<T extends ordersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ordersDefaultArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    products<T extends productsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, productsDefaultArgs<ExtArgs>>): Prisma__productsClient<$Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the order_items model
-   */
-  interface order_itemsFieldRefs {
-    readonly order_item_id: FieldRef<"order_items", 'Int'>
-    readonly order_id: FieldRef<"order_items", 'Int'>
-    readonly product_id: FieldRef<"order_items", 'Int'>
-    readonly quantity: FieldRef<"order_items", 'Int'>
-    readonly unit_price: FieldRef<"order_items", 'Decimal'>
-    readonly subtotal: FieldRef<"order_items", 'Decimal'>
-    readonly clerk_user_id: FieldRef<"order_items", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * order_items findUnique
-   */
-  export type order_itemsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter, which order_items to fetch.
-     */
-    where: order_itemsWhereUniqueInput
-  }
-
-  /**
-   * order_items findUniqueOrThrow
-   */
-  export type order_itemsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter, which order_items to fetch.
-     */
-    where: order_itemsWhereUniqueInput
-  }
-
-  /**
-   * order_items findFirst
-   */
-  export type order_itemsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter, which order_items to fetch.
-     */
-    where?: order_itemsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of order_items to fetch.
-     */
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for order_items.
-     */
-    cursor?: order_itemsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` order_items from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` order_items.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of order_items.
-     */
-    distinct?: Order_itemsScalarFieldEnum | Order_itemsScalarFieldEnum[]
-  }
-
-  /**
-   * order_items findFirstOrThrow
-   */
-  export type order_itemsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter, which order_items to fetch.
-     */
-    where?: order_itemsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of order_items to fetch.
-     */
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for order_items.
-     */
-    cursor?: order_itemsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` order_items from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` order_items.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of order_items.
-     */
-    distinct?: Order_itemsScalarFieldEnum | Order_itemsScalarFieldEnum[]
-  }
-
-  /**
-   * order_items findMany
-   */
-  export type order_itemsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter, which order_items to fetch.
-     */
-    where?: order_itemsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of order_items to fetch.
-     */
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing order_items.
-     */
-    cursor?: order_itemsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` order_items from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` order_items.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of order_items.
-     */
-    distinct?: Order_itemsScalarFieldEnum | Order_itemsScalarFieldEnum[]
-  }
-
-  /**
-   * order_items create
-   */
-  export type order_itemsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a order_items.
-     */
-    data: XOR<order_itemsCreateInput, order_itemsUncheckedCreateInput>
-  }
-
-  /**
-   * order_items createMany
-   */
-  export type order_itemsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many order_items.
-     */
-    data: order_itemsCreateManyInput | order_itemsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * order_items createManyAndReturn
-   */
-  export type order_itemsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * The data used to create many order_items.
-     */
-    data: order_itemsCreateManyInput | order_itemsCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * order_items update
-   */
-  export type order_itemsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a order_items.
-     */
-    data: XOR<order_itemsUpdateInput, order_itemsUncheckedUpdateInput>
-    /**
-     * Choose, which order_items to update.
-     */
-    where: order_itemsWhereUniqueInput
-  }
-
-  /**
-   * order_items updateMany
-   */
-  export type order_itemsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update order_items.
-     */
-    data: XOR<order_itemsUpdateManyMutationInput, order_itemsUncheckedUpdateManyInput>
-    /**
-     * Filter which order_items to update
-     */
-    where?: order_itemsWhereInput
-    /**
-     * Limit how many order_items to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * order_items updateManyAndReturn
-   */
-  export type order_itemsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * The data used to update order_items.
-     */
-    data: XOR<order_itemsUpdateManyMutationInput, order_itemsUncheckedUpdateManyInput>
-    /**
-     * Filter which order_items to update
-     */
-    where?: order_itemsWhereInput
-    /**
-     * Limit how many order_items to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * order_items upsert
-   */
-  export type order_itemsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the order_items to update in case it exists.
-     */
-    where: order_itemsWhereUniqueInput
-    /**
-     * In case the order_items found by the `where` argument doesn't exist, create a new order_items with this data.
-     */
-    create: XOR<order_itemsCreateInput, order_itemsUncheckedCreateInput>
-    /**
-     * In case the order_items was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<order_itemsUpdateInput, order_itemsUncheckedUpdateInput>
-  }
-
-  /**
-   * order_items delete
-   */
-  export type order_itemsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    /**
-     * Filter which order_items to delete.
-     */
-    where: order_itemsWhereUniqueInput
-  }
-
-  /**
-   * order_items deleteMany
-   */
-  export type order_itemsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which order_items to delete
-     */
-    where?: order_itemsWhereInput
-    /**
-     * Limit how many order_items to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * order_items without action
-   */
-  export type order_itemsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model orders
-   */
-
-  export type AggregateOrders = {
-    _count: OrdersCountAggregateOutputType | null
-    _avg: OrdersAvgAggregateOutputType | null
-    _sum: OrdersSumAggregateOutputType | null
-    _min: OrdersMinAggregateOutputType | null
-    _max: OrdersMaxAggregateOutputType | null
-  }
-
-  export type OrdersAvgAggregateOutputType = {
-    order_id: number | null
-    customer_id: number | null
-    subtotal: Decimal | null
-    discount_amount: Decimal | null
-    shipping_amount: Decimal | null
-    tax_amount: Decimal | null
-    total_amount: Decimal | null
-    promotion_id: number | null
-    shipping_method_id: number | null
-  }
-
-  export type OrdersSumAggregateOutputType = {
-    order_id: number | null
-    customer_id: number | null
-    subtotal: Decimal | null
-    discount_amount: Decimal | null
-    shipping_amount: Decimal | null
-    tax_amount: Decimal | null
-    total_amount: Decimal | null
-    promotion_id: number | null
-    shipping_method_id: number | null
-  }
-
-  export type OrdersMinAggregateOutputType = {
-    order_id: number | null
-    customer_id: number | null
-    order_number: string | null
-    order_date: Date | null
-    status: string | null
-    subtotal: Decimal | null
-    discount_amount: Decimal | null
-    shipping_amount: Decimal | null
-    tax_amount: Decimal | null
-    total_amount: Decimal | null
-    promotion_id: number | null
-    shipping_method_id: number | null
-    shipping_address_line1: string | null
-    shipping_address_line2: string | null
-    shipping_city: string | null
-    shipping_state: string | null
-    shipping_postal_code: string | null
-    shipping_country: string | null
-    notes: string | null
-    payment_status: string | null
-    clerk_user_id: string | null
-  }
-
-  export type OrdersMaxAggregateOutputType = {
-    order_id: number | null
-    customer_id: number | null
-    order_number: string | null
-    order_date: Date | null
-    status: string | null
-    subtotal: Decimal | null
-    discount_amount: Decimal | null
-    shipping_amount: Decimal | null
-    tax_amount: Decimal | null
-    total_amount: Decimal | null
-    promotion_id: number | null
-    shipping_method_id: number | null
-    shipping_address_line1: string | null
-    shipping_address_line2: string | null
-    shipping_city: string | null
-    shipping_state: string | null
-    shipping_postal_code: string | null
-    shipping_country: string | null
-    notes: string | null
-    payment_status: string | null
-    clerk_user_id: string | null
-  }
-
-  export type OrdersCountAggregateOutputType = {
-    order_id: number
-    customer_id: number
-    order_number: number
-    order_date: number
-    status: number
-    subtotal: number
-    discount_amount: number
-    shipping_amount: number
-    tax_amount: number
-    total_amount: number
-    promotion_id: number
-    shipping_method_id: number
-    shipping_address_line1: number
-    shipping_address_line2: number
-    shipping_city: number
-    shipping_state: number
-    shipping_postal_code: number
-    shipping_country: number
-    notes: number
-    payment_status: number
-    clerk_user_id: number
-    _all: number
-  }
-
-
-  export type OrdersAvgAggregateInputType = {
-    order_id?: true
-    customer_id?: true
-    subtotal?: true
-    discount_amount?: true
-    shipping_amount?: true
-    tax_amount?: true
-    total_amount?: true
-    promotion_id?: true
-    shipping_method_id?: true
-  }
-
-  export type OrdersSumAggregateInputType = {
-    order_id?: true
-    customer_id?: true
-    subtotal?: true
-    discount_amount?: true
-    shipping_amount?: true
-    tax_amount?: true
-    total_amount?: true
-    promotion_id?: true
-    shipping_method_id?: true
-  }
-
-  export type OrdersMinAggregateInputType = {
-    order_id?: true
-    customer_id?: true
-    order_number?: true
-    order_date?: true
-    status?: true
-    subtotal?: true
-    discount_amount?: true
-    shipping_amount?: true
-    tax_amount?: true
-    total_amount?: true
-    promotion_id?: true
-    shipping_method_id?: true
-    shipping_address_line1?: true
-    shipping_address_line2?: true
-    shipping_city?: true
-    shipping_state?: true
-    shipping_postal_code?: true
-    shipping_country?: true
-    notes?: true
-    payment_status?: true
-    clerk_user_id?: true
-  }
-
-  export type OrdersMaxAggregateInputType = {
-    order_id?: true
-    customer_id?: true
-    order_number?: true
-    order_date?: true
-    status?: true
-    subtotal?: true
-    discount_amount?: true
-    shipping_amount?: true
-    tax_amount?: true
-    total_amount?: true
-    promotion_id?: true
-    shipping_method_id?: true
-    shipping_address_line1?: true
-    shipping_address_line2?: true
-    shipping_city?: true
-    shipping_state?: true
-    shipping_postal_code?: true
-    shipping_country?: true
-    notes?: true
-    payment_status?: true
-    clerk_user_id?: true
-  }
-
-  export type OrdersCountAggregateInputType = {
-    order_id?: true
-    customer_id?: true
-    order_number?: true
-    order_date?: true
-    status?: true
-    subtotal?: true
-    discount_amount?: true
-    shipping_amount?: true
-    tax_amount?: true
-    total_amount?: true
-    promotion_id?: true
-    shipping_method_id?: true
-    shipping_address_line1?: true
-    shipping_address_line2?: true
-    shipping_city?: true
-    shipping_state?: true
-    shipping_postal_code?: true
-    shipping_country?: true
-    notes?: true
-    payment_status?: true
-    clerk_user_id?: true
-    _all?: true
-  }
-
-  export type OrdersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which orders to aggregate.
-     */
-    where?: ordersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ordersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned orders
-    **/
-    _count?: true | OrdersCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: OrdersAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: OrdersSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: OrdersMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: OrdersMaxAggregateInputType
-  }
-
-  export type GetOrdersAggregateType<T extends OrdersAggregateArgs> = {
-        [P in keyof T & keyof AggregateOrders]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateOrders[P]>
-      : GetScalarType<T[P], AggregateOrders[P]>
-  }
-
-
-
-
-  export type ordersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ordersWhereInput
-    orderBy?: ordersOrderByWithAggregationInput | ordersOrderByWithAggregationInput[]
-    by: OrdersScalarFieldEnum[] | OrdersScalarFieldEnum
-    having?: ordersScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: OrdersCountAggregateInputType | true
-    _avg?: OrdersAvgAggregateInputType
-    _sum?: OrdersSumAggregateInputType
-    _min?: OrdersMinAggregateInputType
-    _max?: OrdersMaxAggregateInputType
-  }
-
-  export type OrdersGroupByOutputType = {
-    order_id: number
-    customer_id: number
-    order_number: string
-    order_date: Date | null
-    status: string | null
-    subtotal: Decimal
-    discount_amount: Decimal | null
-    shipping_amount: Decimal | null
-    tax_amount: Decimal | null
-    total_amount: Decimal
-    promotion_id: number | null
-    shipping_method_id: number | null
-    shipping_address_line1: string | null
-    shipping_address_line2: string | null
-    shipping_city: string | null
-    shipping_state: string | null
-    shipping_postal_code: string | null
-    shipping_country: string | null
-    notes: string | null
-    payment_status: string | null
-    clerk_user_id: string | null
-    _count: OrdersCountAggregateOutputType | null
-    _avg: OrdersAvgAggregateOutputType | null
-    _sum: OrdersSumAggregateOutputType | null
-    _min: OrdersMinAggregateOutputType | null
-    _max: OrdersMaxAggregateOutputType | null
-  }
-
-  type GetOrdersGroupByPayload<T extends ordersGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<OrdersGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof OrdersGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], OrdersGroupByOutputType[P]>
-            : GetScalarType<T[P], OrdersGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ordersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_id?: boolean
-    customer_id?: boolean
-    order_number?: boolean
-    order_date?: boolean
-    status?: boolean
-    subtotal?: boolean
-    discount_amount?: boolean
-    shipping_amount?: boolean
-    tax_amount?: boolean
-    total_amount?: boolean
-    promotion_id?: boolean
-    shipping_method_id?: boolean
-    shipping_address_line1?: boolean
-    shipping_address_line2?: boolean
-    shipping_city?: boolean
-    shipping_state?: boolean
-    shipping_postal_code?: boolean
-    shipping_country?: boolean
-    notes?: boolean
-    payment_status?: boolean
-    clerk_user_id?: boolean
-    order_items?: boolean | orders$order_itemsArgs<ExtArgs>
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-    promotion_usage?: boolean | orders$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | orders$refundsArgs<ExtArgs>
-    shipments?: boolean | orders$shipmentsArgs<ExtArgs>
-    _count?: boolean | OrdersCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["orders"]>
-
-  export type ordersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_id?: boolean
-    customer_id?: boolean
-    order_number?: boolean
-    order_date?: boolean
-    status?: boolean
-    subtotal?: boolean
-    discount_amount?: boolean
-    shipping_amount?: boolean
-    tax_amount?: boolean
-    total_amount?: boolean
-    promotion_id?: boolean
-    shipping_method_id?: boolean
-    shipping_address_line1?: boolean
-    shipping_address_line2?: boolean
-    shipping_city?: boolean
-    shipping_state?: boolean
-    shipping_postal_code?: boolean
-    shipping_country?: boolean
-    notes?: boolean
-    payment_status?: boolean
-    clerk_user_id?: boolean
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-  }, ExtArgs["result"]["orders"]>
-
-  export type ordersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    order_id?: boolean
-    customer_id?: boolean
-    order_number?: boolean
-    order_date?: boolean
-    status?: boolean
-    subtotal?: boolean
-    discount_amount?: boolean
-    shipping_amount?: boolean
-    tax_amount?: boolean
-    total_amount?: boolean
-    promotion_id?: boolean
-    shipping_method_id?: boolean
-    shipping_address_line1?: boolean
-    shipping_address_line2?: boolean
-    shipping_city?: boolean
-    shipping_state?: boolean
-    shipping_postal_code?: boolean
-    shipping_country?: boolean
-    notes?: boolean
-    payment_status?: boolean
-    clerk_user_id?: boolean
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-  }, ExtArgs["result"]["orders"]>
-
-  export type ordersSelectScalar = {
-    order_id?: boolean
-    customer_id?: boolean
-    order_number?: boolean
-    order_date?: boolean
-    status?: boolean
-    subtotal?: boolean
-    discount_amount?: boolean
-    shipping_amount?: boolean
-    tax_amount?: boolean
-    total_amount?: boolean
-    promotion_id?: boolean
-    shipping_method_id?: boolean
-    shipping_address_line1?: boolean
-    shipping_address_line2?: boolean
-    shipping_city?: boolean
-    shipping_state?: boolean
-    shipping_postal_code?: boolean
-    shipping_country?: boolean
-    notes?: boolean
-    payment_status?: boolean
-    clerk_user_id?: boolean
-  }
-
-  export type ordersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"order_id" | "customer_id" | "order_number" | "order_date" | "status" | "subtotal" | "discount_amount" | "shipping_amount" | "tax_amount" | "total_amount" | "promotion_id" | "shipping_method_id" | "shipping_address_line1" | "shipping_address_line2" | "shipping_city" | "shipping_state" | "shipping_postal_code" | "shipping_country" | "notes" | "payment_status" | "clerk_user_id", ExtArgs["result"]["orders"]>
-  export type ordersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order_items?: boolean | orders$order_itemsArgs<ExtArgs>
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-    promotion_usage?: boolean | orders$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | orders$refundsArgs<ExtArgs>
-    shipments?: boolean | orders$shipmentsArgs<ExtArgs>
-    _count?: boolean | OrdersCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type ordersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-  }
-  export type ordersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customers?: boolean | customersDefaultArgs<ExtArgs>
-    promotions?: boolean | orders$promotionsArgs<ExtArgs>
-    shipping_methods?: boolean | orders$shipping_methodsArgs<ExtArgs>
-  }
-
-  export type $ordersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "orders"
-    objects: {
-      order_items: Prisma.$order_itemsPayload<ExtArgs>[]
-      customers: Prisma.$customersPayload<ExtArgs>
-      promotions: Prisma.$promotionsPayload<ExtArgs> | null
-      shipping_methods: Prisma.$shipping_methodsPayload<ExtArgs> | null
-      promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
-      refunds: Prisma.$refundsPayload<ExtArgs>[]
-      shipments: Prisma.$shipmentsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      order_id: number
-      customer_id: number
-      order_number: string
-      order_date: Date | null
-      status: string | null
-      subtotal: Prisma.Decimal
-      discount_amount: Prisma.Decimal | null
-      shipping_amount: Prisma.Decimal | null
-      tax_amount: Prisma.Decimal | null
-      total_amount: Prisma.Decimal
-      promotion_id: number | null
-      shipping_method_id: number | null
-      shipping_address_line1: string | null
-      shipping_address_line2: string | null
-      shipping_city: string | null
-      shipping_state: string | null
-      shipping_postal_code: string | null
-      shipping_country: string | null
-      notes: string | null
-      payment_status: string | null
-      clerk_user_id: string | null
-    }, ExtArgs["result"]["orders"]>
-    composites: {}
-  }
-
-  type ordersGetPayload<S extends boolean | null | undefined | ordersDefaultArgs> = $Result.GetResult<Prisma.$ordersPayload, S>
-
-  type ordersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ordersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: OrdersCountAggregateInputType | true
-    }
-
-  export interface ordersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['orders'], meta: { name: 'orders' } }
-    /**
-     * Find zero or one Orders that matches the filter.
-     * @param {ordersFindUniqueArgs} args - Arguments to find a Orders
-     * @example
-     * // Get one Orders
-     * const orders = await prisma.orders.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ordersFindUniqueArgs>(args: SelectSubset<T, ordersFindUniqueArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Orders that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ordersFindUniqueOrThrowArgs} args - Arguments to find a Orders
-     * @example
-     * // Get one Orders
-     * const orders = await prisma.orders.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ordersFindUniqueOrThrowArgs>(args: SelectSubset<T, ordersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Orders that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersFindFirstArgs} args - Arguments to find a Orders
-     * @example
-     * // Get one Orders
-     * const orders = await prisma.orders.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ordersFindFirstArgs>(args?: SelectSubset<T, ordersFindFirstArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Orders that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersFindFirstOrThrowArgs} args - Arguments to find a Orders
-     * @example
-     * // Get one Orders
-     * const orders = await prisma.orders.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ordersFindFirstOrThrowArgs>(args?: SelectSubset<T, ordersFindFirstOrThrowArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Orders that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Orders
-     * const orders = await prisma.orders.findMany()
-     * 
-     * // Get first 10 Orders
-     * const orders = await prisma.orders.findMany({ take: 10 })
-     * 
-     * // Only select the `order_id`
-     * const ordersWithOrder_idOnly = await prisma.orders.findMany({ select: { order_id: true } })
-     * 
-     */
-    findMany<T extends ordersFindManyArgs>(args?: SelectSubset<T, ordersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Orders.
-     * @param {ordersCreateArgs} args - Arguments to create a Orders.
-     * @example
-     * // Create one Orders
-     * const Orders = await prisma.orders.create({
-     *   data: {
-     *     // ... data to create a Orders
-     *   }
-     * })
-     * 
-     */
-    create<T extends ordersCreateArgs>(args: SelectSubset<T, ordersCreateArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Orders.
-     * @param {ordersCreateManyArgs} args - Arguments to create many Orders.
-     * @example
-     * // Create many Orders
-     * const orders = await prisma.orders.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ordersCreateManyArgs>(args?: SelectSubset<T, ordersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Orders and returns the data saved in the database.
-     * @param {ordersCreateManyAndReturnArgs} args - Arguments to create many Orders.
-     * @example
-     * // Create many Orders
-     * const orders = await prisma.orders.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Orders and only return the `order_id`
-     * const ordersWithOrder_idOnly = await prisma.orders.createManyAndReturn({
-     *   select: { order_id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ordersCreateManyAndReturnArgs>(args?: SelectSubset<T, ordersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Orders.
-     * @param {ordersDeleteArgs} args - Arguments to delete one Orders.
-     * @example
-     * // Delete one Orders
-     * const Orders = await prisma.orders.delete({
-     *   where: {
-     *     // ... filter to delete one Orders
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ordersDeleteArgs>(args: SelectSubset<T, ordersDeleteArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Orders.
-     * @param {ordersUpdateArgs} args - Arguments to update one Orders.
-     * @example
-     * // Update one Orders
-     * const orders = await prisma.orders.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ordersUpdateArgs>(args: SelectSubset<T, ordersUpdateArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Orders.
-     * @param {ordersDeleteManyArgs} args - Arguments to filter Orders to delete.
-     * @example
-     * // Delete a few Orders
-     * const { count } = await prisma.orders.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ordersDeleteManyArgs>(args?: SelectSubset<T, ordersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Orders
-     * const orders = await prisma.orders.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ordersUpdateManyArgs>(args: SelectSubset<T, ordersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Orders and returns the data updated in the database.
-     * @param {ordersUpdateManyAndReturnArgs} args - Arguments to update many Orders.
-     * @example
-     * // Update many Orders
-     * const orders = await prisma.orders.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Orders and only return the `order_id`
-     * const ordersWithOrder_idOnly = await prisma.orders.updateManyAndReturn({
-     *   select: { order_id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ordersUpdateManyAndReturnArgs>(args: SelectSubset<T, ordersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Orders.
-     * @param {ordersUpsertArgs} args - Arguments to update or create a Orders.
-     * @example
-     * // Update or create a Orders
-     * const orders = await prisma.orders.upsert({
-     *   create: {
-     *     // ... data to create a Orders
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Orders we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ordersUpsertArgs>(args: SelectSubset<T, ordersUpsertArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersCountArgs} args - Arguments to filter Orders to count.
-     * @example
-     * // Count the number of Orders
-     * const count = await prisma.orders.count({
-     *   where: {
-     *     // ... the filter for the Orders we want to count
-     *   }
-     * })
-    **/
-    count<T extends ordersCountArgs>(
-      args?: Subset<T, ordersCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], OrdersCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrdersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends OrdersAggregateArgs>(args: Subset<T, OrdersAggregateArgs>): Prisma.PrismaPromise<GetOrdersAggregateType<T>>
-
-    /**
-     * Group by Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ordersGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ordersGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ordersGroupByArgs['orderBy'] }
-        : { orderBy?: ordersGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ordersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrdersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the orders model
-   */
-  readonly fields: ordersFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for orders.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ordersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    order_items<T extends orders$order_itemsArgs<ExtArgs> = {}>(args?: Subset<T, orders$order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    customers<T extends customersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, customersDefaultArgs<ExtArgs>>): Prisma__customersClient<$Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    promotions<T extends orders$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, orders$promotionsArgs<ExtArgs>>): Prisma__promotionsClient<$Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    shipping_methods<T extends orders$shipping_methodsArgs<ExtArgs> = {}>(args?: Subset<T, orders$shipping_methodsArgs<ExtArgs>>): Prisma__shipping_methodsClient<$Result.GetResult<Prisma.$shipping_methodsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    promotion_usage<T extends orders$promotion_usageArgs<ExtArgs> = {}>(args?: Subset<T, orders$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    refunds<T extends orders$refundsArgs<ExtArgs> = {}>(args?: Subset<T, orders$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    shipments<T extends orders$shipmentsArgs<ExtArgs> = {}>(args?: Subset<T, orders$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shipmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the orders model
-   */
-  interface ordersFieldRefs {
-    readonly order_id: FieldRef<"orders", 'Int'>
-    readonly customer_id: FieldRef<"orders", 'Int'>
-    readonly order_number: FieldRef<"orders", 'String'>
-    readonly order_date: FieldRef<"orders", 'DateTime'>
-    readonly status: FieldRef<"orders", 'String'>
-    readonly subtotal: FieldRef<"orders", 'Decimal'>
-    readonly discount_amount: FieldRef<"orders", 'Decimal'>
-    readonly shipping_amount: FieldRef<"orders", 'Decimal'>
-    readonly tax_amount: FieldRef<"orders", 'Decimal'>
-    readonly total_amount: FieldRef<"orders", 'Decimal'>
-    readonly promotion_id: FieldRef<"orders", 'Int'>
-    readonly shipping_method_id: FieldRef<"orders", 'Int'>
-    readonly shipping_address_line1: FieldRef<"orders", 'String'>
-    readonly shipping_address_line2: FieldRef<"orders", 'String'>
-    readonly shipping_city: FieldRef<"orders", 'String'>
-    readonly shipping_state: FieldRef<"orders", 'String'>
-    readonly shipping_postal_code: FieldRef<"orders", 'String'>
-    readonly shipping_country: FieldRef<"orders", 'String'>
-    readonly notes: FieldRef<"orders", 'String'>
-    readonly payment_status: FieldRef<"orders", 'String'>
-    readonly clerk_user_id: FieldRef<"orders", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * orders findUnique
-   */
-  export type ordersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where: ordersWhereUniqueInput
-  }
-
-  /**
-   * orders findUniqueOrThrow
-   */
-  export type ordersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where: ordersWhereUniqueInput
-  }
-
-  /**
-   * orders findFirst
-   */
-  export type ordersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where?: ordersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for orders.
-     */
-    cursor?: ordersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of orders.
-     */
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
-  }
-
-  /**
-   * orders findFirstOrThrow
-   */
-  export type ordersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where?: ordersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for orders.
-     */
-    cursor?: ordersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of orders.
-     */
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
-  }
-
-  /**
-   * orders findMany
-   */
-  export type ordersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where?: ordersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing orders.
-     */
-    cursor?: ordersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of orders.
-     */
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
-  }
-
-  /**
-   * orders create
-   */
-  export type ordersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * The data needed to create a orders.
-     */
-    data: XOR<ordersCreateInput, ordersUncheckedCreateInput>
-  }
-
-  /**
-   * orders createMany
-   */
-  export type ordersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many orders.
-     */
-    data: ordersCreateManyInput | ordersCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * orders createManyAndReturn
-   */
-  export type ordersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * The data used to create many orders.
-     */
-    data: ordersCreateManyInput | ordersCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * orders update
-   */
-  export type ordersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * The data needed to update a orders.
-     */
-    data: XOR<ordersUpdateInput, ordersUncheckedUpdateInput>
-    /**
-     * Choose, which orders to update.
-     */
-    where: ordersWhereUniqueInput
-  }
-
-  /**
-   * orders updateMany
-   */
-  export type ordersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update orders.
-     */
-    data: XOR<ordersUpdateManyMutationInput, ordersUncheckedUpdateManyInput>
-    /**
-     * Filter which orders to update
-     */
-    where?: ordersWhereInput
-    /**
-     * Limit how many orders to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * orders updateManyAndReturn
-   */
-  export type ordersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * The data used to update orders.
-     */
-    data: XOR<ordersUpdateManyMutationInput, ordersUncheckedUpdateManyInput>
-    /**
-     * Filter which orders to update
-     */
-    where?: ordersWhereInput
-    /**
-     * Limit how many orders to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * orders upsert
-   */
-  export type ordersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * The filter to search for the orders to update in case it exists.
-     */
-    where: ordersWhereUniqueInput
-    /**
-     * In case the orders found by the `where` argument doesn't exist, create a new orders with this data.
-     */
-    create: XOR<ordersCreateInput, ordersUncheckedCreateInput>
-    /**
-     * In case the orders was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ordersUpdateInput, ordersUncheckedUpdateInput>
-  }
-
-  /**
-   * orders delete
-   */
-  export type ordersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    /**
-     * Filter which orders to delete.
-     */
-    where: ordersWhereUniqueInput
-  }
-
-  /**
-   * orders deleteMany
-   */
-  export type ordersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which orders to delete
-     */
-    where?: ordersWhereInput
-    /**
-     * Limit how many orders to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * orders.order_items
-   */
-  export type orders$order_itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    where?: order_itemsWhereInput
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    cursor?: order_itemsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Order_itemsScalarFieldEnum | Order_itemsScalarFieldEnum[]
-  }
-
-  /**
-   * orders.promotions
-   */
-  export type orders$promotionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the promotions
-     */
-    select?: promotionsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the promotions
-     */
-    omit?: promotionsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: promotionsInclude<ExtArgs> | null
-    where?: promotionsWhereInput
-  }
-
-  /**
-   * orders.shipping_methods
-   */
-  export type orders$shipping_methodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the shipping_methods
-     */
-    select?: shipping_methodsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the shipping_methods
-     */
-    omit?: shipping_methodsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipping_methodsInclude<ExtArgs> | null
-    where?: shipping_methodsWhereInput
-  }
-
-  /**
-   * orders.promotion_usage
-   */
-  export type orders$promotion_usageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the promotion_usage
-     */
-    select?: promotion_usageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the promotion_usage
-     */
-    omit?: promotion_usageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: promotion_usageInclude<ExtArgs> | null
-    where?: promotion_usageWhereInput
-    orderBy?: promotion_usageOrderByWithRelationInput | promotion_usageOrderByWithRelationInput[]
-    cursor?: promotion_usageWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Promotion_usageScalarFieldEnum | Promotion_usageScalarFieldEnum[]
-  }
-
-  /**
-   * orders.refunds
-   */
-  export type orders$refundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the refunds
-     */
-    select?: refundsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the refunds
-     */
-    omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    where?: refundsWhereInput
-    orderBy?: refundsOrderByWithRelationInput | refundsOrderByWithRelationInput[]
-    cursor?: refundsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
-  }
-
-  /**
-   * orders.shipments
-   */
-  export type orders$shipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the shipments
-     */
-    select?: shipmentsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the shipments
-     */
-    omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
-    where?: shipmentsWhereInput
-    orderBy?: shipmentsOrderByWithRelationInput | shipmentsOrderByWithRelationInput[]
-    cursor?: shipmentsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ShipmentsScalarFieldEnum | ShipmentsScalarFieldEnum[]
-  }
-
-  /**
-   * orders without action
-   */
-  export type ordersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
   }
 
 
@@ -19287,6 +16325,7 @@ export namespace Prisma {
     updated_at: Date | null
     reorder_level: Decimal | null
     clerk_user_id: string | null
+    store_id: string | null
   }
 
   export type ProductsMaxAggregateOutputType = {
@@ -19306,6 +16345,7 @@ export namespace Prisma {
     updated_at: Date | null
     reorder_level: Decimal | null
     clerk_user_id: string | null
+    store_id: string | null
   }
 
   export type ProductsCountAggregateOutputType = {
@@ -19325,6 +16365,7 @@ export namespace Prisma {
     updated_at: number
     reorder_level: number
     clerk_user_id: number
+    store_id: number
     _all: number
   }
 
@@ -19366,6 +16407,7 @@ export namespace Prisma {
     updated_at?: true
     reorder_level?: true
     clerk_user_id?: true
+    store_id?: true
   }
 
   export type ProductsMaxAggregateInputType = {
@@ -19385,6 +16427,7 @@ export namespace Prisma {
     updated_at?: true
     reorder_level?: true
     clerk_user_id?: true
+    store_id?: true
   }
 
   export type ProductsCountAggregateInputType = {
@@ -19404,6 +16447,7 @@ export namespace Prisma {
     updated_at?: true
     reorder_level?: true
     clerk_user_id?: true
+    store_id?: true
     _all?: true
   }
 
@@ -19510,6 +16554,7 @@ export namespace Prisma {
     updated_at: Date | null
     reorder_level: Decimal | null
     clerk_user_id: string | null
+    store_id: string | null
     _count: ProductsCountAggregateOutputType | null
     _avg: ProductsAvgAggregateOutputType | null
     _sum: ProductsSumAggregateOutputType | null
@@ -19548,8 +16593,8 @@ export namespace Prisma {
     updated_at?: boolean
     reorder_level?: boolean
     clerk_user_id?: boolean
+    store_id?: boolean
     inventory?: boolean | products$inventoryArgs<ExtArgs>
-    order_items?: boolean | products$order_itemsArgs<ExtArgs>
     price_list?: boolean | products$price_listArgs<ExtArgs>
     categories?: boolean | products$categoriesArgs<ExtArgs>
     suppliers?: boolean | products$suppliersArgs<ExtArgs>
@@ -19576,6 +16621,7 @@ export namespace Prisma {
     updated_at?: boolean
     reorder_level?: boolean
     clerk_user_id?: boolean
+    store_id?: boolean
     categories?: boolean | products$categoriesArgs<ExtArgs>
     suppliers?: boolean | products$suppliersArgs<ExtArgs>
   }, ExtArgs["result"]["products"]>
@@ -19597,6 +16643,7 @@ export namespace Prisma {
     updated_at?: boolean
     reorder_level?: boolean
     clerk_user_id?: boolean
+    store_id?: boolean
     categories?: boolean | products$categoriesArgs<ExtArgs>
     suppliers?: boolean | products$suppliersArgs<ExtArgs>
   }, ExtArgs["result"]["products"]>
@@ -19618,12 +16665,12 @@ export namespace Prisma {
     updated_at?: boolean
     reorder_level?: boolean
     clerk_user_id?: boolean
+    store_id?: boolean
   }
 
-  export type productsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"product_id" | "supplier_id" | "name" | "description" | "base_price" | "cost_price" | "sku" | "barcode" | "category_id" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "reorder_level" | "clerk_user_id", ExtArgs["result"]["products"]>
+  export type productsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"product_id" | "supplier_id" | "name" | "description" | "base_price" | "cost_price" | "sku" | "barcode" | "category_id" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "reorder_level" | "clerk_user_id" | "store_id", ExtArgs["result"]["products"]>
   export type productsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     inventory?: boolean | products$inventoryArgs<ExtArgs>
-    order_items?: boolean | products$order_itemsArgs<ExtArgs>
     price_list?: boolean | products$price_listArgs<ExtArgs>
     categories?: boolean | products$categoriesArgs<ExtArgs>
     suppliers?: boolean | products$suppliersArgs<ExtArgs>
@@ -19645,7 +16692,6 @@ export namespace Prisma {
     name: "products"
     objects: {
       inventory: Prisma.$inventoryPayload<ExtArgs> | null
-      order_items: Prisma.$order_itemsPayload<ExtArgs>[]
       price_list: Prisma.$price_listPayload<ExtArgs>[]
       categories: Prisma.$categoriesPayload<ExtArgs> | null
       suppliers: Prisma.$suppliersPayload<ExtArgs> | null
@@ -19670,6 +16716,7 @@ export namespace Prisma {
       updated_at: Date | null
       reorder_level: Prisma.Decimal | null
       clerk_user_id: string | null
+      store_id: string | null
     }, ExtArgs["result"]["products"]>
     composites: {}
   }
@@ -20065,7 +17112,6 @@ export namespace Prisma {
   export interface Prisma__productsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     inventory<T extends products$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, products$inventoryArgs<ExtArgs>>): Prisma__inventoryClient<$Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    order_items<T extends products$order_itemsArgs<ExtArgs> = {}>(args?: Subset<T, products$order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     price_list<T extends products$price_listArgs<ExtArgs> = {}>(args?: Subset<T, products$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends products$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, products$categoriesArgs<ExtArgs>>): Prisma__categoriesClient<$Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     suppliers<T extends products$suppliersArgs<ExtArgs> = {}>(args?: Subset<T, products$suppliersArgs<ExtArgs>>): Prisma__suppliersClient<$Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -20117,6 +17163,7 @@ export namespace Prisma {
     readonly updated_at: FieldRef<"products", 'DateTime'>
     readonly reorder_level: FieldRef<"products", 'Decimal'>
     readonly clerk_user_id: FieldRef<"products", 'String'>
+    readonly store_id: FieldRef<"products", 'String'>
   }
     
 
@@ -20537,30 +17584,6 @@ export namespace Prisma {
   }
 
   /**
-   * products.order_items
-   */
-  export type products$order_itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order_items
-     */
-    select?: order_itemsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order_items
-     */
-    omit?: order_itemsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: order_itemsInclude<ExtArgs> | null
-    where?: order_itemsWhereInput
-    orderBy?: order_itemsOrderByWithRelationInput | order_itemsOrderByWithRelationInput[]
-    cursor?: order_itemsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Order_itemsScalarFieldEnum | Order_itemsScalarFieldEnum[]
-  }
-
-  /**
    * products.price_list
    */
   export type products$price_listArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20944,7 +17967,6 @@ export namespace Prisma {
     order_id?: boolean
     clerk_user_id?: boolean
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["promotion_usage"]>
@@ -20958,7 +17980,6 @@ export namespace Prisma {
     order_id?: boolean
     clerk_user_id?: boolean
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["promotion_usage"]>
@@ -20972,7 +17993,6 @@ export namespace Prisma {
     order_id?: boolean
     clerk_user_id?: boolean
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["promotion_usage"]>
@@ -20990,19 +18010,16 @@ export namespace Prisma {
   export type promotion_usageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"usage_id" | "promotion_id" | "customer_id" | "sale_id" | "used_at" | "order_id" | "clerk_user_id", ExtArgs["result"]["promotion_usage"]>
   export type promotion_usageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }
   export type promotion_usageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }
   export type promotion_usageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | promotion_usage$customersArgs<ExtArgs>
-    orders?: boolean | promotion_usage$ordersArgs<ExtArgs>
     promotions?: boolean | promotionsDefaultArgs<ExtArgs>
     pos_sales?: boolean | promotion_usage$pos_salesArgs<ExtArgs>
   }
@@ -21011,7 +18028,6 @@ export namespace Prisma {
     name: "promotion_usage"
     objects: {
       customers: Prisma.$customersPayload<ExtArgs> | null
-      orders: Prisma.$ordersPayload<ExtArgs> | null
       promotions: Prisma.$promotionsPayload<ExtArgs>
       pos_sales: Prisma.$pos_salesPayload<ExtArgs> | null
     }
@@ -21418,7 +18434,6 @@ export namespace Prisma {
   export interface Prisma__promotion_usageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customers<T extends promotion_usage$customersArgs<ExtArgs> = {}>(args?: Subset<T, promotion_usage$customersArgs<ExtArgs>>): Prisma__customersClient<$Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    orders<T extends promotion_usage$ordersArgs<ExtArgs> = {}>(args?: Subset<T, promotion_usage$ordersArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     promotions<T extends promotionsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, promotionsDefaultArgs<ExtArgs>>): Prisma__promotionsClient<$Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     pos_sales<T extends promotion_usage$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, promotion_usage$pos_salesArgs<ExtArgs>>): Prisma__pos_salesClient<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -21877,25 +18892,6 @@ export namespace Prisma {
   }
 
   /**
-   * promotion_usage.orders
-   */
-  export type promotion_usage$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    where?: ordersWhereInput
-  }
-
-  /**
    * promotion_usage.pos_sales
    */
   export type promotion_usage$pos_salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22219,7 +19215,6 @@ export namespace Prisma {
     is_active?: boolean
     created_at?: boolean
     clerk_user_id?: boolean
-    orders?: boolean | promotions$ordersArgs<ExtArgs>
     pos_sales?: boolean | promotions$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | promotions$promotion_usageArgs<ExtArgs>
     _count?: boolean | PromotionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -22278,7 +19273,6 @@ export namespace Prisma {
 
   export type promotionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"promotion_id" | "code" | "name" | "description" | "discount_type" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "clerk_user_id", ExtArgs["result"]["promotions"]>
   export type promotionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | promotions$ordersArgs<ExtArgs>
     pos_sales?: boolean | promotions$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | promotions$promotion_usageArgs<ExtArgs>
     _count?: boolean | PromotionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -22289,7 +19283,6 @@ export namespace Prisma {
   export type $promotionsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "promotions"
     objects: {
-      orders: Prisma.$ordersPayload<ExtArgs>[]
       pos_sales: Prisma.$pos_salesPayload<ExtArgs>[]
       promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
     }
@@ -22702,7 +19695,6 @@ export namespace Prisma {
    */
   export interface Prisma__promotionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    orders<T extends promotions$ordersArgs<ExtArgs> = {}>(args?: Subset<T, promotions$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pos_sales<T extends promotions$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, promotions$pos_salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotion_usage<T extends promotions$promotion_usageArgs<ExtArgs> = {}>(args?: Subset<T, promotions$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -23141,30 +20133,6 @@ export namespace Prisma {
   }
 
   /**
-   * promotions.orders
-   */
-  export type promotions$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    where?: ordersWhereInput
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    cursor?: ordersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
-  }
-
-  /**
    * promotions.pos_sales
    */
   export type promotions$pos_salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23267,6 +20235,7 @@ export namespace Prisma {
     product_id: number | null
     quantity_ordered: number | null
     unit_cost: Decimal | null
+    clerk_user_id: string | null
     subtotal: Decimal | null
   }
 
@@ -23276,6 +20245,7 @@ export namespace Prisma {
     product_id: number | null
     quantity_ordered: number | null
     unit_cost: Decimal | null
+    clerk_user_id: string | null
     subtotal: Decimal | null
   }
 
@@ -23285,6 +20255,7 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: number
+    clerk_user_id: number
     subtotal: number
     _all: number
   }
@@ -23314,6 +20285,7 @@ export namespace Prisma {
     product_id?: true
     quantity_ordered?: true
     unit_cost?: true
+    clerk_user_id?: true
     subtotal?: true
   }
 
@@ -23323,6 +20295,7 @@ export namespace Prisma {
     product_id?: true
     quantity_ordered?: true
     unit_cost?: true
+    clerk_user_id?: true
     subtotal?: true
   }
 
@@ -23332,6 +20305,7 @@ export namespace Prisma {
     product_id?: true
     quantity_ordered?: true
     unit_cost?: true
+    clerk_user_id?: true
     subtotal?: true
     _all?: true
   }
@@ -23428,6 +20402,7 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: Decimal
+    clerk_user_id: string | null
     subtotal: Decimal | null
     _count: Purchase_order_itemsCountAggregateOutputType | null
     _avg: Purchase_order_itemsAvgAggregateOutputType | null
@@ -23456,6 +20431,7 @@ export namespace Prisma {
     product_id?: boolean
     quantity_ordered?: boolean
     unit_cost?: boolean
+    clerk_user_id?: boolean
     subtotal?: boolean
     purchase_orders?: boolean | purchase_ordersDefaultArgs<ExtArgs>
     products?: boolean | productsDefaultArgs<ExtArgs>
@@ -23467,6 +20443,7 @@ export namespace Prisma {
     product_id?: boolean
     quantity_ordered?: boolean
     unit_cost?: boolean
+    clerk_user_id?: boolean
     subtotal?: boolean
     purchase_orders?: boolean | purchase_ordersDefaultArgs<ExtArgs>
     products?: boolean | productsDefaultArgs<ExtArgs>
@@ -23478,6 +20455,7 @@ export namespace Prisma {
     product_id?: boolean
     quantity_ordered?: boolean
     unit_cost?: boolean
+    clerk_user_id?: boolean
     subtotal?: boolean
     purchase_orders?: boolean | purchase_ordersDefaultArgs<ExtArgs>
     products?: boolean | productsDefaultArgs<ExtArgs>
@@ -23489,10 +20467,11 @@ export namespace Prisma {
     product_id?: boolean
     quantity_ordered?: boolean
     unit_cost?: boolean
+    clerk_user_id?: boolean
     subtotal?: boolean
   }
 
-  export type purchase_order_itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"po_item_id" | "po_id" | "product_id" | "quantity_ordered" | "unit_cost" | "subtotal", ExtArgs["result"]["purchase_order_items"]>
+  export type purchase_order_itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"po_item_id" | "po_id" | "product_id" | "quantity_ordered" | "unit_cost" | "clerk_user_id" | "subtotal", ExtArgs["result"]["purchase_order_items"]>
   export type purchase_order_itemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase_orders?: boolean | purchase_ordersDefaultArgs<ExtArgs>
     products?: boolean | productsDefaultArgs<ExtArgs>
@@ -23518,6 +20497,7 @@ export namespace Prisma {
       product_id: number
       quantity_ordered: number
       unit_cost: Prisma.Decimal
+      clerk_user_id: string | null
       subtotal: Prisma.Decimal | null
     }, ExtArgs["result"]["purchase_order_items"]>
     composites: {}
@@ -23949,6 +20929,7 @@ export namespace Prisma {
     readonly product_id: FieldRef<"purchase_order_items", 'Int'>
     readonly quantity_ordered: FieldRef<"purchase_order_items", 'Int'>
     readonly unit_cost: FieldRef<"purchase_order_items", 'Decimal'>
+    readonly clerk_user_id: FieldRef<"purchase_order_items", 'String'>
     readonly subtotal: FieldRef<"purchase_order_items", 'Decimal'>
   }
     
@@ -24386,6 +21367,9 @@ export namespace Prisma {
     supplier_id: number | null
     total_amount: Decimal | null
     po_number: number | null
+    discounnt_amount: Decimal | null
+    shipping_amount: Decimal | null
+    tax_amount: Decimal | null
   }
 
   export type Purchase_ordersSumAggregateOutputType = {
@@ -24393,6 +21377,9 @@ export namespace Prisma {
     supplier_id: number | null
     total_amount: Decimal | null
     po_number: number | null
+    discounnt_amount: Decimal | null
+    shipping_amount: Decimal | null
+    tax_amount: Decimal | null
   }
 
   export type Purchase_ordersMinAggregateOutputType = {
@@ -24407,6 +21394,10 @@ export namespace Prisma {
     created_at: Date | null
     user_id: string | null
     clerk_user_id: string | null
+    discounnt_amount: Decimal | null
+    shipping_amount: Decimal | null
+    tax_amount: Decimal | null
+    payment_status: string | null
   }
 
   export type Purchase_ordersMaxAggregateOutputType = {
@@ -24421,6 +21412,10 @@ export namespace Prisma {
     created_at: Date | null
     user_id: string | null
     clerk_user_id: string | null
+    discounnt_amount: Decimal | null
+    shipping_amount: Decimal | null
+    tax_amount: Decimal | null
+    payment_status: string | null
   }
 
   export type Purchase_ordersCountAggregateOutputType = {
@@ -24435,6 +21430,10 @@ export namespace Prisma {
     created_at: number
     user_id: number
     clerk_user_id: number
+    discounnt_amount: number
+    shipping_amount: number
+    tax_amount: number
+    payment_status: number
     _all: number
   }
 
@@ -24444,6 +21443,9 @@ export namespace Prisma {
     supplier_id?: true
     total_amount?: true
     po_number?: true
+    discounnt_amount?: true
+    shipping_amount?: true
+    tax_amount?: true
   }
 
   export type Purchase_ordersSumAggregateInputType = {
@@ -24451,6 +21453,9 @@ export namespace Prisma {
     supplier_id?: true
     total_amount?: true
     po_number?: true
+    discounnt_amount?: true
+    shipping_amount?: true
+    tax_amount?: true
   }
 
   export type Purchase_ordersMinAggregateInputType = {
@@ -24465,6 +21470,10 @@ export namespace Prisma {
     created_at?: true
     user_id?: true
     clerk_user_id?: true
+    discounnt_amount?: true
+    shipping_amount?: true
+    tax_amount?: true
+    payment_status?: true
   }
 
   export type Purchase_ordersMaxAggregateInputType = {
@@ -24479,6 +21488,10 @@ export namespace Prisma {
     created_at?: true
     user_id?: true
     clerk_user_id?: true
+    discounnt_amount?: true
+    shipping_amount?: true
+    tax_amount?: true
+    payment_status?: true
   }
 
   export type Purchase_ordersCountAggregateInputType = {
@@ -24493,6 +21506,10 @@ export namespace Prisma {
     created_at?: true
     user_id?: true
     clerk_user_id?: true
+    discounnt_amount?: true
+    shipping_amount?: true
+    tax_amount?: true
+    payment_status?: true
     _all?: true
   }
 
@@ -24594,6 +21611,10 @@ export namespace Prisma {
     created_at: Date | null
     user_id: string | null
     clerk_user_id: string | null
+    discounnt_amount: Decimal | null
+    shipping_amount: Decimal | null
+    tax_amount: Decimal | null
+    payment_status: string | null
     _count: Purchase_ordersCountAggregateOutputType | null
     _avg: Purchase_ordersAvgAggregateOutputType | null
     _sum: Purchase_ordersSumAggregateOutputType | null
@@ -24627,6 +21648,10 @@ export namespace Prisma {
     created_at?: boolean
     user_id?: boolean
     clerk_user_id?: boolean
+    discounnt_amount?: boolean
+    shipping_amount?: boolean
+    tax_amount?: boolean
+    payment_status?: boolean
     purchase_order_items?: boolean | purchase_orders$purchase_order_itemsArgs<ExtArgs>
     suppliers?: boolean | suppliersDefaultArgs<ExtArgs>
     _count?: boolean | Purchase_ordersCountOutputTypeDefaultArgs<ExtArgs>
@@ -24644,6 +21669,10 @@ export namespace Prisma {
     created_at?: boolean
     user_id?: boolean
     clerk_user_id?: boolean
+    discounnt_amount?: boolean
+    shipping_amount?: boolean
+    tax_amount?: boolean
+    payment_status?: boolean
     suppliers?: boolean | suppliersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchase_orders"]>
 
@@ -24659,6 +21688,10 @@ export namespace Prisma {
     created_at?: boolean
     user_id?: boolean
     clerk_user_id?: boolean
+    discounnt_amount?: boolean
+    shipping_amount?: boolean
+    tax_amount?: boolean
+    payment_status?: boolean
     suppliers?: boolean | suppliersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchase_orders"]>
 
@@ -24674,9 +21707,13 @@ export namespace Prisma {
     created_at?: boolean
     user_id?: boolean
     clerk_user_id?: boolean
+    discounnt_amount?: boolean
+    shipping_amount?: boolean
+    tax_amount?: boolean
+    payment_status?: boolean
   }
 
-  export type purchase_ordersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"po_id" | "supplier_id" | "order_date" | "expected_delivery_date" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "user_id" | "clerk_user_id", ExtArgs["result"]["purchase_orders"]>
+  export type purchase_ordersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"po_id" | "supplier_id" | "order_date" | "expected_delivery_date" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "user_id" | "clerk_user_id" | "discounnt_amount" | "shipping_amount" | "tax_amount" | "payment_status", ExtArgs["result"]["purchase_orders"]>
   export type purchase_ordersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchase_order_items?: boolean | purchase_orders$purchase_order_itemsArgs<ExtArgs>
     suppliers?: boolean | suppliersDefaultArgs<ExtArgs>
@@ -24707,6 +21744,10 @@ export namespace Prisma {
       created_at: Date | null
       user_id: string | null
       clerk_user_id: string | null
+      discounnt_amount: Prisma.Decimal | null
+      shipping_amount: Prisma.Decimal | null
+      tax_amount: Prisma.Decimal | null
+      payment_status: string | null
     }, ExtArgs["result"]["purchase_orders"]>
     composites: {}
   }
@@ -25143,6 +22184,10 @@ export namespace Prisma {
     readonly created_at: FieldRef<"purchase_orders", 'DateTime'>
     readonly user_id: FieldRef<"purchase_orders", 'String'>
     readonly clerk_user_id: FieldRef<"purchase_orders", 'String'>
+    readonly discounnt_amount: FieldRef<"purchase_orders", 'Decimal'>
+    readonly shipping_amount: FieldRef<"purchase_orders", 'Decimal'>
+    readonly tax_amount: FieldRef<"purchase_orders", 'Decimal'>
+    readonly payment_status: FieldRef<"purchase_orders", 'String'>
   }
     
 
@@ -25832,7 +22877,6 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["refunds"]>
@@ -25847,7 +22891,6 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["refunds"]>
@@ -25862,7 +22905,6 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }, ExtArgs["result"]["refunds"]>
@@ -25881,17 +22923,14 @@ export namespace Prisma {
 
   export type refundsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"refund_id" | "sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "clerk_user_id", ExtArgs["result"]["refunds"]>
   export type refundsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }
   export type refundsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }
   export type refundsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | refunds$ordersArgs<ExtArgs>
     customers?: boolean | refunds$customersArgs<ExtArgs>
     pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
   }
@@ -25899,7 +22938,6 @@ export namespace Prisma {
   export type $refundsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "refunds"
     objects: {
-      orders: Prisma.$ordersPayload<ExtArgs> | null
       customers: Prisma.$customersPayload<ExtArgs> | null
       pos_sales: Prisma.$pos_salesPayload<ExtArgs> | null
     }
@@ -26307,7 +23345,6 @@ export namespace Prisma {
    */
   export interface Prisma__refundsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    orders<T extends refunds$ordersArgs<ExtArgs> = {}>(args?: Subset<T, refunds$ordersArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     customers<T extends refunds$customersArgs<ExtArgs> = {}>(args?: Subset<T, refunds$customersArgs<ExtArgs>>): Prisma__customersClient<$Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pos_sales<T extends refunds$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, refunds$pos_salesArgs<ExtArgs>>): Prisma__pos_salesClient<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -26746,25 +23783,6 @@ export namespace Prisma {
      * Limit how many refunds to delete.
      */
     limit?: number
-  }
-
-  /**
-   * refunds.orders
-   */
-  export type refunds$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    where?: ordersWhereInput
   }
 
   /**
@@ -45179,7 +42197,6 @@ export namespace Prisma {
     carrier?: boolean
     status?: boolean
     notes?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shipments"]>
 
   export type shipmentsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -45191,7 +42208,6 @@ export namespace Prisma {
     carrier?: boolean
     status?: boolean
     notes?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shipments"]>
 
   export type shipmentsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -45203,7 +42219,6 @@ export namespace Prisma {
     carrier?: boolean
     status?: boolean
     notes?: boolean
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shipments"]>
 
   export type shipmentsSelectScalar = {
@@ -45218,21 +42233,10 @@ export namespace Prisma {
   }
 
   export type shipmentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"shipment_id" | "order_id" | "tracking_number" | "shipped_date" | "delivered_date" | "carrier" | "status" | "notes", ExtArgs["result"]["shipments"]>
-  export type shipmentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-  }
-  export type shipmentsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-  }
-  export type shipmentsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | ordersDefaultArgs<ExtArgs>
-  }
 
   export type $shipmentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "shipments"
-    objects: {
-      orders: Prisma.$ordersPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       shipment_id: number
       order_id: number
@@ -45636,7 +42640,6 @@ export namespace Prisma {
    */
   export interface Prisma__shipmentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    orders<T extends ordersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ordersDefaultArgs<ExtArgs>>): Prisma__ordersClient<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -45691,10 +42694,6 @@ export namespace Prisma {
      */
     omit?: shipmentsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
-    /**
      * Filter, which shipments to fetch.
      */
     where: shipmentsWhereUniqueInput
@@ -45713,10 +42712,6 @@ export namespace Prisma {
      */
     omit?: shipmentsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
-    /**
      * Filter, which shipments to fetch.
      */
     where: shipmentsWhereUniqueInput
@@ -45734,10 +42729,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
     /**
      * Filter, which shipments to fetch.
      */
@@ -45787,10 +42778,6 @@ export namespace Prisma {
      */
     omit?: shipmentsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
-    /**
      * Filter, which shipments to fetch.
      */
     where?: shipmentsWhereInput
@@ -45838,10 +42825,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
     /**
      * Filter, which shipments to fetch.
      */
@@ -45891,10 +42874,6 @@ export namespace Prisma {
      */
     omit?: shipmentsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
-    /**
      * The data needed to create a shipments.
      */
     data: XOR<shipmentsCreateInput, shipmentsUncheckedCreateInput>
@@ -45928,10 +42907,6 @@ export namespace Prisma {
      */
     data: shipmentsCreateManyInput | shipmentsCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -45946,10 +42921,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
     /**
      * The data needed to update a shipments.
      */
@@ -46002,10 +42973,6 @@ export namespace Prisma {
      * Limit how many shipments to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -46020,10 +42987,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
     /**
      * The filter to search for the shipments to update in case it exists.
      */
@@ -46050,10 +43013,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
     /**
      * Filter which shipments to delete.
      */
@@ -46086,10 +43045,6 @@ export namespace Prisma {
      * Omit specific fields from the shipments
      */
     omit?: shipmentsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: shipmentsInclude<ExtArgs> | null
   }
 
 
@@ -46315,7 +43270,6 @@ export namespace Prisma {
     estimated_days_min?: boolean
     estimated_days_max?: boolean
     is_active?: boolean
-    orders?: boolean | shipping_methods$ordersArgs<ExtArgs>
     shipping_rates?: boolean | shipping_methods$shipping_ratesArgs<ExtArgs>
     _count?: boolean | Shipping_methodsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shipping_methods"]>
@@ -46352,7 +43306,6 @@ export namespace Prisma {
 
   export type shipping_methodsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"method_id" | "name" | "description" | "carrier" | "estimated_days_min" | "estimated_days_max" | "is_active", ExtArgs["result"]["shipping_methods"]>
   export type shipping_methodsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orders?: boolean | shipping_methods$ordersArgs<ExtArgs>
     shipping_rates?: boolean | shipping_methods$shipping_ratesArgs<ExtArgs>
     _count?: boolean | Shipping_methodsCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -46362,7 +43315,6 @@ export namespace Prisma {
   export type $shipping_methodsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "shipping_methods"
     objects: {
-      orders: Prisma.$ordersPayload<ExtArgs>[]
       shipping_rates: Prisma.$shipping_ratesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -46767,7 +43719,6 @@ export namespace Prisma {
    */
   export interface Prisma__shipping_methodsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    orders<T extends shipping_methods$ordersArgs<ExtArgs> = {}>(args?: Subset<T, shipping_methods$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shipping_rates<T extends shipping_methods$shipping_ratesArgs<ExtArgs> = {}>(args?: Subset<T, shipping_methods$shipping_ratesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shipping_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -47195,30 +44146,6 @@ export namespace Prisma {
      * Limit how many shipping_methods to delete.
      */
     limit?: number
-  }
-
-  /**
-   * shipping_methods.orders
-   */
-  export type shipping_methods$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the orders
-     */
-    select?: ordersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the orders
-     */
-    omit?: ordersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ordersInclude<ExtArgs> | null
-    where?: ordersWhereInput
-    orderBy?: ordersOrderByWithRelationInput | ordersOrderByWithRelationInput[]
-    cursor?: ordersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrdersScalarFieldEnum | OrdersScalarFieldEnum[]
   }
 
   /**
@@ -70396,46 +67323,6 @@ export namespace Prisma {
   export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
 
 
-  export const Order_itemsScalarFieldEnum: {
-    order_item_id: 'order_item_id',
-    order_id: 'order_id',
-    product_id: 'product_id',
-    quantity: 'quantity',
-    unit_price: 'unit_price',
-    subtotal: 'subtotal',
-    clerk_user_id: 'clerk_user_id'
-  };
-
-  export type Order_itemsScalarFieldEnum = (typeof Order_itemsScalarFieldEnum)[keyof typeof Order_itemsScalarFieldEnum]
-
-
-  export const OrdersScalarFieldEnum: {
-    order_id: 'order_id',
-    customer_id: 'customer_id',
-    order_number: 'order_number',
-    order_date: 'order_date',
-    status: 'status',
-    subtotal: 'subtotal',
-    discount_amount: 'discount_amount',
-    shipping_amount: 'shipping_amount',
-    tax_amount: 'tax_amount',
-    total_amount: 'total_amount',
-    promotion_id: 'promotion_id',
-    shipping_method_id: 'shipping_method_id',
-    shipping_address_line1: 'shipping_address_line1',
-    shipping_address_line2: 'shipping_address_line2',
-    shipping_city: 'shipping_city',
-    shipping_state: 'shipping_state',
-    shipping_postal_code: 'shipping_postal_code',
-    shipping_country: 'shipping_country',
-    notes: 'notes',
-    payment_status: 'payment_status',
-    clerk_user_id: 'clerk_user_id'
-  };
-
-  export type OrdersScalarFieldEnum = (typeof OrdersScalarFieldEnum)[keyof typeof OrdersScalarFieldEnum]
-
-
   export const Payment_typesScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -70495,7 +67382,8 @@ export namespace Prisma {
     created_at: 'created_at',
     updated_at: 'updated_at',
     reorder_level: 'reorder_level',
-    clerk_user_id: 'clerk_user_id'
+    clerk_user_id: 'clerk_user_id',
+    store_id: 'store_id'
   };
 
   export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
@@ -70540,6 +67428,7 @@ export namespace Prisma {
     product_id: 'product_id',
     quantity_ordered: 'quantity_ordered',
     unit_cost: 'unit_cost',
+    clerk_user_id: 'clerk_user_id',
     subtotal: 'subtotal'
   };
 
@@ -70557,7 +67446,11 @@ export namespace Prisma {
     po_number: 'po_number',
     created_at: 'created_at',
     user_id: 'user_id',
-    clerk_user_id: 'clerk_user_id'
+    clerk_user_id: 'clerk_user_id',
+    discounnt_amount: 'discounnt_amount',
+    shipping_amount: 'shipping_amount',
+    tax_amount: 'tax_amount',
+    payment_status: 'payment_status'
   };
 
   export type Purchase_ordersScalarFieldEnum = (typeof Purchase_ordersScalarFieldEnum)[keyof typeof Purchase_ordersScalarFieldEnum]
@@ -71560,7 +68453,6 @@ export namespace Prisma {
     clerk_user_id?: StringNullableFilter<"customers"> | string | null
     customer_cards?: Customer_cardsListRelationFilter
     customer_groups?: XOR<Customer_groupsNullableScalarRelationFilter, customer_groupsWhereInput> | null
-    orders?: OrdersListRelationFilter
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
     refunds?: RefundsListRelationFilter
@@ -71587,7 +68479,6 @@ export namespace Prisma {
     clerk_user_id?: SortOrderInput | SortOrder
     customer_cards?: customer_cardsOrderByRelationAggregateInput
     customer_groups?: customer_groupsOrderByWithRelationInput
-    orders?: ordersOrderByRelationAggregateInput
     pos_sales?: pos_salesOrderByRelationAggregateInput
     promotion_usage?: promotion_usageOrderByRelationAggregateInput
     refunds?: refundsOrderByRelationAggregateInput
@@ -71617,7 +68508,6 @@ export namespace Prisma {
     clerk_user_id?: StringNullableFilter<"customers"> | string | null
     customer_cards?: Customer_cardsListRelationFilter
     customer_groups?: XOR<Customer_groupsNullableScalarRelationFilter, customer_groupsWhereInput> | null
-    orders?: OrdersListRelationFilter
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
     refunds?: RefundsListRelationFilter
@@ -71743,231 +68633,6 @@ export namespace Prisma {
     location?: StringNullableWithAggregatesFilter<"inventory"> | string | null
     last_restocked?: DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
     clerk_user_id?: StringNullableWithAggregatesFilter<"inventory"> | string | null
-  }
-
-  export type order_itemsWhereInput = {
-    AND?: order_itemsWhereInput | order_itemsWhereInput[]
-    OR?: order_itemsWhereInput[]
-    NOT?: order_itemsWhereInput | order_itemsWhereInput[]
-    order_item_id?: IntFilter<"order_items"> | number
-    order_id?: IntFilter<"order_items"> | number
-    product_id?: IntFilter<"order_items"> | number
-    quantity?: IntFilter<"order_items"> | number
-    unit_price?: DecimalFilter<"order_items"> | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalNullableFilter<"order_items"> | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: StringNullableFilter<"order_items"> | string | null
-    orders?: XOR<OrdersScalarRelationFilter, ordersWhereInput>
-    products?: XOR<ProductsScalarRelationFilter, productsWhereInput>
-  }
-
-  export type order_itemsOrderByWithRelationInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrderInput | SortOrder
-    clerk_user_id?: SortOrderInput | SortOrder
-    orders?: ordersOrderByWithRelationInput
-    products?: productsOrderByWithRelationInput
-  }
-
-  export type order_itemsWhereUniqueInput = Prisma.AtLeast<{
-    order_item_id?: number
-    AND?: order_itemsWhereInput | order_itemsWhereInput[]
-    OR?: order_itemsWhereInput[]
-    NOT?: order_itemsWhereInput | order_itemsWhereInput[]
-    order_id?: IntFilter<"order_items"> | number
-    product_id?: IntFilter<"order_items"> | number
-    quantity?: IntFilter<"order_items"> | number
-    unit_price?: DecimalFilter<"order_items"> | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalNullableFilter<"order_items"> | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: StringNullableFilter<"order_items"> | string | null
-    orders?: XOR<OrdersScalarRelationFilter, ordersWhereInput>
-    products?: XOR<ProductsScalarRelationFilter, productsWhereInput>
-  }, "order_item_id">
-
-  export type order_itemsOrderByWithAggregationInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrderInput | SortOrder
-    clerk_user_id?: SortOrderInput | SortOrder
-    _count?: order_itemsCountOrderByAggregateInput
-    _avg?: order_itemsAvgOrderByAggregateInput
-    _max?: order_itemsMaxOrderByAggregateInput
-    _min?: order_itemsMinOrderByAggregateInput
-    _sum?: order_itemsSumOrderByAggregateInput
-  }
-
-  export type order_itemsScalarWhereWithAggregatesInput = {
-    AND?: order_itemsScalarWhereWithAggregatesInput | order_itemsScalarWhereWithAggregatesInput[]
-    OR?: order_itemsScalarWhereWithAggregatesInput[]
-    NOT?: order_itemsScalarWhereWithAggregatesInput | order_itemsScalarWhereWithAggregatesInput[]
-    order_item_id?: IntWithAggregatesFilter<"order_items"> | number
-    order_id?: IntWithAggregatesFilter<"order_items"> | number
-    product_id?: IntWithAggregatesFilter<"order_items"> | number
-    quantity?: IntWithAggregatesFilter<"order_items"> | number
-    unit_price?: DecimalWithAggregatesFilter<"order_items"> | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalNullableWithAggregatesFilter<"order_items"> | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: StringNullableWithAggregatesFilter<"order_items"> | string | null
-  }
-
-  export type ordersWhereInput = {
-    AND?: ordersWhereInput | ordersWhereInput[]
-    OR?: ordersWhereInput[]
-    NOT?: ordersWhereInput | ordersWhereInput[]
-    order_id?: IntFilter<"orders"> | number
-    customer_id?: IntFilter<"orders"> | number
-    order_number?: StringFilter<"orders"> | string
-    order_date?: DateTimeNullableFilter<"orders"> | Date | string | null
-    status?: StringNullableFilter<"orders"> | string | null
-    subtotal?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    discount_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    promotion_id?: IntNullableFilter<"orders"> | number | null
-    shipping_method_id?: IntNullableFilter<"orders"> | number | null
-    shipping_address_line1?: StringNullableFilter<"orders"> | string | null
-    shipping_address_line2?: StringNullableFilter<"orders"> | string | null
-    shipping_city?: StringNullableFilter<"orders"> | string | null
-    shipping_state?: StringNullableFilter<"orders"> | string | null
-    shipping_postal_code?: StringNullableFilter<"orders"> | string | null
-    shipping_country?: StringNullableFilter<"orders"> | string | null
-    notes?: StringNullableFilter<"orders"> | string | null
-    payment_status?: StringNullableFilter<"orders"> | string | null
-    clerk_user_id?: StringNullableFilter<"orders"> | string | null
-    order_items?: Order_itemsListRelationFilter
-    customers?: XOR<CustomersScalarRelationFilter, customersWhereInput>
-    promotions?: XOR<PromotionsNullableScalarRelationFilter, promotionsWhereInput> | null
-    shipping_methods?: XOR<Shipping_methodsNullableScalarRelationFilter, shipping_methodsWhereInput> | null
-    promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
-    shipments?: ShipmentsListRelationFilter
-  }
-
-  export type ordersOrderByWithRelationInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    order_number?: SortOrder
-    order_date?: SortOrderInput | SortOrder
-    status?: SortOrderInput | SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrderInput | SortOrder
-    shipping_amount?: SortOrderInput | SortOrder
-    tax_amount?: SortOrderInput | SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrderInput | SortOrder
-    shipping_method_id?: SortOrderInput | SortOrder
-    shipping_address_line1?: SortOrderInput | SortOrder
-    shipping_address_line2?: SortOrderInput | SortOrder
-    shipping_city?: SortOrderInput | SortOrder
-    shipping_state?: SortOrderInput | SortOrder
-    shipping_postal_code?: SortOrderInput | SortOrder
-    shipping_country?: SortOrderInput | SortOrder
-    notes?: SortOrderInput | SortOrder
-    payment_status?: SortOrderInput | SortOrder
-    clerk_user_id?: SortOrderInput | SortOrder
-    order_items?: order_itemsOrderByRelationAggregateInput
-    customers?: customersOrderByWithRelationInput
-    promotions?: promotionsOrderByWithRelationInput
-    shipping_methods?: shipping_methodsOrderByWithRelationInput
-    promotion_usage?: promotion_usageOrderByRelationAggregateInput
-    refunds?: refundsOrderByRelationAggregateInput
-    shipments?: shipmentsOrderByRelationAggregateInput
-  }
-
-  export type ordersWhereUniqueInput = Prisma.AtLeast<{
-    order_id?: number
-    order_number?: string
-    AND?: ordersWhereInput | ordersWhereInput[]
-    OR?: ordersWhereInput[]
-    NOT?: ordersWhereInput | ordersWhereInput[]
-    customer_id?: IntFilter<"orders"> | number
-    order_date?: DateTimeNullableFilter<"orders"> | Date | string | null
-    status?: StringNullableFilter<"orders"> | string | null
-    subtotal?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    discount_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    promotion_id?: IntNullableFilter<"orders"> | number | null
-    shipping_method_id?: IntNullableFilter<"orders"> | number | null
-    shipping_address_line1?: StringNullableFilter<"orders"> | string | null
-    shipping_address_line2?: StringNullableFilter<"orders"> | string | null
-    shipping_city?: StringNullableFilter<"orders"> | string | null
-    shipping_state?: StringNullableFilter<"orders"> | string | null
-    shipping_postal_code?: StringNullableFilter<"orders"> | string | null
-    shipping_country?: StringNullableFilter<"orders"> | string | null
-    notes?: StringNullableFilter<"orders"> | string | null
-    payment_status?: StringNullableFilter<"orders"> | string | null
-    clerk_user_id?: StringNullableFilter<"orders"> | string | null
-    order_items?: Order_itemsListRelationFilter
-    customers?: XOR<CustomersScalarRelationFilter, customersWhereInput>
-    promotions?: XOR<PromotionsNullableScalarRelationFilter, promotionsWhereInput> | null
-    shipping_methods?: XOR<Shipping_methodsNullableScalarRelationFilter, shipping_methodsWhereInput> | null
-    promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
-    shipments?: ShipmentsListRelationFilter
-  }, "order_id" | "order_number">
-
-  export type ordersOrderByWithAggregationInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    order_number?: SortOrder
-    order_date?: SortOrderInput | SortOrder
-    status?: SortOrderInput | SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrderInput | SortOrder
-    shipping_amount?: SortOrderInput | SortOrder
-    tax_amount?: SortOrderInput | SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrderInput | SortOrder
-    shipping_method_id?: SortOrderInput | SortOrder
-    shipping_address_line1?: SortOrderInput | SortOrder
-    shipping_address_line2?: SortOrderInput | SortOrder
-    shipping_city?: SortOrderInput | SortOrder
-    shipping_state?: SortOrderInput | SortOrder
-    shipping_postal_code?: SortOrderInput | SortOrder
-    shipping_country?: SortOrderInput | SortOrder
-    notes?: SortOrderInput | SortOrder
-    payment_status?: SortOrderInput | SortOrder
-    clerk_user_id?: SortOrderInput | SortOrder
-    _count?: ordersCountOrderByAggregateInput
-    _avg?: ordersAvgOrderByAggregateInput
-    _max?: ordersMaxOrderByAggregateInput
-    _min?: ordersMinOrderByAggregateInput
-    _sum?: ordersSumOrderByAggregateInput
-  }
-
-  export type ordersScalarWhereWithAggregatesInput = {
-    AND?: ordersScalarWhereWithAggregatesInput | ordersScalarWhereWithAggregatesInput[]
-    OR?: ordersScalarWhereWithAggregatesInput[]
-    NOT?: ordersScalarWhereWithAggregatesInput | ordersScalarWhereWithAggregatesInput[]
-    order_id?: IntWithAggregatesFilter<"orders"> | number
-    customer_id?: IntWithAggregatesFilter<"orders"> | number
-    order_number?: StringWithAggregatesFilter<"orders"> | string
-    order_date?: DateTimeNullableWithAggregatesFilter<"orders"> | Date | string | null
-    status?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    subtotal?: DecimalWithAggregatesFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    discount_amount?: DecimalNullableWithAggregatesFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: DecimalNullableWithAggregatesFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: DecimalNullableWithAggregatesFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalWithAggregatesFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    promotion_id?: IntNullableWithAggregatesFilter<"orders"> | number | null
-    shipping_method_id?: IntNullableWithAggregatesFilter<"orders"> | number | null
-    shipping_address_line1?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    shipping_address_line2?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    shipping_city?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    shipping_state?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    shipping_postal_code?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    shipping_country?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    notes?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    payment_status?: StringNullableWithAggregatesFilter<"orders"> | string | null
-    clerk_user_id?: StringNullableWithAggregatesFilter<"orders"> | string | null
   }
 
   export type payment_typesWhereInput = {
@@ -72225,8 +68890,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"products"> | Date | string | null
     reorder_level?: DecimalNullableFilter<"products"> | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: StringNullableFilter<"products"> | string | null
+    store_id?: StringNullableFilter<"products"> | string | null
     inventory?: XOR<InventoryNullableScalarRelationFilter, inventoryWhereInput> | null
-    order_items?: Order_itemsListRelationFilter
     price_list?: Price_listListRelationFilter
     categories?: XOR<CategoriesNullableScalarRelationFilter, categoriesWhereInput> | null
     suppliers?: XOR<SuppliersNullableScalarRelationFilter, suppliersWhereInput> | null
@@ -72252,8 +68917,8 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     reorder_level?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
+    store_id?: SortOrderInput | SortOrder
     inventory?: inventoryOrderByWithRelationInput
-    order_items?: order_itemsOrderByRelationAggregateInput
     price_list?: price_listOrderByRelationAggregateInput
     categories?: categoriesOrderByWithRelationInput
     suppliers?: suppliersOrderByWithRelationInput
@@ -72282,8 +68947,8 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"products"> | Date | string | null
     reorder_level?: DecimalNullableFilter<"products"> | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: StringNullableFilter<"products"> | string | null
+    store_id?: StringNullableFilter<"products"> | string | null
     inventory?: XOR<InventoryNullableScalarRelationFilter, inventoryWhereInput> | null
-    order_items?: Order_itemsListRelationFilter
     price_list?: Price_listListRelationFilter
     categories?: XOR<CategoriesNullableScalarRelationFilter, categoriesWhereInput> | null
     suppliers?: XOR<SuppliersNullableScalarRelationFilter, suppliersWhereInput> | null
@@ -72309,6 +68974,7 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     reorder_level?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
+    store_id?: SortOrderInput | SortOrder
     _count?: productsCountOrderByAggregateInput
     _avg?: productsAvgOrderByAggregateInput
     _max?: productsMaxOrderByAggregateInput
@@ -72336,6 +69002,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
     reorder_level?: DecimalNullableWithAggregatesFilter<"products"> | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: StringNullableWithAggregatesFilter<"products"> | string | null
+    store_id?: StringNullableWithAggregatesFilter<"products"> | string | null
   }
 
   export type promotion_usageWhereInput = {
@@ -72350,7 +69017,6 @@ export namespace Prisma {
     order_id?: IntNullableFilter<"promotion_usage"> | number | null
     clerk_user_id?: StringNullableFilter<"promotion_usage"> | string | null
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
-    orders?: XOR<OrdersNullableScalarRelationFilter, ordersWhereInput> | null
     promotions?: XOR<PromotionsScalarRelationFilter, promotionsWhereInput>
     pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
   }
@@ -72364,7 +69030,6 @@ export namespace Prisma {
     order_id?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
     customers?: customersOrderByWithRelationInput
-    orders?: ordersOrderByWithRelationInput
     promotions?: promotionsOrderByWithRelationInput
     pos_sales?: pos_salesOrderByWithRelationInput
   }
@@ -72381,7 +69046,6 @@ export namespace Prisma {
     order_id?: IntNullableFilter<"promotion_usage"> | number | null
     clerk_user_id?: StringNullableFilter<"promotion_usage"> | string | null
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
-    orders?: XOR<OrdersNullableScalarRelationFilter, ordersWhereInput> | null
     promotions?: XOR<PromotionsScalarRelationFilter, promotionsWhereInput>
     pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
   }, "usage_id">
@@ -72432,7 +69096,6 @@ export namespace Prisma {
     is_active?: BoolNullableFilter<"promotions"> | boolean | null
     created_at?: DateTimeNullableFilter<"promotions"> | Date | string | null
     clerk_user_id?: StringNullableFilter<"promotions"> | string | null
-    orders?: OrdersListRelationFilter
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
   }
@@ -72452,7 +69115,6 @@ export namespace Prisma {
     is_active?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
-    orders?: ordersOrderByRelationAggregateInput
     pos_sales?: pos_salesOrderByRelationAggregateInput
     promotion_usage?: promotion_usageOrderByRelationAggregateInput
   }
@@ -72475,7 +69137,6 @@ export namespace Prisma {
     is_active?: BoolNullableFilter<"promotions"> | boolean | null
     created_at?: DateTimeNullableFilter<"promotions"> | Date | string | null
     clerk_user_id?: StringNullableFilter<"promotions"> | string | null
-    orders?: OrdersListRelationFilter
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
   }, "promotion_id" | "code">
@@ -72531,6 +69192,7 @@ export namespace Prisma {
     product_id?: IntFilter<"purchase_order_items"> | number
     quantity_ordered?: IntFilter<"purchase_order_items"> | number
     unit_cost?: DecimalFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: StringNullableFilter<"purchase_order_items"> | string | null
     subtotal?: DecimalNullableFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string | null
     purchase_orders?: XOR<Purchase_ordersScalarRelationFilter, purchase_ordersWhereInput>
     products?: XOR<ProductsScalarRelationFilter, productsWhereInput>
@@ -72542,6 +69204,7 @@ export namespace Prisma {
     product_id?: SortOrder
     quantity_ordered?: SortOrder
     unit_cost?: SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     subtotal?: SortOrderInput | SortOrder
     purchase_orders?: purchase_ordersOrderByWithRelationInput
     products?: productsOrderByWithRelationInput
@@ -72556,6 +69219,7 @@ export namespace Prisma {
     product_id?: IntFilter<"purchase_order_items"> | number
     quantity_ordered?: IntFilter<"purchase_order_items"> | number
     unit_cost?: DecimalFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: StringNullableFilter<"purchase_order_items"> | string | null
     subtotal?: DecimalNullableFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string | null
     purchase_orders?: XOR<Purchase_ordersScalarRelationFilter, purchase_ordersWhereInput>
     products?: XOR<ProductsScalarRelationFilter, productsWhereInput>
@@ -72567,6 +69231,7 @@ export namespace Prisma {
     product_id?: SortOrder
     quantity_ordered?: SortOrder
     unit_cost?: SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     subtotal?: SortOrderInput | SortOrder
     _count?: purchase_order_itemsCountOrderByAggregateInput
     _avg?: purchase_order_itemsAvgOrderByAggregateInput
@@ -72584,6 +69249,7 @@ export namespace Prisma {
     product_id?: IntWithAggregatesFilter<"purchase_order_items"> | number
     quantity_ordered?: IntWithAggregatesFilter<"purchase_order_items"> | number
     unit_cost?: DecimalWithAggregatesFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: StringNullableWithAggregatesFilter<"purchase_order_items"> | string | null
     subtotal?: DecimalNullableWithAggregatesFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -72602,6 +69268,10 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"purchase_orders"> | Date | string | null
     user_id?: StringNullableFilter<"purchase_orders"> | string | null
     clerk_user_id?: StringNullableFilter<"purchase_orders"> | string | null
+    discounnt_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    payment_status?: StringNullableFilter<"purchase_orders"> | string | null
     purchase_order_items?: Purchase_order_itemsListRelationFilter
     suppliers?: XOR<SuppliersScalarRelationFilter, suppliersWhereInput>
   }
@@ -72618,6 +69288,10 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     user_id?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
+    discounnt_amount?: SortOrderInput | SortOrder
+    shipping_amount?: SortOrderInput | SortOrder
+    tax_amount?: SortOrderInput | SortOrder
+    payment_status?: SortOrderInput | SortOrder
     purchase_order_items?: purchase_order_itemsOrderByRelationAggregateInput
     suppliers?: suppliersOrderByWithRelationInput
   }
@@ -72637,6 +69311,10 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"purchase_orders"> | Date | string | null
     user_id?: StringNullableFilter<"purchase_orders"> | string | null
     clerk_user_id?: StringNullableFilter<"purchase_orders"> | string | null
+    discounnt_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    payment_status?: StringNullableFilter<"purchase_orders"> | string | null
     purchase_order_items?: Purchase_order_itemsListRelationFilter
     suppliers?: XOR<SuppliersScalarRelationFilter, suppliersWhereInput>
   }, "po_id">
@@ -72653,6 +69331,10 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     user_id?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
+    discounnt_amount?: SortOrderInput | SortOrder
+    shipping_amount?: SortOrderInput | SortOrder
+    tax_amount?: SortOrderInput | SortOrder
+    payment_status?: SortOrderInput | SortOrder
     _count?: purchase_ordersCountOrderByAggregateInput
     _avg?: purchase_ordersAvgOrderByAggregateInput
     _max?: purchase_ordersMaxOrderByAggregateInput
@@ -72675,6 +69357,10 @@ export namespace Prisma {
     created_at?: DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
     user_id?: StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
     clerk_user_id?: StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
+    discounnt_amount?: DecimalNullableWithAggregatesFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: DecimalNullableWithAggregatesFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: DecimalNullableWithAggregatesFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    payment_status?: StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
   }
 
   export type refundsWhereInput = {
@@ -72690,7 +69376,6 @@ export namespace Prisma {
     processed_by?: IntNullableFilter<"refunds"> | number | null
     notes?: StringNullableFilter<"refunds"> | string | null
     clerk_user_id?: StringNullableFilter<"refunds"> | string | null
-    orders?: XOR<OrdersNullableScalarRelationFilter, ordersWhereInput> | null
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
     pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
   }
@@ -72705,7 +69390,6 @@ export namespace Prisma {
     processed_by?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
-    orders?: ordersOrderByWithRelationInput
     customers?: customersOrderByWithRelationInput
     pos_sales?: pos_salesOrderByWithRelationInput
   }
@@ -72723,7 +69407,6 @@ export namespace Prisma {
     processed_by?: IntNullableFilter<"refunds"> | number | null
     notes?: StringNullableFilter<"refunds"> | string | null
     clerk_user_id?: StringNullableFilter<"refunds"> | string | null
-    orders?: XOR<OrdersNullableScalarRelationFilter, ordersWhereInput> | null
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
     pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
   }, "refund_id">
@@ -74068,7 +70751,6 @@ export namespace Prisma {
     carrier?: StringNullableFilter<"shipments"> | string | null
     status?: StringNullableFilter<"shipments"> | string | null
     notes?: StringNullableFilter<"shipments"> | string | null
-    orders?: XOR<OrdersScalarRelationFilter, ordersWhereInput>
   }
 
   export type shipmentsOrderByWithRelationInput = {
@@ -74080,7 +70762,6 @@ export namespace Prisma {
     carrier?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
-    orders?: ordersOrderByWithRelationInput
   }
 
   export type shipmentsWhereUniqueInput = Prisma.AtLeast<{
@@ -74095,7 +70776,6 @@ export namespace Prisma {
     carrier?: StringNullableFilter<"shipments"> | string | null
     status?: StringNullableFilter<"shipments"> | string | null
     notes?: StringNullableFilter<"shipments"> | string | null
-    orders?: XOR<OrdersScalarRelationFilter, ordersWhereInput>
   }, "shipment_id">
 
   export type shipmentsOrderByWithAggregationInput = {
@@ -74139,7 +70819,6 @@ export namespace Prisma {
     estimated_days_min?: IntNullableFilter<"shipping_methods"> | number | null
     estimated_days_max?: IntNullableFilter<"shipping_methods"> | number | null
     is_active?: BoolNullableFilter<"shipping_methods"> | boolean | null
-    orders?: OrdersListRelationFilter
     shipping_rates?: Shipping_ratesListRelationFilter
   }
 
@@ -74151,7 +70830,6 @@ export namespace Prisma {
     estimated_days_min?: SortOrderInput | SortOrder
     estimated_days_max?: SortOrderInput | SortOrder
     is_active?: SortOrderInput | SortOrder
-    orders?: ordersOrderByRelationAggregateInput
     shipping_rates?: shipping_ratesOrderByRelationAggregateInput
   }
 
@@ -74166,7 +70844,6 @@ export namespace Prisma {
     estimated_days_min?: IntNullableFilter<"shipping_methods"> | number | null
     estimated_days_max?: IntNullableFilter<"shipping_methods"> | number | null
     is_active?: BoolNullableFilter<"shipping_methods"> | boolean | null
-    orders?: OrdersListRelationFilter
     shipping_rates?: Shipping_ratesListRelationFilter
   }, "method_id">
 
@@ -75967,7 +72644,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
     refunds?: refundsCreateNestedManyWithoutCustomersInput
@@ -75993,7 +72669,6 @@ export namespace Prisma {
     group_id?: number | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
     refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
@@ -76018,7 +72693,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUpdateManyWithoutCustomersNestedInput
@@ -76044,7 +72718,6 @@ export namespace Prisma {
     group_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -76181,249 +72854,6 @@ export namespace Prisma {
     max_stock_level?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     last_restocked?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsCreateInput = {
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-    orders: ordersCreateNestedOneWithoutOrder_itemsInput
-    products: productsCreateNestedOneWithoutOrder_itemsInput
-  }
-
-  export type order_itemsUncheckedCreateInput = {
-    order_item_id?: number
-    order_id: number
-    product_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type order_itemsUpdateInput = {
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneRequiredWithoutOrder_itemsNestedInput
-    products?: productsUpdateOneRequiredWithoutOrder_itemsNestedInput
-  }
-
-  export type order_itemsUncheckedUpdateInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    order_id?: IntFieldUpdateOperationsInput | number
-    product_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsCreateManyInput = {
-    order_item_id?: number
-    order_id: number
-    product_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type order_itemsUpdateManyMutationInput = {
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsUncheckedUpdateManyInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    order_id?: IntFieldUpdateOperationsInput | number
-    product_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ordersCreateInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUpdateInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersCreateManyInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-  }
-
-  export type ordersUpdateManyMutationInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ordersUncheckedUpdateManyInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -76680,8 +73110,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
@@ -76707,8 +73137,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -76729,8 +73159,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
@@ -76756,8 +73186,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -76781,6 +73211,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
   }
 
   export type productsUpdateManyMutationInput = {
@@ -76797,6 +73228,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type productsUncheckedUpdateManyInput = {
@@ -76816,13 +73248,14 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type promotion_usageCreateInput = {
     used_at?: Date | string | null
+    order_id?: number | null
     clerk_user_id?: string | null
     customers?: customersCreateNestedOneWithoutPromotion_usageInput
-    orders?: ordersCreateNestedOneWithoutPromotion_usageInput
     promotions: promotionsCreateNestedOneWithoutPromotion_usageInput
     pos_sales?: pos_salesCreateNestedOneWithoutPromotion_usageInput
   }
@@ -76839,9 +73272,9 @@ export namespace Prisma {
 
   export type promotion_usageUpdateInput = {
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: customersUpdateOneWithoutPromotion_usageNestedInput
-    orders?: ordersUpdateOneWithoutPromotion_usageNestedInput
     promotions?: promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
     pos_sales?: pos_salesUpdateOneWithoutPromotion_usageNestedInput
   }
@@ -76868,6 +73301,7 @@ export namespace Prisma {
 
   export type promotion_usageUpdateManyMutationInput = {
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -76895,7 +73329,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedManyWithoutPromotionsInput
     pos_sales?: pos_salesCreateNestedManyWithoutPromotionsInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPromotionsInput
   }
@@ -76915,7 +73348,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersUncheckedCreateNestedManyWithoutPromotionsInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutPromotionsInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
   }
@@ -76934,7 +73366,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateManyWithoutPromotionsNestedInput
     pos_sales?: pos_salesUpdateManyWithoutPromotionsNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPromotionsNestedInput
   }
@@ -76954,7 +73385,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUncheckedUpdateManyWithoutPromotionsNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutPromotionsNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
   }
@@ -77012,6 +73442,7 @@ export namespace Prisma {
   export type purchase_order_itemsCreateInput = {
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
     purchase_orders: purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
     products: productsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -77023,12 +73454,14 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type purchase_order_itemsUpdateInput = {
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     purchase_orders?: purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
     products?: productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
@@ -77040,6 +73473,7 @@ export namespace Prisma {
     product_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -77049,12 +73483,14 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type purchase_order_itemsUpdateManyMutationInput = {
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -77064,6 +73500,7 @@ export namespace Prisma {
     product_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -77077,6 +73514,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
     purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
     suppliers: suppliersCreateNestedOneWithoutPurchase_ordersInput
   }
@@ -77093,6 +73534,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
   }
 
@@ -77106,6 +73551,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     purchase_order_items?: purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
     suppliers?: suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
   }
@@ -77122,6 +73571,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
   }
 
@@ -77137,6 +73590,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
   }
 
   export type purchase_ordersUpdateManyMutationInput = {
@@ -77149,6 +73606,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type purchase_ordersUncheckedUpdateManyInput = {
@@ -77163,15 +73624,19 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type refundsCreateInput = {
+    order_id?: number | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
     notes?: string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedOneWithoutRefundsInput
     customers?: customersCreateNestedOneWithoutRefundsInput
     pos_sales?: pos_salesCreateNestedOneWithoutRefundsInput
   }
@@ -77189,12 +73654,12 @@ export namespace Prisma {
   }
 
   export type refundsUpdateInput = {
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneWithoutRefundsNestedInput
     customers?: customersUpdateOneWithoutRefundsNestedInput
     pos_sales?: pos_salesUpdateOneWithoutRefundsNestedInput
   }
@@ -77224,6 +73689,7 @@ export namespace Prisma {
   }
 
   export type refundsUpdateManyMutationInput = {
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78648,13 +75114,13 @@ export namespace Prisma {
   }
 
   export type shipmentsCreateInput = {
+    order_id: number
     tracking_number?: string | null
     shipped_date?: Date | string | null
     delivered_date?: Date | string | null
     carrier?: string | null
     status?: string | null
     notes?: string | null
-    orders: ordersCreateNestedOneWithoutShipmentsInput
   }
 
   export type shipmentsUncheckedCreateInput = {
@@ -78669,13 +75135,13 @@ export namespace Prisma {
   }
 
   export type shipmentsUpdateInput = {
+    order_id?: IntFieldUpdateOperationsInput | number
     tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     shipped_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivered_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     carrier?: NullableStringFieldUpdateOperationsInput | string | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneRequiredWithoutShipmentsNestedInput
   }
 
   export type shipmentsUncheckedUpdateInput = {
@@ -78701,6 +75167,7 @@ export namespace Prisma {
   }
 
   export type shipmentsUpdateManyMutationInput = {
+    order_id?: IntFieldUpdateOperationsInput | number
     tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
     shipped_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivered_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -78727,7 +75194,6 @@ export namespace Prisma {
     estimated_days_min?: number | null
     estimated_days_max?: number | null
     is_active?: boolean | null
-    orders?: ordersCreateNestedManyWithoutShipping_methodsInput
     shipping_rates?: shipping_ratesCreateNestedManyWithoutShipping_methodsInput
   }
 
@@ -78739,7 +75205,6 @@ export namespace Prisma {
     estimated_days_min?: number | null
     estimated_days_max?: number | null
     is_active?: boolean | null
-    orders?: ordersUncheckedCreateNestedManyWithoutShipping_methodsInput
     shipping_rates?: shipping_ratesUncheckedCreateNestedManyWithoutShipping_methodsInput
   }
 
@@ -78750,7 +75215,6 @@ export namespace Prisma {
     estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
     estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    orders?: ordersUpdateManyWithoutShipping_methodsNestedInput
     shipping_rates?: shipping_ratesUpdateManyWithoutShipping_methodsNestedInput
   }
 
@@ -78762,7 +75226,6 @@ export namespace Prisma {
     estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
     estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    orders?: ordersUncheckedUpdateManyWithoutShipping_methodsNestedInput
     shipping_rates?: shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput
   }
 
@@ -80830,12 +77293,6 @@ export namespace Prisma {
     isNot?: customer_groupsWhereInput | null
   }
 
-  export type OrdersListRelationFilter = {
-    every?: ordersWhereInput
-    some?: ordersWhereInput
-    none?: ordersWhereInput
-  }
-
   export type Promotion_usageListRelationFilter = {
     every?: promotion_usageWhereInput
     some?: promotion_usageWhereInput
@@ -80849,10 +77306,6 @@ export namespace Prisma {
   }
 
   export type customer_cardsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ordersOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -81009,212 +77462,6 @@ export namespace Prisma {
     max_stock_level?: SortOrder
   }
 
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type OrdersScalarRelationFilter = {
-    is?: ordersWhereInput
-    isNot?: ordersWhereInput
-  }
-
-  export type order_itemsCountOrderByAggregateInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type order_itemsAvgOrderByAggregateInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrder
-  }
-
-  export type order_itemsMaxOrderByAggregateInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type order_itemsMinOrderByAggregateInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type order_itemsSumOrderByAggregateInput = {
-    order_item_id?: SortOrder
-    order_id?: SortOrder
-    product_id?: SortOrder
-    quantity?: SortOrder
-    unit_price?: SortOrder
-    subtotal?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
-  export type Order_itemsListRelationFilter = {
-    every?: order_itemsWhereInput
-    some?: order_itemsWhereInput
-    none?: order_itemsWhereInput
-  }
-
-  export type PromotionsNullableScalarRelationFilter = {
-    is?: promotionsWhereInput | null
-    isNot?: promotionsWhereInput | null
-  }
-
-  export type Shipping_methodsNullableScalarRelationFilter = {
-    is?: shipping_methodsWhereInput | null
-    isNot?: shipping_methodsWhereInput | null
-  }
-
-  export type ShipmentsListRelationFilter = {
-    every?: shipmentsWhereInput
-    some?: shipmentsWhereInput
-    none?: shipmentsWhereInput
-  }
-
-  export type order_itemsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type shipmentsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ordersCountOrderByAggregateInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    order_number?: SortOrder
-    order_date?: SortOrder
-    status?: SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrder
-    shipping_amount?: SortOrder
-    tax_amount?: SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrder
-    shipping_method_id?: SortOrder
-    shipping_address_line1?: SortOrder
-    shipping_address_line2?: SortOrder
-    shipping_city?: SortOrder
-    shipping_state?: SortOrder
-    shipping_postal_code?: SortOrder
-    shipping_country?: SortOrder
-    notes?: SortOrder
-    payment_status?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type ordersAvgOrderByAggregateInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrder
-    shipping_amount?: SortOrder
-    tax_amount?: SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrder
-    shipping_method_id?: SortOrder
-  }
-
-  export type ordersMaxOrderByAggregateInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    order_number?: SortOrder
-    order_date?: SortOrder
-    status?: SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrder
-    shipping_amount?: SortOrder
-    tax_amount?: SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrder
-    shipping_method_id?: SortOrder
-    shipping_address_line1?: SortOrder
-    shipping_address_line2?: SortOrder
-    shipping_city?: SortOrder
-    shipping_state?: SortOrder
-    shipping_postal_code?: SortOrder
-    shipping_country?: SortOrder
-    notes?: SortOrder
-    payment_status?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type ordersMinOrderByAggregateInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    order_number?: SortOrder
-    order_date?: SortOrder
-    status?: SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrder
-    shipping_amount?: SortOrder
-    tax_amount?: SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrder
-    shipping_method_id?: SortOrder
-    shipping_address_line1?: SortOrder
-    shipping_address_line2?: SortOrder
-    shipping_city?: SortOrder
-    shipping_state?: SortOrder
-    shipping_postal_code?: SortOrder
-    shipping_country?: SortOrder
-    notes?: SortOrder
-    payment_status?: SortOrder
-    clerk_user_id?: SortOrder
-  }
-
-  export type ordersSumOrderByAggregateInput = {
-    order_id?: SortOrder
-    customer_id?: SortOrder
-    subtotal?: SortOrder
-    discount_amount?: SortOrder
-    shipping_amount?: SortOrder
-    tax_amount?: SortOrder
-    total_amount?: SortOrder
-    promotion_id?: SortOrder
-    shipping_method_id?: SortOrder
-  }
-
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -81282,6 +77529,17 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
   export type Customer_cardsNullableScalarRelationFilter = {
     is?: customer_cardsWhereInput | null
     isNot?: customer_cardsWhereInput | null
@@ -81290,6 +77548,11 @@ export namespace Prisma {
   export type CustomersNullableScalarRelationFilter = {
     is?: customersWhereInput | null
     isNot?: customersWhereInput | null
+  }
+
+  export type PromotionsNullableScalarRelationFilter = {
+    is?: promotionsWhereInput | null
+    isNot?: promotionsWhereInput | null
   }
 
   export type Sale_itemsListRelationFilter = {
@@ -81364,6 +77627,22 @@ export namespace Prisma {
     tax_amount?: SortOrder
     total_amount?: SortOrder
     card_id?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -81495,6 +77774,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     reorder_level?: SortOrder
     clerk_user_id?: SortOrder
+    store_id?: SortOrder
   }
 
   export type productsAvgOrderByAggregateInput = {
@@ -81524,6 +77804,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     reorder_level?: SortOrder
     clerk_user_id?: SortOrder
+    store_id?: SortOrder
   }
 
   export type productsMinOrderByAggregateInput = {
@@ -81543,6 +77824,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     reorder_level?: SortOrder
     clerk_user_id?: SortOrder
+    store_id?: SortOrder
   }
 
   export type productsSumOrderByAggregateInput = {
@@ -81553,11 +77835,6 @@ export namespace Prisma {
     category_id?: SortOrder
     weight?: SortOrder
     reorder_level?: SortOrder
-  }
-
-  export type OrdersNullableScalarRelationFilter = {
-    is?: ordersWhereInput | null
-    isNot?: ordersWhereInput | null
   }
 
   export type PromotionsScalarRelationFilter = {
@@ -81694,6 +77971,7 @@ export namespace Prisma {
     product_id?: SortOrder
     quantity_ordered?: SortOrder
     unit_cost?: SortOrder
+    clerk_user_id?: SortOrder
     subtotal?: SortOrder
   }
 
@@ -81712,6 +77990,7 @@ export namespace Prisma {
     product_id?: SortOrder
     quantity_ordered?: SortOrder
     unit_cost?: SortOrder
+    clerk_user_id?: SortOrder
     subtotal?: SortOrder
   }
 
@@ -81721,6 +78000,7 @@ export namespace Prisma {
     product_id?: SortOrder
     quantity_ordered?: SortOrder
     unit_cost?: SortOrder
+    clerk_user_id?: SortOrder
     subtotal?: SortOrder
   }
 
@@ -81750,6 +78030,10 @@ export namespace Prisma {
     created_at?: SortOrder
     user_id?: SortOrder
     clerk_user_id?: SortOrder
+    discounnt_amount?: SortOrder
+    shipping_amount?: SortOrder
+    tax_amount?: SortOrder
+    payment_status?: SortOrder
   }
 
   export type purchase_ordersAvgOrderByAggregateInput = {
@@ -81757,6 +78041,9 @@ export namespace Prisma {
     supplier_id?: SortOrder
     total_amount?: SortOrder
     po_number?: SortOrder
+    discounnt_amount?: SortOrder
+    shipping_amount?: SortOrder
+    tax_amount?: SortOrder
   }
 
   export type purchase_ordersMaxOrderByAggregateInput = {
@@ -81771,6 +78058,10 @@ export namespace Prisma {
     created_at?: SortOrder
     user_id?: SortOrder
     clerk_user_id?: SortOrder
+    discounnt_amount?: SortOrder
+    shipping_amount?: SortOrder
+    tax_amount?: SortOrder
+    payment_status?: SortOrder
   }
 
   export type purchase_ordersMinOrderByAggregateInput = {
@@ -81785,6 +78076,10 @@ export namespace Prisma {
     created_at?: SortOrder
     user_id?: SortOrder
     clerk_user_id?: SortOrder
+    discounnt_amount?: SortOrder
+    shipping_amount?: SortOrder
+    tax_amount?: SortOrder
+    payment_status?: SortOrder
   }
 
   export type purchase_ordersSumOrderByAggregateInput = {
@@ -81792,6 +78087,9 @@ export namespace Prisma {
     supplier_id?: SortOrder
     total_amount?: SortOrder
     po_number?: SortOrder
+    discounnt_amount?: SortOrder
+    shipping_amount?: SortOrder
+    tax_amount?: SortOrder
   }
 
   export type refundsCountOrderByAggregateInput = {
@@ -84133,13 +80431,6 @@ export namespace Prisma {
     connect?: customer_groupsWhereUniqueInput
   }
 
-  export type ordersCreateNestedManyWithoutCustomersInput = {
-    create?: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput> | ordersCreateWithoutCustomersInput[] | ordersUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutCustomersInput | ordersCreateOrConnectWithoutCustomersInput[]
-    createMany?: ordersCreateManyCustomersInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-  }
-
   export type pos_salesCreateNestedManyWithoutCustomersInput = {
     create?: XOR<pos_salesCreateWithoutCustomersInput, pos_salesUncheckedCreateWithoutCustomersInput> | pos_salesCreateWithoutCustomersInput[] | pos_salesUncheckedCreateWithoutCustomersInput[]
     connectOrCreate?: pos_salesCreateOrConnectWithoutCustomersInput | pos_salesCreateOrConnectWithoutCustomersInput[]
@@ -84166,13 +80457,6 @@ export namespace Prisma {
     connectOrCreate?: customer_cardsCreateOrConnectWithoutCustomersInput | customer_cardsCreateOrConnectWithoutCustomersInput[]
     createMany?: customer_cardsCreateManyCustomersInputEnvelope
     connect?: customer_cardsWhereUniqueInput | customer_cardsWhereUniqueInput[]
-  }
-
-  export type ordersUncheckedCreateNestedManyWithoutCustomersInput = {
-    create?: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput> | ordersCreateWithoutCustomersInput[] | ordersUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutCustomersInput | ordersCreateOrConnectWithoutCustomersInput[]
-    createMany?: ordersCreateManyCustomersInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
   }
 
   export type pos_salesUncheckedCreateNestedManyWithoutCustomersInput = {
@@ -84226,20 +80510,6 @@ export namespace Prisma {
     delete?: customer_groupsWhereInput | boolean
     connect?: customer_groupsWhereUniqueInput
     update?: XOR<XOR<customer_groupsUpdateToOneWithWhereWithoutCustomersInput, customer_groupsUpdateWithoutCustomersInput>, customer_groupsUncheckedUpdateWithoutCustomersInput>
-  }
-
-  export type ordersUpdateManyWithoutCustomersNestedInput = {
-    create?: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput> | ordersCreateWithoutCustomersInput[] | ordersUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutCustomersInput | ordersCreateOrConnectWithoutCustomersInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutCustomersInput | ordersUpsertWithWhereUniqueWithoutCustomersInput[]
-    createMany?: ordersCreateManyCustomersInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutCustomersInput | ordersUpdateWithWhereUniqueWithoutCustomersInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutCustomersInput | ordersUpdateManyWithWhereWithoutCustomersInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
   }
 
   export type pos_salesUpdateManyWithoutCustomersNestedInput = {
@@ -84298,20 +80568,6 @@ export namespace Prisma {
     deleteMany?: customer_cardsScalarWhereInput | customer_cardsScalarWhereInput[]
   }
 
-  export type ordersUncheckedUpdateManyWithoutCustomersNestedInput = {
-    create?: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput> | ordersCreateWithoutCustomersInput[] | ordersUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutCustomersInput | ordersCreateOrConnectWithoutCustomersInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutCustomersInput | ordersUpsertWithWhereUniqueWithoutCustomersInput[]
-    createMany?: ordersCreateManyCustomersInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutCustomersInput | ordersUpdateWithWhereUniqueWithoutCustomersInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutCustomersInput | ordersUpdateManyWithWhereWithoutCustomersInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
-  }
-
   export type pos_salesUncheckedUpdateManyWithoutCustomersNestedInput = {
     create?: XOR<pos_salesCreateWithoutCustomersInput, pos_salesUncheckedCreateWithoutCustomersInput> | pos_salesCreateWithoutCustomersInput[] | pos_salesUncheckedCreateWithoutCustomersInput[]
     connectOrCreate?: pos_salesCreateOrConnectWithoutCustomersInput | pos_salesCreateOrConnectWithoutCustomersInput[]
@@ -84366,256 +80622,6 @@ export namespace Prisma {
     upsert?: productsUpsertWithoutInventoryInput
     connect?: productsWhereUniqueInput
     update?: XOR<XOR<productsUpdateToOneWithWhereWithoutInventoryInput, productsUpdateWithoutInventoryInput>, productsUncheckedUpdateWithoutInventoryInput>
-  }
-
-  export type ordersCreateNestedOneWithoutOrder_itemsInput = {
-    create?: XOR<ordersCreateWithoutOrder_itemsInput, ordersUncheckedCreateWithoutOrder_itemsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutOrder_itemsInput
-    connect?: ordersWhereUniqueInput
-  }
-
-  export type productsCreateNestedOneWithoutOrder_itemsInput = {
-    create?: XOR<productsCreateWithoutOrder_itemsInput, productsUncheckedCreateWithoutOrder_itemsInput>
-    connectOrCreate?: productsCreateOrConnectWithoutOrder_itemsInput
-    connect?: productsWhereUniqueInput
-  }
-
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type ordersUpdateOneRequiredWithoutOrder_itemsNestedInput = {
-    create?: XOR<ordersCreateWithoutOrder_itemsInput, ordersUncheckedCreateWithoutOrder_itemsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutOrder_itemsInput
-    upsert?: ordersUpsertWithoutOrder_itemsInput
-    connect?: ordersWhereUniqueInput
-    update?: XOR<XOR<ordersUpdateToOneWithWhereWithoutOrder_itemsInput, ordersUpdateWithoutOrder_itemsInput>, ordersUncheckedUpdateWithoutOrder_itemsInput>
-  }
-
-  export type productsUpdateOneRequiredWithoutOrder_itemsNestedInput = {
-    create?: XOR<productsCreateWithoutOrder_itemsInput, productsUncheckedCreateWithoutOrder_itemsInput>
-    connectOrCreate?: productsCreateOrConnectWithoutOrder_itemsInput
-    upsert?: productsUpsertWithoutOrder_itemsInput
-    connect?: productsWhereUniqueInput
-    update?: XOR<XOR<productsUpdateToOneWithWhereWithoutOrder_itemsInput, productsUpdateWithoutOrder_itemsInput>, productsUncheckedUpdateWithoutOrder_itemsInput>
-  }
-
-  export type order_itemsCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput> | order_itemsCreateWithoutOrdersInput[] | order_itemsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutOrdersInput | order_itemsCreateOrConnectWithoutOrdersInput[]
-    createMany?: order_itemsCreateManyOrdersInputEnvelope
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-  }
-
-  export type customersCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<customersCreateWithoutOrdersInput, customersUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: customersCreateOrConnectWithoutOrdersInput
-    connect?: customersWhereUniqueInput
-  }
-
-  export type promotionsCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<promotionsCreateWithoutOrdersInput, promotionsUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: promotionsCreateOrConnectWithoutOrdersInput
-    connect?: promotionsWhereUniqueInput
-  }
-
-  export type shipping_methodsCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<shipping_methodsCreateWithoutOrdersInput, shipping_methodsUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: shipping_methodsCreateOrConnectWithoutOrdersInput
-    connect?: shipping_methodsWhereUniqueInput
-  }
-
-  export type promotion_usageCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput> | promotion_usageCreateWithoutOrdersInput[] | promotion_usageUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: promotion_usageCreateOrConnectWithoutOrdersInput | promotion_usageCreateOrConnectWithoutOrdersInput[]
-    createMany?: promotion_usageCreateManyOrdersInputEnvelope
-    connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-  }
-
-  export type refundsCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput> | refundsCreateWithoutOrdersInput[] | refundsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutOrdersInput | refundsCreateOrConnectWithoutOrdersInput[]
-    createMany?: refundsCreateManyOrdersInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-  }
-
-  export type shipmentsCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput> | shipmentsCreateWithoutOrdersInput[] | shipmentsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: shipmentsCreateOrConnectWithoutOrdersInput | shipmentsCreateOrConnectWithoutOrdersInput[]
-    createMany?: shipmentsCreateManyOrdersInputEnvelope
-    connect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-  }
-
-  export type order_itemsUncheckedCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput> | order_itemsCreateWithoutOrdersInput[] | order_itemsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutOrdersInput | order_itemsCreateOrConnectWithoutOrdersInput[]
-    createMany?: order_itemsCreateManyOrdersInputEnvelope
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-  }
-
-  export type promotion_usageUncheckedCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput> | promotion_usageCreateWithoutOrdersInput[] | promotion_usageUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: promotion_usageCreateOrConnectWithoutOrdersInput | promotion_usageCreateOrConnectWithoutOrdersInput[]
-    createMany?: promotion_usageCreateManyOrdersInputEnvelope
-    connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-  }
-
-  export type refundsUncheckedCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput> | refundsCreateWithoutOrdersInput[] | refundsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutOrdersInput | refundsCreateOrConnectWithoutOrdersInput[]
-    createMany?: refundsCreateManyOrdersInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-  }
-
-  export type shipmentsUncheckedCreateNestedManyWithoutOrdersInput = {
-    create?: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput> | shipmentsCreateWithoutOrdersInput[] | shipmentsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: shipmentsCreateOrConnectWithoutOrdersInput | shipmentsCreateOrConnectWithoutOrdersInput[]
-    createMany?: shipmentsCreateManyOrdersInputEnvelope
-    connect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-  }
-
-  export type order_itemsUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput> | order_itemsCreateWithoutOrdersInput[] | order_itemsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutOrdersInput | order_itemsCreateOrConnectWithoutOrdersInput[]
-    upsert?: order_itemsUpsertWithWhereUniqueWithoutOrdersInput | order_itemsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: order_itemsCreateManyOrdersInputEnvelope
-    set?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    disconnect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    delete?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    update?: order_itemsUpdateWithWhereUniqueWithoutOrdersInput | order_itemsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: order_itemsUpdateManyWithWhereWithoutOrdersInput | order_itemsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
-  }
-
-  export type customersUpdateOneRequiredWithoutOrdersNestedInput = {
-    create?: XOR<customersCreateWithoutOrdersInput, customersUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: customersCreateOrConnectWithoutOrdersInput
-    upsert?: customersUpsertWithoutOrdersInput
-    connect?: customersWhereUniqueInput
-    update?: XOR<XOR<customersUpdateToOneWithWhereWithoutOrdersInput, customersUpdateWithoutOrdersInput>, customersUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type promotionsUpdateOneWithoutOrdersNestedInput = {
-    create?: XOR<promotionsCreateWithoutOrdersInput, promotionsUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: promotionsCreateOrConnectWithoutOrdersInput
-    upsert?: promotionsUpsertWithoutOrdersInput
-    disconnect?: promotionsWhereInput | boolean
-    delete?: promotionsWhereInput | boolean
-    connect?: promotionsWhereUniqueInput
-    update?: XOR<XOR<promotionsUpdateToOneWithWhereWithoutOrdersInput, promotionsUpdateWithoutOrdersInput>, promotionsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type shipping_methodsUpdateOneWithoutOrdersNestedInput = {
-    create?: XOR<shipping_methodsCreateWithoutOrdersInput, shipping_methodsUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: shipping_methodsCreateOrConnectWithoutOrdersInput
-    upsert?: shipping_methodsUpsertWithoutOrdersInput
-    disconnect?: shipping_methodsWhereInput | boolean
-    delete?: shipping_methodsWhereInput | boolean
-    connect?: shipping_methodsWhereUniqueInput
-    update?: XOR<XOR<shipping_methodsUpdateToOneWithWhereWithoutOrdersInput, shipping_methodsUpdateWithoutOrdersInput>, shipping_methodsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type promotion_usageUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput> | promotion_usageCreateWithoutOrdersInput[] | promotion_usageUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: promotion_usageCreateOrConnectWithoutOrdersInput | promotion_usageCreateOrConnectWithoutOrdersInput[]
-    upsert?: promotion_usageUpsertWithWhereUniqueWithoutOrdersInput | promotion_usageUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: promotion_usageCreateManyOrdersInputEnvelope
-    set?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    disconnect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    delete?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    update?: promotion_usageUpdateWithWhereUniqueWithoutOrdersInput | promotion_usageUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: promotion_usageUpdateManyWithWhereWithoutOrdersInput | promotion_usageUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
-  }
-
-  export type refundsUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput> | refundsCreateWithoutOrdersInput[] | refundsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutOrdersInput | refundsCreateOrConnectWithoutOrdersInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutOrdersInput | refundsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: refundsCreateManyOrdersInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutOrdersInput | refundsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutOrdersInput | refundsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
-  }
-
-  export type shipmentsUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput> | shipmentsCreateWithoutOrdersInput[] | shipmentsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: shipmentsCreateOrConnectWithoutOrdersInput | shipmentsCreateOrConnectWithoutOrdersInput[]
-    upsert?: shipmentsUpsertWithWhereUniqueWithoutOrdersInput | shipmentsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: shipmentsCreateManyOrdersInputEnvelope
-    set?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    disconnect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    delete?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    connect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    update?: shipmentsUpdateWithWhereUniqueWithoutOrdersInput | shipmentsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: shipmentsUpdateManyWithWhereWithoutOrdersInput | shipmentsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: shipmentsScalarWhereInput | shipmentsScalarWhereInput[]
-  }
-
-  export type order_itemsUncheckedUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput> | order_itemsCreateWithoutOrdersInput[] | order_itemsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutOrdersInput | order_itemsCreateOrConnectWithoutOrdersInput[]
-    upsert?: order_itemsUpsertWithWhereUniqueWithoutOrdersInput | order_itemsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: order_itemsCreateManyOrdersInputEnvelope
-    set?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    disconnect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    delete?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    update?: order_itemsUpdateWithWhereUniqueWithoutOrdersInput | order_itemsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: order_itemsUpdateManyWithWhereWithoutOrdersInput | order_itemsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
-  }
-
-  export type promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput> | promotion_usageCreateWithoutOrdersInput[] | promotion_usageUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: promotion_usageCreateOrConnectWithoutOrdersInput | promotion_usageCreateOrConnectWithoutOrdersInput[]
-    upsert?: promotion_usageUpsertWithWhereUniqueWithoutOrdersInput | promotion_usageUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: promotion_usageCreateManyOrdersInputEnvelope
-    set?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    disconnect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    delete?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-    update?: promotion_usageUpdateWithWhereUniqueWithoutOrdersInput | promotion_usageUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: promotion_usageUpdateManyWithWhereWithoutOrdersInput | promotion_usageUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
-  }
-
-  export type refundsUncheckedUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput> | refundsCreateWithoutOrdersInput[] | refundsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutOrdersInput | refundsCreateOrConnectWithoutOrdersInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutOrdersInput | refundsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: refundsCreateManyOrdersInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutOrdersInput | refundsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutOrdersInput | refundsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
-  }
-
-  export type shipmentsUncheckedUpdateManyWithoutOrdersNestedInput = {
-    create?: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput> | shipmentsCreateWithoutOrdersInput[] | shipmentsUncheckedCreateWithoutOrdersInput[]
-    connectOrCreate?: shipmentsCreateOrConnectWithoutOrdersInput | shipmentsCreateOrConnectWithoutOrdersInput[]
-    upsert?: shipmentsUpsertWithWhereUniqueWithoutOrdersInput | shipmentsUpsertWithWhereUniqueWithoutOrdersInput[]
-    createMany?: shipmentsCreateManyOrdersInputEnvelope
-    set?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    disconnect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    delete?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    connect?: shipmentsWhereUniqueInput | shipmentsWhereUniqueInput[]
-    update?: shipmentsUpdateWithWhereUniqueWithoutOrdersInput | shipmentsUpdateWithWhereUniqueWithoutOrdersInput[]
-    updateMany?: shipmentsUpdateManyWithWhereWithoutOrdersInput | shipmentsUpdateManyWithWhereWithoutOrdersInput[]
-    deleteMany?: shipmentsScalarWhereInput | shipmentsScalarWhereInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -84680,6 +80686,14 @@ export namespace Prisma {
     connectOrCreate?: sale_itemsCreateOrConnectWithoutPos_salesInput | sale_itemsCreateOrConnectWithoutPos_salesInput[]
     createMany?: sale_itemsCreateManyPos_salesInputEnvelope
     connect?: sale_itemsWhereUniqueInput | sale_itemsWhereUniqueInput[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type customer_cardsUpdateOneWithoutPos_salesNestedInput = {
@@ -84836,13 +80850,6 @@ export namespace Prisma {
     connect?: inventoryWhereUniqueInput
   }
 
-  export type order_itemsCreateNestedManyWithoutProductsInput = {
-    create?: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput> | order_itemsCreateWithoutProductsInput[] | order_itemsUncheckedCreateWithoutProductsInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutProductsInput | order_itemsCreateOrConnectWithoutProductsInput[]
-    createMany?: order_itemsCreateManyProductsInputEnvelope
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-  }
-
   export type price_listCreateNestedManyWithoutProductsInput = {
     create?: XOR<price_listCreateWithoutProductsInput, price_listUncheckedCreateWithoutProductsInput> | price_listCreateWithoutProductsInput[] | price_listUncheckedCreateWithoutProductsInput[]
     connectOrCreate?: price_listCreateOrConnectWithoutProductsInput | price_listCreateOrConnectWithoutProductsInput[]
@@ -84889,13 +80896,6 @@ export namespace Prisma {
     connect?: inventoryWhereUniqueInput
   }
 
-  export type order_itemsUncheckedCreateNestedManyWithoutProductsInput = {
-    create?: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput> | order_itemsCreateWithoutProductsInput[] | order_itemsUncheckedCreateWithoutProductsInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutProductsInput | order_itemsCreateOrConnectWithoutProductsInput[]
-    createMany?: order_itemsCreateManyProductsInputEnvelope
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-  }
-
   export type price_listUncheckedCreateNestedManyWithoutProductsInput = {
     create?: XOR<price_listCreateWithoutProductsInput, price_listUncheckedCreateWithoutProductsInput> | price_listCreateWithoutProductsInput[] | price_listUncheckedCreateWithoutProductsInput[]
     connectOrCreate?: price_listCreateOrConnectWithoutProductsInput | price_listCreateOrConnectWithoutProductsInput[]
@@ -84932,20 +80932,6 @@ export namespace Prisma {
     delete?: inventoryWhereInput | boolean
     connect?: inventoryWhereUniqueInput
     update?: XOR<XOR<inventoryUpdateToOneWithWhereWithoutProductsInput, inventoryUpdateWithoutProductsInput>, inventoryUncheckedUpdateWithoutProductsInput>
-  }
-
-  export type order_itemsUpdateManyWithoutProductsNestedInput = {
-    create?: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput> | order_itemsCreateWithoutProductsInput[] | order_itemsUncheckedCreateWithoutProductsInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutProductsInput | order_itemsCreateOrConnectWithoutProductsInput[]
-    upsert?: order_itemsUpsertWithWhereUniqueWithoutProductsInput | order_itemsUpsertWithWhereUniqueWithoutProductsInput[]
-    createMany?: order_itemsCreateManyProductsInputEnvelope
-    set?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    disconnect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    delete?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    update?: order_itemsUpdateWithWhereUniqueWithoutProductsInput | order_itemsUpdateWithWhereUniqueWithoutProductsInput[]
-    updateMany?: order_itemsUpdateManyWithWhereWithoutProductsInput | order_itemsUpdateManyWithWhereWithoutProductsInput[]
-    deleteMany?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
   }
 
   export type price_listUpdateManyWithoutProductsNestedInput = {
@@ -85034,20 +81020,6 @@ export namespace Prisma {
     update?: XOR<XOR<inventoryUpdateToOneWithWhereWithoutProductsInput, inventoryUpdateWithoutProductsInput>, inventoryUncheckedUpdateWithoutProductsInput>
   }
 
-  export type order_itemsUncheckedUpdateManyWithoutProductsNestedInput = {
-    create?: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput> | order_itemsCreateWithoutProductsInput[] | order_itemsUncheckedCreateWithoutProductsInput[]
-    connectOrCreate?: order_itemsCreateOrConnectWithoutProductsInput | order_itemsCreateOrConnectWithoutProductsInput[]
-    upsert?: order_itemsUpsertWithWhereUniqueWithoutProductsInput | order_itemsUpsertWithWhereUniqueWithoutProductsInput[]
-    createMany?: order_itemsCreateManyProductsInputEnvelope
-    set?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    disconnect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    delete?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    connect?: order_itemsWhereUniqueInput | order_itemsWhereUniqueInput[]
-    update?: order_itemsUpdateWithWhereUniqueWithoutProductsInput | order_itemsUpdateWithWhereUniqueWithoutProductsInput[]
-    updateMany?: order_itemsUpdateManyWithWhereWithoutProductsInput | order_itemsUpdateManyWithWhereWithoutProductsInput[]
-    deleteMany?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
-  }
-
   export type price_listUncheckedUpdateManyWithoutProductsNestedInput = {
     create?: XOR<price_listCreateWithoutProductsInput, price_listUncheckedCreateWithoutProductsInput> | price_listCreateWithoutProductsInput[] | price_listUncheckedCreateWithoutProductsInput[]
     connectOrCreate?: price_listCreateOrConnectWithoutProductsInput | price_listCreateOrConnectWithoutProductsInput[]
@@ -85110,12 +81082,6 @@ export namespace Prisma {
     connect?: customersWhereUniqueInput
   }
 
-  export type ordersCreateNestedOneWithoutPromotion_usageInput = {
-    create?: XOR<ordersCreateWithoutPromotion_usageInput, ordersUncheckedCreateWithoutPromotion_usageInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotion_usageInput
-    connect?: ordersWhereUniqueInput
-  }
-
   export type promotionsCreateNestedOneWithoutPromotion_usageInput = {
     create?: XOR<promotionsCreateWithoutPromotion_usageInput, promotionsUncheckedCreateWithoutPromotion_usageInput>
     connectOrCreate?: promotionsCreateOrConnectWithoutPromotion_usageInput
@@ -85138,16 +81104,6 @@ export namespace Prisma {
     update?: XOR<XOR<customersUpdateToOneWithWhereWithoutPromotion_usageInput, customersUpdateWithoutPromotion_usageInput>, customersUncheckedUpdateWithoutPromotion_usageInput>
   }
 
-  export type ordersUpdateOneWithoutPromotion_usageNestedInput = {
-    create?: XOR<ordersCreateWithoutPromotion_usageInput, ordersUncheckedCreateWithoutPromotion_usageInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotion_usageInput
-    upsert?: ordersUpsertWithoutPromotion_usageInput
-    disconnect?: ordersWhereInput | boolean
-    delete?: ordersWhereInput | boolean
-    connect?: ordersWhereUniqueInput
-    update?: XOR<XOR<ordersUpdateToOneWithWhereWithoutPromotion_usageInput, ordersUpdateWithoutPromotion_usageInput>, ordersUncheckedUpdateWithoutPromotion_usageInput>
-  }
-
   export type promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput = {
     create?: XOR<promotionsCreateWithoutPromotion_usageInput, promotionsUncheckedCreateWithoutPromotion_usageInput>
     connectOrCreate?: promotionsCreateOrConnectWithoutPromotion_usageInput
@@ -85166,13 +81122,6 @@ export namespace Prisma {
     update?: XOR<XOR<pos_salesUpdateToOneWithWhereWithoutPromotion_usageInput, pos_salesUpdateWithoutPromotion_usageInput>, pos_salesUncheckedUpdateWithoutPromotion_usageInput>
   }
 
-  export type ordersCreateNestedManyWithoutPromotionsInput = {
-    create?: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput> | ordersCreateWithoutPromotionsInput[] | ordersUncheckedCreateWithoutPromotionsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotionsInput | ordersCreateOrConnectWithoutPromotionsInput[]
-    createMany?: ordersCreateManyPromotionsInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-  }
-
   export type pos_salesCreateNestedManyWithoutPromotionsInput = {
     create?: XOR<pos_salesCreateWithoutPromotionsInput, pos_salesUncheckedCreateWithoutPromotionsInput> | pos_salesCreateWithoutPromotionsInput[] | pos_salesUncheckedCreateWithoutPromotionsInput[]
     connectOrCreate?: pos_salesCreateOrConnectWithoutPromotionsInput | pos_salesCreateOrConnectWithoutPromotionsInput[]
@@ -85187,13 +81136,6 @@ export namespace Prisma {
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
   }
 
-  export type ordersUncheckedCreateNestedManyWithoutPromotionsInput = {
-    create?: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput> | ordersCreateWithoutPromotionsInput[] | ordersUncheckedCreateWithoutPromotionsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotionsInput | ordersCreateOrConnectWithoutPromotionsInput[]
-    createMany?: ordersCreateManyPromotionsInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-  }
-
   export type pos_salesUncheckedCreateNestedManyWithoutPromotionsInput = {
     create?: XOR<pos_salesCreateWithoutPromotionsInput, pos_salesUncheckedCreateWithoutPromotionsInput> | pos_salesCreateWithoutPromotionsInput[] | pos_salesUncheckedCreateWithoutPromotionsInput[]
     connectOrCreate?: pos_salesCreateOrConnectWithoutPromotionsInput | pos_salesCreateOrConnectWithoutPromotionsInput[]
@@ -85206,20 +81148,6 @@ export namespace Prisma {
     connectOrCreate?: promotion_usageCreateOrConnectWithoutPromotionsInput | promotion_usageCreateOrConnectWithoutPromotionsInput[]
     createMany?: promotion_usageCreateManyPromotionsInputEnvelope
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-  }
-
-  export type ordersUpdateManyWithoutPromotionsNestedInput = {
-    create?: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput> | ordersCreateWithoutPromotionsInput[] | ordersUncheckedCreateWithoutPromotionsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotionsInput | ordersCreateOrConnectWithoutPromotionsInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutPromotionsInput | ordersUpsertWithWhereUniqueWithoutPromotionsInput[]
-    createMany?: ordersCreateManyPromotionsInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutPromotionsInput | ordersUpdateWithWhereUniqueWithoutPromotionsInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutPromotionsInput | ordersUpdateManyWithWhereWithoutPromotionsInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
   }
 
   export type pos_salesUpdateManyWithoutPromotionsNestedInput = {
@@ -85248,20 +81176,6 @@ export namespace Prisma {
     update?: promotion_usageUpdateWithWhereUniqueWithoutPromotionsInput | promotion_usageUpdateWithWhereUniqueWithoutPromotionsInput[]
     updateMany?: promotion_usageUpdateManyWithWhereWithoutPromotionsInput | promotion_usageUpdateManyWithWhereWithoutPromotionsInput[]
     deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
-  }
-
-  export type ordersUncheckedUpdateManyWithoutPromotionsNestedInput = {
-    create?: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput> | ordersCreateWithoutPromotionsInput[] | ordersUncheckedCreateWithoutPromotionsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutPromotionsInput | ordersCreateOrConnectWithoutPromotionsInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutPromotionsInput | ordersUpsertWithWhereUniqueWithoutPromotionsInput[]
-    createMany?: ordersCreateManyPromotionsInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutPromotionsInput | ordersUpdateWithWhereUniqueWithoutPromotionsInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutPromotionsInput | ordersUpdateManyWithWhereWithoutPromotionsInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
   }
 
   export type pos_salesUncheckedUpdateManyWithoutPromotionsNestedInput = {
@@ -85376,12 +81290,6 @@ export namespace Prisma {
     deleteMany?: purchase_order_itemsScalarWhereInput | purchase_order_itemsScalarWhereInput[]
   }
 
-  export type ordersCreateNestedOneWithoutRefundsInput = {
-    create?: XOR<ordersCreateWithoutRefundsInput, ordersUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutRefundsInput
-    connect?: ordersWhereUniqueInput
-  }
-
   export type customersCreateNestedOneWithoutRefundsInput = {
     create?: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
     connectOrCreate?: customersCreateOrConnectWithoutRefundsInput
@@ -85392,16 +81300,6 @@ export namespace Prisma {
     create?: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
     connectOrCreate?: pos_salesCreateOrConnectWithoutRefundsInput
     connect?: pos_salesWhereUniqueInput
-  }
-
-  export type ordersUpdateOneWithoutRefundsNestedInput = {
-    create?: XOR<ordersCreateWithoutRefundsInput, ordersUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutRefundsInput
-    upsert?: ordersUpsertWithoutRefundsInput
-    disconnect?: ordersWhereInput | boolean
-    delete?: ordersWhereInput | boolean
-    connect?: ordersWhereUniqueInput
-    update?: XOR<XOR<ordersUpdateToOneWithWhereWithoutRefundsInput, ordersUpdateWithoutRefundsInput>, ordersUncheckedUpdateWithoutRefundsInput>
   }
 
   export type customersUpdateOneWithoutRefundsNestedInput = {
@@ -86259,27 +82157,6 @@ export namespace Prisma {
     update?: XOR<XOR<pos_salesUpdateToOneWithWhereWithoutSale_itemsInput, pos_salesUpdateWithoutSale_itemsInput>, pos_salesUncheckedUpdateWithoutSale_itemsInput>
   }
 
-  export type ordersCreateNestedOneWithoutShipmentsInput = {
-    create?: XOR<ordersCreateWithoutShipmentsInput, ordersUncheckedCreateWithoutShipmentsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutShipmentsInput
-    connect?: ordersWhereUniqueInput
-  }
-
-  export type ordersUpdateOneRequiredWithoutShipmentsNestedInput = {
-    create?: XOR<ordersCreateWithoutShipmentsInput, ordersUncheckedCreateWithoutShipmentsInput>
-    connectOrCreate?: ordersCreateOrConnectWithoutShipmentsInput
-    upsert?: ordersUpsertWithoutShipmentsInput
-    connect?: ordersWhereUniqueInput
-    update?: XOR<XOR<ordersUpdateToOneWithWhereWithoutShipmentsInput, ordersUpdateWithoutShipmentsInput>, ordersUncheckedUpdateWithoutShipmentsInput>
-  }
-
-  export type ordersCreateNestedManyWithoutShipping_methodsInput = {
-    create?: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput> | ordersCreateWithoutShipping_methodsInput[] | ordersUncheckedCreateWithoutShipping_methodsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutShipping_methodsInput | ordersCreateOrConnectWithoutShipping_methodsInput[]
-    createMany?: ordersCreateManyShipping_methodsInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-  }
-
   export type shipping_ratesCreateNestedManyWithoutShipping_methodsInput = {
     create?: XOR<shipping_ratesCreateWithoutShipping_methodsInput, shipping_ratesUncheckedCreateWithoutShipping_methodsInput> | shipping_ratesCreateWithoutShipping_methodsInput[] | shipping_ratesUncheckedCreateWithoutShipping_methodsInput[]
     connectOrCreate?: shipping_ratesCreateOrConnectWithoutShipping_methodsInput | shipping_ratesCreateOrConnectWithoutShipping_methodsInput[]
@@ -86287,32 +82164,11 @@ export namespace Prisma {
     connect?: shipping_ratesWhereUniqueInput | shipping_ratesWhereUniqueInput[]
   }
 
-  export type ordersUncheckedCreateNestedManyWithoutShipping_methodsInput = {
-    create?: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput> | ordersCreateWithoutShipping_methodsInput[] | ordersUncheckedCreateWithoutShipping_methodsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutShipping_methodsInput | ordersCreateOrConnectWithoutShipping_methodsInput[]
-    createMany?: ordersCreateManyShipping_methodsInputEnvelope
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-  }
-
   export type shipping_ratesUncheckedCreateNestedManyWithoutShipping_methodsInput = {
     create?: XOR<shipping_ratesCreateWithoutShipping_methodsInput, shipping_ratesUncheckedCreateWithoutShipping_methodsInput> | shipping_ratesCreateWithoutShipping_methodsInput[] | shipping_ratesUncheckedCreateWithoutShipping_methodsInput[]
     connectOrCreate?: shipping_ratesCreateOrConnectWithoutShipping_methodsInput | shipping_ratesCreateOrConnectWithoutShipping_methodsInput[]
     createMany?: shipping_ratesCreateManyShipping_methodsInputEnvelope
     connect?: shipping_ratesWhereUniqueInput | shipping_ratesWhereUniqueInput[]
-  }
-
-  export type ordersUpdateManyWithoutShipping_methodsNestedInput = {
-    create?: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput> | ordersCreateWithoutShipping_methodsInput[] | ordersUncheckedCreateWithoutShipping_methodsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutShipping_methodsInput | ordersCreateOrConnectWithoutShipping_methodsInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutShipping_methodsInput | ordersUpsertWithWhereUniqueWithoutShipping_methodsInput[]
-    createMany?: ordersCreateManyShipping_methodsInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutShipping_methodsInput | ordersUpdateWithWhereUniqueWithoutShipping_methodsInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutShipping_methodsInput | ordersUpdateManyWithWhereWithoutShipping_methodsInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
   }
 
   export type shipping_ratesUpdateManyWithoutShipping_methodsNestedInput = {
@@ -86327,20 +82183,6 @@ export namespace Prisma {
     update?: shipping_ratesUpdateWithWhereUniqueWithoutShipping_methodsInput | shipping_ratesUpdateWithWhereUniqueWithoutShipping_methodsInput[]
     updateMany?: shipping_ratesUpdateManyWithWhereWithoutShipping_methodsInput | shipping_ratesUpdateManyWithWhereWithoutShipping_methodsInput[]
     deleteMany?: shipping_ratesScalarWhereInput | shipping_ratesScalarWhereInput[]
-  }
-
-  export type ordersUncheckedUpdateManyWithoutShipping_methodsNestedInput = {
-    create?: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput> | ordersCreateWithoutShipping_methodsInput[] | ordersUncheckedCreateWithoutShipping_methodsInput[]
-    connectOrCreate?: ordersCreateOrConnectWithoutShipping_methodsInput | ordersCreateOrConnectWithoutShipping_methodsInput[]
-    upsert?: ordersUpsertWithWhereUniqueWithoutShipping_methodsInput | ordersUpsertWithWhereUniqueWithoutShipping_methodsInput[]
-    createMany?: ordersCreateManyShipping_methodsInputEnvelope
-    set?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    disconnect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    delete?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    connect?: ordersWhereUniqueInput | ordersWhereUniqueInput[]
-    update?: ordersUpdateWithWhereUniqueWithoutShipping_methodsInput | ordersUpdateWithWhereUniqueWithoutShipping_methodsInput[]
-    updateMany?: ordersUpdateManyWithWhereWithoutShipping_methodsInput | ordersUpdateManyWithWhereWithoutShipping_methodsInput[]
-    deleteMany?: ordersScalarWhereInput | ordersScalarWhereInput[]
   }
 
   export type shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput = {
@@ -87791,33 +83633,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -87854,6 +83669,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -87994,8 +83836,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
     purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutProductsInput
@@ -88019,8 +83861,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -88073,6 +83915,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"products"> | Date | string | null
     reorder_level?: DecimalNullableFilter<"products"> | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: StringNullableFilter<"products"> | string | null
+    store_id?: StringNullableFilter<"products"> | string | null
   }
 
   export type customersCreateWithoutCustomer_cardsInput = {
@@ -88093,7 +83936,6 @@ export namespace Prisma {
     updated_at?: Date | string | null
     clerk_user_id?: string | null
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
     refunds?: refundsCreateNestedManyWithoutCustomersInput
@@ -88118,7 +83960,6 @@ export namespace Prisma {
     updated_at?: Date | string | null
     group_id?: number | null
     clerk_user_id?: string | null
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
     refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
@@ -88199,7 +84040,6 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUpdateManyWithoutCustomersNestedInput
@@ -88224,7 +84064,6 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     group_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -88281,7 +84120,6 @@ export namespace Prisma {
     updated_at?: Date | string | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
     refunds?: refundsCreateNestedManyWithoutCustomersInput
@@ -88306,7 +84144,6 @@ export namespace Prisma {
     updated_at?: Date | string | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
     refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
@@ -88484,69 +84321,6 @@ export namespace Prisma {
     create: XOR<customer_groupsCreateWithoutCustomersInput, customer_groupsUncheckedCreateWithoutCustomersInput>
   }
 
-  export type ordersCreateWithoutCustomersInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutCustomersInput = {
-    order_id?: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutCustomersInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput>
-  }
-
-  export type ordersCreateManyCustomersInputEnvelope = {
-    data: ordersCreateManyCustomersInput | ordersCreateManyCustomersInput[]
-    skipDuplicates?: boolean
-  }
-
   export type pos_salesCreateWithoutCustomersInput = {
     sale_date?: Date | string | null
     subtotal: Decimal | DecimalJsLike | number | string
@@ -88590,8 +84364,8 @@ export namespace Prisma {
 
   export type promotion_usageCreateWithoutCustomersInput = {
     used_at?: Date | string | null
+    order_id?: number | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedOneWithoutPromotion_usageInput
     promotions: promotionsCreateNestedOneWithoutPromotion_usageInput
     pos_sales?: pos_salesCreateNestedOneWithoutPromotion_usageInput
   }
@@ -88616,12 +84390,12 @@ export namespace Prisma {
   }
 
   export type refundsCreateWithoutCustomersInput = {
+    order_id?: number | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
     notes?: string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedOneWithoutRefundsInput
     pos_sales?: pos_salesCreateNestedOneWithoutRefundsInput
   }
 
@@ -88709,49 +84483,6 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     price_list?: price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
-  }
-
-  export type ordersUpsertWithWhereUniqueWithoutCustomersInput = {
-    where: ordersWhereUniqueInput
-    update: XOR<ordersUpdateWithoutCustomersInput, ordersUncheckedUpdateWithoutCustomersInput>
-    create: XOR<ordersCreateWithoutCustomersInput, ordersUncheckedCreateWithoutCustomersInput>
-  }
-
-  export type ordersUpdateWithWhereUniqueWithoutCustomersInput = {
-    where: ordersWhereUniqueInput
-    data: XOR<ordersUpdateWithoutCustomersInput, ordersUncheckedUpdateWithoutCustomersInput>
-  }
-
-  export type ordersUpdateManyWithWhereWithoutCustomersInput = {
-    where: ordersScalarWhereInput
-    data: XOR<ordersUpdateManyMutationInput, ordersUncheckedUpdateManyWithoutCustomersInput>
-  }
-
-  export type ordersScalarWhereInput = {
-    AND?: ordersScalarWhereInput | ordersScalarWhereInput[]
-    OR?: ordersScalarWhereInput[]
-    NOT?: ordersScalarWhereInput | ordersScalarWhereInput[]
-    order_id?: IntFilter<"orders"> | number
-    customer_id?: IntFilter<"orders"> | number
-    order_number?: StringFilter<"orders"> | string
-    order_date?: DateTimeNullableFilter<"orders"> | Date | string | null
-    status?: StringNullableFilter<"orders"> | string | null
-    subtotal?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    discount_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: DecimalNullableFilter<"orders"> | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFilter<"orders"> | Decimal | DecimalJsLike | number | string
-    promotion_id?: IntNullableFilter<"orders"> | number | null
-    shipping_method_id?: IntNullableFilter<"orders"> | number | null
-    shipping_address_line1?: StringNullableFilter<"orders"> | string | null
-    shipping_address_line2?: StringNullableFilter<"orders"> | string | null
-    shipping_city?: StringNullableFilter<"orders"> | string | null
-    shipping_state?: StringNullableFilter<"orders"> | string | null
-    shipping_postal_code?: StringNullableFilter<"orders"> | string | null
-    shipping_country?: StringNullableFilter<"orders"> | string | null
-    notes?: StringNullableFilter<"orders"> | string | null
-    payment_status?: StringNullableFilter<"orders"> | string | null
-    clerk_user_id?: StringNullableFilter<"orders"> | string | null
   }
 
   export type pos_salesUpsertWithWhereUniqueWithoutCustomersInput = {
@@ -88844,7 +84575,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
+    store_id?: string | null
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
@@ -88870,7 +84601,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
+    store_id?: string | null
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -88907,7 +84638,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
@@ -88933,710 +84664,11 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
     transaction_details?: transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  }
-
-  export type ordersCreateWithoutOrder_itemsInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutOrder_itemsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutOrder_itemsInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutOrder_itemsInput, ordersUncheckedCreateWithoutOrder_itemsInput>
-  }
-
-  export type productsCreateWithoutOrder_itemsInput = {
-    name: string
-    description?: string | null
-    base_price: Decimal | DecimalJsLike | number | string
-    cost_price: Decimal | DecimalJsLike | number | string
-    sku: string
-    barcode?: string | null
-    weight?: Decimal | DecimalJsLike | number | string | null
-    dimensions?: string | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    reorder_level?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-    inventory?: inventoryCreateNestedOneWithoutProductsInput
-    price_list?: price_listCreateNestedManyWithoutProductsInput
-    categories?: categoriesCreateNestedOneWithoutProductsInput
-    suppliers?: suppliersCreateNestedOneWithoutProductsInput
-    purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutProductsInput
-    sale_items?: sale_itemsCreateNestedManyWithoutProductsInput
-    transaction_details?: transaction_detailsCreateNestedManyWithoutProductsInput
-  }
-
-  export type productsUncheckedCreateWithoutOrder_itemsInput = {
-    product_id?: number
-    supplier_id?: number | null
-    name: string
-    description?: string | null
-    base_price: Decimal | DecimalJsLike | number | string
-    cost_price: Decimal | DecimalJsLike | number | string
-    sku: string
-    barcode?: string | null
-    category_id?: number | null
-    weight?: Decimal | DecimalJsLike | number | string | null
-    dimensions?: string | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    reorder_level?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-    inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
-    purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-    sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
-    transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  }
-
-  export type productsCreateOrConnectWithoutOrder_itemsInput = {
-    where: productsWhereUniqueInput
-    create: XOR<productsCreateWithoutOrder_itemsInput, productsUncheckedCreateWithoutOrder_itemsInput>
-  }
-
-  export type ordersUpsertWithoutOrder_itemsInput = {
-    update: XOR<ordersUpdateWithoutOrder_itemsInput, ordersUncheckedUpdateWithoutOrder_itemsInput>
-    create: XOR<ordersCreateWithoutOrder_itemsInput, ordersUncheckedCreateWithoutOrder_itemsInput>
-    where?: ordersWhereInput
-  }
-
-  export type ordersUpdateToOneWithWhereWithoutOrder_itemsInput = {
-    where?: ordersWhereInput
-    data: XOR<ordersUpdateWithoutOrder_itemsInput, ordersUncheckedUpdateWithoutOrder_itemsInput>
-  }
-
-  export type ordersUpdateWithoutOrder_itemsInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutOrder_itemsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type productsUpsertWithoutOrder_itemsInput = {
-    update: XOR<productsUpdateWithoutOrder_itemsInput, productsUncheckedUpdateWithoutOrder_itemsInput>
-    create: XOR<productsCreateWithoutOrder_itemsInput, productsUncheckedCreateWithoutOrder_itemsInput>
-    where?: productsWhereInput
-  }
-
-  export type productsUpdateToOneWithWhereWithoutOrder_itemsInput = {
-    where?: productsWhereInput
-    data: XOR<productsUpdateWithoutOrder_itemsInput, productsUncheckedUpdateWithoutOrder_itemsInput>
-  }
-
-  export type productsUpdateWithoutOrder_itemsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    base_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    cost_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sku?: StringFieldUpdateOperationsInput | string
-    barcode?: NullableStringFieldUpdateOperationsInput | string | null
-    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    dimensions?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    price_list?: price_listUpdateManyWithoutProductsNestedInput
-    categories?: categoriesUpdateOneWithoutProductsNestedInput
-    suppliers?: suppliersUpdateOneWithoutProductsNestedInput
-    purchase_order_items?: purchase_order_itemsUpdateManyWithoutProductsNestedInput
-    sale_items?: sale_itemsUpdateManyWithoutProductsNestedInput
-    transaction_details?: transaction_detailsUpdateManyWithoutProductsNestedInput
-  }
-
-  export type productsUncheckedUpdateWithoutOrder_itemsInput = {
-    product_id?: IntFieldUpdateOperationsInput | number
-    supplier_id?: NullableIntFieldUpdateOperationsInput | number | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    base_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    cost_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sku?: StringFieldUpdateOperationsInput | string
-    barcode?: NullableStringFieldUpdateOperationsInput | string | null
-    category_id?: NullableIntFieldUpdateOperationsInput | number | null
-    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    dimensions?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
-    purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-    sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
-    transaction_details?: transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  }
-
-  export type order_itemsCreateWithoutOrdersInput = {
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-    products: productsCreateNestedOneWithoutOrder_itemsInput
-  }
-
-  export type order_itemsUncheckedCreateWithoutOrdersInput = {
-    order_item_id?: number
-    product_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type order_itemsCreateOrConnectWithoutOrdersInput = {
-    where: order_itemsWhereUniqueInput
-    create: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type order_itemsCreateManyOrdersInputEnvelope = {
-    data: order_itemsCreateManyOrdersInput | order_itemsCreateManyOrdersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type customersCreateWithoutOrdersInput = {
-    first_name: string
-    last_name: string
-    email?: string | null
-    phone?: string | null
-    address_line1?: string | null
-    address_line2?: string | null
-    city?: string | null
-    state?: string | null
-    postal_code?: string | null
-    country?: string | null
-    date_of_birth?: Date | string | null
-    loyalty_points?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    clerk_user_id?: string | null
-    customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
-    customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
-  }
-
-  export type customersUncheckedCreateWithoutOrdersInput = {
-    customer_id?: number
-    first_name: string
-    last_name: string
-    email?: string | null
-    phone?: string | null
-    address_line1?: string | null
-    address_line2?: string | null
-    city?: string | null
-    state?: string | null
-    postal_code?: string | null
-    country?: string | null
-    date_of_birth?: Date | string | null
-    loyalty_points?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    group_id?: number | null
-    clerk_user_id?: string | null
-    customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
-  }
-
-  export type customersCreateOrConnectWithoutOrdersInput = {
-    where: customersWhereUniqueInput
-    create: XOR<customersCreateWithoutOrdersInput, customersUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type promotionsCreateWithoutOrdersInput = {
-    code?: string | null
-    name: string
-    description?: string | null
-    discount_type?: string | null
-    discount_value: Decimal | DecimalJsLike | number | string
-    minimum_purchase?: Decimal | DecimalJsLike | number | string | null
-    start_date: Date | string
-    end_date: Date | string
-    usage_limit?: number | null
-    usage_per_customer?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    clerk_user_id?: string | null
-    pos_sales?: pos_salesCreateNestedManyWithoutPromotionsInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutPromotionsInput
-  }
-
-  export type promotionsUncheckedCreateWithoutOrdersInput = {
-    promotion_id?: number
-    code?: string | null
-    name: string
-    description?: string | null
-    discount_type?: string | null
-    discount_value: Decimal | DecimalJsLike | number | string
-    minimum_purchase?: Decimal | DecimalJsLike | number | string | null
-    start_date: Date | string
-    end_date: Date | string
-    usage_limit?: number | null
-    usage_per_customer?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    clerk_user_id?: string | null
-    pos_sales?: pos_salesUncheckedCreateNestedManyWithoutPromotionsInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
-  }
-
-  export type promotionsCreateOrConnectWithoutOrdersInput = {
-    where: promotionsWhereUniqueInput
-    create: XOR<promotionsCreateWithoutOrdersInput, promotionsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type shipping_methodsCreateWithoutOrdersInput = {
-    name: string
-    description?: string | null
-    carrier?: string | null
-    estimated_days_min?: number | null
-    estimated_days_max?: number | null
-    is_active?: boolean | null
-    shipping_rates?: shipping_ratesCreateNestedManyWithoutShipping_methodsInput
-  }
-
-  export type shipping_methodsUncheckedCreateWithoutOrdersInput = {
-    method_id?: number
-    name: string
-    description?: string | null
-    carrier?: string | null
-    estimated_days_min?: number | null
-    estimated_days_max?: number | null
-    is_active?: boolean | null
-    shipping_rates?: shipping_ratesUncheckedCreateNestedManyWithoutShipping_methodsInput
-  }
-
-  export type shipping_methodsCreateOrConnectWithoutOrdersInput = {
-    where: shipping_methodsWhereUniqueInput
-    create: XOR<shipping_methodsCreateWithoutOrdersInput, shipping_methodsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type promotion_usageCreateWithoutOrdersInput = {
-    used_at?: Date | string | null
-    clerk_user_id?: string | null
-    customers?: customersCreateNestedOneWithoutPromotion_usageInput
-    promotions: promotionsCreateNestedOneWithoutPromotion_usageInput
-    pos_sales?: pos_salesCreateNestedOneWithoutPromotion_usageInput
-  }
-
-  export type promotion_usageUncheckedCreateWithoutOrdersInput = {
-    usage_id?: number
-    promotion_id: number
-    customer_id?: number | null
-    sale_id?: number | null
-    used_at?: Date | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type promotion_usageCreateOrConnectWithoutOrdersInput = {
-    where: promotion_usageWhereUniqueInput
-    create: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type promotion_usageCreateManyOrdersInputEnvelope = {
-    data: promotion_usageCreateManyOrdersInput | promotion_usageCreateManyOrdersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type refundsCreateWithoutOrdersInput = {
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    notes?: string | null
-    clerk_user_id?: string | null
-    customers?: customersCreateNestedOneWithoutRefundsInput
-    pos_sales?: pos_salesCreateNestedOneWithoutRefundsInput
-  }
-
-  export type refundsUncheckedCreateWithoutOrdersInput = {
-    refund_id?: number
-    sale_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    processed_by?: number | null
-    notes?: string | null
-    clerk_user_id?: string | null
-  }
-
-  export type refundsCreateOrConnectWithoutOrdersInput = {
-    where: refundsWhereUniqueInput
-    create: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type refundsCreateManyOrdersInputEnvelope = {
-    data: refundsCreateManyOrdersInput | refundsCreateManyOrdersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type shipmentsCreateWithoutOrdersInput = {
-    tracking_number?: string | null
-    shipped_date?: Date | string | null
-    delivered_date?: Date | string | null
-    carrier?: string | null
-    status?: string | null
-    notes?: string | null
-  }
-
-  export type shipmentsUncheckedCreateWithoutOrdersInput = {
-    shipment_id?: number
-    tracking_number?: string | null
-    shipped_date?: Date | string | null
-    delivered_date?: Date | string | null
-    carrier?: string | null
-    status?: string | null
-    notes?: string | null
-  }
-
-  export type shipmentsCreateOrConnectWithoutOrdersInput = {
-    where: shipmentsWhereUniqueInput
-    create: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type shipmentsCreateManyOrdersInputEnvelope = {
-    data: shipmentsCreateManyOrdersInput | shipmentsCreateManyOrdersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type order_itemsUpsertWithWhereUniqueWithoutOrdersInput = {
-    where: order_itemsWhereUniqueInput
-    update: XOR<order_itemsUpdateWithoutOrdersInput, order_itemsUncheckedUpdateWithoutOrdersInput>
-    create: XOR<order_itemsCreateWithoutOrdersInput, order_itemsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type order_itemsUpdateWithWhereUniqueWithoutOrdersInput = {
-    where: order_itemsWhereUniqueInput
-    data: XOR<order_itemsUpdateWithoutOrdersInput, order_itemsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type order_itemsUpdateManyWithWhereWithoutOrdersInput = {
-    where: order_itemsScalarWhereInput
-    data: XOR<order_itemsUpdateManyMutationInput, order_itemsUncheckedUpdateManyWithoutOrdersInput>
-  }
-
-  export type order_itemsScalarWhereInput = {
-    AND?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
-    OR?: order_itemsScalarWhereInput[]
-    NOT?: order_itemsScalarWhereInput | order_itemsScalarWhereInput[]
-    order_item_id?: IntFilter<"order_items"> | number
-    order_id?: IntFilter<"order_items"> | number
-    product_id?: IntFilter<"order_items"> | number
-    quantity?: IntFilter<"order_items"> | number
-    unit_price?: DecimalFilter<"order_items"> | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalNullableFilter<"order_items"> | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: StringNullableFilter<"order_items"> | string | null
-  }
-
-  export type customersUpsertWithoutOrdersInput = {
-    update: XOR<customersUpdateWithoutOrdersInput, customersUncheckedUpdateWithoutOrdersInput>
-    create: XOR<customersCreateWithoutOrdersInput, customersUncheckedCreateWithoutOrdersInput>
-    where?: customersWhereInput
-  }
-
-  export type customersUpdateToOneWithWhereWithoutOrdersInput = {
-    where?: customersWhereInput
-    data: XOR<customersUpdateWithoutOrdersInput, customersUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type customersUpdateWithoutOrdersInput = {
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    loyalty_points?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
-    customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
-  }
-
-  export type customersUncheckedUpdateWithoutOrdersInput = {
-    customer_id?: IntFieldUpdateOperationsInput | number
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    loyalty_points?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    group_id?: NullableIntFieldUpdateOperationsInput | number | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
-  }
-
-  export type promotionsUpsertWithoutOrdersInput = {
-    update: XOR<promotionsUpdateWithoutOrdersInput, promotionsUncheckedUpdateWithoutOrdersInput>
-    create: XOR<promotionsCreateWithoutOrdersInput, promotionsUncheckedCreateWithoutOrdersInput>
-    where?: promotionsWhereInput
-  }
-
-  export type promotionsUpdateToOneWithWhereWithoutOrdersInput = {
-    where?: promotionsWhereInput
-    data: XOR<promotionsUpdateWithoutOrdersInput, promotionsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type promotionsUpdateWithoutOrdersInput = {
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    discount_type?: NullableStringFieldUpdateOperationsInput | string | null
-    discount_value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    minimum_purchase?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    usage_limit?: NullableIntFieldUpdateOperationsInput | number | null
-    usage_per_customer?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    pos_sales?: pos_salesUpdateManyWithoutPromotionsNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutPromotionsNestedInput
-  }
-
-  export type promotionsUncheckedUpdateWithoutOrdersInput = {
-    promotion_id?: IntFieldUpdateOperationsInput | number
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    discount_type?: NullableStringFieldUpdateOperationsInput | string | null
-    discount_value?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    minimum_purchase?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    usage_limit?: NullableIntFieldUpdateOperationsInput | number | null
-    usage_per_customer?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    pos_sales?: pos_salesUncheckedUpdateManyWithoutPromotionsNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
-  }
-
-  export type shipping_methodsUpsertWithoutOrdersInput = {
-    update: XOR<shipping_methodsUpdateWithoutOrdersInput, shipping_methodsUncheckedUpdateWithoutOrdersInput>
-    create: XOR<shipping_methodsCreateWithoutOrdersInput, shipping_methodsUncheckedCreateWithoutOrdersInput>
-    where?: shipping_methodsWhereInput
-  }
-
-  export type shipping_methodsUpdateToOneWithWhereWithoutOrdersInput = {
-    where?: shipping_methodsWhereInput
-    data: XOR<shipping_methodsUpdateWithoutOrdersInput, shipping_methodsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type shipping_methodsUpdateWithoutOrdersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    carrier?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
-    estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    shipping_rates?: shipping_ratesUpdateManyWithoutShipping_methodsNestedInput
-  }
-
-  export type shipping_methodsUncheckedUpdateWithoutOrdersInput = {
-    method_id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    carrier?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
-    estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    shipping_rates?: shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput
-  }
-
-  export type promotion_usageUpsertWithWhereUniqueWithoutOrdersInput = {
-    where: promotion_usageWhereUniqueInput
-    update: XOR<promotion_usageUpdateWithoutOrdersInput, promotion_usageUncheckedUpdateWithoutOrdersInput>
-    create: XOR<promotion_usageCreateWithoutOrdersInput, promotion_usageUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type promotion_usageUpdateWithWhereUniqueWithoutOrdersInput = {
-    where: promotion_usageWhereUniqueInput
-    data: XOR<promotion_usageUpdateWithoutOrdersInput, promotion_usageUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type promotion_usageUpdateManyWithWhereWithoutOrdersInput = {
-    where: promotion_usageScalarWhereInput
-    data: XOR<promotion_usageUpdateManyMutationInput, promotion_usageUncheckedUpdateManyWithoutOrdersInput>
-  }
-
-  export type refundsUpsertWithWhereUniqueWithoutOrdersInput = {
-    where: refundsWhereUniqueInput
-    update: XOR<refundsUpdateWithoutOrdersInput, refundsUncheckedUpdateWithoutOrdersInput>
-    create: XOR<refundsCreateWithoutOrdersInput, refundsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type refundsUpdateWithWhereUniqueWithoutOrdersInput = {
-    where: refundsWhereUniqueInput
-    data: XOR<refundsUpdateWithoutOrdersInput, refundsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type refundsUpdateManyWithWhereWithoutOrdersInput = {
-    where: refundsScalarWhereInput
-    data: XOR<refundsUpdateManyMutationInput, refundsUncheckedUpdateManyWithoutOrdersInput>
-  }
-
-  export type shipmentsUpsertWithWhereUniqueWithoutOrdersInput = {
-    where: shipmentsWhereUniqueInput
-    update: XOR<shipmentsUpdateWithoutOrdersInput, shipmentsUncheckedUpdateWithoutOrdersInput>
-    create: XOR<shipmentsCreateWithoutOrdersInput, shipmentsUncheckedCreateWithoutOrdersInput>
-  }
-
-  export type shipmentsUpdateWithWhereUniqueWithoutOrdersInput = {
-    where: shipmentsWhereUniqueInput
-    data: XOR<shipmentsUpdateWithoutOrdersInput, shipmentsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type shipmentsUpdateManyWithWhereWithoutOrdersInput = {
-    where: shipmentsScalarWhereInput
-    data: XOR<shipmentsUpdateManyMutationInput, shipmentsUncheckedUpdateManyWithoutOrdersInput>
-  }
-
-  export type shipmentsScalarWhereInput = {
-    AND?: shipmentsScalarWhereInput | shipmentsScalarWhereInput[]
-    OR?: shipmentsScalarWhereInput[]
-    NOT?: shipmentsScalarWhereInput | shipmentsScalarWhereInput[]
-    shipment_id?: IntFilter<"shipments"> | number
-    order_id?: IntFilter<"shipments"> | number
-    tracking_number?: StringNullableFilter<"shipments"> | string | null
-    shipped_date?: DateTimeNullableFilter<"shipments"> | Date | string | null
-    delivered_date?: DateTimeNullableFilter<"shipments"> | Date | string | null
-    carrier?: StringNullableFilter<"shipments"> | string | null
-    status?: StringNullableFilter<"shipments"> | string | null
-    notes?: StringNullableFilter<"shipments"> | string | null
   }
 
   export type customer_cardsCreateWithoutPos_salesInput = {
@@ -89690,7 +84722,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
     refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
@@ -89715,7 +84746,6 @@ export namespace Prisma {
     group_id?: number | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
     refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
@@ -89739,7 +84769,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedManyWithoutPromotionsInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPromotionsInput
   }
 
@@ -89758,7 +84787,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersUncheckedCreateNestedManyWithoutPromotionsInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
   }
 
@@ -89769,9 +84797,9 @@ export namespace Prisma {
 
   export type promotion_usageCreateWithoutPos_salesInput = {
     used_at?: Date | string | null
+    order_id?: number | null
     clerk_user_id?: string | null
     customers?: customersCreateNestedOneWithoutPromotion_usageInput
-    orders?: ordersCreateNestedOneWithoutPromotion_usageInput
     promotions: promotionsCreateNestedOneWithoutPromotion_usageInput
   }
 
@@ -89795,12 +84823,12 @@ export namespace Prisma {
   }
 
   export type refundsCreateWithoutPos_salesInput = {
+    order_id?: number | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
     notes?: string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedOneWithoutRefundsInput
     customers?: customersCreateNestedOneWithoutRefundsInput
   }
 
@@ -89918,7 +84946,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
@@ -89943,7 +84970,6 @@ export namespace Prisma {
     group_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
@@ -89973,7 +84999,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateManyWithoutPromotionsNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPromotionsNestedInput
   }
 
@@ -89992,7 +85017,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUncheckedUpdateManyWithoutPromotionsNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
   }
 
@@ -90096,8 +85120,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
     purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutProductsInput
@@ -90122,8 +85146,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
     transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
@@ -90191,8 +85215,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUpdateManyWithoutProductsNestedInput
@@ -90217,8 +85241,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
     transaction_details?: transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
@@ -90246,33 +85270,6 @@ export namespace Prisma {
   export type inventoryCreateOrConnectWithoutProductsInput = {
     where: inventoryWhereUniqueInput
     create: XOR<inventoryCreateWithoutProductsInput, inventoryUncheckedCreateWithoutProductsInput>
-  }
-
-  export type order_itemsCreateWithoutProductsInput = {
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-    orders: ordersCreateNestedOneWithoutOrder_itemsInput
-  }
-
-  export type order_itemsUncheckedCreateWithoutProductsInput = {
-    order_item_id?: number
-    order_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type order_itemsCreateOrConnectWithoutProductsInput = {
-    where: order_itemsWhereUniqueInput
-    create: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput>
-  }
-
-  export type order_itemsCreateManyProductsInputEnvelope = {
-    data: order_itemsCreateManyProductsInput | order_itemsCreateManyProductsInput[]
-    skipDuplicates?: boolean
   }
 
   export type price_listCreateWithoutProductsInput = {
@@ -90359,6 +85356,7 @@ export namespace Prisma {
   export type purchase_order_itemsCreateWithoutProductsInput = {
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
     purchase_orders: purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
   }
@@ -90368,6 +85366,7 @@ export namespace Prisma {
     po_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
@@ -90466,22 +85465,6 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     last_restocked?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsUpsertWithWhereUniqueWithoutProductsInput = {
-    where: order_itemsWhereUniqueInput
-    update: XOR<order_itemsUpdateWithoutProductsInput, order_itemsUncheckedUpdateWithoutProductsInput>
-    create: XOR<order_itemsCreateWithoutProductsInput, order_itemsUncheckedCreateWithoutProductsInput>
-  }
-
-  export type order_itemsUpdateWithWhereUniqueWithoutProductsInput = {
-    where: order_itemsWhereUniqueInput
-    data: XOR<order_itemsUpdateWithoutProductsInput, order_itemsUncheckedUpdateWithoutProductsInput>
-  }
-
-  export type order_itemsUpdateManyWithWhereWithoutProductsInput = {
-    where: order_itemsScalarWhereInput
-    data: XOR<order_itemsUpdateManyMutationInput, order_itemsUncheckedUpdateManyWithoutProductsInput>
   }
 
   export type price_listUpsertWithWhereUniqueWithoutProductsInput = {
@@ -90589,6 +85572,7 @@ export namespace Prisma {
     product_id?: IntFilter<"purchase_order_items"> | number
     quantity_ordered?: IntFilter<"purchase_order_items"> | number
     unit_cost?: DecimalFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: StringNullableFilter<"purchase_order_items"> | string | null
     subtotal?: DecimalNullableFilter<"purchase_order_items"> | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -90658,7 +85642,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
@@ -90683,7 +85666,6 @@ export namespace Prisma {
     group_id?: number | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
@@ -90691,64 +85673,6 @@ export namespace Prisma {
   export type customersCreateOrConnectWithoutPromotion_usageInput = {
     where: customersWhereUniqueInput
     create: XOR<customersCreateWithoutPromotion_usageInput, customersUncheckedCreateWithoutPromotion_usageInput>
-  }
-
-  export type ordersCreateWithoutPromotion_usageInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutPromotion_usageInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutPromotion_usageInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutPromotion_usageInput, ordersUncheckedCreateWithoutPromotion_usageInput>
   }
 
   export type promotionsCreateWithoutPromotion_usageInput = {
@@ -90765,7 +85689,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersCreateNestedManyWithoutPromotionsInput
     pos_sales?: pos_salesCreateNestedManyWithoutPromotionsInput
   }
 
@@ -90784,7 +85707,6 @@ export namespace Prisma {
     is_active?: boolean | null
     created_at?: Date | string | null
     clerk_user_id?: string | null
-    orders?: ordersUncheckedCreateNestedManyWithoutPromotionsInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutPromotionsInput
   }
 
@@ -90859,7 +85781,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
@@ -90884,73 +85805,8 @@ export namespace Prisma {
     group_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
-  }
-
-  export type ordersUpsertWithoutPromotion_usageInput = {
-    update: XOR<ordersUpdateWithoutPromotion_usageInput, ordersUncheckedUpdateWithoutPromotion_usageInput>
-    create: XOR<ordersCreateWithoutPromotion_usageInput, ordersUncheckedCreateWithoutPromotion_usageInput>
-    where?: ordersWhereInput
-  }
-
-  export type ordersUpdateToOneWithWhereWithoutPromotion_usageInput = {
-    where?: ordersWhereInput
-    data: XOR<ordersUpdateWithoutPromotion_usageInput, ordersUncheckedUpdateWithoutPromotion_usageInput>
-  }
-
-  export type ordersUpdateWithoutPromotion_usageInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutPromotion_usageInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
   }
 
   export type promotionsUpsertWithoutPromotion_usageInput = {
@@ -90978,7 +85834,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateManyWithoutPromotionsNestedInput
     pos_sales?: pos_salesUpdateManyWithoutPromotionsNestedInput
   }
 
@@ -90997,7 +85852,6 @@ export namespace Prisma {
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUncheckedUpdateManyWithoutPromotionsNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutPromotionsNestedInput
   }
 
@@ -91043,69 +85897,6 @@ export namespace Prisma {
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
-  export type ordersCreateWithoutPromotionsInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutPromotionsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutPromotionsInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput>
-  }
-
-  export type ordersCreateManyPromotionsInputEnvelope = {
-    data: ordersCreateManyPromotionsInput | ordersCreateManyPromotionsInput[]
-    skipDuplicates?: boolean
-  }
-
   export type pos_salesCreateWithoutPromotionsInput = {
     sale_date?: Date | string | null
     subtotal: Decimal | DecimalJsLike | number | string
@@ -91149,9 +85940,9 @@ export namespace Prisma {
 
   export type promotion_usageCreateWithoutPromotionsInput = {
     used_at?: Date | string | null
+    order_id?: number | null
     clerk_user_id?: string | null
     customers?: customersCreateNestedOneWithoutPromotion_usageInput
-    orders?: ordersCreateNestedOneWithoutPromotion_usageInput
     pos_sales?: pos_salesCreateNestedOneWithoutPromotion_usageInput
   }
 
@@ -91172,22 +85963,6 @@ export namespace Prisma {
   export type promotion_usageCreateManyPromotionsInputEnvelope = {
     data: promotion_usageCreateManyPromotionsInput | promotion_usageCreateManyPromotionsInput[]
     skipDuplicates?: boolean
-  }
-
-  export type ordersUpsertWithWhereUniqueWithoutPromotionsInput = {
-    where: ordersWhereUniqueInput
-    update: XOR<ordersUpdateWithoutPromotionsInput, ordersUncheckedUpdateWithoutPromotionsInput>
-    create: XOR<ordersCreateWithoutPromotionsInput, ordersUncheckedCreateWithoutPromotionsInput>
-  }
-
-  export type ordersUpdateWithWhereUniqueWithoutPromotionsInput = {
-    where: ordersWhereUniqueInput
-    data: XOR<ordersUpdateWithoutPromotionsInput, ordersUncheckedUpdateWithoutPromotionsInput>
-  }
-
-  export type ordersUpdateManyWithWhereWithoutPromotionsInput = {
-    where: ordersScalarWhereInput
-    data: XOR<ordersUpdateManyMutationInput, ordersUncheckedUpdateManyWithoutPromotionsInput>
   }
 
   export type pos_salesUpsertWithWhereUniqueWithoutPromotionsInput = {
@@ -91232,6 +86007,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
     suppliers: suppliersCreateNestedOneWithoutPurchase_ordersInput
   }
 
@@ -91247,6 +86026,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
   }
 
   export type purchase_ordersCreateOrConnectWithoutPurchase_order_itemsInput = {
@@ -91268,8 +86051,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
@@ -91294,8 +86077,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
     transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
@@ -91327,6 +86110,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     suppliers?: suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
   }
 
@@ -91342,6 +86129,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type productsUpsertWithoutPurchase_order_itemsInput = {
@@ -91369,8 +86160,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
@@ -91395,8 +86186,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
     transaction_details?: transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
@@ -91405,6 +86196,7 @@ export namespace Prisma {
   export type purchase_order_itemsCreateWithoutPurchase_ordersInput = {
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
     products: productsCreateNestedOneWithoutPurchase_order_itemsInput
   }
@@ -91414,6 +86206,7 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
@@ -91513,64 +86306,6 @@ export namespace Prisma {
     products?: productsUncheckedUpdateManyWithoutSuppliersNestedInput
   }
 
-  export type ordersCreateWithoutRefundsInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutRefundsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutRefundsInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutRefundsInput, ordersUncheckedCreateWithoutRefundsInput>
-  }
-
   export type customersCreateWithoutRefundsInput = {
     first_name: string
     last_name: string
@@ -91590,7 +86325,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    orders?: ordersCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
   }
@@ -91615,7 +86349,6 @@ export namespace Prisma {
     group_id?: number | null
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    orders?: ordersUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   }
@@ -91661,70 +86394,6 @@ export namespace Prisma {
     create: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
   }
 
-  export type ordersUpsertWithoutRefundsInput = {
-    update: XOR<ordersUpdateWithoutRefundsInput, ordersUncheckedUpdateWithoutRefundsInput>
-    create: XOR<ordersCreateWithoutRefundsInput, ordersUncheckedCreateWithoutRefundsInput>
-    where?: ordersWhereInput
-  }
-
-  export type ordersUpdateToOneWithWhereWithoutRefundsInput = {
-    where?: ordersWhereInput
-    data: XOR<ordersUpdateWithoutRefundsInput, ordersUncheckedUpdateWithoutRefundsInput>
-  }
-
-  export type ordersUpdateWithoutRefundsInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutRefundsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
   export type customersUpsertWithoutRefundsInput = {
     update: XOR<customersUpdateWithoutRefundsInput, customersUncheckedUpdateWithoutRefundsInput>
     create: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
@@ -91755,7 +86424,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
   }
@@ -91780,7 +86448,6 @@ export namespace Prisma {
     group_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   }
@@ -94618,8 +89285,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
@@ -94644,8 +89311,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
@@ -94717,8 +89384,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
@@ -94743,8 +89410,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     transaction_details?: transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
@@ -94792,191 +89459,6 @@ export namespace Prisma {
     refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
-  export type ordersCreateWithoutShipmentsInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    shipping_methods?: shipping_methodsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutShipmentsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutShipmentsInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutShipmentsInput, ordersUncheckedCreateWithoutShipmentsInput>
-  }
-
-  export type ordersUpsertWithoutShipmentsInput = {
-    update: XOR<ordersUpdateWithoutShipmentsInput, ordersUncheckedUpdateWithoutShipmentsInput>
-    create: XOR<ordersCreateWithoutShipmentsInput, ordersUncheckedCreateWithoutShipmentsInput>
-    where?: ordersWhereInput
-  }
-
-  export type ordersUpdateToOneWithWhereWithoutShipmentsInput = {
-    where?: ordersWhereInput
-    data: XOR<ordersUpdateWithoutShipmentsInput, ordersUncheckedUpdateWithoutShipmentsInput>
-  }
-
-  export type ordersUpdateWithoutShipmentsInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutShipmentsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersCreateWithoutShipping_methodsInput = {
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsCreateNestedManyWithoutOrdersInput
-    customers: customersCreateNestedOneWithoutOrdersInput
-    promotions?: promotionsCreateNestedOneWithoutOrdersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutOrdersInput
-    refunds?: refundsCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersUncheckedCreateWithoutShipping_methodsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutOrdersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutOrdersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutOrdersInput
-    shipments?: shipmentsUncheckedCreateNestedManyWithoutOrdersInput
-  }
-
-  export type ordersCreateOrConnectWithoutShipping_methodsInput = {
-    where: ordersWhereUniqueInput
-    create: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput>
-  }
-
-  export type ordersCreateManyShipping_methodsInputEnvelope = {
-    data: ordersCreateManyShipping_methodsInput | ordersCreateManyShipping_methodsInput[]
-    skipDuplicates?: boolean
-  }
-
   export type shipping_ratesCreateWithoutShipping_methodsInput = {
     destination_country?: string | null
     destination_state?: string | null
@@ -95010,22 +89492,6 @@ export namespace Prisma {
   export type shipping_ratesCreateManyShipping_methodsInputEnvelope = {
     data: shipping_ratesCreateManyShipping_methodsInput | shipping_ratesCreateManyShipping_methodsInput[]
     skipDuplicates?: boolean
-  }
-
-  export type ordersUpsertWithWhereUniqueWithoutShipping_methodsInput = {
-    where: ordersWhereUniqueInput
-    update: XOR<ordersUpdateWithoutShipping_methodsInput, ordersUncheckedUpdateWithoutShipping_methodsInput>
-    create: XOR<ordersCreateWithoutShipping_methodsInput, ordersUncheckedCreateWithoutShipping_methodsInput>
-  }
-
-  export type ordersUpdateWithWhereUniqueWithoutShipping_methodsInput = {
-    where: ordersWhereUniqueInput
-    data: XOR<ordersUpdateWithoutShipping_methodsInput, ordersUncheckedUpdateWithoutShipping_methodsInput>
-  }
-
-  export type ordersUpdateManyWithWhereWithoutShipping_methodsInput = {
-    where: ordersScalarWhereInput
-    data: XOR<ordersUpdateManyMutationInput, ordersUncheckedUpdateManyWithoutShipping_methodsInput>
   }
 
   export type shipping_ratesUpsertWithWhereUniqueWithoutShipping_methodsInput = {
@@ -95068,7 +89534,6 @@ export namespace Prisma {
     estimated_days_min?: number | null
     estimated_days_max?: number | null
     is_active?: boolean | null
-    orders?: ordersCreateNestedManyWithoutShipping_methodsInput
   }
 
   export type shipping_methodsUncheckedCreateWithoutShipping_ratesInput = {
@@ -95079,7 +89544,6 @@ export namespace Prisma {
     estimated_days_min?: number | null
     estimated_days_max?: number | null
     is_active?: boolean | null
-    orders?: ordersUncheckedCreateNestedManyWithoutShipping_methodsInput
   }
 
   export type shipping_methodsCreateOrConnectWithoutShipping_ratesInput = {
@@ -95105,7 +89569,6 @@ export namespace Prisma {
     estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
     estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    orders?: ordersUpdateManyWithoutShipping_methodsNestedInput
   }
 
   export type shipping_methodsUncheckedUpdateWithoutShipping_ratesInput = {
@@ -95116,7 +89579,6 @@ export namespace Prisma {
     estimated_days_min?: NullableIntFieldUpdateOperationsInput | number | null
     estimated_days_max?: NullableIntFieldUpdateOperationsInput | number | null
     is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    orders?: ordersUncheckedUpdateManyWithoutShipping_methodsNestedInput
   }
 
   export type productsCreateWithoutSuppliersInput = {
@@ -95133,8 +89595,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutProductsInput
@@ -95158,8 +89620,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -95186,6 +89648,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
     purchase_order_items?: purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
   }
 
@@ -95200,6 +89666,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
   }
 
@@ -95260,6 +89730,10 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"purchase_orders"> | Date | string | null
     user_id?: StringNullableFilter<"purchase_orders"> | string | null
     clerk_user_id?: StringNullableFilter<"purchase_orders"> | string | null
+    discounnt_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: DecimalNullableFilter<"purchase_orders"> | Decimal | DecimalJsLike | number | string | null
+    payment_status?: StringNullableFilter<"purchase_orders"> | string | null
   }
 
   export type transaction_detailsCreateWithoutTransactionsInput = {
@@ -95324,8 +89798,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsCreateNestedManyWithoutProductsInput
     price_list?: price_listCreateNestedManyWithoutProductsInput
     categories?: categoriesCreateNestedOneWithoutProductsInput
     suppliers?: suppliersCreateNestedOneWithoutProductsInput
@@ -95350,8 +89824,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
     inventory?: inventoryUncheckedCreateNestedOneWithoutProductsInput
-    order_items?: order_itemsUncheckedCreateNestedManyWithoutProductsInput
     price_list?: price_listUncheckedCreateNestedManyWithoutProductsInput
     purchase_order_items?: purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -95432,8 +89906,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
@@ -95458,8 +89932,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -97459,6 +91933,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
   }
 
   export type productsUpdateWithoutCategoriesInput = {
@@ -97475,8 +91950,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     suppliers?: suppliersUpdateOneWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUpdateManyWithoutProductsNestedInput
@@ -97500,8 +91975,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -97524,6 +91999,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type pos_salesCreateManyCustomer_cardsInput = {
@@ -97631,7 +92107,6 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUpdateManyWithoutCustomersNestedInput
@@ -97656,7 +92131,6 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    orders?: ordersUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
     refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -97722,29 +92196,6 @@ export namespace Prisma {
     is_default?: boolean | null
     tokenized_id?: string | null
     added_at?: Date | string | null
-  }
-
-  export type ordersCreateManyCustomersInput = {
-    order_id?: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
   }
 
   export type pos_salesCreateManyCustomersInput = {
@@ -97820,82 +92271,6 @@ export namespace Prisma {
     added_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ordersUpdateWithoutCustomersInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutCustomersInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateManyWithoutCustomersInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type pos_salesUpdateWithoutCustomersInput = {
     sale_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -97942,8 +92317,8 @@ export namespace Prisma {
 
   export type promotion_usageUpdateWithoutCustomersInput = {
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneWithoutPromotion_usageNestedInput
     promotions?: promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
     pos_sales?: pos_salesUpdateOneWithoutPromotion_usageNestedInput
   }
@@ -97967,12 +92342,12 @@ export namespace Prisma {
   }
 
   export type refundsUpdateWithoutCustomersInput = {
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneWithoutRefundsNestedInput
     pos_sales?: pos_salesUpdateOneWithoutRefundsNestedInput
   }
 
@@ -97996,158 +92371,6 @@ export namespace Prisma {
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsCreateManyOrdersInput = {
-    order_item_id?: number
-    product_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type promotion_usageCreateManyOrdersInput = {
-    usage_id?: number
-    promotion_id: number
-    customer_id?: number | null
-    sale_id?: number | null
-    used_at?: Date | string | null
-    clerk_user_id?: string | null
-  }
-
-  export type refundsCreateManyOrdersInput = {
-    refund_id?: number
-    sale_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    processed_by?: number | null
-    notes?: string | null
-    clerk_user_id?: string | null
-  }
-
-  export type shipmentsCreateManyOrdersInput = {
-    shipment_id?: number
-    tracking_number?: string | null
-    shipped_date?: Date | string | null
-    delivered_date?: Date | string | null
-    carrier?: string | null
-    status?: string | null
-    notes?: string | null
-  }
-
-  export type order_itemsUpdateWithoutOrdersInput = {
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    products?: productsUpdateOneRequiredWithoutOrder_itemsNestedInput
-  }
-
-  export type order_itemsUncheckedUpdateWithoutOrdersInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    product_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsUncheckedUpdateManyWithoutOrdersInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    product_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type promotion_usageUpdateWithoutOrdersInput = {
-    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customers?: customersUpdateOneWithoutPromotion_usageNestedInput
-    promotions?: promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
-    pos_sales?: pos_salesUpdateOneWithoutPromotion_usageNestedInput
-  }
-
-  export type promotion_usageUncheckedUpdateWithoutOrdersInput = {
-    usage_id?: IntFieldUpdateOperationsInput | number
-    promotion_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: NullableIntFieldUpdateOperationsInput | number | null
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type promotion_usageUncheckedUpdateManyWithoutOrdersInput = {
-    usage_id?: IntFieldUpdateOperationsInput | number
-    promotion_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: NullableIntFieldUpdateOperationsInput | number | null
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type refundsUpdateWithoutOrdersInput = {
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customers?: customersUpdateOneWithoutRefundsNestedInput
-    pos_sales?: pos_salesUpdateOneWithoutRefundsNestedInput
-  }
-
-  export type refundsUncheckedUpdateWithoutOrdersInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type refundsUncheckedUpdateManyWithoutOrdersInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type shipmentsUpdateWithoutOrdersInput = {
-    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
-    shipped_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    delivered_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    carrier?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type shipmentsUncheckedUpdateWithoutOrdersInput = {
-    shipment_id?: IntFieldUpdateOperationsInput | number
-    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
-    shipped_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    delivered_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    carrier?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type shipmentsUncheckedUpdateManyWithoutOrdersInput = {
-    shipment_id?: IntFieldUpdateOperationsInput | number
-    tracking_number?: NullableStringFieldUpdateOperationsInput | string | null
-    shipped_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    delivered_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    carrier?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type promotion_usageCreateManyPos_salesInput = {
@@ -98180,9 +92403,9 @@ export namespace Prisma {
 
   export type promotion_usageUpdateWithoutPos_salesInput = {
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: customersUpdateOneWithoutPromotion_usageNestedInput
-    orders?: ordersUpdateOneWithoutPromotion_usageNestedInput
     promotions?: promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
   }
 
@@ -98205,12 +92428,12 @@ export namespace Prisma {
   }
 
   export type refundsUpdateWithoutPos_salesInput = {
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneWithoutRefundsNestedInput
     customers?: customersUpdateOneWithoutRefundsNestedInput
   }
 
@@ -98259,15 +92482,6 @@ export namespace Prisma {
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type order_itemsCreateManyProductsInput = {
-    order_item_id?: number
-    order_id: number
-    quantity: number
-    unit_price: Decimal | DecimalJsLike | number | string
-    subtotal?: Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: string | null
-  }
-
   export type price_listCreateManyProductsInput = {
     price_id?: number
     group_id?: number | null
@@ -98283,6 +92497,7 @@ export namespace Prisma {
     po_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
@@ -98303,32 +92518,6 @@ export namespace Prisma {
     discount_amount?: Decimal | DecimalJsLike | number | string | null
     tax_amount?: Decimal | DecimalJsLike | number | string | null
     subtotal: Decimal | DecimalJsLike | number | string
-  }
-
-  export type order_itemsUpdateWithoutProductsInput = {
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    orders?: ordersUpdateOneRequiredWithoutOrder_itemsNestedInput
-  }
-
-  export type order_itemsUncheckedUpdateWithoutProductsInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    order_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type order_itemsUncheckedUpdateManyWithoutProductsInput = {
-    order_item_id?: IntFieldUpdateOperationsInput | number
-    order_id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    unit_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type price_listUpdateWithoutProductsInput = {
@@ -98363,6 +92552,7 @@ export namespace Prisma {
   export type purchase_order_itemsUpdateWithoutProductsInput = {
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     purchase_orders?: purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   }
@@ -98372,6 +92562,7 @@ export namespace Prisma {
     po_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -98380,6 +92571,7 @@ export namespace Prisma {
     po_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -98439,29 +92631,6 @@ export namespace Prisma {
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
-  export type ordersCreateManyPromotionsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    shipping_method_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-  }
-
   export type pos_salesCreateManyPromotionsInput = {
     sale_id?: number
     customer_id?: number | null
@@ -98482,82 +92651,6 @@ export namespace Prisma {
     used_at?: Date | string | null
     order_id?: number | null
     clerk_user_id?: string | null
-  }
-
-  export type ordersUpdateWithoutPromotionsInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    shipping_methods?: shipping_methodsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutPromotionsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateManyWithoutPromotionsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_method_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type pos_salesUpdateWithoutPromotionsInput = {
@@ -98606,9 +92699,9 @@ export namespace Prisma {
 
   export type promotion_usageUpdateWithoutPromotionsInput = {
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order_id?: NullableIntFieldUpdateOperationsInput | number | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: customersUpdateOneWithoutPromotion_usageNestedInput
-    orders?: ordersUpdateOneWithoutPromotion_usageNestedInput
     pos_sales?: pos_salesUpdateOneWithoutPromotion_usageNestedInput
   }
 
@@ -98635,12 +92728,14 @@ export namespace Prisma {
     product_id: number
     quantity_ordered: number
     unit_cost: Decimal | DecimalJsLike | number | string
+    clerk_user_id?: string | null
     subtotal?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type purchase_order_itemsUpdateWithoutPurchase_ordersInput = {
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     products?: productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   }
@@ -98650,6 +92745,7 @@ export namespace Prisma {
     product_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -98658,6 +92754,7 @@ export namespace Prisma {
     product_id?: IntFieldUpdateOperationsInput | number
     quantity_ordered?: IntFieldUpdateOperationsInput | number
     unit_cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
@@ -99341,29 +93438,6 @@ export namespace Prisma {
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ordersCreateManyShipping_methodsInput = {
-    order_id?: number
-    customer_id: number
-    order_number: string
-    order_date?: Date | string | null
-    status?: string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    promotion_id?: number | null
-    shipping_address_line1?: string | null
-    shipping_address_line2?: string | null
-    shipping_city?: string | null
-    shipping_state?: string | null
-    shipping_postal_code?: string | null
-    shipping_country?: string | null
-    notes?: string | null
-    payment_status?: string | null
-    clerk_user_id?: string | null
-  }
-
   export type shipping_ratesCreateManyShipping_methodsInput = {
     rate_id?: number
     destination_country?: string | null
@@ -99375,82 +93449,6 @@ export namespace Prisma {
     max_order_amount?: Decimal | DecimalJsLike | number | string | null
     cost: Decimal | DecimalJsLike | number | string
     is_free?: boolean | null
-  }
-
-  export type ordersUpdateWithoutShipping_methodsInput = {
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUpdateManyWithoutOrdersNestedInput
-    customers?: customersUpdateOneRequiredWithoutOrdersNestedInput
-    promotions?: promotionsUpdateOneWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateWithoutShipping_methodsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    order_items?: order_itemsUncheckedUpdateManyWithoutOrdersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutOrdersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutOrdersNestedInput
-    shipments?: shipmentsUncheckedUpdateManyWithoutOrdersNestedInput
-  }
-
-  export type ordersUncheckedUpdateManyWithoutShipping_methodsInput = {
-    order_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: IntFieldUpdateOperationsInput | number
-    order_number?: StringFieldUpdateOperationsInput | string
-    order_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    shipping_address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_city?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_state?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    shipping_country?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type shipping_ratesUpdateWithoutShipping_methodsInput = {
@@ -99507,6 +93505,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     reorder_level?: Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: string | null
+    store_id?: string | null
   }
 
   export type purchase_ordersCreateManySuppliersInput = {
@@ -99520,6 +93519,10 @@ export namespace Prisma {
     created_at?: Date | string | null
     user_id?: string | null
     clerk_user_id?: string | null
+    discounnt_amount?: Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: Decimal | DecimalJsLike | number | string | null
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    payment_status?: string | null
   }
 
   export type productsUpdateWithoutSuppliersInput = {
@@ -99536,8 +93539,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUpdateManyWithoutProductsNestedInput
     price_list?: price_listUpdateManyWithoutProductsNestedInput
     categories?: categoriesUpdateOneWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUpdateManyWithoutProductsNestedInput
@@ -99561,8 +93564,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
     inventory?: inventoryUncheckedUpdateOneWithoutProductsNestedInput
-    order_items?: order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     price_list?: price_listUncheckedUpdateManyWithoutProductsNestedInput
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -99585,6 +93588,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reorder_level?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    store_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type purchase_ordersUpdateWithoutSuppliersInput = {
@@ -99597,6 +93601,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     purchase_order_items?: purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
   }
 
@@ -99611,6 +93619,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     purchase_order_items?: purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
   }
 
@@ -99625,6 +93637,10 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    discounnt_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    shipping_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type transaction_detailsCreateManyTransactionsInput = {

@@ -1,0 +1,8 @@
+{
+  "track_id": "tenant_subscription_module_20260313",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-13T12:00:00Z",
+  "updated_at": "2026-03-13T12:00:00Z",
+  "description": "Enhance @src/routes/subscription-required.tsx component and add new option to open modal to allow tenant to choose and register his subscription"
+}
