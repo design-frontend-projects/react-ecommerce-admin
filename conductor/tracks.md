@@ -18,3 +18,8 @@
 
 - [ ] **Track: Enhance @src/routes/subscription-required.tsx component and add new option to open modal to allow tenant to choose and register his subscription**
 *Link: [./tracks/tenant_subscription_module_20260313/](./tracks/tenant_subscription_module_20260313/)*
+
+---
+
+- [ ] **Track: Lookups Module (Branches, Country, City, Currency)**
+*Link: [./tracks/lookups_module_20260317/](./tracks/lookups_module_20260317/)*

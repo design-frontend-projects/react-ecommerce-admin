@@ -1,0 +1,8 @@
+{
+  "track_id": "lookups_module_20260317",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-17T17:45:00Z",
+  "updated_at": "2026-03-17T17:45:00Z",
+  "description": "create module branches,country,city,currency definition and create the required tables in @prisma/schema.prisma and push it to supabase after finishing it also create the required indexes,relationships between tables, also add them to side menu under lookups submenu and allow user with roles(admin,super_admin) to use it and create crud operations"
+}
