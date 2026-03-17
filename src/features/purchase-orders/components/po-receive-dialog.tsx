@@ -19,11 +19,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useBatchReceiveItems } from '../hooks/use-purchase-order-items'
 import {
   usePurchaseOrder,
   useUpdatePurchaseOrderStatus,
 } from '../hooks/use-purchase-orders'
-import { useBatchReceiveItems } from '../hooks/use-purchase-order-items'
 import { usePOContext } from './po-provider'
 import { POStatusBadge } from './po-status-badge'
 
@@ -35,9 +35,7 @@ export function POReceiveDialog() {
   const batchReceive = useBatchReceiveItems()
   const updateStatus = useUpdatePurchaseOrderStatus()
 
-  const [receivedQtys, setReceivedQtys] = useState<
-    Record<number, number>
-  >({})
+  const [receivedQtys, setReceivedQtys] = useState<Record<number, number>>({})
 
   // Initialize received quantities from existing data
   useEffect(() => {
@@ -63,8 +61,7 @@ export function POReceiveDialog() {
 
       // Determine new status
       const allReceived = po.purchase_order_items.every(
-        (item) =>
-          (receivedQtys[item.po_item_id] ?? 0) >= item.quantity
+        (item) => (receivedQtys[item.po_item_id] ?? 0) >= item.quantity_ordered
       )
       const someReceived = po.purchase_order_items.some(
         (item) => (receivedQtys[item.po_item_id] ?? 0) > 0
@@ -89,8 +86,7 @@ export function POReceiveDialog() {
       setOpen(null)
     } catch (error: unknown) {
       toast.error('Error', {
-        description:
-          (error as Error)?.message || 'Failed to receive items.',
+        description: (error as Error)?.message || 'Failed to receive items.',
       })
     }
   }
@@ -109,9 +105,12 @@ export function POReceiveDialog() {
             <POStatusBadge status={currentRow.status} />
           </DialogTitle>
           <DialogDescription>
-            Enter the quantity received for each item. 
+            Enter the quantity received for each item.
             {currentRow.suppliers?.name && (
-              <> Supplier: <strong>{currentRow.suppliers.name}</strong></>
+              <>
+                {' '}
+                Supplier: <strong>{currentRow.suppliers.name}</strong>
+              </>
             )}
           </DialogDescription>
         </DialogHeader>
@@ -136,7 +135,7 @@ export function POReceiveDialog() {
                       {item.products?.name || `Product #${item.product_id}`}
                     </TableCell>
                     <TableCell className='text-right'>
-                      {item.quantity}
+                      {item.quantity_ordered}
                     </TableCell>
                     <TableCell className='text-right'>
                       {item.received_quantity || 0}
@@ -145,7 +144,7 @@ export function POReceiveDialog() {
                       <Input
                         type='number'
                         min={0}
-                        max={item.quantity}
+                        max={item.quantity_ordered}
                         className='ml-auto w-24 text-right'
                         value={receivedQtys[item.po_item_id] ?? 0}
                         onChange={(e) =>
