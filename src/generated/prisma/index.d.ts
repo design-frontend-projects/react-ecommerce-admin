@@ -283,6 +283,26 @@ export type res_employees = $Result.DefaultSelection<Prisma.$res_employeesPayloa
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type res_roles = $Result.DefaultSelection<Prisma.$res_rolesPayload>
+/**
+ * Model branches
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type branches = $Result.DefaultSelection<Prisma.$branchesPayload>
+/**
+ * Model cities
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type cities = $Result.DefaultSelection<Prisma.$citiesPayload>
+/**
+ * Model countries
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type countries = $Result.DefaultSelection<Prisma.$countriesPayload>
+/**
+ * Model currencies
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type currencies = $Result.DefaultSelection<Prisma.$currenciesPayload>
 
 /**
  * Enums
@@ -1066,6 +1086,46 @@ export class PrismaClient<
     * ```
     */
   get res_roles(): Prisma.res_rolesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.branches`: Exposes CRUD operations for the **branches** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Branches
+    * const branches = await prisma.branches.findMany()
+    * ```
+    */
+  get branches(): Prisma.branchesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cities`: Exposes CRUD operations for the **cities** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Cities
+    * const cities = await prisma.cities.findMany()
+    * ```
+    */
+  get cities(): Prisma.citiesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.countries`: Exposes CRUD operations for the **countries** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Countries
+    * const countries = await prisma.countries.findMany()
+    * ```
+    */
+  get countries(): Prisma.countriesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.currencies`: Exposes CRUD operations for the **currencies** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Currencies
+    * const currencies = await prisma.currencies.findMany()
+    * ```
+    */
+  get currencies(): Prisma.currenciesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1550,7 +1610,11 @@ export namespace Prisma {
     audit_logs: 'audit_logs',
     res_employee_roles: 'res_employee_roles',
     res_employees: 'res_employees',
-    res_roles: 'res_roles'
+    res_roles: 'res_roles',
+    branches: 'branches',
+    cities: 'cities',
+    countries: 'countries',
+    currencies: 'currencies'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1566,7 +1630,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_employees" | "res_roles"
+      modelProps: "categories" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "pos_sales" | "price_list" | "products" | "promotion_usage" | "promotions" | "purchase_order_items" | "purchase_orders" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "sale_items" | "shipments" | "shipping_methods" | "shipping_rates" | "suppliers" | "tax_rates" | "transactions" | "transaction_details" | "tenant_users" | "roles" | "permissions" | "role_permissions" | "user_roles" | "res_promotion_usage" | "res_promotions" | "subscriptions" | "tenant_subscriptions" | "profiles" | "activity_types" | "audit_logs" | "res_employee_roles" | "res_employees" | "res_roles" | "branches" | "cities" | "countries" | "currencies"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5344,6 +5408,302 @@ export namespace Prisma {
           }
         }
       }
+      branches: {
+        payload: Prisma.$branchesPayload<ExtArgs>
+        fields: Prisma.branchesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.branchesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.branchesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          findFirst: {
+            args: Prisma.branchesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.branchesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          findMany: {
+            args: Prisma.branchesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>[]
+          }
+          create: {
+            args: Prisma.branchesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          createMany: {
+            args: Prisma.branchesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.branchesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>[]
+          }
+          delete: {
+            args: Prisma.branchesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          update: {
+            args: Prisma.branchesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          deleteMany: {
+            args: Prisma.branchesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.branchesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.branchesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>[]
+          }
+          upsert: {
+            args: Prisma.branchesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$branchesPayload>
+          }
+          aggregate: {
+            args: Prisma.BranchesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBranches>
+          }
+          groupBy: {
+            args: Prisma.branchesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BranchesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.branchesCountArgs<ExtArgs>
+            result: $Utils.Optional<BranchesCountAggregateOutputType> | number
+          }
+        }
+      }
+      cities: {
+        payload: Prisma.$citiesPayload<ExtArgs>
+        fields: Prisma.citiesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.citiesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.citiesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          findFirst: {
+            args: Prisma.citiesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.citiesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          findMany: {
+            args: Prisma.citiesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>[]
+          }
+          create: {
+            args: Prisma.citiesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          createMany: {
+            args: Prisma.citiesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.citiesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>[]
+          }
+          delete: {
+            args: Prisma.citiesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          update: {
+            args: Prisma.citiesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          deleteMany: {
+            args: Prisma.citiesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.citiesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.citiesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>[]
+          }
+          upsert: {
+            args: Prisma.citiesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$citiesPayload>
+          }
+          aggregate: {
+            args: Prisma.CitiesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCities>
+          }
+          groupBy: {
+            args: Prisma.citiesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CitiesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.citiesCountArgs<ExtArgs>
+            result: $Utils.Optional<CitiesCountAggregateOutputType> | number
+          }
+        }
+      }
+      countries: {
+        payload: Prisma.$countriesPayload<ExtArgs>
+        fields: Prisma.countriesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.countriesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.countriesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          findFirst: {
+            args: Prisma.countriesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.countriesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          findMany: {
+            args: Prisma.countriesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>[]
+          }
+          create: {
+            args: Prisma.countriesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          createMany: {
+            args: Prisma.countriesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.countriesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>[]
+          }
+          delete: {
+            args: Prisma.countriesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          update: {
+            args: Prisma.countriesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          deleteMany: {
+            args: Prisma.countriesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.countriesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.countriesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>[]
+          }
+          upsert: {
+            args: Prisma.countriesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$countriesPayload>
+          }
+          aggregate: {
+            args: Prisma.CountriesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCountries>
+          }
+          groupBy: {
+            args: Prisma.countriesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CountriesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.countriesCountArgs<ExtArgs>
+            result: $Utils.Optional<CountriesCountAggregateOutputType> | number
+          }
+        }
+      }
+      currencies: {
+        payload: Prisma.$currenciesPayload<ExtArgs>
+        fields: Prisma.currenciesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.currenciesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.currenciesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          findFirst: {
+            args: Prisma.currenciesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.currenciesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          findMany: {
+            args: Prisma.currenciesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>[]
+          }
+          create: {
+            args: Prisma.currenciesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          createMany: {
+            args: Prisma.currenciesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.currenciesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>[]
+          }
+          delete: {
+            args: Prisma.currenciesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          update: {
+            args: Prisma.currenciesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          deleteMany: {
+            args: Prisma.currenciesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.currenciesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.currenciesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>[]
+          }
+          upsert: {
+            args: Prisma.currenciesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$currenciesPayload>
+          }
+          aggregate: {
+            args: Prisma.CurrenciesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCurrencies>
+          }
+          groupBy: {
+            args: Prisma.currenciesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CurrenciesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.currenciesCountArgs<ExtArgs>
+            result: $Utils.Optional<CurrenciesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5503,6 +5863,10 @@ export namespace Prisma {
     res_employee_roles?: res_employee_rolesOmit
     res_employees?: res_employeesOmit
     res_roles?: res_rolesOmit
+    branches?: branchesOmit
+    cities?: citiesOmit
+    countries?: countriesOmit
+    currencies?: currenciesOmit
   }
 
   /* Types for Logging */
@@ -6668,6 +7032,68 @@ export namespace Prisma {
    */
   export type Res_rolesCountOutputTypeCountRes_employee_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: res_employee_rolesWhereInput
+  }
+
+
+  /**
+   * Count Type CitiesCountOutputType
+   */
+
+  export type CitiesCountOutputType = {
+    branches: number
+  }
+
+  export type CitiesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    branches?: boolean | CitiesCountOutputTypeCountBranchesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CitiesCountOutputType without action
+   */
+  export type CitiesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CitiesCountOutputType
+     */
+    select?: CitiesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CitiesCountOutputType without action
+   */
+  export type CitiesCountOutputTypeCountBranchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: branchesWhereInput
+  }
+
+
+  /**
+   * Count Type CountriesCountOutputType
+   */
+
+  export type CountriesCountOutputType = {
+    cities: number
+  }
+
+  export type CountriesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | CountriesCountOutputTypeCountCitiesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CountriesCountOutputType without action
+   */
+  export type CountriesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CountriesCountOutputType
+     */
+    select?: CountriesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CountriesCountOutputType without action
+   */
+  export type CountriesCountOutputTypeCountCitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: citiesWhereInput
   }
 
 
@@ -67176,6 +67602,4341 @@ export namespace Prisma {
 
 
   /**
+   * Model branches
+   */
+
+  export type AggregateBranches = {
+    _count: BranchesCountAggregateOutputType | null
+    _min: BranchesMinAggregateOutputType | null
+    _max: BranchesMaxAggregateOutputType | null
+  }
+
+  export type BranchesMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    city_id: string | null
+    address: string | null
+    phone: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type BranchesMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    city_id: string | null
+    address: string | null
+    phone: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type BranchesCountAggregateOutputType = {
+    id: number
+    name: number
+    city_id: number
+    address: number
+    phone: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type BranchesMinAggregateInputType = {
+    id?: true
+    name?: true
+    city_id?: true
+    address?: true
+    phone?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type BranchesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    city_id?: true
+    address?: true
+    phone?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type BranchesCountAggregateInputType = {
+    id?: true
+    name?: true
+    city_id?: true
+    address?: true
+    phone?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type BranchesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which branches to aggregate.
+     */
+    where?: branchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of branches to fetch.
+     */
+    orderBy?: branchesOrderByWithRelationInput | branchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: branchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned branches
+    **/
+    _count?: true | BranchesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BranchesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BranchesMaxAggregateInputType
+  }
+
+  export type GetBranchesAggregateType<T extends BranchesAggregateArgs> = {
+        [P in keyof T & keyof AggregateBranches]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBranches[P]>
+      : GetScalarType<T[P], AggregateBranches[P]>
+  }
+
+
+
+
+  export type branchesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: branchesWhereInput
+    orderBy?: branchesOrderByWithAggregationInput | branchesOrderByWithAggregationInput[]
+    by: BranchesScalarFieldEnum[] | BranchesScalarFieldEnum
+    having?: branchesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BranchesCountAggregateInputType | true
+    _min?: BranchesMinAggregateInputType
+    _max?: BranchesMaxAggregateInputType
+  }
+
+  export type BranchesGroupByOutputType = {
+    id: string
+    name: string
+    city_id: string
+    address: string | null
+    phone: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    _count: BranchesCountAggregateOutputType | null
+    _min: BranchesMinAggregateOutputType | null
+    _max: BranchesMaxAggregateOutputType | null
+  }
+
+  type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BranchesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BranchesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BranchesGroupByOutputType[P]>
+            : GetScalarType<T[P], BranchesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type branchesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    city_id?: boolean
+    address?: boolean
+    phone?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branches"]>
+
+  export type branchesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    city_id?: boolean
+    address?: boolean
+    phone?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branches"]>
+
+  export type branchesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    city_id?: boolean
+    address?: boolean
+    phone?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branches"]>
+
+  export type branchesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    city_id?: boolean
+    address?: boolean
+    phone?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type branchesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "city_id" | "address" | "phone" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["branches"]>
+  export type branchesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }
+  export type branchesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }
+  export type branchesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | citiesDefaultArgs<ExtArgs>
+  }
+
+  export type $branchesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "branches"
+    objects: {
+      cities: Prisma.$citiesPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      city_id: string
+      address: string | null
+      phone: string | null
+      is_active: boolean | null
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["branches"]>
+    composites: {}
+  }
+
+  type branchesGetPayload<S extends boolean | null | undefined | branchesDefaultArgs> = $Result.GetResult<Prisma.$branchesPayload, S>
+
+  type branchesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<branchesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BranchesCountAggregateInputType | true
+    }
+
+  export interface branchesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['branches'], meta: { name: 'branches' } }
+    /**
+     * Find zero or one Branches that matches the filter.
+     * @param {branchesFindUniqueArgs} args - Arguments to find a Branches
+     * @example
+     * // Get one Branches
+     * const branches = await prisma.branches.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends branchesFindUniqueArgs>(args: SelectSubset<T, branchesFindUniqueArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Branches that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {branchesFindUniqueOrThrowArgs} args - Arguments to find a Branches
+     * @example
+     * // Get one Branches
+     * const branches = await prisma.branches.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends branchesFindUniqueOrThrowArgs>(args: SelectSubset<T, branchesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesFindFirstArgs} args - Arguments to find a Branches
+     * @example
+     * // Get one Branches
+     * const branches = await prisma.branches.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends branchesFindFirstArgs>(args?: SelectSubset<T, branchesFindFirstArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branches that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesFindFirstOrThrowArgs} args - Arguments to find a Branches
+     * @example
+     * // Get one Branches
+     * const branches = await prisma.branches.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends branchesFindFirstOrThrowArgs>(args?: SelectSubset<T, branchesFindFirstOrThrowArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Branches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Branches
+     * const branches = await prisma.branches.findMany()
+     * 
+     * // Get first 10 Branches
+     * const branches = await prisma.branches.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const branchesWithIdOnly = await prisma.branches.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends branchesFindManyArgs>(args?: SelectSubset<T, branchesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Branches.
+     * @param {branchesCreateArgs} args - Arguments to create a Branches.
+     * @example
+     * // Create one Branches
+     * const Branches = await prisma.branches.create({
+     *   data: {
+     *     // ... data to create a Branches
+     *   }
+     * })
+     * 
+     */
+    create<T extends branchesCreateArgs>(args: SelectSubset<T, branchesCreateArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Branches.
+     * @param {branchesCreateManyArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branches = await prisma.branches.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends branchesCreateManyArgs>(args?: SelectSubset<T, branchesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Branches and returns the data saved in the database.
+     * @param {branchesCreateManyAndReturnArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branches = await prisma.branches.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Branches and only return the `id`
+     * const branchesWithIdOnly = await prisma.branches.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends branchesCreateManyAndReturnArgs>(args?: SelectSubset<T, branchesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Branches.
+     * @param {branchesDeleteArgs} args - Arguments to delete one Branches.
+     * @example
+     * // Delete one Branches
+     * const Branches = await prisma.branches.delete({
+     *   where: {
+     *     // ... filter to delete one Branches
+     *   }
+     * })
+     * 
+     */
+    delete<T extends branchesDeleteArgs>(args: SelectSubset<T, branchesDeleteArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Branches.
+     * @param {branchesUpdateArgs} args - Arguments to update one Branches.
+     * @example
+     * // Update one Branches
+     * const branches = await prisma.branches.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends branchesUpdateArgs>(args: SelectSubset<T, branchesUpdateArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Branches.
+     * @param {branchesDeleteManyArgs} args - Arguments to filter Branches to delete.
+     * @example
+     * // Delete a few Branches
+     * const { count } = await prisma.branches.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends branchesDeleteManyArgs>(args?: SelectSubset<T, branchesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Branches
+     * const branches = await prisma.branches.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends branchesUpdateManyArgs>(args: SelectSubset<T, branchesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches and returns the data updated in the database.
+     * @param {branchesUpdateManyAndReturnArgs} args - Arguments to update many Branches.
+     * @example
+     * // Update many Branches
+     * const branches = await prisma.branches.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Branches and only return the `id`
+     * const branchesWithIdOnly = await prisma.branches.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends branchesUpdateManyAndReturnArgs>(args: SelectSubset<T, branchesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Branches.
+     * @param {branchesUpsertArgs} args - Arguments to update or create a Branches.
+     * @example
+     * // Update or create a Branches
+     * const branches = await prisma.branches.upsert({
+     *   create: {
+     *     // ... data to create a Branches
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Branches we want to update
+     *   }
+     * })
+     */
+    upsert<T extends branchesUpsertArgs>(args: SelectSubset<T, branchesUpsertArgs<ExtArgs>>): Prisma__branchesClient<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesCountArgs} args - Arguments to filter Branches to count.
+     * @example
+     * // Count the number of Branches
+     * const count = await prisma.branches.count({
+     *   where: {
+     *     // ... the filter for the Branches we want to count
+     *   }
+     * })
+    **/
+    count<T extends branchesCountArgs>(
+      args?: Subset<T, branchesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BranchesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BranchesAggregateArgs>(args: Subset<T, BranchesAggregateArgs>): Prisma.PrismaPromise<GetBranchesAggregateType<T>>
+
+    /**
+     * Group by Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {branchesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends branchesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: branchesGroupByArgs['orderBy'] }
+        : { orderBy?: branchesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, branchesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBranchesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the branches model
+   */
+  readonly fields: branchesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for branches.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__branchesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    cities<T extends citiesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, citiesDefaultArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the branches model
+   */
+  interface branchesFieldRefs {
+    readonly id: FieldRef<"branches", 'String'>
+    readonly name: FieldRef<"branches", 'String'>
+    readonly city_id: FieldRef<"branches", 'String'>
+    readonly address: FieldRef<"branches", 'String'>
+    readonly phone: FieldRef<"branches", 'String'>
+    readonly is_active: FieldRef<"branches", 'Boolean'>
+    readonly created_at: FieldRef<"branches", 'DateTime'>
+    readonly updated_at: FieldRef<"branches", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * branches findUnique
+   */
+  export type branchesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter, which branches to fetch.
+     */
+    where: branchesWhereUniqueInput
+  }
+
+  /**
+   * branches findUniqueOrThrow
+   */
+  export type branchesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter, which branches to fetch.
+     */
+    where: branchesWhereUniqueInput
+  }
+
+  /**
+   * branches findFirst
+   */
+  export type branchesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter, which branches to fetch.
+     */
+    where?: branchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of branches to fetch.
+     */
+    orderBy?: branchesOrderByWithRelationInput | branchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for branches.
+     */
+    cursor?: branchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of branches.
+     */
+    distinct?: BranchesScalarFieldEnum | BranchesScalarFieldEnum[]
+  }
+
+  /**
+   * branches findFirstOrThrow
+   */
+  export type branchesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter, which branches to fetch.
+     */
+    where?: branchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of branches to fetch.
+     */
+    orderBy?: branchesOrderByWithRelationInput | branchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for branches.
+     */
+    cursor?: branchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of branches.
+     */
+    distinct?: BranchesScalarFieldEnum | BranchesScalarFieldEnum[]
+  }
+
+  /**
+   * branches findMany
+   */
+  export type branchesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter, which branches to fetch.
+     */
+    where?: branchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of branches to fetch.
+     */
+    orderBy?: branchesOrderByWithRelationInput | branchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing branches.
+     */
+    cursor?: branchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of branches.
+     */
+    distinct?: BranchesScalarFieldEnum | BranchesScalarFieldEnum[]
+  }
+
+  /**
+   * branches create
+   */
+  export type branchesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a branches.
+     */
+    data: XOR<branchesCreateInput, branchesUncheckedCreateInput>
+  }
+
+  /**
+   * branches createMany
+   */
+  export type branchesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many branches.
+     */
+    data: branchesCreateManyInput | branchesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * branches createManyAndReturn
+   */
+  export type branchesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * The data used to create many branches.
+     */
+    data: branchesCreateManyInput | branchesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * branches update
+   */
+  export type branchesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a branches.
+     */
+    data: XOR<branchesUpdateInput, branchesUncheckedUpdateInput>
+    /**
+     * Choose, which branches to update.
+     */
+    where: branchesWhereUniqueInput
+  }
+
+  /**
+   * branches updateMany
+   */
+  export type branchesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update branches.
+     */
+    data: XOR<branchesUpdateManyMutationInput, branchesUncheckedUpdateManyInput>
+    /**
+     * Filter which branches to update
+     */
+    where?: branchesWhereInput
+    /**
+     * Limit how many branches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * branches updateManyAndReturn
+   */
+  export type branchesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * The data used to update branches.
+     */
+    data: XOR<branchesUpdateManyMutationInput, branchesUncheckedUpdateManyInput>
+    /**
+     * Filter which branches to update
+     */
+    where?: branchesWhereInput
+    /**
+     * Limit how many branches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * branches upsert
+   */
+  export type branchesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the branches to update in case it exists.
+     */
+    where: branchesWhereUniqueInput
+    /**
+     * In case the branches found by the `where` argument doesn't exist, create a new branches with this data.
+     */
+    create: XOR<branchesCreateInput, branchesUncheckedCreateInput>
+    /**
+     * In case the branches was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<branchesUpdateInput, branchesUncheckedUpdateInput>
+  }
+
+  /**
+   * branches delete
+   */
+  export type branchesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    /**
+     * Filter which branches to delete.
+     */
+    where: branchesWhereUniqueInput
+  }
+
+  /**
+   * branches deleteMany
+   */
+  export type branchesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which branches to delete
+     */
+    where?: branchesWhereInput
+    /**
+     * Limit how many branches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * branches without action
+   */
+  export type branchesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model cities
+   */
+
+  export type AggregateCities = {
+    _count: CitiesCountAggregateOutputType | null
+    _min: CitiesMinAggregateOutputType | null
+    _max: CitiesMaxAggregateOutputType | null
+  }
+
+  export type CitiesMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    country_id: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CitiesMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    country_id: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CitiesCountAggregateOutputType = {
+    id: number
+    name: number
+    country_id: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type CitiesMinAggregateInputType = {
+    id?: true
+    name?: true
+    country_id?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CitiesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    country_id?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CitiesCountAggregateInputType = {
+    id?: true
+    name?: true
+    country_id?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type CitiesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cities to aggregate.
+     */
+    where?: citiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cities to fetch.
+     */
+    orderBy?: citiesOrderByWithRelationInput | citiesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: citiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned cities
+    **/
+    _count?: true | CitiesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CitiesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CitiesMaxAggregateInputType
+  }
+
+  export type GetCitiesAggregateType<T extends CitiesAggregateArgs> = {
+        [P in keyof T & keyof AggregateCities]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCities[P]>
+      : GetScalarType<T[P], AggregateCities[P]>
+  }
+
+
+
+
+  export type citiesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: citiesWhereInput
+    orderBy?: citiesOrderByWithAggregationInput | citiesOrderByWithAggregationInput[]
+    by: CitiesScalarFieldEnum[] | CitiesScalarFieldEnum
+    having?: citiesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CitiesCountAggregateInputType | true
+    _min?: CitiesMinAggregateInputType
+    _max?: CitiesMaxAggregateInputType
+  }
+
+  export type CitiesGroupByOutputType = {
+    id: string
+    name: string
+    country_id: string
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    _count: CitiesCountAggregateOutputType | null
+    _min: CitiesMinAggregateOutputType | null
+    _max: CitiesMaxAggregateOutputType | null
+  }
+
+  type GetCitiesGroupByPayload<T extends citiesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CitiesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CitiesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CitiesGroupByOutputType[P]>
+            : GetScalarType<T[P], CitiesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type citiesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    country_id?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    branches?: boolean | cities$branchesArgs<ExtArgs>
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+    _count?: boolean | CitiesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cities"]>
+
+  export type citiesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    country_id?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cities"]>
+
+  export type citiesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    country_id?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cities"]>
+
+  export type citiesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    country_id?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type citiesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "country_id" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["cities"]>
+  export type citiesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    branches?: boolean | cities$branchesArgs<ExtArgs>
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+    _count?: boolean | CitiesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type citiesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+  }
+  export type citiesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    countries?: boolean | countriesDefaultArgs<ExtArgs>
+  }
+
+  export type $citiesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "cities"
+    objects: {
+      branches: Prisma.$branchesPayload<ExtArgs>[]
+      countries: Prisma.$countriesPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      country_id: string
+      is_active: boolean | null
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["cities"]>
+    composites: {}
+  }
+
+  type citiesGetPayload<S extends boolean | null | undefined | citiesDefaultArgs> = $Result.GetResult<Prisma.$citiesPayload, S>
+
+  type citiesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<citiesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CitiesCountAggregateInputType | true
+    }
+
+  export interface citiesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['cities'], meta: { name: 'cities' } }
+    /**
+     * Find zero or one Cities that matches the filter.
+     * @param {citiesFindUniqueArgs} args - Arguments to find a Cities
+     * @example
+     * // Get one Cities
+     * const cities = await prisma.cities.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends citiesFindUniqueArgs>(args: SelectSubset<T, citiesFindUniqueArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Cities that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {citiesFindUniqueOrThrowArgs} args - Arguments to find a Cities
+     * @example
+     * // Get one Cities
+     * const cities = await prisma.cities.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends citiesFindUniqueOrThrowArgs>(args: SelectSubset<T, citiesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesFindFirstArgs} args - Arguments to find a Cities
+     * @example
+     * // Get one Cities
+     * const cities = await prisma.cities.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends citiesFindFirstArgs>(args?: SelectSubset<T, citiesFindFirstArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cities that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesFindFirstOrThrowArgs} args - Arguments to find a Cities
+     * @example
+     * // Get one Cities
+     * const cities = await prisma.cities.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends citiesFindFirstOrThrowArgs>(args?: SelectSubset<T, citiesFindFirstOrThrowArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Cities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Cities
+     * const cities = await prisma.cities.findMany()
+     * 
+     * // Get first 10 Cities
+     * const cities = await prisma.cities.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const citiesWithIdOnly = await prisma.cities.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends citiesFindManyArgs>(args?: SelectSubset<T, citiesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Cities.
+     * @param {citiesCreateArgs} args - Arguments to create a Cities.
+     * @example
+     * // Create one Cities
+     * const Cities = await prisma.cities.create({
+     *   data: {
+     *     // ... data to create a Cities
+     *   }
+     * })
+     * 
+     */
+    create<T extends citiesCreateArgs>(args: SelectSubset<T, citiesCreateArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Cities.
+     * @param {citiesCreateManyArgs} args - Arguments to create many Cities.
+     * @example
+     * // Create many Cities
+     * const cities = await prisma.cities.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends citiesCreateManyArgs>(args?: SelectSubset<T, citiesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Cities and returns the data saved in the database.
+     * @param {citiesCreateManyAndReturnArgs} args - Arguments to create many Cities.
+     * @example
+     * // Create many Cities
+     * const cities = await prisma.cities.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Cities and only return the `id`
+     * const citiesWithIdOnly = await prisma.cities.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends citiesCreateManyAndReturnArgs>(args?: SelectSubset<T, citiesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Cities.
+     * @param {citiesDeleteArgs} args - Arguments to delete one Cities.
+     * @example
+     * // Delete one Cities
+     * const Cities = await prisma.cities.delete({
+     *   where: {
+     *     // ... filter to delete one Cities
+     *   }
+     * })
+     * 
+     */
+    delete<T extends citiesDeleteArgs>(args: SelectSubset<T, citiesDeleteArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Cities.
+     * @param {citiesUpdateArgs} args - Arguments to update one Cities.
+     * @example
+     * // Update one Cities
+     * const cities = await prisma.cities.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends citiesUpdateArgs>(args: SelectSubset<T, citiesUpdateArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Cities.
+     * @param {citiesDeleteManyArgs} args - Arguments to filter Cities to delete.
+     * @example
+     * // Delete a few Cities
+     * const { count } = await prisma.cities.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends citiesDeleteManyArgs>(args?: SelectSubset<T, citiesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Cities
+     * const cities = await prisma.cities.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends citiesUpdateManyArgs>(args: SelectSubset<T, citiesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cities and returns the data updated in the database.
+     * @param {citiesUpdateManyAndReturnArgs} args - Arguments to update many Cities.
+     * @example
+     * // Update many Cities
+     * const cities = await prisma.cities.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Cities and only return the `id`
+     * const citiesWithIdOnly = await prisma.cities.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends citiesUpdateManyAndReturnArgs>(args: SelectSubset<T, citiesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Cities.
+     * @param {citiesUpsertArgs} args - Arguments to update or create a Cities.
+     * @example
+     * // Update or create a Cities
+     * const cities = await prisma.cities.upsert({
+     *   create: {
+     *     // ... data to create a Cities
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Cities we want to update
+     *   }
+     * })
+     */
+    upsert<T extends citiesUpsertArgs>(args: SelectSubset<T, citiesUpsertArgs<ExtArgs>>): Prisma__citiesClient<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesCountArgs} args - Arguments to filter Cities to count.
+     * @example
+     * // Count the number of Cities
+     * const count = await prisma.cities.count({
+     *   where: {
+     *     // ... the filter for the Cities we want to count
+     *   }
+     * })
+    **/
+    count<T extends citiesCountArgs>(
+      args?: Subset<T, citiesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CitiesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitiesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CitiesAggregateArgs>(args: Subset<T, CitiesAggregateArgs>): Prisma.PrismaPromise<GetCitiesAggregateType<T>>
+
+    /**
+     * Group by Cities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {citiesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends citiesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: citiesGroupByArgs['orderBy'] }
+        : { orderBy?: citiesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, citiesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCitiesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the cities model
+   */
+  readonly fields: citiesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for cities.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__citiesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    branches<T extends cities$branchesArgs<ExtArgs> = {}>(args?: Subset<T, cities$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    countries<T extends countriesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, countriesDefaultArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the cities model
+   */
+  interface citiesFieldRefs {
+    readonly id: FieldRef<"cities", 'String'>
+    readonly name: FieldRef<"cities", 'String'>
+    readonly country_id: FieldRef<"cities", 'String'>
+    readonly is_active: FieldRef<"cities", 'Boolean'>
+    readonly created_at: FieldRef<"cities", 'DateTime'>
+    readonly updated_at: FieldRef<"cities", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * cities findUnique
+   */
+  export type citiesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter, which cities to fetch.
+     */
+    where: citiesWhereUniqueInput
+  }
+
+  /**
+   * cities findUniqueOrThrow
+   */
+  export type citiesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter, which cities to fetch.
+     */
+    where: citiesWhereUniqueInput
+  }
+
+  /**
+   * cities findFirst
+   */
+  export type citiesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter, which cities to fetch.
+     */
+    where?: citiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cities to fetch.
+     */
+    orderBy?: citiesOrderByWithRelationInput | citiesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cities.
+     */
+    cursor?: citiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cities.
+     */
+    distinct?: CitiesScalarFieldEnum | CitiesScalarFieldEnum[]
+  }
+
+  /**
+   * cities findFirstOrThrow
+   */
+  export type citiesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter, which cities to fetch.
+     */
+    where?: citiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cities to fetch.
+     */
+    orderBy?: citiesOrderByWithRelationInput | citiesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cities.
+     */
+    cursor?: citiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cities.
+     */
+    distinct?: CitiesScalarFieldEnum | CitiesScalarFieldEnum[]
+  }
+
+  /**
+   * cities findMany
+   */
+  export type citiesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter, which cities to fetch.
+     */
+    where?: citiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cities to fetch.
+     */
+    orderBy?: citiesOrderByWithRelationInput | citiesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing cities.
+     */
+    cursor?: citiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cities.
+     */
+    distinct?: CitiesScalarFieldEnum | CitiesScalarFieldEnum[]
+  }
+
+  /**
+   * cities create
+   */
+  export type citiesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a cities.
+     */
+    data: XOR<citiesCreateInput, citiesUncheckedCreateInput>
+  }
+
+  /**
+   * cities createMany
+   */
+  export type citiesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many cities.
+     */
+    data: citiesCreateManyInput | citiesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cities createManyAndReturn
+   */
+  export type citiesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * The data used to create many cities.
+     */
+    data: citiesCreateManyInput | citiesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * cities update
+   */
+  export type citiesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a cities.
+     */
+    data: XOR<citiesUpdateInput, citiesUncheckedUpdateInput>
+    /**
+     * Choose, which cities to update.
+     */
+    where: citiesWhereUniqueInput
+  }
+
+  /**
+   * cities updateMany
+   */
+  export type citiesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update cities.
+     */
+    data: XOR<citiesUpdateManyMutationInput, citiesUncheckedUpdateManyInput>
+    /**
+     * Filter which cities to update
+     */
+    where?: citiesWhereInput
+    /**
+     * Limit how many cities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cities updateManyAndReturn
+   */
+  export type citiesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * The data used to update cities.
+     */
+    data: XOR<citiesUpdateManyMutationInput, citiesUncheckedUpdateManyInput>
+    /**
+     * Filter which cities to update
+     */
+    where?: citiesWhereInput
+    /**
+     * Limit how many cities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * cities upsert
+   */
+  export type citiesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the cities to update in case it exists.
+     */
+    where: citiesWhereUniqueInput
+    /**
+     * In case the cities found by the `where` argument doesn't exist, create a new cities with this data.
+     */
+    create: XOR<citiesCreateInput, citiesUncheckedCreateInput>
+    /**
+     * In case the cities was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<citiesUpdateInput, citiesUncheckedUpdateInput>
+  }
+
+  /**
+   * cities delete
+   */
+  export type citiesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    /**
+     * Filter which cities to delete.
+     */
+    where: citiesWhereUniqueInput
+  }
+
+  /**
+   * cities deleteMany
+   */
+  export type citiesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cities to delete
+     */
+    where?: citiesWhereInput
+    /**
+     * Limit how many cities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * cities.branches
+   */
+  export type cities$branchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the branches
+     */
+    select?: branchesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the branches
+     */
+    omit?: branchesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: branchesInclude<ExtArgs> | null
+    where?: branchesWhereInput
+    orderBy?: branchesOrderByWithRelationInput | branchesOrderByWithRelationInput[]
+    cursor?: branchesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchesScalarFieldEnum | BranchesScalarFieldEnum[]
+  }
+
+  /**
+   * cities without action
+   */
+  export type citiesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model countries
+   */
+
+  export type AggregateCountries = {
+    _count: CountriesCountAggregateOutputType | null
+    _min: CountriesMinAggregateOutputType | null
+    _max: CountriesMaxAggregateOutputType | null
+  }
+
+  export type CountriesMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    phone_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CountriesMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    phone_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CountriesCountAggregateOutputType = {
+    id: number
+    name: number
+    code: number
+    phone_code: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type CountriesMinAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    phone_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CountriesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    phone_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CountriesCountAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    phone_code?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type CountriesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which countries to aggregate.
+     */
+    where?: countriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of countries to fetch.
+     */
+    orderBy?: countriesOrderByWithRelationInput | countriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: countriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` countries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` countries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned countries
+    **/
+    _count?: true | CountriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CountriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CountriesMaxAggregateInputType
+  }
+
+  export type GetCountriesAggregateType<T extends CountriesAggregateArgs> = {
+        [P in keyof T & keyof AggregateCountries]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCountries[P]>
+      : GetScalarType<T[P], AggregateCountries[P]>
+  }
+
+
+
+
+  export type countriesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: countriesWhereInput
+    orderBy?: countriesOrderByWithAggregationInput | countriesOrderByWithAggregationInput[]
+    by: CountriesScalarFieldEnum[] | CountriesScalarFieldEnum
+    having?: countriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CountriesCountAggregateInputType | true
+    _min?: CountriesMinAggregateInputType
+    _max?: CountriesMaxAggregateInputType
+  }
+
+  export type CountriesGroupByOutputType = {
+    id: string
+    name: string
+    code: string
+    phone_code: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    _count: CountriesCountAggregateOutputType | null
+    _min: CountriesMinAggregateOutputType | null
+    _max: CountriesMaxAggregateOutputType | null
+  }
+
+  type GetCountriesGroupByPayload<T extends countriesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CountriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CountriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CountriesGroupByOutputType[P]>
+            : GetScalarType<T[P], CountriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type countriesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    phone_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    cities?: boolean | countries$citiesArgs<ExtArgs>
+    _count?: boolean | CountriesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["countries"]>
+
+  export type countriesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    phone_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["countries"]>
+
+  export type countriesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    phone_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["countries"]>
+
+  export type countriesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    phone_code?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type countriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "phone_code" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["countries"]>
+  export type countriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cities?: boolean | countries$citiesArgs<ExtArgs>
+    _count?: boolean | CountriesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type countriesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type countriesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $countriesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "countries"
+    objects: {
+      cities: Prisma.$citiesPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      code: string
+      phone_code: string | null
+      is_active: boolean | null
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["countries"]>
+    composites: {}
+  }
+
+  type countriesGetPayload<S extends boolean | null | undefined | countriesDefaultArgs> = $Result.GetResult<Prisma.$countriesPayload, S>
+
+  type countriesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<countriesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CountriesCountAggregateInputType | true
+    }
+
+  export interface countriesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['countries'], meta: { name: 'countries' } }
+    /**
+     * Find zero or one Countries that matches the filter.
+     * @param {countriesFindUniqueArgs} args - Arguments to find a Countries
+     * @example
+     * // Get one Countries
+     * const countries = await prisma.countries.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends countriesFindUniqueArgs>(args: SelectSubset<T, countriesFindUniqueArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Countries that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {countriesFindUniqueOrThrowArgs} args - Arguments to find a Countries
+     * @example
+     * // Get one Countries
+     * const countries = await prisma.countries.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends countriesFindUniqueOrThrowArgs>(args: SelectSubset<T, countriesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Countries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesFindFirstArgs} args - Arguments to find a Countries
+     * @example
+     * // Get one Countries
+     * const countries = await prisma.countries.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends countriesFindFirstArgs>(args?: SelectSubset<T, countriesFindFirstArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Countries that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesFindFirstOrThrowArgs} args - Arguments to find a Countries
+     * @example
+     * // Get one Countries
+     * const countries = await prisma.countries.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends countriesFindFirstOrThrowArgs>(args?: SelectSubset<T, countriesFindFirstOrThrowArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Countries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Countries
+     * const countries = await prisma.countries.findMany()
+     * 
+     * // Get first 10 Countries
+     * const countries = await prisma.countries.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const countriesWithIdOnly = await prisma.countries.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends countriesFindManyArgs>(args?: SelectSubset<T, countriesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Countries.
+     * @param {countriesCreateArgs} args - Arguments to create a Countries.
+     * @example
+     * // Create one Countries
+     * const Countries = await prisma.countries.create({
+     *   data: {
+     *     // ... data to create a Countries
+     *   }
+     * })
+     * 
+     */
+    create<T extends countriesCreateArgs>(args: SelectSubset<T, countriesCreateArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Countries.
+     * @param {countriesCreateManyArgs} args - Arguments to create many Countries.
+     * @example
+     * // Create many Countries
+     * const countries = await prisma.countries.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends countriesCreateManyArgs>(args?: SelectSubset<T, countriesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Countries and returns the data saved in the database.
+     * @param {countriesCreateManyAndReturnArgs} args - Arguments to create many Countries.
+     * @example
+     * // Create many Countries
+     * const countries = await prisma.countries.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Countries and only return the `id`
+     * const countriesWithIdOnly = await prisma.countries.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends countriesCreateManyAndReturnArgs>(args?: SelectSubset<T, countriesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Countries.
+     * @param {countriesDeleteArgs} args - Arguments to delete one Countries.
+     * @example
+     * // Delete one Countries
+     * const Countries = await prisma.countries.delete({
+     *   where: {
+     *     // ... filter to delete one Countries
+     *   }
+     * })
+     * 
+     */
+    delete<T extends countriesDeleteArgs>(args: SelectSubset<T, countriesDeleteArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Countries.
+     * @param {countriesUpdateArgs} args - Arguments to update one Countries.
+     * @example
+     * // Update one Countries
+     * const countries = await prisma.countries.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends countriesUpdateArgs>(args: SelectSubset<T, countriesUpdateArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Countries.
+     * @param {countriesDeleteManyArgs} args - Arguments to filter Countries to delete.
+     * @example
+     * // Delete a few Countries
+     * const { count } = await prisma.countries.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends countriesDeleteManyArgs>(args?: SelectSubset<T, countriesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Countries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Countries
+     * const countries = await prisma.countries.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends countriesUpdateManyArgs>(args: SelectSubset<T, countriesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Countries and returns the data updated in the database.
+     * @param {countriesUpdateManyAndReturnArgs} args - Arguments to update many Countries.
+     * @example
+     * // Update many Countries
+     * const countries = await prisma.countries.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Countries and only return the `id`
+     * const countriesWithIdOnly = await prisma.countries.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends countriesUpdateManyAndReturnArgs>(args: SelectSubset<T, countriesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Countries.
+     * @param {countriesUpsertArgs} args - Arguments to update or create a Countries.
+     * @example
+     * // Update or create a Countries
+     * const countries = await prisma.countries.upsert({
+     *   create: {
+     *     // ... data to create a Countries
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Countries we want to update
+     *   }
+     * })
+     */
+    upsert<T extends countriesUpsertArgs>(args: SelectSubset<T, countriesUpsertArgs<ExtArgs>>): Prisma__countriesClient<$Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Countries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesCountArgs} args - Arguments to filter Countries to count.
+     * @example
+     * // Count the number of Countries
+     * const count = await prisma.countries.count({
+     *   where: {
+     *     // ... the filter for the Countries we want to count
+     *   }
+     * })
+    **/
+    count<T extends countriesCountArgs>(
+      args?: Subset<T, countriesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CountriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Countries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CountriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CountriesAggregateArgs>(args: Subset<T, CountriesAggregateArgs>): Prisma.PrismaPromise<GetCountriesAggregateType<T>>
+
+    /**
+     * Group by Countries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {countriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends countriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: countriesGroupByArgs['orderBy'] }
+        : { orderBy?: countriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, countriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCountriesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the countries model
+   */
+  readonly fields: countriesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for countries.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__countriesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    cities<T extends countries$citiesArgs<ExtArgs> = {}>(args?: Subset<T, countries$citiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the countries model
+   */
+  interface countriesFieldRefs {
+    readonly id: FieldRef<"countries", 'String'>
+    readonly name: FieldRef<"countries", 'String'>
+    readonly code: FieldRef<"countries", 'String'>
+    readonly phone_code: FieldRef<"countries", 'String'>
+    readonly is_active: FieldRef<"countries", 'Boolean'>
+    readonly created_at: FieldRef<"countries", 'DateTime'>
+    readonly updated_at: FieldRef<"countries", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * countries findUnique
+   */
+  export type countriesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter, which countries to fetch.
+     */
+    where: countriesWhereUniqueInput
+  }
+
+  /**
+   * countries findUniqueOrThrow
+   */
+  export type countriesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter, which countries to fetch.
+     */
+    where: countriesWhereUniqueInput
+  }
+
+  /**
+   * countries findFirst
+   */
+  export type countriesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter, which countries to fetch.
+     */
+    where?: countriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of countries to fetch.
+     */
+    orderBy?: countriesOrderByWithRelationInput | countriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for countries.
+     */
+    cursor?: countriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` countries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` countries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of countries.
+     */
+    distinct?: CountriesScalarFieldEnum | CountriesScalarFieldEnum[]
+  }
+
+  /**
+   * countries findFirstOrThrow
+   */
+  export type countriesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter, which countries to fetch.
+     */
+    where?: countriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of countries to fetch.
+     */
+    orderBy?: countriesOrderByWithRelationInput | countriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for countries.
+     */
+    cursor?: countriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` countries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` countries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of countries.
+     */
+    distinct?: CountriesScalarFieldEnum | CountriesScalarFieldEnum[]
+  }
+
+  /**
+   * countries findMany
+   */
+  export type countriesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter, which countries to fetch.
+     */
+    where?: countriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of countries to fetch.
+     */
+    orderBy?: countriesOrderByWithRelationInput | countriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing countries.
+     */
+    cursor?: countriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` countries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` countries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of countries.
+     */
+    distinct?: CountriesScalarFieldEnum | CountriesScalarFieldEnum[]
+  }
+
+  /**
+   * countries create
+   */
+  export type countriesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a countries.
+     */
+    data: XOR<countriesCreateInput, countriesUncheckedCreateInput>
+  }
+
+  /**
+   * countries createMany
+   */
+  export type countriesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many countries.
+     */
+    data: countriesCreateManyInput | countriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * countries createManyAndReturn
+   */
+  export type countriesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * The data used to create many countries.
+     */
+    data: countriesCreateManyInput | countriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * countries update
+   */
+  export type countriesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a countries.
+     */
+    data: XOR<countriesUpdateInput, countriesUncheckedUpdateInput>
+    /**
+     * Choose, which countries to update.
+     */
+    where: countriesWhereUniqueInput
+  }
+
+  /**
+   * countries updateMany
+   */
+  export type countriesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update countries.
+     */
+    data: XOR<countriesUpdateManyMutationInput, countriesUncheckedUpdateManyInput>
+    /**
+     * Filter which countries to update
+     */
+    where?: countriesWhereInput
+    /**
+     * Limit how many countries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * countries updateManyAndReturn
+   */
+  export type countriesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * The data used to update countries.
+     */
+    data: XOR<countriesUpdateManyMutationInput, countriesUncheckedUpdateManyInput>
+    /**
+     * Filter which countries to update
+     */
+    where?: countriesWhereInput
+    /**
+     * Limit how many countries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * countries upsert
+   */
+  export type countriesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the countries to update in case it exists.
+     */
+    where: countriesWhereUniqueInput
+    /**
+     * In case the countries found by the `where` argument doesn't exist, create a new countries with this data.
+     */
+    create: XOR<countriesCreateInput, countriesUncheckedCreateInput>
+    /**
+     * In case the countries was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<countriesUpdateInput, countriesUncheckedUpdateInput>
+  }
+
+  /**
+   * countries delete
+   */
+  export type countriesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+    /**
+     * Filter which countries to delete.
+     */
+    where: countriesWhereUniqueInput
+  }
+
+  /**
+   * countries deleteMany
+   */
+  export type countriesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which countries to delete
+     */
+    where?: countriesWhereInput
+    /**
+     * Limit how many countries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * countries.cities
+   */
+  export type countries$citiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cities
+     */
+    select?: citiesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cities
+     */
+    omit?: citiesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: citiesInclude<ExtArgs> | null
+    where?: citiesWhereInput
+    orderBy?: citiesOrderByWithRelationInput | citiesOrderByWithRelationInput[]
+    cursor?: citiesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CitiesScalarFieldEnum | CitiesScalarFieldEnum[]
+  }
+
+  /**
+   * countries without action
+   */
+  export type countriesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the countries
+     */
+    select?: countriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the countries
+     */
+    omit?: countriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: countriesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model currencies
+   */
+
+  export type AggregateCurrencies = {
+    _count: CurrenciesCountAggregateOutputType | null
+    _min: CurrenciesMinAggregateOutputType | null
+    _max: CurrenciesMaxAggregateOutputType | null
+  }
+
+  export type CurrenciesMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    symbol: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CurrenciesMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    symbol: string | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type CurrenciesCountAggregateOutputType = {
+    id: number
+    name: number
+    code: number
+    symbol: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type CurrenciesMinAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    symbol?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CurrenciesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    symbol?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type CurrenciesCountAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    symbol?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type CurrenciesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which currencies to aggregate.
+     */
+    where?: currenciesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of currencies to fetch.
+     */
+    orderBy?: currenciesOrderByWithRelationInput | currenciesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: currenciesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` currencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` currencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned currencies
+    **/
+    _count?: true | CurrenciesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CurrenciesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CurrenciesMaxAggregateInputType
+  }
+
+  export type GetCurrenciesAggregateType<T extends CurrenciesAggregateArgs> = {
+        [P in keyof T & keyof AggregateCurrencies]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCurrencies[P]>
+      : GetScalarType<T[P], AggregateCurrencies[P]>
+  }
+
+
+
+
+  export type currenciesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: currenciesWhereInput
+    orderBy?: currenciesOrderByWithAggregationInput | currenciesOrderByWithAggregationInput[]
+    by: CurrenciesScalarFieldEnum[] | CurrenciesScalarFieldEnum
+    having?: currenciesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CurrenciesCountAggregateInputType | true
+    _min?: CurrenciesMinAggregateInputType
+    _max?: CurrenciesMaxAggregateInputType
+  }
+
+  export type CurrenciesGroupByOutputType = {
+    id: string
+    name: string
+    code: string
+    symbol: string
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+    _count: CurrenciesCountAggregateOutputType | null
+    _min: CurrenciesMinAggregateOutputType | null
+    _max: CurrenciesMaxAggregateOutputType | null
+  }
+
+  type GetCurrenciesGroupByPayload<T extends currenciesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CurrenciesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CurrenciesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CurrenciesGroupByOutputType[P]>
+            : GetScalarType<T[P], CurrenciesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type currenciesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    symbol?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["currencies"]>
+
+  export type currenciesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    symbol?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["currencies"]>
+
+  export type currenciesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    symbol?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["currencies"]>
+
+  export type currenciesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    symbol?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type currenciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "symbol" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["currencies"]>
+
+  export type $currenciesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "currencies"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      code: string
+      symbol: string
+      is_active: boolean | null
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["currencies"]>
+    composites: {}
+  }
+
+  type currenciesGetPayload<S extends boolean | null | undefined | currenciesDefaultArgs> = $Result.GetResult<Prisma.$currenciesPayload, S>
+
+  type currenciesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<currenciesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CurrenciesCountAggregateInputType | true
+    }
+
+  export interface currenciesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['currencies'], meta: { name: 'currencies' } }
+    /**
+     * Find zero or one Currencies that matches the filter.
+     * @param {currenciesFindUniqueArgs} args - Arguments to find a Currencies
+     * @example
+     * // Get one Currencies
+     * const currencies = await prisma.currencies.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends currenciesFindUniqueArgs>(args: SelectSubset<T, currenciesFindUniqueArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Currencies that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {currenciesFindUniqueOrThrowArgs} args - Arguments to find a Currencies
+     * @example
+     * // Get one Currencies
+     * const currencies = await prisma.currencies.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends currenciesFindUniqueOrThrowArgs>(args: SelectSubset<T, currenciesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Currencies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesFindFirstArgs} args - Arguments to find a Currencies
+     * @example
+     * // Get one Currencies
+     * const currencies = await prisma.currencies.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends currenciesFindFirstArgs>(args?: SelectSubset<T, currenciesFindFirstArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Currencies that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesFindFirstOrThrowArgs} args - Arguments to find a Currencies
+     * @example
+     * // Get one Currencies
+     * const currencies = await prisma.currencies.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends currenciesFindFirstOrThrowArgs>(args?: SelectSubset<T, currenciesFindFirstOrThrowArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Currencies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Currencies
+     * const currencies = await prisma.currencies.findMany()
+     * 
+     * // Get first 10 Currencies
+     * const currencies = await prisma.currencies.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const currenciesWithIdOnly = await prisma.currencies.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends currenciesFindManyArgs>(args?: SelectSubset<T, currenciesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Currencies.
+     * @param {currenciesCreateArgs} args - Arguments to create a Currencies.
+     * @example
+     * // Create one Currencies
+     * const Currencies = await prisma.currencies.create({
+     *   data: {
+     *     // ... data to create a Currencies
+     *   }
+     * })
+     * 
+     */
+    create<T extends currenciesCreateArgs>(args: SelectSubset<T, currenciesCreateArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Currencies.
+     * @param {currenciesCreateManyArgs} args - Arguments to create many Currencies.
+     * @example
+     * // Create many Currencies
+     * const currencies = await prisma.currencies.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends currenciesCreateManyArgs>(args?: SelectSubset<T, currenciesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Currencies and returns the data saved in the database.
+     * @param {currenciesCreateManyAndReturnArgs} args - Arguments to create many Currencies.
+     * @example
+     * // Create many Currencies
+     * const currencies = await prisma.currencies.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Currencies and only return the `id`
+     * const currenciesWithIdOnly = await prisma.currencies.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends currenciesCreateManyAndReturnArgs>(args?: SelectSubset<T, currenciesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Currencies.
+     * @param {currenciesDeleteArgs} args - Arguments to delete one Currencies.
+     * @example
+     * // Delete one Currencies
+     * const Currencies = await prisma.currencies.delete({
+     *   where: {
+     *     // ... filter to delete one Currencies
+     *   }
+     * })
+     * 
+     */
+    delete<T extends currenciesDeleteArgs>(args: SelectSubset<T, currenciesDeleteArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Currencies.
+     * @param {currenciesUpdateArgs} args - Arguments to update one Currencies.
+     * @example
+     * // Update one Currencies
+     * const currencies = await prisma.currencies.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends currenciesUpdateArgs>(args: SelectSubset<T, currenciesUpdateArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Currencies.
+     * @param {currenciesDeleteManyArgs} args - Arguments to filter Currencies to delete.
+     * @example
+     * // Delete a few Currencies
+     * const { count } = await prisma.currencies.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends currenciesDeleteManyArgs>(args?: SelectSubset<T, currenciesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Currencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Currencies
+     * const currencies = await prisma.currencies.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends currenciesUpdateManyArgs>(args: SelectSubset<T, currenciesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Currencies and returns the data updated in the database.
+     * @param {currenciesUpdateManyAndReturnArgs} args - Arguments to update many Currencies.
+     * @example
+     * // Update many Currencies
+     * const currencies = await prisma.currencies.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Currencies and only return the `id`
+     * const currenciesWithIdOnly = await prisma.currencies.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends currenciesUpdateManyAndReturnArgs>(args: SelectSubset<T, currenciesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Currencies.
+     * @param {currenciesUpsertArgs} args - Arguments to update or create a Currencies.
+     * @example
+     * // Update or create a Currencies
+     * const currencies = await prisma.currencies.upsert({
+     *   create: {
+     *     // ... data to create a Currencies
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Currencies we want to update
+     *   }
+     * })
+     */
+    upsert<T extends currenciesUpsertArgs>(args: SelectSubset<T, currenciesUpsertArgs<ExtArgs>>): Prisma__currenciesClient<$Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Currencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesCountArgs} args - Arguments to filter Currencies to count.
+     * @example
+     * // Count the number of Currencies
+     * const count = await prisma.currencies.count({
+     *   where: {
+     *     // ... the filter for the Currencies we want to count
+     *   }
+     * })
+    **/
+    count<T extends currenciesCountArgs>(
+      args?: Subset<T, currenciesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CurrenciesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Currencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurrenciesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CurrenciesAggregateArgs>(args: Subset<T, CurrenciesAggregateArgs>): Prisma.PrismaPromise<GetCurrenciesAggregateType<T>>
+
+    /**
+     * Group by Currencies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {currenciesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends currenciesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: currenciesGroupByArgs['orderBy'] }
+        : { orderBy?: currenciesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, currenciesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCurrenciesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the currencies model
+   */
+  readonly fields: currenciesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for currencies.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__currenciesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the currencies model
+   */
+  interface currenciesFieldRefs {
+    readonly id: FieldRef<"currencies", 'String'>
+    readonly name: FieldRef<"currencies", 'String'>
+    readonly code: FieldRef<"currencies", 'String'>
+    readonly symbol: FieldRef<"currencies", 'String'>
+    readonly is_active: FieldRef<"currencies", 'Boolean'>
+    readonly created_at: FieldRef<"currencies", 'DateTime'>
+    readonly updated_at: FieldRef<"currencies", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * currencies findUnique
+   */
+  export type currenciesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter, which currencies to fetch.
+     */
+    where: currenciesWhereUniqueInput
+  }
+
+  /**
+   * currencies findUniqueOrThrow
+   */
+  export type currenciesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter, which currencies to fetch.
+     */
+    where: currenciesWhereUniqueInput
+  }
+
+  /**
+   * currencies findFirst
+   */
+  export type currenciesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter, which currencies to fetch.
+     */
+    where?: currenciesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of currencies to fetch.
+     */
+    orderBy?: currenciesOrderByWithRelationInput | currenciesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for currencies.
+     */
+    cursor?: currenciesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` currencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` currencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of currencies.
+     */
+    distinct?: CurrenciesScalarFieldEnum | CurrenciesScalarFieldEnum[]
+  }
+
+  /**
+   * currencies findFirstOrThrow
+   */
+  export type currenciesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter, which currencies to fetch.
+     */
+    where?: currenciesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of currencies to fetch.
+     */
+    orderBy?: currenciesOrderByWithRelationInput | currenciesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for currencies.
+     */
+    cursor?: currenciesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` currencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` currencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of currencies.
+     */
+    distinct?: CurrenciesScalarFieldEnum | CurrenciesScalarFieldEnum[]
+  }
+
+  /**
+   * currencies findMany
+   */
+  export type currenciesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter, which currencies to fetch.
+     */
+    where?: currenciesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of currencies to fetch.
+     */
+    orderBy?: currenciesOrderByWithRelationInput | currenciesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing currencies.
+     */
+    cursor?: currenciesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` currencies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` currencies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of currencies.
+     */
+    distinct?: CurrenciesScalarFieldEnum | CurrenciesScalarFieldEnum[]
+  }
+
+  /**
+   * currencies create
+   */
+  export type currenciesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * The data needed to create a currencies.
+     */
+    data: XOR<currenciesCreateInput, currenciesUncheckedCreateInput>
+  }
+
+  /**
+   * currencies createMany
+   */
+  export type currenciesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many currencies.
+     */
+    data: currenciesCreateManyInput | currenciesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * currencies createManyAndReturn
+   */
+  export type currenciesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * The data used to create many currencies.
+     */
+    data: currenciesCreateManyInput | currenciesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * currencies update
+   */
+  export type currenciesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * The data needed to update a currencies.
+     */
+    data: XOR<currenciesUpdateInput, currenciesUncheckedUpdateInput>
+    /**
+     * Choose, which currencies to update.
+     */
+    where: currenciesWhereUniqueInput
+  }
+
+  /**
+   * currencies updateMany
+   */
+  export type currenciesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update currencies.
+     */
+    data: XOR<currenciesUpdateManyMutationInput, currenciesUncheckedUpdateManyInput>
+    /**
+     * Filter which currencies to update
+     */
+    where?: currenciesWhereInput
+    /**
+     * Limit how many currencies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * currencies updateManyAndReturn
+   */
+  export type currenciesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * The data used to update currencies.
+     */
+    data: XOR<currenciesUpdateManyMutationInput, currenciesUncheckedUpdateManyInput>
+    /**
+     * Filter which currencies to update
+     */
+    where?: currenciesWhereInput
+    /**
+     * Limit how many currencies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * currencies upsert
+   */
+  export type currenciesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * The filter to search for the currencies to update in case it exists.
+     */
+    where: currenciesWhereUniqueInput
+    /**
+     * In case the currencies found by the `where` argument doesn't exist, create a new currencies with this data.
+     */
+    create: XOR<currenciesCreateInput, currenciesUncheckedCreateInput>
+    /**
+     * In case the currencies was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<currenciesUpdateInput, currenciesUncheckedUpdateInput>
+  }
+
+  /**
+   * currencies delete
+   */
+  export type currenciesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+    /**
+     * Filter which currencies to delete.
+     */
+    where: currenciesWhereUniqueInput
+  }
+
+  /**
+   * currencies deleteMany
+   */
+  export type currenciesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which currencies to delete
+     */
+    where?: currenciesWhereInput
+    /**
+     * Limit how many currencies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * currencies without action
+   */
+  export type currenciesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the currencies
+     */
+    select?: currenciesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the currencies
+     */
+    omit?: currenciesOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -67977,6 +72738,58 @@ export namespace Prisma {
   };
 
   export type Res_rolesScalarFieldEnum = (typeof Res_rolesScalarFieldEnum)[keyof typeof Res_rolesScalarFieldEnum]
+
+
+  export const BranchesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    city_id: 'city_id',
+    address: 'address',
+    phone: 'phone',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typeof BranchesScalarFieldEnum]
+
+
+  export const CitiesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    country_id: 'country_id',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type CitiesScalarFieldEnum = (typeof CitiesScalarFieldEnum)[keyof typeof CitiesScalarFieldEnum]
+
+
+  export const CountriesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    code: 'code',
+    phone_code: 'phone_code',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type CountriesScalarFieldEnum = (typeof CountriesScalarFieldEnum)[keyof typeof CountriesScalarFieldEnum]
+
+
+  export const CurrenciesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    code: 'code',
+    symbol: 'symbol',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type CurrenciesScalarFieldEnum = (typeof CurrenciesScalarFieldEnum)[keyof typeof CurrenciesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -72384,6 +77197,267 @@ export namespace Prisma {
     display_name?: StringWithAggregatesFilter<"res_roles"> | string
     permissions?: JsonNullableWithAggregatesFilter<"res_roles">
     created_at?: DateTimeNullableWithAggregatesFilter<"res_roles"> | Date | string | null
+  }
+
+  export type branchesWhereInput = {
+    AND?: branchesWhereInput | branchesWhereInput[]
+    OR?: branchesWhereInput[]
+    NOT?: branchesWhereInput | branchesWhereInput[]
+    id?: UuidFilter<"branches"> | string
+    name?: StringFilter<"branches"> | string
+    city_id?: UuidFilter<"branches"> | string
+    address?: StringNullableFilter<"branches"> | string | null
+    phone?: StringNullableFilter<"branches"> | string | null
+    is_active?: BoolNullableFilter<"branches"> | boolean | null
+    created_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+    cities?: XOR<CitiesScalarRelationFilter, citiesWhereInput>
+  }
+
+  export type branchesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city_id?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    cities?: citiesOrderByWithRelationInput
+  }
+
+  export type branchesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: branchesWhereInput | branchesWhereInput[]
+    OR?: branchesWhereInput[]
+    NOT?: branchesWhereInput | branchesWhereInput[]
+    name?: StringFilter<"branches"> | string
+    city_id?: UuidFilter<"branches"> | string
+    address?: StringNullableFilter<"branches"> | string | null
+    phone?: StringNullableFilter<"branches"> | string | null
+    is_active?: BoolNullableFilter<"branches"> | boolean | null
+    created_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+    cities?: XOR<CitiesScalarRelationFilter, citiesWhereInput>
+  }, "id">
+
+  export type branchesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city_id?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: branchesCountOrderByAggregateInput
+    _max?: branchesMaxOrderByAggregateInput
+    _min?: branchesMinOrderByAggregateInput
+  }
+
+  export type branchesScalarWhereWithAggregatesInput = {
+    AND?: branchesScalarWhereWithAggregatesInput | branchesScalarWhereWithAggregatesInput[]
+    OR?: branchesScalarWhereWithAggregatesInput[]
+    NOT?: branchesScalarWhereWithAggregatesInput | branchesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"branches"> | string
+    name?: StringWithAggregatesFilter<"branches"> | string
+    city_id?: UuidWithAggregatesFilter<"branches"> | string
+    address?: StringNullableWithAggregatesFilter<"branches"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"branches"> | string | null
+    is_active?: BoolNullableWithAggregatesFilter<"branches"> | boolean | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
+  }
+
+  export type citiesWhereInput = {
+    AND?: citiesWhereInput | citiesWhereInput[]
+    OR?: citiesWhereInput[]
+    NOT?: citiesWhereInput | citiesWhereInput[]
+    id?: UuidFilter<"cities"> | string
+    name?: StringFilter<"cities"> | string
+    country_id?: UuidFilter<"cities"> | string
+    is_active?: BoolNullableFilter<"cities"> | boolean | null
+    created_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+    branches?: BranchesListRelationFilter
+    countries?: XOR<CountriesScalarRelationFilter, countriesWhereInput>
+  }
+
+  export type citiesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    country_id?: SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    branches?: branchesOrderByRelationAggregateInput
+    countries?: countriesOrderByWithRelationInput
+  }
+
+  export type citiesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name_country_id?: citiesNameCountry_idCompoundUniqueInput
+    AND?: citiesWhereInput | citiesWhereInput[]
+    OR?: citiesWhereInput[]
+    NOT?: citiesWhereInput | citiesWhereInput[]
+    name?: StringFilter<"cities"> | string
+    country_id?: UuidFilter<"cities"> | string
+    is_active?: BoolNullableFilter<"cities"> | boolean | null
+    created_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+    branches?: BranchesListRelationFilter
+    countries?: XOR<CountriesScalarRelationFilter, countriesWhereInput>
+  }, "id" | "name_country_id">
+
+  export type citiesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    country_id?: SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: citiesCountOrderByAggregateInput
+    _max?: citiesMaxOrderByAggregateInput
+    _min?: citiesMinOrderByAggregateInput
+  }
+
+  export type citiesScalarWhereWithAggregatesInput = {
+    AND?: citiesScalarWhereWithAggregatesInput | citiesScalarWhereWithAggregatesInput[]
+    OR?: citiesScalarWhereWithAggregatesInput[]
+    NOT?: citiesScalarWhereWithAggregatesInput | citiesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"cities"> | string
+    name?: StringWithAggregatesFilter<"cities"> | string
+    country_id?: UuidWithAggregatesFilter<"cities"> | string
+    is_active?: BoolNullableWithAggregatesFilter<"cities"> | boolean | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"cities"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"cities"> | Date | string | null
+  }
+
+  export type countriesWhereInput = {
+    AND?: countriesWhereInput | countriesWhereInput[]
+    OR?: countriesWhereInput[]
+    NOT?: countriesWhereInput | countriesWhereInput[]
+    id?: UuidFilter<"countries"> | string
+    name?: StringFilter<"countries"> | string
+    code?: StringFilter<"countries"> | string
+    phone_code?: StringNullableFilter<"countries"> | string | null
+    is_active?: BoolNullableFilter<"countries"> | boolean | null
+    created_at?: DateTimeNullableFilter<"countries"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"countries"> | Date | string | null
+    cities?: CitiesListRelationFilter
+  }
+
+  export type countriesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    phone_code?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    cities?: citiesOrderByRelationAggregateInput
+  }
+
+  export type countriesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    code?: string
+    AND?: countriesWhereInput | countriesWhereInput[]
+    OR?: countriesWhereInput[]
+    NOT?: countriesWhereInput | countriesWhereInput[]
+    phone_code?: StringNullableFilter<"countries"> | string | null
+    is_active?: BoolNullableFilter<"countries"> | boolean | null
+    created_at?: DateTimeNullableFilter<"countries"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"countries"> | Date | string | null
+    cities?: CitiesListRelationFilter
+  }, "id" | "name" | "code">
+
+  export type countriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    phone_code?: SortOrderInput | SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: countriesCountOrderByAggregateInput
+    _max?: countriesMaxOrderByAggregateInput
+    _min?: countriesMinOrderByAggregateInput
+  }
+
+  export type countriesScalarWhereWithAggregatesInput = {
+    AND?: countriesScalarWhereWithAggregatesInput | countriesScalarWhereWithAggregatesInput[]
+    OR?: countriesScalarWhereWithAggregatesInput[]
+    NOT?: countriesScalarWhereWithAggregatesInput | countriesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"countries"> | string
+    name?: StringWithAggregatesFilter<"countries"> | string
+    code?: StringWithAggregatesFilter<"countries"> | string
+    phone_code?: StringNullableWithAggregatesFilter<"countries"> | string | null
+    is_active?: BoolNullableWithAggregatesFilter<"countries"> | boolean | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"countries"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"countries"> | Date | string | null
+  }
+
+  export type currenciesWhereInput = {
+    AND?: currenciesWhereInput | currenciesWhereInput[]
+    OR?: currenciesWhereInput[]
+    NOT?: currenciesWhereInput | currenciesWhereInput[]
+    id?: UuidFilter<"currencies"> | string
+    name?: StringFilter<"currencies"> | string
+    code?: StringFilter<"currencies"> | string
+    symbol?: StringFilter<"currencies"> | string
+    is_active?: BoolNullableFilter<"currencies"> | boolean | null
+    created_at?: DateTimeNullableFilter<"currencies"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"currencies"> | Date | string | null
+  }
+
+  export type currenciesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    symbol?: SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+  }
+
+  export type currenciesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: currenciesWhereInput | currenciesWhereInput[]
+    OR?: currenciesWhereInput[]
+    NOT?: currenciesWhereInput | currenciesWhereInput[]
+    name?: StringFilter<"currencies"> | string
+    symbol?: StringFilter<"currencies"> | string
+    is_active?: BoolNullableFilter<"currencies"> | boolean | null
+    created_at?: DateTimeNullableFilter<"currencies"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"currencies"> | Date | string | null
+  }, "id" | "code">
+
+  export type currenciesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    symbol?: SortOrder
+    is_active?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: currenciesCountOrderByAggregateInput
+    _max?: currenciesMaxOrderByAggregateInput
+    _min?: currenciesMinOrderByAggregateInput
+  }
+
+  export type currenciesScalarWhereWithAggregatesInput = {
+    AND?: currenciesScalarWhereWithAggregatesInput | currenciesScalarWhereWithAggregatesInput[]
+    OR?: currenciesScalarWhereWithAggregatesInput[]
+    NOT?: currenciesScalarWhereWithAggregatesInput | currenciesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"currencies"> | string
+    name?: StringWithAggregatesFilter<"currencies"> | string
+    code?: StringWithAggregatesFilter<"currencies"> | string
+    symbol?: StringWithAggregatesFilter<"currencies"> | string
+    is_active?: BoolNullableWithAggregatesFilter<"currencies"> | boolean | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"currencies"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"currencies"> | Date | string | null
   }
 
   export type categoriesCreateInput = {
@@ -76952,6 +82026,292 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type branchesCreateInput = {
+    id?: string
+    name: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    cities: citiesCreateNestedOneWithoutBranchesInput
+  }
+
+  export type branchesUncheckedCreateInput = {
+    id?: string
+    name: string
+    city_id: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type branchesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cities?: citiesUpdateOneRequiredWithoutBranchesNestedInput
+  }
+
+  export type branchesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    city_id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesCreateManyInput = {
+    id?: string
+    name: string
+    city_id: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type branchesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    city_id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type citiesCreateInput = {
+    id?: string
+    name: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    branches?: branchesCreateNestedManyWithoutCitiesInput
+    countries: countriesCreateNestedOneWithoutCitiesInput
+  }
+
+  export type citiesUncheckedCreateInput = {
+    id?: string
+    name: string
+    country_id: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    branches?: branchesUncheckedCreateNestedManyWithoutCitiesInput
+  }
+
+  export type citiesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branches?: branchesUpdateManyWithoutCitiesNestedInput
+    countries?: countriesUpdateOneRequiredWithoutCitiesNestedInput
+  }
+
+  export type citiesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    country_id?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branches?: branchesUncheckedUpdateManyWithoutCitiesNestedInput
+  }
+
+  export type citiesCreateManyInput = {
+    id?: string
+    name: string
+    country_id: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type citiesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type citiesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    country_id?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type countriesCreateInput = {
+    id?: string
+    name: string
+    code: string
+    phone_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    cities?: citiesCreateNestedManyWithoutCountriesInput
+  }
+
+  export type countriesUncheckedCreateInput = {
+    id?: string
+    name: string
+    code: string
+    phone_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    cities?: citiesUncheckedCreateNestedManyWithoutCountriesInput
+  }
+
+  export type countriesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cities?: citiesUpdateManyWithoutCountriesNestedInput
+  }
+
+  export type countriesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cities?: citiesUncheckedUpdateManyWithoutCountriesNestedInput
+  }
+
+  export type countriesCreateManyInput = {
+    id?: string
+    name: string
+    code: string
+    phone_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type countriesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type countriesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type currenciesCreateInput = {
+    id?: string
+    name: string
+    code: string
+    symbol: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type currenciesUncheckedCreateInput = {
+    id?: string
+    name: string
+    code: string
+    symbol: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type currenciesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type currenciesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type currenciesCreateManyInput = {
+    id?: string
+    name: string
+    code: string
+    symbol: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type currenciesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type currenciesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -80278,6 +85638,161 @@ export namespace Prisma {
     created_at?: SortOrder
   }
 
+  export type CitiesScalarRelationFilter = {
+    is?: citiesWhereInput
+    isNot?: citiesWhereInput
+  }
+
+  export type branchesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city_id?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type branchesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city_id?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type branchesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    city_id?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type BranchesListRelationFilter = {
+    every?: branchesWhereInput
+    some?: branchesWhereInput
+    none?: branchesWhereInput
+  }
+
+  export type CountriesScalarRelationFilter = {
+    is?: countriesWhereInput
+    isNot?: countriesWhereInput
+  }
+
+  export type branchesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type citiesNameCountry_idCompoundUniqueInput = {
+    name: string
+    country_id: string
+  }
+
+  export type citiesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    country_id?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type citiesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    country_id?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type citiesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    country_id?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type CitiesListRelationFilter = {
+    every?: citiesWhereInput
+    some?: citiesWhereInput
+    none?: citiesWhereInput
+  }
+
+  export type citiesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type countriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    phone_code?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type countriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    phone_code?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type countriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    phone_code?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type currenciesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    symbol?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type currenciesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    symbol?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type currenciesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    symbol?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
   export type productsCreateNestedManyWithoutCategoriesInput = {
     create?: XOR<productsCreateWithoutCategoriesInput, productsUncheckedCreateWithoutCategoriesInput> | productsCreateWithoutCategoriesInput[] | productsUncheckedCreateWithoutCategoriesInput[]
     connectOrCreate?: productsCreateOrConnectWithoutCategoriesInput | productsCreateOrConnectWithoutCategoriesInput[]
@@ -83456,6 +88971,118 @@ export namespace Prisma {
     update?: res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput | res_employee_rolesUpdateWithWhereUniqueWithoutRes_rolesInput[]
     updateMany?: res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput | res_employee_rolesUpdateManyWithWhereWithoutRes_rolesInput[]
     deleteMany?: res_employee_rolesScalarWhereInput | res_employee_rolesScalarWhereInput[]
+  }
+
+  export type citiesCreateNestedOneWithoutBranchesInput = {
+    create?: XOR<citiesCreateWithoutBranchesInput, citiesUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: citiesCreateOrConnectWithoutBranchesInput
+    connect?: citiesWhereUniqueInput
+  }
+
+  export type citiesUpdateOneRequiredWithoutBranchesNestedInput = {
+    create?: XOR<citiesCreateWithoutBranchesInput, citiesUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: citiesCreateOrConnectWithoutBranchesInput
+    upsert?: citiesUpsertWithoutBranchesInput
+    connect?: citiesWhereUniqueInput
+    update?: XOR<XOR<citiesUpdateToOneWithWhereWithoutBranchesInput, citiesUpdateWithoutBranchesInput>, citiesUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type branchesCreateNestedManyWithoutCitiesInput = {
+    create?: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput> | branchesCreateWithoutCitiesInput[] | branchesUncheckedCreateWithoutCitiesInput[]
+    connectOrCreate?: branchesCreateOrConnectWithoutCitiesInput | branchesCreateOrConnectWithoutCitiesInput[]
+    createMany?: branchesCreateManyCitiesInputEnvelope
+    connect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+  }
+
+  export type countriesCreateNestedOneWithoutCitiesInput = {
+    create?: XOR<countriesCreateWithoutCitiesInput, countriesUncheckedCreateWithoutCitiesInput>
+    connectOrCreate?: countriesCreateOrConnectWithoutCitiesInput
+    connect?: countriesWhereUniqueInput
+  }
+
+  export type branchesUncheckedCreateNestedManyWithoutCitiesInput = {
+    create?: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput> | branchesCreateWithoutCitiesInput[] | branchesUncheckedCreateWithoutCitiesInput[]
+    connectOrCreate?: branchesCreateOrConnectWithoutCitiesInput | branchesCreateOrConnectWithoutCitiesInput[]
+    createMany?: branchesCreateManyCitiesInputEnvelope
+    connect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+  }
+
+  export type branchesUpdateManyWithoutCitiesNestedInput = {
+    create?: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput> | branchesCreateWithoutCitiesInput[] | branchesUncheckedCreateWithoutCitiesInput[]
+    connectOrCreate?: branchesCreateOrConnectWithoutCitiesInput | branchesCreateOrConnectWithoutCitiesInput[]
+    upsert?: branchesUpsertWithWhereUniqueWithoutCitiesInput | branchesUpsertWithWhereUniqueWithoutCitiesInput[]
+    createMany?: branchesCreateManyCitiesInputEnvelope
+    set?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    disconnect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    delete?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    connect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    update?: branchesUpdateWithWhereUniqueWithoutCitiesInput | branchesUpdateWithWhereUniqueWithoutCitiesInput[]
+    updateMany?: branchesUpdateManyWithWhereWithoutCitiesInput | branchesUpdateManyWithWhereWithoutCitiesInput[]
+    deleteMany?: branchesScalarWhereInput | branchesScalarWhereInput[]
+  }
+
+  export type countriesUpdateOneRequiredWithoutCitiesNestedInput = {
+    create?: XOR<countriesCreateWithoutCitiesInput, countriesUncheckedCreateWithoutCitiesInput>
+    connectOrCreate?: countriesCreateOrConnectWithoutCitiesInput
+    upsert?: countriesUpsertWithoutCitiesInput
+    connect?: countriesWhereUniqueInput
+    update?: XOR<XOR<countriesUpdateToOneWithWhereWithoutCitiesInput, countriesUpdateWithoutCitiesInput>, countriesUncheckedUpdateWithoutCitiesInput>
+  }
+
+  export type branchesUncheckedUpdateManyWithoutCitiesNestedInput = {
+    create?: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput> | branchesCreateWithoutCitiesInput[] | branchesUncheckedCreateWithoutCitiesInput[]
+    connectOrCreate?: branchesCreateOrConnectWithoutCitiesInput | branchesCreateOrConnectWithoutCitiesInput[]
+    upsert?: branchesUpsertWithWhereUniqueWithoutCitiesInput | branchesUpsertWithWhereUniqueWithoutCitiesInput[]
+    createMany?: branchesCreateManyCitiesInputEnvelope
+    set?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    disconnect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    delete?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    connect?: branchesWhereUniqueInput | branchesWhereUniqueInput[]
+    update?: branchesUpdateWithWhereUniqueWithoutCitiesInput | branchesUpdateWithWhereUniqueWithoutCitiesInput[]
+    updateMany?: branchesUpdateManyWithWhereWithoutCitiesInput | branchesUpdateManyWithWhereWithoutCitiesInput[]
+    deleteMany?: branchesScalarWhereInput | branchesScalarWhereInput[]
+  }
+
+  export type citiesCreateNestedManyWithoutCountriesInput = {
+    create?: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput> | citiesCreateWithoutCountriesInput[] | citiesUncheckedCreateWithoutCountriesInput[]
+    connectOrCreate?: citiesCreateOrConnectWithoutCountriesInput | citiesCreateOrConnectWithoutCountriesInput[]
+    createMany?: citiesCreateManyCountriesInputEnvelope
+    connect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+  }
+
+  export type citiesUncheckedCreateNestedManyWithoutCountriesInput = {
+    create?: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput> | citiesCreateWithoutCountriesInput[] | citiesUncheckedCreateWithoutCountriesInput[]
+    connectOrCreate?: citiesCreateOrConnectWithoutCountriesInput | citiesCreateOrConnectWithoutCountriesInput[]
+    createMany?: citiesCreateManyCountriesInputEnvelope
+    connect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+  }
+
+  export type citiesUpdateManyWithoutCountriesNestedInput = {
+    create?: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput> | citiesCreateWithoutCountriesInput[] | citiesUncheckedCreateWithoutCountriesInput[]
+    connectOrCreate?: citiesCreateOrConnectWithoutCountriesInput | citiesCreateOrConnectWithoutCountriesInput[]
+    upsert?: citiesUpsertWithWhereUniqueWithoutCountriesInput | citiesUpsertWithWhereUniqueWithoutCountriesInput[]
+    createMany?: citiesCreateManyCountriesInputEnvelope
+    set?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    disconnect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    delete?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    connect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    update?: citiesUpdateWithWhereUniqueWithoutCountriesInput | citiesUpdateWithWhereUniqueWithoutCountriesInput[]
+    updateMany?: citiesUpdateManyWithWhereWithoutCountriesInput | citiesUpdateManyWithWhereWithoutCountriesInput[]
+    deleteMany?: citiesScalarWhereInput | citiesScalarWhereInput[]
+  }
+
+  export type citiesUncheckedUpdateManyWithoutCountriesNestedInput = {
+    create?: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput> | citiesCreateWithoutCountriesInput[] | citiesUncheckedCreateWithoutCountriesInput[]
+    connectOrCreate?: citiesCreateOrConnectWithoutCountriesInput | citiesCreateOrConnectWithoutCountriesInput[]
+    upsert?: citiesUpsertWithWhereUniqueWithoutCountriesInput | citiesUpsertWithWhereUniqueWithoutCountriesInput[]
+    createMany?: citiesCreateManyCountriesInputEnvelope
+    set?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    disconnect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    delete?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    connect?: citiesWhereUniqueInput | citiesWhereUniqueInput[]
+    update?: citiesUpdateWithWhereUniqueWithoutCountriesInput | citiesUpdateWithWhereUniqueWithoutCountriesInput[]
+    updateMany?: citiesUpdateManyWithWhereWithoutCountriesInput | citiesUpdateManyWithWhereWithoutCountriesInput[]
+    deleteMany?: citiesScalarWhereInput | citiesScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -91894,6 +97521,230 @@ export namespace Prisma {
     data: XOR<res_employee_rolesUpdateManyMutationInput, res_employee_rolesUncheckedUpdateManyWithoutRes_rolesInput>
   }
 
+  export type citiesCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    countries: countriesCreateNestedOneWithoutCitiesInput
+  }
+
+  export type citiesUncheckedCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    country_id: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type citiesCreateOrConnectWithoutBranchesInput = {
+    where: citiesWhereUniqueInput
+    create: XOR<citiesCreateWithoutBranchesInput, citiesUncheckedCreateWithoutBranchesInput>
+  }
+
+  export type citiesUpsertWithoutBranchesInput = {
+    update: XOR<citiesUpdateWithoutBranchesInput, citiesUncheckedUpdateWithoutBranchesInput>
+    create: XOR<citiesCreateWithoutBranchesInput, citiesUncheckedCreateWithoutBranchesInput>
+    where?: citiesWhereInput
+  }
+
+  export type citiesUpdateToOneWithWhereWithoutBranchesInput = {
+    where?: citiesWhereInput
+    data: XOR<citiesUpdateWithoutBranchesInput, citiesUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type citiesUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    countries?: countriesUpdateOneRequiredWithoutCitiesNestedInput
+  }
+
+  export type citiesUncheckedUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    country_id?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type branchesUncheckedCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type branchesCreateOrConnectWithoutCitiesInput = {
+    where: branchesWhereUniqueInput
+    create: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput>
+  }
+
+  export type branchesCreateManyCitiesInputEnvelope = {
+    data: branchesCreateManyCitiesInput | branchesCreateManyCitiesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type countriesCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    code: string
+    phone_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type countriesUncheckedCreateWithoutCitiesInput = {
+    id?: string
+    name: string
+    code: string
+    phone_code?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type countriesCreateOrConnectWithoutCitiesInput = {
+    where: countriesWhereUniqueInput
+    create: XOR<countriesCreateWithoutCitiesInput, countriesUncheckedCreateWithoutCitiesInput>
+  }
+
+  export type branchesUpsertWithWhereUniqueWithoutCitiesInput = {
+    where: branchesWhereUniqueInput
+    update: XOR<branchesUpdateWithoutCitiesInput, branchesUncheckedUpdateWithoutCitiesInput>
+    create: XOR<branchesCreateWithoutCitiesInput, branchesUncheckedCreateWithoutCitiesInput>
+  }
+
+  export type branchesUpdateWithWhereUniqueWithoutCitiesInput = {
+    where: branchesWhereUniqueInput
+    data: XOR<branchesUpdateWithoutCitiesInput, branchesUncheckedUpdateWithoutCitiesInput>
+  }
+
+  export type branchesUpdateManyWithWhereWithoutCitiesInput = {
+    where: branchesScalarWhereInput
+    data: XOR<branchesUpdateManyMutationInput, branchesUncheckedUpdateManyWithoutCitiesInput>
+  }
+
+  export type branchesScalarWhereInput = {
+    AND?: branchesScalarWhereInput | branchesScalarWhereInput[]
+    OR?: branchesScalarWhereInput[]
+    NOT?: branchesScalarWhereInput | branchesScalarWhereInput[]
+    id?: UuidFilter<"branches"> | string
+    name?: StringFilter<"branches"> | string
+    city_id?: UuidFilter<"branches"> | string
+    address?: StringNullableFilter<"branches"> | string | null
+    phone?: StringNullableFilter<"branches"> | string | null
+    is_active?: BoolNullableFilter<"branches"> | boolean | null
+    created_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"branches"> | Date | string | null
+  }
+
+  export type countriesUpsertWithoutCitiesInput = {
+    update: XOR<countriesUpdateWithoutCitiesInput, countriesUncheckedUpdateWithoutCitiesInput>
+    create: XOR<countriesCreateWithoutCitiesInput, countriesUncheckedCreateWithoutCitiesInput>
+    where?: countriesWhereInput
+  }
+
+  export type countriesUpdateToOneWithWhereWithoutCitiesInput = {
+    where?: countriesWhereInput
+    data: XOR<countriesUpdateWithoutCitiesInput, countriesUncheckedUpdateWithoutCitiesInput>
+  }
+
+  export type countriesUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type countriesUncheckedUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    phone_code?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type citiesCreateWithoutCountriesInput = {
+    id?: string
+    name: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    branches?: branchesCreateNestedManyWithoutCitiesInput
+  }
+
+  export type citiesUncheckedCreateWithoutCountriesInput = {
+    id?: string
+    name: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    branches?: branchesUncheckedCreateNestedManyWithoutCitiesInput
+  }
+
+  export type citiesCreateOrConnectWithoutCountriesInput = {
+    where: citiesWhereUniqueInput
+    create: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput>
+  }
+
+  export type citiesCreateManyCountriesInputEnvelope = {
+    data: citiesCreateManyCountriesInput | citiesCreateManyCountriesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type citiesUpsertWithWhereUniqueWithoutCountriesInput = {
+    where: citiesWhereUniqueInput
+    update: XOR<citiesUpdateWithoutCountriesInput, citiesUncheckedUpdateWithoutCountriesInput>
+    create: XOR<citiesCreateWithoutCountriesInput, citiesUncheckedCreateWithoutCountriesInput>
+  }
+
+  export type citiesUpdateWithWhereUniqueWithoutCountriesInput = {
+    where: citiesWhereUniqueInput
+    data: XOR<citiesUpdateWithoutCountriesInput, citiesUncheckedUpdateWithoutCountriesInput>
+  }
+
+  export type citiesUpdateManyWithWhereWithoutCountriesInput = {
+    where: citiesScalarWhereInput
+    data: XOR<citiesUpdateManyMutationInput, citiesUncheckedUpdateManyWithoutCountriesInput>
+  }
+
+  export type citiesScalarWhereInput = {
+    AND?: citiesScalarWhereInput | citiesScalarWhereInput[]
+    OR?: citiesScalarWhereInput[]
+    NOT?: citiesScalarWhereInput | citiesScalarWhereInput[]
+    id?: UuidFilter<"cities"> | string
+    name?: StringFilter<"cities"> | string
+    country_id?: UuidFilter<"cities"> | string
+    is_active?: BoolNullableFilter<"cities"> | boolean | null
+    created_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"cities"> | Date | string | null
+  }
+
   export type productsCreateManyCategoriesInput = {
     product_id?: number
     supplier_id?: number | null
@@ -94688,6 +100539,80 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesCreateManyCitiesInput = {
+    id?: string
+    name: string
+    address?: string | null
+    phone?: string | null
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type branchesUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesUncheckedUpdateWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type branchesUncheckedUpdateManyWithoutCitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type citiesCreateManyCountriesInput = {
+    id?: string
+    name: string
+    is_active?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type citiesUpdateWithoutCountriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branches?: branchesUpdateManyWithoutCitiesNestedInput
+  }
+
+  export type citiesUncheckedUpdateWithoutCountriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branches?: branchesUncheckedUpdateManyWithoutCitiesNestedInput
+  }
+
+  export type citiesUncheckedUpdateManyWithoutCountriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

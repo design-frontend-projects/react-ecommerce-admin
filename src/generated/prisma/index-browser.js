@@ -757,6 +757,46 @@ exports.Prisma.Res_rolesScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+exports.Prisma.BranchesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  city_id: 'city_id',
+  address: 'address',
+  phone: 'phone',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CitiesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  country_id: 'country_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CountriesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  phone_code: 'phone_code',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CurrenciesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  symbol: 'symbol',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -857,7 +897,11 @@ exports.Prisma.ModelName = {
   audit_logs: 'audit_logs',
   res_employee_roles: 'res_employee_roles',
   res_employees: 'res_employees',
-  res_roles: 'res_roles'
+  res_roles: 'res_roles',
+  branches: 'branches',
+  cities: 'cities',
+  countries: 'countries',
+  currencies: 'currencies'
 };
 
 /**
