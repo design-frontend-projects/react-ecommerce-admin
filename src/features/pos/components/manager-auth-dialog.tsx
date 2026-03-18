@@ -47,10 +47,10 @@ export function ManagerAuthDialog({
   const handleVerify = () => {
     if (isLoading) return
     if (pin === CORRECT_PIN) {
-      toast.success('Manager authorized')
       onSuccess()
       setPin('')
-
+      toast.success('Manager authorized')
+      onOpenChange(false)
     } else {
       setError(true)
       setPin('')
@@ -100,7 +100,11 @@ export function ManagerAuthDialog({
         </div>
 
         <div className='flex justify-center'>
-          <Button variant='ghost' onClick={() => onOpenChange(false)} disabled={isLoading}>
+          <Button
+            variant='ghost'
+            onClick={() => onOpenChange(false)}
+            disabled={isLoading}
+          >
             Cancel
           </Button>
         </div>

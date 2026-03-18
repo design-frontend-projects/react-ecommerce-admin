@@ -36,6 +36,10 @@ export interface CreateRefundPayload {
   /** clerk userId of the manager who authorized */
   processedBy: string
   notes?: string
+  /** the number of the transaction id */
+  orderId: string
+  /** clerk user id of the manager who authorized */
+  clerk_user_id: string
 }
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
@@ -44,7 +48,9 @@ export interface CreateRefundPayload {
  * Fetch the last 50 completed POS sales from the last 7 days.
  * Used for the transaction-lookup step in the refund dialog.
  */
-export async function getRecentPosSales(): Promise<PosTransactionRecord[]> {
+export async function getRecentPosSales(
+  transactionNumber: string
+): Promise<PosTransactionRecord[]> {
   const sevenDaysAgo = new Date()
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
@@ -52,9 +58,11 @@ export async function getRecentPosSales(): Promise<PosTransactionRecord[]> {
     .from('transactions')
     .select(
       `
-      transaction_id,
+      id,
       transaction_number,
       transaction_type,
+      tenant_id,
+      clerk_user_id,
       status,
       subtotal,
       tax_amount,
@@ -63,10 +71,9 @@ export async function getRecentPosSales(): Promise<PosTransactionRecord[]> {
       notes,
       created_at,
       transaction_details (
-        detail_id,
+        transaction_id,
         product_id,
         quantity,
-        unit_price,
         discount_amount,
         tax_amount,
         subtotal,
@@ -75,6 +82,7 @@ export async function getRecentPosSales(): Promise<PosTransactionRecord[]> {
     `
     )
     .eq('transaction_type', 'sale')
+    .eq('transaction_number', transactionNumber)
     .eq('status', 'completed')
     .gte('created_at', sevenDaysAgo.toISOString())
     .order('created_at', { ascending: false })
@@ -138,11 +146,13 @@ export async function createRefund(
   const { data, error } = await supabase
     .from('refunds')
     .insert({
-      sale_id: payload.saleId,
+      // sale_id: payload.saleId,
+      order_id: payload.orderId,
       refund_amount: payload.refundAmount,
       reason: payload.reason,
       processed_by: payload.processedBy,
       notes: payload.notes ?? null,
+      clerk_user_id: payload.clerk_user_id,
     })
     .select('refund_id')
     .single()

@@ -39,11 +39,10 @@ export const refundFormSchema = z.object({
   transactionId: z
     .string()
     .uuid('Please select a valid transaction to refund.'),
-  refundAmount: z
-    .number()
-    .positive('Refund amount must be greater than zero.'),
+  refundAmount: z.number().positive('Refund amount must be greater than zero.'),
   reason: z.string().min(1, 'Please select a reason for the refund.'),
   notes: z.string().optional(),
+  clerk_user_id: z.string(),
 })
 
 export type RefundFormValues = z.infer<typeof refundFormSchema>

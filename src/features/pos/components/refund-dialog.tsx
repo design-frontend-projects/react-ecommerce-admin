@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { format } from 'date-fns'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@clerk/clerk-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   RotateCcw,
@@ -13,9 +14,9 @@ import {
   ChevronRight,
   AlertCircle,
 } from 'lucide-react'
-import { format } from 'date-fns'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -34,6 +35,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -41,10 +43,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
 import {
   createRefund,
   getRecentPosSales,
@@ -90,15 +90,15 @@ function TransactionRow({
       className='flex w-full items-center justify-between rounded-lg border p-3 text-left transition-colors hover:border-primary hover:bg-primary/5 active:scale-[.99]'
     >
       <div className='min-w-0 flex-1'>
-        <p className='truncate font-medium text-sm'>{tx.transaction_number}</p>
+        <p className='truncate text-sm font-medium'>{tx.transaction_number}</p>
         <p className='text-xs text-muted-foreground'>
           {format(new Date(tx.created_at), 'MMM d, yyyy h:mm a')} ·{' '}
           {tx.transaction_details.length} item
           {tx.transaction_details.length !== 1 ? 's' : ''}
         </p>
       </div>
-      <div className='ml-4 flex items-center gap-2 shrink-0'>
-        <span className='font-semibold text-sm'>
+      <div className='ml-4 flex shrink-0 items-center gap-2'>
+        <span className='text-sm font-semibold'>
           {formatCurrency(tx.total_amount)}
         </span>
         <ChevronRight className='h-4 w-4 text-muted-foreground' />
@@ -114,12 +114,14 @@ export function RefundDialog() {
   const [authOpen, setAuthOpen] = useState(false)
   const [step, setStep] = useState<Step>('lookup')
   const [search, setSearch] = useState('')
-  const [selectedTx, setSelectedTx] =
-    useState<PosTransactionRecord | null>(null)
+  const [selectedTx, setSelectedTx] = useState<PosTransactionRecord | null>(
+    null
+  )
   const [newRefundId, setNewRefundId] = useState<string | null>(null)
 
   const { userId } = useAuth()
   const queryClient = useQueryClient()
+  const { user: clerkUser } = useUser()
 
   // ─── Fetch recent sales ────────────────────────────────────────────────
   const {
@@ -127,9 +129,9 @@ export function RefundDialog() {
     isLoading: isSalesLoading,
     isError: isSalesError,
   } = useQuery({
-    queryKey: ['recent-pos-sales'],
-    queryFn: getRecentPosSales,
-    enabled: open,
+    queryKey: ['recent-pos-sales', search],
+    queryFn: () => getRecentPosSales(search),
+    enabled: open && search.length > 0,
     staleTime: 30_000,
   })
 
@@ -153,6 +155,8 @@ export function RefundDialog() {
         reason: values.reason,
         processedBy: userId ?? '',
         notes: values.notes,
+        orderId: selectedTx?.transaction_number as string,
+        clerk_user_id: clerkUser?.id as string,
       }),
     onSuccess: (refundId) => {
       setNewRefundId(refundId)
@@ -195,7 +199,8 @@ export function RefundDialog() {
   }
 
   const handleManagerApproved = () => {
-    form.handleSubmit((values) => refundMutation.mutate(values))()
+    form.setValue('transactionId', search)
+    refundMutation.mutate(form.getValues())
   }
 
   // ─── Filtered sales list ────────────────────────────────────────────────
@@ -212,14 +217,18 @@ export function RefundDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant='outline' size='sm' className='gap-1.5 text-destructive border-destructive/30 hover:bg-destructive/5'>
+        <Button
+          variant='outline'
+          size='sm'
+          className='gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/5'
+        >
           <RotateCcw className='h-4 w-4' />
           <span className='hidden sm:inline'>Refund</span>
         </Button>
       </DialogTrigger>
 
-      <DialogContent className='sm:max-w-lg p-0 overflow-hidden gap-0'>
-        <DialogHeader className='px-6 pt-6 pb-4 border-b bg-muted/30'>
+      <DialogContent className='gap-0 overflow-hidden p-0 sm:max-w-lg'>
+        <DialogHeader className='border-b bg-muted/30 px-6 pt-6 pb-4'>
           <DialogTitle className='flex items-center gap-2'>
             <RotateCcw className='h-5 w-5 text-destructive' />
             Process Refund
@@ -228,11 +237,19 @@ export function RefundDialog() {
           {/* Step indicator */}
           {step !== 'success' && (
             <div className='flex items-center gap-2 pt-2 text-xs text-muted-foreground'>
-              <span className={step === 'lookup' ? 'font-semibold text-foreground' : ''}>
+              <span
+                className={
+                  step === 'lookup' ? 'font-semibold text-foreground' : ''
+                }
+              >
                 1. Find Transaction
               </span>
               <ChevronRight className='h-3 w-3' />
-              <span className={step === 'details' ? 'font-semibold text-foreground' : ''}>
+              <span
+                className={
+                  step === 'details' ? 'font-semibold text-foreground' : ''
+                }
+              >
                 2. Refund Details
               </span>
               <ChevronRight className='h-3 w-3' />
@@ -256,7 +273,7 @@ export function RefundDialog() {
               <div className='space-y-1'>
                 <Label>Search by Transaction Number</Label>
                 <div className='relative'>
-                  <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
                   <Input
                     className='pl-9'
                     placeholder='e.g. POS-1234567890'
@@ -268,7 +285,7 @@ export function RefundDialog() {
               </div>
 
               <div className='space-y-1'>
-                <Label className='text-muted-foreground text-xs uppercase tracking-wide'>
+                <Label className='text-xs tracking-wide text-muted-foreground uppercase'>
                   Recent Sales (Last 7 Days)
                 </Label>
 
@@ -287,7 +304,9 @@ export function RefundDialog() {
 
                 {!isSalesLoading && filteredSales.length === 0 && (
                   <p className='py-8 text-center text-sm text-muted-foreground'>
-                    {search ? 'No transactions match your search.' : 'No recent completed sales found.'}
+                    {search
+                      ? 'No transactions match your search.'
+                      : 'No recent completed sales found.'}
                   </p>
                 )}
 
@@ -320,15 +339,18 @@ export function RefundDialog() {
               className='flex flex-col gap-4 px-6 py-5'
             >
               {/* Transaction summary card */}
-              <div className='rounded-lg border bg-muted/30 p-4 space-y-2'>
+              <div className='space-y-2 rounded-lg border bg-muted/30 p-4'>
                 <div className='flex items-start justify-between gap-2'>
                   <div>
-                    <p className='font-semibold text-sm flex items-center gap-1.5'>
+                    <p className='flex items-center gap-1.5 text-sm font-semibold'>
                       <Receipt className='h-4 w-4 text-muted-foreground' />
                       {selectedTx.transaction_number}
                     </p>
-                    <p className='text-xs text-muted-foreground mt-0.5'>
-                      {format(new Date(selectedTx.created_at), 'MMMM d, yyyy h:mm a')}
+                    <p className='mt-0.5 text-xs text-muted-foreground'>
+                      {format(
+                        new Date(selectedTx.created_at),
+                        'MMMM d, yyyy h:mm a'
+                      )}
                     </p>
                   </div>
                   <Badge variant='outline' className='text-xs'>
@@ -345,9 +367,11 @@ export function RefundDialog() {
                       key={d.detail_id}
                       className='flex justify-between text-xs text-muted-foreground'
                     >
-                      <span className='truncate mr-2'>
+                      <span className='mr-2 truncate'>
                         {d.products?.name ?? `Product #${d.product_id}`}{' '}
-                        <span className='text-muted-foreground/60'>× {d.quantity}</span>
+                        <span className='text-muted-foreground/60'>
+                          × {d.quantity}
+                        </span>
                       </span>
                       <span>{formatCurrency(d.subtotal)}</span>
                     </div>
@@ -364,8 +388,14 @@ export function RefundDialog() {
                     name='reason'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Reason for Refund <span className='text-destructive'>*</span></FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <FormLabel>
+                          Reason for Refund{' '}
+                          <span className='text-destructive'>*</span>
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder='Select a reason...' />
@@ -390,10 +420,13 @@ export function RefundDialog() {
                     name='refundAmount'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Refund Amount <span className='text-destructive'>*</span></FormLabel>
+                        <FormLabel>
+                          Refund Amount{' '}
+                          <span className='text-destructive'>*</span>
+                        </FormLabel>
                         <FormControl>
                           <div className='relative'>
-                            <span className='absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm'>
+                            <span className='absolute top-1/2 left-3 -translate-y-1/2 text-sm text-muted-foreground'>
                               $
                             </span>
                             <Input
@@ -424,7 +457,12 @@ export function RefundDialog() {
                     name='notes'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Additional Notes <span className='text-muted-foreground text-xs'>(Optional)</span></FormLabel>
+                        <FormLabel>
+                          Additional Notes{' '}
+                          <span className='text-xs text-muted-foreground'>
+                            (Optional)
+                          </span>
+                        </FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder='Any additional context...'
