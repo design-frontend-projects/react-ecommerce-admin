@@ -302,7 +302,8 @@ exports.Prisma.RefundsScalarFieldEnum = {
   reason: 'reason',
   processed_by: 'processed_by',
   notes: 'notes',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  refund_status: 'refund_status'
 };
 
 exports.Prisma.Res_eventsScalarFieldEnum = {
@@ -398,7 +399,8 @@ exports.Prisma.Res_order_itemsScalarFieldEnum = {
   notes: 'notes',
   status: 'status',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.Res_ordersScalarFieldEnum = {
@@ -425,7 +427,8 @@ exports.Prisma.Res_ordersScalarFieldEnum = {
   promo_discount_amount: 'promo_discount_amount',
   received_amount: 'received_amount',
   change_amount: 'change_amount',
-  res_employeesId: 'res_employeesId'
+  res_employeesId: 'res_employeesId',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.Res_payment_methodsScalarFieldEnum = {
@@ -581,7 +584,8 @@ exports.Prisma.TransactionsScalarFieldEnum = {
   metadata: 'metadata',
   notes: 'notes',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  reference_transaction_id: 'reference_transaction_id'
 };
 
 exports.Prisma.Transaction_detailsScalarFieldEnum = {
@@ -778,6 +782,13 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.refund_status = exports.$Enums.refund_status = {
+  approved: 'approved',
+  rejected: 'rejected',
+  waiting_manager: 'waiting_manager',
+  waiting_review: 'waiting_review'
+};
+
 exports.user_module = exports.$Enums.user_module = {
   inventory: 'inventory',
   restaurant: 'restaurant'

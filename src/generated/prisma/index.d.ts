@@ -380,6 +380,16 @@ export const subscription_commission_type: {
 
 export type subscription_commission_type = (typeof subscription_commission_type)[keyof typeof subscription_commission_type]
 
+
+export const refund_status: {
+  approved: 'approved',
+  rejected: 'rejected',
+  waiting_manager: 'waiting_manager',
+  waiting_review: 'waiting_review'
+};
+
+export type refund_status = (typeof refund_status)[keyof typeof refund_status]
+
 }
 
 export type discount_type = $Enums.discount_type
@@ -421,6 +431,10 @@ export const subscription_status: typeof $Enums.subscription_status
 export type subscription_commission_type = $Enums.subscription_commission_type
 
 export const subscription_commission_type: typeof $Enums.subscription_commission_type
+
+export type refund_status = $Enums.refund_status
+
+export const refund_status: typeof $Enums.refund_status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -5674,14 +5688,12 @@ export namespace Prisma {
     customer_cards: number
     pos_sales: number
     promotion_usage: number
-    refunds: number
   }
 
   export type CustomersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer_cards?: boolean | CustomersCountOutputTypeCountCustomer_cardsArgs
     pos_sales?: boolean | CustomersCountOutputTypeCountPos_salesArgs
     promotion_usage?: boolean | CustomersCountOutputTypeCountPromotion_usageArgs
-    refunds?: boolean | CustomersCountOutputTypeCountRefundsArgs
   }
 
   // Custom InputTypes
@@ -5716,13 +5728,6 @@ export namespace Prisma {
     where?: promotion_usageWhereInput
   }
 
-  /**
-   * CustomersCountOutputType without action
-   */
-  export type CustomersCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: refundsWhereInput
-  }
-
 
   /**
    * Count Type Pos_salesCountOutputType
@@ -5730,13 +5735,11 @@ export namespace Prisma {
 
   export type Pos_salesCountOutputType = {
     promotion_usage: number
-    refunds: number
     sale_items: number
   }
 
   export type Pos_salesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     promotion_usage?: boolean | Pos_salesCountOutputTypeCountPromotion_usageArgs
-    refunds?: boolean | Pos_salesCountOutputTypeCountRefundsArgs
     sale_items?: boolean | Pos_salesCountOutputTypeCountSale_itemsArgs
   }
 
@@ -5756,13 +5759,6 @@ export namespace Prisma {
    */
   export type Pos_salesCountOutputTypeCountPromotion_usageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: promotion_usageWhereInput
-  }
-
-  /**
-   * Pos_salesCountOutputType without action
-   */
-  export type Pos_salesCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: refundsWhereInput
   }
 
   /**
@@ -6232,10 +6228,12 @@ export namespace Prisma {
 
   export type TransactionsCountOutputType = {
     transaction_details: number
+    other_transactions: number
   }
 
   export type TransactionsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transaction_details?: boolean | TransactionsCountOutputTypeCountTransaction_detailsArgs
+    other_transactions?: boolean | TransactionsCountOutputTypeCountOther_transactionsArgs
   }
 
   // Custom InputTypes
@@ -6254,6 +6252,13 @@ export namespace Prisma {
    */
   export type TransactionsCountOutputTypeCountTransaction_detailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: transaction_detailsWhereInput
+  }
+
+  /**
+   * TransactionsCountOutputType without action
+   */
+  export type TransactionsCountOutputTypeCountOther_transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: transactionsWhereInput
   }
 
 
@@ -10481,7 +10486,6 @@ export namespace Prisma {
     customer_groups?: boolean | customers$customer_groupsArgs<ExtArgs>
     pos_sales?: boolean | customers$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | customers$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | customers$refundsArgs<ExtArgs>
     _count?: boolean | CustomersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customers"]>
 
@@ -10556,7 +10560,6 @@ export namespace Prisma {
     customer_groups?: boolean | customers$customer_groupsArgs<ExtArgs>
     pos_sales?: boolean | customers$pos_salesArgs<ExtArgs>
     promotion_usage?: boolean | customers$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | customers$refundsArgs<ExtArgs>
     _count?: boolean | CustomersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type customersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10573,7 +10576,6 @@ export namespace Prisma {
       customer_groups: Prisma.$customer_groupsPayload<ExtArgs> | null
       pos_sales: Prisma.$pos_salesPayload<ExtArgs>[]
       promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
-      refunds: Prisma.$refundsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       customer_id: number
@@ -10992,7 +10994,6 @@ export namespace Prisma {
     customer_groups<T extends customers$customer_groupsArgs<ExtArgs> = {}>(args?: Subset<T, customers$customer_groupsArgs<ExtArgs>>): Prisma__customer_groupsClient<$Result.GetResult<Prisma.$customer_groupsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pos_sales<T extends customers$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, customers$pos_salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotion_usage<T extends customers$promotion_usageArgs<ExtArgs> = {}>(args?: Subset<T, customers$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    refunds<T extends customers$refundsArgs<ExtArgs> = {}>(args?: Subset<T, customers$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11529,30 +11530,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Promotion_usageScalarFieldEnum | Promotion_usageScalarFieldEnum[]
-  }
-
-  /**
-   * customers.refunds
-   */
-  export type customers$refundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the refunds
-     */
-    select?: refundsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the refunds
-     */
-    omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    where?: refundsWhereInput
-    orderBy?: refundsOrderByWithRelationInput | refundsOrderByWithRelationInput[]
-    cursor?: refundsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
   }
 
   /**
@@ -14017,7 +13994,6 @@ export namespace Prisma {
     customers?: boolean | pos_sales$customersArgs<ExtArgs>
     promotions?: boolean | pos_sales$promotionsArgs<ExtArgs>
     promotion_usage?: boolean | pos_sales$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | pos_sales$refundsArgs<ExtArgs>
     sale_items?: boolean | pos_sales$sale_itemsArgs<ExtArgs>
     _count?: boolean | Pos_salesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pos_sales"]>
@@ -14076,7 +14052,6 @@ export namespace Prisma {
     customers?: boolean | pos_sales$customersArgs<ExtArgs>
     promotions?: boolean | pos_sales$promotionsArgs<ExtArgs>
     promotion_usage?: boolean | pos_sales$promotion_usageArgs<ExtArgs>
-    refunds?: boolean | pos_sales$refundsArgs<ExtArgs>
     sale_items?: boolean | pos_sales$sale_itemsArgs<ExtArgs>
     _count?: boolean | Pos_salesCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -14098,7 +14073,6 @@ export namespace Prisma {
       customers: Prisma.$customersPayload<ExtArgs> | null
       promotions: Prisma.$promotionsPayload<ExtArgs> | null
       promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
-      refunds: Prisma.$refundsPayload<ExtArgs>[]
       sale_items: Prisma.$sale_itemsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -14511,7 +14485,6 @@ export namespace Prisma {
     customers<T extends pos_sales$customersArgs<ExtArgs> = {}>(args?: Subset<T, pos_sales$customersArgs<ExtArgs>>): Prisma__customersClient<$Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     promotions<T extends pos_sales$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, pos_sales$promotionsArgs<ExtArgs>>): Prisma__promotionsClient<$Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     promotion_usage<T extends pos_sales$promotion_usageArgs<ExtArgs> = {}>(args?: Subset<T, pos_sales$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    refunds<T extends pos_sales$refundsArgs<ExtArgs> = {}>(args?: Subset<T, pos_sales$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sale_items<T extends pos_sales$sale_itemsArgs<ExtArgs> = {}>(args?: Subset<T, pos_sales$sale_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sale_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15032,30 +15005,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Promotion_usageScalarFieldEnum | Promotion_usageScalarFieldEnum[]
-  }
-
-  /**
-   * pos_sales.refunds
-   */
-  export type pos_sales$refundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the refunds
-     */
-    select?: refundsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the refunds
-     */
-    omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    where?: refundsWhereInput
-    orderBy?: refundsOrderByWithRelationInput | refundsOrderByWithRelationInput[]
-    cursor?: refundsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RefundsScalarFieldEnum | RefundsScalarFieldEnum[]
   }
 
   /**
@@ -22645,42 +22594,38 @@ export namespace Prisma {
 
   export type RefundsAvgAggregateOutputType = {
     refund_id: number | null
-    sale_id: number | null
-    order_id: number | null
     refund_amount: Decimal | null
-    processed_by: number | null
   }
 
   export type RefundsSumAggregateOutputType = {
-    refund_id: number | null
-    sale_id: number | null
-    order_id: number | null
+    refund_id: bigint | null
     refund_amount: Decimal | null
-    processed_by: number | null
   }
 
   export type RefundsMinAggregateOutputType = {
-    refund_id: number | null
-    sale_id: number | null
-    order_id: number | null
+    refund_id: bigint | null
+    sale_id: string | null
+    order_id: string | null
     refund_date: Date | null
     refund_amount: Decimal | null
     reason: string | null
-    processed_by: number | null
+    processed_by: string | null
     notes: string | null
     clerk_user_id: string | null
+    refund_status: $Enums.refund_status | null
   }
 
   export type RefundsMaxAggregateOutputType = {
-    refund_id: number | null
-    sale_id: number | null
-    order_id: number | null
+    refund_id: bigint | null
+    sale_id: string | null
+    order_id: string | null
     refund_date: Date | null
     refund_amount: Decimal | null
     reason: string | null
-    processed_by: number | null
+    processed_by: string | null
     notes: string | null
     clerk_user_id: string | null
+    refund_status: $Enums.refund_status | null
   }
 
   export type RefundsCountAggregateOutputType = {
@@ -22693,24 +22638,19 @@ export namespace Prisma {
     processed_by: number
     notes: number
     clerk_user_id: number
+    refund_status: number
     _all: number
   }
 
 
   export type RefundsAvgAggregateInputType = {
     refund_id?: true
-    sale_id?: true
-    order_id?: true
     refund_amount?: true
-    processed_by?: true
   }
 
   export type RefundsSumAggregateInputType = {
     refund_id?: true
-    sale_id?: true
-    order_id?: true
     refund_amount?: true
-    processed_by?: true
   }
 
   export type RefundsMinAggregateInputType = {
@@ -22723,6 +22663,7 @@ export namespace Prisma {
     processed_by?: true
     notes?: true
     clerk_user_id?: true
+    refund_status?: true
   }
 
   export type RefundsMaxAggregateInputType = {
@@ -22735,6 +22676,7 @@ export namespace Prisma {
     processed_by?: true
     notes?: true
     clerk_user_id?: true
+    refund_status?: true
   }
 
   export type RefundsCountAggregateInputType = {
@@ -22747,6 +22689,7 @@ export namespace Prisma {
     processed_by?: true
     notes?: true
     clerk_user_id?: true
+    refund_status?: true
     _all?: true
   }
 
@@ -22837,15 +22780,16 @@ export namespace Prisma {
   }
 
   export type RefundsGroupByOutputType = {
-    refund_id: number
-    sale_id: number | null
-    order_id: number | null
+    refund_id: bigint
+    sale_id: string | null
+    order_id: string | null
     refund_date: Date | null
     refund_amount: Decimal
     reason: string | null
-    processed_by: number | null
+    processed_by: string | null
     notes: string | null
     clerk_user_id: string | null
+    refund_status: $Enums.refund_status | null
     _count: RefundsCountAggregateOutputType | null
     _avg: RefundsAvgAggregateOutputType | null
     _sum: RefundsSumAggregateOutputType | null
@@ -22877,8 +22821,7 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
+    refund_status?: boolean
   }, ExtArgs["result"]["refunds"]>
 
   export type refundsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22891,8 +22834,7 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
+    refund_status?: boolean
   }, ExtArgs["result"]["refunds"]>
 
   export type refundsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22905,8 +22847,7 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
+    refund_status?: boolean
   }, ExtArgs["result"]["refunds"]>
 
   export type refundsSelectScalar = {
@@ -22919,38 +22860,25 @@ export namespace Prisma {
     processed_by?: boolean
     notes?: boolean
     clerk_user_id?: boolean
+    refund_status?: boolean
   }
 
-  export type refundsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"refund_id" | "sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "clerk_user_id", ExtArgs["result"]["refunds"]>
-  export type refundsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
-  }
-  export type refundsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
-  }
-  export type refundsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customers?: boolean | refunds$customersArgs<ExtArgs>
-    pos_sales?: boolean | refunds$pos_salesArgs<ExtArgs>
-  }
+  export type refundsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"refund_id" | "sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "clerk_user_id" | "refund_status", ExtArgs["result"]["refunds"]>
 
   export type $refundsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "refunds"
-    objects: {
-      customers: Prisma.$customersPayload<ExtArgs> | null
-      pos_sales: Prisma.$pos_salesPayload<ExtArgs> | null
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      refund_id: number
-      sale_id: number | null
-      order_id: number | null
+      refund_id: bigint
+      sale_id: string | null
+      order_id: string | null
       refund_date: Date | null
       refund_amount: Prisma.Decimal
       reason: string | null
-      processed_by: number | null
+      processed_by: string | null
       notes: string | null
       clerk_user_id: string | null
+      refund_status: $Enums.refund_status | null
     }, ExtArgs["result"]["refunds"]>
     composites: {}
   }
@@ -23345,8 +23273,6 @@ export namespace Prisma {
    */
   export interface Prisma__refundsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    customers<T extends refunds$customersArgs<ExtArgs> = {}>(args?: Subset<T, refunds$customersArgs<ExtArgs>>): Prisma__customersClient<$Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    pos_sales<T extends refunds$pos_salesArgs<ExtArgs> = {}>(args?: Subset<T, refunds$pos_salesArgs<ExtArgs>>): Prisma__pos_salesClient<$Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23376,15 +23302,16 @@ export namespace Prisma {
    * Fields of the refunds model
    */
   interface refundsFieldRefs {
-    readonly refund_id: FieldRef<"refunds", 'Int'>
-    readonly sale_id: FieldRef<"refunds", 'Int'>
-    readonly order_id: FieldRef<"refunds", 'Int'>
+    readonly refund_id: FieldRef<"refunds", 'BigInt'>
+    readonly sale_id: FieldRef<"refunds", 'String'>
+    readonly order_id: FieldRef<"refunds", 'String'>
     readonly refund_date: FieldRef<"refunds", 'DateTime'>
     readonly refund_amount: FieldRef<"refunds", 'Decimal'>
     readonly reason: FieldRef<"refunds", 'String'>
-    readonly processed_by: FieldRef<"refunds", 'Int'>
+    readonly processed_by: FieldRef<"refunds", 'String'>
     readonly notes: FieldRef<"refunds", 'String'>
     readonly clerk_user_id: FieldRef<"refunds", 'String'>
+    readonly refund_status: FieldRef<"refunds", 'refund_status'>
   }
     
 
@@ -23401,10 +23328,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
     /**
      * Filter, which refunds to fetch.
      */
@@ -23424,10 +23347,6 @@ export namespace Prisma {
      */
     omit?: refundsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    /**
      * Filter, which refunds to fetch.
      */
     where: refundsWhereUniqueInput
@@ -23445,10 +23364,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
     /**
      * Filter, which refunds to fetch.
      */
@@ -23498,10 +23413,6 @@ export namespace Prisma {
      */
     omit?: refundsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    /**
      * Filter, which refunds to fetch.
      */
     where?: refundsWhereInput
@@ -23549,10 +23460,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
     /**
      * Filter, which refunds to fetch.
      */
@@ -23602,10 +23509,6 @@ export namespace Prisma {
      */
     omit?: refundsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    /**
      * The data needed to create a refunds.
      */
     data: XOR<refundsCreateInput, refundsUncheckedCreateInput>
@@ -23639,10 +23542,6 @@ export namespace Prisma {
      */
     data: refundsCreateManyInput | refundsCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -23657,10 +23556,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
     /**
      * The data needed to update a refunds.
      */
@@ -23713,10 +23608,6 @@ export namespace Prisma {
      * Limit how many refunds to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -23731,10 +23622,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
     /**
      * The filter to search for the refunds to update in case it exists.
      */
@@ -23762,10 +23649,6 @@ export namespace Prisma {
      */
     omit?: refundsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
-    /**
      * Filter which refunds to delete.
      */
     where: refundsWhereUniqueInput
@@ -23786,44 +23669,6 @@ export namespace Prisma {
   }
 
   /**
-   * refunds.customers
-   */
-  export type refunds$customersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the customers
-     */
-    select?: customersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the customers
-     */
-    omit?: customersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: customersInclude<ExtArgs> | null
-    where?: customersWhereInput
-  }
-
-  /**
-   * refunds.pos_sales
-   */
-  export type refunds$pos_salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the pos_sales
-     */
-    select?: pos_salesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the pos_sales
-     */
-    omit?: pos_salesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: pos_salesInclude<ExtArgs> | null
-    where?: pos_salesWhereInput
-  }
-
-  /**
    * refunds without action
    */
   export type refundsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23835,10 +23680,6 @@ export namespace Prisma {
      * Omit specific fields from the refunds
      */
     omit?: refundsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: refundsInclude<ExtArgs> | null
   }
 
 
@@ -32047,6 +31888,7 @@ export namespace Prisma {
     status: string | null
     created_at: Date | null
     updated_at: Date | null
+    clerk_user_id: string | null
   }
 
   export type Res_order_itemsMaxAggregateOutputType = {
@@ -32060,6 +31902,7 @@ export namespace Prisma {
     status: string | null
     created_at: Date | null
     updated_at: Date | null
+    clerk_user_id: string | null
   }
 
   export type Res_order_itemsCountAggregateOutputType = {
@@ -32074,6 +31917,7 @@ export namespace Prisma {
     status: number
     created_at: number
     updated_at: number
+    clerk_user_id: number
     _all: number
   }
 
@@ -32099,6 +31943,7 @@ export namespace Prisma {
     status?: true
     created_at?: true
     updated_at?: true
+    clerk_user_id?: true
   }
 
   export type Res_order_itemsMaxAggregateInputType = {
@@ -32112,6 +31957,7 @@ export namespace Prisma {
     status?: true
     created_at?: true
     updated_at?: true
+    clerk_user_id?: true
   }
 
   export type Res_order_itemsCountAggregateInputType = {
@@ -32126,6 +31972,7 @@ export namespace Prisma {
     status?: true
     created_at?: true
     updated_at?: true
+    clerk_user_id?: true
     _all?: true
   }
 
@@ -32227,6 +32074,7 @@ export namespace Prisma {
     status: string | null
     created_at: Date | null
     updated_at: Date | null
+    clerk_user_id: string | null
     _count: Res_order_itemsCountAggregateOutputType | null
     _avg: Res_order_itemsAvgAggregateOutputType | null
     _sum: Res_order_itemsSumAggregateOutputType | null
@@ -32260,6 +32108,7 @@ export namespace Prisma {
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
+    clerk_user_id?: boolean
     res_menu_items?: boolean | res_order_items$res_menu_itemsArgs<ExtArgs>
     res_orders?: boolean | res_order_items$res_ordersArgs<ExtArgs>
     res_item_variants?: boolean | res_order_items$res_item_variantsArgs<ExtArgs>
@@ -32277,6 +32126,7 @@ export namespace Prisma {
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
+    clerk_user_id?: boolean
     res_menu_items?: boolean | res_order_items$res_menu_itemsArgs<ExtArgs>
     res_orders?: boolean | res_order_items$res_ordersArgs<ExtArgs>
     res_item_variants?: boolean | res_order_items$res_item_variantsArgs<ExtArgs>
@@ -32294,6 +32144,7 @@ export namespace Prisma {
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
+    clerk_user_id?: boolean
     res_menu_items?: boolean | res_order_items$res_menu_itemsArgs<ExtArgs>
     res_orders?: boolean | res_order_items$res_ordersArgs<ExtArgs>
     res_item_variants?: boolean | res_order_items$res_item_variantsArgs<ExtArgs>
@@ -32311,9 +32162,10 @@ export namespace Prisma {
     status?: boolean
     created_at?: boolean
     updated_at?: boolean
+    clerk_user_id?: boolean
   }
 
-  export type res_order_itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "status" | "created_at" | "updated_at", ExtArgs["result"]["res_order_items"]>
+  export type res_order_itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "status" | "created_at" | "updated_at" | "clerk_user_id", ExtArgs["result"]["res_order_items"]>
   export type res_order_itemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     res_menu_items?: boolean | res_order_items$res_menu_itemsArgs<ExtArgs>
     res_orders?: boolean | res_order_items$res_ordersArgs<ExtArgs>
@@ -32349,6 +32201,7 @@ export namespace Prisma {
       status: string | null
       created_at: Date | null
       updated_at: Date | null
+      clerk_user_id: string | null
     }, ExtArgs["result"]["res_order_items"]>
     composites: {}
   }
@@ -32786,6 +32639,7 @@ export namespace Prisma {
     readonly status: FieldRef<"res_order_items", 'String'>
     readonly created_at: FieldRef<"res_order_items", 'DateTime'>
     readonly updated_at: FieldRef<"res_order_items", 'DateTime'>
+    readonly clerk_user_id: FieldRef<"res_order_items", 'String'>
   }
     
 
@@ -33321,6 +33175,7 @@ export namespace Prisma {
     received_amount: Decimal | null
     change_amount: Decimal | null
     res_employeesId: string | null
+    clerk_user_id: string | null
   }
 
   export type Res_ordersMaxAggregateOutputType = {
@@ -33348,6 +33203,7 @@ export namespace Prisma {
     received_amount: Decimal | null
     change_amount: Decimal | null
     res_employeesId: string | null
+    clerk_user_id: string | null
   }
 
   export type Res_ordersCountAggregateOutputType = {
@@ -33375,6 +33231,7 @@ export namespace Prisma {
     received_amount: number
     change_amount: number
     res_employeesId: number
+    clerk_user_id: number
     _all: number
   }
 
@@ -33426,6 +33283,7 @@ export namespace Prisma {
     received_amount?: true
     change_amount?: true
     res_employeesId?: true
+    clerk_user_id?: true
   }
 
   export type Res_ordersMaxAggregateInputType = {
@@ -33453,6 +33311,7 @@ export namespace Prisma {
     received_amount?: true
     change_amount?: true
     res_employeesId?: true
+    clerk_user_id?: true
   }
 
   export type Res_ordersCountAggregateInputType = {
@@ -33480,6 +33339,7 @@ export namespace Prisma {
     received_amount?: true
     change_amount?: true
     res_employeesId?: true
+    clerk_user_id?: true
     _all?: true
   }
 
@@ -33594,6 +33454,7 @@ export namespace Prisma {
     received_amount: Decimal | null
     change_amount: Decimal | null
     res_employeesId: string | null
+    clerk_user_id: string | null
     _count: Res_ordersCountAggregateOutputType | null
     _avg: Res_ordersAvgAggregateOutputType | null
     _sum: Res_ordersSumAggregateOutputType | null
@@ -33640,6 +33501,7 @@ export namespace Prisma {
     received_amount?: boolean
     change_amount?: boolean
     res_employeesId?: boolean
+    clerk_user_id?: boolean
     res_order_items?: boolean | res_orders$res_order_itemsArgs<ExtArgs>
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
     res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
@@ -33674,6 +33536,7 @@ export namespace Prisma {
     received_amount?: boolean
     change_amount?: boolean
     res_employeesId?: boolean
+    clerk_user_id?: boolean
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
     res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
@@ -33705,6 +33568,7 @@ export namespace Prisma {
     received_amount?: boolean
     change_amount?: boolean
     res_employeesId?: boolean
+    clerk_user_id?: boolean
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
     res_employees?: boolean | res_orders$res_employeesArgs<ExtArgs>
     res_shifts?: boolean | res_orders$res_shiftsArgs<ExtArgs>
@@ -33736,9 +33600,10 @@ export namespace Prisma {
     received_amount?: boolean
     change_amount?: boolean
     res_employeesId?: boolean
+    clerk_user_id?: boolean
   }
 
-  export type res_ordersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_number" | "table_id" | "shift_id" | "created_by" | "customer_name" | "status" | "subtotal" | "discount_amount" | "discount_type" | "tax_amount" | "tip_amount" | "total_amount" | "payment_method" | "paid_at" | "notes" | "created_at" | "updated_at" | "mobile_number" | "promotion_id" | "promo_discount_amount" | "received_amount" | "change_amount" | "res_employeesId", ExtArgs["result"]["res_orders"]>
+  export type res_ordersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_number" | "table_id" | "shift_id" | "created_by" | "customer_name" | "status" | "subtotal" | "discount_amount" | "discount_type" | "tax_amount" | "tip_amount" | "total_amount" | "payment_method" | "paid_at" | "notes" | "created_at" | "updated_at" | "mobile_number" | "promotion_id" | "promo_discount_amount" | "received_amount" | "change_amount" | "res_employeesId" | "clerk_user_id", ExtArgs["result"]["res_orders"]>
   export type res_ordersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     res_order_items?: boolean | res_orders$res_order_itemsArgs<ExtArgs>
     promotions?: boolean | res_orders$promotionsArgs<ExtArgs>
@@ -33796,6 +33661,7 @@ export namespace Prisma {
       received_amount: Prisma.Decimal | null
       change_amount: Prisma.Decimal | null
       res_employeesId: string | null
+      clerk_user_id: string | null
     }, ExtArgs["result"]["res_orders"]>
     composites: {}
   }
@@ -34249,6 +34115,7 @@ export namespace Prisma {
     readonly received_amount: FieldRef<"res_orders", 'Decimal'>
     readonly change_amount: FieldRef<"res_orders", 'Decimal'>
     readonly res_employeesId: FieldRef<"res_orders", 'String'>
+    readonly clerk_user_id: FieldRef<"res_orders", 'String'>
   }
     
 
@@ -47738,6 +47605,7 @@ export namespace Prisma {
     notes: string | null
     created_at: Date | null
     updated_at: Date | null
+    reference_transaction_id: string | null
   }
 
   export type TransactionsMaxAggregateOutputType = {
@@ -47757,6 +47625,7 @@ export namespace Prisma {
     notes: string | null
     created_at: Date | null
     updated_at: Date | null
+    reference_transaction_id: string | null
   }
 
   export type TransactionsCountAggregateOutputType = {
@@ -47777,6 +47646,7 @@ export namespace Prisma {
     notes: number
     created_at: number
     updated_at: number
+    reference_transaction_id: number
     _all: number
   }
 
@@ -47812,6 +47682,7 @@ export namespace Prisma {
     notes?: true
     created_at?: true
     updated_at?: true
+    reference_transaction_id?: true
   }
 
   export type TransactionsMaxAggregateInputType = {
@@ -47831,6 +47702,7 @@ export namespace Prisma {
     notes?: true
     created_at?: true
     updated_at?: true
+    reference_transaction_id?: true
   }
 
   export type TransactionsCountAggregateInputType = {
@@ -47851,6 +47723,7 @@ export namespace Prisma {
     notes?: true
     created_at?: true
     updated_at?: true
+    reference_transaction_id?: true
     _all?: true
   }
 
@@ -47958,6 +47831,7 @@ export namespace Prisma {
     notes: string | null
     created_at: Date | null
     updated_at: Date | null
+    reference_transaction_id: string | null
     _count: TransactionsCountAggregateOutputType | null
     _avg: TransactionsAvgAggregateOutputType | null
     _sum: TransactionsSumAggregateOutputType | null
@@ -47997,7 +47871,10 @@ export namespace Prisma {
     notes?: boolean
     created_at?: boolean
     updated_at?: boolean
+    reference_transaction_id?: boolean
     transaction_details?: boolean | transactions$transaction_detailsArgs<ExtArgs>
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
+    other_transactions?: boolean | transactions$other_transactionsArgs<ExtArgs>
     _count?: boolean | TransactionsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transactions"]>
 
@@ -48019,6 +47896,8 @@ export namespace Prisma {
     notes?: boolean
     created_at?: boolean
     updated_at?: boolean
+    reference_transaction_id?: boolean
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
   }, ExtArgs["result"]["transactions"]>
 
   export type transactionsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -48039,6 +47918,8 @@ export namespace Prisma {
     notes?: boolean
     created_at?: boolean
     updated_at?: boolean
+    reference_transaction_id?: boolean
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
   }, ExtArgs["result"]["transactions"]>
 
   export type transactionsSelectScalar = {
@@ -48059,20 +47940,29 @@ export namespace Prisma {
     notes?: boolean
     created_at?: boolean
     updated_at?: boolean
+    reference_transaction_id?: boolean
   }
 
-  export type transactionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenant_id" | "clerk_user_id" | "transaction_number" | "transaction_type" | "status" | "currency" | "subtotal" | "tax_amount" | "discount_amount" | "total_amount" | "ip_address" | "user_agent" | "metadata" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["transactions"]>
+  export type transactionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenant_id" | "clerk_user_id" | "transaction_number" | "transaction_type" | "status" | "currency" | "subtotal" | "tax_amount" | "discount_amount" | "total_amount" | "ip_address" | "user_agent" | "metadata" | "notes" | "created_at" | "updated_at" | "reference_transaction_id", ExtArgs["result"]["transactions"]>
   export type transactionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transaction_details?: boolean | transactions$transaction_detailsArgs<ExtArgs>
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
+    other_transactions?: boolean | transactions$other_transactionsArgs<ExtArgs>
     _count?: boolean | TransactionsCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type transactionsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type transactionsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type transactionsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
+  }
+  export type transactionsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transactions?: boolean | transactions$transactionsArgs<ExtArgs>
+  }
 
   export type $transactionsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "transactions"
     objects: {
       transaction_details: Prisma.$transaction_detailsPayload<ExtArgs>[]
+      transactions: Prisma.$transactionsPayload<ExtArgs> | null
+      other_transactions: Prisma.$transactionsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -48092,6 +47982,7 @@ export namespace Prisma {
       notes: string | null
       created_at: Date | null
       updated_at: Date | null
+      reference_transaction_id: string | null
     }, ExtArgs["result"]["transactions"]>
     composites: {}
   }
@@ -48487,6 +48378,8 @@ export namespace Prisma {
   export interface Prisma__transactionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     transaction_details<T extends transactions$transaction_detailsArgs<ExtArgs> = {}>(args?: Subset<T, transactions$transaction_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$transaction_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactions<T extends transactions$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, transactions$transactionsArgs<ExtArgs>>): Prisma__transactionsClient<$Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    other_transactions<T extends transactions$other_transactionsArgs<ExtArgs> = {}>(args?: Subset<T, transactions$other_transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -48533,6 +48426,7 @@ export namespace Prisma {
     readonly notes: FieldRef<"transactions", 'String'>
     readonly created_at: FieldRef<"transactions", 'DateTime'>
     readonly updated_at: FieldRef<"transactions", 'DateTime'>
+    readonly reference_transaction_id: FieldRef<"transactions", 'String'>
   }
     
 
@@ -48787,6 +48681,10 @@ export namespace Prisma {
      */
     data: transactionsCreateManyInput | transactionsCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: transactionsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -48857,6 +48755,10 @@ export namespace Prisma {
      * Limit how many transactions to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: transactionsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -48947,6 +48849,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Transaction_detailsScalarFieldEnum | Transaction_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * transactions.transactions
+   */
+  export type transactions$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the transactions
+     */
+    select?: transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the transactions
+     */
+    omit?: transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: transactionsInclude<ExtArgs> | null
+    where?: transactionsWhereInput
+  }
+
+  /**
+   * transactions.other_transactions
+   */
+  export type transactions$other_transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the transactions
+     */
+    select?: transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the transactions
+     */
+    omit?: transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: transactionsInclude<ExtArgs> | null
+    where?: transactionsWhereInput
+    orderBy?: transactionsOrderByWithRelationInput | transactionsOrderByWithRelationInput[]
+    cursor?: transactionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionsScalarFieldEnum | TransactionsScalarFieldEnum[]
   }
 
   /**
@@ -67465,7 +67410,8 @@ export namespace Prisma {
     reason: 'reason',
     processed_by: 'processed_by',
     notes: 'notes',
-    clerk_user_id: 'clerk_user_id'
+    clerk_user_id: 'clerk_user_id',
+    refund_status: 'refund_status'
   };
 
   export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeof RefundsScalarFieldEnum]
@@ -67585,7 +67531,8 @@ export namespace Prisma {
     notes: 'notes',
     status: 'status',
     created_at: 'created_at',
-    updated_at: 'updated_at'
+    updated_at: 'updated_at',
+    clerk_user_id: 'clerk_user_id'
   };
 
   export type Res_order_itemsScalarFieldEnum = (typeof Res_order_itemsScalarFieldEnum)[keyof typeof Res_order_itemsScalarFieldEnum]
@@ -67615,7 +67562,8 @@ export namespace Prisma {
     promo_discount_amount: 'promo_discount_amount',
     received_amount: 'received_amount',
     change_amount: 'change_amount',
-    res_employeesId: 'res_employeesId'
+    res_employeesId: 'res_employeesId',
+    clerk_user_id: 'clerk_user_id'
   };
 
   export type Res_ordersScalarFieldEnum = (typeof Res_ordersScalarFieldEnum)[keyof typeof Res_ordersScalarFieldEnum]
@@ -67807,7 +67755,8 @@ export namespace Prisma {
     metadata: 'metadata',
     notes: 'notes',
     created_at: 'created_at',
-    updated_at: 'updated_at'
+    updated_at: 'updated_at',
+    reference_transaction_id: 'reference_transaction_id'
   };
 
   export type TransactionsScalarFieldEnum = (typeof TransactionsScalarFieldEnum)[keyof typeof TransactionsScalarFieldEnum]
@@ -68140,6 +68089,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'refund_status'
+   */
+  export type Enumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status'>
+    
+
+
+  /**
+   * Reference to a field of type 'refund_status[]'
+   */
+  export type ListEnumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -68455,7 +68432,6 @@ export namespace Prisma {
     customer_groups?: XOR<Customer_groupsNullableScalarRelationFilter, customer_groupsWhereInput> | null
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
   }
 
   export type customersOrderByWithRelationInput = {
@@ -68481,7 +68457,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsOrderByWithRelationInput
     pos_sales?: pos_salesOrderByRelationAggregateInput
     promotion_usage?: promotion_usageOrderByRelationAggregateInput
-    refunds?: refundsOrderByRelationAggregateInput
   }
 
   export type customersWhereUniqueInput = Prisma.AtLeast<{
@@ -68510,7 +68485,6 @@ export namespace Prisma {
     customer_groups?: XOR<Customer_groupsNullableScalarRelationFilter, customer_groupsWhereInput> | null
     pos_sales?: Pos_salesListRelationFilter
     promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
   }, "customer_id" | "email">
 
   export type customersOrderByWithAggregationInput = {
@@ -68711,7 +68685,6 @@ export namespace Prisma {
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
     promotions?: XOR<PromotionsNullableScalarRelationFilter, promotionsWhereInput> | null
     promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
     sale_items?: Sale_itemsListRelationFilter
   }
 
@@ -68731,7 +68704,6 @@ export namespace Prisma {
     customers?: customersOrderByWithRelationInput
     promotions?: promotionsOrderByWithRelationInput
     promotion_usage?: promotion_usageOrderByRelationAggregateInput
-    refunds?: refundsOrderByRelationAggregateInput
     sale_items?: sale_itemsOrderByRelationAggregateInput
   }
 
@@ -68754,7 +68726,6 @@ export namespace Prisma {
     customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
     promotions?: XOR<PromotionsNullableScalarRelationFilter, promotionsWhereInput> | null
     promotion_usage?: Promotion_usageListRelationFilter
-    refunds?: RefundsListRelationFilter
     sale_items?: Sale_itemsListRelationFilter
   }, "sale_id">
 
@@ -69367,17 +69338,16 @@ export namespace Prisma {
     AND?: refundsWhereInput | refundsWhereInput[]
     OR?: refundsWhereInput[]
     NOT?: refundsWhereInput | refundsWhereInput[]
-    refund_id?: IntFilter<"refunds"> | number
-    sale_id?: IntNullableFilter<"refunds"> | number | null
-    order_id?: IntNullableFilter<"refunds"> | number | null
+    refund_id?: BigIntFilter<"refunds"> | bigint | number
+    sale_id?: StringNullableFilter<"refunds"> | string | null
+    order_id?: StringNullableFilter<"refunds"> | string | null
     refund_date?: DateTimeNullableFilter<"refunds"> | Date | string | null
     refund_amount?: DecimalFilter<"refunds"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableFilter<"refunds"> | string | null
-    processed_by?: IntNullableFilter<"refunds"> | number | null
+    processed_by?: StringNullableFilter<"refunds"> | string | null
     notes?: StringNullableFilter<"refunds"> | string | null
     clerk_user_id?: StringNullableFilter<"refunds"> | string | null
-    customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
-    pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
+    refund_status?: Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
   }
 
   export type refundsOrderByWithRelationInput = {
@@ -69390,25 +69360,23 @@ export namespace Prisma {
     processed_by?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
-    customers?: customersOrderByWithRelationInput
-    pos_sales?: pos_salesOrderByWithRelationInput
+    refund_status?: SortOrderInput | SortOrder
   }
 
   export type refundsWhereUniqueInput = Prisma.AtLeast<{
-    refund_id?: number
+    refund_id?: bigint | number
     AND?: refundsWhereInput | refundsWhereInput[]
     OR?: refundsWhereInput[]
     NOT?: refundsWhereInput | refundsWhereInput[]
-    sale_id?: IntNullableFilter<"refunds"> | number | null
-    order_id?: IntNullableFilter<"refunds"> | number | null
+    sale_id?: StringNullableFilter<"refunds"> | string | null
+    order_id?: StringNullableFilter<"refunds"> | string | null
     refund_date?: DateTimeNullableFilter<"refunds"> | Date | string | null
     refund_amount?: DecimalFilter<"refunds"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableFilter<"refunds"> | string | null
-    processed_by?: IntNullableFilter<"refunds"> | number | null
+    processed_by?: StringNullableFilter<"refunds"> | string | null
     notes?: StringNullableFilter<"refunds"> | string | null
     clerk_user_id?: StringNullableFilter<"refunds"> | string | null
-    customers?: XOR<CustomersNullableScalarRelationFilter, customersWhereInput> | null
-    pos_sales?: XOR<Pos_salesNullableScalarRelationFilter, pos_salesWhereInput> | null
+    refund_status?: Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
   }, "refund_id">
 
   export type refundsOrderByWithAggregationInput = {
@@ -69421,6 +69389,7 @@ export namespace Prisma {
     processed_by?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     clerk_user_id?: SortOrderInput | SortOrder
+    refund_status?: SortOrderInput | SortOrder
     _count?: refundsCountOrderByAggregateInput
     _avg?: refundsAvgOrderByAggregateInput
     _max?: refundsMaxOrderByAggregateInput
@@ -69432,15 +69401,16 @@ export namespace Prisma {
     AND?: refundsScalarWhereWithAggregatesInput | refundsScalarWhereWithAggregatesInput[]
     OR?: refundsScalarWhereWithAggregatesInput[]
     NOT?: refundsScalarWhereWithAggregatesInput | refundsScalarWhereWithAggregatesInput[]
-    refund_id?: IntWithAggregatesFilter<"refunds"> | number
-    sale_id?: IntNullableWithAggregatesFilter<"refunds"> | number | null
-    order_id?: IntNullableWithAggregatesFilter<"refunds"> | number | null
+    refund_id?: BigIntWithAggregatesFilter<"refunds"> | bigint | number
+    sale_id?: StringNullableWithAggregatesFilter<"refunds"> | string | null
+    order_id?: StringNullableWithAggregatesFilter<"refunds"> | string | null
     refund_date?: DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
     refund_amount?: DecimalWithAggregatesFilter<"refunds"> | Decimal | DecimalJsLike | number | string
     reason?: StringNullableWithAggregatesFilter<"refunds"> | string | null
-    processed_by?: IntNullableWithAggregatesFilter<"refunds"> | number | null
+    processed_by?: StringNullableWithAggregatesFilter<"refunds"> | string | null
     notes?: StringNullableWithAggregatesFilter<"refunds"> | string | null
     clerk_user_id?: StringNullableWithAggregatesFilter<"refunds"> | string | null
+    refund_status?: Enumrefund_statusNullableWithAggregatesFilter<"refunds"> | $Enums.refund_status | null
   }
 
   export type res_eventsWhereInput = {
@@ -69995,6 +69965,7 @@ export namespace Prisma {
     status?: StringNullableFilter<"res_order_items"> | string | null
     created_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
+    clerk_user_id?: StringNullableFilter<"res_order_items"> | string | null
     res_menu_items?: XOR<Res_menu_itemsNullableScalarRelationFilter, res_menu_itemsWhereInput> | null
     res_orders?: XOR<Res_ordersNullableScalarRelationFilter, res_ordersWhereInput> | null
     res_item_variants?: XOR<Res_item_variantsNullableScalarRelationFilter, res_item_variantsWhereInput> | null
@@ -70012,6 +69983,7 @@ export namespace Prisma {
     status?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     res_menu_items?: res_menu_itemsOrderByWithRelationInput
     res_orders?: res_ordersOrderByWithRelationInput
     res_item_variants?: res_item_variantsOrderByWithRelationInput
@@ -70032,6 +70004,7 @@ export namespace Prisma {
     status?: StringNullableFilter<"res_order_items"> | string | null
     created_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
+    clerk_user_id?: StringNullableFilter<"res_order_items"> | string | null
     res_menu_items?: XOR<Res_menu_itemsNullableScalarRelationFilter, res_menu_itemsWhereInput> | null
     res_orders?: XOR<Res_ordersNullableScalarRelationFilter, res_ordersWhereInput> | null
     res_item_variants?: XOR<Res_item_variantsNullableScalarRelationFilter, res_item_variantsWhereInput> | null
@@ -70049,6 +70022,7 @@ export namespace Prisma {
     status?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     _count?: res_order_itemsCountOrderByAggregateInput
     _avg?: res_order_itemsAvgOrderByAggregateInput
     _max?: res_order_itemsMaxOrderByAggregateInput
@@ -70071,6 +70045,7 @@ export namespace Prisma {
     status?: StringNullableWithAggregatesFilter<"res_order_items"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
+    clerk_user_id?: StringNullableWithAggregatesFilter<"res_order_items"> | string | null
   }
 
   export type res_ordersWhereInput = {
@@ -70101,6 +70076,7 @@ export namespace Prisma {
     received_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     change_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: UuidNullableFilter<"res_orders"> | string | null
+    clerk_user_id?: StringNullableFilter<"res_orders"> | string | null
     res_order_items?: Res_order_itemsListRelationFilter
     promotions?: XOR<Res_promotionsNullableScalarRelationFilter, res_promotionsWhereInput> | null
     res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
@@ -70134,6 +70110,7 @@ export namespace Prisma {
     received_amount?: SortOrderInput | SortOrder
     change_amount?: SortOrderInput | SortOrder
     res_employeesId?: SortOrderInput | SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     res_order_items?: res_order_itemsOrderByRelationAggregateInput
     promotions?: res_promotionsOrderByWithRelationInput
     res_employees?: res_employeesOrderByWithRelationInput
@@ -70170,6 +70147,7 @@ export namespace Prisma {
     received_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     change_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: UuidNullableFilter<"res_orders"> | string | null
+    clerk_user_id?: StringNullableFilter<"res_orders"> | string | null
     res_order_items?: Res_order_itemsListRelationFilter
     promotions?: XOR<Res_promotionsNullableScalarRelationFilter, res_promotionsWhereInput> | null
     res_employees?: XOR<Res_employeesNullableScalarRelationFilter, res_employeesWhereInput> | null
@@ -70203,6 +70181,7 @@ export namespace Prisma {
     received_amount?: SortOrderInput | SortOrder
     change_amount?: SortOrderInput | SortOrder
     res_employeesId?: SortOrderInput | SortOrder
+    clerk_user_id?: SortOrderInput | SortOrder
     _count?: res_ordersCountOrderByAggregateInput
     _avg?: res_ordersAvgOrderByAggregateInput
     _max?: res_ordersMaxOrderByAggregateInput
@@ -70238,6 +70217,7 @@ export namespace Prisma {
     received_amount?: DecimalNullableWithAggregatesFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     change_amount?: DecimalNullableWithAggregatesFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: UuidNullableWithAggregatesFilter<"res_orders"> | string | null
+    clerk_user_id?: StringNullableWithAggregatesFilter<"res_orders"> | string | null
   }
 
   export type res_payment_methodsWhereInput = {
@@ -71149,7 +71129,10 @@ export namespace Prisma {
     notes?: StringNullableFilter<"transactions"> | string | null
     created_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
+    reference_transaction_id?: UuidNullableFilter<"transactions"> | string | null
     transaction_details?: Transaction_detailsListRelationFilter
+    transactions?: XOR<TransactionsNullableScalarRelationFilter, transactionsWhereInput> | null
+    other_transactions?: TransactionsListRelationFilter
   }
 
   export type transactionsOrderByWithRelationInput = {
@@ -71170,7 +71153,10 @@ export namespace Prisma {
     notes?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    reference_transaction_id?: SortOrderInput | SortOrder
     transaction_details?: transaction_detailsOrderByRelationAggregateInput
+    transactions?: transactionsOrderByWithRelationInput
+    other_transactions?: transactionsOrderByRelationAggregateInput
   }
 
   export type transactionsWhereUniqueInput = Prisma.AtLeast<{
@@ -71194,7 +71180,10 @@ export namespace Prisma {
     notes?: StringNullableFilter<"transactions"> | string | null
     created_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
+    reference_transaction_id?: UuidNullableFilter<"transactions"> | string | null
     transaction_details?: Transaction_detailsListRelationFilter
+    transactions?: XOR<TransactionsNullableScalarRelationFilter, transactionsWhereInput> | null
+    other_transactions?: TransactionsListRelationFilter
   }, "id" | "transaction_number">
 
   export type transactionsOrderByWithAggregationInput = {
@@ -71215,6 +71204,7 @@ export namespace Prisma {
     notes?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    reference_transaction_id?: SortOrderInput | SortOrder
     _count?: transactionsCountOrderByAggregateInput
     _avg?: transactionsAvgOrderByAggregateInput
     _max?: transactionsMaxOrderByAggregateInput
@@ -71243,6 +71233,7 @@ export namespace Prisma {
     notes?: StringNullableWithAggregatesFilter<"transactions"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"transactions"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"transactions"> | Date | string | null
+    reference_transaction_id?: UuidNullableWithAggregatesFilter<"transactions"> | string | null
   }
 
   export type transaction_detailsWhereInput = {
@@ -72646,7 +72637,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUncheckedCreateInput = {
@@ -72671,7 +72661,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUpdateInput = {
@@ -72695,7 +72684,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateInput = {
@@ -72720,7 +72708,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersCreateManyInput = {
@@ -72932,7 +72919,6 @@ export namespace Prisma {
     customers?: customersCreateNestedOneWithoutPos_salesInput
     promotions?: promotionsCreateNestedOneWithoutPos_salesInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
   }
 
@@ -72949,7 +72935,6 @@ export namespace Prisma {
     card_id?: number | null
     status?: string | null
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
@@ -72965,7 +72950,6 @@ export namespace Prisma {
     customers?: customersUpdateOneWithoutPos_salesNestedInput
     promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -72982,7 +72966,6 @@ export namespace Prisma {
     card_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -73631,82 +73614,94 @@ export namespace Prisma {
   }
 
   export type refundsCreateInput = {
-    order_id?: number | null
+    refund_id?: bigint | number
+    sale_id?: string | null
+    order_id?: string | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
+    processed_by?: string | null
     notes?: string | null
     clerk_user_id?: string | null
-    customers?: customersCreateNestedOneWithoutRefundsInput
-    pos_sales?: pos_salesCreateNestedOneWithoutRefundsInput
+    refund_status?: $Enums.refund_status | null
   }
 
   export type refundsUncheckedCreateInput = {
-    refund_id?: number
-    sale_id?: number | null
-    order_id?: number | null
+    refund_id?: bigint | number
+    sale_id?: string | null
+    order_id?: string | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
-    processed_by?: number | null
+    processed_by?: string | null
     notes?: string | null
     clerk_user_id?: string | null
+    refund_status?: $Enums.refund_status | null
   }
 
   export type refundsUpdateInput = {
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
+    refund_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sale_id?: NullableStringFieldUpdateOperationsInput | string | null
+    order_id?: NullableStringFieldUpdateOperationsInput | string | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
+    processed_by?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customers?: customersUpdateOneWithoutRefundsNestedInput
-    pos_sales?: pos_salesUpdateOneWithoutRefundsNestedInput
+    refund_status?: NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   }
 
   export type refundsUncheckedUpdateInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
+    refund_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sale_id?: NullableStringFieldUpdateOperationsInput | string | null
+    order_id?: NullableStringFieldUpdateOperationsInput | string | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
+    processed_by?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    refund_status?: NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   }
 
   export type refundsCreateManyInput = {
-    refund_id?: number
-    sale_id?: number | null
-    order_id?: number | null
+    refund_id?: bigint | number
+    sale_id?: string | null
+    order_id?: string | null
     refund_date?: Date | string | null
     refund_amount: Decimal | DecimalJsLike | number | string
     reason?: string | null
-    processed_by?: number | null
+    processed_by?: string | null
     notes?: string | null
     clerk_user_id?: string | null
+    refund_status?: $Enums.refund_status | null
   }
 
   export type refundsUpdateManyMutationInput = {
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
+    refund_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sale_id?: NullableStringFieldUpdateOperationsInput | string | null
+    order_id?: NullableStringFieldUpdateOperationsInput | string | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
+    processed_by?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    refund_status?: NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   }
 
   export type refundsUncheckedUpdateManyInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
+    refund_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sale_id?: NullableStringFieldUpdateOperationsInput | string | null
+    order_id?: NullableStringFieldUpdateOperationsInput | string | null
     refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
+    processed_by?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    refund_status?: NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   }
 
   export type res_eventsCreateInput = {
@@ -74311,6 +74306,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
     res_menu_items?: res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
     res_orders?: res_ordersCreateNestedOneWithoutRes_order_itemsInput
     res_item_variants?: res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
@@ -74328,6 +74324,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsUpdateInput = {
@@ -74339,6 +74336,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_menu_items?: res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
     res_orders?: res_ordersUpdateOneWithoutRes_order_itemsNestedInput
     res_item_variants?: res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
@@ -74356,6 +74354,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsCreateManyInput = {
@@ -74370,6 +74369,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsUpdateManyMutationInput = {
@@ -74381,6 +74381,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsUncheckedUpdateManyInput = {
@@ -74395,6 +74396,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_ordersCreateInput = {
@@ -74418,6 +74420,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
@@ -74451,6 +74454,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
@@ -74476,6 +74480,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
@@ -74509,6 +74514,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
@@ -74538,6 +74544,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
   }
 
   export type res_ordersUpdateManyMutationInput = {
@@ -74561,6 +74568,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_ordersUncheckedUpdateManyInput = {
@@ -74588,6 +74596,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_payment_methodsCreateInput = {
@@ -75555,6 +75564,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     transaction_details?: transaction_detailsCreateNestedManyWithoutTransactionsInput
+    transactions?: transactionsCreateNestedOneWithoutOther_transactionsInput
+    other_transactions?: transactionsCreateNestedManyWithoutTransactionsInput
   }
 
   export type transactionsUncheckedCreateInput = {
@@ -75575,7 +75586,9 @@ export namespace Prisma {
     notes?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    reference_transaction_id?: string | null
     transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
+    other_transactions?: transactionsUncheckedCreateNestedManyWithoutTransactionsInput
   }
 
   export type transactionsUpdateInput = {
@@ -75597,6 +75610,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     transaction_details?: transaction_detailsUpdateManyWithoutTransactionsNestedInput
+    transactions?: transactionsUpdateOneWithoutOther_transactionsNestedInput
+    other_transactions?: transactionsUpdateManyWithoutTransactionsNestedInput
   }
 
   export type transactionsUncheckedUpdateInput = {
@@ -75617,7 +75632,9 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference_transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     transaction_details?: transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
+    other_transactions?: transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
   }
 
   export type transactionsCreateManyInput = {
@@ -75638,6 +75655,7 @@ export namespace Prisma {
     notes?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    reference_transaction_id?: string | null
   }
 
   export type transactionsUpdateManyMutationInput = {
@@ -75678,6 +75696,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference_transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type transaction_detailsCreateInput = {
@@ -77299,21 +77318,11 @@ export namespace Prisma {
     none?: promotion_usageWhereInput
   }
 
-  export type RefundsListRelationFilter = {
-    every?: refundsWhereInput
-    some?: refundsWhereInput
-    none?: refundsWhereInput
-  }
-
   export type customer_cardsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type promotion_usageOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type refundsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -78092,6 +78101,24 @@ export namespace Prisma {
     tax_amount?: SortOrder
   }
 
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type Enumrefund_statusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.refund_status | Enumrefund_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumrefund_statusNullableFilter<$PrismaModel> | $Enums.refund_status | null
+  }
+
   export type refundsCountOrderByAggregateInput = {
     refund_id?: SortOrder
     sale_id?: SortOrder
@@ -78102,14 +78129,12 @@ export namespace Prisma {
     processed_by?: SortOrder
     notes?: SortOrder
     clerk_user_id?: SortOrder
+    refund_status?: SortOrder
   }
 
   export type refundsAvgOrderByAggregateInput = {
     refund_id?: SortOrder
-    sale_id?: SortOrder
-    order_id?: SortOrder
     refund_amount?: SortOrder
-    processed_by?: SortOrder
   }
 
   export type refundsMaxOrderByAggregateInput = {
@@ -78122,6 +78147,7 @@ export namespace Prisma {
     processed_by?: SortOrder
     notes?: SortOrder
     clerk_user_id?: SortOrder
+    refund_status?: SortOrder
   }
 
   export type refundsMinOrderByAggregateInput = {
@@ -78134,14 +78160,38 @@ export namespace Prisma {
     processed_by?: SortOrder
     notes?: SortOrder
     clerk_user_id?: SortOrder
+    refund_status?: SortOrder
   }
 
   export type refundsSumOrderByAggregateInput = {
     refund_id?: SortOrder
-    sale_id?: SortOrder
-    order_id?: SortOrder
     refund_amount?: SortOrder
-    processed_by?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type Enumrefund_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.refund_status | Enumrefund_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumrefund_statusNullableFilter<$PrismaModel>
+    _max?: NestedEnumrefund_statusNullableFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -78595,6 +78645,7 @@ export namespace Prisma {
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_order_itemsAvgOrderByAggregateInput = {
@@ -78613,6 +78664,7 @@ export namespace Prisma {
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_order_itemsMinOrderByAggregateInput = {
@@ -78626,6 +78678,7 @@ export namespace Prisma {
     status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_order_itemsSumOrderByAggregateInput = {
@@ -78683,6 +78736,7 @@ export namespace Prisma {
     received_amount?: SortOrder
     change_amount?: SortOrder
     res_employeesId?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_ordersAvgOrderByAggregateInput = {
@@ -78721,6 +78775,7 @@ export namespace Prisma {
     received_amount?: SortOrder
     change_amount?: SortOrder
     res_employeesId?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_ordersMinOrderByAggregateInput = {
@@ -78748,6 +78803,7 @@ export namespace Prisma {
     received_amount?: SortOrder
     change_amount?: SortOrder
     res_employeesId?: SortOrder
+    clerk_user_id?: SortOrder
   }
 
   export type res_ordersSumOrderByAggregateInput = {
@@ -79357,6 +79413,21 @@ export namespace Prisma {
     rate?: SortOrder
   }
 
+  export type TransactionsNullableScalarRelationFilter = {
+    is?: transactionsWhereInput | null
+    isNot?: transactionsWhereInput | null
+  }
+
+  export type TransactionsListRelationFilter = {
+    every?: transactionsWhereInput
+    some?: transactionsWhereInput
+    none?: transactionsWhereInput
+  }
+
+  export type transactionsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type transactionsCountOrderByAggregateInput = {
     id?: SortOrder
     tenant_id?: SortOrder
@@ -79375,6 +79446,7 @@ export namespace Prisma {
     notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    reference_transaction_id?: SortOrder
   }
 
   export type transactionsAvgOrderByAggregateInput = {
@@ -79401,6 +79473,7 @@ export namespace Prisma {
     notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    reference_transaction_id?: SortOrder
   }
 
   export type transactionsMinOrderByAggregateInput = {
@@ -79420,6 +79493,7 @@ export namespace Prisma {
     notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    reference_transaction_id?: SortOrder
   }
 
   export type transactionsSumOrderByAggregateInput = {
@@ -80445,13 +80519,6 @@ export namespace Prisma {
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
   }
 
-  export type refundsCreateNestedManyWithoutCustomersInput = {
-    create?: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput> | refundsCreateWithoutCustomersInput[] | refundsUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutCustomersInput | refundsCreateOrConnectWithoutCustomersInput[]
-    createMany?: refundsCreateManyCustomersInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-  }
-
   export type customer_cardsUncheckedCreateNestedManyWithoutCustomersInput = {
     create?: XOR<customer_cardsCreateWithoutCustomersInput, customer_cardsUncheckedCreateWithoutCustomersInput> | customer_cardsCreateWithoutCustomersInput[] | customer_cardsUncheckedCreateWithoutCustomersInput[]
     connectOrCreate?: customer_cardsCreateOrConnectWithoutCustomersInput | customer_cardsCreateOrConnectWithoutCustomersInput[]
@@ -80471,13 +80538,6 @@ export namespace Prisma {
     connectOrCreate?: promotion_usageCreateOrConnectWithoutCustomersInput | promotion_usageCreateOrConnectWithoutCustomersInput[]
     createMany?: promotion_usageCreateManyCustomersInputEnvelope
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-  }
-
-  export type refundsUncheckedCreateNestedManyWithoutCustomersInput = {
-    create?: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput> | refundsCreateWithoutCustomersInput[] | refundsUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutCustomersInput | refundsCreateOrConnectWithoutCustomersInput[]
-    createMany?: refundsCreateManyCustomersInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -80540,20 +80600,6 @@ export namespace Prisma {
     deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
   }
 
-  export type refundsUpdateManyWithoutCustomersNestedInput = {
-    create?: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput> | refundsCreateWithoutCustomersInput[] | refundsUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutCustomersInput | refundsCreateOrConnectWithoutCustomersInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutCustomersInput | refundsUpsertWithWhereUniqueWithoutCustomersInput[]
-    createMany?: refundsCreateManyCustomersInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutCustomersInput | refundsUpdateWithWhereUniqueWithoutCustomersInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutCustomersInput | refundsUpdateManyWithWhereWithoutCustomersInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
-  }
-
   export type customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput = {
     create?: XOR<customer_cardsCreateWithoutCustomersInput, customer_cardsUncheckedCreateWithoutCustomersInput> | customer_cardsCreateWithoutCustomersInput[] | customer_cardsUncheckedCreateWithoutCustomersInput[]
     connectOrCreate?: customer_cardsCreateOrConnectWithoutCustomersInput | customer_cardsCreateOrConnectWithoutCustomersInput[]
@@ -80594,20 +80640,6 @@ export namespace Prisma {
     update?: promotion_usageUpdateWithWhereUniqueWithoutCustomersInput | promotion_usageUpdateWithWhereUniqueWithoutCustomersInput[]
     updateMany?: promotion_usageUpdateManyWithWhereWithoutCustomersInput | promotion_usageUpdateManyWithWhereWithoutCustomersInput[]
     deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
-  }
-
-  export type refundsUncheckedUpdateManyWithoutCustomersNestedInput = {
-    create?: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput> | refundsCreateWithoutCustomersInput[] | refundsUncheckedCreateWithoutCustomersInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutCustomersInput | refundsCreateOrConnectWithoutCustomersInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutCustomersInput | refundsUpsertWithWhereUniqueWithoutCustomersInput[]
-    createMany?: refundsCreateManyCustomersInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutCustomersInput | refundsUpdateWithWhereUniqueWithoutCustomersInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutCustomersInput | refundsUpdateManyWithWhereWithoutCustomersInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
   }
 
   export type productsCreateNestedOneWithoutInventoryInput = {
@@ -80653,13 +80685,6 @@ export namespace Prisma {
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
   }
 
-  export type refundsCreateNestedManyWithoutPos_salesInput = {
-    create?: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput> | refundsCreateWithoutPos_salesInput[] | refundsUncheckedCreateWithoutPos_salesInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutPos_salesInput | refundsCreateOrConnectWithoutPos_salesInput[]
-    createMany?: refundsCreateManyPos_salesInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-  }
-
   export type sale_itemsCreateNestedManyWithoutPos_salesInput = {
     create?: XOR<sale_itemsCreateWithoutPos_salesInput, sale_itemsUncheckedCreateWithoutPos_salesInput> | sale_itemsCreateWithoutPos_salesInput[] | sale_itemsUncheckedCreateWithoutPos_salesInput[]
     connectOrCreate?: sale_itemsCreateOrConnectWithoutPos_salesInput | sale_itemsCreateOrConnectWithoutPos_salesInput[]
@@ -80672,13 +80697,6 @@ export namespace Prisma {
     connectOrCreate?: promotion_usageCreateOrConnectWithoutPos_salesInput | promotion_usageCreateOrConnectWithoutPos_salesInput[]
     createMany?: promotion_usageCreateManyPos_salesInputEnvelope
     connect?: promotion_usageWhereUniqueInput | promotion_usageWhereUniqueInput[]
-  }
-
-  export type refundsUncheckedCreateNestedManyWithoutPos_salesInput = {
-    create?: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput> | refundsCreateWithoutPos_salesInput[] | refundsUncheckedCreateWithoutPos_salesInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutPos_salesInput | refundsCreateOrConnectWithoutPos_salesInput[]
-    createMany?: refundsCreateManyPos_salesInputEnvelope
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
   }
 
   export type sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput = {
@@ -80740,20 +80758,6 @@ export namespace Prisma {
     deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
   }
 
-  export type refundsUpdateManyWithoutPos_salesNestedInput = {
-    create?: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput> | refundsCreateWithoutPos_salesInput[] | refundsUncheckedCreateWithoutPos_salesInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutPos_salesInput | refundsCreateOrConnectWithoutPos_salesInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutPos_salesInput | refundsUpsertWithWhereUniqueWithoutPos_salesInput[]
-    createMany?: refundsCreateManyPos_salesInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutPos_salesInput | refundsUpdateWithWhereUniqueWithoutPos_salesInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutPos_salesInput | refundsUpdateManyWithWhereWithoutPos_salesInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
-  }
-
   export type sale_itemsUpdateManyWithoutPos_salesNestedInput = {
     create?: XOR<sale_itemsCreateWithoutPos_salesInput, sale_itemsUncheckedCreateWithoutPos_salesInput> | sale_itemsCreateWithoutPos_salesInput[] | sale_itemsUncheckedCreateWithoutPos_salesInput[]
     connectOrCreate?: sale_itemsCreateOrConnectWithoutPos_salesInput | sale_itemsCreateOrConnectWithoutPos_salesInput[]
@@ -80780,20 +80784,6 @@ export namespace Prisma {
     update?: promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput | promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput[]
     updateMany?: promotion_usageUpdateManyWithWhereWithoutPos_salesInput | promotion_usageUpdateManyWithWhereWithoutPos_salesInput[]
     deleteMany?: promotion_usageScalarWhereInput | promotion_usageScalarWhereInput[]
-  }
-
-  export type refundsUncheckedUpdateManyWithoutPos_salesNestedInput = {
-    create?: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput> | refundsCreateWithoutPos_salesInput[] | refundsUncheckedCreateWithoutPos_salesInput[]
-    connectOrCreate?: refundsCreateOrConnectWithoutPos_salesInput | refundsCreateOrConnectWithoutPos_salesInput[]
-    upsert?: refundsUpsertWithWhereUniqueWithoutPos_salesInput | refundsUpsertWithWhereUniqueWithoutPos_salesInput[]
-    createMany?: refundsCreateManyPos_salesInputEnvelope
-    set?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    disconnect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    delete?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    connect?: refundsWhereUniqueInput | refundsWhereUniqueInput[]
-    update?: refundsUpdateWithWhereUniqueWithoutPos_salesInput | refundsUpdateWithWhereUniqueWithoutPos_salesInput[]
-    updateMany?: refundsUpdateManyWithWhereWithoutPos_salesInput | refundsUpdateManyWithWhereWithoutPos_salesInput[]
-    deleteMany?: refundsScalarWhereInput | refundsScalarWhereInput[]
   }
 
   export type sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput = {
@@ -81290,36 +81280,16 @@ export namespace Prisma {
     deleteMany?: purchase_order_itemsScalarWhereInput | purchase_order_itemsScalarWhereInput[]
   }
 
-  export type customersCreateNestedOneWithoutRefundsInput = {
-    create?: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: customersCreateOrConnectWithoutRefundsInput
-    connect?: customersWhereUniqueInput
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
   }
 
-  export type pos_salesCreateNestedOneWithoutRefundsInput = {
-    create?: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: pos_salesCreateOrConnectWithoutRefundsInput
-    connect?: pos_salesWhereUniqueInput
-  }
-
-  export type customersUpdateOneWithoutRefundsNestedInput = {
-    create?: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: customersCreateOrConnectWithoutRefundsInput
-    upsert?: customersUpsertWithoutRefundsInput
-    disconnect?: customersWhereInput | boolean
-    delete?: customersWhereInput | boolean
-    connect?: customersWhereUniqueInput
-    update?: XOR<XOR<customersUpdateToOneWithWhereWithoutRefundsInput, customersUpdateWithoutRefundsInput>, customersUncheckedUpdateWithoutRefundsInput>
-  }
-
-  export type pos_salesUpdateOneWithoutRefundsNestedInput = {
-    create?: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
-    connectOrCreate?: pos_salesCreateOrConnectWithoutRefundsInput
-    upsert?: pos_salesUpsertWithoutRefundsInput
-    disconnect?: pos_salesWhereInput | boolean
-    delete?: pos_salesWhereInput | boolean
-    connect?: pos_salesWhereUniqueInput
-    update?: XOR<XOR<pos_salesUpdateToOneWithWhereWithoutRefundsInput, pos_salesUpdateWithoutRefundsInput>, pos_salesUncheckedUpdateWithoutRefundsInput>
+  export type NullableEnumrefund_statusFieldUpdateOperationsInput = {
+    set?: $Enums.refund_status | null
   }
 
   export type res_eventsCreateblocked_tablesInput = {
@@ -82304,11 +82274,31 @@ export namespace Prisma {
     connect?: transaction_detailsWhereUniqueInput | transaction_detailsWhereUniqueInput[]
   }
 
+  export type transactionsCreateNestedOneWithoutOther_transactionsInput = {
+    create?: XOR<transactionsCreateWithoutOther_transactionsInput, transactionsUncheckedCreateWithoutOther_transactionsInput>
+    connectOrCreate?: transactionsCreateOrConnectWithoutOther_transactionsInput
+    connect?: transactionsWhereUniqueInput
+  }
+
+  export type transactionsCreateNestedManyWithoutTransactionsInput = {
+    create?: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput> | transactionsCreateWithoutTransactionsInput[] | transactionsUncheckedCreateWithoutTransactionsInput[]
+    connectOrCreate?: transactionsCreateOrConnectWithoutTransactionsInput | transactionsCreateOrConnectWithoutTransactionsInput[]
+    createMany?: transactionsCreateManyTransactionsInputEnvelope
+    connect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+  }
+
   export type transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput = {
     create?: XOR<transaction_detailsCreateWithoutTransactionsInput, transaction_detailsUncheckedCreateWithoutTransactionsInput> | transaction_detailsCreateWithoutTransactionsInput[] | transaction_detailsUncheckedCreateWithoutTransactionsInput[]
     connectOrCreate?: transaction_detailsCreateOrConnectWithoutTransactionsInput | transaction_detailsCreateOrConnectWithoutTransactionsInput[]
     createMany?: transaction_detailsCreateManyTransactionsInputEnvelope
     connect?: transaction_detailsWhereUniqueInput | transaction_detailsWhereUniqueInput[]
+  }
+
+  export type transactionsUncheckedCreateNestedManyWithoutTransactionsInput = {
+    create?: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput> | transactionsCreateWithoutTransactionsInput[] | transactionsUncheckedCreateWithoutTransactionsInput[]
+    connectOrCreate?: transactionsCreateOrConnectWithoutTransactionsInput | transactionsCreateOrConnectWithoutTransactionsInput[]
+    createMany?: transactionsCreateManyTransactionsInputEnvelope
+    connect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
   }
 
   export type transaction_detailsUpdateManyWithoutTransactionsNestedInput = {
@@ -82325,6 +82315,30 @@ export namespace Prisma {
     deleteMany?: transaction_detailsScalarWhereInput | transaction_detailsScalarWhereInput[]
   }
 
+  export type transactionsUpdateOneWithoutOther_transactionsNestedInput = {
+    create?: XOR<transactionsCreateWithoutOther_transactionsInput, transactionsUncheckedCreateWithoutOther_transactionsInput>
+    connectOrCreate?: transactionsCreateOrConnectWithoutOther_transactionsInput
+    upsert?: transactionsUpsertWithoutOther_transactionsInput
+    disconnect?: transactionsWhereInput | boolean
+    delete?: transactionsWhereInput | boolean
+    connect?: transactionsWhereUniqueInput
+    update?: XOR<XOR<transactionsUpdateToOneWithWhereWithoutOther_transactionsInput, transactionsUpdateWithoutOther_transactionsInput>, transactionsUncheckedUpdateWithoutOther_transactionsInput>
+  }
+
+  export type transactionsUpdateManyWithoutTransactionsNestedInput = {
+    create?: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput> | transactionsCreateWithoutTransactionsInput[] | transactionsUncheckedCreateWithoutTransactionsInput[]
+    connectOrCreate?: transactionsCreateOrConnectWithoutTransactionsInput | transactionsCreateOrConnectWithoutTransactionsInput[]
+    upsert?: transactionsUpsertWithWhereUniqueWithoutTransactionsInput | transactionsUpsertWithWhereUniqueWithoutTransactionsInput[]
+    createMany?: transactionsCreateManyTransactionsInputEnvelope
+    set?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    disconnect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    delete?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    connect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    update?: transactionsUpdateWithWhereUniqueWithoutTransactionsInput | transactionsUpdateWithWhereUniqueWithoutTransactionsInput[]
+    updateMany?: transactionsUpdateManyWithWhereWithoutTransactionsInput | transactionsUpdateManyWithWhereWithoutTransactionsInput[]
+    deleteMany?: transactionsScalarWhereInput | transactionsScalarWhereInput[]
+  }
+
   export type transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput = {
     create?: XOR<transaction_detailsCreateWithoutTransactionsInput, transaction_detailsUncheckedCreateWithoutTransactionsInput> | transaction_detailsCreateWithoutTransactionsInput[] | transaction_detailsUncheckedCreateWithoutTransactionsInput[]
     connectOrCreate?: transaction_detailsCreateOrConnectWithoutTransactionsInput | transaction_detailsCreateOrConnectWithoutTransactionsInput[]
@@ -82337,6 +82351,20 @@ export namespace Prisma {
     update?: transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput | transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput[]
     updateMany?: transaction_detailsUpdateManyWithWhereWithoutTransactionsInput | transaction_detailsUpdateManyWithWhereWithoutTransactionsInput[]
     deleteMany?: transaction_detailsScalarWhereInput | transaction_detailsScalarWhereInput[]
+  }
+
+  export type transactionsUncheckedUpdateManyWithoutTransactionsNestedInput = {
+    create?: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput> | transactionsCreateWithoutTransactionsInput[] | transactionsUncheckedCreateWithoutTransactionsInput[]
+    connectOrCreate?: transactionsCreateOrConnectWithoutTransactionsInput | transactionsCreateOrConnectWithoutTransactionsInput[]
+    upsert?: transactionsUpsertWithWhereUniqueWithoutTransactionsInput | transactionsUpsertWithWhereUniqueWithoutTransactionsInput[]
+    createMany?: transactionsCreateManyTransactionsInputEnvelope
+    set?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    disconnect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    delete?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    connect?: transactionsWhereUniqueInput | transactionsWhereUniqueInput[]
+    update?: transactionsUpdateWithWhereUniqueWithoutTransactionsInput | transactionsUpdateWithWhereUniqueWithoutTransactionsInput[]
+    updateMany?: transactionsUpdateManyWithWhereWithoutTransactionsInput | transactionsUpdateManyWithWhereWithoutTransactionsInput[]
+    deleteMany?: transactionsScalarWhereInput | transactionsScalarWhereInput[]
   }
 
   export type productsCreateNestedOneWithoutTransaction_detailsInput = {
@@ -83723,6 +83751,50 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type NestedEnumrefund_statusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.refund_status | Enumrefund_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumrefund_statusNullableFilter<$PrismaModel> | $Enums.refund_status | null
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.refund_status | Enumrefund_statusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.refund_status[] | ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumrefund_statusNullableFilter<$PrismaModel>
+    _max?: NestedEnumrefund_statusNullableFilter<$PrismaModel>
+  }
+
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -83938,7 +84010,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUncheckedCreateWithoutCustomer_cardsInput = {
@@ -83962,7 +84033,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
 
   export type customersCreateOrConnectWithoutCustomer_cardsInput = {
@@ -83981,7 +84051,6 @@ export namespace Prisma {
     customers?: customersCreateNestedOneWithoutPos_salesInput
     promotions?: promotionsCreateNestedOneWithoutPos_salesInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
   }
 
@@ -83997,7 +84066,6 @@ export namespace Prisma {
     payment_method?: string | null
     status?: string | null
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
@@ -84042,7 +84110,6 @@ export namespace Prisma {
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateWithoutCustomer_cardsInput = {
@@ -84066,7 +84133,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
 
   export type pos_salesUpsertWithWhereUniqueWithoutCustomer_cardsInput = {
@@ -84122,7 +84188,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUncheckedCreateWithoutCustomer_groupsInput = {
@@ -84146,7 +84211,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
 
   export type customersCreateOrConnectWithoutCustomer_groupsInput = {
@@ -84332,7 +84396,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedOneWithoutPos_salesInput
     promotions?: promotionsCreateNestedOneWithoutPos_salesInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
   }
 
@@ -84348,7 +84411,6 @@ export namespace Prisma {
     card_id?: number | null
     status?: string | null
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
@@ -84386,37 +84448,6 @@ export namespace Prisma {
 
   export type promotion_usageCreateManyCustomersInputEnvelope = {
     data: promotion_usageCreateManyCustomersInput | promotion_usageCreateManyCustomersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type refundsCreateWithoutCustomersInput = {
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    notes?: string | null
-    clerk_user_id?: string | null
-    pos_sales?: pos_salesCreateNestedOneWithoutRefundsInput
-  }
-
-  export type refundsUncheckedCreateWithoutCustomersInput = {
-    refund_id?: number
-    sale_id?: number | null
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    notes?: string | null
-    clerk_user_id?: string | null
-  }
-
-  export type refundsCreateOrConnectWithoutCustomersInput = {
-    where: refundsWhereUniqueInput
-    create: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput>
-  }
-
-  export type refundsCreateManyCustomersInputEnvelope = {
-    data: refundsCreateManyCustomersInput | refundsCreateManyCustomersInput[]
     skipDuplicates?: boolean
   }
 
@@ -84528,37 +84559,6 @@ export namespace Prisma {
     used_at?: DateTimeNullableFilter<"promotion_usage"> | Date | string | null
     order_id?: IntNullableFilter<"promotion_usage"> | number | null
     clerk_user_id?: StringNullableFilter<"promotion_usage"> | string | null
-  }
-
-  export type refundsUpsertWithWhereUniqueWithoutCustomersInput = {
-    where: refundsWhereUniqueInput
-    update: XOR<refundsUpdateWithoutCustomersInput, refundsUncheckedUpdateWithoutCustomersInput>
-    create: XOR<refundsCreateWithoutCustomersInput, refundsUncheckedCreateWithoutCustomersInput>
-  }
-
-  export type refundsUpdateWithWhereUniqueWithoutCustomersInput = {
-    where: refundsWhereUniqueInput
-    data: XOR<refundsUpdateWithoutCustomersInput, refundsUncheckedUpdateWithoutCustomersInput>
-  }
-
-  export type refundsUpdateManyWithWhereWithoutCustomersInput = {
-    where: refundsScalarWhereInput
-    data: XOR<refundsUpdateManyMutationInput, refundsUncheckedUpdateManyWithoutCustomersInput>
-  }
-
-  export type refundsScalarWhereInput = {
-    AND?: refundsScalarWhereInput | refundsScalarWhereInput[]
-    OR?: refundsScalarWhereInput[]
-    NOT?: refundsScalarWhereInput | refundsScalarWhereInput[]
-    refund_id?: IntFilter<"refunds"> | number
-    sale_id?: IntNullableFilter<"refunds"> | number | null
-    order_id?: IntNullableFilter<"refunds"> | number | null
-    refund_date?: DateTimeNullableFilter<"refunds"> | Date | string | null
-    refund_amount?: DecimalFilter<"refunds"> | Decimal | DecimalJsLike | number | string
-    reason?: StringNullableFilter<"refunds"> | string | null
-    processed_by?: IntNullableFilter<"refunds"> | number | null
-    notes?: StringNullableFilter<"refunds"> | string | null
-    clerk_user_id?: StringNullableFilter<"refunds"> | string | null
   }
 
   export type productsCreateWithoutInventoryInput = {
@@ -84723,7 +84723,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUncheckedCreateWithoutPos_salesInput = {
@@ -84747,7 +84746,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
 
   export type customersCreateOrConnectWithoutPos_salesInput = {
@@ -84819,37 +84817,6 @@ export namespace Prisma {
 
   export type promotion_usageCreateManyPos_salesInputEnvelope = {
     data: promotion_usageCreateManyPos_salesInput | promotion_usageCreateManyPos_salesInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type refundsCreateWithoutPos_salesInput = {
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    notes?: string | null
-    clerk_user_id?: string | null
-    customers?: customersCreateNestedOneWithoutRefundsInput
-  }
-
-  export type refundsUncheckedCreateWithoutPos_salesInput = {
-    refund_id?: number
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    processed_by?: number | null
-    notes?: string | null
-    clerk_user_id?: string | null
-  }
-
-  export type refundsCreateOrConnectWithoutPos_salesInput = {
-    where: refundsWhereUniqueInput
-    create: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput>
-  }
-
-  export type refundsCreateManyPos_salesInputEnvelope = {
-    data: refundsCreateManyPos_salesInput | refundsCreateManyPos_salesInput[]
     skipDuplicates?: boolean
   }
 
@@ -84947,7 +84914,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateWithoutPos_salesInput = {
@@ -84971,7 +84937,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
 
   export type promotionsUpsertWithoutPos_salesInput = {
@@ -85034,22 +84999,6 @@ export namespace Prisma {
   export type promotion_usageUpdateManyWithWhereWithoutPos_salesInput = {
     where: promotion_usageScalarWhereInput
     data: XOR<promotion_usageUpdateManyMutationInput, promotion_usageUncheckedUpdateManyWithoutPos_salesInput>
-  }
-
-  export type refundsUpsertWithWhereUniqueWithoutPos_salesInput = {
-    where: refundsWhereUniqueInput
-    update: XOR<refundsUpdateWithoutPos_salesInput, refundsUncheckedUpdateWithoutPos_salesInput>
-    create: XOR<refundsCreateWithoutPos_salesInput, refundsUncheckedCreateWithoutPos_salesInput>
-  }
-
-  export type refundsUpdateWithWhereUniqueWithoutPos_salesInput = {
-    where: refundsWhereUniqueInput
-    data: XOR<refundsUpdateWithoutPos_salesInput, refundsUncheckedUpdateWithoutPos_salesInput>
-  }
-
-  export type refundsUpdateManyWithWhereWithoutPos_salesInput = {
-    where: refundsScalarWhereInput
-    data: XOR<refundsUpdateManyMutationInput, refundsUncheckedUpdateManyWithoutPos_salesInput>
   }
 
   export type sale_itemsUpsertWithWhereUniqueWithoutPos_salesInput = {
@@ -85643,7 +85592,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
     customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
     pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
-    refunds?: refundsCreateNestedManyWithoutCustomersInput
   }
 
   export type customersUncheckedCreateWithoutPromotion_usageInput = {
@@ -85667,7 +85615,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
     customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
     pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutCustomersInput
   }
 
   export type customersCreateOrConnectWithoutPromotion_usageInput = {
@@ -85726,7 +85673,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedOneWithoutPos_salesInput
     customers?: customersCreateNestedOneWithoutPos_salesInput
     promotions?: promotionsCreateNestedOneWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
   }
 
@@ -85742,7 +85688,6 @@ export namespace Prisma {
     payment_method?: string | null
     card_id?: number | null
     status?: string | null
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
@@ -85782,7 +85727,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateWithoutPromotion_usageInput = {
@@ -85806,7 +85750,6 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
 
   export type promotionsUpsertWithoutPromotion_usageInput = {
@@ -85877,7 +85820,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateOneWithoutPos_salesNestedInput
     customers?: customersUpdateOneWithoutPos_salesNestedInput
     promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -85893,7 +85835,6 @@ export namespace Prisma {
     payment_method?: NullableStringFieldUpdateOperationsInput | string | null
     card_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -85908,7 +85849,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsCreateNestedOneWithoutPos_salesInput
     customers?: customersCreateNestedOneWithoutPos_salesInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
   }
 
@@ -85924,7 +85864,6 @@ export namespace Prisma {
     card_id?: number | null
     status?: string | null
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
     sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
@@ -86306,194 +86245,6 @@ export namespace Prisma {
     products?: productsUncheckedUpdateManyWithoutSuppliersNestedInput
   }
 
-  export type customersCreateWithoutRefundsInput = {
-    first_name: string
-    last_name: string
-    email?: string | null
-    phone?: string | null
-    address_line1?: string | null
-    address_line2?: string | null
-    city?: string | null
-    state?: string | null
-    postal_code?: string | null
-    country?: string | null
-    date_of_birth?: Date | string | null
-    loyalty_points?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    clerk_user_id?: string | null
-    customer_cards?: customer_cardsCreateNestedManyWithoutCustomersInput
-    customer_groups?: customer_groupsCreateNestedOneWithoutCustomersInput
-    pos_sales?: pos_salesCreateNestedManyWithoutCustomersInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutCustomersInput
-  }
-
-  export type customersUncheckedCreateWithoutRefundsInput = {
-    customer_id?: number
-    first_name: string
-    last_name: string
-    email?: string | null
-    phone?: string | null
-    address_line1?: string | null
-    address_line2?: string | null
-    city?: string | null
-    state?: string | null
-    postal_code?: string | null
-    country?: string | null
-    date_of_birth?: Date | string | null
-    loyalty_points?: number | null
-    is_active?: boolean | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    group_id?: number | null
-    clerk_user_id?: string | null
-    customer_cards?: customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-    pos_sales?: pos_salesUncheckedCreateNestedManyWithoutCustomersInput
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-  }
-
-  export type customersCreateOrConnectWithoutRefundsInput = {
-    where: customersWhereUniqueInput
-    create: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
-  }
-
-  export type pos_salesCreateWithoutRefundsInput = {
-    sale_date?: Date | string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    payment_method?: string | null
-    status?: string | null
-    customer_cards?: customer_cardsCreateNestedOneWithoutPos_salesInput
-    customers?: customersCreateNestedOneWithoutPos_salesInput
-    promotions?: promotionsCreateNestedOneWithoutPos_salesInput
-    promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    sale_items?: sale_itemsCreateNestedManyWithoutPos_salesInput
-  }
-
-  export type pos_salesUncheckedCreateWithoutRefundsInput = {
-    sale_id?: number
-    customer_id?: number | null
-    promotion_id?: number | null
-    sale_date?: Date | string | null
-    subtotal: Decimal | DecimalJsLike | number | string
-    discount_amount?: Decimal | DecimalJsLike | number | string | null
-    tax_amount?: Decimal | DecimalJsLike | number | string | null
-    total_amount: Decimal | DecimalJsLike | number | string
-    payment_method?: string | null
-    card_id?: number | null
-    status?: string | null
-    promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    sale_items?: sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
-  }
-
-  export type pos_salesCreateOrConnectWithoutRefundsInput = {
-    where: pos_salesWhereUniqueInput
-    create: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
-  }
-
-  export type customersUpsertWithoutRefundsInput = {
-    update: XOR<customersUpdateWithoutRefundsInput, customersUncheckedUpdateWithoutRefundsInput>
-    create: XOR<customersCreateWithoutRefundsInput, customersUncheckedCreateWithoutRefundsInput>
-    where?: customersWhereInput
-  }
-
-  export type customersUpdateToOneWithWhereWithoutRefundsInput = {
-    where?: customersWhereInput
-    data: XOR<customersUpdateWithoutRefundsInput, customersUncheckedUpdateWithoutRefundsInput>
-  }
-
-  export type customersUpdateWithoutRefundsInput = {
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    loyalty_points?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
-    customer_groups?: customer_groupsUpdateOneWithoutCustomersNestedInput
-    pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-  }
-
-  export type customersUncheckedUpdateWithoutRefundsInput = {
-    customer_id?: IntFieldUpdateOperationsInput | number
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line1?: NullableStringFieldUpdateOperationsInput | string | null
-    address_line2?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    postal_code?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    loyalty_points?: NullableIntFieldUpdateOperationsInput | number | null
-    is_active?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    group_id?: NullableIntFieldUpdateOperationsInput | number | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-    pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-  }
-
-  export type pos_salesUpsertWithoutRefundsInput = {
-    update: XOR<pos_salesUpdateWithoutRefundsInput, pos_salesUncheckedUpdateWithoutRefundsInput>
-    create: XOR<pos_salesCreateWithoutRefundsInput, pos_salesUncheckedCreateWithoutRefundsInput>
-    where?: pos_salesWhereInput
-  }
-
-  export type pos_salesUpdateToOneWithWhereWithoutRefundsInput = {
-    where?: pos_salesWhereInput
-    data: XOR<pos_salesUpdateWithoutRefundsInput, pos_salesUncheckedUpdateWithoutRefundsInput>
-  }
-
-  export type pos_salesUpdateWithoutRefundsInput = {
-    sale_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_cards?: customer_cardsUpdateOneWithoutPos_salesNestedInput
-    customers?: customersUpdateOneWithoutPos_salesNestedInput
-    promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
-    promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
-  }
-
-  export type pos_salesUncheckedUpdateWithoutRefundsInput = {
-    sale_id?: IntFieldUpdateOperationsInput | number
-    customer_id?: NullableIntFieldUpdateOperationsInput | number | null
-    promotion_id?: NullableIntFieldUpdateOperationsInput | number | null
-    sale_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
-    card_id?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: NullableStringFieldUpdateOperationsInput | string | null
-    promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
-  }
-
   export type res_employeesCreateWithoutRes_eventsInput = {
     id?: string
     user_id: string
@@ -86820,6 +86571,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
     res_menu_items?: res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
     res_orders?: res_ordersCreateNestedOneWithoutRes_order_itemsInput
   }
@@ -86835,6 +86587,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsCreateOrConnectWithoutRes_item_variantsInput = {
@@ -86927,6 +86680,7 @@ export namespace Prisma {
     status?: StringNullableFilter<"res_order_items"> | string | null
     created_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"res_order_items"> | Date | string | null
+    clerk_user_id?: StringNullableFilter<"res_order_items"> | string | null
   }
 
   export type res_menu_itemsCreateWithoutRes_menu_categoriesInput = {
@@ -87105,6 +86859,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
     res_orders?: res_ordersCreateNestedOneWithoutRes_order_itemsInput
     res_item_variants?: res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
   }
@@ -87120,6 +86875,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput = {
@@ -87413,6 +87169,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
@@ -87445,6 +87202,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
 
@@ -87557,6 +87315,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
@@ -87589,6 +87348,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
 
@@ -87630,6 +87390,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
     res_menu_items?: res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
     res_item_variants?: res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
   }
@@ -87645,6 +87406,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsCreateOrConnectWithoutRes_ordersInput = {
@@ -88280,6 +88042,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
@@ -88311,6 +88074,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
@@ -88475,6 +88239,7 @@ export namespace Prisma {
     received_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     change_amount?: DecimalNullableFilter<"res_orders"> | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: UuidNullableFilter<"res_orders"> | string | null
+    clerk_user_id?: StringNullableFilter<"res_orders"> | string | null
   }
 
   export type res_employeesUpsertWithoutRes_shifts_res_shifts_closed_byTores_employeesInput = {
@@ -88616,6 +88381,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
@@ -88647,6 +88413,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
@@ -88881,6 +88648,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
@@ -88913,6 +88681,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
 
@@ -89118,6 +88887,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
@@ -89150,6 +88920,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
 
@@ -89335,7 +89106,6 @@ export namespace Prisma {
     customers?: customersCreateNestedOneWithoutPos_salesInput
     promotions?: promotionsCreateNestedOneWithoutPos_salesInput
     promotion_usage?: promotion_usageCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsCreateNestedManyWithoutPos_salesInput
   }
 
   export type pos_salesUncheckedCreateWithoutSale_itemsInput = {
@@ -89351,7 +89121,6 @@ export namespace Prisma {
     card_id?: number | null
     status?: string | null
     promotion_usage?: promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
-    refunds?: refundsUncheckedCreateNestedManyWithoutPos_salesInput
   }
 
   export type pos_salesCreateOrConnectWithoutSale_itemsInput = {
@@ -89440,7 +89209,6 @@ export namespace Prisma {
     customers?: customersUpdateOneWithoutPos_salesNestedInput
     promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
   }
 
   export type pos_salesUncheckedUpdateWithoutSale_itemsInput = {
@@ -89456,7 +89224,6 @@ export namespace Prisma {
     card_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
   export type shipping_ratesCreateWithoutShipping_methodsInput = {
@@ -89768,6 +89535,109 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type transactionsCreateWithoutOther_transactionsInput = {
+    id?: string
+    tenant_id: string
+    clerk_user_id: string
+    transaction_number: string
+    transaction_type: string
+    status?: string
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    discount_amount?: Decimal | DecimalJsLike | number | string | null
+    total_amount: Decimal | DecimalJsLike | number | string
+    ip_address?: string | null
+    user_agent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    transaction_details?: transaction_detailsCreateNestedManyWithoutTransactionsInput
+    transactions?: transactionsCreateNestedOneWithoutOther_transactionsInput
+  }
+
+  export type transactionsUncheckedCreateWithoutOther_transactionsInput = {
+    id?: string
+    tenant_id: string
+    clerk_user_id: string
+    transaction_number: string
+    transaction_type: string
+    status?: string
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    discount_amount?: Decimal | DecimalJsLike | number | string | null
+    total_amount: Decimal | DecimalJsLike | number | string
+    ip_address?: string | null
+    user_agent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    reference_transaction_id?: string | null
+    transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
+  }
+
+  export type transactionsCreateOrConnectWithoutOther_transactionsInput = {
+    where: transactionsWhereUniqueInput
+    create: XOR<transactionsCreateWithoutOther_transactionsInput, transactionsUncheckedCreateWithoutOther_transactionsInput>
+  }
+
+  export type transactionsCreateWithoutTransactionsInput = {
+    id?: string
+    tenant_id: string
+    clerk_user_id: string
+    transaction_number: string
+    transaction_type: string
+    status?: string
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    discount_amount?: Decimal | DecimalJsLike | number | string | null
+    total_amount: Decimal | DecimalJsLike | number | string
+    ip_address?: string | null
+    user_agent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    transaction_details?: transaction_detailsCreateNestedManyWithoutTransactionsInput
+    other_transactions?: transactionsCreateNestedManyWithoutTransactionsInput
+  }
+
+  export type transactionsUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    tenant_id: string
+    clerk_user_id: string
+    transaction_number: string
+    transaction_type: string
+    status?: string
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    discount_amount?: Decimal | DecimalJsLike | number | string | null
+    total_amount: Decimal | DecimalJsLike | number | string
+    ip_address?: string | null
+    user_agent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    transaction_details?: transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
+    other_transactions?: transactionsUncheckedCreateNestedManyWithoutTransactionsInput
+  }
+
+  export type transactionsCreateOrConnectWithoutTransactionsInput = {
+    where: transactionsWhereUniqueInput
+    create: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type transactionsCreateManyTransactionsInputEnvelope = {
+    data: transactionsCreateManyTransactionsInput | transactionsCreateManyTransactionsInput[]
+    skipDuplicates?: boolean
+  }
+
   export type transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput = {
     where: transaction_detailsWhereUniqueInput
     update: XOR<transaction_detailsUpdateWithoutTransactionsInput, transaction_detailsUncheckedUpdateWithoutTransactionsInput>
@@ -89782,6 +89652,101 @@ export namespace Prisma {
   export type transaction_detailsUpdateManyWithWhereWithoutTransactionsInput = {
     where: transaction_detailsScalarWhereInput
     data: XOR<transaction_detailsUpdateManyMutationInput, transaction_detailsUncheckedUpdateManyWithoutTransactionsInput>
+  }
+
+  export type transactionsUpsertWithoutOther_transactionsInput = {
+    update: XOR<transactionsUpdateWithoutOther_transactionsInput, transactionsUncheckedUpdateWithoutOther_transactionsInput>
+    create: XOR<transactionsCreateWithoutOther_transactionsInput, transactionsUncheckedCreateWithoutOther_transactionsInput>
+    where?: transactionsWhereInput
+  }
+
+  export type transactionsUpdateToOneWithWhereWithoutOther_transactionsInput = {
+    where?: transactionsWhereInput
+    data: XOR<transactionsUpdateWithoutOther_transactionsInput, transactionsUncheckedUpdateWithoutOther_transactionsInput>
+  }
+
+  export type transactionsUpdateWithoutOther_transactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenant_id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    transaction_number?: StringFieldUpdateOperationsInput | string
+    transaction_type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_details?: transaction_detailsUpdateManyWithoutTransactionsNestedInput
+    transactions?: transactionsUpdateOneWithoutOther_transactionsNestedInput
+  }
+
+  export type transactionsUncheckedUpdateWithoutOther_transactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenant_id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    transaction_number?: StringFieldUpdateOperationsInput | string
+    transaction_type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference_transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+    transaction_details?: transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
+  }
+
+  export type transactionsUpsertWithWhereUniqueWithoutTransactionsInput = {
+    where: transactionsWhereUniqueInput
+    update: XOR<transactionsUpdateWithoutTransactionsInput, transactionsUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<transactionsCreateWithoutTransactionsInput, transactionsUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type transactionsUpdateWithWhereUniqueWithoutTransactionsInput = {
+    where: transactionsWhereUniqueInput
+    data: XOR<transactionsUpdateWithoutTransactionsInput, transactionsUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type transactionsUpdateManyWithWhereWithoutTransactionsInput = {
+    where: transactionsScalarWhereInput
+    data: XOR<transactionsUpdateManyMutationInput, transactionsUncheckedUpdateManyWithoutTransactionsInput>
+  }
+
+  export type transactionsScalarWhereInput = {
+    AND?: transactionsScalarWhereInput | transactionsScalarWhereInput[]
+    OR?: transactionsScalarWhereInput[]
+    NOT?: transactionsScalarWhereInput | transactionsScalarWhereInput[]
+    id?: UuidFilter<"transactions"> | string
+    tenant_id?: StringFilter<"transactions"> | string
+    clerk_user_id?: StringFilter<"transactions"> | string
+    transaction_number?: StringFilter<"transactions"> | string
+    transaction_type?: StringFilter<"transactions"> | string
+    status?: StringFilter<"transactions"> | string
+    currency?: StringFilter<"transactions"> | string
+    subtotal?: DecimalFilter<"transactions"> | Decimal | DecimalJsLike | number | string
+    tax_amount?: DecimalNullableFilter<"transactions"> | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: DecimalNullableFilter<"transactions"> | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFilter<"transactions"> | Decimal | DecimalJsLike | number | string
+    ip_address?: StringNullableFilter<"transactions"> | string | null
+    user_agent?: StringNullableFilter<"transactions"> | string | null
+    metadata?: JsonNullableFilter<"transactions">
+    notes?: StringNullableFilter<"transactions"> | string | null
+    created_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"transactions"> | Date | string | null
+    reference_transaction_id?: UuidNullableFilter<"transactions"> | string | null
   }
 
   export type productsCreateWithoutTransaction_detailsInput = {
@@ -89854,6 +89819,8 @@ export namespace Prisma {
     notes?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    transactions?: transactionsCreateNestedOneWithoutOther_transactionsInput
+    other_transactions?: transactionsCreateNestedManyWithoutTransactionsInput
   }
 
   export type transactionsUncheckedCreateWithoutTransaction_detailsInput = {
@@ -89874,6 +89841,8 @@ export namespace Prisma {
     notes?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    reference_transaction_id?: string | null
+    other_transactions?: transactionsUncheckedCreateNestedManyWithoutTransactionsInput
   }
 
   export type transactionsCreateOrConnectWithoutTransaction_detailsInput = {
@@ -89968,6 +89937,8 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transactions?: transactionsUpdateOneWithoutOther_transactionsNestedInput
+    other_transactions?: transactionsUpdateManyWithoutTransactionsNestedInput
   }
 
   export type transactionsUncheckedUpdateWithoutTransaction_detailsInput = {
@@ -89988,6 +89959,8 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference_transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+    other_transactions?: transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
   }
 
   export type tenant_subscriptionsCreateWithoutTenant_usersInput = {
@@ -90563,6 +90536,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     res_employees?: res_employeesCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
@@ -90594,6 +90568,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
@@ -91395,6 +91370,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsCreateNestedManyWithoutRes_ordersInput
     promotions?: res_promotionsCreateNestedOneWithoutRes_ordersInput
     res_shifts?: res_shiftsCreateNestedOneWithoutRes_ordersInput
@@ -91426,6 +91402,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
     res_order_items?: res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
     res_void_requests?: res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
   }
@@ -92026,7 +92003,6 @@ export namespace Prisma {
     customers?: customersUpdateOneWithoutPos_salesNestedInput
     promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92042,7 +92018,6 @@ export namespace Prisma {
     payment_method?: NullableStringFieldUpdateOperationsInput | string | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92109,7 +92084,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateWithoutCustomer_groupsInput = {
@@ -92133,7 +92107,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
     pos_sales?: pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutCustomersNestedInput
   }
 
   export type customersUncheckedUpdateManyWithoutCustomer_groupsInput = {
@@ -92220,17 +92193,6 @@ export namespace Prisma {
     clerk_user_id?: string | null
   }
 
-  export type refundsCreateManyCustomersInput = {
-    refund_id?: number
-    sale_id?: number | null
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    notes?: string | null
-    clerk_user_id?: string | null
-  }
-
   export type customer_cardsUpdateWithoutCustomersInput = {
     card_type?: NullableStringFieldUpdateOperationsInput | string | null
     last_four_digits?: StringFieldUpdateOperationsInput | string
@@ -92282,7 +92244,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateOneWithoutPos_salesNestedInput
     promotions?: promotionsUpdateOneWithoutPos_salesNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92298,7 +92259,6 @@ export namespace Prisma {
     card_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92341,55 +92301,12 @@ export namespace Prisma {
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type refundsUpdateWithoutCustomersInput = {
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    pos_sales?: pos_salesUpdateOneWithoutRefundsNestedInput
-  }
-
-  export type refundsUncheckedUpdateWithoutCustomersInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type refundsUncheckedUpdateManyWithoutCustomersInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    sale_id?: NullableIntFieldUpdateOperationsInput | number | null
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type promotion_usageCreateManyPos_salesInput = {
     usage_id?: number
     promotion_id: number
     customer_id?: number | null
     used_at?: Date | string | null
     order_id?: number | null
-    clerk_user_id?: string | null
-  }
-
-  export type refundsCreateManyPos_salesInput = {
-    refund_id?: number
-    order_id?: number | null
-    refund_date?: Date | string | null
-    refund_amount: Decimal | DecimalJsLike | number | string
-    reason?: string | null
-    processed_by?: number | null
-    notes?: string | null
     clerk_user_id?: string | null
   }
 
@@ -92424,38 +92341,6 @@ export namespace Prisma {
     customer_id?: NullableIntFieldUpdateOperationsInput | number | null
     used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type refundsUpdateWithoutPos_salesInput = {
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    customers?: customersUpdateOneWithoutRefundsNestedInput
-  }
-
-  export type refundsUncheckedUpdateWithoutPos_salesInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type refundsUncheckedUpdateManyWithoutPos_salesInput = {
-    refund_id?: IntFieldUpdateOperationsInput | number
-    order_id?: NullableIntFieldUpdateOperationsInput | number | null
-    refund_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refund_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    processed_by?: NullableIntFieldUpdateOperationsInput | number | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -92664,7 +92549,6 @@ export namespace Prisma {
     customer_cards?: customer_cardsUpdateOneWithoutPos_salesNestedInput
     customers?: customersUpdateOneWithoutPos_salesNestedInput
     promotion_usage?: promotion_usageUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92680,7 +92564,6 @@ export namespace Prisma {
     card_id?: NullableIntFieldUpdateOperationsInput | number | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     promotion_usage?: promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
-    refunds?: refundsUncheckedUpdateManyWithoutPos_salesNestedInput
     sale_items?: sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
   }
 
@@ -92821,6 +92704,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_order_itemsUpdateWithoutRes_item_variantsInput = {
@@ -92832,6 +92716,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_menu_items?: res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
     res_orders?: res_ordersUpdateOneWithoutRes_order_itemsNestedInput
   }
@@ -92847,6 +92732,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsInput = {
@@ -92860,6 +92746,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_menu_itemsCreateManyRes_menu_categoriesInput = {
@@ -92961,6 +92848,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_item_propertiesUpdateWithoutRes_menu_itemsInput = {
@@ -93028,6 +92916,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_orders?: res_ordersUpdateOneWithoutRes_order_itemsNestedInput
     res_item_variants?: res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
   }
@@ -93043,6 +92932,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
@@ -93056,6 +92946,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsCreateManyRes_ordersInput = {
@@ -93069,6 +92960,7 @@ export namespace Prisma {
     status?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_void_requestsCreateManyRes_ordersInput = {
@@ -93092,6 +92984,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_menu_items?: res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
     res_item_variants?: res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
   }
@@ -93107,6 +93000,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_order_itemsUncheckedUpdateManyWithoutRes_ordersInput = {
@@ -93120,6 +93014,7 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_void_requestsUpdateWithoutRes_ordersInput = {
@@ -93182,6 +93077,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
   }
 
   export type res_ordersUpdateWithoutRes_shiftsInput = {
@@ -93205,6 +93101,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
@@ -93236,6 +93133,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
@@ -93264,6 +93162,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_ordersCreateManyRes_tablesInput = {
@@ -93290,6 +93189,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
   }
 
   export type res_reservationsCreateManyRes_tablesInput = {
@@ -93329,6 +93229,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
@@ -93360,6 +93261,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
@@ -93388,6 +93290,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_reservationsUpdateWithoutRes_tablesInput = {
@@ -93654,6 +93557,26 @@ export namespace Prisma {
     subtotal: Decimal | DecimalJsLike | number | string
   }
 
+  export type transactionsCreateManyTransactionsInput = {
+    id?: string
+    tenant_id: string
+    clerk_user_id: string
+    transaction_number: string
+    transaction_type: string
+    status?: string
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    tax_amount?: Decimal | DecimalJsLike | number | string | null
+    discount_amount?: Decimal | DecimalJsLike | number | string | null
+    total_amount: Decimal | DecimalJsLike | number | string
+    ip_address?: string | null
+    user_agent?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
   export type transaction_detailsUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenant_id?: StringFieldUpdateOperationsInput | string
@@ -93685,6 +93608,70 @@ export namespace Prisma {
     discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type transactionsUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenant_id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    transaction_number?: StringFieldUpdateOperationsInput | string
+    transaction_type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_details?: transaction_detailsUpdateManyWithoutTransactionsNestedInput
+    other_transactions?: transactionsUpdateManyWithoutTransactionsNestedInput
+  }
+
+  export type transactionsUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenant_id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    transaction_number?: StringFieldUpdateOperationsInput | string
+    transaction_type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transaction_details?: transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
+    other_transactions?: transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
+  }
+
+  export type transactionsUncheckedUpdateManyWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenant_id?: StringFieldUpdateOperationsInput | string
+    clerk_user_id?: StringFieldUpdateOperationsInput | string
+    transaction_number?: StringFieldUpdateOperationsInput | string
+    transaction_type?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tax_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    total_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type user_rolesCreateManyUsersInput = {
@@ -93775,6 +93762,7 @@ export namespace Prisma {
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
     res_employeesId?: string | null
+    clerk_user_id?: string | null
   }
 
   export type res_promotion_usageCreateManyRes_promotionsInput = {
@@ -93804,6 +93792,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     res_employees?: res_employeesUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
@@ -93835,6 +93824,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
@@ -93863,6 +93853,7 @@ export namespace Prisma {
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     res_employeesId?: NullableStringFieldUpdateOperationsInput | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_promotion_usageUpdateWithoutRes_promotionsInput = {
@@ -94181,6 +94172,7 @@ export namespace Prisma {
     promo_discount_amount?: Decimal | DecimalJsLike | number | string | null
     received_amount?: Decimal | DecimalJsLike | number | string | null
     change_amount?: Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: string | null
   }
 
   export type res_reservationsCreateManyRes_employeesInput = {
@@ -94372,6 +94364,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUpdateManyWithoutRes_ordersNestedInput
     promotions?: res_promotionsUpdateOneWithoutRes_ordersNestedInput
     res_shifts?: res_shiftsUpdateOneWithoutRes_ordersNestedInput
@@ -94403,6 +94396,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     res_order_items?: res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
     res_void_requests?: res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
   }
@@ -94431,6 +94425,7 @@ export namespace Prisma {
     promo_discount_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     received_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     change_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    clerk_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type res_reservationsUpdateWithoutRes_employeesInput = {
