@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -11,6 +11,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { cn } from '@/lib/utils'
+import { type NavigateFn } from '@/hooks/use-table-url-state'
+import { useCountriesData } from '../context/countries-context'
 import {
   Table,
   TableBody,
@@ -20,27 +23,45 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { type Country } from '../hooks/use-countries'
-import { columns } from './countries-columns'
+import { type Country } from '../data/schema'
+import { countriesColumns as columns } from './countries-columns'
 
-interface CountriesTableProps {
-  data: Country[]
-}
-
-export function CountriesTable({ data }: CountriesTableProps) {
+export function CountriesTable() {
+  const { countries: data = [], searchTerm, setSearchTerm, navigate } = useCountriesData()
+  const search = { name: searchTerm }
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const {
+    columnFilters,
+    onColumnFiltersChange,
+    pagination,
+    onPaginationChange,
+    ensurePageInRange,
+  } = useTableUrlState({
+    search,
+    navigate,
+    pagination: { defaultPage: 1, defaultPageSize: 10 },
+    globalFilter: { enabled: false },
+    columnFilters: [
+      { columnId: 'name', searchKey: 'name', type: 'string' },
+    ],
+  })
 
   const table = useReactTable({
     data,
     columns,
     state: {
       sorting,
+      pagination,
       rowSelection,
+      columnFilters,
       columnVisibility,
     },
     enableRowSelection: true,
+    onPaginationChange,
+    onColumnFiltersChange,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
@@ -51,6 +72,10 @@ export function CountriesTable({ data }: CountriesTableProps) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
+
+  useEffect(() => {
+    ensurePageInRange(table.getPageCount())
+  }, [table, ensurePageInRange])
 
   return (
     <div className='flex flex-1 flex-col gap-4'>
@@ -63,17 +88,27 @@ export function CountriesTable({ data }: CountriesTableProps) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
+              <TableRow key={headerGroup.id} className='group/row'>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={cn(
+                        'bg-background group-hover/row:bg-muted group-data-[state=selected]/row:bg-muted',
+                        header.column.columnDef.meta?.className,
+                        header.column.columnDef.meta?.thClassName
+                      )}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
             ))}
           </TableHeader>
@@ -83,9 +118,17 @@ export function CountriesTable({ data }: CountriesTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className='group/row'
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        'bg-background group-hover/row:bg-muted group-data-[state=selected]/row:bg-muted',
+                        cell.column.columnDef.meta?.className,
+                        cell.column.columnDef.meta?.tdClassName
+                      )}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

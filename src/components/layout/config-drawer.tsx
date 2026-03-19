@@ -124,7 +124,7 @@ export function ConfigDrawer() {
           <section className='space-y-4'>
             <div className='flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase'>
               <Settings2 className='h-4 w-4' />
-              Sidebar
+              {t('configDrawer.sidebar')}
             </div>
             <div className='grid grid-cols-2 gap-2'>
               <Button
@@ -132,14 +132,14 @@ export function ConfigDrawer() {
                 className='h-10'
                 onClick={() => setSidebarType('default')}
               >
-                Default
+                {t('configDrawer.sidebarDefault')}
               </Button>
               <Button
                 variant={sidebarType === 'floating' ? 'default' : 'outline'}
                 className='h-10'
                 onClick={() => setSidebarType('floating')}
               >
-                Floating
+                {t('configDrawer.sidebarFloating')}
               </Button>
             </div>
           </section>

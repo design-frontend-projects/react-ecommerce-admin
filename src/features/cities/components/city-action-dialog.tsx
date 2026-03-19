@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
 import { useCitiesContext } from './cities-provider'
 import { useCreateCity, useUpdateCity } from '../hooks/use-cities'
 import { useCountries } from '@/features/countries/hooks/use-countries'
@@ -34,8 +35,8 @@ import { Loader2 } from 'lucide-react'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  country_id: z.coerce.number().min(1, 'Country is required'),
-  is_active: z.boolean().default(true),
+  country_id: z.number().min(1, 'Country is required'),
+  is_active: z.boolean(),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -86,8 +87,8 @@ export function CityActionDialog() {
         })
       }
       close()
-    } catch (error) {
-      console.error('Failed to save city:', error)
+    } catch (_error) {
+      toast.error('Failed to save city')
     }
   }
 

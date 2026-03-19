@@ -2,8 +2,9 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type Country } from '../hooks/use-countries'
 import { CountryRowActions } from './country-row-actions'
+import { cn } from '@/lib/utils'
 
-export const columns: ColumnDef<Country>[] = [
+export const countriesColumns: ColumnDef<Country>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -36,13 +37,22 @@ export const columns: ColumnDef<Country>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'description',
-    header: 'Description',
+    accessorKey: 'code',
+    header: 'Code',
+    cell: ({ row }) => <div className='w-[100px] uppercase'>{row.getValue('code')}</div>,
+  },
+  {
+    accessorKey: 'is_active',
+    header: 'Status',
     cell: ({ row }) => {
+      const isActive = row.getValue('is_active') as boolean
       return (
-        <div className='flex space-x-2'>
-          <span className='max-w-[500px] truncate font-medium'>
-            {row.getValue('description')}
+        <div className='flex w-[100px] items-center'>
+          <span className={cn(
+            'rounded-full px-2 py-1 text-xs font-semibold',
+            isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          )}>
+            {isActive ? 'Active' : 'Inactive'}
           </span>
         </div>
       )
@@ -57,9 +67,6 @@ export const columns: ColumnDef<Country>[] = [
           {new Date(row.getValue('created_at')).toLocaleDateString()}
         </div>
       )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
     },
   },
   {

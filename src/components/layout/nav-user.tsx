@@ -48,34 +48,41 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size='lg'
-                className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+                className='data-[state=open]:bg-primary/10 data-[state=open]:text-primary-foreground group hover:bg-primary/5 transition-all duration-300 rounded-xl mx-1 w-[calc(100%-8px)]'
               >
-                <Avatar className='h-8 w-8 rounded-lg'>
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className='rounded-lg'>SN</AvatarFallback>
-                </Avatar>
-                <div className='grid flex-1 text-start text-sm leading-tight'>
-                  <span className='truncate font-semibold'>{user.name}</span>
-                  <span className='truncate text-xs'>{user.email}</span>
+                <div className='relative group-hover:scale-110 transition-transform duration-300'>
+                  <Avatar className='h-9 w-9 rounded-xl border border-primary/20 shadow-sm'>
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback className='rounded-xl bg-linear-to-br from-primary/20 to-primary/10 text-primary font-bold'>
+                      {user.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className='absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background rounded-full' />
                 </div>
-                <ChevronsUpDown className='ms-auto size-4' />
+                <div className='grid flex-1 text-start text-sm leading-tight ml-2'>
+                  <span className='truncate font-bold tracking-tight'>{user.name}</span>
+                  <span className='truncate text-xs text-muted-foreground'>{user.email}</span>
+                </div>
+                <ChevronsUpDown className='ms-auto size-4 text-muted-foreground group-hover:text-primary transition-colors' />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
+              className='w-(--radix-dropdown-menu-trigger-width) min-w-64 rounded-2xl glass-card premium-border shadow-2xl p-2'
               side={isMobile ? 'bottom' : 'right'}
               align='end'
-              sideOffset={4}
+              sideOffset={8}
             >
-              <DropdownMenuLabel className='p-0 font-normal'>
-                <div className='flex items-center gap-2 px-1 py-1.5 text-start text-sm'>
-                  <Avatar className='h-8 w-8 rounded-lg'>
+              <DropdownMenuLabel className='p-2 font-normal'>
+                <div className='flex items-center gap-3 px-2 py-2 text-start text-sm rounded-xl bg-primary/5 border border-primary/10'>
+                  <Avatar className='h-10 w-10 rounded-xl border border-primary/20'>
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className='rounded-lg'>SN</AvatarFallback>
+                    <AvatarFallback className='rounded-xl bg-linear-to-br from-primary/20 to-primary/10 text-primary font-bold'>
+                      {user.name.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                   <div className='grid flex-1 text-start text-sm leading-tight'>
-                    <span className='truncate font-semibold'>{user.name}</span>
-                    <span className='truncate text-xs'>{user.email}</span>
+                    <span className='truncate font-bold text-base leading-none'>{user.name}</span>
+                    <span className='truncate text-xs text-muted-foreground mt-1'>{user.email}</span>
                   </div>
                 </div>
               </DropdownMenuLabel>

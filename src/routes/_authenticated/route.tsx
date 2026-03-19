@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useAuth, useUser } from '@clerk/clerk-react'
+import { Loader2 } from 'lucide-react'
 import { isSubscriptionActive } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
@@ -36,10 +37,14 @@ const AuthenticatedRoute = () => {
         navigate({ to: '/subscription-required' })
       }
     }
-  }, [isLoaded, isSignedIn, subLoading, subscription, navigate, clerkUser])
+  }, [isLoaded, isSignedIn, subLoading, subscription, navigate, clerkUser, sessionClaims])
 
   if (!isLoaded || subLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className='flex h-screen w-full items-center justify-center bg-background'>
+        <Loader2 className='h-10 w-10 animate-spin text-primary' />
+      </div>
+    )
   }
 
   return <AuthenticatedLayout />

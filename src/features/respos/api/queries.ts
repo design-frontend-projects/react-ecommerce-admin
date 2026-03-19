@@ -302,7 +302,6 @@ export function useMenuItemsWithDetails(categoryId?: string) {
               description: item.description,
               price: item.base_price,
               track_inventory: false,
-              stock_quantity: 0,
               category_id: item.category_id || '',
               store_id: 'default',
               is_active: item.is_active ? 1 : 0, // Use numeric index for Dexie

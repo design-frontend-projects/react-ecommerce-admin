@@ -8,8 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import type { City } from '../hooks/use-cities'
 import { useCitiesContext } from './cities-provider'
-import { City } from '../hooks/use-cities'
 
 interface CitiesActionMenuProps {
   city: City

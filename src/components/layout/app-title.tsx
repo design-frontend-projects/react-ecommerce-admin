@@ -25,12 +25,12 @@ export function AppTitle() {
               onClick={() => setOpenMobile(false)}
               className='flex items-center gap-2'
             >
-              <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
+              <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-transform duration-300 hover:scale-110'>
                 <img src='/images/logo.png' alt='ResPOS' className='size-6 rounded-sm' />
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>ResPOS</span>
-                <span className='truncate text-xs text-muted-foreground'>Premium Edition</span>
+                <span className='truncate font-bold text-gradient'>ResPOS</span>
+                <span className='truncate text-[10px] uppercase tracking-wider text-muted-foreground/70'>Premium Edition</span>
               </div>
             </Link>
             <ToggleSidebar />

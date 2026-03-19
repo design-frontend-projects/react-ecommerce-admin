@@ -1,52 +1,37 @@
-import { createContext, useContext, useState } from 'react'
-import { City } from '../hooks/use-cities'
+import React, { useState } from 'react'
+import useDialogState from '@/hooks/use-dialog-state'
+import { type City } from '../data/schema'
 
-interface CitiesContextType {
-  open: (action: 'create' | 'update' | 'delete', city?: City) => void
-  close: () => void
-  isOpen: boolean
-  action: 'create' | 'update' | 'delete' | null
-  selectedCity: City | null
+type CitiesDialogType = 'add' | 'edit' | 'delete' | 'import'
+
+type CitiesDialogContextType = {
+  open: CitiesDialogType | null
+  setOpen: (str: CitiesDialogType | null) => void
+  currentRow: City | null
+  setCurrentRow: React.Dispatch<React.SetStateAction<City | null>>
 }
 
-const CitiesContext = createContext<CitiesContextType | undefined>(undefined)
+const CitiesDialogContext = React.createContext<CitiesDialogContextType | null>(null)
 
-export function CitiesProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [action, setAction] = useState<'create' | 'update' | 'delete' | null>(null)
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
-
-  const open = (action: 'create' | 'update' | 'delete', city?: City) => {
-    setAction(action)
-    setSelectedCity(city || null)
-    setIsOpen(true)
-  }
-
-  const close = () => {
-    setIsOpen(false)
-    setAction(null)
-    setSelectedCity(null)
-  }
+export function CitiesDialogProvider({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useDialogState<CitiesDialogType>(null)
+  const [currentRow, setCurrentRow] = useState<City | null>(null)
 
   return (
-    <CitiesContext.Provider
-      value={{
-        open,
-        close,
-        isOpen,
-        action,
-        selectedCity,
-      }}
-    >
+    <CitiesDialogContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
       {children}
-    </CitiesContext.Provider>
+    </CitiesDialogContext.Provider>
   )
 }
 
-export function useCitiesContext() {
-  const context = useContext(CitiesContext)
+// eslint-disable-next-line react-refresh/only-export-components
+export const useCitiesDialog = () => {
+  const context = React.useContext(CitiesDialogContext)
   if (!context) {
-    throw new Error('useCitiesContext must be used within a CitiesProvider')
+    throw new Error('useCitiesDialog must be used within <CitiesDialogProvider>')
   }
   return context
 }
+
+// Alias for backward compatibility with components using useCitiesContext
+export const useCitiesContext = useCitiesDialog

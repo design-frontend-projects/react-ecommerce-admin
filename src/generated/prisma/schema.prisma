@@ -89,7 +89,9 @@ model inventory {
   location        String?   @db.VarChar(100)
   last_restocked  DateTime? @db.Timestamp(6)
   clerk_user_id   String?   @default(dbgenerated("clerk_user_id()"))
+  store_id        String?   @db.Uuid
   products        products  @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
+  stores          stores?   @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([quantity], map: "idx_inventory_quantity", where: raw("(quantity < reorder_level)"))
 }
@@ -129,16 +131,20 @@ model pos_sales {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model price_list {
-  price_id        Int              @id @default(autoincrement())
+  price_id        Int               @id @default(autoincrement())
   product_id      Int
   group_id        Int?
-  price           Decimal          @db.Decimal(10, 2)
-  start_date      DateTime         @default(dbgenerated("CURRENT_DATE")) @db.Date
-  end_date        DateTime?        @db.Date
-  is_active       Boolean?         @default(true)
-  clerk_user_id   String?          @default(dbgenerated("clerk_user_id()"))
-  customer_groups customer_groups? @relation(fields: [group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction)
-  products        products         @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
+  price           Decimal           @db.Decimal(10, 2)
+  start_date      DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
+  end_date        DateTime?         @db.Date
+  is_active       Boolean?          @default(true)
+  clerk_user_id   String?           @default(dbgenerated("clerk_user_id()"))
+  description     String?
+  type            price_list_types?
+  store_id        String?           @db.Uuid
+  customer_groups customer_groups?  @relation(fields: [group_id], references: [group_id], onDelete: Cascade, onUpdate: NoAction)
+  products        products          @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
+  stores          stores?           @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([product_id, group_id], map: "unique_product_group_active")
   @@index([is_active], map: "idx_price_list_active", where: raw("(is_active = true)"))
@@ -755,6 +761,7 @@ model res_promotion_usage {
   promotion_id   String         @db.Uuid
   order_id       String         @db.Uuid
   applied_at     DateTime?      @default(now()) @db.Timestamptz(6)
+  clerk_user_id  String?
   res_promotions res_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
@@ -772,6 +779,7 @@ model res_promotions {
   starts_at           DateTime?             @db.Timestamptz(6)
   expires_at          DateTime?             @db.Timestamptz(6)
   created_at          DateTime?             @default(now()) @db.Timestamptz(6)
+  clerk_user_id       String?
   res_orders          res_orders[]
   res_promotion_usage res_promotion_usage[]
 }
@@ -909,15 +917,16 @@ model res_roles {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model branches {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String    @db.VarChar(200)
-  city_id    String    @db.Uuid
-  address    String?
-  phone      String?   @db.VarChar(20)
-  is_active  Boolean?  @default(true)
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @default(now()) @db.Timestamptz(6)
-  cities     cities    @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @db.VarChar(200)
+  city_id       String    @db.Uuid
+  address       String?
+  phone         String?   @db.VarChar(20)
+  is_active     Boolean?  @default(true)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime? @default(now()) @db.Timestamptz(6)
+  clerk_user_id String?
+  cities        cities    @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([city_id], map: "idx_branches_city_id")
 }
@@ -932,6 +941,7 @@ model cities {
   updated_at DateTime?  @default(now()) @db.Timestamptz(6)
   branches   branches[]
   countries  countries  @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores     stores[]
 
   @@unique([name, country_id])
   @@index([country_id], map: "idx_cities_country_id")
@@ -947,6 +957,7 @@ model countries {
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @default(now()) @db.Timestamptz(6)
   cities     cities[]
+  stores     stores[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -958,6 +969,26 @@ model currencies {
   is_active  Boolean?  @default(true)
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model stores {
+  store_id      String       @id @db.Uuid
+  clerk_user_id String?
+  name          String?
+  status        Boolean?     @default(true)
+  phone         String?
+  email         String?
+  address       String?
+  country_id    String?      @db.Uuid
+  city_id       String?      @db.Uuid
+  latitude      Decimal?     @db.Decimal
+  longitude     Decimal?     @db.Decimal
+  created_at    DateTime?    @db.Timestamp(6)
+  updated_at    DateTime?    @db.Timestamp(6)
+  inventory     inventory[]
+  price_list    price_list[]
+  cities        cities?      @relation(fields: [city_id], references: [id], onUpdate: NoAction)
+  countries     countries?   @relation(fields: [country_id], references: [id], onUpdate: NoAction)
 }
 
 enum discount_type {
@@ -1028,4 +1059,12 @@ enum refund_status {
   rejected
   waiting_manager
   waiting_review
+}
+
+enum price_list_types {
+  retail
+  wholesale
+  vip
+  black_friday
+  valintine_day
 }

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { TransactionRow } from './schema'
+import { type TransactionRow } from './schema'
 
 export const transactions: TransactionRow[] = Array.from(
   { length: 20 },

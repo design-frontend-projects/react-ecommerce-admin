@@ -181,7 +181,8 @@ exports.Prisma.InventoryScalarFieldEnum = {
   max_stock_level: 'max_stock_level',
   location: 'location',
   last_restocked: 'last_restocked',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  store_id: 'store_id'
 };
 
 exports.Prisma.Payment_typesScalarFieldEnum = {
@@ -215,7 +216,10 @@ exports.Prisma.Price_listScalarFieldEnum = {
   start_date: 'start_date',
   end_date: 'end_date',
   is_active: 'is_active',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  description: 'description',
+  type: 'type',
+  store_id: 'store_id'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -647,7 +651,8 @@ exports.Prisma.Res_promotion_usageScalarFieldEnum = {
   id: 'id',
   promotion_id: 'promotion_id',
   order_id: 'order_id',
-  applied_at: 'applied_at'
+  applied_at: 'applied_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.Res_promotionsScalarFieldEnum = {
@@ -662,7 +667,8 @@ exports.Prisma.Res_promotionsScalarFieldEnum = {
   is_active: 'is_active',
   starts_at: 'starts_at',
   expires_at: 'expires_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.SubscriptionsScalarFieldEnum = {
@@ -765,7 +771,8 @@ exports.Prisma.BranchesScalarFieldEnum = {
   phone: 'phone',
   is_active: 'is_active',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.CitiesScalarFieldEnum = {
@@ -797,6 +804,22 @@ exports.Prisma.CurrenciesScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.StoresScalarFieldEnum = {
+  store_id: 'store_id',
+  clerk_user_id: 'clerk_user_id',
+  name: 'name',
+  status: 'status',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  country_id: 'country_id',
+  city_id: 'city_id',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -822,6 +845,14 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.price_list_types = exports.$Enums.price_list_types = {
+  retail: 'retail',
+  wholesale: 'wholesale',
+  vip: 'vip',
+  black_friday: 'black_friday',
+  valintine_day: 'valintine_day'
+};
+
 exports.refund_status = exports.$Enums.refund_status = {
   approved: 'approved',
   rejected: 'rejected',
@@ -901,7 +932,8 @@ exports.Prisma.ModelName = {
   branches: 'branches',
   cities: 'cities',
   countries: 'countries',
-  currencies: 'currencies'
+  currencies: 'currencies',
+  stores: 'stores'
 };
 
 /**

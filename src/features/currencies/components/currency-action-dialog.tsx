@@ -35,7 +35,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: 'Symbol is required.' })
     .max(5, { message: 'Symbol must be at most 5 characters.' }),
-  is_active: z.boolean().default(true),
+  is_active: z.boolean(),
 })
 
 type CurrencyFormSchema = z.infer<typeof formSchema>

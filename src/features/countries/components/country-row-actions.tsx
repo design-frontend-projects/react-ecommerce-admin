@@ -9,8 +9,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { type Country } from '../hooks/use-countries'
-import { useCountriesContext } from './countries-provider'
+import { type Country } from '../data/schema'
+import { useCountriesDialog } from './countries-provider'
 
 interface CountryRowActionsProps<TData> {
   row: Row<TData>
@@ -20,7 +20,7 @@ export function CountryRowActions<TData>({
   row,
 }: CountryRowActionsProps<TData>) {
   const country = row.original as Country
-  const { setOpen, setCurrentRow } = useCountriesContext()
+  const { setOpen, setCurrentRow } = useCountriesDialog()
 
   return (
     <DropdownMenu>

@@ -1,12 +1,12 @@
+import { useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { useCurrenciesContext } from './currencies-provider'
 import { useDeleteCurrency } from '../hooks/use-currencies'
-import { useState } from 'react'
+import { useCurrenciesContext } from './currencies-provider'
 
 export function CurrencyDeleteDialog() {
   const [value, setValue] = useState('')
@@ -18,15 +18,11 @@ export function CurrencyDeleteDialog() {
 
     try {
       await deleteMutation.mutateAsync(currentRow.id)
-      toast({ title: 'Currency deleted successfully.' })
+      toast.success('Currency deleted successfully.')
       setOpen(null)
       setValue('')
     } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: error.message || 'Failed to delete currency.',
-      })
+      toast.error(error.message || 'Failed to delete currency.')
     }
   }
 
@@ -39,17 +35,15 @@ export function CurrencyDeleteDialog() {
           setValue('')
         }
       }}
-      title={
-        <span className='text-destructive'>
-          Delete Currency
-        </span>
-      }
+      title={<span className='text-destructive'>Delete Currency</span>}
       desc={
         <div className='space-y-4'>
           <p className='mb-2'>
-            Are you sure you want to delete <span className='font-bold'>{currentRow?.name}</span>?
+            Are you sure you want to delete{' '}
+            <span className='font-bold'>{currentRow?.name}</span>?
             <br />
-            This action will permanently remove the currency from the system and cannot be undone.
+            This action will permanently remove the currency from the system and
+            cannot be undone.
           </p>
 
           <Label className='my-2'>
@@ -68,8 +62,8 @@ export function CurrencyDeleteDialog() {
             <AlertTriangle className='h-4 w-4' />
             <AlertTitle>Warning</AlertTitle>
             <AlertDescription>
-              Any data associated with this currency might be affected.
-              If this currency is in use, the deletion may fail.
+              Any data associated with this currency might be affected. If this
+              currency is in use, the deletion may fail.
             </AlertDescription>
           </Alert>
         </div>

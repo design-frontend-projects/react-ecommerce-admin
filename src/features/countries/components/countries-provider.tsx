@@ -1,59 +1,34 @@
-import React, { useState, useCallback, useMemo } from 'react'
-import { type Country } from '../hooks/use-countries'
+import React, { useState, createContext, useContext } from 'react'
+import useDialogState from '@/hooks/use-dialog-state'
+import { type Country } from '../data/schema'
 
-type CountriesDialogType = 'create' | 'edit' | 'delete' | null
+type CountriesDialogType = 'add' | 'edit' | 'delete'
 
 interface CountriesContextType {
-  open: CountriesDialogType
-  setOpen: (type: CountriesDialogType) => void
+  open: CountriesDialogType | null
+  setOpen: (str: CountriesDialogType | null) => void
   currentRow: Country | null
-  setCurrentRow: (row: Country | null) => void
+  setCurrentRow: React.Dispatch<React.SetStateAction<Country | null>>
 }
 
-const CountriesContext = React.createContext<CountriesContextType | null>(
-  null
-)
+const CountriesContext = createContext<CountriesContextType | null>(null)
 
-interface CountriesProviderProps {
-  children: React.ReactNode
-}
-
-export function CountriesProvider({ children }: CountriesProviderProps) {
-  const [open, setOpen] = useState<CountriesDialogType>(null)
+export function CountriesDialogProvider({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useDialogState<CountriesDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Country | null>(null)
 
-  const handleSetOpen = useCallback((type: CountriesDialogType) => {
-    setOpen(type)
-    if (type === null) {
-      setCurrentRow(null)
-    }
-  }, [])
-
-  const value = useMemo(
-    () => ({
-      open,
-      setOpen: handleSetOpen,
-      currentRow,
-      setCurrentRow,
-    }),
-    [open, currentRow, handleSetOpen]
-  )
-
   return (
-    <CountriesContext.Provider value={value}>
+    <CountriesContext value={{ open, setOpen, currentRow, setCurrentRow }}>
       {children}
-    </CountriesContext.Provider>
+    </CountriesContext>
   )
 }
 
-export const useCountriesContext = () => {
-  const context = React.useContext(CountriesContext)
-
+// eslint-disable-next-line react-refresh/only-export-components
+export const useCountriesDialog = () => {
+  const context = useContext(CountriesContext)
   if (!context) {
-    throw new Error(
-      'useCountriesContext must be used within <CountriesProvider>'
-    )
+    throw new Error('useCountriesDialog must be used within a CountriesDialogProvider')
   }
-
   return context
 }

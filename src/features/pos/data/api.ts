@@ -1,3 +1,5 @@
+import { db } from '@/lib/db/indexed-db'
+import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
 
 export type PosProduct = {
@@ -6,7 +8,6 @@ export type PosProduct = {
   sku: string
   barcode: string | null
   base_price: number
-  stock_quantity: number
   category_id: string | null
 }
 
@@ -16,22 +17,20 @@ export type PosCategory = {
   slug: string
 }
 
-import { db } from '@/lib/db/indexed-db'
-import { offlineOrderService } from '@/lib/offline-order-service'
-
 export async function getPosProducts(): Promise<PosProduct[]> {
   // If offline, serve from Dexie
   if (typeof window !== 'undefined' && !window.navigator.onLine) {
     try {
-      const cached = await db.products.filter(p => p.is_active === 1).toArray()
+      const cached = await db.products
+        .filter((p) => p.is_active === 1)
+        .toArray()
       if (cached.length > 0) {
-        return cached.map(p => ({
+        return cached.map((p) => ({
           product_id: parseInt(p.id, 10),
           name: p.name,
           sku: p.sku || '',
           barcode: p.barcode || null,
           base_price: p.price,
-          stock_quantity: p.stock_quantity || 0,
           category_id: p.category_id || null,
         }))
       }
@@ -68,19 +67,16 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     sku: p.sku || '',
     barcode: p.barcode,
     base_price: Number(p.base_price),
-    stock_quantity: p.inventory
-      ? Number((p.inventory as unknown as { quantity: number }).quantity || 0)
-      : 0,
     // Add these for Dexie caching
     category_id: p.category_id,
     description: p.description,
-    is_active: p.is_active ? 1 : 0
+    is_active: p.is_active ? 1 : 0,
   }))
 
   // Save to Dexie
   if (typeof window !== 'undefined') {
     try {
-      const dexieProducts = mapped.map(p => ({
+      const dexieProducts = mapped.map((p) => ({
         id: String(p.product_id),
         name: p.name,
         slug: p.name.toLowerCase().replace(/\s+/g, '-'),
@@ -89,7 +85,6 @@ export async function getPosProducts(): Promise<PosProduct[]> {
         sku: p.sku,
         barcode: p.barcode,
         track_inventory: true,
-        stock_quantity: p.stock_quantity,
         category_id: String(p.category_id),
         store_id: String(p.store_id),
         is_active: p.is_active,
@@ -102,14 +97,13 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     }
   }
 
-  return mapped.map(p => ({
+  return mapped.map((p) => ({
     product_id: p.product_id,
     name: p.name,
     sku: p.sku,
     barcode: p.barcode,
     base_price: p.base_price,
-    stock_quantity: p.stock_quantity,
-    category_id: String(p.category_id)
+    category_id: String(p.category_id),
   }))
 }
 
@@ -118,7 +112,7 @@ export async function getPosCategories(): Promise<PosCategory[]> {
     try {
       const cached = await db.categories.toArray()
       if (cached.length > 0) {
-        return cached.map(c => ({
+        return cached.map((c) => ({
           category_id: c.id,
           name: c.name,
           slug: c.slug,
@@ -139,23 +133,25 @@ export async function getPosCategories(): Promise<PosCategory[]> {
     return []
   }
 
-  const categories = data.map(c => ({
+  const categories = data.map((c) => ({
     category_id: c.category_id,
     name: c.name,
-    slug: c.slug
+    slug: c.slug,
   }))
 
   if (typeof window !== 'undefined') {
     try {
-      await db.categories.bulkPut(categories.map(c => ({
-        id: c.category_id,
-        name: c.name,
-        slug: c.slug,
-        store_id: 'default',
-        is_active: 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })))
+      await db.categories.bulkPut(
+        categories.map((c) => ({
+          id: c.category_id,
+          name: c.name,
+          slug: c.slug,
+          store_id: 'default',
+          is_active: 1,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }))
+      )
     } catch (e) {
       console.warn('Failed to cache categories', e) // eslint-disable-line no-console
     }
@@ -181,7 +177,10 @@ export async function createPosTransaction(payload: {
   if (typeof window !== 'undefined' && !window.navigator.onLine) {
     const offlineOrder = await offlineOrderService.saveOfflineOrder({
       store_id: payload.tenant_id,
-      total_amount: payload.items.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0),
+      total_amount: payload.items.reduce(
+        (sum, item) => sum + item.unit_price * item.quantity,
+        0
+      ),
       items: payload.items,
       customer_id: payload.clerk_user_id,
     })

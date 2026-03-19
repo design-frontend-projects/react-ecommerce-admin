@@ -56,9 +56,17 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
             key={`${title}-${href}`}
             to={href}
             disabled={disabled}
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive ? '' : 'text-muted-foreground'}`}
+            className={cn(
+              'relative py-1 text-sm font-medium transition-all duration-300 ease-in-out hover:text-primary',
+              isActive 
+                ? 'text-primary' 
+                : 'text-muted-foreground'
+            )}
           >
             {title}
+            {isActive && (
+              <span className='absolute inset-x-0 -bottom-px h-0.5 bg-linear-to-r from-primary/0 via-primary to-primary/0' />
+            )}
           </Link>
         ))}
       </nav>

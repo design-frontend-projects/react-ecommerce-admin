@@ -59,9 +59,8 @@ export function TransactionActionDialog({
     queryKey: ['products-list'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('products')
-        .select('product_id, name, base_price, stock_quantity')
-        .order('name')
+        .from('inventory')
+        .select('*, products(product_id, name, base_price)')
       if (error) throw error
       return data || []
     },
@@ -275,12 +274,13 @@ export function TransactionActionDialog({
                             onValueChange={(val) => {
                               field.onChange(Number(val))
                               const selectedProduct = products?.find(
-                                (p: any) => p.product_id === Number(val)
+                                (p: any) =>
+                                  p.products.product_id === Number(val)
                               )
                               if (selectedProduct) {
                                 form.setValue(
                                   `items.${index}.unit_price`,
-                                  selectedProduct.base_price
+                                  selectedProduct.products.base_price
                                 )
                               }
                             }}
@@ -295,10 +295,10 @@ export function TransactionActionDialog({
                             <SelectContent>
                               {products?.map((p: any) => (
                                 <SelectItem
-                                  key={p.product_id}
-                                  value={p.product_id.toString()}
+                                  key={p.products.product_id}
+                                  value={p.products.product_id.toString()}
                                 >
-                                  {p.name} (Stock: {p.stock_quantity ?? 0})
+                                  {p.products.name} (Stock: {p.quantity ?? 0})
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -308,11 +308,10 @@ export function TransactionActionDialog({
                       )}
                     />
                   </div>
-
                   <div className='col-span-4 sm:col-span-2'>
                     <FormField
                       control={form.control}
-                      name={`items.${index}.quantity`}
+                      name={`items.${index}.name`}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className='text-xs'>Qty</FormLabel>
@@ -341,8 +340,8 @@ export function TransactionActionDialog({
                           <FormControl>
                             <Input
                               type='number'
-                              step='0.01'
-                              min='0'
+                              step='1'
+                              min='1'
                               className='h-8 text-xs'
                               disabled={isEdit}
                               {...field}

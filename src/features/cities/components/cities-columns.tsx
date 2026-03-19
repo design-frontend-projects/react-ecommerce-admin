@@ -1,11 +1,13 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { City } from '../hooks/use-cities'
-import { Checkbox } from '@/components/ui/checkbox'
+import { type ColumnDef } from '@tanstack/react-table'
+import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { format } from 'date-fns'
-import { CitiesActionMenu } from './cities-action-menu'
+import { Checkbox } from '@/components/ui/checkbox'
+import { DataTableColumnHeader } from '@/components/data-table'
+import { LongText } from '@/components/long-text'
+import { type City } from '../data/schema'
+import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<City>[] = [
+export const citiesColumns: ColumnDef<City>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -16,13 +18,18 @@ export const columns: ColumnDef<City>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
+        className='translate-y-[2px]'
       />
     ),
+    meta: {
+      className: cn('max-md:sticky start-0 z-10 rounded-tl-[inherit]'),
+    },
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label='Select row'
+        className='translate-y-[2px]'
       />
     ),
     enableSorting: false,
@@ -30,38 +37,51 @@ export const columns: ColumnDef<City>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'country_id',
-    header: 'Country',
-    cell: ({ row }) => {
-      // @ts-ignore
-      return row.original.countries?.name || row.original.country_id
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Name' />
+    ),
+    cell: ({ row }) => (
+      <LongText className='max-w-36 ps-3'>{row.getValue('name')}</LongText>
+    ),
+    meta: {
+      className: cn(
+        'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
+        'ps-0.5 max-md:sticky start-6 @4xl/content:table-cell @4xl/content:drop-shadow-none'
+      ),
     },
+    enableHiding: false,
   },
   {
-    accessorKey: 'is_active',
-    header: 'Status',
+    accessorKey: 'slug',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Slug' />
+    ),
+    cell: ({ row }) => <div>{row.getValue('slug')}</div>,
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Status' />
+    ),
     cell: ({ row }) => {
-      const isActive = row.original.is_active
+      const { status } = row.original
+      const badgeColor = status === 'active' ? 'text-green-500' : 'text-red-500'
       return (
-        <Badge variant={isActive ? 'default' : 'secondary'}>
-          {isActive ? 'Active' : 'Inactive'}
-        </Badge>
+        <div className='flex space-x-2'>
+          <Badge variant='outline' className={cn('capitalize', badgeColor)}>
+            {row.getValue('status')}
+          </Badge>
+        </div>
       )
     },
-  },
-  {
-    accessorKey: 'created_at',
-    header: 'Created At',
-    cell: ({ row }) => {
-      if (!row.original.created_at) return null
-      return format(new Date(row.original.created_at), 'PPP')
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
+    enableHiding: false,
+    enableSorting: false,
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CitiesActionMenu city={row.original} />,
+    cell: DataTableRowActions,
   },
 ]

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -21,13 +21,15 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
 import { useCreateCountry, useUpdateCountry } from '../hooks/use-countries'
 import { useCountriesContext } from './countries-provider'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
+  code: z.string().min(1, 'Code is required'),
+  phone_code: z.string().min(1, 'Phone code is required'),
+  is_active: z.boolean(),
 })
 
 type CountryFormValues = z.infer<typeof formSchema>
@@ -44,7 +46,9 @@ export function CountryActionDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      description: '',
+      code: '',
+      phone_code: '',
+      is_active: true,
     },
   })
 
@@ -52,21 +56,25 @@ export function CountryActionDialog() {
     if (currentRow) {
       form.reset({
         name: currentRow.name,
-        description: currentRow.description || '',
+        code: currentRow.code,
+        phone_code: currentRow.phone_code,
+        is_active: currentRow.is_active,
       })
     } else {
       form.reset({
         name: '',
-        description: '',
+        code: '',
+        phone_code: '',
+        is_active: true,
       })
     }
   }, [currentRow, form])
 
-  const onSubmit = async (values: CountryFormValues) => {
+  const onSubmit: SubmitHandler<CountryFormValues> = async (values) => {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.country_id,
+          id: currentRow.id,
           ...values,
         })
         toast.success('Country updated successfully')
@@ -76,9 +84,7 @@ export function CountryActionDialog() {
       }
       setOpen(null)
     } catch (error: any) {
-      toast.error('Error', {
-        description: error.message || 'Something went wrong. Please try again.',
-      })
+      toast.error(error.message || 'Failed to save country.')
     }
   }
 
@@ -115,12 +121,41 @@ export function CountryActionDialog() {
             />
             <FormField
               control={form.control}
-              name='description'
+              name='code'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Code</FormLabel>
                   <FormControl>
-                    <Textarea placeholder='Description (optional)' {...field} />
+                    <Input placeholder='Country code' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='phone_code'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone code</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Phone code' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='is_active'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Is active</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -3,7 +3,7 @@ import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 import type { Profile } from '@/features/auth/services/profile-service'
 
 
-const ACCESS_TOKEN = 'thisisjustarandomstring'
+const ACCESS_TOKEN = 'respos_access_token'
 
 interface AuthUser {
   accountNo: string
