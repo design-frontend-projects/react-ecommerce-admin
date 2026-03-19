@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { ConfigDrawer } from './config-drawer'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -43,6 +44,9 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
         <SidebarTrigger variant='ghost' className='-ml-2 hover:bg-primary/10' />
         <Separator orientation='vertical' className='h-6 bg-border/50' />
         {children}
+        <div className="ml-auto flex items-center gap-2">
+          <ConfigDrawer />
+        </div>
       </div>
     </header>
   )

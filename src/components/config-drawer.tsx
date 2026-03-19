@@ -1,7 +1,6 @@
-import { type SVGProps } from 'react'
-import { Root as Radio, Item } from '@radix-ui/react-radio-group'
-import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
-import { Trans } from 'react-i18next'
+import React, { type SVGProps } from 'react'
+import { RotateCcw, Settings, Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { IconDir } from '@/assets/custom/icon-dir'
 import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
 import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
@@ -11,12 +10,13 @@ import { IconSidebarInset } from '@/assets/custom/icon-sidebar-inset'
 import { IconSidebarSidebar } from '@/assets/custom/icon-sidebar-sidebar'
 import { IconThemeDark } from '@/assets/custom/icon-theme-dark'
 import { IconThemeLight } from '@/assets/custom/icon-theme-light'
-import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/context/direction-provider'
 import { type Collapsible, useLayout } from '@/context/layout-provider'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import {
   Sheet,
   SheetContent,
@@ -47,7 +47,7 @@ export function ConfigDrawer() {
         <Button
           size='icon'
           variant='ghost'
-          aria-label='Mở cài đặt giao diện'
+          aria-label='Install the interface.'
           aria-describedby='config-drawer-description'
           className='rounded-full'
         >
@@ -56,24 +56,29 @@ export function ConfigDrawer() {
       </SheetTrigger>
       <SheetContent className='flex flex-col'>
         <SheetHeader className='pb-0 text-start'>
-          <SheetTitle>Cài đặt giao diện</SheetTitle>
+          <SheetTitle>Install the interface.</SheetTitle>
           <SheetDescription id='config-drawer-description'>
-            Điều chỉnh giao diện và bố cục theo sở thích của bạn.
+            Customize the interface and layout to your liking.
           </SheetDescription>
         </SheetHeader>
-        <div className='space-y-6 overflow-y-auto px-4'>
-          <ThemeConfig />
-          <SidebarConfig />
-          <LayoutConfig />
-          <DirConfig />
-        </div>
+        <ScrollArea className='h-full'>
+          <div className='space-y-6 px-4'>
+            <ThemeConfig />
+            <Separator />
+            <SidebarConfig />
+            <Separator />
+            <LayoutConfig />
+            <Separator />
+            <DirConfig />
+          </div>
+        </ScrollArea>
         <SheetFooter className='gap-2'>
           <Button
             variant='destructive'
             onClick={handleReset}
-            aria-label='Đặt lại tất cả cài đặt về giá trị mặc định'
+            aria-label='Reset all settings to default values.'
           >
-            Đặt lại
+            Reset
           </Button>
         </SheetFooter>
       </SheetContent>
@@ -114,49 +119,101 @@ function SectionTitle({
   )
 }
 
-function RadioGroupItem({
-  item,
-  isTheme = false,
-}: {
+interface RadioGroupContextType {
+  selectedValue: string
+  onSelect: (value: string) => void
+}
+
+const RadioGroupContext = React.createContext<
+  RadioGroupContextType | undefined
+>(undefined)
+
+interface RadioGroupProps {
+  value: string
+  onValueChange: (value: string) => void
+  children: React.ReactNode
+  className?: string
+  'aria-label'?: string
+  'aria-describedby'?: string
+}
+
+function RadioGroup({
+  value,
+  onValueChange,
+  children,
+  className,
+  'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedby,
+}: RadioGroupProps) {
+  return (
+    <RadioGroupContext.Provider
+      value={{ selectedValue: value, onSelect: onValueChange }}
+    >
+      <div
+        className={cn('grid gap-4', className)}
+        role='radiogroup'
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedby}
+      >
+        {children}
+      </div>
+    </RadioGroupContext.Provider>
+  )
+}
+
+interface RadioGroupItemProps {
   item: {
     value: string
-    label: string
-    icon: (props: SVGProps<SVGSVGElement>) => React.ReactElement
+    label: React.ReactNode
+    icon: any
+    ariaLabel?: string
   }
-  isTheme?: boolean
-}) {
+}
+
+const RadioGroupItem = ({ item }: RadioGroupItemProps) => {
+  const context = React.useContext(RadioGroupContext)
+  if (!context) {
+    throw new Error('RadioGroupItem must be used within a RadioGroup')
+  }
+  const { selectedValue, onSelect } = context
+
+  const isSelected = selectedValue === item.value
+  const Icon = item.icon
+
   return (
-    <Item
-      value={item.value}
-      className={cn('group outline-none', 'transition duration-200 ease-in')}
-      aria-label={`Select ${item.label.toLowerCase()}`}
-      aria-describedby={`${item.value}-description`}
+    <div
+      className={cn(
+        'group relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 bg-card p-4 transition-all hover:bg-accent hover:text-accent-foreground',
+        isSelected
+          ? 'border-primary ring-2 ring-primary/20'
+          : 'border-muted hover:border-primary/50'
+      )}
+      onClick={() => onSelect(item.value)}
+      role='radio'
+      aria-checked={isSelected}
+      tabIndex={0}
+      aria-label={
+        item.ariaLabel || (typeof item.label === 'string' ? item.label : '')
+      }
     >
       <div
         className={cn(
           'relative rounded-[6px] ring-[1px] ring-border',
-          'group-data-[state=checked]:shadow-2xl group-data-[state=checked]:ring-primary',
-          'group-focus-visible:ring-2'
+          isSelected && 'ring-primary'
         )}
         role='img'
         aria-hidden='false'
         aria-label={`${item.label} option preview`}
       >
-        <CircleCheck
+        <Check
           className={cn(
             'size-6 fill-primary stroke-white',
-            'group-data-[state=unchecked]:hidden',
-            'absolute top-0 right-0 translate-x-1/2 -translate-y-1/2'
+            !isSelected && 'hidden',
+            'absolute top-0 right-0 z-10 translate-x-1/2 -translate-y-1/2'
           )}
           aria-hidden='true'
         />
-        <item.icon
-          className={cn(
-            !isTheme &&
-              'fill-primary stroke-primary group-data-[state=unchecked]:fill-muted-foreground group-data-[state=unchecked]:stroke-muted-foreground'
-          )}
-          aria-hidden='true'
-        />
+        {typeof Icon === 'function' ? <Icon className='h-auto w-full' /> : Icon}
       </div>
       <div
         className='mt-1 text-xs'
@@ -165,49 +222,44 @@ function RadioGroupItem({
       >
         {item.label}
       </div>
-    </Item>
+    </div>
   )
 }
 
 function ThemeConfig() {
-  const { defaultTheme, theme, setTheme } = useTheme()
+  const { t } = useTranslation()
+  const { theme, setTheme } = useTheme()
+
+  const items = [
+    {
+      value: 'light',
+      label: t('theme.light'),
+      icon: IconThemeLight,
+    },
+    {
+      value: 'dark',
+      label: t('theme.dark'),
+      icon: IconThemeDark,
+    },
+  ]
+
   return (
     <div>
       <SectionTitle
-        title='Chủ đề'
-        showReset={theme !== defaultTheme}
-        onReset={() => setTheme(defaultTheme)}
+        title={t('theme.title', 'Chủ đề')}
+        showReset={theme !== 'light'}
+        onReset={() => setTheme('light')}
       />
-      <Radio
+      <RadioGroup
         value={theme}
-        onValueChange={setTheme}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        onValueChange={(val) => setTheme(val as any)}
+        className='grid w-full max-w-md grid-cols-2 gap-4'
         aria-label='Chọn chủ đề'
-        aria-describedby='theme-description'
       >
-        {[
-          {
-            value: 'system',
-            label: <Trans i18nKey='theme.system' />,
-            icon: IconThemeSystem,
-          },
-          {
-            value: 'light',
-            label: <Trans i18nKey='theme.light' />,
-            icon: IconThemeLight,
-          },
-          {
-            value: 'dark',
-            label: <Trans i18nKey='theme.dark' />,
-            icon: IconThemeDark,
-          },
-        ].map((item) => (
-          <RadioGroupItem key={item.value} item={item} isTheme />
+        {items.map((item) => (
+          <RadioGroupItem key={item.value} item={item} />
         ))}
-      </Radio>
-      <div id='theme-description' className='sr-only'>
-        Chọn giữa tùy chọn hệ thống, chế độ sáng hoặc chế độ tối
-      </div>
+      </RadioGroup>
     </div>
   )
 }
@@ -221,9 +273,9 @@ function SidebarConfig() {
         showReset={defaultVariant !== variant}
         onReset={() => setVariant(defaultVariant)}
       />
-      <Radio
+      <RadioGroup
         value={variant}
-        onValueChange={setVariant}
+        onValueChange={(v) => setVariant(v as any)}
         className='grid w-full max-w-md grid-cols-3 gap-4'
         aria-label='Chọn kiểu thanh bên'
         aria-describedby='sidebar-description'
@@ -247,7 +299,7 @@ function SidebarConfig() {
         ].map((item) => (
           <RadioGroupItem key={item.value} item={item} />
         ))}
-      </Radio>
+      </RadioGroup>
       <div id='sidebar-description' className='sr-only'>
         Chọn giữa bố cục lồng trong, nổi hoặc thanh bên tiêu chuẩn
       </div>
@@ -271,7 +323,7 @@ function LayoutConfig() {
           setCollapsible(defaultCollapsible)
         }}
       />
-      <Radio
+      <RadioGroup
         value={radioState}
         onValueChange={(v) => {
           if (v === 'default') {
@@ -304,7 +356,7 @@ function LayoutConfig() {
         ].map((item) => (
           <RadioGroupItem key={item.value} item={item} />
         ))}
-      </Radio>
+      </RadioGroup>
       <div id='layout-description' className='sr-only'>
         Chọn giữa chế độ mở rộng mặc định, thu gọn chỉ biểu tượng hoặc toàn màn
         hình
@@ -322,10 +374,10 @@ function DirConfig() {
         showReset={defaultDir !== dir}
         onReset={() => setDir(defaultDir)}
       />
-      <Radio
+      <RadioGroup
         value={dir}
-        onValueChange={setDir}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
+        onValueChange={(v) => setDir(v as any)}
+        className='grid w-full max-w-md grid-cols-2 gap-4'
         aria-label='Chọn hướng trang web'
         aria-describedby='direction-description'
       >
@@ -347,7 +399,7 @@ function DirConfig() {
         ].map((item) => (
           <RadioGroupItem key={item.value} item={item} />
         ))}
-      </Radio>
+      </RadioGroup>
       <div id='direction-description' className='sr-only'>
         Chọn giữa hướng trái sang phải hoặc phải sang trái
       </div>

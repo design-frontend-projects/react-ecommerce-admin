@@ -52,5 +52,14 @@
     "viewAllPurchaseOrders": "View all purchase orders",
     "viewAllRefunds": "View all refunds",
     "viewAllSales": "View all sales"
+  },
+  "configDrawer": {
+    "title": "Configuration",
+    "description": "Customize your experience",
+    "theme": "Theme",
+    "language": "Language",
+    "font": "Font",
+    "direction": "Direction",
+    "close": "Close"
   }
 }

@@ -53,14 +53,5 @@
     "viewAllPurchaseOrders": "عرض جميع أوامر الشراء",
     "viewAllRefunds": "عرض جميع الاستردادات",
     "viewAllSales": "عرض جميع المبيعات"
-  },
-  "configDrawer": {
-    "title": "الاعدادات",
-    "description": "تخصيص تجربتك",
-    "theme": "المظهر",
-    "language": "اللغة",
-    "font": "الخط",
-    "direction": "الاتجاه",
-    "close": "إغلاق"
   }
 }

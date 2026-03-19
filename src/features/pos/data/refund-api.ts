@@ -137,12 +137,14 @@ export async function getTransactionById(
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
 /**
- * Insert a refund record into the `refunds` table.
+ * Insert a refund record into the `refunds` table AND create a corresponding
+ * `transactions` row for auditing / reporting.
  * Returns the new refund_id on success.
  */
 export async function createRefund(
   payload: CreateRefundPayload
 ): Promise<string> {
+  // 1. Insert into `refunds`
   const { data, error } = await supabase
     .from('refunds')
     .insert({
@@ -158,5 +160,49 @@ export async function createRefund(
     .single()
 
   if (error) throw error
+
+  // 2. Fetch the original transaction to inherit tenant_id, currency, etc.
+  const { data: originalTx, error: txError } = await supabase
+    .from('transactions')
+    .select('id, tenant_id, clerk_user_id, currency, transaction_number')
+    .eq('transaction_number', payload.orderId)
+    .single()
+
+  if (txError) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to fetch original transaction for refund sync:', txError)
+    // Return the refund_id anyway — the refund itself succeeded
+    return String((data as { refund_id: string | number }).refund_id)
+  }
+
+  // 3. Build notes string
+  const refundNotes = [
+    `Refund: ${payload.reason}`,
+    payload.notes ? payload.notes : null,
+  ]
+    .filter(Boolean)
+    .join('. ')
+
+  // 4. Insert a mirrored record in `transactions`
+  const { error: txInsertError } = await supabase.from('transactions').insert({
+    tenant_id: originalTx.tenant_id,
+    clerk_user_id: originalTx.clerk_user_id,
+    transaction_number: `REF-${originalTx.transaction_number}`,
+    transaction_type: 'refund',
+    status: 'completed',
+    currency: originalTx.currency,
+    subtotal: -Math.abs(payload.refundAmount),
+    tax_amount: 0,
+    discount_amount: 0,
+    total_amount: -Math.abs(payload.refundAmount),
+    reference_transaction_id: originalTx.id,
+    notes: refundNotes,
+  })
+
+  if (txInsertError) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to create refund transaction record:', txInsertError)
+  }
+
   return String((data as { refund_id: string | number }).refund_id)
 }

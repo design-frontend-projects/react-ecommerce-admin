@@ -283,25 +283,25 @@ export function Dashboard() {
 
 const topNav = [
   {
-    title: 'Tổng quan',
+    title: 'Overview',
     href: 'dashboard/overview',
     isActive: true,
     disabled: false,
   },
   {
-    title: 'Khách hàng',
+    title: 'Client',
     href: 'dashboard/customers',
     isActive: false,
     disabled: true,
   },
   {
-    title: 'Sản phẩm',
+    title: 'Products',
     href: 'dashboard/products',
     isActive: false,
     disabled: true,
   },
   {
-    title: 'Cài đặt',
+    title: 'Settings',
     href: 'dashboard/settings',
     isActive: false,
     disabled: true,

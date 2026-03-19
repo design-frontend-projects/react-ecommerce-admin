@@ -79,3 +79,36 @@ export async function getLowStock() {
   if (error) throw error
   return data || []
 }
+
+/**
+ * Fetch recent completed sale transactions, excluding any that have been
+ * refunded (i.e. whose transaction_number appears as `order_id` in the
+ * `refunds` table).
+ */
+export async function getRecentTransactions() {
+  // 1. Fetch refunded order IDs
+  const { data: refunds } = await supabase
+    .from('refunds')
+    .select('order_id')
+
+  const refundedOrderIds = new Set(
+    (refunds ?? []).map((r) => r.order_id).filter(Boolean)
+  )
+
+  // 2. Fetch recent completed sale transactions
+  const { data: transactions, error } = await supabase
+    .from('transactions')
+    .select('*')
+    .eq('transaction_type', 'sale')
+    .eq('status', 'completed')
+    .order('created_at', { ascending: false })
+    .limit(20) // fetch extra to compensate for filtered-out refunds
+
+  if (error) throw error
+
+  // 3. Filter out refunded transactions and return top 10
+  return (transactions ?? [])
+    .filter((tx) => !refundedOrderIds.has(tx.transaction_number))
+    .slice(0, 10)
+}
+

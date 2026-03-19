@@ -1,8 +1,8 @@
 {
   "track_id": "refund_transaction_sync_20260318",
   "type": "feature",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-03-18T03:41:00Z",
-  "updated_at": "2026-03-18T03:41:00Z",
+  "updated_at": "2026-03-18T20:06:00Z",
   "description": "after refund in successfully saved create new record in transactions table in supabase with this step and with all required columns in the table and with transaction_type = refund and reference_transaction_id = old transaction uuid, also update Recent Orders functionality and just bring the latest completed transactions that not in the refunds table"
 }

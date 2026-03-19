@@ -1,5 +1,7 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
 // generateOrderNumber imported via ./api instead
 import type {
@@ -11,10 +13,8 @@ import type {
   TableStatus,
   VoidRequestStatus,
 } from '../types'
-import { resposQueryKeys } from './queries'
-import { offlineOrderService } from '@/lib/offline-order-service'
-import { toast } from 'sonner'
 import { createResOrder, generateOrderNumber } from './api'
+import { resposQueryKeys } from './queries'
 
 // ============ Table Mutations ============
 
@@ -261,7 +261,8 @@ export function useUpdateOrderStatus() {
       if (discountAmount !== undefined) updates.discount_amount = discountAmount
       if (discountType) updates.discount_type = discountType
       if (promotionId) updates.promotion_id = promotionId
-      if (promoDiscountAmount !== undefined) updates.promo_discount_amount = promoDiscountAmount
+      if (promoDiscountAmount !== undefined)
+        updates.promo_discount_amount = promoDiscountAmount
       if (receivedAmount !== undefined) updates.received_amount = receivedAmount
       if (changeAmount !== undefined) updates.change_amount = changeAmount
       if (status === 'paid') updates.paid_at = new Date().toISOString()

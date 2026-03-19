@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
 import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
@@ -37,7 +39,10 @@ import { Route as AuthenticatedPriceListRouteRouteImport } from './routes/_authe
 import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authenticated/customers/route'
 import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_authenticated/customer-groups/route'
 import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
+import { Route as AuthenticatedCurrenciesRouteRouteImport } from './routes/_authenticated/currencies/route'
+import { Route as AuthenticatedCountriesRouteRouteImport } from './routes/_authenticated/countries/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
+import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
 import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
@@ -50,7 +55,6 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
-import { Route as AuthenticatedResposUsersRouteImport } from './routes/_authenticated/respos/users'
 import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
@@ -68,6 +72,10 @@ import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes
 import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
+
+const AuthenticatedCitiesIndexLazyRouteImport = createFileRoute(
+  '/_authenticated/cities/',
+)()
 
 const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
   id: '/subscription-required',
@@ -217,10 +225,28 @@ const AuthenticatedCustomerCardsRouteRoute =
     path: '/customer-cards',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCurrenciesRouteRoute =
+  AuthenticatedCurrenciesRouteRouteImport.update({
+    id: '/currencies',
+    path: '/currencies',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCountriesRouteRoute =
+  AuthenticatedCountriesRouteRouteImport.update({
+    id: '/countries',
+    path: '/countries',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCategoriesRouteRoute =
   AuthenticatedCategoriesRouteRouteImport.update({
     id: '/categories',
     path: '/categories',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBranchesRouteRoute =
+  AuthenticatedBranchesRouteRouteImport.update({
+    id: '/branches',
+    path: '/branches',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppsRouteRoute = AuthenticatedAppsRouteRouteImport.update({
@@ -228,6 +254,14 @@ const AuthenticatedAppsRouteRoute = AuthenticatedAppsRouteRouteImport.update({
   path: '/apps',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCitiesIndexLazyRoute =
+  AuthenticatedCitiesIndexLazyRouteImport.update({
+    id: '/cities/',
+    path: '/cities/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/cities/index.lazy').then((d) => d.Route),
+  )
 const AuthenticatedTransactionsIndexRoute =
   AuthenticatedTransactionsIndexRouteImport.update({
     id: '/transactions/',
@@ -291,12 +325,6 @@ const AuthenticatedSettingsAccountRoute =
     id: '/account',
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedResposUsersRoute =
-  AuthenticatedResposUsersRouteImport.update({
-    id: '/respos/users',
-    path: '/respos/users',
-    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedResposShiftsRoute =
   AuthenticatedResposShiftsRouteImport.update({
@@ -403,7 +431,10 @@ export interface FileRoutesByFullPath {
   '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
+  '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/countries': typeof AuthenticatedCountriesRouteRoute
+  '/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
@@ -443,7 +474,6 @@ export interface FileRoutesByFullPath {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
-  '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -455,6 +485,7 @@ export interface FileRoutesByFullPath {
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
+  '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -462,7 +493,10 @@ export interface FileRoutesByTo {
   '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
+  '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/countries': typeof AuthenticatedCountriesRouteRoute
+  '/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
@@ -501,7 +535,6 @@ export interface FileRoutesByTo {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
-  '/respos/users': typeof AuthenticatedResposUsersRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -513,6 +546,7 @@ export interface FileRoutesByTo {
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
+  '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -522,7 +556,10 @@ export interface FileRoutesById {
   '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
+  '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/_authenticated/countries': typeof AuthenticatedCountriesRouteRoute
+  '/_authenticated/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/_authenticated/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRouteRoute
@@ -563,7 +600,6 @@ export interface FileRoutesById {
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
-  '/_authenticated/respos/users': typeof AuthenticatedResposUsersRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -575,6 +611,7 @@ export interface FileRoutesById {
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
+  '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/_authenticated/_system/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -584,7 +621,10 @@ export interface FileRouteTypes {
     | '/sso-callback'
     | '/subscription-required'
     | '/apps'
+    | '/branches'
     | '/categories'
+    | '/countries'
+    | '/currencies'
     | '/customer-cards'
     | '/customer-groups'
     | '/customers'
@@ -624,7 +664,6 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shifts'
-    | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -636,6 +675,7 @@ export interface FileRouteTypes {
     | '/respos'
     | '/settings/'
     | '/transactions'
+    | '/cities'
     | '/respos/invoice/$orderId'
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
@@ -643,7 +683,10 @@ export interface FileRouteTypes {
     | '/sso-callback'
     | '/subscription-required'
     | '/apps'
+    | '/branches'
     | '/categories'
+    | '/countries'
+    | '/currencies'
     | '/customer-cards'
     | '/customer-groups'
     | '/customers'
@@ -682,7 +725,6 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shifts'
-    | '/respos/users'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -694,6 +736,7 @@ export interface FileRouteTypes {
     | '/respos'
     | '/settings'
     | '/transactions'
+    | '/cities'
     | '/respos/invoice/$orderId'
     | '/restaurants'
   id:
@@ -702,7 +745,10 @@ export interface FileRouteTypes {
     | '/sso-callback'
     | '/subscription-required'
     | '/_authenticated/apps'
+    | '/_authenticated/branches'
     | '/_authenticated/categories'
+    | '/_authenticated/countries'
+    | '/_authenticated/currencies'
     | '/_authenticated/customer-cards'
     | '/_authenticated/customer-groups'
     | '/_authenticated/customers'
@@ -743,7 +789,6 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/pos'
     | '/_authenticated/respos/reservations'
     | '/_authenticated/respos/shifts'
-    | '/_authenticated/respos/users'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -755,6 +800,7 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/'
     | '/_authenticated/settings/'
     | '/_authenticated/transactions/'
+    | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
     | '/_authenticated/_system/restaurants/'
   fileRoutesById: FileRoutesById
@@ -974,6 +1020,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCustomerCardsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/currencies': {
+      id: '/_authenticated/currencies'
+      path: '/currencies'
+      fullPath: '/currencies'
+      preLoaderRoute: typeof AuthenticatedCurrenciesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/countries': {
+      id: '/_authenticated/countries'
+      path: '/countries'
+      fullPath: '/countries'
+      preLoaderRoute: typeof AuthenticatedCountriesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/categories': {
       id: '/_authenticated/categories'
       path: '/categories'
@@ -981,11 +1041,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoriesRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/branches': {
+      id: '/_authenticated/branches'
+      path: '/branches'
+      fullPath: '/branches'
+      preLoaderRoute: typeof AuthenticatedBranchesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/apps': {
       id: '/_authenticated/apps'
       path: '/apps'
       fullPath: '/apps'
       preLoaderRoute: typeof AuthenticatedAppsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cities/': {
+      id: '/_authenticated/cities/'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof AuthenticatedCitiesIndexLazyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/transactions/': {
@@ -1064,13 +1138,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/account'
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/respos/users': {
-      id: '/_authenticated/respos/users'
-      path: '/respos/users'
-      fullPath: '/respos/users'
-      preLoaderRoute: typeof AuthenticatedResposUsersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/respos/shifts': {
       id: '/_authenticated/respos/shifts'
@@ -1239,7 +1306,10 @@ const AuthenticatedSystemRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
+  AuthenticatedBranchesRouteRoute: typeof AuthenticatedBranchesRouteRoute
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
+  AuthenticatedCountriesRouteRoute: typeof AuthenticatedCountriesRouteRoute
+  AuthenticatedCurrenciesRouteRoute: typeof AuthenticatedCurrenciesRouteRoute
   AuthenticatedCustomerCardsRouteRoute: typeof AuthenticatedCustomerCardsRouteRoute
   AuthenticatedCustomerGroupsRouteRoute: typeof AuthenticatedCustomerGroupsRouteRoute
   AuthenticatedCustomersRouteRoute: typeof AuthenticatedCustomersRouteRoute
@@ -1266,19 +1336,22 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
-  AuthenticatedResposUsersRoute: typeof AuthenticatedResposUsersRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
   AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
+  AuthenticatedCitiesIndexLazyRoute: typeof AuthenticatedCitiesIndexLazyRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppsRouteRoute: AuthenticatedAppsRouteRoute,
+  AuthenticatedBranchesRouteRoute: AuthenticatedBranchesRouteRoute,
   AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
+  AuthenticatedCountriesRouteRoute: AuthenticatedCountriesRouteRoute,
+  AuthenticatedCurrenciesRouteRoute: AuthenticatedCurrenciesRouteRoute,
   AuthenticatedCustomerCardsRouteRoute: AuthenticatedCustomerCardsRouteRoute,
   AuthenticatedCustomerGroupsRouteRoute: AuthenticatedCustomerGroupsRouteRoute,
   AuthenticatedCustomersRouteRoute: AuthenticatedCustomersRouteRoute,
@@ -1305,13 +1378,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
-  AuthenticatedResposUsersRoute: AuthenticatedResposUsersRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
   AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
+  AuthenticatedCitiesIndexLazyRoute: AuthenticatedCitiesIndexLazyRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,
 }

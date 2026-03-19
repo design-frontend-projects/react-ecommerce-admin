@@ -2,6 +2,7 @@
 // Full notifications list with filtering and management
 import { useState } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
+import { useAuth, useUser } from '@clerk/clerk-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -24,11 +25,11 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import {
   useMarkNotificationRead,
   useMarkAllNotificationsRead,
@@ -36,7 +37,6 @@ import {
 } from '../api/mutations'
 import { useNotifications, useUnreadNotificationCount } from '../api/queries'
 import { NotificationsDropdown } from '../components'
-import { useResposAuth } from '../hooks'
 import type { NotificationType, ResNotification } from '../types'
 
 type FilterTab = 'all' | 'unread' | 'void_request' | 'orders'
@@ -202,7 +202,8 @@ function NotificationSkeleton() {
 export function NotificationsCenter() {
   const [activeTab, setActiveTab] = useState<FilterTab>('all')
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const { employee, isLoading: authLoading } = useResposAuth()
+  const { isLoaded: authLoading } = useAuth()
+  const { user: employee } = useUser()
   const employeeId = employee?.id || ''
 
   const { data: notifications, isLoading: notificationsLoading } =

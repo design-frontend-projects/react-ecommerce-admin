@@ -1,23 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
 import { formatCurrency } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LowStockWidget } from './low-stock-widget'
 import { SalesSummaryWidget } from './sales-summary-widget'
 import { TopSellersWidget } from './top-sellers-widget'
+import { getRecentTransactions } from '../data/dashboard-api'
 
 export function ShiftDashboard() {
   const { data: recentOrders } = useQuery({
     queryKey: ['recent-pos-transactions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(10)
-      if (error) throw error
-      return data
-    },
+    queryFn: getRecentTransactions,
   })
 
   return (
