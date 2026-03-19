@@ -21,10 +21,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { countries } from '@/features/countries/data/countries'
 import { type City } from '../data/schema'
 import { useCreateCity, useUpdateCity } from '../hooks/use-cities'
+import { useCountries } from '@/features/countries/hooks/use-countries'
 import { cityFormSchema, type CityForm } from './cities-action-dialog.schema'
 
 type CityActionDialogProps = {
@@ -41,21 +42,20 @@ export function CitiesActionDialog({
   const isEdit = !!currentRow
   const createCity = useCreateCity()
   const updateCity = useUpdateCity()
+  const { data: countries = [] } = useCountries()
 
   const form = useForm<CityForm>({
     resolver: zodResolver(cityFormSchema),
     defaultValues: isEdit
       ? {
           name: currentRow.name,
-          countryId: currentRow.countryId,
-          status: currentRow.status,
-          isEdit,
+          country_id: currentRow.country_id,
+          is_active: currentRow.is_active,
         }
       : {
           name: '',
-          countryId: '',
-          status: 'active',
-          isEdit,
+          country_id: 0,
+          is_active: true,
         },
   })
 
@@ -66,7 +66,9 @@ export function CitiesActionDialog({
         {
           onSuccess: () => {
             form.reset()
-            toast.success('City updated successfully')
+            toast.success('City updated successfully', {
+              description: `City ${values.name} has been updated.`,
+            })
             onOpenChange(false)
           },
           onError: (error) => {
@@ -80,7 +82,9 @@ export function CitiesActionDialog({
       createCity.mutate(values, {
         onSuccess: () => {
           form.reset()
-          toast.success('City added successfully')
+          toast.success('City added successfully', {
+            description: `City ${values.name} has been added.`,
+          })
           onOpenChange(false)
         },
         onError: (error) => {
@@ -91,6 +95,8 @@ export function CitiesActionDialog({
       })
     }
   }
+
+  const isPending = createCity.isPending || updateCity.isPending
 
   return (
     <Dialog
@@ -104,9 +110,7 @@ export function CitiesActionDialog({
         <DialogHeader className='text-start'>
           <DialogTitle>{isEdit ? 'Edit City' : 'Add New City'}</DialogTitle>
           <DialogDescription>
-            {isEdit
-              ? 'Update the city details here. '
-              : 'Create a new city here. '}
+            {isEdit ? 'Update the city details here. ' : 'Create a new city here. '}
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
@@ -136,19 +140,19 @@ export function CitiesActionDialog({
             />
             <FormField
               control={form.control}
-              name='countryId'
+              name='country_id'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center gap-4 space-y-0'>
                   <FormLabel className='text-right'>Country</FormLabel>
                   <FormControl>
                     <SelectDropdown
-                      defaultValue={field.value}
-                      onValueChange={field.onChange}
-                      placeholder='Select a country'
+                      defaultValue={String(field.value)}
+                      onValueChange={(val) => field.onChange(Number(val))}
+                      placeholder='Select country'
                       className='col-span-3'
                       items={countries.map((c) => ({
                         label: c.name,
-                        value: c.id,
+                        value: String(c.id),
                       }))}
                     />
                   </FormControl>
@@ -158,20 +162,14 @@ export function CitiesActionDialog({
             />
             <FormField
               control={form.control}
-              name='status'
+              name='is_active'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center gap-4 space-y-0'>
-                  <FormLabel className='text-right'>Status</FormLabel>
+                  <FormLabel className='text-right'>Active</FormLabel>
                   <FormControl>
-                    <SelectDropdown
-                      defaultValue={field.value}
-                      onValueChange={field.onChange}
-                      placeholder='Select status'
-                      className='col-span-3'
-                      items={[
-                        { label: 'Active', value: 'active' },
-                        { label: 'Inactive', value: 'inactive' },
-                      ]}
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage className='col-span-3 col-start-2' />
@@ -181,8 +179,8 @@ export function CitiesActionDialog({
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='city-form'>
-            Save changes
+          <Button type='submit' form='city-form' disabled={isPending}>
+            {isPending ? 'Saving...' : 'Save changes'}
           </Button>
         </DialogFooter>
       </DialogContent>

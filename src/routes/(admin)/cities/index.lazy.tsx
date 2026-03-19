@@ -5,14 +5,14 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { CitiesProvider, CitiesTable, CitiesDialogs } from '@/features/cities'
-import { useCitiesData } from '@/features/cities/hooks/use-cities-data'
+import { useCities } from '@/features/cities/hooks/use-cities'
 
 export const Route = createLazyFileRoute('/(admin)/cities/')({
   component: CitiesPage,
 })
 
 function CitiesPage() {
-  const { data: cities = [] } = useCitiesData()
+  const { data: cities = [] } = useCities()
   const navigate = Route.useNavigate()
   const search = Route.useSearch()
 

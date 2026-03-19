@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import {
   type City,
   useCities,
@@ -11,11 +12,12 @@ interface CitiesContextType {
   cities: City[] | undefined
   isLoading: boolean
   isError: boolean
-  createCity: any
-  updateCity: any
-  deleteCity: any
+  createCity: ReturnType<typeof useCreateCity>
+  updateCity: ReturnType<typeof useUpdateCity>
+  deleteCity: ReturnType<typeof useDeleteCity>
   searchTerm: string
   setSearchTerm: (term: string) => void
+  navigate: ReturnType<typeof useNavigate>
 }
 
 const CitiesContext = createContext<CitiesContextType | undefined>(undefined)
@@ -23,6 +25,7 @@ const CitiesContext = createContext<CitiesContextType | undefined>(undefined)
 export const CitiesDataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const navigate = useNavigate()
   const { data: cities, isLoading, isError } = useCities()
   const createCity = useCreateCity()
   const updateCity = useUpdateCity()
@@ -40,6 +43,7 @@ export const CitiesDataProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteCity,
         searchTerm,
         setSearchTerm,
+        navigate,
       }}
     >
       {children}

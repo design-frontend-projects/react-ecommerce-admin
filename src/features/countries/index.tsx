@@ -1,18 +1,11 @@
 import { CountriesDialogProvider } from './components/countries-provider'
-import { CountriesDataProvider } from './context/countries-context'
 
 export function CountriesProvider({ children }: { children: React.ReactNode }) {
   return (
-    <CountriesDataProvider>
-      <CountriesDialogProvider>{children}</CountriesDialogProvider>
-    </CountriesDataProvider>
+    <CountriesDialogProvider>{children}</CountriesDialogProvider>
   )
 }
 
-export {
-  CountriesDataProvider,
-  useCountriesData,
-} from './context/countries-context'
 export {
   CountriesDialogProvider,
   useCountriesDialog,

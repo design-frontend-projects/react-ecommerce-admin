@@ -5,12 +5,17 @@ import { Search } from '@/components/search'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { CountriesProvider, CountriesTable, CountriesDialogs } from '@/features/countries'
+import { useCountries } from '@/features/countries/hooks/use-countries'
 
 export const Route = createLazyFileRoute('/(admin)/countries/')({
   component: CountriesPage,
 })
 
 function CountriesPage() {
+  const { data: countries = [] } = useCountries()
+  const navigate = Route.useNavigate()
+  const search = Route.useSearch()
+
   return (
     <CountriesProvider>
       <Header fixed>
@@ -31,7 +36,7 @@ function CountriesPage() {
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <CountriesTable />
+          <CountriesTable data={countries} search={search} navigate={navigate} />
         </div>
       </Main>
 

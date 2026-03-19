@@ -1,8 +1,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import { Checkbox } from '@/components/ui/checkbox'
-import { type Country } from '../hooks/use-countries'
-import { CountryRowActions } from './country-row-actions'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
+import { DataTableColumnHeader } from '@/components/data-table'
+import { type Country } from '../data/schema'
+import { CountryRowActions } from './country-row-actions'
 
 export const countriesColumns: ColumnDef<Country>[] = [
   {
@@ -31,36 +33,52 @@ export const countriesColumns: ColumnDef<Country>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Name' />
+    ),
     cell: ({ row }) => <div className='w-[150px]'>{row.getValue('name')}</div>,
     enableSorting: true,
     enableHiding: false,
   },
   {
     accessorKey: 'code',
-    header: 'Code',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Code' />
+    ),
     cell: ({ row }) => <div className='w-[100px] uppercase'>{row.getValue('code')}</div>,
   },
   {
     accessorKey: 'is_active',
-    header: 'Status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Status' />
+    ),
     cell: ({ row }) => {
       const isActive = row.getValue('is_active') as boolean
       return (
         <div className='flex w-[100px] items-center'>
-          <span className={cn(
-            'rounded-full px-2 py-1 text-xs font-semibold',
-            isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          )}>
+          <Badge
+            variant='outline'
+            className={cn(
+              'capitalize',
+              isActive ? 'text-green-600' : 'text-red-500'
+            )}
+          >
             {isActive ? 'Active' : 'Inactive'}
-          </span>
+          </Badge>
         </div>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+    enableHiding: false,
+    enableSorting: false,
   },
   {
     accessorKey: 'created_at',
-    header: 'Created At',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Created At' />
+    ),
     cell: ({ row }) => {
       return (
         <div className='flex w-[100px] items-center'>

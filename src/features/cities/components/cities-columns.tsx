@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
 import { type City } from '../data/schema'
-import { DataTableRowActions } from './data-table-row-actions'
+import { CitiesRowActions } from './cities-row-actions'
 
 export const citiesColumns: ColumnDef<City>[] = [
   {
@@ -52,24 +52,30 @@ export const citiesColumns: ColumnDef<City>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'slug',
+    id: 'country',
+    accessorFn: (row) => row.countries?.name ?? '—',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Slug' />
+      <DataTableColumnHeader column={column} title='Country' />
     ),
-    cell: ({ row }) => <div>{row.getValue('slug')}</div>,
+    cell: ({ row }) => <div>{row.getValue('country')}</div>,
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'is_active',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Status' />
     ),
     cell: ({ row }) => {
-      const { status } = row.original
-      const badgeColor = status === 'active' ? 'text-green-500' : 'text-red-500'
+      const isActive = row.getValue('is_active') as boolean
       return (
         <div className='flex space-x-2'>
-          <Badge variant='outline' className={cn('capitalize', badgeColor)}>
-            {row.getValue('status')}
+          <Badge
+            variant='outline'
+            className={cn(
+              'capitalize',
+              isActive ? 'text-green-600' : 'text-red-500'
+            )}
+          >
+            {isActive ? 'Active' : 'Inactive'}
           </Badge>
         </div>
       )
@@ -82,6 +88,6 @@ export const citiesColumns: ColumnDef<City>[] = [
   },
   {
     id: 'actions',
-    cell: DataTableRowActions,
+    cell: ({ row }) => <CitiesRowActions row={row} />,
   },
 ]

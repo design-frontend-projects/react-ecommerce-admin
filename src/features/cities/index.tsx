@@ -9,7 +9,10 @@ export function CitiesProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export { CitiesDataProvider, useCitiesData } from './context/cities-context'
+export {
+  CitiesDataProvider,
+  useCitiesData,
+} from './context/cities-context'
 export {
   CitiesDialogProvider,
   useCitiesDialog,

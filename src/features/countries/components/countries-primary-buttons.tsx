@@ -1,14 +1,20 @@
-import { Plus } from 'lucide-react'
+import { IconPlus } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
-import { useCountriesContext } from './countries-provider'
+import { useCountriesDialog } from './countries-provider'
 
 export function CountriesPrimaryButtons() {
-  const { setOpen } = useCountriesContext()
+  const { setOpen } = useCountriesDialog()
 
   return (
-    <div className='flex gap-2'>
-      <Button onClick={() => setOpen('create')} className='space-x-1'>
-        <span>Create Country</span> <Plus size={18} />
+    <div className='flex items-center gap-2'>
+      <Button
+        variant='default'
+        size='sm'
+        className='h-8'
+        onClick={() => setOpen('add')}
+      >
+        <IconPlus className='mr-2 h-4 w-4' />
+        Add Country
       </Button>
     </div>
   )

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { type Country } from '../data/schema'
+import { useDeleteCountry } from '../hooks/use-countries'
 
 type CountryDeleteDialogProps = {
   open: boolean
@@ -21,13 +22,23 @@ export function CountriesDeleteDialog({
   currentRow,
 }: CountryDeleteDialogProps) {
   const [value, setValue] = useState('')
+  const deleteCountry = useDeleteCountry()
 
   const handleDelete = () => {
     if (value.trim() !== currentRow.name) return
 
-    onOpenChange(false)
-    toast.error('Country deleted', {
-      description: `Country ${currentRow.name} has been permanently deleted.`,
+    deleteCountry.mutate(currentRow.id, {
+      onSuccess: () => {
+        onOpenChange(false)
+        toast.success('Country deleted', {
+          description: `Country ${currentRow.name} has been permanently deleted.`,
+        })
+      },
+      onError: (error) => {
+        toast.error('Failed to delete country', {
+          description: error.message,
+        })
+      },
     })
   }
 
@@ -36,7 +47,7 @@ export function CountriesDeleteDialog({
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.name}
+      disabled={value.trim() !== currentRow.name || deleteCountry.isPending}
       title={
         <span className='text-destructive'>
           <AlertTriangle

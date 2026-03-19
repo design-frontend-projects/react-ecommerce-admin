@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   type Country,
   useCountries,
@@ -16,6 +17,7 @@ interface CountriesContextType {
   deleteCountry: any
   searchTerm: string
   setSearchTerm: (term: string) => void
+  navigate: ReturnType<typeof useNavigate>
 }
 
 const CountriesContext = createContext<CountriesContextType | undefined>(
@@ -25,6 +27,7 @@ const CountriesContext = createContext<CountriesContextType | undefined>(
 export const CountriesDataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const navigate = useNavigate()
   const { data: countries, isLoading, isError } = useCountries()
   const createCountry = useCreateCountry()
   const updateCountry = useUpdateCountry()
@@ -42,6 +45,7 @@ export const CountriesDataProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteCountry,
         searchTerm,
         setSearchTerm,
+        navigate,
       }}
     >
       {children}

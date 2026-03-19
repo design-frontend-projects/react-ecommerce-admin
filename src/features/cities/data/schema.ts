@@ -1,14 +1,16 @@
 import { z } from 'zod'
 
 export const citySchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
-  countryId: z.string(),
-  status: z.enum(['active', 'inactive', 'pending']),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
-  state: z.string().optional(),
-  population: z.number().optional(),
+  country_id: z.number(),
+  is_active: z.boolean(),
+  created_at: z.string(),
+  countries: z
+    .object({
+      name: z.string(),
+    })
+    .optional(),
 })
 
 export type City = z.infer<typeof citySchema>

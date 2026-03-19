@@ -1,5 +1,5 @@
-import { type Row } from '@tanstack/react-table'
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { type Row } from '@tanstack/react-table'
 import { Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -10,15 +10,15 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { type Country } from '../data/schema'
-import { useCountriesDialog } from './countries-provider'
+import { type City } from '../data/schema'
+import { useCitiesDialog } from './cities-provider'
 
-type CountryRowActionsProps = {
-  row: Row<Country>
+type CitiesRowActionsProps = {
+  row: Row<City>
 }
 
-export function CountryRowActions({ row }: CountryRowActionsProps) {
-  const { setOpen, setCurrentRow } = useCountriesDialog()
+export function CitiesRowActions({ row }: CitiesRowActionsProps) {
+  const { setOpen, setCurrentRow } = useCitiesDialog()
 
   return (
     <DropdownMenu modal={false}>

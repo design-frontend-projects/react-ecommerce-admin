@@ -21,8 +21,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { SelectDropdown } from '@/components/select-dropdown'
+import { Switch } from '@/components/ui/switch'
 import { type Country } from '../data/schema'
+import { useCreateCountry, useUpdateCountry } from '../hooks/use-countries'
 import { countryFormSchema, type CountryForm } from './countries-action-dialog.schema'
 
 type CountryActionDialogProps = {
@@ -37,28 +38,64 @@ export function CountriesActionDialog({
   onOpenChange,
 }: CountryActionDialogProps) {
   const isEdit = !!currentRow
+  const createCountry = useCreateCountry()
+  const updateCountry = useUpdateCountry()
+
   const form = useForm<CountryForm>({
     resolver: zodResolver(countryFormSchema),
     defaultValues: isEdit
       ? {
           name: currentRow.name,
           code: currentRow.code,
-          status: currentRow.status,
+          phone_code: currentRow.phone_code ?? '',
+          is_active: currentRow.is_active,
         }
       : {
           name: '',
           code: '',
-          status: 'active',
+          phone_code: '',
+          is_active: true,
         },
   })
 
   const onSubmit = (values: CountryForm) => {
-    form.reset()
-    toast.success(isEdit ? 'Country updated successfully' : 'Country added successfully', {
-        description: `Country ${values.name} has been ${isEdit ? 'updated' : 'added'}.`,
-    })
-    onOpenChange(false)
+    if (isEdit) {
+      updateCountry.mutate(
+        { id: currentRow.id, ...values },
+        {
+          onSuccess: () => {
+            form.reset()
+            toast.success('Country updated successfully', {
+              description: `Country ${values.name} has been updated.`,
+            })
+            onOpenChange(false)
+          },
+          onError: (error) => {
+            toast.error('Failed to update country', {
+              description: error.message,
+            })
+          },
+        }
+      )
+    } else {
+      createCountry.mutate(values, {
+        onSuccess: () => {
+          form.reset()
+          toast.success('Country added successfully', {
+            description: `Country ${values.name} has been added.`,
+          })
+          onOpenChange(false)
+        },
+        onError: (error) => {
+          toast.error('Failed to add country', {
+            description: error.message,
+          })
+        },
+      })
+    }
   }
+
+  const isPending = createCountry.isPending || updateCountry.isPending
 
   return (
     <Dialog
@@ -100,7 +137,7 @@ export function CountriesActionDialog({
                 </FormItem>
               )}
             />
-             <FormField
+            <FormField
               control={form.control}
               name='code'
               render={({ field }) => (
@@ -120,20 +157,32 @@ export function CountriesActionDialog({
             />
             <FormField
               control={form.control}
-              name='status'
+              name='phone_code'
               render={({ field }) => (
                 <FormItem className='grid grid-cols-4 items-center gap-4 space-y-0'>
-                  <FormLabel className='text-right'>Status</FormLabel>
+                  <FormLabel className='text-right'>Phone Code</FormLabel>
                   <FormControl>
-                    <SelectDropdown
-                      defaultValue={field.value}
-                      onValueChange={field.onChange}
-                      placeholder='Select status'
+                    <Input
+                      placeholder='+1, +84, etc.'
                       className='col-span-3'
-                      items={[
-                        { label: 'Active', value: 'active' },
-                        { label: 'Inactive', value: 'inactive' },
-                      ]}
+                      autoComplete='off'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className='col-span-3 col-start-2' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='is_active'
+              render={({ field }) => (
+                <FormItem className='grid grid-cols-4 items-center gap-4 space-y-0'>
+                  <FormLabel className='text-right'>Active</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage className='col-span-3 col-start-2' />
@@ -143,8 +192,8 @@ export function CountriesActionDialog({
           </form>
         </Form>
         <DialogFooter>
-          <Button type='submit' form='country-form'>
-            Save changes
+          <Button type='submit' form='country-form' disabled={isPending}>
+            {isPending ? 'Saving...' : 'Save changes'}
           </Button>
         </DialogFooter>
       </DialogContent>

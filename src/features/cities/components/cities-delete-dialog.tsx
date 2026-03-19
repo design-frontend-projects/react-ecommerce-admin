@@ -45,7 +45,7 @@ export function CitiesDeleteDialog({
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.name}
+      disabled={value.trim() !== currentRow.name || deleteCity.isPending}
       title={
         <span className='text-destructive'>
           <AlertTriangle

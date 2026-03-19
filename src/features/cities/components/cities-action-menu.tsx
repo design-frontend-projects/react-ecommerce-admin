@@ -8,15 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { City } from '../hooks/use-cities'
-import { useCitiesContext } from './cities-provider'
+import type { City } from '../data/schema'
+import { useCitiesDialog } from './cities-provider'
 
 interface CitiesActionMenuProps {
   city: City
 }
 
 export function CitiesActionMenu({ city }: CitiesActionMenuProps) {
-  const { open } = useCitiesContext()
+  const { setOpen, setCurrentRow } = useCitiesDialog()
 
   return (
     <DropdownMenu>
@@ -34,12 +34,20 @@ export function CitiesActionMenu({ city }: CitiesActionMenuProps) {
           Copy city ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => open('update', city)}>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(city)
+            setOpen('edit')
+          }}
+        >
           <Edit className='mr-2 h-4 w-4' />
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => open('delete', city)}
+          onClick={() => {
+            setCurrentRow(city)
+            setOpen('delete')
+          }}
           className='text-red-600 focus:text-red-700'
         >
           <Trash className='mr-2 h-4 w-4' />

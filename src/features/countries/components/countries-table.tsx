@@ -1,156 +1,62 @@
-import { useEffect, useState } from 'react'
-import {
-  type SortingState,
-  type VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-import { cn } from '@/lib/utils'
-import { type NavigateFn } from '@/hooks/use-table-url-state'
-import { useCountriesData } from '../context/countries-context'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
+import { useMemo } from 'react'
+import { useTableUrlState } from '@/hooks/use-table-url-state'
+import { DataTable } from '@/components/data-table'
 import { type Country } from '../data/schema'
-import { countriesColumns as columns } from './countries-columns'
+import { countriesColumns } from './countries-columns'
+import { CountriesTableAction } from './countries-table-action'
 
-export function CountriesTable() {
-  const { countries: data = [], searchTerm, setSearchTerm, navigate } = useCountriesData()
-  const search = { name: searchTerm }
-  const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [sorting, setSorting] = useState<SortingState>([])
+type CountriesTableProps = {
+  data: Country[]
+  search: Record<string, unknown>
+  navigate: (opts: {
+    search:
+      | true
+      | Record<string, unknown>
+      | ((
+          prev: Record<string, unknown>
+        ) => Partial<Record<string, unknown>> | Record<string, unknown>)
+    replace?: boolean
+  }) => void
+}
+
+export function CountriesTable({
+  data,
+  search,
+  navigate,
+}: CountriesTableProps) {
+  const columns = useMemo(() => countriesColumns, [])
 
   const {
+    globalFilter,
+    onGlobalFilterChange,
     columnFilters,
     onColumnFiltersChange,
     pagination,
     onPaginationChange,
-    ensurePageInRange,
   } = useTableUrlState({
     search,
     navigate,
-    pagination: { defaultPage: 1, defaultPageSize: 10 },
-    globalFilter: { enabled: false },
+    globalFilter: { enabled: true },
     columnFilters: [
-      { columnId: 'name', searchKey: 'name', type: 'string' },
+      {
+        columnId: 'is_active',
+        searchKey: 'isActive',
+        type: 'array',
+      },
     ],
   })
 
-  const table = useReactTable({
-    data,
-    columns,
-    state: {
-      sorting,
-      pagination,
-      rowSelection,
-      columnFilters,
-      columnVisibility,
-    },
-    enableRowSelection: true,
-    onPaginationChange,
-    onColumnFiltersChange,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getPaginationRowModel: getPaginationRowModel(),
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
-
-  useEffect(() => {
-    ensurePageInRange(table.getPageCount())
-  }, [table, ensurePageInRange])
-
   return (
-    <div className='flex flex-1 flex-col gap-4'>
-      <DataTableToolbar
-        table={table}
-        searchPlaceholder='Filter countries...'
-        searchKey='name'
-      />
-      <div className='overflow-hidden rounded-md border'>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className='group/row'>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className={cn(
-                        'bg-background group-hover/row:bg-muted group-data-[state=selected]/row:bg-muted',
-                        header.column.columnDef.meta?.className,
-                        header.column.columnDef.meta?.thClassName
-                      )}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className='group/row'
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        'bg-background group-hover/row:bg-muted group-data-[state=selected]/row:bg-muted',
-                        cell.column.columnDef.meta?.className,
-                        cell.column.columnDef.meta?.tdClassName
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <DataTablePagination table={table} className='mt-auto' />
-    </div>
+    <DataTable
+      data={data}
+      columns={columns}
+      globalFilter={globalFilter}
+      onGlobalFilterChange={onGlobalFilterChange}
+      columnFilters={columnFilters}
+      onColumnFiltersChange={onColumnFiltersChange}
+      pagination={pagination}
+      onPaginationChange={onPaginationChange}
+      toolbarActions={<CountriesTableAction />}
+    />
   )
 }
