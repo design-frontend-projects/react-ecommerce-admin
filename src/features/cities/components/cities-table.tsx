@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { getRouteApi } from '@tanstack/react-router'
 import { useTableUrlState } from '@/hooks/use-table-url-state'
 import { DataTable } from '@/components/data-table'
 import { type City } from '../data/schema'
@@ -7,24 +8,22 @@ import { CitiesTableAction } from './cities-table-action'
 
 type CitiesTableProps = {
   data: City[]
-  search: Record<string, unknown>
-  navigate: (opts: {
-    search:
-      | true
-      | Record<string, unknown>
-      | ((prev: Record<string, unknown>) => Partial<Record<string, unknown>> | Record<string, unknown>)
-    replace?: boolean
-  }) => void
 }
 
-export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
+const route = getRouteApi('/_authenticated/cities')
+
+export function CitiesTable({ data }: CitiesTableProps) {
   const columns = useMemo(() => citiesColumns, [])
+  const search = route.useSearch()
+  const navigate = route.useNavigate()
 
   const {
     globalFilter,
     onGlobalFilterChange,
     columnFilters,
     onColumnFiltersChange,
+    sorting,
+    onSortingChange,
     pagination,
     onPaginationChange,
   } = useTableUrlState({
@@ -38,6 +37,10 @@ export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
         type: 'array',
       },
     ],
+    sorting: {
+      enabled: true,
+      defaultSorting: [{ id: 'name', desc: false }],
+    },
   })
 
   return (
@@ -48,6 +51,8 @@ export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
       onGlobalFilterChange={onGlobalFilterChange}
       columnFilters={columnFilters}
       onColumnFiltersChange={onColumnFiltersChange}
+      sorting={sorting}
+      onSortingChange={onSortingChange}
       pagination={pagination}
       onPaginationChange={onPaginationChange}
       toolbarActions={<CitiesTableAction />}

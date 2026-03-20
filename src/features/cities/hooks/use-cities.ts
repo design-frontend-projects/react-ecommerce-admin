@@ -18,14 +18,23 @@ export interface CityInput {
   is_active?: boolean
 }
 
-export const useCities = () => {
+export const useCities = (search?: string) => {
   return useQuery({
-    queryKey: ['cities'],
+    queryKey: ['cities', search],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('cities')
-        .select('*, countries(name)')
+        .select(`
+          *,
+          country:countries(name)
+        `)
         .order('name')
+
+      if (search) {
+        query = query.ilike('name', `%${search}%`)
+      }
+
+      const { data, error } = await query
 
       if (error) throw error
       return data as City[]

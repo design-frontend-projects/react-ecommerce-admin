@@ -13,7 +13,7 @@ interface CountriesContextType {
 
 const CountriesContext = createContext<CountriesContextType | null>(null)
 
-export function CountriesDialogProvider({ children }: { children: React.ReactNode }) {
+export function CountriesProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useDialogState<CountriesDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Country | null>(null)
 

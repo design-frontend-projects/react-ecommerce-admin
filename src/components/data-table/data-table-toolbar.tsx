@@ -8,12 +8,14 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
   searchPlaceholder?: string
   searchKey?: string
+  toolbarActions?: React.ReactNode
 }
 
 export function DataTableToolbar<TData>({
   table,
   searchPlaceholder,
   searchKey,
+  toolbarActions,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const effectiveSearchKey = searchKey || 'transaction_number'
@@ -46,7 +48,10 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className='flex items-center space-x-2'>
+        {toolbarActions}
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   )
 }

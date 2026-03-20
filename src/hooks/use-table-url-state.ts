@@ -3,17 +3,12 @@ import type {
   ColumnFiltersState,
   OnChangeFn,
   PaginationState,
+  SortingState,
 } from '@tanstack/react-table'
 
 type SearchRecord = Record<string, unknown>
 
-export type NavigateFn = (opts: {
-  search:
-    | true
-    | SearchRecord
-    | ((prev: SearchRecord) => Partial<SearchRecord> | SearchRecord)
-  replace?: boolean
-}) => void
+export type NavigateFn = (opts: any) => void
 
 type UseTableUrlStateParams = {
   search: SearchRecord
@@ -46,6 +41,11 @@ type UseTableUrlStateParams = {
         deserialize?: (value: unknown) => unknown
       }
   >
+  sorting?: {
+    enabled?: boolean
+    key?: string
+    defaultSorting?: SortingState
+  }
 }
 
 type UseTableUrlStateReturn = {
@@ -58,6 +58,9 @@ type UseTableUrlStateReturn = {
   // Pagination
   pagination: PaginationState
   onPaginationChange: OnChangeFn<PaginationState>
+  // Sorting
+  sorting: SortingState
+  onSortingChange: OnChangeFn<SortingState>
   // Helpers
   ensurePageInRange: (
     pageCount: number,
@@ -74,6 +77,7 @@ export function useTableUrlState(
     pagination: paginationCfg,
     globalFilter: globalFilterCfg,
     columnFilters: columnFiltersCfg = [],
+    sorting: sortingCfg,
   } = params
 
   const pageKey = paginationCfg?.pageKey ?? ('page' as string)
@@ -190,6 +194,32 @@ export function useTableUrlState(
     })
   }
 
+  const sortingKey = sortingCfg?.key ?? ('sort' as string)
+  const sortingEnabled = sortingCfg?.enabled ?? true
+
+  const sorting: SortingState = useMemo(() => {
+    if (!sortingEnabled) return []
+    const raw = (search as SearchRecord)[sortingKey]
+    if (typeof raw === 'string' && raw.includes(':')) {
+      const [id, desc] = raw.split(':')
+      return [{ id, desc: desc === 'desc' }]
+    }
+    return sortingCfg?.defaultSorting ?? []
+  }, [search, sortingKey, sortingEnabled, sortingCfg?.defaultSorting])
+
+  const onSortingChange: OnChangeFn<SortingState> = (updater) => {
+    if (!sortingEnabled) return
+    const next = typeof updater === 'function' ? updater(sorting) : updater
+    const value = next[0] ? `${next[0].id}:${next[0].desc ? 'desc' : 'asc'}` : undefined
+
+    navigate({
+      search: (prev) => ({
+        ...(prev as SearchRecord),
+        [sortingKey]: value,
+      }),
+    })
+  }
+
   const ensurePageInRange = (
     pageCount: number,
     opts: { resetTo?: 'first' | 'last' } = { resetTo: 'first' }
@@ -214,6 +244,8 @@ export function useTableUrlState(
     onColumnFiltersChange,
     pagination,
     onPaginationChange,
+    sorting,
+    onSortingChange,
     ensurePageInRange,
   }
 }

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import {
   type Country,
   useCountries,
@@ -17,7 +17,7 @@ interface CountriesContextType {
   deleteCountry: any
   searchTerm: string
   setSearchTerm: (term: string) => void
-  navigate: ReturnType<typeof useNavigate>
+  navigate: any
 }
 
 const CountriesContext = createContext<CountriesContextType | undefined>(

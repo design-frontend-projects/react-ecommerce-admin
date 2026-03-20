@@ -33,7 +33,7 @@ export const useCountries = () => {
   })
 }
 
-export const useCountry = (id: string) => {
+export const useCountry = (id: number) => {
   return useQuery({
     queryKey: ['countries', id],
     queryFn: async () => {

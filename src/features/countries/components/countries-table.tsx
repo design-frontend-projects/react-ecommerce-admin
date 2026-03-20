@@ -1,5 +1,15 @@
+import {
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 import { useMemo } from 'react'
-import { useTableUrlState } from '@/hooks/use-table-url-state'
+import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
+
 import { DataTable } from '@/components/data-table'
 import { type Country } from '../data/schema'
 import { countriesColumns } from './countries-columns'
@@ -8,15 +18,7 @@ import { CountriesTableAction } from './countries-table-action'
 type CountriesTableProps = {
   data: Country[]
   search: Record<string, unknown>
-  navigate: (opts: {
-    search:
-      | true
-      | Record<string, unknown>
-      | ((
-          prev: Record<string, unknown>
-        ) => Partial<Record<string, unknown>> | Record<string, unknown>)
-    replace?: boolean
-  }) => void
+  navigate: NavigateFn
 }
 
 export function CountriesTable({
@@ -31,31 +33,49 @@ export function CountriesTable({
     onGlobalFilterChange,
     columnFilters,
     onColumnFiltersChange,
+    sorting,
+    onSortingChange,
     pagination,
     onPaginationChange,
   } = useTableUrlState({
     search,
     navigate,
-    globalFilter: { enabled: true },
+    pagination: { defaultPage: 1, defaultPageSize: 10 },
+    globalFilter: { enabled: false },
     columnFilters: [
-      {
-        columnId: 'is_active',
-        searchKey: 'isActive',
-        type: 'array',
-      },
+      { columnId: 'name', searchKey: 'name', type: 'string' },
+      { columnId: 'code', searchKey: 'code', type: 'string' },
     ],
+    sorting: { enabled: true },
+  })
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+      columnFilters,
+      globalFilter,
+      pagination,
+    },
+    onSortingChange,
+    onColumnFiltersChange,
+    onGlobalFilterChange,
+    onPaginationChange,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
   return (
     <DataTable
-      data={data}
+      table={table}
       columns={columns}
-      globalFilter={globalFilter}
-      onGlobalFilterChange={onGlobalFilterChange}
-      columnFilters={columnFilters}
-      onColumnFiltersChange={onColumnFiltersChange}
-      pagination={pagination}
-      onPaginationChange={onPaginationChange}
+      searchKey='name'
+      searchPlaceholder='Search countries...'
       toolbarActions={<CountriesTableAction />}
     />
   )
