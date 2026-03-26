@@ -1,15 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import type { Country } from '../data/schema'
 
-export interface Country {
-  id: string
-  name: string
-  code: string
-  phone_code: string
-  is_active: boolean
-  created_at: string
-  updated_at: string
-}
+export type { Country }
 
 export interface CountryInput {
   name: string
@@ -74,7 +67,7 @@ export const useUpdateCountry = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: CountryInput & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: CountryInput & { id: number }) => {
       const { data, error } = await supabase
         .from('countries')
         .update(updates)
@@ -95,7 +88,7 @@ export const useDeleteCountry = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async (id: number) => {
       const { error } = await supabase
         .from('countries')
         .delete()

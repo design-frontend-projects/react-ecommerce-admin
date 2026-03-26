@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import { type UseNavigateResult, useNavigate } from '@tanstack/react-router'
+import { type UseMutationResult } from '@tanstack/react-query'
+import { type Country } from '../data/schema'
 import {
-  type Country,
+  type CountryInput,
   useCountries,
   useCreateCountry,
   useUpdateCountry,
@@ -12,12 +14,12 @@ interface CountriesContextType {
   countries: Country[] | undefined
   isLoading: boolean
   isError: boolean
-  createCountry: any
-  updateCountry: any
-  deleteCountry: any
+  createCountry: UseMutationResult<Country, Error, CountryInput>
+  updateCountry: UseMutationResult<Country, Error, CountryInput & { id: number }>
+  deleteCountry: UseMutationResult<void, Error, number>
   searchTerm: string
   setSearchTerm: (term: string) => void
-  navigate: any
+  navigate: UseNavigateResult<string>
 }
 
 const CountriesContext = createContext<CountriesContextType | undefined>(
@@ -53,6 +55,7 @@ export const CountriesDataProvider: React.FC<{ children: React.ReactNode }> = ({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCountriesData = () => {
   const context = useContext(CountriesContext)
   if (context === undefined) {

@@ -1,30 +1,31 @@
-export const countries = [
+import type { Country } from './schema'
+
+export const countries: Country[] = [
   {
-    id: '1',
+    id: 1,
     name: 'United States',
-    countryCode: 'US',
-    description: 'United States of America',
-    status: 'active',
+    code: 'US',
+    phone_code: '+1',
+    is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   {
-    id: '2',
+    id: 2,
     name: 'Vietnam',
-    countryCode: 'VN',
-    description: 'Socialist Republic of Vietnam',
-    status: 'active',
+    code: 'VN',
+    phone_code: '+84',
+    is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
   {
-    id: '3',
+    id: 3,
     name: 'Singapore',
-    countryCode: 'SG',
-    description: 'Republic of Singapore',
-    status: 'active',
+    code: 'SG',
+    phone_code: '+65',
+    is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
 ]
-

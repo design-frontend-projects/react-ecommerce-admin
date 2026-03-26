@@ -1,16 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { type City } from '../data/schema'
 
-export interface City {
-  id: number
-  name: string
-  country_id: number
-  is_active: boolean
-  created_at: string
-  countries?: {
-    name: string
-  }
-}
+// Re-export City type for backward compatibility
+export type { City }
 
 export interface CityInput {
   name: string

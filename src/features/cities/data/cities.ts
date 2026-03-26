@@ -2,32 +2,27 @@ import { type City } from './schema'
 
 export const cities: City[] = [
   {
-    id: '1',
+    id: 1,
     name: 'New York',
-    countryId: '1', // US
-    status: 'active',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    state: 'NY',
-    population: 8419000,
+    country_id: 1,
+    is_active: true,
+    created_at: '2023-01-01T00:00:00Z',
+    countries: { name: 'United States' },
   },
   {
-    id: '2',
+    id: 2,
     name: 'Ho Chi Minh City',
-    countryId: '2', // Vietnam
-    status: 'active',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    state: 'HCMC',
-    population: 8993000,
+    country_id: 2,
+    is_active: true,
+    created_at: '2023-01-02T00:00:00Z',
+    countries: { name: 'Vietnam' },
   },
   {
-    id: '3',
+    id: 3,
     name: 'Singapore',
-    countryId: '3', // Singapore
-    status: 'active',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    population: 5686000,
+    country_id: 3,
+    is_active: true,
+    created_at: '2023-01-03T00:00:00Z',
+    countries: { name: 'Singapore' },
   },
 ]

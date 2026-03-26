@@ -1,6 +1,15 @@
+import {
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 import { useMemo } from 'react'
-import { getRouteApi } from '@tanstack/react-router'
-import { useTableUrlState } from '@/hooks/use-table-url-state'
+import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
+
 import { DataTable } from '@/components/data-table'
 import { type City } from '../data/schema'
 import { citiesColumns } from './cities-columns'
@@ -8,14 +17,16 @@ import { CitiesTableAction } from './cities-table-action'
 
 type CitiesTableProps = {
   data: City[]
+  search: Record<string, unknown>
+  navigate: NavigateFn
 }
 
-const route = getRouteApi('/_authenticated/cities')
-
-export function CitiesTable({ data }: CitiesTableProps) {
+export function CitiesTable({
+  data,
+  search,
+  navigate,
+}: CitiesTableProps) {
   const columns = useMemo(() => citiesColumns, [])
-  const search = route.useSearch()
-  const navigate = route.useNavigate()
 
   const {
     globalFilter,
@@ -29,6 +40,7 @@ export function CitiesTable({ data }: CitiesTableProps) {
   } = useTableUrlState({
     search,
     navigate,
+    pagination: { defaultPage: 1, defaultPageSize: 10 },
     globalFilter: { enabled: true },
     columnFilters: [
       {
@@ -43,18 +55,33 @@ export function CitiesTable({ data }: CitiesTableProps) {
     },
   })
 
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+      columnFilters,
+      globalFilter,
+      pagination,
+    },
+    onSortingChange,
+    onColumnFiltersChange,
+    onGlobalFilterChange,
+    onPaginationChange,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+  })
+
   return (
     <DataTable
-      data={data}
+      table={table}
       columns={columns}
-      globalFilter={globalFilter}
-      onGlobalFilterChange={onGlobalFilterChange}
-      columnFilters={columnFilters}
-      onColumnFiltersChange={onColumnFiltersChange}
-      sorting={sorting}
-      onSortingChange={onSortingChange}
-      pagination={pagination}
-      onPaginationChange={onPaginationChange}
+      searchKey='name'
+      searchPlaceholder='Search cities...'
       toolbarActions={<CitiesTableAction />}
     />
   )

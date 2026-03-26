@@ -1,82 +1,44 @@
 import {
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { useMemo } from 'react'
-import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
-
-import { DataTable } from '@/components/data-table'
-import { type Country } from '../data/schema'
+import { DataTable } from '@/components/data-table/data-table'
+import { useCountries } from '../hooks/use-countries'
 import { countriesColumns } from './countries-columns'
-import { CountriesTableAction } from './countries-table-action'
 
-type CountriesTableProps = {
-  data: Country[]
-  search: Record<string, unknown>
-  navigate: NavigateFn
-}
-
-export function CountriesTable({
-  data,
-  search,
-  navigate,
-}: CountriesTableProps) {
+export function CountriesTable() {
+  const { data: countries = [], isLoading } = useCountries()
   const columns = useMemo(() => countriesColumns, [])
 
-  const {
-    globalFilter,
-    onGlobalFilterChange,
-    columnFilters,
-    onColumnFiltersChange,
-    sorting,
-    onSortingChange,
-    pagination,
-    onPaginationChange,
-  } = useTableUrlState({
-    search,
-    navigate,
-    pagination: { defaultPage: 1, defaultPageSize: 10 },
-    globalFilter: { enabled: false },
-    columnFilters: [
-      { columnId: 'name', searchKey: 'name', type: 'string' },
-      { columnId: 'code', searchKey: 'code', type: 'string' },
-    ],
-    sorting: { enabled: true },
-  })
-
   const table = useReactTable({
-    data,
+    data: countries,
     columns,
-    state: {
-      sorting,
-      columnFilters,
-      globalFilter,
-      pagination,
-    },
-    onSortingChange,
-    onColumnFiltersChange,
-    onGlobalFilterChange,
-    onPaginationChange,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
+  if (isLoading) {
+    return (
+      <div className='flex h-64 items-center justify-center'>
+        <p className='text-muted-foreground'>Loading countries...</p>
+      </div>
+    )
+  }
+
   return (
-    <DataTable
-      table={table}
-      columns={columns}
-      searchKey='name'
-      searchPlaceholder='Search countries...'
-      toolbarActions={<CountriesTableAction />}
-    />
+    <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
+      <DataTable
+        table={table}
+        columns={columns}
+        searchKey='name'
+        searchPlaceholder='Search countries...'
+      />
+    </div>
   )
 }
