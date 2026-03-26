@@ -324,9 +324,7 @@ export function POSScreen() {
             </div>
             <div className='mx-2 h-8 w-px bg-border/50' />
             <LanguageSwitch />
-            <LanguageSwitch />
             <ThemeSwitch />
-            <UserButton afterSignOutUrl='/res_pos/sign-in' />
           </div>
         </Header>
 

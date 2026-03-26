@@ -1,4 +1,4 @@
-import { IconPlus } from '@tabler/icons-react'
+import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCountriesDialog } from './countries-provider'
 
@@ -13,7 +13,7 @@ export function CountriesPrimaryButtons() {
         className='h-8'
         onClick={() => setOpen('add')}
       >
-        <IconPlus className='mr-2 h-4 w-4' />
+        <Plus className='mr-2 h-4 w-4' />
         Add Country
       </Button>
     </div>

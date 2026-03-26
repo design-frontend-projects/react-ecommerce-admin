@@ -48,6 +48,15 @@ export const countriesColumns: ColumnDef<Country>[] = [
     cell: ({ row }) => <div className='w-[100px] uppercase'>{row.getValue('code')}</div>,
   },
   {
+    accessorKey: 'phone_code',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Phone Code' />
+    ),
+    cell: ({ row }) => (
+      <div className='w-[80px]'>{row.getValue('phone_code') || '—'}</div>
+    ),
+  },
+  {
     accessorKey: 'is_active',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Status' />

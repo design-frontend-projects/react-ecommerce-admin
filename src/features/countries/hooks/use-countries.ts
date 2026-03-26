@@ -2,12 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import type { Country } from '../data/schema'
 
-export type { Country }
-
 export interface CountryInput {
   name: string
   code: string
-  phone_code: string
+  phone_code?: string
   is_active?: boolean
 }
 
