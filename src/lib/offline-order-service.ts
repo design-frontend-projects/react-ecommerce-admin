@@ -1,5 +1,6 @@
 import { v7 as uuidv7 } from 'uuid'
 import { db } from './db/indexed-db'
+import { syncManager } from './sync-manager'
 
 export interface OfflineOrder {
   id: string
@@ -39,6 +40,12 @@ export const offlineOrderService = {
       retryCount: 0,
     })
 
+    // Try scheduling a background sync
+    syncManager.scheduleSync().catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error('Failed to schedule sync:', err)
+    })
+
     return newOrder
   },
 
@@ -65,9 +72,6 @@ export const offlineOrderService = {
     })
   },
 
-  /**
-   * Marks an order action as failed
-   */
   async markAsFailed(actionId: number, error: string) {
     const action = await db.syncActions.get(actionId)
     if (!action) return
@@ -76,6 +80,7 @@ export const offlineOrderService = {
       status: 'failed',
       error,
       retryCount: action.retryCount + 1,
+      lastAttemptAt: Date.now(),
     })
   },
 }

@@ -70,6 +70,7 @@ export interface SyncAction {
   status: 'pending' | 'syncing' | 'failed' | 'completed'
   error?: string
   retryCount: number
+  lastAttemptAt?: number
 }
 
 export class OfflineDatabase extends Dexie {

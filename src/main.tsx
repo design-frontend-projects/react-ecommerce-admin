@@ -12,6 +12,10 @@ import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
 import { PwaUpdatePrompt } from './components/pwa-update-prompt'
+import { NetworkStatus } from './components/NetworkStatus'
+import { InstallPrompt } from './components/InstallPrompt'
+import { InstallBanner } from './components/InstallBanner'
+import { PWAProvider } from './context/PWAContext'
 // import i18n (needs to be bundled ;))
 import './config/i18n'
 import { DirectionProvider } from './context/direction-provider'
@@ -109,8 +113,13 @@ if (!rootElement.innerHTML) {
           <ThemeProvider>
             <FontProvider>
               <DirectionProvider>
-                <PwaUpdatePrompt />
-                <RouterProvider router={router} />
+                <PWAProvider>
+                  <NetworkStatus />
+                  <InstallPrompt />
+                  <InstallBanner />
+                  <PwaUpdatePrompt />
+                  <RouterProvider router={router} />
+                </PWAProvider>
               </DirectionProvider>
             </FontProvider>
           </ThemeProvider>
