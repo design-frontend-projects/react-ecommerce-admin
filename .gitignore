@@ -27,3 +27,6 @@ dist-ssr
 .agent/
 /generated/prisma
 nul
+.agent
+.kilo
+.jules
