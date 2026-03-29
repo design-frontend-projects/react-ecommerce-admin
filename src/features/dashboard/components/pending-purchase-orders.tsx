@@ -8,9 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import type { PendingPurchaseOrder } from '../use-dashboard-data'
 
 interface PendingPurchaseOrdersProps {
-  data: any[]
+  data: PendingPurchaseOrder[]
 }
 
 export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
@@ -37,16 +38,22 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
         <TableBody>
           {data.map((po) => (
             <TableRow key={po.po_id}>
-              <TableCell className='font-medium'>{po.po_number}</TableCell>
-              <TableCell>{po.suppliers?.name}</TableCell>
+              <TableCell className='font-medium'>
+                {po.po_number || po.po_id}
+              </TableCell>
+              <TableCell>{po.suppliers?.name || '—'}</TableCell>
               <TableCell>
-                {format(new Date(po.order_date), 'MMM dd, yyyy')}
+                {po.order_date
+                  ? format(new Date(po.order_date), 'MMM dd, yyyy')
+                  : 'N/A'}
               </TableCell>
               <TableCell className='text-right'>
                 ${Number(po.total_amount).toFixed(2)}
               </TableCell>
               <TableCell>
-                <Badge variant='outline'>{po.status}</Badge>
+                <Badge variant='outline' className='capitalize'>
+                  {po.status}
+                </Badge>
               </TableCell>
             </TableRow>
           ))}

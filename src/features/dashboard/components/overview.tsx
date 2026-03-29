@@ -1,7 +1,15 @@
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+} from 'recharts'
 
 interface OverviewProps {
-  data: { name: string; total: number }[]
+  data: { name: string; sales: number; refunds: number }[]
 }
 
 export function Overview({ data }: OverviewProps) {
@@ -23,11 +31,33 @@ export function Overview({ data }: OverviewProps) {
           axisLine={false}
           tickFormatter={(value) => `$${value}`}
         />
+        <Tooltip
+          formatter={(
+            value: number | string | undefined,
+            name: string | undefined
+          ) => [
+            `$${Number(value || 0).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`,
+            name === 'sales' ? 'Sales' : 'Refunds',
+          ]}
+          cursor={{ fill: 'transparent' }}
+        />
+        <Legend
+          formatter={(value) =>
+            value === 'sales' ? 'Sales' : 'Refunds'
+          }
+        />
         <Bar
-          dataKey='total'
-          fill='currentColor'
+          dataKey='sales'
+          fill='hsl(var(--primary))'
           radius={[4, 4, 0, 0]}
-          className='fill-primary'
+        />
+        <Bar
+          dataKey='refunds'
+          fill='hsl(0 84% 60%)'
+          radius={[4, 4, 0, 0]}
         />
       </BarChart>
     </ResponsiveContainer>

@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import {
   Card,
   CardContent,
@@ -5,15 +6,97 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { supabase } from '@/lib/supabase'
 import { AnalyticsChart } from './analytics-chart'
 
+interface AnalyticsData {
+  totalTransactions: number
+  totalSaleAmount: number
+  totalRefundAmount: number
+  avgTransactionValue: number
+  topProducts: { name: string; value: number }[]
+  statusBreakdown: { name: string; value: number }[]
+}
+
 export function Analytics() {
+  const { data: analytics, isLoading } = useQuery({
+    queryKey: ['analytics_data'],
+    queryFn: async (): Promise<AnalyticsData> => {
+      // Transactions summary
+      const { data: transactions, error } = await supabase
+        .from('transactions')
+        .select('id, transaction_type, total_amount, status')
+
+      if (error) throw error
+
+      const sales = (transactions || []).filter(
+        (t) => t.transaction_type === 'sale'
+      )
+      const refunds = (transactions || []).filter(
+        (t) => t.transaction_type === 'refund'
+      )
+
+      const totalSaleAmount = sales.reduce(
+        (acc, t) => acc + (Number(t.total_amount) || 0),
+        0
+      )
+      const totalRefundAmount = refunds.reduce(
+        (acc, t) => acc + (Number(t.total_amount) || 0),
+        0
+      )
+      const avgTransactionValue =
+        sales.length > 0 ? totalSaleAmount / sales.length : 0
+
+      // Status breakdown
+      const statusMap: Record<string, number> = {}
+      ;(transactions || []).forEach((t) => {
+        const key = t.status || 'unknown'
+        statusMap[key] = (statusMap[key] || 0) + 1
+      })
+      const statusBreakdown = Object.entries(statusMap)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+
+      // Top selling products from transaction_details
+      const { data: details, error: detailsError } = await supabase
+        .from('transaction_details')
+        .select(
+          `
+          quantity,
+          subtotal,
+          products ( name )
+        `
+        )
+
+      if (detailsError) throw detailsError
+
+      const productMap: Record<string, number> = {}
+      ;(details || []).forEach((d: any) => {
+        const name = d.products?.name || 'Unknown'
+        productMap[name] = (productMap[name] || 0) + (Number(d.quantity) || 0)
+      })
+      const topProducts = Object.entries(productMap)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5)
+
+      return {
+        totalTransactions: (transactions || []).length,
+        totalSaleAmount,
+        totalRefundAmount,
+        avgTransactionValue,
+        topProducts,
+        statusBreakdown,
+      }
+    },
+  })
+
   return (
     <div className='space-y-4'>
       <Card>
         <CardHeader>
-          <CardTitle>Traffic Overview</CardTitle>
-          <CardDescription>Weekly clicks and unique visitors</CardDescription>
+          <CardTitle>Sales Trend</CardTitle>
+          <CardDescription>Daily transaction volume (last 7 days)</CardDescription>
         </CardHeader>
         <CardContent className='px-6'>
           <AnalyticsChart />
@@ -22,7 +105,9 @@ export function Analytics() {
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Clicks</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              Total Transactions
+            </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'
@@ -38,14 +123,18 @@ export function Analytics() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>1,248</div>
-            <p className='text-xs text-muted-foreground'>+12.4% vs last week</p>
+            <div className='text-2xl font-bold'>
+              {isLoading ? '...' : analytics?.totalTransactions || 0}
+            </div>
+            <p className='text-xs text-muted-foreground'>
+              All transaction types
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Unique Visitors
+              Total Sale Amount
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -57,18 +146,29 @@ export function Analytics() {
               strokeWidth='2'
               className='h-4 w-4 text-muted-foreground'
             >
-              <circle cx='12' cy='7' r='4' />
-              <path d='M6 21v-2a6 6 0 0 1 12 0v2' />
+              <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>832</div>
-            <p className='text-xs text-muted-foreground'>+5.8% vs last week</p>
+            <div className='text-2xl font-bold'>
+              $
+              {isLoading
+                ? '...'
+                : (analytics?.totalSaleAmount || 0).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+            </div>
+            <p className='text-xs text-muted-foreground'>
+              From sale transactions
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Bounce Rate</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              Total Refund Amount
+            </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'
@@ -77,19 +177,35 @@ export function Analytics() {
               strokeLinecap='round'
               strokeLinejoin='round'
               strokeWidth='2'
-              className='h-4 w-4 text-muted-foreground'
+              className='h-4 w-4 text-red-500'
             >
-              <path d='M3 12h6l3 6 3-6h6' />
+              <polyline points='1 4 1 10 7 10' />
+              <path d='M3.51 15a9 9 0 1 0 2.13-9.36L1 10' />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>42%</div>
-            <p className='text-xs text-muted-foreground'>-3.2% vs last week</p>
+            <div className='text-2xl font-bold text-red-500'>
+              $
+              {isLoading
+                ? '...'
+                : (analytics?.totalRefundAmount || 0).toLocaleString(
+                    undefined,
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }
+                  )}
+            </div>
+            <p className='text-xs text-muted-foreground'>
+              From refund transactions
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Avg. Session</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              Avg. Transaction
+            </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'
@@ -105,44 +221,48 @@ export function Analytics() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold'>3m 24s</div>
-            <p className='text-xs text-muted-foreground'>+18s vs last week</p>
+            <div className='text-2xl font-bold'>
+              $
+              {isLoading
+                ? '...'
+                : (analytics?.avgTransactionValue || 0).toLocaleString(
+                    undefined,
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }
+                  )}
+            </div>
+            <p className='text-xs text-muted-foreground'>
+              Per sale transaction
+            </p>
           </CardContent>
         </Card>
       </div>
       <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
         <Card className='col-span-1 lg:col-span-4'>
           <CardHeader>
-            <CardTitle>Referrers</CardTitle>
-            <CardDescription>Top sources driving traffic</CardDescription>
+            <CardTitle>Top Selling Products</CardTitle>
+            <CardDescription>By quantity sold</CardDescription>
           </CardHeader>
           <CardContent>
             <SimpleBarList
-              items={[
-                { name: 'Direct', value: 512 },
-                { name: 'Product Hunt', value: 238 },
-                { name: 'Twitter', value: 174 },
-                { name: 'Blog', value: 104 },
-              ]}
+              items={analytics?.topProducts || []}
               barClass='bg-primary'
-              valueFormatter={(n) => `${n}`}
+              valueFormatter={(n) => `${n} sold`}
             />
           </CardContent>
         </Card>
         <Card className='col-span-1 lg:col-span-3'>
           <CardHeader>
-            <CardTitle>Devices</CardTitle>
-            <CardDescription>How users access your app</CardDescription>
+            <CardTitle>Transaction Status</CardTitle>
+            <CardDescription>Breakdown by status</CardDescription>
           </CardHeader>
           <CardContent>
             <SimpleBarList
-              items={[
-                { name: 'Desktop', value: 74 },
-                { name: 'Mobile', value: 22 },
-                { name: 'Tablet', value: 4 },
-              ]}
+              items={analytics?.statusBreakdown || []}
               barClass='bg-muted-foreground'
-              valueFormatter={(n) => `${n}%`}
+              valueFormatter={(n) => `${n}`}
             />
           </CardContent>
         </Card>
@@ -160,6 +280,12 @@ function SimpleBarList({
   valueFormatter: (n: number) => string
   barClass: string
 }) {
+  if (!items.length) {
+    return (
+      <div className='text-sm text-muted-foreground'>No data available.</div>
+    )
+  }
+
   const max = Math.max(...items.map((i) => i.value), 1)
   return (
     <ul className='space-y-3'>
@@ -168,7 +294,7 @@ function SimpleBarList({
         return (
           <li key={i.name} className='flex items-center justify-between gap-3'>
             <div className='min-w-0 flex-1'>
-              <div className='mb-1 truncate text-xs text-muted-foreground'>
+              <div className='mb-1 truncate text-xs text-muted-foreground capitalize'>
                 {i.name}
               </div>
               <div className='h-2.5 w-full rounded-full bg-muted'>

@@ -2,98 +2,118 @@ import { startOfMonth, subMonths, format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
-interface DashboardStats {
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+export interface DashboardStats {
   totalRevenue: number
-  totalOrders: number
+  totalSales: number
+  totalRefunds: number
+  totalRefundAmount: number
   activeCustomers: number
   totalSuppliers: number
+  totalPurchaseOrders: number
+  totalReceivedItems: number
+  totalReceivedAmount: number
+  pendingOrdersCount: number
 }
 
-interface ChartData {
+export interface ChartData {
   name: string
-  total: number
+  sales: number
+  refunds: number
 }
 
-interface DashboardData {
+export interface RecentSale {
+  id: string
+  transaction_number: string
+  total_amount: number
+  created_at: string
+  transaction_details: {
+    product_id: number
+    quantity: number
+    unit_price: number
+    subtotal: number
+    products: {
+      name: string
+    }
+  }[]
+}
+
+export interface RecentRefund {
+  refund_id: number
+  sale_id: string | null
+  order_id: string | null
+  refund_date: string
+  refund_amount: number
+  reason: string | null
+  refund_status: string | null
+}
+
+export interface PendingPurchaseOrder {
+  po_id: number
+  po_number: number | null
+  order_date: string
+  total_amount: number
+  status: string
+  suppliers: {
+    name: string
+  }
+}
+
+export interface DashboardData {
   stats: DashboardStats
   chartData: ChartData[]
-  recentRefunds: any[]
-  pendingPurchaseOrders: any[]
-  recentSales: any[]
+  recentSales: RecentSale[]
+  recentRefunds: RecentRefund[]
+  pendingPurchaseOrders: PendingPurchaseOrder[]
 }
+
+// ─── Hook ────────────────────────────────────────────────────────────────────
 
 export function useDashboardData() {
   return useQuery({
     queryKey: ['dashboard_data'],
     queryFn: async (): Promise<DashboardData> => {
-      // 1. Fetch KPI Stats
-      const { data: revenueData, error: revenueError } = await supabase
-        .from('orders')
-        .select('total_amount')
+      // ─── 1. Transactions: Total Sales & Refunds ───
+      const { data: transactions, error: txError } = await supabase
+        .from('transactions')
+        .select('id, transaction_type, total_amount, status, created_at')
 
-      if (revenueError) throw revenueError
+      if (txError) throw txError
 
-      const totalRevenue = revenueData.reduce(
-        (acc, curr) => acc + (Number(curr.total_amount) || 0),
+      const salesTransactions = (transactions || []).filter(
+        (t) => t.transaction_type === 'sale'
+      )
+      const refundTransactions = (transactions || []).filter(
+        (t) => t.transaction_type === 'refund'
+      )
+
+      const totalRevenue = salesTransactions.reduce(
+        (acc, t) => acc + (Number(t.total_amount) || 0),
+        0
+      )
+      const totalSales = salesTransactions.length
+      const totalRefundFromTransactions = refundTransactions.reduce(
+        (acc, t) => acc + (Number(t.total_amount) || 0),
         0
       )
 
-      const { count: totalOrders, error: ordersError } = await supabase
-        .from('orders')
-        .select('*', { count: 'exact', head: true })
-
-      if (ordersError) throw ordersError
-
-      const { count: activeCustomers, error: customersError } = await supabase
+      // ─── 2. Customers count ───
+      const { count: activeCustomers, error: custError } = await supabase
         .from('customers')
         .select('*', { count: 'exact', head: true })
 
-      if (customersError) throw customersError
+      if (custError) throw custError
 
-      const { count: totalSuppliers, error: suppliersError } = await supabase
+      // ─── 3. Suppliers count ───
+      const { count: totalSuppliers, error: suppError } = await supabase
         .from('suppliers')
         .select('*', { count: 'exact', head: true })
 
-      if (suppliersError) throw suppliersError
+      if (suppError) throw suppError
 
-      // 2. Fetch Chart Data (Last 6 months sales)
-      // Note: Grouping by month in Supabase via JS client usually requires fetching data and processing it in JS
-      // or using a stored procedure/view. For simplicity and since we might not have a huge dataset yet,
-      // we'll fetch orders from last 6 months and process here.
-      const sixMonthsAgo = subMonths(startOfMonth(new Date()), 6).toISOString()
-
-      const { data: recentOrders, error: recentOrdersError } = await supabase
-        .from('orders')
-        .select('order_date, total_amount')
-        .gte('order_date', sixMonthsAgo)
-        .order('order_date', { ascending: true })
-
-      if (recentOrdersError) throw recentOrdersError
-
-      // Process chart data
-      const monthlyData: Record<string, number> = {}
-      recentOrders.forEach((order) => {
-        const month = format(new Date(order.order_date), 'MMM')
-        monthlyData[month] =
-          (monthlyData[month] || 0) + (Number(order.total_amount) || 0)
-      })
-
-      const chartData: ChartData[] = Object.keys(monthlyData).map((month) => ({
-        name: month,
-        total: monthlyData[month],
-      }))
-
-      // 3. Fetch Recent Refunds
-      const { data: recentRefunds, error: refundsError } = await supabase
-        .from('refunds')
-        .select('*')
-        .order('refund_date', { ascending: false })
-        .limit(5)
-
-      if (refundsError) throw refundsError
-
-      // 4. Fetch Pending Purchase Orders
-      const { data: pendingPurchaseOrders, error: poError } = await supabase
+      // ─── 4. Purchase Orders: total POs, received items, received amount ───
+      const { data: purchaseOrders, error: poError } = await supabase
         .from('purchase_orders')
         .select(
           `
@@ -102,47 +122,162 @@ export function useDashboardData() {
           order_date,
           total_amount,
           status,
-          suppliers (
-            name
+          suppliers ( name ),
+          purchase_order_items (
+            po_item_id,
+            quantity_ordered,
+            unit_cost,
+            subtotal
           )
         `
         )
-        .eq('status', 'Pending')
-        .order('order_date', { ascending: true })
-        .limit(5)
 
       if (poError) throw poError
 
-      // 5. Fetch Recent Sales (Orders with Customer info)
+      const totalPurchaseOrders = (purchaseOrders || []).length
+      const receivedPOs = (purchaseOrders || []).filter(
+        (po) => po.status === 'Received'
+      )
+      const totalReceivedItems = receivedPOs.reduce(
+        (acc, po) =>
+          acc +
+          (po.purchase_order_items || []).reduce(
+            (sum: number, item: { quantity_ordered: number }) =>
+              sum + (item.quantity_ordered || 0),
+            0
+          ),
+        0
+      )
+      const totalReceivedAmount = receivedPOs.reduce(
+        (acc, po) => acc + (Number(po.total_amount) || 0),
+        0
+      )
+
+      const pendingPOs = (purchaseOrders || []).filter(
+        (po) =>
+          po.status === 'pending' ||
+          po.status === 'Pending' ||
+          po.status === 'ordered'
+      )
+      const pendingOrdersCount = pendingPOs.length
+
+      // ─── 5. Refunds table: total refund amount from refunds ───
+      const { data: refundsData, error: refundsError } = await supabase
+        .from('refunds')
+        .select('refund_id, refund_amount, refund_date, refund_status')
+
+      if (refundsError) throw refundsError
+
+      const totalRefundAmount = (refundsData || []).reduce(
+        (acc, r) => acc + (Number(r.refund_amount) || 0),
+        0
+      )
+
+      // Combine refunds from both tables (transactions + refunds)
+      const totalRefunds =
+        refundTransactions.length + (refundsData || []).length
+      const combinedRefundAmount =
+        totalRefundFromTransactions + totalRefundAmount
+
+      // ─── 6. Chart Data: Monthly Sales vs Refunds (last 6 months) ───
+      const sixMonthsAgo = subMonths(startOfMonth(new Date()), 6).toISOString()
+
+      const monthlyData: Record<string, { sales: number; refunds: number }> = {}
+      // Initialize 6 months
+      for (let i = 5; i >= 0; i--) {
+        const d = subMonths(new Date(), i)
+        monthlyData[format(d, 'MMM')] = { sales: 0, refunds: 0 }
+      }
+
+      ;(transactions || []).forEach((t) => {
+        if (!t.created_at) return
+        const date = new Date(t.created_at)
+        if (date.toISOString() >= sixMonthsAgo) {
+          const monthKey = format(date, 'MMM')
+          if (monthlyData[monthKey]) {
+            if (t.transaction_type === 'sale') {
+              monthlyData[monthKey].sales += Number(t.total_amount) || 0
+            } else if (t.transaction_type === 'refund') {
+              monthlyData[monthKey].refunds += Number(t.total_amount) || 0
+            }
+          }
+        }
+      })
+
+      const chartData: ChartData[] = Object.entries(monthlyData).map(
+        ([name, data]) => ({
+          name,
+          sales: data.sales,
+          refunds: data.refunds,
+        })
+      )
+
+      // ─── 7. Recent Sales (last 5 sale transactions with details) ───
       const { data: recentSalesData, error: salesError } = await supabase
-        .from('orders')
+        .from('transactions')
         .select(
           `
-          order_id,
+          id,
+          transaction_number,
           total_amount,
-          customers (
-            first_name,
-            last_name,
-            email
+          created_at,
+          transaction_details (
+            product_id,
+            quantity,
+            unit_price,
+            subtotal,
+            products ( name )
           )
         `
         )
-        .order('order_date', { ascending: false })
+        .eq('transaction_type', 'sale')
+        .order('created_at', { ascending: false })
         .limit(5)
 
       if (salesError) throw salesError
 
+      // ─── 8. Recent Refunds (last 5) ───
+      const { data: recentRefunds, error: recentRefundsError } = await supabase
+        .from('refunds')
+        .select('*')
+        .order('refund_date', { ascending: false })
+        .limit(5)
+
+      if (recentRefundsError) throw recentRefundsError
+
+      // ─── 9. Pending Purchase Orders (last 5) ───
+      const pendingPurchaseOrders = pendingPOs
+        .sort(
+          (a, b) =>
+            new Date(a.order_date).getTime() - new Date(b.order_date).getTime()
+        )
+        .slice(0, 5)
+        .map((po) => ({
+          po_id: po.po_id,
+          po_number: po.po_number,
+          order_date: po.order_date,
+          total_amount: Number(po.total_amount) || 0,
+          status: po.status || 'pending',
+          suppliers: po.suppliers as unknown as { name: string },
+        }))
+
       return {
         stats: {
           totalRevenue,
-          totalOrders: totalOrders || 0,
+          totalSales,
+          totalRefunds,
+          totalRefundAmount: combinedRefundAmount,
           activeCustomers: activeCustomers || 0,
           totalSuppliers: totalSuppliers || 0,
+          totalPurchaseOrders,
+          totalReceivedItems,
+          totalReceivedAmount,
+          pendingOrdersCount,
         },
         chartData,
-        recentRefunds,
+        recentSales: (recentSalesData || []) as unknown as RecentSale[],
+        recentRefunds: (recentRefunds || []) as RecentRefund[],
         pendingPurchaseOrders,
-        recentSales: recentSalesData,
       }
     },
   })

@@ -1,7 +1,9 @@
+import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import type { RecentSale } from '../use-dashboard-data'
 
 interface RecentSalesProps {
-  data: any[]
+  data: RecentSale[]
 }
 
 export function RecentSales({ data }: RecentSalesProps) {
@@ -15,30 +17,38 @@ export function RecentSales({ data }: RecentSalesProps) {
 
   return (
     <div className='space-y-8'>
-      {data.map((sale) => (
-        <div key={sale.order_id} className='flex items-center gap-4'>
-          <Avatar className='h-9 w-9'>
-            {/* <AvatarImage src='/avatars/01.png' alt='Avatar' /> */}
-            <AvatarFallback>
-              {sale.customers?.first_name?.[0]}
-              {sale.customers?.last_name?.[0]}
-            </AvatarFallback>
-          </Avatar>
-          <div className='flex flex-1 flex-wrap items-center justify-between'>
-            <div className='space-y-1'>
-              <p className='text-sm leading-none font-medium'>
-                {sale.customers?.first_name} {sale.customers?.last_name}
-              </p>
-              <p className='text-sm text-muted-foreground'>
-                {sale.customers?.email}
-              </p>
-            </div>
-            <div className='font-medium'>
-              +${Number(sale.total_amount).toFixed(2)}
+      {data.map((sale) => {
+        const itemCount = sale.transaction_details?.length || 0
+        const firstItem = sale.transaction_details?.[0]
+        const productName =
+          firstItem?.products?.name || 'Unknown Product'
+
+        return (
+          <div key={sale.id} className='flex items-center gap-4'>
+            <Avatar className='h-9 w-9'>
+              <AvatarFallback className='bg-primary/10 text-primary text-xs'>
+                {sale.transaction_number?.slice(-2) || 'TX'}
+              </AvatarFallback>
+            </Avatar>
+            <div className='flex flex-1 flex-wrap items-center justify-between'>
+              <div className='space-y-1'>
+                <p className='text-sm leading-none font-medium'>
+                  {sale.transaction_number}
+                </p>
+                <p className='text-sm text-muted-foreground'>
+                  {productName}
+                  {itemCount > 1 && ` +${itemCount - 1} more`}
+                  {sale.created_at &&
+                    ` · ${format(new Date(sale.created_at), 'MMM dd')}`}
+                </p>
+              </div>
+              <div className='font-medium'>
+                +${Number(sale.total_amount).toFixed(2)}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
