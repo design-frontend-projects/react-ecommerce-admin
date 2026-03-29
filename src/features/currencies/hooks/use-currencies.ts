@@ -41,7 +41,7 @@ export const useCurrency = (id: string) => {
         .from('currencies')
         .select('*')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Currency
@@ -59,7 +59,7 @@ export const useCreateCurrency = () => {
         .from('currencies')
         .insert(newCurrency)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -80,7 +80,7 @@ export const useUpdateCurrency = () => {
         .update(updates)
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -96,10 +96,7 @@ export const useDeleteCurrency = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('currencies')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('currencies').delete().eq('id', id)
 
       if (error) throw error
     },

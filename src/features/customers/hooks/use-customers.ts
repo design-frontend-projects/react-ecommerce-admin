@@ -62,7 +62,7 @@ export const useCreateCustomer = () => {
         .from('customers')
         .insert(newCustomer)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -83,7 +83,7 @@ export const useUpdateCustomer = () => {
         .update(updates)
         .eq('customer_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

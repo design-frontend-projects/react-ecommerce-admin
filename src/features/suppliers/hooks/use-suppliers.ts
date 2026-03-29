@@ -46,7 +46,7 @@ export const useSupplier = (id: number) => {
         .from('suppliers')
         .select('*')
         .eq('supplier_id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Supplier
@@ -64,7 +64,7 @@ export const useCreateSupplier = () => {
         .from('suppliers')
         .insert(newSupplier)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -85,7 +85,7 @@ export const useUpdateSupplier = () => {
         .update(updates)
         .eq('supplier_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

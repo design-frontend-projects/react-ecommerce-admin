@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
-import { ResOrder } from '../types'
 import { generateOrderNumber } from '../lib/formatters'
+import { ResOrder } from '../types'
+
 export { generateOrderNumber }
 
 export async function createResOrder(payload: {
@@ -36,7 +37,7 @@ export async function createResOrder(payload: {
       total_amount: subtotal,
     })
     .select()
-    .single()
+    .maybeSingle()
 
   if (orderError) throw orderError
 

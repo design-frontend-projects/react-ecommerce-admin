@@ -1,8 +1,10 @@
 // ResPOS Dashboard Page
 // Main dashboard for restaurant staff with role-based widgets
+import { useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@clerk/clerk-react'
+import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {
   CalendarClock,
@@ -32,10 +34,13 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useDashboardStats, useActiveShift } from '../api/queries'
+import { useDashboardStats, useActiveShift, useShifts } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
+import { useShift } from '../hooks/use-shift'
+import { OpenShiftDialog, CloseShiftDialog } from './shifts'
 import { formatCurrency } from '../lib/formatters'
+import { RoleNames } from '../constants'
 import type { Permission } from '../types'
 
 const container = {
@@ -52,9 +57,21 @@ const item = {
 }
 
 export function ResposDashboard() {
+  const [openDialogOpen, setOpenDialogOpen] = useState(false)
+  const [closeDialogOpen, setCloseDialogOpen] = useState(false)
+
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
   const { data: activeShift, isLoading: shiftLoading } = useActiveShift()
   const { has, isLoaded, isSignedIn } = useAuth()
+  const { user } = useUser()
+  const clerkUserId = user?.id ?? null
+
+  const { openShift, closeShift, isOpening, isClosing } = useShift({ clerkUserId })
+  
+  const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
+  const { data: allShifts = [] } = useShifts(isAdmin ? null : clerkUserId)
+  const closedShifts = allShifts.filter((s) => s.status === 'closed')
+  const previousClosingCash = closedShifts[0]?.closing_cash ?? 0
 
   const isLoading = statsLoading || shiftLoading || isLoaded
 
@@ -163,13 +180,14 @@ export function ResposDashboard() {
                 <span className='text-muted-foreground'>
                   since {format(new Date(activeShift.opened_at), 'HH:mm')}
                 </span>
+                <Button variant='destructive' size='sm' className='ml-4' onClick={() => setCloseDialogOpen(true)}>
+                  Close Shift
+                </Button>
               </div>
             ) : (
-              <Button asChild variant='outline'>
-                <Link to='/respos/shifts'>
-                  <Timer className='mr-2 h-4 w-4' />
-                  Open Shift
-                </Link>
+              <Button variant='outline' onClick={() => setOpenDialogOpen(true)}>
+                <Timer className='mr-2 h-4 w-4' />
+                Open Shift
               </Button>
             )}
           </motion.div>
@@ -249,6 +267,41 @@ export function ResposDashboard() {
           </div>
         </motion.div>
       </Main>
+
+      <OpenShiftDialog
+        open={openDialogOpen}
+        onOpenChange={setOpenDialogOpen}
+        employeeName={user ? `${user.firstName} ${user.lastName}` : 'Unknown'}
+        isPending={isOpening}
+        defaultOpeningCash={previousClosingCash}
+        onSubmit={async (values) => {
+          if (!user) return
+          try {
+            await openShift(user.id, values.openingCash)
+            toast.success('Shift opened successfully')
+            setOpenDialogOpen(false)
+          } catch {
+            toast.error('Failed to open shift')
+          }
+        }}
+      />
+
+      <CloseShiftDialog
+        open={closeDialogOpen}
+        onOpenChange={setCloseDialogOpen}
+        openingCash={activeShift?.opening_cash ?? 0}
+        isPending={isClosing}
+        onSubmit={async (values) => {
+          if (!user) return
+          try {
+            await closeShift(user.id, values.closingCash, values.notes)
+            toast.success('Shift closed successfully')
+            setCloseDialogOpen(false)
+          } catch {
+            toast.error('Failed to close shift')
+          }
+        }}
+      />
     </>
   )
 }

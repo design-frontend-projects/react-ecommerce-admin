@@ -34,7 +34,7 @@ export function useUpdateTableStatus() {
         .update({ status })
         .eq('id', tableId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -75,7 +75,7 @@ export function useOpenShift() {
           restaurant_id: restaurantId,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -113,7 +113,7 @@ export function useCloseShift() {
         })
         .eq('id', shiftId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -272,7 +272,7 @@ export function useUpdateOrderStatus() {
         .update(updates)
         .eq('id', orderId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as ResOrder
@@ -303,7 +303,7 @@ export function useRecordPromotionUsage() {
         .from('promotion_usage')
         .insert({ promotion_id: promotionId, res_order_id: orderId })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -344,7 +344,7 @@ export function useAddOrderItem() {
           notes,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
 
@@ -449,7 +449,7 @@ export function useUpdateOrderItemStatus() {
         .update({ status })
         .eq('id', itemId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as ResOrderItem
@@ -486,7 +486,7 @@ export function useCreateVoidRequest() {
           reason,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (requestError) throw requestError
 
@@ -546,7 +546,7 @@ export function useProcessVoidRequest() {
         })
         .eq('id', requestId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (requestError) throw requestError
 
@@ -563,7 +563,7 @@ export function useProcessVoidRequest() {
           .from('res_orders')
           .select('table_id')
           .eq('id', orderId)
-          .single()
+          .maybeSingle()
 
         if (order?.table_id) {
           await supabase
@@ -704,7 +704,7 @@ export function useCreateReservation() {
           created_by: createdBy,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -733,7 +733,7 @@ export function useUpdateReservationStatus() {
         .update({ status })
         .eq('id', reservationId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -782,7 +782,7 @@ export function useUpdateReservation() {
         })
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -859,7 +859,7 @@ export function useCreateMenuItem() {
           tags: tags || [],
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -963,7 +963,7 @@ export function useCreateMenuCategory() {
           is_active: isActive ?? true,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1006,7 +1006,7 @@ export function useUpdateMenuCategory() {
         })
         .eq('id', categoryId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1065,7 +1065,7 @@ export function useCreateItemVariant() {
           is_default: isDefault ?? false,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1103,7 +1103,7 @@ export function useUpdateItemVariant() {
         })
         .eq('id', variantId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1161,7 +1161,7 @@ export function useCreateItemProperty() {
           max_selections: maxSelections ?? 1,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1202,7 +1202,7 @@ export function useUpdateItemProperty() {
         })
         .eq('id', propertyId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1257,7 +1257,7 @@ export function useCreateFloor() {
           is_active: isActive ?? true,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1295,7 +1295,7 @@ export function useUpdateFloor() {
         })
         .eq('id', floorId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1359,7 +1359,7 @@ export function useCreateTable() {
           is_active: isActive ?? true,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1407,7 +1407,7 @@ export function useUpdateTable() {
         })
         .eq('id', tableId)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1491,7 +1491,7 @@ export function useCreateUser() {
           is_active: true,
         })
         .select()
-        .single()
+        .maybeSingle()
 
       if (empError) throw empError
 
@@ -1545,7 +1545,7 @@ export function useUpdateUser() {
         .from('res_employees')
         .select('user_id')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (fetchError) throw fetchError
 
@@ -1571,7 +1571,7 @@ export function useUpdateUser() {
         })
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (empError) throw empError
 
@@ -1623,7 +1623,7 @@ export function useCreateRole() {
         .from('res_roles')
         .insert({ name, display_name, permissions })
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -1654,7 +1654,7 @@ export function useUpdateRole() {
         .update({ name, display_name, permissions })
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

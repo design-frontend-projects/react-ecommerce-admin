@@ -125,7 +125,7 @@ export async function getTransactionById(
     `
     )
     .eq('transaction_id', transactionId)
-    .single()
+    .maybeSingle()
 
   if (error) {
     if (error.code === 'PGRST116') return null // not found
@@ -157,7 +157,7 @@ export async function createRefund(
       clerk_user_id: payload.clerk_user_id,
     })
     .select('refund_id')
-    .single()
+    .maybeSingle()
 
   if (error) throw error
 
@@ -166,11 +166,14 @@ export async function createRefund(
     .from('transactions')
     .select('id, tenant_id, clerk_user_id, currency, transaction_number')
     .eq('transaction_number', payload.orderId)
-    .single()
+    .maybeSingle()
 
   if (txError) {
     // eslint-disable-next-line no-console
-    console.error('Failed to fetch original transaction for refund sync:', txError)
+    console.error(
+      'Failed to fetch original transaction for refund sync:',
+      txError
+    )
     // Return the refund_id anyway — the refund itself succeeded
     return String((data as { refund_id: string | number }).refund_id)
   }

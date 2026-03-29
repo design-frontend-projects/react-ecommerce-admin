@@ -17,10 +17,12 @@ export const useCities = (search?: string) => {
     queryFn: async () => {
       let query = supabase
         .from('cities')
-        .select(`
+        .select(
+          `
           *,
           country:countries(name)
-        `)
+        `
+        )
         .order('name')
 
       if (search) {
@@ -43,7 +45,7 @@ export const useCity = (id: number) => {
         .from('cities')
         .select('*, countries(name)')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as City
@@ -61,7 +63,7 @@ export const useCreateCity = () => {
         .from('cities')
         .insert(newCity)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -82,7 +84,7 @@ export const useUpdateCity = () => {
         .update(updates)
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -98,10 +100,7 @@ export const useDeleteCity = () => {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const { error } = await supabase
-        .from('cities')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('cities').delete().eq('id', id)
 
       if (error) throw error
     },

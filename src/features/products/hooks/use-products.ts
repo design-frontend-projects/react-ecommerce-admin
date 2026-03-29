@@ -25,7 +25,7 @@ export const useProduct = (id: number) => {
         .from('products')
         .select('*')
         .eq('product_id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Product
@@ -45,7 +45,7 @@ export const useCreateProduct = () => {
         .from('products')
         .insert(newProduct)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -69,7 +69,7 @@ export const useUpdateProduct = () => {
         .update(updates)
         .eq('product_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

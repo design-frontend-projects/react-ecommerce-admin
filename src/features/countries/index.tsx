@@ -2,23 +2,25 @@ import { CountriesProvider } from './components/countries-provider'
 import { CountriesTable } from './components/countries-table'
 import { CountriesDialogs } from './components/countries-dialogs'
 import { CountriesPrimaryButtons } from './components/countries-primary-buttons'
-import { useCountries } from './hooks/use-countries'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 
 export function Countries() {
-  const { isLoading } = useCountries()
-
-  if (isLoading) {
-    return (
-      <div className='flex h-64 items-center justify-center'>
-        <p className='text-muted-foreground'>Loading countries...</p>
-      </div>
-    )
-  }
-
   return (
     <CountriesProvider>
-      <div className='flex flex-col gap-4'>
-        <div className='flex items-center justify-between'>
+      <Header fixed>
+        <Search />
+        <div className='ml-auto flex items-center space-x-4'>
+          <ThemeSwitch />
+          <ProfileDropdown />
+        </div>
+      </Header>
+
+      <Main>
+        <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Countries</h2>
             <p className='text-muted-foreground'>
@@ -28,13 +30,13 @@ export function Countries() {
           <CountriesPrimaryButtons />
         </div>
         <CountriesTable />
-        <CountriesDialogs />
-      </div>
+      </Main>
+
+      <CountriesDialogs />
     </CountriesProvider>
   )
 }
 
-// Re-export components for external consumers (e.g., (admin) route)
 export { CountriesProvider } from './components/countries-provider'
 export { CountriesTable } from './components/countries-table'
 export { CountriesDialogs } from './components/countries-dialogs'

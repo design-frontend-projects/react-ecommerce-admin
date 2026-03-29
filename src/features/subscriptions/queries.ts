@@ -66,7 +66,7 @@ async function assignSubscription(payload: {
     .from('tenant_subscriptions')
     .insert([payload])
     .select()
-    .single()
+    .maybeSingle()
 
   if (error) throw error
   return data
@@ -95,7 +95,7 @@ async function getCurrentUserSubscription(clerkUserId: string) {
     .eq('clerk_user_id', clerkUserId)
     .order('created_at', { ascending: false })
     .limit(1)
-    .single()
+    .maybeSingle()
 
   if (error) {
     if (error.code === 'PGRST116') return null // No record found
@@ -176,7 +176,7 @@ async function updateSubscriptionStatus(payload: {
     .update({ status: payload.status, updated_at: new Date() })
     .eq('id', payload.id)
     .select()
-    .single()
+    .maybeSingle()
 
   if (error) throw error
   return data

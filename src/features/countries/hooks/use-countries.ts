@@ -32,7 +32,7 @@ export const useCountry = (id: number) => {
         .from('countries')
         .select('*')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Country
@@ -50,7 +50,7 @@ export const useCreateCountry = () => {
         .from('countries')
         .insert(newCountry)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -71,7 +71,7 @@ export const useUpdateCountry = () => {
         .update(updates)
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -87,10 +87,7 @@ export const useDeleteCountry = () => {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      const { error } = await supabase
-        .from('countries')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('countries').delete().eq('id', id)
 
       if (error) throw error
     },

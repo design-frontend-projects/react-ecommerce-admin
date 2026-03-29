@@ -46,7 +46,7 @@ export const profileService = {
         },
       ])
       .select()
-      .single()
+      .maybeSingle()
 
     if (error) throw error
     return data
@@ -74,7 +74,7 @@ export const profileService = {
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('clerk_user_id', clerkUserId)
       .select()
-      .single()
+      .maybeSingle()
 
     if (error) throw error
     return data

@@ -49,7 +49,7 @@ export const useBranch = (id: string) => {
         .from('branches')
         .select('*, cities(name, countries(name))')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Branch
@@ -67,7 +67,7 @@ export const useCreateBranch = () => {
         .from('branches')
         .insert(newBranch)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -88,7 +88,7 @@ export const useUpdateBranch = () => {
         .update(updates)
         .eq('id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -104,10 +104,7 @@ export const useDeleteBranch = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('branches')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('branches').delete().eq('id', id)
 
       if (error) throw error
     },

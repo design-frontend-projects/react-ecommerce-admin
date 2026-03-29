@@ -334,7 +334,7 @@ export function useMenuItem(id: string) {
         .from('res_menu_items')
         .select('*, category:res_menu_categories(*)')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (itemError) throw itemError
 
@@ -405,9 +405,15 @@ export function useShifts(clerkUserId?: string | null) {
       const { data, error } = await query
 
       if (error) throw error
-      return data as ResShift[]
+      return data as unknown as Array<
+        ResShift & {
+          opener?: { first_name: string; last_name: string }
+          closer?: { first_name: string; last_name: string }
+        }
+      >
     },
-    enabled: !!clerkUserId,
+    // If clerkUserId is explicitly null (admin), we still want to run the query
+    enabled: clerkUserId !== undefined,
   })
 }
 
@@ -486,7 +492,7 @@ export function useOrder(id: string) {
         .from('res_orders')
         .select('*, table:res_tables(*), creator:res_employees(*)')
         .eq('id', id)
-        .single()
+        .maybeSingle()
 
       if (orderError) throw orderError
 

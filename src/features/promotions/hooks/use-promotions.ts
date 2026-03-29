@@ -55,7 +55,7 @@ export const useCreatePromotion = () => {
         .from('promotions')
         .insert(newPromotion)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -76,7 +76,7 @@ export const useUpdatePromotion = () => {
         .update(updates)
         .eq('promotion_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

@@ -17,6 +17,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
 import { Route as AuthenticatedSystemRouteImport } from './routes/_authenticated/_system'
 import { Route as errorsOfflineRouteImport } from './routes/(errors)/offline'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
@@ -41,6 +42,7 @@ import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_
 import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
 import { Route as AuthenticatedCurrenciesRouteRouteImport } from './routes/_authenticated/currencies/route'
 import { Route as AuthenticatedCountriesRouteRouteImport } from './routes/_authenticated/countries/route'
+import { Route as AuthenticatedCitiesRouteRouteImport } from './routes/_authenticated/cities/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
@@ -107,6 +109,11 @@ const AuthenticatedSubscriptionsRoute =
     path: '/subscriptions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAreasRoute = AuthenticatedAreasRouteImport.update({
+  id: '/areas',
+  path: '/areas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSystemRoute = AuthenticatedSystemRouteImport.update({
   id: '/_system',
   getParentRoute: () => AuthenticatedRouteRoute,
@@ -237,6 +244,12 @@ const AuthenticatedCountriesRouteRoute =
     path: '/countries',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCitiesRouteRoute =
+  AuthenticatedCitiesRouteRouteImport.update({
+    id: '/cities',
+    path: '/cities',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCategoriesRouteRoute =
   AuthenticatedCategoriesRouteRouteImport.update({
     id: '/categories',
@@ -256,9 +269,9 @@ const AuthenticatedAppsRouteRoute = AuthenticatedAppsRouteRouteImport.update({
 } as any)
 const AuthenticatedCitiesIndexLazyRoute =
   AuthenticatedCitiesIndexLazyRouteImport.update({
-    id: '/cities/',
-    path: '/cities/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCitiesRouteRoute,
   } as any).lazy(() =>
     import('./routes/_authenticated/cities/index.lazy').then((d) => d.Route),
   )
@@ -433,6 +446,7 @@ export interface FileRoutesByFullPath {
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/cities': typeof AuthenticatedCitiesRouteRouteWithChildren
   '/countries': typeof AuthenticatedCountriesRouteRoute
   '/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -456,6 +470,7 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/offline': typeof errorsOfflineRoute
+  '/areas': typeof AuthenticatedAreasRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
@@ -485,7 +500,7 @@ export interface FileRoutesByFullPath {
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
-  '/cities': typeof AuthenticatedCitiesIndexLazyRoute
+  '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -517,6 +532,7 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/offline': typeof errorsOfflineRoute
+  '/areas': typeof AuthenticatedAreasRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
@@ -558,6 +574,7 @@ export interface FileRoutesById {
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/_authenticated/cities': typeof AuthenticatedCitiesRouteRouteWithChildren
   '/_authenticated/countries': typeof AuthenticatedCountriesRouteRoute
   '/_authenticated/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -582,6 +599,7 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503Route
   '/(errors)/offline': typeof errorsOfflineRoute
   '/_authenticated/_system': typeof AuthenticatedSystemRouteWithChildren
+  '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
@@ -623,6 +641,7 @@ export interface FileRouteTypes {
     | '/apps'
     | '/branches'
     | '/categories'
+    | '/cities'
     | '/countries'
     | '/currencies'
     | '/customer-cards'
@@ -646,6 +665,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/offline'
+    | '/areas'
     | '/subscriptions'
     | '/'
     | '/menu'
@@ -675,7 +695,7 @@ export interface FileRouteTypes {
     | '/respos'
     | '/settings/'
     | '/transactions'
-    | '/cities'
+    | '/cities/'
     | '/respos/invoice/$orderId'
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
@@ -707,6 +727,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/offline'
+    | '/areas'
     | '/subscriptions'
     | '/'
     | '/menu'
@@ -747,6 +768,7 @@ export interface FileRouteTypes {
     | '/_authenticated/apps'
     | '/_authenticated/branches'
     | '/_authenticated/categories'
+    | '/_authenticated/cities'
     | '/_authenticated/countries'
     | '/_authenticated/currencies'
     | '/_authenticated/customer-cards'
@@ -771,6 +793,7 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/(errors)/offline'
     | '/_authenticated/_system'
+    | '/_authenticated/areas'
     | '/_authenticated/subscriptions'
     | '/_authenticated/'
     | '/menu/'
@@ -864,6 +887,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/areas': {
+      id: '/_authenticated/areas'
+      path: '/areas'
+      fullPath: '/areas'
+      preLoaderRoute: typeof AuthenticatedAreasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/_system': {
@@ -1034,6 +1064,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCountriesRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cities': {
+      id: '/_authenticated/cities'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof AuthenticatedCitiesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/categories': {
       id: '/_authenticated/categories'
       path: '/categories'
@@ -1057,10 +1094,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/cities/': {
       id: '/_authenticated/cities/'
-      path: '/cities'
-      fullPath: '/cities'
+      path: '/'
+      fullPath: '/cities/'
       preLoaderRoute: typeof AuthenticatedCitiesIndexLazyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedCitiesRouteRoute
     }
     '/_authenticated/transactions/': {
       id: '/_authenticated/transactions/'
@@ -1261,6 +1298,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedCitiesRouteRouteChildren {
+  AuthenticatedCitiesIndexLazyRoute: typeof AuthenticatedCitiesIndexLazyRoute
+}
+
+const AuthenticatedCitiesRouteRouteChildren: AuthenticatedCitiesRouteRouteChildren =
+  {
+    AuthenticatedCitiesIndexLazyRoute: AuthenticatedCitiesIndexLazyRoute,
+  }
+
+const AuthenticatedCitiesRouteRouteWithChildren =
+  AuthenticatedCitiesRouteRoute._addFileChildren(
+    AuthenticatedCitiesRouteRouteChildren,
+  )
+
 interface AuthenticatedSettingsRouteRouteChildren {
   AuthenticatedSettingsAccountRoute: typeof AuthenticatedSettingsAccountRoute
   AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
@@ -1308,6 +1359,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
   AuthenticatedBranchesRouteRoute: typeof AuthenticatedBranchesRouteRoute
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
+  AuthenticatedCitiesRouteRoute: typeof AuthenticatedCitiesRouteRouteWithChildren
   AuthenticatedCountriesRouteRoute: typeof AuthenticatedCountriesRouteRoute
   AuthenticatedCurrenciesRouteRoute: typeof AuthenticatedCurrenciesRouteRoute
   AuthenticatedCustomerCardsRouteRoute: typeof AuthenticatedCustomerCardsRouteRoute
@@ -1322,6 +1374,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
   AuthenticatedSystemRoute: typeof AuthenticatedSystemRouteWithChildren
+  AuthenticatedAreasRoute: typeof AuthenticatedAreasRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
@@ -1342,7 +1395,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
   AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
-  AuthenticatedCitiesIndexLazyRoute: typeof AuthenticatedCitiesIndexLazyRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 
@@ -1350,6 +1402,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppsRouteRoute: AuthenticatedAppsRouteRoute,
   AuthenticatedBranchesRouteRoute: AuthenticatedBranchesRouteRoute,
   AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
+  AuthenticatedCitiesRouteRoute: AuthenticatedCitiesRouteRouteWithChildren,
   AuthenticatedCountriesRouteRoute: AuthenticatedCountriesRouteRoute,
   AuthenticatedCurrenciesRouteRoute: AuthenticatedCurrenciesRouteRoute,
   AuthenticatedCustomerCardsRouteRoute: AuthenticatedCustomerCardsRouteRoute,
@@ -1364,6 +1417,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
   AuthenticatedSystemRoute: AuthenticatedSystemRouteWithChildren,
+  AuthenticatedAreasRoute: AuthenticatedAreasRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
@@ -1384,7 +1438,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
   AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
-  AuthenticatedCitiesIndexLazyRoute: AuthenticatedCitiesIndexLazyRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,
 }

@@ -71,7 +71,7 @@ export const usePurchaseOrder = (id: number) => {
         .from('purchase_orders')
         .select('*, suppliers(name), purchase_order_items(*, products(name))')
         .eq('po_id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as PurchaseOrderWithItems
@@ -100,7 +100,7 @@ export const useCreatePurchaseOrder = () => {
         .from('purchase_orders')
         .insert({ ...order, total_amount })
         .select()
-        .single()
+        .maybeSingle()
 
       if (poError) throw poError
 
@@ -148,7 +148,7 @@ export const useUpdatePurchaseOrder = () => {
         .update({ ...order, total_amount })
         .eq('po_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (poError) throw poError
 
@@ -201,7 +201,7 @@ export const useUpdatePurchaseOrderStatus = () => {
         .update({ status })
         .eq('po_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

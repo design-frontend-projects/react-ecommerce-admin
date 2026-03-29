@@ -41,7 +41,7 @@ export const useCreateCustomerGroup = () => {
         .from('customer_groups')
         .insert(newGroup)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -65,7 +65,7 @@ export const useUpdateCustomerGroup = () => {
         .update(updates)
         .eq('group_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

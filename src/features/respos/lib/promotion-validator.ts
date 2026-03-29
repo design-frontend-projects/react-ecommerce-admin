@@ -15,11 +15,11 @@ export async function validatePromoCode(
   }
 
   const { data, error } = await supabase
-    .from('promotions')
+    .from('res_promotions')
     .select('*')
     .eq('code', code.toUpperCase().trim())
     .eq('is_active', true)
-    .single()
+    .maybeSingle()
 
   if (error || !data) {
     return { valid: false, discountAmount: 0, error: 'Invalid promo code' }
@@ -30,7 +30,11 @@ export async function validatePromoCode(
 
   // Check date validity
   if (promo.start_date && new Date(promo.start_date) > now) {
-    return { valid: false, discountAmount: 0, error: 'Promo code not yet active' }
+    return {
+      valid: false,
+      discountAmount: 0,
+      error: 'Promo code not yet active',
+    }
   }
   if (promo.end_date && new Date(promo.end_date) < now) {
     return { valid: false, discountAmount: 0, error: 'Promo code has expired' }
@@ -39,12 +43,16 @@ export async function validatePromoCode(
   // Check usage limit
   if (promo.usage_limit !== null && promo.usage_limit !== undefined) {
     const { count } = await supabase
-      .from('promotion_usage')
+      .from('res_promotion_usage')
       .select('*', { count: 'exact', head: true })
       .eq('promotion_id', promo.promotion_id)
 
     if ((count || 0) >= promo.usage_limit) {
-      return { valid: false, discountAmount: 0, error: 'Promo code usage limit reached' }
+      return {
+        valid: false,
+        discountAmount: 0,
+        error: 'Promo code usage limit reached',
+      }
     }
   }
 

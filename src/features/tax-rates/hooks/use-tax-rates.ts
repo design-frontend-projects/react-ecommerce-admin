@@ -48,7 +48,7 @@ export const useCreateTaxRate = () => {
         .from('tax_rates')
         .insert(newRate)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -69,7 +69,7 @@ export const useUpdateTaxRate = () => {
         .update(updates)
         .eq('tax_rate_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

@@ -392,10 +392,10 @@ export interface Cart {
   promoDiscountAmount: number
   promotion?: ResPromotion
   // Customer & Payment
-  // customerMobile?: string
-  // paymentMethod?: string
-  // receivedAmount: number
-  // changeAmount: number
+  customerMobile?: string
+  paymentMethod?: string
+  receivedAmount: number
+  changeAmount: number
 
   taxAmount: number
   tipAmount: number

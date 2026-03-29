@@ -47,7 +47,7 @@ export const useCreatePriceList = () => {
         .from('price_list')
         .insert(newItem)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -68,7 +68,7 @@ export const useUpdatePriceList = () => {
         .update(updates)
         .eq('price_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

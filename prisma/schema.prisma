@@ -487,20 +487,18 @@ model res_reservations {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_shifts {
-  id                                                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id                                     String?        @db.VarChar(255)
-  closed_by                                         String?        @db.Uuid
-  opening_cash                                      Decimal?       @default(0) @db.Decimal(10, 2)
-  closing_cash                                      Decimal?       @db.Decimal(10, 2)
-  status                                            String?        @default("open") @db.VarChar(20)
-  opened_at                                         DateTime?      @default(now()) @db.Timestamptz(6)
-  closed_at                                         DateTime?      @db.Timestamptz(6)
-  notes                                             String?
-  opened_by                                         String?        @db.Uuid
-  restaurant_id                                     String?        @db.VarChar(255)
-  res_orders                                        res_orders[]
-  res_employees_res_shifts_closed_byTores_employees res_employees? @relation("res_shifts_closed_byTores_employees", fields: [closed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_employees_res_shifts_opened_byTores_employees res_employees? @relation("res_shifts_opened_byTores_employees", fields: [opened_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id String?      @db.VarChar(255)
+  closed_by     String?
+  opening_cash  Decimal?     @default(0) @db.Decimal(10, 2)
+  closing_cash  Decimal?     @db.Decimal(10, 2)
+  status        String?      @default("open") @db.VarChar(20)
+  opened_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  closed_at     DateTime?    @db.Timestamptz(6)
+  notes         String?
+  opened_by     String?      @db.VarChar(255)
+  restaurant_id String?      @db.VarChar(255)
+  res_orders    res_orders[]
 
   @@index([clerk_user_id], map: "idx_res_shifts_clerk_user_id")
   @@index([restaurant_id], map: "idx_res_shifts_restaurant_id")
@@ -896,8 +894,6 @@ model res_employees {
   res_notifications                                                  res_notifications[]
   res_orders                                                         res_orders[]
   res_reservations                                                   res_reservations[]
-  res_shifts_res_shifts_closed_byTores_employees                     res_shifts[]         @relation("res_shifts_closed_byTores_employees")
-  res_shifts_res_shifts_opened_byTores_employees                     res_shifts[]         @relation("res_shifts_opened_byTores_employees")
   res_void_requests_res_void_requests_approved_byTores_employees     res_void_requests[]  @relation("res_void_requests_approved_byTores_employees")
   res_void_requests_res_void_requests_requested_byTores_employees    res_void_requests[]  @relation("res_void_requests_requested_byTores_employees")
   res_void_requests_res_void_requests_res_employeesIdTores_employees res_void_requests[]  @relation("res_void_requests_res_employeesIdTores_employees")

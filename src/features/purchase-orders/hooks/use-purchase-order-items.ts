@@ -37,7 +37,7 @@ export const useUpdateReceivedQuantity = () => {
         .update({ received_quantity })
         .eq('po_item_id', po_item_id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

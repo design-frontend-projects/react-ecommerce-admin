@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { z } from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth, useUser } from '@clerk/clerk-react'
 import { motion } from 'framer-motion'
@@ -98,8 +98,8 @@ const closeShiftSchema = z.object({
   notes: z.string().optional(),
 })
 
-type OpenShiftFormValues = z.infer<typeof openShiftSchema>
-type CloseShiftFormValues = z.infer<typeof closeShiftSchema>
+export type OpenShiftFormValues = z.infer<typeof openShiftSchema>
+export type CloseShiftFormValues = z.infer<typeof closeShiftSchema>
 
 // ============ Main Component ============
 
@@ -119,13 +119,17 @@ export function ShiftManagement() {
     isOpening,
     isClosing,
   } = useShift({ clerkUserId })
+
+  const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
   const { data: allShifts = [], isLoading: historyLoading } =
-    useShifts(clerkUserId)
+    useShifts(isAdmin ? null : clerkUserId)
 
   const isLoading = !isLoaded || shiftLoading
 
   // Separate closed shifts for history
   const closedShifts = allShifts.filter((s) => s.status === 'closed')
+  const lastClosedShift = closedShifts[0]
+  const previousClosingCash = lastClosedShift?.closing_cash ?? 0
 
   if (!isSignedIn && !isLoaded) {
     // return redirect({ to: "/sign-in" })
@@ -219,9 +223,11 @@ export function ShiftManagement() {
               <CardHeader>
                 <CardTitle className='flex items-center gap-2'>
                   <Clock className='h-5 w-5 text-muted-foreground' />
-                  Shift History
+                  {isAdmin ? 'All Shifts' : 'Shift History'}
                 </CardTitle>
-                <CardDescription>Past shifts and their details</CardDescription>
+                <CardDescription>
+                  {isAdmin ? 'Organization-wide shift history' : 'Past shifts and their details'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {historyLoading ? (
@@ -239,6 +245,7 @@ export function ShiftManagement() {
                       <TableHeader>
                         <TableRow>
                           <TableHead>Status</TableHead>
+                          {isAdmin && <TableHead>Employee</TableHead>}
                           <TableHead>Opened At</TableHead>
                           <TableHead>Closed At</TableHead>
                           <TableHead className='text-right'>
@@ -253,7 +260,7 @@ export function ShiftManagement() {
                       </TableHeader>
                       <TableBody>
                         {closedShifts.map((s) => (
-                          <ShiftHistoryRow key={s.id} shift={s} />
+                          <ShiftHistoryRow key={s.id} shift={s} isAdmin={isAdmin} />
                         ))}
                       </TableBody>
                     </Table>
@@ -271,6 +278,7 @@ export function ShiftManagement() {
         onOpenChange={setOpenDialogOpen}
         employeeName={user ? `${user.firstName} ${user.lastName}` : 'Unknown'}
         isPending={isOpening}
+        defaultOpeningCash={previousClosingCash}
         onSubmit={async (values) => {
           if (!user) return
           try {
@@ -405,22 +413,24 @@ function NoActiveShiftCard({
 
 // ============ Open Shift Dialog ============
 
-function OpenShiftDialog({
+export function OpenShiftDialog({
   open,
   onOpenChange,
   employeeName,
   isPending,
+  defaultOpeningCash = 0,
   onSubmit,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   employeeName: string
   isPending: boolean
+  defaultOpeningCash?: number
   onSubmit: (values: OpenShiftFormValues) => Promise<void>
 }) {
   const form = useForm<OpenShiftFormValues>({
     resolver: zodResolver(openShiftSchema),
-    defaultValues: { openingCash: 0 },
+    defaultValues: { openingCash: defaultOpeningCash },
   })
 
   const handleSubmit = async (values: OpenShiftFormValues) => {
@@ -497,7 +507,7 @@ function OpenShiftDialog({
 
 // ============ Close Shift Dialog ============
 
-function CloseShiftDialog({
+export function CloseShiftDialog({
   open,
   onOpenChange,
   openingCash,
@@ -515,7 +525,7 @@ function CloseShiftDialog({
     defaultValues: { closingCash: 0, notes: '' },
   })
 
-  const closingCash = form.watch('closingCash')
+  const closingCash = useWatch({ control: form.control, name: 'closingCash' }) ?? 0
   const variance = closingCash - openingCash
 
   const handleSubmit = async (values: CloseShiftFormValues) => {
@@ -643,7 +653,12 @@ function CloseShiftDialog({
 
 // ============ Shift History Row ============
 
-function ShiftHistoryRow({ shift }: { shift: ResShift }) {
+type ShiftWithEmployee = ResShift & {
+  opener?: { first_name: string; last_name: string }
+  closer?: { first_name: string; last_name: string }
+}
+
+function ShiftHistoryRow({ shift, isAdmin }: { shift: ShiftWithEmployee; isAdmin?: boolean }) {
   const variance =
     typeof shift.closing_cash === 'number'
       ? shift.closing_cash - shift.opening_cash
@@ -659,6 +674,13 @@ function ShiftHistoryRow({ shift }: { shift: ResShift }) {
           {shift.status}
         </Badge>
       </TableCell>
+      {isAdmin && (
+        <TableCell>
+          {shift.opener
+            ? `${shift.opener.first_name} ${shift.opener.last_name}`
+            : shift.opened_by}
+        </TableCell>
+      )}
       <TableCell className='whitespace-nowrap'>
         {format(new Date(shift.opened_at), 'MMM d, yyyy HH:mm')}
       </TableCell>

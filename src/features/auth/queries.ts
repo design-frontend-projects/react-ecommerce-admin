@@ -18,7 +18,7 @@ async function getUserByClerkId(clerkId: string): Promise<User | null> {
     .from('users')
     .select('*')
     .eq('clerk_user_id', clerkId)
-    .single()
+    .maybeSingle()
 
   if (error) {
     // User might not exist yet

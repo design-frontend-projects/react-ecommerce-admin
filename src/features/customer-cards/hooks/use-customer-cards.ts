@@ -61,7 +61,7 @@ export const useCreateCustomerCard = () => {
         .from('customer_cards')
         .insert(newCard)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -85,7 +85,7 @@ export const useUpdateCustomerCard = () => {
         .update(updates)
         .eq('card_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data

@@ -36,7 +36,7 @@ export const useCategory = (id: number) => {
         .from('categories')
         .select('*')
         .eq('category_id', id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data as Category
@@ -54,7 +54,7 @@ export const useCreateCategory = () => {
         .from('categories')
         .insert(newCategory)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
@@ -75,7 +75,7 @@ export const useUpdateCategory = () => {
         .update(updates)
         .eq('category_id', id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       return data
