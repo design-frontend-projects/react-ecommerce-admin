@@ -972,19 +972,19 @@ model currencies {
 }
 
 model stores {
-  store_id      String       @id @db.Uuid
   clerk_user_id String?
-  name          String?
-  status        Boolean?     @default(true)
   phone         String?
   email         String?
   address       String?
-  country_id    String?      @db.Uuid
-  city_id       String?      @db.Uuid
   latitude      Decimal?     @db.Decimal
   longitude     Decimal?     @db.Decimal
   created_at    DateTime?    @db.Timestamp(6)
   updated_at    DateTime?    @db.Timestamp(6)
+  city_id       String?      @db.Uuid
+  country_id    String?      @db.Uuid
+  name          String?
+  store_id      String       @id @db.Uuid
+  status        Boolean?     @default(true)
   inventory     inventory[]
   price_list    price_list[]
   cities        cities?      @relation(fields: [city_id], references: [id], onUpdate: NoAction)

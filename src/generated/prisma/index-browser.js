@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.6.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.6.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -805,19 +805,19 @@ exports.Prisma.CurrenciesScalarFieldEnum = {
 };
 
 exports.Prisma.StoresScalarFieldEnum = {
-  store_id: 'store_id',
   clerk_user_id: 'clerk_user_id',
-  name: 'name',
-  status: 'status',
   phone: 'phone',
   email: 'email',
   address: 'address',
-  country_id: 'country_id',
-  city_id: 'city_id',
   latitude: 'latitude',
   longitude: 'longitude',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  city_id: 'city_id',
+  country_id: 'country_id',
+  name: 'name',
+  store_id: 'store_id',
+  status: 'status'
 };
 
 exports.Prisma.SortOrder = {
