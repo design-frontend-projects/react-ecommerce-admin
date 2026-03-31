@@ -20,6 +20,17 @@ const AuthenticatedRoute = () => {
       navigate({ to: '/sign-in' })
       return
     }
+
+    // Check if onboarding is complete
+    const onboardingComplete =
+      clerkUser?.publicMetadata?.onboardingComplete === true
+    const currentPath = window.location.pathname
+
+    // if (isLoaded && isSignedIn && clerkUser && !onboardingComplete && currentPath !== '/complete-account') {
+    //   navigate({ to: '/complete-account' })
+    //   return
+    // }
+
     if (isLoaded && isSignedIn && !subLoading) {
       // Check for super_admin role in public metadata
       const isSuperAdmin =
@@ -31,13 +42,25 @@ const AuthenticatedRoute = () => {
         subscription?.end_date ? new Date(subscription.end_date) : null
       )
 
-      if (!isSuperAdmin && !active) {
+      if (
+        !isSuperAdmin &&
+        !active &&
+        currentPath !== '/subscription-required'
+      ) {
         // Only redirect if not already on the subscription-required page
         // (TanStack Router handles this better with beforeLoad, but we're in the component here)
         navigate({ to: '/subscription-required' })
       }
     }
-  }, [isLoaded, isSignedIn, subLoading, subscription, navigate, clerkUser, sessionClaims])
+  }, [
+    isLoaded,
+    isSignedIn,
+    subLoading,
+    subscription,
+    navigate,
+    clerkUser,
+    sessionClaims,
+  ])
 
   if (!isLoaded || subLoading) {
     return (

@@ -171,12 +171,12 @@ export function useSidebarData(): SidebarData {
             roles: ['admin', 'super_admin'],
           },
           // Admin only
-          // {
-          //   title: t('usersRoles'),
-          //   url: '/respos/users',
-          //   icon: Users,
-          //   roles: ['admin', 'super_admin'],
-          // },
+          {
+            title: t('usersRoles'),
+            url: '/users',
+            icon: Users,
+            roles: ['admin', 'super_admin'],
+          },
         ],
       },
       {

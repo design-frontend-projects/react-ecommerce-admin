@@ -17,6 +17,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
 import { Route as AuthenticatedSystemRouteImport } from './routes/_authenticated/_system'
 import { Route as errorsOfflineRouteImport } from './routes/(errors)/offline'
@@ -107,6 +108,12 @@ const AuthenticatedSubscriptionsRoute =
   AuthenticatedSubscriptionsRouteImport.update({
     id: '/subscriptions',
     path: '/subscriptions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCompleteAccountRoute =
+  AuthenticatedCompleteAccountRouteImport.update({
+    id: '/complete-account',
+    path: '/complete-account',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAreasRoute = AuthenticatedAreasRouteImport.update({
@@ -471,6 +478,7 @@ export interface FileRoutesByFullPath {
   '/503': typeof errors503Route
   '/offline': typeof errorsOfflineRoute
   '/areas': typeof AuthenticatedAreasRoute
+  '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
@@ -533,6 +541,7 @@ export interface FileRoutesByTo {
   '/503': typeof errors503Route
   '/offline': typeof errorsOfflineRoute
   '/areas': typeof AuthenticatedAreasRoute
+  '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
@@ -600,6 +609,7 @@ export interface FileRoutesById {
   '/(errors)/offline': typeof errorsOfflineRoute
   '/_authenticated/_system': typeof AuthenticatedSystemRouteWithChildren
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
+  '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
@@ -666,6 +676,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/offline'
     | '/areas'
+    | '/complete-account'
     | '/subscriptions'
     | '/'
     | '/menu'
@@ -728,6 +739,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/offline'
     | '/areas'
+    | '/complete-account'
     | '/subscriptions'
     | '/'
     | '/menu'
@@ -794,6 +806,7 @@ export interface FileRouteTypes {
     | '/(errors)/offline'
     | '/_authenticated/_system'
     | '/_authenticated/areas'
+    | '/_authenticated/complete-account'
     | '/_authenticated/subscriptions'
     | '/_authenticated/'
     | '/menu/'
@@ -887,6 +900,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/complete-account': {
+      id: '/_authenticated/complete-account'
+      path: '/complete-account'
+      fullPath: '/complete-account'
+      preLoaderRoute: typeof AuthenticatedCompleteAccountRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/areas': {
@@ -1375,6 +1395,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUsersRouteRoute: typeof AuthenticatedUsersRouteRoute
   AuthenticatedSystemRoute: typeof AuthenticatedSystemRouteWithChildren
   AuthenticatedAreasRoute: typeof AuthenticatedAreasRoute
+  AuthenticatedCompleteAccountRoute: typeof AuthenticatedCompleteAccountRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
@@ -1418,6 +1439,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedUsersRouteRoute: AuthenticatedUsersRouteRoute,
   AuthenticatedSystemRoute: AuthenticatedSystemRouteWithChildren,
   AuthenticatedAreasRoute: AuthenticatedAreasRoute,
+  AuthenticatedCompleteAccountRoute: AuthenticatedCompleteAccountRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,

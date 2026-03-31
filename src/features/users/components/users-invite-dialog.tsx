@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MailPlus, Send } from 'lucide-react'
-import { showSubmittedData } from '@/lib/show-submitted-data'
+import { MailPlus, Send, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { roles } from '../data/data'
+import { useInviteUser, useRoles } from '../hooks/use-invitations'
 
 const formSchema = z.object({
   email: z.email({
@@ -51,10 +50,23 @@ export function UsersInviteDialog({
     defaultValues: { email: '', role: '', desc: '' },
   })
 
+  const { data: dynamicRoles = [], isLoading: isLoadingRoles } = useRoles()
+  const inviteMutation = useInviteUser()
+
   const onSubmit = (values: UserInviteForm) => {
-    form.reset()
-    showSubmittedData(values)
-    onOpenChange(false)
+    const selectedRole = dynamicRoles.find(r => r.id === values.role) || { name: values.role }
+    
+    inviteMutation.mutate({
+      email: values.email,
+      roleId: values.role,
+      roleName: selectedRole.name,
+      desc: values.desc
+    }, {
+      onSuccess: () => {
+        form.reset()
+        onOpenChange(false)
+      }
+    })
   }
 
   return (
@@ -103,14 +115,17 @@ export function UsersInviteDialog({
               name='role'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel className='flex items-center gap-2'>
+                    Role
+                    {isLoadingRoles && <Loader2 className='h-3 w-3 animate-spin' />}
+                  </FormLabel>
                   <SelectDropdown
                     defaultValue={field.value}
                     onValueChange={field.onChange}
                     placeholder='Select a role'
-                    items={roles.map(({ label, value }) => ({
-                      label,
-                      value,
+                    items={dynamicRoles.map((r) => ({
+                      label: r.name,
+                      value: r.id,
                     }))}
                   />
                   <FormMessage />

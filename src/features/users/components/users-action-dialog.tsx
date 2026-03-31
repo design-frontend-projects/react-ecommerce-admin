@@ -23,9 +23,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { roles } from '../data/data'
 import { type User } from '../data/schema'
 import { userFormSchema, type UserForm } from './users-action-dialog.schema'
+import { useRoles } from '../hooks/use-invitations'
+import { useUpdateUserRole } from '../hooks/use-roles-permissions'
 
 type UserActionDialogProps = {
   currentRow?: User
@@ -39,6 +40,9 @@ export function UsersActionDialog({
   onOpenChange,
 }: UserActionDialogProps) {
   const isEdit = !!currentRow
+  const { data: rolesData = [] } = useRoles()
+  const updateUserRole = useUpdateUserRole()
+
   const form = useForm<UserForm>({
     resolver: zodResolver(userFormSchema),
     defaultValues: isEdit
@@ -62,6 +66,9 @@ export function UsersActionDialog({
   })
 
   const onSubmit = (values: UserForm) => {
+    if (isEdit && currentRow && values.role !== currentRow.role) {
+       updateUserRole.mutate({ userId: currentRow.id, role: values.role })
+    }
     form.reset()
     showSubmittedData(values)
     onOpenChange(false)
@@ -198,9 +205,9 @@ export function UsersActionDialog({
                       onValueChange={field.onChange}
                       placeholder='Select a role'
                       className='col-span-4'
-                      items={roles.map(({ label, value }) => ({
-                        label,
-                        value,
+                      items={rolesData.map(({ name }) => ({
+                        label: name,
+                        value: name.toLowerCase(),
                       }))}
                     />
                     <FormMessage className='col-span-4 col-start-3' />
