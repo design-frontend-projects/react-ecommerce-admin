@@ -94,7 +94,15 @@
     "viewAllOrders": "View all orders",
     "viewAllPurchaseOrders": "View all purchase orders",
     "viewAllRefunds": "View all refunds",
-    "viewAllSales": "View all sales"
+    "viewAllSales": "View all sales",
+    "suppliers": "Suppliers",
+    "totalSales": "Total Sales",
+    "totalSalesDescription": "Total sales transactions",
+    "totalPurchaseOrdersDescription": "Total purchase orders created",
+    "receivedItems": "Received Items",
+    "receivedItemsDescription": "Worth $",
+    "monthlySalesVsRefunds": "Monthly sales vs refunds (last 6 months)",
+    "totalRefunds": "Total Refunds"
   },
   "configDrawer": {
     "title": "Configuration",

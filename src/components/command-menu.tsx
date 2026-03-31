@@ -33,10 +33,10 @@ export function CommandMenu() {
 
   return (
     <CommandDialog modal open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder='Nhập lệnh hoặc tìm kiếm...' />
+      <CommandInput placeholder='Type a command or search...' />
       <CommandList>
         <ScrollArea type='hover' className='h-72 pe-1'>
-          <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
+          <CommandEmpty>No results found.</CommandEmpty>
           {sidebarData.navGroups.map((group: NavGroup) => (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items.map((navItem: NavItem, i: number) => {

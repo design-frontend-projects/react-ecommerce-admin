@@ -23,9 +23,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { SelectDropdown } from '@/components/select-dropdown'
+import { useCountries } from '@/features/countries/hooks/use-countries'
 import { type City } from '../data/schema'
 import { useCreateCity, useUpdateCity } from '../hooks/use-cities'
-import { useCountries } from '@/features/countries/hooks/use-countries'
 import { cityFormSchema, type CityForm } from './cities-action-dialog.schema'
 
 type CityActionDialogProps = {
@@ -54,7 +54,7 @@ export function CitiesActionDialog({
         }
       : {
           name: '',
-          country_id: 0,
+          country_id: '',
           is_active: true,
         },
   })
@@ -62,7 +62,7 @@ export function CitiesActionDialog({
   const onSubmit = (values: CityForm) => {
     if (isEdit) {
       updateCity.mutate(
-        { id: currentRow.id, ...values },
+        { id: currentRow?.id, ...values },
         {
           onSuccess: () => {
             form.reset()
@@ -110,7 +110,9 @@ export function CitiesActionDialog({
         <DialogHeader className='text-start'>
           <DialogTitle>{isEdit ? 'Edit City' : 'Add New City'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the city details here. ' : 'Create a new city here. '}
+            {isEdit
+              ? 'Update the city details here. '
+              : 'Create a new city here. '}
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
@@ -146,8 +148,8 @@ export function CitiesActionDialog({
                   <FormLabel className='text-right'>Country</FormLabel>
                   <FormControl>
                     <SelectDropdown
-                      defaultValue={String(field.value)}
-                      onValueChange={(val) => field.onChange(Number(val))}
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
                       placeholder='Select country'
                       className='col-span-3'
                       items={countries.map((c) => ({

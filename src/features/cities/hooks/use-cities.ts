@@ -7,7 +7,7 @@ export type { City }
 
 export interface CityInput {
   name: string
-  country_id: number
+  country_id: string
   is_active?: boolean
 }
 
@@ -37,7 +37,7 @@ export const useCities = (search?: string) => {
   })
 }
 
-export const useCity = (id: number) => {
+export const useCity = (id: string) => {
   return useQuery({
     queryKey: ['cities', id],
     queryFn: async () => {
@@ -78,7 +78,7 @@ export const useUpdateCity = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: CityInput & { id: number }) => {
+    mutationFn: async ({ id, ...updates }: CityInput & { id: string }) => {
       const { data, error } = await supabase
         .from('cities')
         .update(updates)
@@ -99,7 +99,7 @@ export const useDeleteCity = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
       const { error } = await supabase.from('cities').delete().eq('id', id)
 
       if (error) throw error

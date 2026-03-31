@@ -131,7 +131,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Total Sales
+                    <Trans i18nKey='dashboard.totalSales' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -161,7 +161,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Total Refunds
+                    <Trans i18nKey='dashboard.totalRefunds' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -197,7 +197,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Pending Orders
+                    <Trans i18nKey='dashboard.pendingOrders' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -218,7 +218,7 @@ export function Dashboard() {
                     {stats?.pendingOrdersCount || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Purchase orders awaiting receipt
+                    <Trans i18nKey='dashboard.pendingOrdersDescription' />
                   </p>
                 </CardContent>
               </Card>
@@ -292,7 +292,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Purchase Orders
+                    <Trans i18nKey='dashboard.purchaseOrders' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -313,7 +313,7 @@ export function Dashboard() {
                     {stats?.totalPurchaseOrders || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Total purchase orders created
+                    <Trans i18nKey='dashboard.totalPurchaseOrdersDescription' />
                   </p>
                 </CardContent>
               </Card>
@@ -322,7 +322,7 @@ export function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Received Items
+                    <Trans i18nKey='dashboard.receivedItems' />
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -343,7 +343,7 @@ export function Dashboard() {
                     {stats?.totalReceivedItems || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Worth $
+                    <Trans i18nKey='dashboard.receivedItemsDescription' />$
                     {stats?.totalReceivedAmount
                       ? stats.totalReceivedAmount.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
@@ -363,7 +363,7 @@ export function Dashboard() {
                     <Trans i18nKey='dashboard.overview' />
                   </CardTitle>
                   <CardDescription>
-                    Monthly sales vs refunds (last 6 months)
+                    <Trans i18nKey='dashboard.monthlySalesVsRefunds' />
                   </CardDescription>
                 </CardHeader>
                 <CardContent className='ps-2'>

@@ -1,12 +1,12 @@
-version: '3.9'
+name: ecommerce-restaurant
 services:
   app:
     build: .
     restart: always
-    expose:
-      - "80"
+    ports:
+      - "3000:3000"
     deploy:
-      replicas: 3
+      replicas: 1
     networks:
       - app-network
 

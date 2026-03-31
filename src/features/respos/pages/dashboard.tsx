@@ -61,10 +61,12 @@ export function ResposDashboard() {
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
 
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
-  const { data: activeShift, isLoading: shiftLoading } = useActiveShift()
   const { has, isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
   const clerkUserId = user?.id ?? null
+
+  // Pass clerkUserId so the query is enabled and actually fetches
+  const { data: activeShift, isLoading: shiftLoading } = useActiveShift(clerkUserId)
 
   const { openShift, closeShift, isOpening, isClosing } = useShift({ clerkUserId })
   
@@ -74,6 +76,17 @@ export function ResposDashboard() {
   const previousClosingCash = closedShifts[0]?.closing_cash ?? 0
 
   const isLoading = statsLoading || shiftLoading || isLoaded
+
+  // Validate before opening shift - if already open, show toast warning
+  const handleOpenShiftClick = () => {
+    if (activeShift) {
+      toast.warning('You already have an open shift', {
+        description: `Shift opened at ${format(new Date(activeShift.opened_at), 'HH:mm')}. Please close it before opening a new one.`,
+      })
+      return
+    }
+    setOpenDialogOpen(true)
+  }
 
   const quickActions: Array<{
     title: string
@@ -185,7 +198,7 @@ export function ResposDashboard() {
                 </Button>
               </div>
             ) : (
-              <Button variant='outline' onClick={() => setOpenDialogOpen(true)}>
+              <Button variant='outline' onClick={handleOpenShiftClick}>
                 <Timer className='mr-2 h-4 w-4' />
                 Open Shift
               </Button>

@@ -95,7 +95,15 @@
     "viewAllOrders": "عرض جميع الطلبات",
     "viewAllPurchaseOrders": "عرض جميع أوامر الشراء",
     "viewAllRefunds": "عرض جميع الاستردادات",
-    "viewAllSales": "عرض جميع المبيعات"
+    "viewAllSales": "عرض جميع المبيعات",
+    "suppliers": "الموردين",
+    "totalSales": "إجمالي المبيعات",
+    "totalSalesDescription": "إجمالي مبيعات المعاملات",
+    "totalPurchaseOrdersDescription": "إجمالي أوامر الشراء المنشأة",
+    "receivedItems": "العناصر المستلمة",
+    "receivedItemsDescription": "بقيمة $",
+    "monthlySalesVsRefunds": "المبيعات الشهرية مقابل المبالغ المستردة (آخر 6 أشهر)",
+    "totalRefunds": "إجمالي المرتجع"
   },
   "configDrawer": {
     "title": "الاعدادات",

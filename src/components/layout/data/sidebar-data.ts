@@ -40,7 +40,7 @@ export function useSidebarData(): SidebarData {
     },
     teams: [
       {
-        name: 'Restaurant POS',
+        name: t('restaurantPos'),
         logo: Command,
         plan: 'Free',
       },
@@ -66,7 +66,7 @@ export function useSidebarData(): SidebarData {
             isSystemOwner: true,
           },
           {
-            title: t('auditLogs'),
+            title: t('sidebar.auditLogs'),
             url: '/system/audit-logs',
             icon: LineChart,
             isSystemOwner: true,
@@ -74,27 +74,27 @@ export function useSidebarData(): SidebarData {
         ],
       },
       {
-        title: t('general'),
+        title: t('sidebar.general'),
         items: [
           {
-            title: t('dashboard'),
+            title: t('sidebar.dashboard'),
             url: '/',
             icon: LayoutDashboard,
           },
           {
-            title: t('posSystem'),
+            title: t('sidebar.posSystem'),
             url: '/pos',
             icon: Receipt,
             roles: ['admin', 'super_admin'],
           },
           {
-            title: t('products'),
+            title: t('sidebar.products'),
             url: '/products',
             icon: Package,
             roles: ['admin', 'super_admin'],
           },
           {
-            title: t('subscriptions'),
+            title: t('sidebar.subscriptions'),
             url: '/subscriptions',
             icon: CreditCard,
             roles: ['super_admin'],
@@ -105,7 +105,7 @@ export function useSidebarData(): SidebarData {
         title: t('sidebar.restaurantPos'),
         items: [
           {
-            title: t('posDashboard'),
+            title: t('sidebar.posDashboard'),
             url: '/respos',
             icon: LayoutDashboard,
             roles: ['admin', 'super_admin'],

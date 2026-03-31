@@ -1,0 +1,8 @@
+src/features/cities/components/cities-action-dialog.tsx(6,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(14,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(22,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(23,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(24,24): error TS2307: Cannot find module '@/components/ui/switch' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(25,32): error TS2307: Cannot find module '@/components/select-dropdown' or its corresponding type declarations.
+src/features/cities/components/cities-action-dialog.tsx(28,30): error TS2307: Cannot find module '@/features/countries/hooks/use-countries' or its corresponding type declarations.
+src/features/cities/hooks/use-cities.ts(2,26): error TS2307: Cannot find module '@/lib/supabase' or its corresponding type declarations.

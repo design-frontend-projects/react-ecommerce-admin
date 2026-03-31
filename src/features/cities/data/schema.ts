@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
 export const citySchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
-  country_id: z.number(),
+  country_id: z.string(),
   is_active: z.boolean(),
   created_at: z.string(),
   countries: z
