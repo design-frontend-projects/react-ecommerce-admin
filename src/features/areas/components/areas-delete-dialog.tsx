@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { type Area } from '../data/schema'
+import type { Area } from '../data/schema'
 import { useDeleteArea } from '../hooks/use-areas'
 
 type AreasDeleteDialogProps = {
@@ -48,15 +48,15 @@ export function AreasDeleteDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            area <strong>{currentRow?.name}</strong>.
+            This action cannot be undone. This will permanently delete the area{' '}
+            <strong>{currentRow?.name}</strong>.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onDelete}
-            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+            className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
             disabled={deleteArea.isPending}
           >
             {deleteArea.isPending ? 'Deleting...' : 'Delete'}

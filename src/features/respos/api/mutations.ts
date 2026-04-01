@@ -81,8 +81,8 @@ export function useOpenShift() {
       return data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift })
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts() })
     },
   })
 }
@@ -119,8 +119,8 @@ export function useCloseShift() {
       return data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift })
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts() })
     },
   })
 }
@@ -136,12 +136,16 @@ export function useCreateOrder() {
       shiftId,
       createdBy,
       customerName,
+      appliedPromotionId,
+      promoDiscountAmount,
       items,
     }: {
       tableId?: string
       shiftId?: string
       createdBy?: string
       customerName?: string
+      appliedPromotionId?: number
+      promoDiscountAmount?: number
       items: Array<{
         item_id: string
         variant_id?: string
@@ -179,6 +183,8 @@ export function useCreateOrder() {
           shift_id: shiftId,
           created_by: createdBy,
           customer_name: customerName,
+          applied_promotion_id: appliedPromotionId,
+          promo_discount_amount: promoDiscountAmount,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         } as ResOrder
@@ -189,6 +195,8 @@ export function useCreateOrder() {
         shiftId,
         createdBy,
         customerName,
+        appliedPromotionId,
+        promoDiscountAmount,
         items,
       })
     },
@@ -215,10 +223,11 @@ export function useUpdateOrderStatus() {
       discountType,
       customerName,
       mobileNumber,
-      promotionId,
+      appliedPromotionId,
       promoDiscountAmount,
       receivedAmount,
       changeAmount,
+      notes,
     }: {
       orderId: string
       status: OrderStatus
@@ -228,10 +237,11 @@ export function useUpdateOrderStatus() {
       discountType?: string
       customerName?: string
       mobileNumber?: string
-      promotionId?: number
+      appliedPromotionId?: number
       promoDiscountAmount?: number
       receivedAmount?: number
       changeAmount?: number
+      notes?: string
     }) => {
       interface OrderUpdate {
         status: OrderStatus
@@ -243,10 +253,11 @@ export function useUpdateOrderStatus() {
         paid_at?: string
         customer_name?: string
         mobile_number?: string
-        promotion_id?: number
+        applied_promotion_id?: number
         promo_discount_amount?: number
         received_amount?: number
         change_amount?: number
+        notes?: string
       }
 
       const updates: OrderUpdate = {
@@ -260,11 +271,13 @@ export function useUpdateOrderStatus() {
       if (tipAmount !== undefined) updates.tip_amount = tipAmount
       if (discountAmount !== undefined) updates.discount_amount = discountAmount
       if (discountType) updates.discount_type = discountType
-      if (promotionId) updates.promotion_id = promotionId
+      if (appliedPromotionId !== undefined)
+        updates.applied_promotion_id = appliedPromotionId
       if (promoDiscountAmount !== undefined)
         updates.promo_discount_amount = promoDiscountAmount
       if (receivedAmount !== undefined) updates.received_amount = receivedAmount
       if (changeAmount !== undefined) updates.change_amount = changeAmount
+      if (notes !== undefined) updates.notes = notes
       if (status === 'paid') updates.paid_at = new Date().toISOString()
 
       const { data, error } = await supabase
@@ -1676,6 +1689,52 @@ export function useDeleteRole() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.roles })
+    },
+  })
+}
+
+export function useRefundOrder() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      orderId,
+      reason,
+    }: {
+      orderId: string
+      reason: string
+    }) => {
+      // Get current order to append to notes
+      const { data: order, error: orderError } = await supabase
+        .from('res_orders')
+        .select('notes')
+        .eq('id', orderId)
+        .single()
+
+      if (orderError) throw orderError
+
+      const notes = order.notes 
+        ? `${order.notes}\nRefund Reason: ${reason}` 
+        : `Refund Reason: ${reason}`
+
+      const { data, error } = await supabase
+        .from('res_orders')
+        .update({
+          status: 'refunded',
+          notes,
+          updated_at: new Date().toISOString(),
+        } as any)
+        .eq('id', orderId)
+        .select()
+        .single()
+
+      if (error) throw error
+      return data as ResOrder
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.dashboardStats })
+      queryClient.invalidateQueries({ queryKey: resposQueryKeys.tables() })
     },
   })
 }

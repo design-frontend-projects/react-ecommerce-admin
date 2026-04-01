@@ -9,6 +9,8 @@ export async function createResOrder(payload: {
   shiftId?: string
   createdBy?: string
   customerName?: string
+  appliedPromotionId?: number
+  promoDiscountAmount?: number
   items: Array<{
     item_id: string
     variant_id?: string
@@ -34,7 +36,9 @@ export async function createResOrder(payload: {
       customer_name: payload.customerName,
       status: 'open',
       subtotal,
-      total_amount: subtotal,
+      total_amount: subtotal - (payload.promoDiscountAmount || 0),
+      applied_promotion_id: payload.appliedPromotionId,
+      promo_discount_amount: payload.promoDiscountAmount,
     })
     .select()
     .maybeSingle()

@@ -166,6 +166,7 @@ export type OrderStatus =
   | 'paid'
   | 'void'
   | 'void_pending'
+  | 'refunded'
 export type OrderItemStatus = 'pending' | 'preparing' | 'ready' | 'served'
 
 export interface ResShift {
@@ -200,7 +201,7 @@ export interface ResOrder {
   discount_amount: number
   discount_type?: string
   promo_discount_amount: number
-  promotion_id?: number
+  applied_promotion_id?: number
   tax_amount: number
   tip_amount: number
   total_amount: number
@@ -344,7 +345,7 @@ export interface ResPromotion {
   code: string | null
   name: string
   description?: string | null
-  discount_type: string | null
+  discount_type: DiscountType | null
   discount_value: number
   minimum_purchase: number | null
   start_date: string
@@ -357,7 +358,7 @@ export interface ResPromotion {
 
 export interface ResPromotionUsage {
   id: string
-  promotion_id: string
+  promotion_id: number
   order_id: string
   applied_at: string
 }

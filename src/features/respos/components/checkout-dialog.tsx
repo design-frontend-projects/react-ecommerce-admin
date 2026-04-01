@@ -49,11 +49,6 @@ const checkoutSchema = z
     promoCode: z.string().optional(),
     receivedAmount: z.number().min(0, 'Received amount is required'),
     tipAmount: z.number().min(0),
-    // Card UI fields (not stored)
-    cardNumber: z.string().optional(),
-    holderName: z.string().optional(),
-    expiryDate: z.string().optional(),
-    cvv: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -105,10 +100,6 @@ export function CheckoutDialog({
       promoCode: '',
       receivedAmount: 0,
       tipAmount: 0,
-      cardNumber: '',
-      holderName: '',
-      expiryDate: '',
-      cvv: '',
     },
   })
 
@@ -129,10 +120,6 @@ export function CheckoutDialog({
         promoCode: cart.promoCode || '',
         receivedAmount: cart.receivedAmount || 0,
         tipAmount: 0,
-        cardNumber: '',
-        holderName: '',
-        expiryDate: '',
-        cvv: '',
       })
       setPromoInput(cart.promoCode || '')
       setAppliedPromoCode(cart.promoCode || '')
@@ -234,7 +221,7 @@ export function CheckoutDialog({
         mobileNumber: values.mobileNumber,
         discountType: values.discountType,
         discountAmount: manualDiscount,
-        promotionId: appliedPromotion?.promotion_id,
+        appliedPromotionId: appliedPromotion?.promotion_id,
         promoDiscountAmount: promoDiscount,
         receivedAmount: values.receivedAmount,
         changeAmount: change,
@@ -524,62 +511,6 @@ export function CheckoutDialog({
                 </FormItem>
               )}
             />
-
-            {/* Card Details */}
-            {isCard && (
-              <div className='animate-in space-y-4 rounded-md border p-4 fade-in slide-in-from-top-2'>
-                <div className='grid grid-cols-2 gap-4'>
-                  <FormField
-                    control={form.control}
-                    name='holderName'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Card Holder</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Name on card' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='cardNumber'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Card Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder='**** **** **** ****' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='expiryDate'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Expiry</FormLabel>
-                        <FormControl>
-                          <Input placeholder='MM/YY' {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='cvv'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>CVV</FormLabel>
-                        <FormControl>
-                          <Input placeholder='123' maxLength={4} {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            )}
 
             {/* Received / Change */}
             <div className='grid grid-cols-2 gap-4'>

@@ -5,10 +5,10 @@ import { useAuth, useUser } from '@clerk/clerk-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,
+  History,
   Home,
   LayoutGrid,
   Loader2,
-  Minus,
   Plus,
   Receipt,
   Search,
@@ -16,7 +16,6 @@ import {
   ShoppingCart,
   Trash2,
   UtensilsCrossed,
-  X,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
@@ -41,7 +40,11 @@ import { FloorManagerView } from '../components/floor-manager-view'
 import { MenuItemDetailsDialog } from '../components/menu-item-details-dialog'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
 import { useResposRealtime } from '../hooks'
+import { useOrderCalc } from '../hooks/use-order-calc'
 import { formatCurrency } from '../lib/formatters'
+import { CartItem as CartItemComponent } from '../components/pos/cart-item'
+import { PromoInput } from '../components/pos/promo-input'
+import { OrderHistoryPanel } from '../components/pos/order-history-panel'
 import type {
   Cart,
   CartItem,
@@ -83,6 +86,7 @@ export function POSScreen() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
 
   // Item Details Dialog State
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -316,6 +320,15 @@ export function POSScreen() {
           </div>
 
           <div className='flex items-center gap-3'>
+            <Button
+              variant='outline'
+              size='sm'
+              className='h-9 rounded-full px-4 font-bold border-orange-200 text-orange-600 hover:bg-orange-50'
+              onClick={() => setShowHistory(!showHistory)}
+            >
+              <History className='mr-2 h-4 w-4' />
+              {showHistory ? 'Back to POS' : 'Order History'}
+            </Button>
             <div className='hidden flex-col items-end sm:flex'>
               <span className='text-sm font-bold'>{employee?.fullName}</span>
               {/* <span className='text-[10px] font-bold text-orange-600 uppercase'>
@@ -463,20 +476,24 @@ export function POSScreen() {
 
           {/* Right Side: Order Panel (Desktop) */}
           <div className='relative z-30 hidden w-[420px] flex-col overflow-y-scroll border-l bg-background shadow-[-10px_0_30px_rgba(0,0,0,0.05)] lg:flex'>
-            <OrderPanel
-              activeOrder={activeOrder || null}
-              cart={cart}
-              onPlaceOrder={handlePlaceOrder}
-              isProcessing={isCreating || isAdding}
-              onCheckout={() => setIsCheckoutOpen(true)}
-              canCheckout={
-                has({ role: 'admin' }) || has({ role: 'super_admin' })
-              }
-              onClearCart={clearCart}
-              onUpdateQuantity={updateCartItemQuantity}
-              onRemoveItem={removeFromCart}
-              selectedTable={selectedTable}
-            />
+            {showHistory ? (
+              <OrderHistoryPanel onClose={() => setShowHistory(false)} />
+            ) : (
+              <OrderPanel
+                activeOrder={activeOrder || null}
+                cart={cart}
+                onPlaceOrder={handlePlaceOrder}
+                isProcessing={isCreating || isAdding}
+                onCheckout={() => setIsCheckoutOpen(true)}
+                canCheckout={
+                  has({ role: 'admin' }) || has({ role: 'super_admin' })
+                }
+                onClearCart={clearCart}
+                onUpdateQuantity={updateCartItemQuantity}
+                onRemoveItem={removeFromCart}
+                selectedTable={selectedTable}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -554,11 +571,12 @@ function OrderPanel({
   selectedTable,
 }: OrderPanelProps) {
   const activeTotal = activeOrder?.total_amount || 0
+  const orderCalc = useOrderCalc()
 
   // Cart breakdown
-  const cartSubtotal = cart.subtotal || 0
-  const cartTax = cart.taxAmount || 0
-  const cartTotal = cart.total || 0
+  const cartSubtotal = orderCalc.subtotal || 0
+  const cartTax = orderCalc.taxAmount || 0
+  const cartTotal = orderCalc.total || 0
   // const grandTotal = activeTotal + cartTotal
 
   if (!selectedTable) {
@@ -695,89 +713,13 @@ function OrderPanel({
             <div className='space-y-3'>
               <AnimatePresence initial={false}>
                 {cart.items.map((cartItem: CartItem, index: number) => (
-                  <motion.div
+                  <CartItemComponent
                     key={`${cartItem.item.id}-${index}`}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.2 }}
-                    className='group relative rounded-3xl border-2 border-orange-500/10 bg-orange-500/5 p-4 shadow-sm transition-all hover:border-orange-500/20'
-                  >
-                    <div className='flex items-start justify-between gap-4'>
-                      <div className='min-w-0 flex-1'>
-                        <div className='flex items-center gap-2'>
-                          <span className='truncate text-sm font-black'>
-                            {cartItem.item.name}
-                          </span>
-                          {cartItem.variant && (
-                            <span className='shrink-0 rounded-lg bg-orange-500/10 px-2 py-0.5 text-[9px] font-black text-orange-600 uppercase'>
-                              {cartItem.variant.name}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <Button
-                        variant='ghost'
-                        size='icon'
-                        className='h-6 w-6 rounded-lg text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-500'
-                        onClick={() => onRemoveItem(index)}
-                      >
-                        <X className='h-3.5 w-3.5' />
-                      </Button>
-                    </div>
-
-                    {/* Quantity + Price Row */}
-                    <div className='mt-4 flex items-center justify-between'>
-                      <div className='flex items-center gap-1 rounded-2xl bg-background/50 p-1 ring-1 ring-border/50'>
-                        <Button
-                          size='icon'
-                          variant='ghost'
-                          className='h-7 w-7 rounded-xl hover:bg-background'
-                          onClick={() =>
-                            onUpdateQuantity(index, cartItem.quantity - 1)
-                          }
-                        >
-                          <Minus className='h-3' />
-                        </Button>
-                        <span className='min-w-[32px] text-center text-xs font-black'>
-                          {cartItem.quantity}
-                        </span>
-                        <Button
-                          size='icon'
-                          variant='ghost'
-                          className='h-7 w-7 rounded-xl hover:bg-background'
-                          onClick={() =>
-                            onUpdateQuantity(index, cartItem.quantity + 1)
-                          }
-                        >
-                          <Plus className='h-3 w-3' />
-                        </Button>
-                      </div>
-                      <span className='text-sm font-black text-orange-600 dark:text-orange-400'>
-                        {formatCurrency(cartItem.lineTotal)}
-                      </span>
-                    </div>
-
-                    {/* Meta info if exists */}
-                    {(cartItem.selectedProperties.length > 0 ||
-                      cartItem.notes) && (
-                      <div className='mt-3 space-y-2 border-t border-orange-500/5 pt-3 text-[10px] font-bold text-muted-foreground uppercase'>
-                        {cartItem.selectedProperties.map((p) => (
-                          <div key={p.id} className='flex justify-between'>
-                            <span>+ {p.name}</span>
-                            <span className='text-foreground'>
-                              {formatCurrency(p.price)}
-                            </span>
-                          </div>
-                        ))}
-                        {cartItem.notes && (
-                          <div className='rounded-xl bg-orange-500/5 px-3 py-2 text-orange-600 normal-case italic'>
-                            "{cartItem.notes}"
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </motion.div>
+                    item={cartItem}
+                    index={index}
+                    onUpdateQuantity={onUpdateQuantity}
+                    onRemoveItem={onRemoveItem}
+                  />
                 ))}
               </AnimatePresence>
             </div>
@@ -796,6 +738,9 @@ function OrderPanel({
 
       {/* Order Footer */}
       <div className='z-10 border-t bg-background/50 p-8 pt-6 backdrop-blur-xl'>
+        <div className='mb-6'>
+          <PromoInput />
+        </div>
         <div className='mb-6 space-y-2'>
           <div className='flex justify-between text-xs font-bold tracking-wider text-muted-foreground uppercase'>
             <span>Subtotal</span>
