@@ -64,7 +64,9 @@
     "appearance": "Appearance",
     "notifications": "Notifications",
     "display": "Display",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "usersRoles": "Users & Roles",
+    "upgradeToPro": "Upgrade to Pro"
   },
   "dashboard": {
     "loading": "Loading dashboard...",

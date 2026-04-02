@@ -38,7 +38,7 @@ type NavUserProps = {
 export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar()
   const [open, setOpen] = useDialogState()
-  const { t } = useTranslation('sidebar')
+  const { t } = useTranslation()
 
   return (
     <>
@@ -90,7 +90,7 @@ export function NavUser({ user }: NavUserProps) {
               <DropdownMenuGroup>
                 <DropdownMenuItem>
                   <Sparkles />
-                  {t('navUser.upgradeToPro')}
+                  {t('sidebar.upgradeToPro')}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
@@ -98,19 +98,19 @@ export function NavUser({ user }: NavUserProps) {
                 <DropdownMenuItem asChild>
                   <Link to='/settings/account'>
                     <BadgeCheck />
-                    {t('navUser.account')}
+                    {t('sidebar.account')}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to='/settings'>
                     <CreditCard />
-                    {t('navUser.billing')}
+                    {t('sidebar.billing')}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to='/settings/notifications'>
                     <Bell />
-                    {t('navUser.notifications')}
+                    {t('sidebar.notifications')}
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -120,7 +120,7 @@ export function NavUser({ user }: NavUserProps) {
                 onClick={() => setOpen(true)}
               >
                 <LogOut />
-                {t('navUser.signOut')}
+                {t('sidebar.signOut')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

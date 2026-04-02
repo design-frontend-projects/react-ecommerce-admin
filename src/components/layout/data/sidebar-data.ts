@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next'
 import { type SidebarData } from '../types'
 
 export function useSidebarData(): SidebarData {
-  const { t } = useTranslation('sidebar')
+  const { t } = useTranslation()
 
   return {
     user: {
@@ -41,7 +41,7 @@ export function useSidebarData(): SidebarData {
     },
     teams: [
       {
-        name: t('restaurantPos'),
+        name: t('sidebar.restaurantPos'),
         logo: Command,
         plan: 'Free',
       },
@@ -58,10 +58,10 @@ export function useSidebarData(): SidebarData {
     ],
     navGroups: [
       {
-        title: t('system'),
+        title: t('sidebar.system'),
         items: [
           {
-            title: t('systemManagement'),
+            title: t('sidebar.systemManagement'),
             url: '/system',
             icon: Wrench,
             isSystemOwner: true,
@@ -173,7 +173,7 @@ export function useSidebarData(): SidebarData {
           },
           // Admin only
           {
-            title: t('usersRoles'),
+            title: t('sidebar.usersRoles'),
             url: '/users',
             icon: Users,
             roles: ['admin', 'super_admin'],
