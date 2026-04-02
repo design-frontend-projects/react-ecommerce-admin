@@ -27,6 +27,7 @@ export function Products() {
         .from('products')
         .select('*, categories(name), product_variants(*)')
         .eq('clerk_user_id', user.id)
+        .neq('is_deleted', true)
         .order('created_at', { ascending: false })
 
       if (error) throw error

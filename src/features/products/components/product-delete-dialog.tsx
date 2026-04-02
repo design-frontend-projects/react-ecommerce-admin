@@ -27,7 +27,7 @@ export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
     try {
       const { error } = await supabase
         .from('products')
-        .delete()
+        .update({ is_deleted: true })
         .eq('product_id', currentRow.product_id)
 
       if (error) throw error

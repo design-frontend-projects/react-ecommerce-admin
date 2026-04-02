@@ -48,6 +48,7 @@ import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_auth
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
 import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
+import { Route as AuthenticatedStockBalancesIndexRouteImport } from './routes/_authenticated/stock-balances/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
@@ -288,6 +289,12 @@ const AuthenticatedTransactionsIndexRoute =
     path: '/transactions/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStockBalancesIndexRoute =
+  AuthenticatedStockBalancesIndexRouteImport.update({
+    id: '/stock-balances/',
+    path: '/stock-balances/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -507,6 +514,7 @@ export interface FileRoutesByFullPath {
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -570,6 +578,7 @@ export interface FileRoutesByTo {
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -638,6 +647,7 @@ export interface FileRoutesById {
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/stock-balances/': typeof AuthenticatedStockBalancesIndexRoute
   '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -705,6 +715,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/respos'
     | '/settings/'
+    | '/stock-balances'
     | '/transactions'
     | '/cities/'
     | '/respos/invoice/$orderId'
@@ -768,6 +779,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/respos'
     | '/settings'
+    | '/stock-balances'
     | '/transactions'
     | '/cities'
     | '/respos/invoice/$orderId'
@@ -835,6 +847,7 @@ export interface FileRouteTypes {
     | '/_authenticated/products/'
     | '/_authenticated/respos/'
     | '/_authenticated/settings/'
+    | '/_authenticated/stock-balances/'
     | '/_authenticated/transactions/'
     | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
@@ -1126,6 +1139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stock-balances/': {
+      id: '/_authenticated/stock-balances/'
+      path: '/stock-balances'
+      fullPath: '/stock-balances'
+      preLoaderRoute: typeof AuthenticatedStockBalancesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/'
@@ -1415,6 +1435,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedStockBalancesIndexRoute: typeof AuthenticatedStockBalancesIndexRoute
   AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
@@ -1459,6 +1480,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedStockBalancesIndexRoute: AuthenticatedStockBalancesIndexRoute,
   AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,

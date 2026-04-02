@@ -204,7 +204,8 @@ exports.Prisma.Customer_cardsScalarFieldEnum = {
   billing_address: 'billing_address',
   is_default: 'is_default',
   tokenized_id: 'tokenized_id',
-  added_at: 'added_at'
+  added_at: 'added_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.Customer_groupsScalarFieldEnum = {
@@ -1052,6 +1053,20 @@ exports.Prisma.Inventory_movementsScalarFieldEnum = {
   created_at: 'created_at'
 };
 
+exports.Prisma.Stock_balancesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  product_variant_id: 'product_variant_id',
+  qty_on_hand: 'qty_on_hand',
+  qty_reserved: 'qty_reserved',
+  qty_available: 'qty_available',
+  avg_cost: 'avg_cost',
+  last_movement_at: 'last_movement_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1225,7 +1240,8 @@ exports.Prisma.ModelName = {
   transaction_details: 'transaction_details',
   transactions: 'transactions',
   user_roles: 'user_roles',
-  inventory_movements: 'inventory_movements'
+  inventory_movements: 'inventory_movements',
+  stock_balances: 'stock_balances'
 };
 
 /**

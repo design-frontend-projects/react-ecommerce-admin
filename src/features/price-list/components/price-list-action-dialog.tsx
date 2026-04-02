@@ -57,6 +57,7 @@ export function PriceListActionDialog() {
       const { data, error } = await supabase
         .from('products')
         .select('product_id, name')
+        .neq('is_deleted', true)
         .order('name')
       if (error) throw error
       return data

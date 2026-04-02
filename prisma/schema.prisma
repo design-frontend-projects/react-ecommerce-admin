@@ -128,6 +128,7 @@ model customer_cards {
   is_default       Boolean?    @default(false)
   tokenized_id     String?     @db.VarChar(100)
   added_at         DateTime?   @default(now()) @db.Timestamp(6)
+  clerk_user_id    String?     @default(dbgenerated("clerk_user_id()"))
   customers        customers   @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, onUpdate: NoAction)
   pos_sales        pos_sales[]
 
@@ -319,6 +320,7 @@ model product_variants {
   purchase_return_items  purchase_return_items[]
   sales_invoice_items    sales_invoice_items[]
   sales_return_items     sales_return_items[]
+  stock_balances         stock_balances[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -340,6 +342,7 @@ model products {
   clerk_user_id          String?                @default(dbgenerated("clerk_user_id()"))
   store_id               String?
   has_variants           Boolean?               @default(false)
+  is_deleted             Boolean?               @default(false)
   inventory              inventory?
   price_list             price_list[]
   product_variants       product_variants[]
@@ -1144,6 +1147,7 @@ model stores {
   purchase_returns    purchase_returns[]
   sales_invoices      sales_invoices[]
   sales_returns       sales_returns[]
+  stock_balances      stock_balances[]
   cities              cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   countries           countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
 }
@@ -1327,6 +1331,25 @@ model inventory_movements {
   branches           branches           @relation(fields: [branch_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product_variants   product_variants   @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stores             stores?            @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stock_balances {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String           @default(dbgenerated("clerk_user_id()"))
+  store_id           String           @db.Uuid
+  product_variant_id String           @db.Uuid
+  qty_on_hand        Decimal          @default(0) @db.Decimal(18, 4)
+  qty_reserved       Decimal          @default(0) @db.Decimal(18, 4)
+  qty_available      Decimal?         @default(dbgenerated("(qty_on_hand - qty_reserved)")) @db.Decimal(18, 4)
+  avg_cost           Decimal          @default(0) @db.Decimal(18, 4)
+  last_movement_at   DateTime?        @db.Timestamptz(6)
+  created_at         DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime         @default(now()) @db.Timestamptz(6)
+  product_variants   product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores             stores           @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, product_variant_id])
 }
 
 enum cash_movement_reason_enum {

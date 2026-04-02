@@ -1,6 +1,7 @@
 import {
   AudioWaveform,
   Bell,
+  Boxes,
   Building2,
   CalendarClock,
   ChefHat,
@@ -234,6 +235,12 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.purchaseOrders'),
             url: '/purchase-orders',
             icon: ShoppingCart,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: t('sidebar.stockBalances'),
+            url: '/stock-balances',
+            icon: Boxes,
             roles: ['admin', 'super_admin'],
           },
           {

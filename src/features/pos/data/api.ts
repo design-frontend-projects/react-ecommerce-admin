@@ -56,6 +56,7 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     `
     )
     .eq('is_active', true)
+    .neq('is_deleted', true)
     .order('name')
 
   if (error) throw error

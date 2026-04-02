@@ -1,6 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { type Row } from '@tanstack/react-table'
-import { Trash2, Edit } from 'lucide-react'
+import { Trash2, Edit, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -43,6 +43,18 @@ export function ProductRowActions<TData>({
           Edit
           <DropdownMenuShortcut>
             <Edit size={16} />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(row.original as Product)
+            setOpen('view')
+          }}
+        >
+          View Details
+          <DropdownMenuShortcut>
+            <Eye size={16} />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
