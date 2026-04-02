@@ -25,7 +25,7 @@ export function Products() {
       if (!user?.id) return []
       const { data, error } = await supabase
         .from('products')
-        .select('*, categories(name)')
+        .select('*, categories(name), product_variants(*)')
         .eq('clerk_user_id', user.id)
         .order('created_at', { ascending: false })
 

@@ -98,9 +98,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.89.0
         version: 2.89.0
-      '@syncfusion/ej2-react-barcode-generator':
-        specifier: ^32.2.3
-        version: 32.2.3
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(vite@7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0))
@@ -252,6 +249,9 @@ importers:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.0
         version: 6.0.0(prettier@3.7.4)
+      '@types/jsbarcode':
+        specifier: ^3.11.4
+        version: 3.11.4
       '@types/node':
         specifier: ^25.0.2
         version: 25.0.3
@@ -2886,25 +2886,6 @@ packages:
   '@swc/types@0.1.25':
     resolution: {integrity: sha512-iAoY/qRhNH8a/hBvm3zKj9qQ4oc2+3w1unPJa2XvTK3XjeLXtzcCingVPw/9e5mn1+0yPqxcBGp9Jf0pkfMb1g==}
 
-  '@syncfusion/ej2-barcode-generator@32.2.3':
-    resolution: {integrity: sha512-g6EW4W2kkGA5Adc80R/zCY5pHp98zUcf45b9XPDyTdbMqeV8KLZ6Omr4WAUXvPwtw2X7uqL445KhePlJ3r/FEg==}
-
-  '@syncfusion/ej2-base@32.2.6':
-    resolution: {integrity: sha512-H7L8WT0+o5oSo+CTGjSWj5H+UFkQSEgkC5YpLMZJ+/LkdVTrTnw+iuwdWwd8miNEualm12QmZf8RnXccHPfg9w==}
-    hasBin: true
-
-  '@syncfusion/ej2-data@32.2.3':
-    resolution: {integrity: sha512-5m/8v7MLl2m63QNj++oVh/It82pGdB1mL3M8rxTnKni3w5L4tWb78s5LNKEzvz4x8/lcaC3Kg5vnS8ZJqNOI2g==}
-
-  '@syncfusion/ej2-icons@32.2.3':
-    resolution: {integrity: sha512-bZn+4SWasVNRLB0C1Gt6Z4NAM1MDYIqU/uRlhAPJK9itPAvxo3buQAcrokm+3te6k39vxwFuNlMn0dFoI1zWuw==}
-
-  '@syncfusion/ej2-react-barcode-generator@32.2.3':
-    resolution: {integrity: sha512-ewsm0pMpWj/tTDtZTBbVBrBXSEA/urGaFQDPp5dkjON77kgaVH1bLqZSC4FOrNFPyHW3C+8rE8LgDyNCVbN0gA==}
-
-  '@syncfusion/ej2-react-base@32.2.3':
-    resolution: {integrity: sha512-xAh78u1v4QSce/KlDIcZiZmjiGwmEFIjWqFRAqI69YJ8vdfmrrITj9ybZiWYtcDXvsxgWAhOvX6uPE3neI3vqg==}
-
   '@tailwindcss/node@4.1.18':
     resolution: {integrity: sha512-DoR7U1P7iYhw16qJ49fgXUlry1t4CpXeErJHnQ44JgTSKMaZUdf17cfn5mHchfJ4KRBZRFA/Coo+MUF5+gOaCQ==}
 
@@ -3334,6 +3315,9 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+
+  '@types/jsbarcode@3.11.4':
+    resolution: {integrity: sha512-VBcpTAnEMH0Gbh8JpV14CgOtJjCYjsvR2FoDRyoYPE0gUxtApf8N4c+HKEOyz/iiIZkMzqrzBA3XX7+KgKxxsA==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -8873,31 +8857,6 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@syncfusion/ej2-barcode-generator@32.2.3':
-    dependencies:
-      '@syncfusion/ej2-base': 32.2.6
-      '@syncfusion/ej2-data': 32.2.3
-
-  '@syncfusion/ej2-base@32.2.6':
-    dependencies:
-      '@syncfusion/ej2-icons': 32.2.3
-
-  '@syncfusion/ej2-data@32.2.3':
-    dependencies:
-      '@syncfusion/ej2-base': 32.2.6
-
-  '@syncfusion/ej2-icons@32.2.3': {}
-
-  '@syncfusion/ej2-react-barcode-generator@32.2.3':
-    dependencies:
-      '@syncfusion/ej2-barcode-generator': 32.2.3
-      '@syncfusion/ej2-base': 32.2.6
-      '@syncfusion/ej2-react-base': 32.2.3
-
-  '@syncfusion/ej2-react-base@32.2.3':
-    dependencies:
-      '@syncfusion/ej2-base': 32.2.6
-
   '@tailwindcss/node@4.1.18':
     dependencies:
       '@jridgewell/remapping': 2.3.5
@@ -9398,6 +9357,10 @@ snapshots:
   '@types/estree@0.0.39': {}
 
   '@types/estree@1.0.8': {}
+
+  '@types/jsbarcode@3.11.4':
+    dependencies:
+      '@types/node': 25.0.3
 
   '@types/json-schema@7.0.15': {}
 

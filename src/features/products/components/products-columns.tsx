@@ -66,17 +66,38 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: 'base_price',
+    id: 'price',
+    accessorFn: (row) => {
+      if (!row.product_variants || row.product_variants.length === 0) return 0;
+      return row.product_variants[0].price;
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Price' />
     ),
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue('base_price'))
-      const formatted = new Intl.NumberFormat('en-US', {
+      const variants = row.original.product_variants
+      if (!variants || variants.length === 0) {
+        return <div className='font-medium text-muted-foreground'>N/A</div>
+      }
+      
+      const prices = variants.map(v => Number(v.price))
+      const minPrice = Math.min(...prices)
+      const maxPrice = Math.max(...prices)
+      
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-      }).format(price)
-      return <div className='font-medium'>{formatted}</div>
+      })
+      
+      if (minPrice === maxPrice) {
+        return <div className='font-medium'>{formatter.format(minPrice)}</div>
+      }
+      
+      return (
+        <div className='font-medium'>
+          {formatter.format(minPrice)} - {formatter.format(maxPrice)}
+        </div>
+      )
     },
   },
   {

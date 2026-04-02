@@ -38,13 +38,12 @@ import {
 import { CheckoutDialog } from '../components/checkout-dialog'
 import { FloorManagerView } from '../components/floor-manager-view'
 import { MenuItemDetailsDialog } from '../components/menu-item-details-dialog'
+import { CartItem as CartItemComponent } from '../components/pos/cart-item'
+import { OrderHistoryPanel } from '../components/pos/order-history-panel'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
 import { useResposRealtime } from '../hooks'
 import { useOrderCalc } from '../hooks/use-order-calc'
 import { formatCurrency } from '../lib/formatters'
-import { CartItem as CartItemComponent } from '../components/pos/cart-item'
-import { PromoInput } from '../components/pos/promo-input'
-import { OrderHistoryPanel } from '../components/pos/order-history-panel'
 import type {
   Cart,
   CartItem,
@@ -323,7 +322,7 @@ export function POSScreen() {
             <Button
               variant='outline'
               size='sm'
-              className='h-9 rounded-full px-4 font-bold border-orange-200 text-orange-600 hover:bg-orange-50'
+              className='h-9 rounded-full border-orange-200 px-4 font-bold text-orange-600 hover:bg-orange-50'
               onClick={() => setShowHistory(!showHistory)}
             >
               <History className='mr-2 h-4 w-4' />
@@ -738,9 +737,9 @@ function OrderPanel({
 
       {/* Order Footer */}
       <div className='z-10 border-t bg-background/50 p-8 pt-6 backdrop-blur-xl'>
-        <div className='mb-6'>
+        {/* <div className='mb-6'>
           <PromoInput />
-        </div>
+        </div> */}
         <div className='mb-6 space-y-2'>
           <div className='flex justify-between text-xs font-bold tracking-wider text-muted-foreground uppercase'>
             <span>Subtotal</span>

@@ -187,13 +187,13 @@ export const useResposStore = create<ResposState>()(
 
         const newItems = cart.items.map((ci, i) => {
           if (i !== index) return ci
-          const basePrice = ci.item.base_price
+          // const basePrice = ci.item.base_price
           const variantAdjustment = ci.variant?.price_adjustment || 0
           const propertiesTotal = ci.selectedProperties.reduce(
             (sum, p) => sum + p.price,
             0
           )
-          const unitPrice = basePrice + variantAdjustment + propertiesTotal
+          const unitPrice = variantAdjustment + propertiesTotal
           return {
             ...ci,
             quantity,

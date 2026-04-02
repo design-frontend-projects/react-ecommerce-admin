@@ -24,6 +24,7 @@ import { PendingPurchaseOrders } from './components/pending-purchase-orders'
 import { PurchaseOrderAnalytics } from './components/purchase-order-analytics'
 import { RecentRefunds } from './components/recent-refunds'
 import { RecentSales } from './components/recent-sales'
+import { LowQuantityProducts } from './components/low-quantity-products'
 import { useDashboardData } from './use-dashboard-data'
 
 export function Dashboard() {
@@ -385,9 +386,9 @@ export function Dashboard() {
               </Card>
             </div>
 
-            {/* ─── Row 4: Refunds & Pending POs ─── */}
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-4'>
+            {/* ─── Row 4: Refunds, Pending POs & Low Stock ─── */}
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-3'>
+              <Card className='col-span-1'>
                 <CardHeader>
                   <CardTitle>
                     <Trans i18nKey='dashboard.recentRefunds' />
@@ -400,7 +401,7 @@ export function Dashboard() {
                   <RecentRefunds data={recentRefunds || []} />
                 </CardContent>
               </Card>
-              <Card className='col-span-1 lg:col-span-3'>
+              <Card className='col-span-1'>
                 <CardHeader>
                   <CardTitle>
                     <Trans i18nKey='dashboard.pendingPurchaseOrders' />
@@ -413,6 +414,9 @@ export function Dashboard() {
                   <PendingPurchaseOrders data={pendingPurchaseOrders || []} />
                 </CardContent>
               </Card>
+              <div className='col-span-1'>
+                <LowQuantityProducts data={dashboardData?.lowStockProducts || []} />
+              </div>
             </div>
           </TabsContent>
           <TabsContent value='analytics' className='space-y-4'>

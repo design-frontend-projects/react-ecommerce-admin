@@ -60,12 +60,22 @@ export interface PendingPurchaseOrder {
   }
 }
 
+export interface LowQuantityProduct {
+  id: string
+  product_id: number
+  sku: string
+  stock_quantity: number
+  min_stock: number
+  product_name: string
+}
+
 export interface DashboardData {
   stats: DashboardStats
   chartData: ChartData[]
   recentSales: RecentSale[]
   recentRefunds: RecentRefund[]
   pendingPurchaseOrders: PendingPurchaseOrder[]
+  lowStockProducts: LowQuantityProduct[]
 }
 
 // ─── Hook ────────────────────────────────────────────────────────────────────
@@ -261,6 +271,43 @@ export function useDashboardData() {
           suppliers: po.suppliers as unknown as { name: string },
         }))
 
+      // ─── 10. Low stock products ───
+      const { data: variantsData, error: variantsError } = await supabase
+        .from('product_variants')
+        .select(`
+          id,
+          product_id,
+          sku,
+          stock_quantity,
+          min_stock,
+          products ( name )
+        `)
+        .order('stock_quantity', { ascending: true })
+        .limit(200)
+
+      if (variantsError) throw variantsError
+
+      type VariantResponse = {
+        id: string
+        product_id: number
+        sku: string
+        stock_quantity: number
+        min_stock: number
+        products: { name: string } | null
+      }
+
+      const lowStockProducts = (variantsData as unknown as VariantResponse[] || [])
+        .filter((v) => v.stock_quantity <= (v.min_stock || 0))
+        .map((v) => ({
+          id: String(v.id),
+          product_id: Number(v.product_id),
+          sku: String(v.sku || ''),
+          stock_quantity: Number(v.stock_quantity) || 0,
+          min_stock: Number(v.min_stock) || 0,
+          product_name: String(v.products?.name || 'Unknown'),
+        }))
+        .slice(0, 5) // Get the top 5 lowest stock
+
       return {
         stats: {
           totalRevenue,
@@ -278,6 +325,7 @@ export function useDashboardData() {
         recentSales: (recentSalesData || []) as unknown as RecentSale[],
         recentRefunds: (recentRefunds || []) as RecentRefund[],
         pendingPurchaseOrders,
+        lowStockProducts,
       }
     },
   })

@@ -342,8 +342,6 @@ exports.Prisma.ProductsScalarFieldEnum = {
   supplier_id: 'supplier_id',
   name: 'name',
   description: 'description',
-  base_price: 'base_price',
-  cost_price: 'cost_price',
   sku: 'sku',
   barcode: 'barcode',
   category_id: 'category_id',
@@ -772,9 +770,9 @@ exports.Prisma.RolesScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  is_active: 'is_active',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  is_active: 'is_active'
 };
 
 exports.Prisma.Employee_rolesScalarFieldEnum = {
@@ -993,7 +991,8 @@ exports.Prisma.Tenant_usersScalarFieldEnum = {
   updated_at: 'updated_at',
   default_role: 'default_role',
   is_restuarant_user: 'is_restuarant_user',
-  parent_tenant_id: 'parent_tenant_id'
+  parent_tenant_id: 'parent_tenant_id',
+  refund_pin_code: 'refund_pin_code'
 };
 
 exports.Prisma.Transaction_detailsScalarFieldEnum = {
@@ -1032,6 +1031,25 @@ exports.Prisma.TransactionsScalarFieldEnum = {
 exports.Prisma.User_rolesScalarFieldEnum = {
   user_id: 'user_id',
   role_id: 'role_id'
+};
+
+exports.Prisma.Inventory_movementsScalarFieldEnum = {
+  id: 'id',
+  clerk_user_id: 'clerk_user_id',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  product_variant_id: 'product_variant_id',
+  movement_type: 'movement_type',
+  reference_type: 'reference_type',
+  reference_id: 'reference_id',
+  qty_in: 'qty_in',
+  qty_out: 'qty_out',
+  unit_cost: 'unit_cost',
+  total_cost: 'total_cost',
+  movement_date: 'movement_date',
+  remarks: 'remarks',
+  created_by: 'created_by',
+  created_at: 'created_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -1122,6 +1140,22 @@ exports.user_module = exports.$Enums.user_module = {
   restaurant: 'restaurant'
 };
 
+exports.movement_type_enum = exports.$Enums.movement_type_enum = {
+  opening_stock: 'opening_stock',
+  sale: 'sale',
+  sale_return: 'sale_return',
+  purchase: 'purchase',
+  purchase_return: 'purchase_return',
+  transfer_in: 'transfer_in',
+  transfer_out: 'transfer_out',
+  adjustment_in: 'adjustment_in',
+  adjustment_out: 'adjustment_out',
+  damage: 'damage',
+  expired: 'expired',
+  reserved: 'reserved',
+  released: 'released'
+};
+
 exports.Prisma.ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
@@ -1190,7 +1224,8 @@ exports.Prisma.ModelName = {
   tenant_users: 'tenant_users',
   transaction_details: 'transaction_details',
   transactions: 'transactions',
-  user_roles: 'user_roles'
+  user_roles: 'user_roles',
+  inventory_movements: 'inventory_movements'
 };
 
 /**

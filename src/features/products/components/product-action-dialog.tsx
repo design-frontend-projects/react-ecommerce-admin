@@ -32,7 +32,8 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
-import { productSchema, type Product } from '../data/schema'
+import { z } from 'zod'
+import { type Product } from '../data/schema'
 import { BarcodeDisplay } from './barcode-display'
 
 interface Props {
@@ -58,10 +59,44 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     },
   })
 
+  const formSchema = z.object({
+    name: z.string().min(1, 'Name is required').max(255),
+    description: z.string().optional().nullable(),
+    sku: z.string().min(1, 'SKU is required').max(100),
+    barcode: z.string().optional().nullable(),
+    category_id: z.coerce.number().optional().nullable(),
+    weight: z.coerce.number().optional().nullable(),
+    dimensions: z.string().optional().nullable(),
+    is_active: z.boolean().default(true),
+    base_price: z.coerce.number().min(0, 'Price must be 0 or greater'),
+    cost_price: z.coerce.number().min(0, 'Cost must be 0 or greater'),
+  })
+
+  // get initial price from first variant if editing
+  const getInitialPrice = () => {
+    if (!currentRow) return 0
+    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
+      return Number(currentRow.product_variants[0].price) || 0
+    }
+    return 0
+  }
+
+  const getInitialCost = () => {
+    if (!currentRow) return 0
+    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
+      return Number(currentRow.product_variants[0].cost_price) || 0
+    }
+    return 0
+  }
+
   const form = useForm({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: isEdit
-      ? currentRow
+      ? {
+          ...currentRow,
+          base_price: getInitialPrice(),
+          cost_price: getInitialCost(),
+        }
       : {
           name: '',
           description: '',
@@ -76,23 +111,50 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         },
   })
 
-  const onSubmit = async (values: Product) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      const { base_price, cost_price, ...productData } = values
+      
+      let productId = currentRow?.product_id
+      
       if (isEdit) {
         const { error } = await supabase
           .from('products')
-          .update(values)
-          .eq('product_id', currentRow.product_id)
+          .update(productData)
+          .eq('product_id', productId)
 
         if (error) throw error
-        toast.success('Product updated successfully')
       } else {
-        const { error } = await supabase.from('products').insert([values])
+        const { data, error } = await supabase.from('products').insert([productData]).select('product_id').single()
 
         if (error) throw error
-        toast.success('Product created successfully')
+        productId = data.product_id
+      }
+      
+      // Upsert the main variant
+      if (productId) {
+        const variantData = {
+          product_id: productId,
+          sku: values.sku,
+          barcode: values.barcode,
+          price: base_price,
+          cost_price: cost_price,
+          is_active: values.is_active,
+        }
+        
+        let existingVariantId = null
+        if (isEdit && currentRow?.product_variants && currentRow.product_variants.length > 0) {
+          existingVariantId = currentRow.product_variants[0].id
+        }
+        
+        if (existingVariantId) {
+          await supabase.from('product_variants').update(variantData).eq('id', existingVariantId)
+        } else {
+          await supabase.from('product_variants').insert([variantData])
+        }
       }
 
+      toast.success(isEdit ? 'Product updated successfully' : 'Product created successfully')
       queryClient.invalidateQueries({ queryKey: ['products'] })
       onOpenChange(false)
       form.reset()
