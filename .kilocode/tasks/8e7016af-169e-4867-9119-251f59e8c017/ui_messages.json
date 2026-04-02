@@ -1,1 +1,0 @@
-[{"ts":1775149849081,"type":"say","say":"task","text":"/speckit.specify alter @src/features/products  and make it steps one for main product data and another one for product variant use @prisma/schema.prisma to understand the realtion between the 2 tables","images":[]},{"ts":1775149849082,"type":"say","say":"api_req_started","text":"{\"apiProtocol\":\"openai\"}"}]
