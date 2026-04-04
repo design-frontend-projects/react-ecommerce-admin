@@ -22,7 +22,8 @@ export function ProductWizardDialog() {
     currentStep, 
     prevStep, 
     baseProductData, 
-    resetWizard 
+    resetWizard,
+    isVariantsEnabled
   } = useProductWizardStore()
   
   const { mutateAsync: createProduct, isPending } = useCreateProductWithVariants()
@@ -41,13 +42,11 @@ export function ProductWizardDialog() {
     try {
       await createProduct({
         base: {
-          name: baseProductData.name,
-          description: baseProductData.description,
+          name: baseProductData.name!,
+          description: baseProductData.description || null,
           sku: String(baseProductData.sku || ''),
           barcode: String(baseProductData.barcode || ''),
           category_id: baseProductData.category_id || null,
-          supplier_id: baseProductData.supplier_id || null,
-          store_id: baseProductData.store_id || null,
           is_active: Boolean(baseProductData.is_active ?? true),
           has_variants: Boolean(baseProductData.has_variants ?? true),
         },
@@ -79,8 +78,8 @@ export function ProductWizardDialog() {
             </div>
             <span className="font-medium">Details</span>
           </div>
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          <div className={`flex items-center space-x-2 ${currentStep >= 2 ? 'text-primary' : 'text-muted-foreground'}`}>
+          <ChevronRight className={`h-4 w-4 ${!isVariantsEnabled ? 'text-muted-foreground/30' : 'text-muted-foreground'}`} />
+          <div className={`flex items-center space-x-2 ${currentStep >= 2 ? 'text-primary' : 'text-muted-foreground'} ${!isVariantsEnabled ? 'opacity-40' : ''}`}>
             <div className={`flex h-6 w-6 items-center justify-center rounded-full border ${currentStep >= 2 ? 'bg-primary border-primary text-primary-foreground' : ''}`}>
               {currentStep > 2 ? <Check className="h-4 w-4" /> : '2'}
             </div>
@@ -88,7 +87,32 @@ export function ProductWizardDialog() {
           </div>
         </div>
 
-        {currentStep === 1 && <ProductBaseForm />}
+        {currentStep === 1 && (
+          <ProductBaseForm 
+            onSubmitDirect={async (data) => {
+              // Direct submit without variants
+              try {
+                await createProduct({
+                  base: {
+                    name: data.name,
+                    description: data.description || null,
+                    sku: String(data.sku || ''),
+                    barcode: String(data.barcode || ''),
+                    base_price: data.base_price,
+                    category_id: data.category_id || null,
+                    is_active: Boolean(data.is_active ?? true),
+                    has_variants: false,
+                  },
+                  variants: [],
+                })
+                toast.success('Product created successfully')
+                handleOpenChange(false)
+              } catch (error) {
+                toast.error(`Failed to create product: ${(error as Error).message || 'Unknown error'}`)
+              }
+            }}
+          />
+        )}
         {currentStep === 2 && <ProductVariantsForm onSubmit={handleCreate} />}
 
         <DialogFooter className="flex justify-between sm:justify-between items-center sm:space-x-2">
@@ -104,8 +128,8 @@ export function ProductWizardDialog() {
             )}
             
             {currentStep === 1 ? (
-              <Button type="submit" form="product-base-form">
-                Continue to Variants
+              <Button type="submit" form="product-base-form" disabled={isPending}>
+                {isPending ? 'Creating...' : isVariantsEnabled ? 'Continue to Variants' : 'Create Product'}
               </Button>
             ) : (
               <Button type="submit" form="product-variants-form" disabled={isPending}>

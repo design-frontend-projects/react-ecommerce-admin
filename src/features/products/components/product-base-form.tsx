@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -23,8 +24,12 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 
-export function ProductBaseForm() {
-  const { baseProductData, setBaseProductData, nextStep } = useProductWizardStore()
+export function ProductBaseForm({ 
+  onSubmitDirect 
+}: { 
+  onSubmitDirect?: (data: BaseProductFormData) => void 
+}) {
+  const { baseProductData, setBaseProductData, nextStep, setVariantsEnabled } = useProductWizardStore()
   
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -55,9 +60,19 @@ export function ProductBaseForm() {
     mode: 'onTouched',
   })
 
+  const hasVariants = form.watch('has_variants')
+
+  useEffect(() => {
+    setVariantsEnabled(hasVariants ?? true)
+  }, [hasVariants, setVariantsEnabled])
+
   const onSubmit = (data: BaseProductFormData) => {
     setBaseProductData(data)
-    nextStep()
+    if (data.has_variants) {
+      nextStep()
+    } else if (onSubmitDirect) {
+      onSubmitDirect(data)
+    }
   }
 
   return (
@@ -106,6 +121,20 @@ export function ProductBaseForm() {
                 <FormLabel>Base SKU (optional)</FormLabel>
                 <FormControl>
                   <Input placeholder="e.g. MOCHA-FRAP" {...field} value={field.value || ''} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="base_price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Base Price</FormLabel>
+                <FormControl>
+                  <Input type="number" step="0.01" placeholder="0.00" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

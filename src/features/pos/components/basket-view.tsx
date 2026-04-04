@@ -10,8 +10,8 @@ import { createPosTransaction } from '../data/api'
 import { useBasket } from '../store/use-basket'
 import { printReceipt } from '../utils/receipt-printer'
 import { DiscountToggle } from './discount-toggle'
-import { ReorderDialog } from './reorder-dialog'
 import { RefundDialog } from './refund-dialog'
+import { ReorderDialog } from './reorder-dialog'
 
 export function BasketView() {
   const {
@@ -92,23 +92,23 @@ export function BasketView() {
 
   return (
     <div className='flex h-full flex-col rounded-lg border bg-white shadow'>
-      <div className='flex items-center justify-between rounded-t-lg border-b bg-muted/50 p-4'>
-        <h2 className='text-lg font-bold'>Current Order</h2>
-        <div className='flex items-center gap-2'>
-          <RefundDialog />
-          <ReorderDialog />
-          <DiscountToggle />
-          {items.length > 0 && (
-            <Button
-              variant='ghost'
-              size='sm'
-              className='text-destructive'
-              onClick={clearBasket}
-            >
-              Clear
-            </Button>
-          )}
-        </div>
+      <h2 className='text-center text-lg font-bold text-slate-950'>
+        Current Order
+      </h2>
+      <div className='flex items-center justify-between gap-1 rounded-t-lg border-b bg-muted/50 p-4'>
+        <RefundDialog />
+        <ReorderDialog />
+        <DiscountToggle />
+        {items.length > 0 && (
+          <Button
+            variant='ghost'
+            size='sm'
+            className='text-destructive'
+            onClick={clearBasket}
+          >
+            Clear
+          </Button>
+        )}
       </div>
 
       <ScrollArea className='flex-1 p-4'>

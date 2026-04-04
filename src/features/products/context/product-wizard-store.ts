@@ -4,6 +4,7 @@ import type { BaseProductFormData, VariantRowFormData } from '../data/product-wi
 interface ProductWizardState {
   isOpen: boolean
   currentStep: number
+  isVariantsEnabled: boolean
   baseProductData: Partial<BaseProductFormData> | null
   variantsData: VariantRowFormData[]
   
@@ -12,6 +13,7 @@ interface ProductWizardState {
   setStep: (step: number) => void
   nextStep: () => void
   prevStep: () => void
+  setVariantsEnabled: (enabled: boolean) => void
   
   // Data actions
   setBaseProductData: (data: BaseProductFormData) => void
@@ -24,6 +26,7 @@ interface ProductWizardState {
 const initialState = {
   isOpen: false,
   currentStep: 1,
+  isVariantsEnabled: true,
   baseProductData: null,
   variantsData: [],
 }
@@ -35,6 +38,7 @@ export const useProductWizardStore = create<ProductWizardState>((set) => ({
   setStep: (step) => set({ currentStep: step }),
   nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 2) })),
   prevStep: () => set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
+  setVariantsEnabled: (enabled) => set({ isVariantsEnabled: enabled }),
   
   setBaseProductData: (data) => set({ baseProductData: data }),
   setVariantsData: (data) => set({ variantsData: data }),

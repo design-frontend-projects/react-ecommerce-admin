@@ -2,6 +2,14 @@ import { db } from '@/lib/db/indexed-db'
 import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
 
+export type PosProductVariant = {
+  id: string
+  sku: string
+  barcode: string | null
+  price: number
+  dimensions?: string | null
+}
+
 export type PosProduct = {
   product_id: number
   name: string
@@ -9,6 +17,9 @@ export type PosProduct = {
   barcode: string | null
   base_price: number
   category_id: string | null
+  category_name: string | null
+  has_variants: boolean
+  product_variants: PosProductVariant[]
 }
 
 export type PosCategory = {
@@ -32,6 +43,9 @@ export async function getPosProducts(): Promise<PosProduct[]> {
           barcode: p.barcode || null,
           base_price: p.price,
           category_id: p.category_id || null,
+          category_name: p.category_name || null,
+          has_variants: !!p.has_variants,
+          product_variants: (p.product_variants as PosProductVariant[]) || [],
         }))
       }
     } catch (e) {
@@ -46,12 +60,15 @@ export async function getPosProducts(): Promise<PosProduct[]> {
       product_id,
       store_id,
       category_id,
+      categories ( name ),
       name,
       description,
       sku,
       barcode,
       base_price,
       is_active,
+      has_variants,
+      product_variants ( id, sku, barcode, price, dimensions ),
       inventory ( quantity )
     `
     )
@@ -67,9 +84,11 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     name: p.name,
     sku: p.sku || '',
     barcode: p.barcode,
-    base_price: Number(p.base_price),
-    // Add these for Dexie caching
+    base_price: Number(p.base_price || 0),
     category_id: p.category_id,
+    category_name: Array.isArray(p.categories) ? p.categories[0]?.name : (p.categories as any)?.name || null,
+    has_variants: !!p.has_variants,
+    product_variants: p.product_variants || [],
     description: p.description,
     is_active: p.is_active ? 1 : 0,
   }))
@@ -87,6 +106,9 @@ export async function getPosProducts(): Promise<PosProduct[]> {
         barcode: p.barcode,
         track_inventory: true,
         category_id: String(p.category_id),
+        category_name: p.category_name || undefined,
+        has_variants: p.has_variants,
+        product_variants: p.product_variants,
         store_id: String(p.store_id),
         is_active: p.is_active,
         created_at: new Date().toISOString(),
@@ -105,6 +127,9 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     barcode: p.barcode,
     base_price: p.base_price,
     category_id: String(p.category_id),
+    category_name: p.category_name,
+    has_variants: p.has_variants,
+    product_variants: p.product_variants,
   }))
 }
 

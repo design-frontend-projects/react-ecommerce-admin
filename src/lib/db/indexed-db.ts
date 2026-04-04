@@ -37,7 +37,9 @@ export interface LocalProduct {
   preparation_time?: number
   allergens?: string[]
   tags?: string[]
-  variants?: unknown[]
+  has_variants?: boolean
+  category_name?: string
+  product_variants?: unknown[]
   properties?: unknown[]
 }
 

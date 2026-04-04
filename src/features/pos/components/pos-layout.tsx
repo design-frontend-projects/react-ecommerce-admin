@@ -28,6 +28,7 @@ import { BarcodeScannerListener } from './barcode-scanner-listener'
 import { BasketView } from './basket-view'
 import { ManualSkuDialog } from './manual-sku-dialog'
 import { ShiftDashboard } from './shift-dashboard'
+import { VariantSelectionDialog } from './variant-selection-dialog'
 
 export function PosLayout() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -36,6 +37,11 @@ export function PosLayout() {
   const [isScannerOpen, setIsScannerOpen] = useState(false)
   const [isBasketOpen, setIsBasketOpen] = useState(false)
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
+  const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false)
+  const [selectedProductForVariant, setSelectedProductForVariant] = useState<
+    NonNullable<typeof products>[number] | null
+  >(null)
+  
   const { addItem, items } = useBasket()
 
   const { data: products, isLoading } = useQuery({
@@ -57,6 +63,12 @@ export function PosLayout() {
   const handleProductClick = (
     product: NonNullable<typeof products>[number]
   ) => {
+    if (product.has_variants && product.product_variants?.length > 0) {
+      setSelectedProductForVariant(product)
+      setIsVariantDialogOpen(true)
+      return
+    }
+
     addItem({
       productId: product.product_id,
       name: product.name,
@@ -70,18 +82,48 @@ export function PosLayout() {
   const handleScan = (barcodeOrSku: string) => {
     if (!products) return
 
+    // Priority 1: Check variants first (as requested)
+    for (const p of products) {
+      if (p.has_variants && p.product_variants) {
+        const variant = p.product_variants.find(
+          (v) =>
+            v.barcode === barcodeOrSku ||
+            v.sku.toLowerCase() === barcodeOrSku.toLowerCase()
+        )
+        if (variant) {
+          const isFoodOrFruit =
+            p.category_name &&
+            ['food', 'fruit', 'fruite'].includes(p.category_name.toLowerCase())
+          const price = isFoodOrFruit ? p.base_price : variant.price
+
+          addItem({
+            productId: p.product_id,
+            name: `${p.name} - ${variant.dimensions || variant.sku}`,
+            sku: variant.sku,
+            barcode: variant.barcode,
+            unitPrice: price,
+            quantity: 1,
+          })
+          toast.success(`Added ${p.name} (${variant.dimensions || variant.sku})`)
+          return
+        }
+      }
+    }
+
+    // Priority 2: Check main product if no variant matched
     const product = products.find(
       (p) =>
         p.barcode === barcodeOrSku ||
         p.sku.toLowerCase() === barcodeOrSku.toLowerCase()
     )
 
-    if (product) {
+    if (product && (!product.has_variants || product.product_variants.length === 0)) {
       handleProductClick(product)
       toast.success(`Added ${product.name}`)
-    } else {
-      toast.error(`Product not found: ${barcodeOrSku}`)
+      return
     }
+
+    toast.error(`Product not found: ${barcodeOrSku}`)
   }
 
   return (
@@ -294,6 +336,28 @@ export function PosLayout() {
         onOpenChange={setIsManualSkuOpen}
         onSearch={handleScan}
       />
+
+      {selectedProductForVariant && (
+        <VariantSelectionDialog
+          open={isVariantDialogOpen}
+          onOpenChange={setIsVariantDialogOpen}
+          productName={selectedProductForVariant.name}
+          variants={selectedProductForVariant.product_variants}
+          basePrice={selectedProductForVariant.base_price}
+          categoryName={selectedProductForVariant.category_name}
+          onSelect={(variant, priceToUse) => {
+            addItem({
+              productId: selectedProductForVariant.product_id,
+              name: `${selectedProductForVariant.name} - ${variant.dimensions || variant.sku}`,
+              sku: variant.sku,
+              barcode: variant.barcode,
+              unitPrice: priceToUse,
+              quantity: 1,
+            })
+            toast.success(`Added ${selectedProductForVariant.name} (${variant.dimensions || variant.sku})`)
+          }}
+        />
+      )}
     </div>
   )
 }

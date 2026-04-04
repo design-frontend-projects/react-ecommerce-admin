@@ -331,6 +331,7 @@ model products {
   description            String?
   sku                    String                 @unique @db.VarChar(50)
   barcode                String?                @db.VarChar(100)
+  base_price             Decimal?               @db.Decimal(10, 2)
   category_id            Int?
   weight                 Decimal?               @db.Decimal(8, 2)
   dimensions             String?                @db.VarChar(50)

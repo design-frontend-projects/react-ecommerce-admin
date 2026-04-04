@@ -13,6 +13,7 @@ export const baseProductSchema = z.object({
   // but the wizard is typically used when has_variants is true
   sku: z.string().optional().nullable(),
   barcode: z.string().optional().nullable(),
+  base_price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable(),
 })
 
 export const variantRowSchema = z.object({
