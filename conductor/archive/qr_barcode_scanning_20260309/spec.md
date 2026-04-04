@@ -1,7 +1,7 @@
 # Specification: QR/Barcode Scanning and Generation Track
 
 ## 1. Overview
-This track involves integrating QR/Barcode scanning capabilities using `@yudiel/react-qr-scanner` and automated barcode image generation using `@syncfusion/ej2-react-barcode-generator`. The primary goals are to enhance the POS workflow with fast product lookup and automate the generation of barcodes for the products catalog.
+This track involves integrating QR/Barcode scanning capabilities using `@yudiel/react-qr-scanner` and automated barcode image generation using `react-barcode`. The primary goals are to enhance the POS workflow with fast product lookup and automate the generation of barcodes for the products catalog.
 
 ## 2. Functional Requirements
 ### 2.1 QR/Barcode Scanning
@@ -14,7 +14,7 @@ This track involves integrating QR/Barcode scanning capabilities using `@yudiel/
 ### 2.2 Barcode Generation
 - **Real-time Generation:** In `src/features/products/index.tsx` (product form), the barcode image should be generated and displayed in real-time as the user types or after a field change.
 - **Formats:** Support generating both standard 1D barcodes and 2D QR codes based on the product data.
-- **Library:** Utilize `@syncfusion/ej2-react-barcode-generator` for the rendering component.
+- **Library:** Utilize `react-barcode` for the rendering component.
 
 ## 3. Non-Functional Requirements
 - **Performance:** Scanner initialization and recognition should be fast (under 500ms).

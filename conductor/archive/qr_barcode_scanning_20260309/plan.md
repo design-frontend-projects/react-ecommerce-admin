@@ -1,14 +1,14 @@
 # Implementation Plan: QR/Barcode Scanning and Generation Track
 
 ## Phase 1: Dependencies and Library Setup
-- [ ] Task: Install required dependencies (`@yudiel/react-qr-scanner`, `@syncfusion/ej2-react-barcode-generator`)
+- [ ] Task: Install required dependencies (`@yudiel/react-qr-scanner`, `react-barcode`)
     - [ ] Add packages using pnpm
     - [ ] Verify imports and basic configuration for both libraries
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Dependencies and Library Setup' (Protocol in workflow.md)
 
 ## Phase 2: Product Page - Real-time Barcode Generation
 - [ ] Task: Implement barcode image component in the product form
-    - [ ] Create a reusable `BarcodeDisplay` component using `@syncfusion/ej2-react-barcode-generator`
+    - [ ] Create a reusable `BarcodeDisplay` component using `react-barcode`
     - [ ] Update `src/features/products/index.tsx` (or related form components) to include this display
     - [ ] Ensure real-time update when the barcode field changes
 - [ ] Task: Write Tests: Verify barcode generation logic and UI updates
