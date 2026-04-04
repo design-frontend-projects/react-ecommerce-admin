@@ -51,37 +51,42 @@ export const useUpdateReceivedQuantity = () => {
   })
 }
 
-// ─── Batch receive all items for a PO ─────────────────────
+// ─── Batch receive all items for a PO using transactional RPC ─────
 export const useBatchReceiveItems = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({
+      po_id,
+      store_id,
       items,
     }: {
       po_id: number
-      items: Array<{ po_item_id: number; received_quantity: number }>
+      store_id: string
+      items: Array<{
+        po_item_id: number
+        variant_id: string
+        qty_to_receive: number
+        unit_cost: number
+      }>
     }) => {
-      // Update each item's received_quantity
-      const updates = items.map((item) =>
-        supabase
-          .from('purchase_order_items')
-          .update({ received_quantity: item.received_quantity })
-          .eq('po_item_id', item.po_item_id)
-      )
+      const { data, error } = await supabase.rpc('receive_purchase_order_items', {
+        p_po_id: po_id,
+        p_store_id: store_id,
+        p_received_items: items,
+      })
 
-      const results = await Promise.all(updates)
-      const errors = results.filter((r) => r.error)
-      if (errors.length > 0)
-        throw new Error(errors[0].error?.message || 'Failed to update items')
-
-      return results
+      if (error) throw error
+      return data
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] })
       queryClient.invalidateQueries({
         queryKey: ['purchase-orders', variables.po_id],
       })
+      queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
+      queryClient.invalidateQueries({ queryKey: ['inventory-movements'] })
+      queryClient.invalidateQueries({ queryKey: ['product-variants'] })
     },
   })
 }

@@ -9,7 +9,7 @@ export const useProducts = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*')
+        .select('*, product_variants(*)')
         .neq('is_deleted', true)
         .order('name')
 

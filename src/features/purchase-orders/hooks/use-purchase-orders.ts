@@ -5,14 +5,32 @@ import { supabase } from '@/lib/supabase'
 export interface PurchaseOrder {
   po_id: number
   supplier_id: number | null
-  order_date: string
-  quantity_ordered: number
+  order_date: string | null
+  status: 'pending' | 'partial' | 'received' | 'cancelled'
+  total_amount: number | null
   expected_delivery_date: string | null
-  status: 'pending' | 'received' | 'partial' | 'cancelled'
   notes: string | null
-  total_amount: number
-  created_at: string
+  created_at: string | null
   suppliers?: { name: string } | null
+  purchase_order_items: Array<{
+    po_item_id: number
+    po_id: number
+    product_id: number
+    product_variant_id: string | null
+    quantity_ordered: number
+    unit_cost: number
+    subtotal: number
+    received_quantity: number | null
+    products?: { 
+      name: string
+      product_variants?: Array<{
+        id: string
+        sku: string
+        price: number
+        cost_price: number | null
+      }>
+    } | null
+  }>
 }
 
 export interface PurchaseOrderWithItems extends PurchaseOrder {
@@ -23,25 +41,31 @@ export interface PurchaseOrderItem {
   po_item_id: number
   po_id: number
   product_id: number
+  product_variant_id: string | null
   quantity_ordered: number
   unit_cost: number
   subtotal: number
   received_quantity: number
-  products?: { name: string } | null
+  products?: { 
+    name: string
+    product_variants?: Array<{
+      id: string
+      sku: string
+      price: number
+      cost_price: number | null
+    }>
+  } | null
 }
 
 export interface PurchaseOrderInput {
-  supplier_id: number | null
+  supplier_id: number
   order_date: string
   expected_delivery_date?: string | null
-  status?: 'pending' | 'received' | 'partial' | 'cancelled'
   notes?: string
-  total_amount?: number
 }
 
 export interface PurchaseOrderItemInput {
   product_id: number
-  quantity_ordered: number
   unit_cost: number
   subtotal: number
 }
@@ -69,7 +93,15 @@ export const usePurchaseOrder = (id: number) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('purchase_orders')
-        .select('*, suppliers(name), purchase_order_items(*, products(name))')
+        .select(`*, suppliers(name), 
+                purchase_order_items(
+                  *,
+                  products(
+                    name,
+                    product_variants(id, sku, price, cost_price)
+                  )
+                )
+              `)
         .eq('po_id', id)
         .maybeSingle()
 

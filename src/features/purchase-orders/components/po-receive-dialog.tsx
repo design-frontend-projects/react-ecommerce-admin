@@ -24,6 +24,7 @@ import {
   usePurchaseOrder,
   useUpdatePurchaseOrderStatus,
 } from '../hooks/use-purchase-orders'
+import { useBranches } from '@/features/branches/hooks/use-branches'
 import { usePOContext } from './po-provider'
 import { POStatusBadge } from './po-status-badge'
 
@@ -34,8 +35,10 @@ export function POReceiveDialog() {
   const { data: po } = usePurchaseOrder(poId)
   const batchReceive = useBatchReceiveItems()
   const updateStatus = useUpdatePurchaseOrderStatus()
+  const { data: branches } = useBranches()
 
   const [receivedQtys, setReceivedQtys] = useState<Record<number, number>>({})
+  const [selectedBranchId, setSelectedBranchId] = useState<string>('')
 
   // Initialize received quantities from existing data
   useEffect(() => {
@@ -51,13 +54,28 @@ export function POReceiveDialog() {
   const handleReceive = async () => {
     if (!po) return
 
-    try {
-      const items = po.purchase_order_items.map((item) => ({
-        po_item_id: item.po_item_id,
-        received_quantity: receivedQtys[item.po_item_id] ?? 0,
-      }))
+    if (!selectedBranchId) {
+      toast.error('Store location is required to receive inventory.')
+      return
+    }
 
-      await batchReceive.mutateAsync({ po_id: po.po_id, items })
+    try {
+      const items = po.purchase_order_items.map((item) => {
+        const receivedQty = receivedQtys[item.po_item_id] ?? 0
+        return {
+          po_item_id: item.po_item_id,
+          variant_id: item.product_variant_id || '', // Must match the RPC requirements
+          qty_to_receive: receivedQty,
+          unit_cost: item.unit_cost,
+        }
+      }).filter(item => item.qty_to_receive > 0)
+
+      if (items.length === 0) {
+        toast.error('No items have a received quantity > 0.')
+        return
+      }
+
+      await batchReceive.mutateAsync({ po_id: po.po_id, store_id: selectedBranchId, items })
 
       // Determine new status
       const allReceived = po.purchase_order_items.every(
@@ -115,6 +133,22 @@ export function POReceiveDialog() {
           </DialogDescription>
         </DialogHeader>
 
+        <div className='mb-4'>
+          <Label className='mb-2 block'>Receive To Store / Branch <span className='text-red-500'>*</span></Label>
+          <select
+            className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+            value={selectedBranchId}
+            onChange={(e) => setSelectedBranchId(e.target.value)}
+          >
+            <option value='' disabled>Select a branch...</option>
+            {branches?.map((branch) => (
+              <option key={branch.id} value={branch.id}>
+                {branch.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {po?.purchase_order_items && po.purchase_order_items.length > 0 ? (
           <div className='rounded-md border'>
             <Table>
@@ -132,7 +166,14 @@ export function POReceiveDialog() {
                 {po.purchase_order_items.map((item) => (
                   <TableRow key={item.po_item_id}>
                     <TableCell className='font-medium'>
-                      {item.products?.name || `Product #${item.product_id}`}
+                      <div className='flex flex-col gap-1'>
+                        <span>{item.products?.name || `Product #${item.product_id}`}</span>
+                        {item.product_variant_id && (
+                          <span className='text-xs text-muted-foreground'>
+                            {item.products?.product_variants?.find(v => v.id === item.product_variant_id)?.sku || `Variant ID: ${item.product_variant_id.split('-')[0]}...`}
+                          </span>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className='text-right'>
                       {item.quantity_ordered}

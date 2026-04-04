@@ -62,6 +62,7 @@ type POFormValues = z.infer<typeof poFormSchema>
 // ─── Line item type ───────────────────────────────────────
 interface LineItem {
   product_id: number
+  product_variant_id: string | null
   quantity_ordered: number
   unit_cost: number
   subtotal: number
@@ -116,6 +117,7 @@ export function POActionDialog() {
     if (isEdit && fullPO) {
       return fullPO.purchase_order_items.map((item) => ({
         product_id: item.product_id,
+        product_variant_id: item.product_variant_id,
         quantity_ordered: item.quantity_ordered,
         unit_cost: item.unit_cost,
         subtotal: item.subtotal,
@@ -137,7 +139,7 @@ export function POActionDialog() {
     const current = lineItemOverrides ?? initialLineItems
     setLineItemOverrides([
       ...current,
-      { product_id: 0, quantity_ordered: 1, unit_cost: 0, subtotal: 0 },
+      { product_id: 0, product_variant_id: null, quantity_ordered: 1, unit_cost: 0, subtotal: 0 },
     ])
   }
 
@@ -149,25 +151,52 @@ export function POActionDialog() {
   const updateLineItem = (
     index: number,
     field: keyof LineItem,
-    value: number
+    value: number | string | null
   ) => {
     const current = lineItemOverrides ?? initialLineItems
     const updated = [...current]
-    updated[index] = { ...updated[index], [field]: value }
+    
+    const item = { ...updated[index] }
+
+    if (field === 'product_id') item.product_id = value as number
+    else if (field === 'product_variant_id') item.product_variant_id = value as string | null
+    else if (field === 'quantity_ordered') item.quantity_ordered = value as number
+    else if (field === 'unit_cost') item.unit_cost = value as number
+    
+
+    updated[index] = item
 
     // Auto-calc subtotal
     if (field === 'quantity_ordered' || field === 'unit_cost') {
       updated[index].subtotal =
-        updated[index].quantity_ordered * updated[index].unit_cost
+        Number(updated[index].quantity_ordered) * Number(updated[index].unit_cost)
     }
 
-    // When product changes, try to use cost_price
+    // When product changes, reset variant and apply default cost if single variant
     if (field === 'product_id' && products) {
-      const product = products.find((p) => p.product_id === value)
-      if (product?.cost_price) {
-        updated[index].unit_cost = product.cost_price
-        updated[index].subtotal =
-          updated[index].quantity_ordered * product.cost_price
+      const product = products.find((p) => p.product_id === Number(value))
+      if (product) {
+        // If single variant, auto-select it
+        if (product.product_variants && product.product_variants.length === 1) {
+          const v = product.product_variants[0]
+          updated[index].product_variant_id = v.id || null
+          updated[index].unit_cost = v.cost_price || 0
+          updated[index].subtotal = updated[index].quantity_ordered * updated[index].unit_cost
+        } else {
+          updated[index].product_variant_id = null
+          updated[index].unit_cost = 0
+          updated[index].subtotal = 0
+        }
+      }
+    }
+
+    // When variant changes, use its cost_price
+    if (field === 'product_variant_id' && products) {
+      const product = products.find(p => p.product_id === updated[index].product_id)
+      const variant = product?.product_variants?.find(v => v.id === value)
+      if (variant) {
+        updated[index].unit_cost = variant.cost_price || 0
+        updated[index].subtotal = updated[index].quantity_ordered * updated[index].unit_cost
       }
     }
 
@@ -186,6 +215,7 @@ export function POActionDialog() {
 
     const items: PurchaseOrderItemInput[] = validItems.map((item) => ({
       product_id: item.product_id,
+      product_variant_id: item.product_variant_id,
       quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
       subtotal: item.subtotal,
@@ -355,26 +385,53 @@ export function POActionDialog() {
                       {lineItems.map((item, index) => (
                         <TableRow key={index}>
                           <TableCell>
-                            <Select
-                              value={String(item.product_id)}
-                              onValueChange={(v) =>
-                                updateLineItem(index, 'product_id', Number(v))
-                              }
-                            >
-                              <SelectTrigger className='h-9'>
-                                <SelectValue placeholder='Select product' />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {products?.map((p) => (
-                                  <SelectItem
-                                    key={p.product_id}
-                                    value={String(p.product_id)}
-                                  >
-                                    {p.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <div className='flex flex-col gap-1'>
+                              <Select
+                                value={String(item.product_id)}
+                                onValueChange={(v) =>
+                                  updateLineItem(index, 'product_id', Number(v))
+                                }
+                              >
+                                <SelectTrigger className='h-9'>
+                                  <SelectValue placeholder='Select product' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {products?.map((p) => (
+                                    <SelectItem
+                                      key={p.product_id}
+                                      value={String(p.product_id)}
+                                    >
+                                      {p.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+
+                              {/* Variant Selection if available */}
+                              {item.product_id > 0 && (() => {
+                                const p = products?.find(prod => prod.product_id === item.product_id)
+                                if (p?.product_variants && p.product_variants.length > 1) {
+                                  return (
+                                    <Select
+                                      value={item.product_variant_id || ''}
+                                      onValueChange={(v) => updateLineItem(index, 'product_variant_id', v)}
+                                    >
+                                      <SelectTrigger className='h-8 text-xs'>
+                                        <SelectValue placeholder='Select variant...' />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {p.product_variants.map(v => (
+                                          <SelectItem key={v.id} value={v.id!} className='text-xs'>
+                                            {v.sku}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  )
+                                }
+                                return null
+                              })()}
+                            </div>
                           </TableCell>
                           <TableCell>
                             <Input
