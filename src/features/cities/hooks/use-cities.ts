@@ -11,9 +11,9 @@ export interface CityInput {
   is_active?: boolean
 }
 
-export const useCities = (search?: string) => {
+export const useCities = (countryId?: string, search?: string) => {
   return useQuery({
-    queryKey: ['cities', search],
+    queryKey: ['cities', { countryId, search }],
     queryFn: async () => {
       let query = supabase
         .from('cities')
@@ -24,6 +24,10 @@ export const useCities = (search?: string) => {
         `
         )
         .order('name')
+
+      if (countryId) {
+        query = query.eq('country_id', countryId)
+      }
 
       if (search) {
         query = query.ilike('name', `%${search}%`)

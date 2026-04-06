@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const countrySchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   code: z.string(),
   phone_code: z.string().optional(),

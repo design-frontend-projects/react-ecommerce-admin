@@ -951,8 +951,6 @@ exports.Prisma.SuppliersScalarFieldEnum = {
 
 exports.Prisma.Tax_ratesScalarFieldEnum = {
   tax_rate_id: 'tax_rate_id',
-  country_code: 'country_code',
-  state_province: 'state_province',
   tax_type: 'tax_type',
   rate: 'rate',
   description: 'description',
@@ -961,7 +959,8 @@ exports.Prisma.Tax_ratesScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   is_inclusive: 'is_inclusive',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  country_id: 'country_id'
 };
 
 exports.Prisma.Tenant_subscriptionsScalarFieldEnum = {
@@ -1156,6 +1155,18 @@ exports.subscription_commission_type = exports.$Enums.subscription_commission_ty
 exports.user_module = exports.$Enums.user_module = {
   inventory: 'inventory',
   restaurant: 'restaurant'
+};
+
+exports.transaction_type_enum = exports.$Enums.transaction_type_enum = {
+  sale: 'sale',
+  purchase: 'purchase',
+  payment_in: 'payment_in',
+  payment_out: 'payment_out',
+  refund: 'refund',
+  expense: 'expense',
+  income: 'income',
+  opening_balance: 'opening_balance',
+  adjustment: 'adjustment'
 };
 
 exports.movement_type_enum = exports.$Enums.movement_type_enum = {

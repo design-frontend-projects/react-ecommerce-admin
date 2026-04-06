@@ -46,11 +46,7 @@ export const useCreateStore = () => {
 
   return useMutation({
     mutationFn: async (newStore: Partial<Store>) => {
-      const { data, error } = await supabase
-        .from('stores')
-        .insert(newStore)
-        .select()
-        .maybeSingle()
+      const { data, error } = await supabase.from('stores').insert(newStore)
 
       if (error) throw error
       return data
@@ -65,7 +61,10 @@ export const useUpdateStore = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ store_id, ...updates }: Partial<Store> & { store_id: string }) => {
+    mutationFn: async ({
+      store_id,
+      ...updates
+    }: Partial<Store> & { store_id: string }) => {
       const { data, error } = await supabase
         .from('stores')
         .update(updates)
@@ -87,7 +86,10 @@ export const useDeleteStore = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('stores').delete().eq('store_id', id)
+      const { error } = await supabase
+        .from('stores')
+        .delete()
+        .eq('store_id', id)
       if (error) throw error
     },
     onSuccess: () => {

@@ -93,15 +93,16 @@ model cities {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model countries {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String    @unique @db.VarChar(100)
-  code       String    @unique @db.VarChar(3)
-  phone_code String?   @db.VarChar(10)
-  is_active  Boolean?  @default(true)
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String      @unique @db.VarChar(100)
+  code       String      @unique @db.VarChar(3)
+  phone_code String?     @db.VarChar(10)
+  is_active  Boolean?    @default(true)
+  created_at DateTime?   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?   @default(now()) @db.Timestamptz(6)
   cities     cities[]
   stores     stores[]
+  tax_rates  tax_rates[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1188,8 +1189,6 @@ model suppliers {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tax_rates {
   tax_rate_id            Int                      @id @default(autoincrement())
-  country_code           String                   @db.Char(2)
-  state_province         String?                  @db.VarChar(100)
   tax_type               String                   @db.VarChar(50)
   rate                   Decimal                  @db.Decimal(5, 4)
   description            String?
@@ -1199,13 +1198,12 @@ model tax_rates {
   created_at             DateTime?                @default(now()) @db.Timestamp(6)
   is_inclusive           Boolean?                 @default(false)
   clerk_user_id          String?                  @default(dbgenerated("clerk_user_id()"))
+  country_id             String?                  @db.Uuid
   purchase_invoice_items purchase_invoice_items[]
   sales_invoice_items    sales_invoice_items[]
+  countries              countries?               @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([country_code, state_province, tax_type, effective_from])
   @@index([effective_from, effective_to], map: "idx_tax_rates_active_dates", where: raw("(is_active = true)"))
-  @@index([country_code], map: "idx_tax_rates_country")
-  @@index([country_code, state_province], map: "idx_tax_rates_country_state")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1280,7 +1278,7 @@ model transactions {
   tenant_id                String
   clerk_user_id            String                @db.VarChar(255)
   transaction_number       String                @unique @db.VarChar(50)
-  transaction_type         String                @db.VarChar(20)
+  transaction_type         transaction_type_enum
   status                   String                @default("pending") @db.VarChar(30)
   currency                 String                @default("USD") @db.VarChar(10)
   subtotal                 Decimal               @db.Decimal(12, 2)

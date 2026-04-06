@@ -33,6 +33,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useCities } from '@/features/cities/hooks/use-cities'
+import { useCountries } from '@/features/countries/hooks/use-countries'
 import { useBranches } from '@/features/branches/hooks/use-branches'
 import { useCreateStore, useUpdateStore } from '../hooks/use-stores'
 import { useStoresContext } from './stores-provider'
@@ -47,8 +48,8 @@ const formSchema = z.object({
   address: z.string().optional().nullable(),
   latitude: z.number().optional().nullable(),
   longitude: z.number().optional().nullable(),
-  city_id: z.string().optional().nullable(),
-  country_id: z.string().optional().nullable(),
+  city_id: z.string().min(1, 'City is required'),
+  country_id: z.string().min(1, 'Country is required'),
   branch_id: z.string().optional().nullable(),
 })
 
@@ -59,7 +60,8 @@ export function StoreActionDialog() {
   const { user } = useUser()
   const createMutation = useCreateStore()
   const updateMutation = useUpdateStore()
-  const { data: cities } = useCities()
+  
+  const { data: countries } = useCountries()
   const { data: branches } = useBranches()
 
   const isEdit = open === 'edit'
@@ -81,6 +83,18 @@ export function StoreActionDialog() {
       status: true,
     },
   })
+
+  const selectedCountryId = form.watch('country_id')
+  const { data: cities } = useCities(selectedCountryId)
+
+  useEffect(() => {
+    if (selectedCountryId && currentRow?.country_id !== selectedCountryId) {
+      const currentCityId = form.getValues('city_id')
+      if (currentCityId && !cities?.find((c) => c.id === currentCityId)) {
+        form.setValue('city_id', '')
+      }
+    }
+  }, [selectedCountryId, cities, form, currentRow?.country_id])
 
   useEffect(() => {
     if (isOpen) {
@@ -163,23 +177,47 @@ export function StoreActionDialog() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name='branch_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Branch</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select a branch' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {branches?.map((branch) => (
+                          <SelectItem key={branch.id} value={String(branch.id)}>
+                            {branch.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className='grid grid-cols-2 gap-4'>
                 <FormField
                   control={form.control}
-                  name='branch_id'
+                  name='country_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Branch</FormLabel>
+                      <FormLabel>Country</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value || ''}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select a branch' />
+                            <SelectValue placeholder='Select a country' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {branches?.map((branch) => (
-                            <SelectItem key={branch.id} value={String(branch.id)}>
-                              {branch.name}
+                          {countries?.map((country) => (
+                            <SelectItem key={country.id} value={String(country.id)}>
+                              {country.name}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -194,16 +232,26 @@ export function StoreActionDialog() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>City</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ''}
+                        disabled={!selectedCountryId}
+                      >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select a city' />
+                            <SelectValue
+                              placeholder={
+                                !selectedCountryId
+                                  ? 'Select country first'
+                                  : 'Select a city'
+                              }
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {cities?.map((city) => (
                             <SelectItem key={city.id} value={String(city.id)}>
-                              {city.name} {city.countries?.name ? `(${city.countries.name})` : ''}
+                              {city.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

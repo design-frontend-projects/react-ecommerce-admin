@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -21,15 +21,22 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { useCountries } from '@/features/countries/hooks/use-countries'
 import { useCreateTaxRate, useUpdateTaxRate } from '../hooks/use-tax-rates'
 import { useTaxContext } from './tax-rates-provider'
 
 const formSchema = z.object({
   tax_type: z.string().min(1, 'Tax type is required'),
   rate: z.coerce.number().min(0, 'Rate must be positive'),
-  country_code: z.string().min(1, 'Country code is required').max(2),
-  state_province: z.string().optional().nullable(),
+  country_id: z.string().min(1, 'Country is required'),
   description: z.string().optional().nullable(),
   effective_from: z.string().min(1, 'Effective date is required'),
   effective_to: z.string().optional().nullable(),
@@ -43,13 +50,14 @@ export function TaxActionDialog() {
   const createMutation = useCreateTaxRate()
   const updateMutation = useUpdateTaxRate()
 
+  const { data: countries, isLoading: isCountriesLoading } = useCountries()
+
   const form = useForm<TaxFormValues>({
-    resolver: zodResolver(formSchema) as unknown as any,
+    resolver: zodResolver(formSchema) as Resolver<TaxFormValues>,
     defaultValues: {
       tax_type: '',
       rate: 0,
-      country_code: '',
-      state_province: '',
+      country_id: '',
       description: '',
       effective_from: new Date().toISOString().split('T')[0],
       effective_to: '',
@@ -62,8 +70,7 @@ export function TaxActionDialog() {
       form.reset({
         tax_type: currentRow.tax_type,
         rate: currentRow.rate,
-        country_code: currentRow.country_code,
-        state_province: currentRow.state_province || '',
+        country_id: currentRow.country_id,
         description: currentRow.description || '',
         effective_from: currentRow.effective_from,
         effective_to: currentRow.effective_to || '',
@@ -73,8 +80,7 @@ export function TaxActionDialog() {
       form.reset({
         tax_type: '',
         rate: 0,
-        country_code: '',
-        state_province: '',
+        country_id: '',
         description: '',
         effective_from: new Date().toISOString().split('T')[0],
         effective_to: '',
@@ -151,31 +157,39 @@ export function TaxActionDialog() {
               />
               <FormField
                 control={form.control}
-                name='country_code'
+                name='country_id'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Country Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder='US, UK, etc.' {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ''}
+                      disabled={isCountriesLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={
+                              isCountriesLoading
+                                ? 'Loading countries...'
+                                : 'Select a country'
+                            }
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countries?.map((country) => (
+                          <SelectItem key={country.id} value={country.id}>
+                            {country.name} ({country.code})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name='state_province'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>State/Province</FormLabel>
-                  <FormControl>
-                    <Input {...field} value={field.value || ''} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <div className='grid grid-cols-2 gap-4'>
               <FormField
                 control={form.control}

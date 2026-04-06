@@ -5,8 +5,7 @@ export interface TaxRate {
   tax_rate_id: number
   tax_type: string
   rate: number
-  country_code: string
-  state_province: string | null
+  country_id: string
   description: string | null
   effective_from: string
   effective_to: string | null
@@ -16,8 +15,7 @@ export interface TaxRate {
 export interface TaxRateInput {
   tax_type: string
   rate: number
-  country_code: string
-  state_province?: string | null
+  country_id: string
   description?: string | null
   effective_from: string
   effective_to?: string | null
