@@ -345,7 +345,6 @@ exports.Prisma.ProductsScalarFieldEnum = {
   description: 'description',
   sku: 'sku',
   barcode: 'barcode',
-  base_price: 'base_price',
   category_id: 'category_id',
   weight: 'weight',
   dimensions: 'dimensions',
@@ -356,7 +355,8 @@ exports.Prisma.ProductsScalarFieldEnum = {
   clerk_user_id: 'clerk_user_id',
   store_id: 'store_id',
   has_variants: 'has_variants',
-  is_deleted: 'is_deleted'
+  is_deleted: 'is_deleted',
+  base_price: 'base_price'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
@@ -924,7 +924,8 @@ exports.Prisma.StoresScalarFieldEnum = {
   country_id: 'country_id',
   name: 'name',
   store_id: 'store_id',
-  status: 'status'
+  status: 'status',
+  branch_id: 'branch_id'
 };
 
 exports.Prisma.SubscriptionsScalarFieldEnum = {

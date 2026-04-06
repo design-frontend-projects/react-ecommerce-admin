@@ -284,6 +284,12 @@ export function useSidebarData(): SidebarData {
             icon: Building2,
             roles: ['admin', 'super_admin'],
           },
+          {
+            title: t('sidebar.stores'),
+            url: '/stores',
+            icon: MapPin,
+            roles: ['admin', 'super_admin'],
+          },
         ],
       },
       {

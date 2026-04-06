@@ -53,13 +53,14 @@ model branches {
   is_active           Boolean?              @default(true)
   created_at          DateTime?             @default(now()) @db.Timestamptz(6)
   updated_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  clerk_user_id       String?
+  clerk_user_id       String?               @default(dbgenerated("clerk_user_id()"))
   cities              cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   inventory_movements inventory_movements[]
   purchase_invoices   purchase_invoices[]
   purchase_returns    purchase_returns[]
   sales_invoices      sales_invoices[]
   sales_returns       sales_returns[]
+  stores              stores[]
 
   @@index([city_id], map: "idx_branches_city_id")
 }
@@ -312,7 +313,7 @@ model product_variants {
   is_active              Boolean?                 @default(true)
   created_at             DateTime?                @default(now()) @db.Timestamp(6)
   updated_at             DateTime?                @default(now()) @db.Timestamp(6)
-  clerk_user_id          String?
+  clerk_user_id          String?                  @default(dbgenerated("clerk_user_id()"))
   inventory_movements    inventory_movements[]
   price_list_items       price_list_items[]
   products               products                 @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
@@ -331,7 +332,6 @@ model products {
   description            String?
   sku                    String                 @unique @db.VarChar(50)
   barcode                String?                @db.VarChar(100)
-  base_price             Decimal?               @db.Decimal(10, 2)
   category_id            Int?
   weight                 Decimal?               @db.Decimal(8, 2)
   dimensions             String?                @db.VarChar(50)
@@ -344,6 +344,7 @@ model products {
   store_id               String?
   has_variants           Boolean?               @default(false)
   is_deleted             Boolean?               @default(false)
+  base_price             Decimal?               @db.Decimal(10, 2)
   inventory              inventory?
   price_list             price_list[]
   product_variants       product_variants[]
@@ -1140,6 +1141,7 @@ model stores {
   name                String?
   store_id            String                @id @db.Uuid
   status              Boolean?              @default(true)
+  branch_id           String?               @db.Uuid
   inventory           inventory[]
   inventory_movements inventory_movements[]
   pos_terminals       pos_terminals[]
@@ -1149,6 +1151,7 @@ model stores {
   sales_invoices      sales_invoices[]
   sales_returns       sales_returns[]
   stock_balances      stock_balances[]
+  branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   cities              cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   countries           countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
 }

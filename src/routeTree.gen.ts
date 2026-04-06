@@ -34,6 +34,7 @@ import { Route as AuthenticatedUsersRouteRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTaxRatesRouteRouteImport } from './routes/_authenticated/tax-rates/route'
 import { Route as AuthenticatedTasksRouteRouteImport } from './routes/_authenticated/tasks/route'
 import { Route as AuthenticatedSuppliersRouteRouteImport } from './routes/_authenticated/suppliers/route'
+import { Route as AuthenticatedStoresRouteRouteImport } from './routes/_authenticated/stores/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_authenticated/purchase-orders/route'
 import { Route as AuthenticatedPromotionsRouteRouteImport } from './routes/_authenticated/promotions/route'
@@ -196,6 +197,12 @@ const AuthenticatedSuppliersRouteRoute =
   AuthenticatedSuppliersRouteRouteImport.update({
     id: '/suppliers',
     path: '/suppliers',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStoresRouteRoute =
+  AuthenticatedStoresRouteRouteImport.update({
+    id: '/stores',
+    path: '/stores',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsRouteRoute =
@@ -470,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/stores': typeof AuthenticatedStoresRouteRoute
   '/suppliers': typeof AuthenticatedSuppliersRouteRoute
   '/tasks': typeof AuthenticatedTasksRouteRoute
   '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
@@ -534,6 +542,7 @@ export interface FileRoutesByTo {
   '/price-list': typeof AuthenticatedPriceListRouteRoute
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
+  '/stores': typeof AuthenticatedStoresRouteRoute
   '/suppliers': typeof AuthenticatedSuppliersRouteRoute
   '/tasks': typeof AuthenticatedTasksRouteRoute
   '/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
@@ -602,6 +611,7 @@ export interface FileRoutesById {
   '/_authenticated/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/stores': typeof AuthenticatedStoresRouteRoute
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRouteRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRouteRoute
   '/_authenticated/tax-rates': typeof AuthenticatedTaxRatesRouteRoute
@@ -671,6 +681,7 @@ export interface FileRouteTypes {
     | '/promotions'
     | '/purchase-orders'
     | '/settings'
+    | '/stores'
     | '/suppliers'
     | '/tasks'
     | '/tax-rates'
@@ -735,6 +746,7 @@ export interface FileRouteTypes {
     | '/price-list'
     | '/promotions'
     | '/purchase-orders'
+    | '/stores'
     | '/suppliers'
     | '/tasks'
     | '/tax-rates'
@@ -802,6 +814,7 @@ export interface FileRouteTypes {
     | '/_authenticated/promotions'
     | '/_authenticated/purchase-orders'
     | '/_authenticated/settings'
+    | '/_authenticated/stores'
     | '/_authenticated/suppliers'
     | '/_authenticated/tasks'
     | '/_authenticated/tax-rates'
@@ -1032,6 +1045,13 @@ declare module '@tanstack/react-router' {
       path: '/suppliers'
       fullPath: '/suppliers'
       preLoaderRoute: typeof AuthenticatedSuppliersRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stores': {
+      id: '/_authenticated/stores'
+      path: '/stores'
+      fullPath: '/stores'
+      preLoaderRoute: typeof AuthenticatedStoresRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings': {
@@ -1409,6 +1429,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPromotionsRouteRoute: typeof AuthenticatedPromotionsRouteRoute
   AuthenticatedPurchaseOrdersRouteRoute: typeof AuthenticatedPurchaseOrdersRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedStoresRouteRoute: typeof AuthenticatedStoresRouteRoute
   AuthenticatedSuppliersRouteRoute: typeof AuthenticatedSuppliersRouteRoute
   AuthenticatedTasksRouteRoute: typeof AuthenticatedTasksRouteRoute
   AuthenticatedTaxRatesRouteRoute: typeof AuthenticatedTaxRatesRouteRoute
@@ -1454,6 +1475,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPromotionsRouteRoute: AuthenticatedPromotionsRouteRoute,
   AuthenticatedPurchaseOrdersRouteRoute: AuthenticatedPurchaseOrdersRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedStoresRouteRoute: AuthenticatedStoresRouteRoute,
   AuthenticatedSuppliersRouteRoute: AuthenticatedSuppliersRouteRoute,
   AuthenticatedTasksRouteRoute: AuthenticatedTasksRouteRoute,
   AuthenticatedTaxRatesRouteRoute: AuthenticatedTaxRatesRouteRoute,
