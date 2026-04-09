@@ -41,7 +41,7 @@ export function PosLayout() {
   const [selectedProductForVariant, setSelectedProductForVariant] = useState<
     NonNullable<typeof products>[number] | null
   >(null)
-  
+
   const { addItem, items } = useBasket()
 
   const { data: products, isLoading } = useQuery({
@@ -91,10 +91,7 @@ export function PosLayout() {
             v.sku.toLowerCase() === barcodeOrSku.toLowerCase()
         )
         if (variant) {
-          const isFoodOrFruit =
-            p.category_name &&
-            ['food', 'fruit', 'fruite'].includes(p.category_name.toLowerCase())
-          const price = isFoodOrFruit ? p.base_price : variant.price
+          const price = variant.price
 
           addItem({
             productId: p.product_id,
@@ -104,7 +101,9 @@ export function PosLayout() {
             unitPrice: price,
             quantity: 1,
           })
-          toast.success(`Added ${p.name} (${variant.dimensions || variant.sku})`)
+          toast.success(
+            `Added ${p.name} (${variant.dimensions || variant.sku})`
+          )
           return
         }
       }
@@ -117,7 +116,10 @@ export function PosLayout() {
         p.sku.toLowerCase() === barcodeOrSku.toLowerCase()
     )
 
-    if (product && (!product.has_variants || product.product_variants.length === 0)) {
+    if (
+      product &&
+      (!product.has_variants || product.product_variants.length === 0)
+    ) {
       handleProductClick(product)
       toast.success(`Added ${product.name}`)
       return
@@ -305,7 +307,17 @@ export function PosLayout() {
                               {product.sku}
                             </div>
                             <div className='text-lg font-bold'>
-                              {formatCurrency(product.base_price)}
+                              {product.has_variants &&
+                              product.product_variants &&
+                              product.product_variants.length > 0
+                                ? formatCurrency(
+                                    Math.min(
+                                      ...product.product_variants.map((v) =>
+                                        Number(v.price)
+                                      )
+                                    )
+                                  )
+                                : formatCurrency(product.base_price)}
                             </div>
                           </div>
                         </CardContent>
@@ -343,8 +355,6 @@ export function PosLayout() {
           onOpenChange={setIsVariantDialogOpen}
           productName={selectedProductForVariant.name}
           variants={selectedProductForVariant.product_variants}
-          basePrice={selectedProductForVariant.base_price}
-          categoryName={selectedProductForVariant.category_name}
           onSelect={(variant, priceToUse) => {
             addItem({
               productId: selectedProductForVariant.product_id,
@@ -354,7 +364,9 @@ export function PosLayout() {
               unitPrice: priceToUse,
               quantity: 1,
             })
-            toast.success(`Added ${selectedProductForVariant.name} (${variant.dimensions || variant.sku})`)
+            toast.success(
+              `Added ${selectedProductForVariant.name} (${variant.dimensions || variant.sku})`
+            )
           }}
         />
       )}
