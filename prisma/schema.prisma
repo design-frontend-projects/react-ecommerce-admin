@@ -977,26 +977,28 @@ model sale_items {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model sales_invoice_items {
-  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sales_invoice_id   String               @db.Uuid
-  product_variant_id String               @db.Uuid
-  tax_rate_id        Int?
-  line_no            Int                  @default(1)
-  description        String?              @db.VarChar(255)
-  quantity           Decimal              @db.Decimal(18, 4)
-  unit_price         Decimal              @db.Decimal(18, 4)
-  discount_type      discount_type_enum?
-  discount_value     Decimal              @default(0) @db.Decimal(18, 4)
-  discount_amount    Decimal              @default(0) @db.Decimal(18, 4)
-  tax_amount         Decimal              @default(0) @db.Decimal(18, 4)
-  line_subtotal      Decimal              @default(0) @db.Decimal(18, 4)
-  line_total         Decimal              @default(0) @db.Decimal(18, 4)
-  unit_cost          Decimal              @default(0) @db.Decimal(18, 4)
-  created_at         DateTime             @default(now()) @db.Timestamptz(6)
-  product_variants   product_variants     @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
-  sales_invoices     sales_invoices       @relation(fields: [sales_invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  tax_rates          tax_rates?           @relation(fields: [tax_rate_id], references: [tax_rate_id], onUpdate: NoAction)
-  sales_return_items sales_return_items[]
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sales_invoice_id    String                @db.Uuid
+  product_variant_id  String                @db.Uuid
+  tax_rate_id         Int?
+  line_no             Int                   @default(1)
+  description         String?               @db.VarChar(255)
+  quantity            Decimal               @db.Decimal(18, 4)
+  unit_price          Decimal               @db.Decimal(18, 4)
+  discount_type       discount_type_enum?
+  discount_value      Decimal               @default(0) @db.Decimal(18, 4)
+  discount_amount     Decimal               @default(0) @db.Decimal(18, 4)
+  tax_amount          Decimal               @default(0) @db.Decimal(18, 4)
+  line_subtotal       Decimal               @default(0) @db.Decimal(18, 4)
+  line_total          Decimal               @default(0) @db.Decimal(18, 4)
+  unit_cost           Decimal               @default(0) @db.Decimal(18, 4)
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  returned_quantity   Decimal               @default(0) @db.Decimal(18, 4)
+  product_variants    product_variants      @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
+  sales_invoices      sales_invoices        @relation(fields: [sales_invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tax_rates           tax_rates?            @relation(fields: [tax_rate_id], references: [tax_rate_id], onUpdate: NoAction)
+  sales_return_items  sales_return_items[]
+  transaction_details transaction_details[]
 }
 
 model sales_invoices {
@@ -1034,24 +1036,26 @@ model sales_invoices {
   price_list          price_list?           @relation(fields: [price_list_id], references: [price_id], onUpdate: NoAction)
   stores              stores?               @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_returns       sales_returns[]
+  transactions        transactions[]
 
   @@unique([clerk_user_id, invoice_no])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model sales_return_items {
-  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sales_return_id       String               @db.Uuid
-  sales_invoice_item_id String?              @db.Uuid
-  product_variant_id    String               @db.Uuid
-  quantity              Decimal              @db.Decimal(18, 4)
-  unit_price            Decimal              @default(0) @db.Decimal(18, 4)
-  tax_amount            Decimal              @default(0) @db.Decimal(18, 4)
-  line_total            Decimal              @default(0) @db.Decimal(18, 4)
+  id                    String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sales_return_id       String                @db.Uuid
+  sales_invoice_item_id String?               @db.Uuid
+  product_variant_id    String                @db.Uuid
+  quantity              Decimal               @db.Decimal(18, 4)
+  unit_price            Decimal               @default(0) @db.Decimal(18, 4)
+  tax_amount            Decimal               @default(0) @db.Decimal(18, 4)
+  line_total            Decimal               @default(0) @db.Decimal(18, 4)
   reason                String?
-  product_variants      product_variants     @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
-  sales_invoice_items   sales_invoice_items? @relation(fields: [sales_invoice_item_id], references: [id], onUpdate: NoAction)
-  sales_returns         sales_returns        @relation(fields: [sales_return_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants      product_variants      @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
+  sales_invoice_items   sales_invoice_items?  @relation(fields: [sales_invoice_item_id], references: [id], onUpdate: NoAction)
+  sales_returns         sales_returns         @relation(fields: [sales_return_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transaction_details   transaction_details[]
 }
 
 model sales_returns {
@@ -1077,6 +1081,7 @@ model sales_returns {
   customers          customers?           @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
   sales_invoices     sales_invoices?      @relation(fields: [sales_invoice_id], references: [id], onUpdate: NoAction)
   stores             stores?              @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
+  transactions       transactions[]
 
   @@unique([clerk_user_id, return_no])
 }
@@ -1255,21 +1260,27 @@ model tenant_users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model transaction_details {
-  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id       String
-  transaction_id  String       @db.Uuid
-  product_id      Int
-  quantity        Decimal      @db.Decimal(10, 2)
-  unit_price      Decimal      @db.Decimal(10, 2)
-  discount_amount Decimal?     @default(0) @db.Decimal(10, 2)
-  tax_amount      Decimal?     @default(0) @db.Decimal(10, 2)
-  subtotal        Decimal      @db.Decimal(10, 2)
-  products        products     @relation(fields: [product_id], references: [product_id], onUpdate: NoAction)
-  transactions    transactions @relation(fields: [transaction_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String
+  transaction_id        String               @db.Uuid
+  product_id            Int
+  quantity              Decimal              @db.Decimal(10, 2)
+  unit_price            Decimal              @db.Decimal(10, 2)
+  discount_amount       Decimal?             @default(0) @db.Decimal(10, 2)
+  tax_amount            Decimal?             @default(0) @db.Decimal(10, 2)
+  subtotal              Decimal              @db.Decimal(10, 2)
+  sales_invoice_item_id String?              @db.Uuid
+  sales_return_item_id  String?              @db.Uuid
+  products              products             @relation(fields: [product_id], references: [product_id], onUpdate: NoAction)
+  sales_invoice_items   sales_invoice_items? @relation(fields: [sales_invoice_item_id], references: [id], onUpdate: NoAction)
+  sales_return_items    sales_return_items?  @relation(fields: [sales_return_item_id], references: [id], onUpdate: NoAction)
+  transactions          transactions         @relation(fields: [transaction_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([product_id], map: "idx_transaction_details_product")
   @@index([tenant_id], map: "idx_transaction_details_tenant")
   @@index([transaction_id], map: "idx_transaction_details_transaction")
+  @@index([sales_invoice_item_id], map: "idx_td_invoice_item")
+  @@index([sales_return_item_id], map: "idx_td_return_item")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1292,13 +1303,19 @@ model transactions {
   created_at               DateTime?             @default(now()) @db.Timestamptz(6)
   updated_at               DateTime?             @default(now()) @db.Timestamptz(6)
   reference_transaction_id String?               @db.Uuid
+  sales_invoice_id         String?               @db.Uuid
+  sales_return_id          String?               @db.Uuid
   transaction_details      transaction_details[]
   transactions             transactions?         @relation("transactionsTotransactions", fields: [reference_transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_transactions       transactions[]        @relation("transactionsTotransactions")
+  sales_invoices           sales_invoices?       @relation(fields: [sales_invoice_id], references: [id], onUpdate: NoAction)
+  sales_returns            sales_returns?        @relation(fields: [sales_return_id], references: [id], onUpdate: NoAction)
 
   @@index([clerk_user_id], map: "idx_transactions_clerk_id")
   @@index([transaction_number], map: "idx_transactions_number")
   @@index([tenant_id], map: "idx_transactions_tenant")
+  @@index([sales_invoice_id], map: "idx_transactions_invoice")
+  @@index([sales_return_id], map: "idx_transactions_return")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1391,6 +1408,7 @@ enum invoice_status_enum {
   cancelled
   refunded
   returned
+  partially_returned
 }
 
 enum movement_type_enum {

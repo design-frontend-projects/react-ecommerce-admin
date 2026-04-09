@@ -24,11 +24,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.6.0
+ * Prisma Client JS version: 7.7.0
  * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.6.0",
+  client: "7.7.0",
   engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
@@ -811,7 +811,8 @@ exports.Prisma.Sales_invoice_itemsScalarFieldEnum = {
   line_subtotal: 'line_subtotal',
   line_total: 'line_total',
   unit_cost: 'unit_cost',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  returned_quantity: 'returned_quantity'
 };
 
 exports.Prisma.Sales_invoicesScalarFieldEnum = {
@@ -1007,7 +1008,9 @@ exports.Prisma.Transaction_detailsScalarFieldEnum = {
   unit_price: 'unit_price',
   discount_amount: 'discount_amount',
   tax_amount: 'tax_amount',
-  subtotal: 'subtotal'
+  subtotal: 'subtotal',
+  sales_invoice_item_id: 'sales_invoice_item_id',
+  sales_return_item_id: 'sales_return_item_id'
 };
 
 exports.Prisma.TransactionsScalarFieldEnum = {
@@ -1028,7 +1031,9 @@ exports.Prisma.TransactionsScalarFieldEnum = {
   notes: 'notes',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  reference_transaction_id: 'reference_transaction_id'
+  reference_transaction_id: 'reference_transaction_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_return_id: 'sales_return_id'
 };
 
 exports.Prisma.User_rolesScalarFieldEnum = {
@@ -1123,7 +1128,8 @@ exports.invoice_status_enum = exports.$Enums.invoice_status_enum = {
   paid: 'paid',
   cancelled: 'cancelled',
   refunded: 'refunded',
-  returned: 'returned'
+  returned: 'returned',
+  partially_returned: 'partially_returned'
 };
 
 exports.return_status_enum = exports.$Enums.return_status_enum = {
