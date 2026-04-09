@@ -1,8 +1,8 @@
-# Specification Quality Checklist: Stock Balances Module & Inventory Automation
+# Specification Quality Checklist: POS Sales and Returns with Transaction Reference
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2026-04-02
-**Feature**: [006-stock-balances-automation/spec.md](file:///e:/web-projects/web-mobile-work-apps/react-ecommerce-restuarant/006-stock-balances-automation/spec.md)
+**Created**: 2026-04-07
+**Feature**: [spec.md](file:///e:/web-projects/web-mobile-work-apps/react-ecommerce-restuarant/specs/013-pos-sale-returns-transactions/spec.md)
 
 ## Content Quality
 
@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -31,4 +31,5 @@
 
 ## Notes
 
-- Items marked incomplete require spec updates before `/speckit.clarify` or `/speckit.plan`
+- The specification covers the core request of saving POS sales to invoices/items, creating transactions with reference, and handling full/partial returns.
+- Assumes existing tables which were verified in `prisma/schema.prisma`.
