@@ -1077,22 +1077,6 @@ exports.Prisma.Stock_balancesScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
-exports.Prisma.Res_shipmentsScalarFieldEnum = {
-  id: 'id',
-  order_id: 'order_id',
-  clerk_user_id: 'clerk_user_id',
-  customer_name: 'customer_name',
-  delivery_address: 'delivery_address',
-  city: 'city',
-  phone: 'phone',
-  status: 'status',
-  shipping_cost: 'shipping_cost',
-  tracking_number: 'tracking_number',
-  carrier: 'carrier',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1210,13 +1194,6 @@ exports.movement_type_enum = exports.$Enums.movement_type_enum = {
   released: 'released'
 };
 
-exports.shipment_status = exports.$Enums.shipment_status = {
-  pending: 'pending',
-  shipped: 'shipped',
-  delivered: 'delivered',
-  cancelled: 'cancelled'
-};
-
 exports.Prisma.ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
@@ -1287,8 +1264,7 @@ exports.Prisma.ModelName = {
   transactions: 'transactions',
   user_roles: 'user_roles',
   inventory_movements: 'inventory_movements',
-  stock_balances: 'stock_balances',
-  res_shipments: 'res_shipments'
+  stock_balances: 'stock_balances'
 };
 
 /**
