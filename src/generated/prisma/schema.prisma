@@ -58,6 +58,7 @@ model branches {
   inventory_movements inventory_movements[]
   purchase_invoices   purchase_invoices[]
   purchase_returns    purchase_returns[]
+  refunds             refunds[]
   sales_invoices      sales_invoices[]
   sales_returns       sales_returns[]
   stores              stores[]
@@ -562,16 +563,23 @@ model purchase_returns {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model refunds {
-  refund_id     BigInt         @id @default(autoincrement())
-  sale_id       String?
-  order_id      String?
-  refund_date   DateTime?      @default(now()) @db.Timestamp(6)
-  refund_amount Decimal        @db.Decimal(10, 2)
-  reason        String?        @db.VarChar(255)
-  processed_by  String?
-  notes         String?
-  clerk_user_id String?
-  refund_status refund_status?
+  refund_id        BigInt          @id @default(autoincrement())
+  sale_id          String?
+  order_id         String?
+  refund_date      DateTime?       @default(now()) @db.Timestamp(6)
+  refund_amount    Decimal         @db.Decimal(10, 2)
+  reason           String?         @db.VarChar(255)
+  processed_by     String?
+  notes            String?
+  clerk_user_id    String?
+  refund_status    refund_status?
+  store_id         String?         @db.Uuid
+  sales_invoice_id String?         @db.Uuid
+  branch_id        String?         @db.Uuid
+  created_by       String?
+  branches         branches?       @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sales_invoices   sales_invoices? @relation(fields: [sales_invoice_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  store            stores?         @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([order_id], map: "idx_refunds_order")
   @@index([sale_id], map: "idx_refunds_sale")
@@ -1031,6 +1039,7 @@ model sales_invoices {
   posted_at           DateTime?             @db.Timestamptz(6)
   created_at          DateTime              @default(now()) @db.Timestamptz(6)
   updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  refunds             refunds[]
   sales_invoice_items sales_invoice_items[]
   branches            branches              @relation(fields: [branch_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   customers           customers?            @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
@@ -1039,9 +1048,6 @@ model sales_invoices {
   stores              stores?               @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_returns       sales_returns[]
   transactions        transactions[]
-  order_id            String?               @db.VarChar(100)
-  shipment_id         Int?                  @unique
-  shipment            shipments?            @relation(fields: [shipment_id], references: [shipment_id])
 
   @@unique([clerk_user_id, invoice_no])
 }
@@ -1094,15 +1100,14 @@ model sales_returns {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model shipments {
-  shipment_id     Int             @id @default(autoincrement())
+  shipment_id     Int       @id @default(autoincrement())
   order_id        Int
-  tracking_number String?         @db.VarChar(100)
-  shipped_date    DateTime?       @db.Timestamp(6)
-  delivered_date  DateTime?       @db.Timestamp(6)
-  carrier         String?         @db.VarChar(100)
-  status          String?         @default("prepared") @db.VarChar(30)
+  tracking_number String?   @db.VarChar(100)
+  shipped_date    DateTime? @db.Timestamp(6)
+  delivered_date  DateTime? @db.Timestamp(6)
+  carrier         String?   @db.VarChar(100)
+  status          String?   @default("prepared") @db.VarChar(30)
   notes           String?
-  sales_invoice   sales_invoices?
 
   @@index([order_id], map: "idx_shipments_order")
 }
@@ -1160,6 +1165,7 @@ model stores {
   price_list          price_list[]
   purchase_invoices   purchase_invoices[]
   purchase_returns    purchase_returns[]
+  refunds             refunds[]
   sales_invoices      sales_invoices[]
   sales_returns       sales_returns[]
   stock_balances      stock_balances[]

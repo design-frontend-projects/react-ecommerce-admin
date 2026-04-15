@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.7.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.7.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -518,7 +518,11 @@ exports.Prisma.RefundsScalarFieldEnum = {
   processed_by: 'processed_by',
   notes: 'notes',
   clerk_user_id: 'clerk_user_id',
-  refund_status: 'refund_status'
+  refund_status: 'refund_status',
+  store_id: 'store_id',
+  sales_invoice_id: 'sales_invoice_id',
+  branch_id: 'branch_id',
+  created_by: 'created_by'
 };
 
 exports.Prisma.Res_employee_rolesScalarFieldEnum = {
@@ -844,9 +848,7 @@ exports.Prisma.Sales_invoicesScalarFieldEnum = {
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
-  updated_at: 'updated_at',
-  order_id: 'order_id',
-  shipment_id: 'shipment_id'
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Sales_return_itemsScalarFieldEnum = {

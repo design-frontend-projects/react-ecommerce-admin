@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { History, Plus, Loader2 } from 'lucide-react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { History, Plus, Loader2, RotateCcw } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import { useAuth, useUser } from '@clerk/clerk-react'
 import {
   Dialog,
   DialogContent,
@@ -12,10 +14,18 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useBasket } from '../store/use-basket'
+import { createRefund } from '../data/refund-api'
+import { ManagerAuthDialog } from './manager-auth-dialog'
 
 export function ReorderDialog() {
   const [open, setOpen] = useState(false)
+  const [authOpen, setAuthOpen] = useState(false)
+  const [refundingTx, setRefundingTx] = useState<any>(null)
+  
   const { setBasketItems } = useBasket()
+  const { userId } = useAuth()
+  const { user: clerkUser } = useUser()
+  const queryClient = useQueryClient()
 
   const { data: recentTransactions, isLoading } = useQuery({
     queryKey: ['recent-pos-transactions'],
@@ -72,6 +82,41 @@ export function ReorderDialog() {
     setOpen(false)
   }
 
+  const refundMutation = useMutation({
+    mutationFn: (tx: any) =>
+      createRefund({
+        saleId: tx.id,
+        refundAmount: Number(tx.total_amount),
+        reason: 'Fast Refund',
+        processedBy: userId ?? '',
+        notes: 'Fast refund triggered beside reorder button.',
+        orderId: tx.transaction_number,
+        clerk_user_id: clerkUser?.id as string,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
+      queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
+      toast.success('Fast refund processed successfully.')
+      setRefundingTx(null)
+    },
+    onError: (err: Error) => {
+      toast.error('Failed to process fast refund: ' + err.message)
+      setRefundingTx(null)
+    },
+  })
+
+  const handleFastRefund = (tx: any) => {
+    setRefundingTx(tx)
+    setAuthOpen(true)
+  }
+
+  const handleManagerApproved = () => {
+    if (refundingTx) {
+      refundMutation.mutate(refundingTx)
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -113,10 +158,16 @@ export function ReorderDialog() {
                     <div className='font-bold'>
                       {formatCurrency(Number(tx.total_amount))}
                     </div>
-                    <Button size='sm' onClick={() => handleReorder(tx)}>
-                      <Plus className='mr-1 h-4 w-4' />
-                      Reorder
-                    </Button>
+                    <div className='flex items-center gap-2'>
+                      <Button size='sm' variant='destructive' onClick={() => handleFastRefund(tx)} disabled={refundMutation.isPending && refundingTx?.id === tx.id}>
+                        {refundMutation.isPending && refundingTx?.id === tx.id ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <RotateCcw className='mr-1 h-4 w-4' />}
+                        Refund
+                      </Button>
+                      <Button size='sm' onClick={() => handleReorder(tx)}>
+                        <Plus className='mr-1 h-4 w-4' />
+                        Reorder
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -124,6 +175,12 @@ export function ReorderDialog() {
           )}
         </div>
       </DialogContent>
+      <ManagerAuthDialog
+        open={authOpen}
+        onOpenChange={setAuthOpen}
+        onSuccess={handleManagerApproved}
+        isLoading={refundMutation.isPending}
+      />
     </Dialog>
   )
 }
