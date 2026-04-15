@@ -65,6 +65,7 @@ export async function getInvoices(params: GetInvoicesParams = {}) {
         orderBy: { invoice_date: 'desc' },
         include: {
           sales_invoice_items: true,
+          shipment: true,
         }
       }),
       prisma.sales_invoices.count({

@@ -35,10 +35,45 @@ export function InvoiceDetailView({ invoice, open, onOpenChange }: InvoiceDetail
               <p className="font-medium capitalize">{invoice.status}</p>
             </div>
             <div>
+              <p className="text-muted-foreground">Order ID</p>
+              <p className="font-medium">{invoice.order_id || 'N/A'}</p>
+            </div>
+            <div>
               <p className="text-muted-foreground">Cashier ID</p>
               <p className="font-medium truncate">{invoice.clerk_user_id}</p>
             </div>
           </div>
+
+          {invoice.shipment && (
+            <>
+              <Separator />
+              <div>
+                <h4 className="font-medium mb-3">Shipment Details</h4>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-muted-foreground">Tracking Number</p>
+                    <p className="font-medium">{invoice.shipment.tracking_number || 'Pending'}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Carrier</p>
+                    <p className="font-medium">{invoice.shipment.carrier || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Shipment Status</p>
+                    <p className="font-medium capitalize">{invoice.shipment.status}</p>
+                  </div>
+                  {invoice.shipment.shipped_date && (
+                    <div>
+                      <p className="text-muted-foreground">Shipped Date</p>
+                      <p className="font-medium">
+                        {new Date(invoice.shipment.shipped_date).toLocaleDateString()}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
 
           <Separator />
 

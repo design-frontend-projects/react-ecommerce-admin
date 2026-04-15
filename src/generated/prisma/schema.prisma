@@ -1039,6 +1039,9 @@ model sales_invoices {
   stores              stores?               @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_returns       sales_returns[]
   transactions        transactions[]
+  order_id            String?               @db.VarChar(100)
+  shipment_id         Int?                  @unique
+  shipment            shipments?            @relation(fields: [shipment_id], references: [shipment_id])
 
   @@unique([clerk_user_id, invoice_no])
 }
@@ -1091,14 +1094,15 @@ model sales_returns {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model shipments {
-  shipment_id     Int       @id @default(autoincrement())
+  shipment_id     Int             @id @default(autoincrement())
   order_id        Int
-  tracking_number String?   @db.VarChar(100)
-  shipped_date    DateTime? @db.Timestamp(6)
-  delivered_date  DateTime? @db.Timestamp(6)
-  carrier         String?   @db.VarChar(100)
-  status          String?   @default("prepared") @db.VarChar(30)
+  tracking_number String?         @db.VarChar(100)
+  shipped_date    DateTime?       @db.Timestamp(6)
+  delivered_date  DateTime?       @db.Timestamp(6)
+  carrier         String?         @db.VarChar(100)
+  status          String?         @default("prepared") @db.VarChar(30)
   notes           String?
+  sales_invoice   sales_invoices?
 
   @@index([order_id], map: "idx_shipments_order")
 }

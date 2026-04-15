@@ -844,7 +844,9 @@ exports.Prisma.Sales_invoicesScalarFieldEnum = {
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  order_id: 'order_id',
+  shipment_id: 'shipment_id'
 };
 
 exports.Prisma.Sales_return_itemsScalarFieldEnum = {

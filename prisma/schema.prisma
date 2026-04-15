@@ -1039,6 +1039,9 @@ model sales_invoices {
   stores              stores?               @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_returns       sales_returns[]
   transactions        transactions[]
+  order_id            String?               @db.VarChar(100)
+  shipment_id         Int?                  @unique
+  shipment            shipments?            @relation(fields: [shipment_id], references: [shipment_id])
 
   @@unique([clerk_user_id, invoice_no])
 }
@@ -1099,6 +1102,7 @@ model shipments {
   carrier         String?   @db.VarChar(100)
   status          String?   @default("prepared") @db.VarChar(30)
   notes           String?
+  sales_invoice   sales_invoices?
 
   @@index([order_id], map: "idx_shipments_order")
 }

@@ -33,6 +33,8 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
 
     // Run within a Prisma transaction
     const result = await prisma.$transaction(async (tx) => {
+      const orderId = invoiceNo.replace('INV', 'ORD')
+      
       // 1. Create Sales Invoice
       const invoice = await tx.sales_invoices.create({
         data: {
@@ -41,6 +43,7 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
           store_id: storeId,
           customer_id: customerId,
           invoice_no: invoiceNo,
+          order_id: orderId,
           invoice_date: new Date(),
           status: 'paid', // directly completed/paid
           subtotal: subtotal,
@@ -62,6 +65,23 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
             }))
           }
         }
+      })
+
+      // 1.5 Create initial shipment
+      const shipment = await tx.shipments.create({
+        data: {
+          order_id: 0, // Placeholder, will fix schema if needed or use reference
+          status: 'prepared',
+          notes: `Shipment for Order ${orderId}`,
+          carrier: 'Standard Delivery',
+          tracking_number: `TRK-${Math.random().toString(36).substring(2, 10).toUpperCase()}`
+        }
+      })
+
+      // Link shipment back to invoice
+      await tx.sales_invoices.update({
+        where: { id: invoice.id },
+        data: { shipment_id: shipment.shipment_id }
       })
 
       // 2. Create Transaction for payment record
