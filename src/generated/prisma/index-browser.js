@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.7.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.7.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -1077,6 +1077,22 @@ exports.Prisma.Stock_balancesScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.Res_shipmentsScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  clerk_user_id: 'clerk_user_id',
+  customer_name: 'customer_name',
+  delivery_address: 'delivery_address',
+  city: 'city',
+  phone: 'phone',
+  status: 'status',
+  shipping_cost: 'shipping_cost',
+  tracking_number: 'tracking_number',
+  carrier: 'carrier',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1194,6 +1210,13 @@ exports.movement_type_enum = exports.$Enums.movement_type_enum = {
   released: 'released'
 };
 
+exports.shipment_status = exports.$Enums.shipment_status = {
+  pending: 'pending',
+  shipped: 'shipped',
+  delivered: 'delivered',
+  cancelled: 'cancelled'
+};
+
 exports.Prisma.ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
@@ -1264,7 +1287,8 @@ exports.Prisma.ModelName = {
   transactions: 'transactions',
   user_roles: 'user_roles',
   inventory_movements: 'inventory_movements',
-  stock_balances: 'stock_balances'
+  stock_balances: 'stock_balances',
+  res_shipments: 'res_shipments'
 };
 
 /**
