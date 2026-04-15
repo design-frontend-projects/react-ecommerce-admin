@@ -953,7 +953,8 @@ exports.Prisma.SuppliersScalarFieldEnum = {
   website: 'website',
   notes: 'notes',
   created_at: 'created_at',
-  clerk_user_id: 'clerk_user_id'
+  clerk_user_id: 'clerk_user_id',
+  city_id: 'city_id'
 };
 
 exports.Prisma.Tax_ratesScalarFieldEnum = {
@@ -1078,7 +1079,8 @@ exports.Prisma.Stock_balancesScalarFieldEnum = {
   avg_cost: 'avg_cost',
   last_movement_at: 'last_movement_at',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  clerk_user_id: 'clerk_user_id'
 };
 
 exports.Prisma.SortOrder = {

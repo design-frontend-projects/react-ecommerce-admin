@@ -78,15 +78,16 @@ model categories {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model cities {
-  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String     @db.VarChar(100)
-  country_id String     @db.Uuid
-  is_active  Boolean?   @default(true)
-  created_at DateTime?  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime?  @default(now()) @db.Timestamptz(6)
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String      @db.VarChar(100)
+  country_id String      @db.Uuid
+  is_active  Boolean?    @default(true)
+  created_at DateTime?   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?   @default(now()) @db.Timestamptz(6)
   branches   branches[]
-  countries  countries  @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  countries  countries   @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stores     stores[]
+  suppliers  suppliers[]
 
   @@unique([name, country_id])
   @@index([country_id], map: "idx_cities_country_id")
@@ -1196,10 +1197,12 @@ model suppliers {
   notes             String?
   created_at        DateTime?           @default(now()) @db.Timestamp(6)
   clerk_user_id     String?
+  city_id           String?             @db.Uuid
   products          products[]
   purchase_invoices purchase_invoices[]
   purchase_orders   purchase_orders[]
   purchase_returns  purchase_returns[]
+  cities            cities?             @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -1378,6 +1381,7 @@ model stock_balances {
   last_movement_at   DateTime?        @db.Timestamptz(6)
   created_at         DateTime         @default(now()) @db.Timestamptz(6)
   updated_at         DateTime         @default(now()) @db.Timestamptz(6)
+  clerk_user_id      String?          @default("clerk_user_id")
   product_variants   product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stores             stores           @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
 
