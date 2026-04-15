@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.7.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.7.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -1083,6 +1083,17 @@ exports.Prisma.Stock_balancesScalarFieldEnum = {
   clerk_user_id: 'clerk_user_id'
 };
 
+exports.Prisma.App_settingsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  group: 'group',
+  is_public: 'is_public',
+  clerk_user_id: 'clerk_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1090,6 +1101,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -1270,7 +1285,8 @@ exports.Prisma.ModelName = {
   transactions: 'transactions',
   user_roles: 'user_roles',
   inventory_movements: 'inventory_movements',
-  stock_balances: 'stock_balances'
+  stock_balances: 'stock_balances',
+  app_settings: 'app_settings'
 };
 
 /**

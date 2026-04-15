@@ -12,6 +12,7 @@ import { SupabaseTokenSync } from '@/components/supabase-token-sync'
 import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
 import { GeneralError } from '@/features/errors/general-error'
 import { NotFoundError } from '@/features/errors/not-found-error'
+import { SettingsProvider } from '@/components/providers/settings-provider'
 
 const RootComponent = () => {
   const { isLoading } = useSyncUser()
@@ -26,13 +27,15 @@ const RootComponent = () => {
 
   return (
     <NetworkStatusProvider>
-      <NavigationProgress />
-      <SupabaseTokenSync />
-      <PwaUpdatePrompt />
-      <Outlet />
-      <Toaster duration={5000} />
-      <OfflineBadge />
-      <OnlineBadge />
+      <SettingsProvider>
+        <NavigationProgress />
+        <SupabaseTokenSync />
+        <PwaUpdatePrompt />
+        <Outlet />
+        <Toaster duration={5000} />
+        <OfflineBadge />
+        <OnlineBadge />
+      </SettingsProvider>
       {import.meta.env.MODE === 'development' && (
         <>
           <ReactQueryDevtools buttonPosition='bottom-left' />
