@@ -30,3 +30,17 @@ const userSchema = z.object({
 export type User = z.infer<typeof userSchema>
 
 export const userListSchema = z.array(userSchema)
+
+export const permissionSchema = z.object({
+  resource: z.string(),
+  action: z.enum(['create', 'read', 'update', 'delete', 'manage']),
+})
+export type Permission = z.infer<typeof permissionSchema>
+
+export const roleSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  permissions: z.array(permissionSchema).optional(),
+  description: z.string().nullable().optional(),
+})
+export type Role = z.infer<typeof roleSchema>

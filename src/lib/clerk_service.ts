@@ -1,7 +1,17 @@
 import { createClerkClient } from '@clerk/backend';
 import { type User, type UserStatus } from '@/features/users/data/schema';
 
-const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+export const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+
+/**
+ * Invites a user via email and attaches initial tenant metadata.
+ */
+export async function inviteUserMetadata(email: string, role: string, tenantId: string) {
+  return await clerkClient.invitations.createInvitation({
+    emailAddress: email,
+    publicMetadata: { role, tenantId },
+  });
+}
 
 /**
  * Lists all users from Clerk and maps them to the application's User schema.
