@@ -186,44 +186,174 @@ export async function getPosCategories(): Promise<PosCategory[]> {
   return categories
 }
 
-export async function createPosTransaction(payload: {
-  tenant_id: string
-  clerk_user_id: string
-  transaction_number: string
-  notes: string
-  items: Array<{
-    product_id: number
-    quantity: number
-    unit_price: number
-    discount_amount: number
-    tax_amount: number
-  }>
-}): Promise<string> {
+import type { CheckoutResponse } from '../types'
+import type { CheckoutRequestType } from '../schemas/checkout'
+import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
+import { v4 as uuidv4 } from 'uuid'
+
+export async function createPosTransaction(payload: CheckoutRequestType): Promise<CheckoutResponse> {
   // If offline, save locally
   if (typeof window !== 'undefined' && !window.navigator.onLine) {
     const offlineOrder = await offlineOrderService.saveOfflineOrder({
-      store_id: payload.tenant_id,
-      total_amount: payload.items.reduce(
-        (sum, item) => sum + item.unit_price * item.quantity,
-        0
-      ),
-      items: payload.items,
-      customer_id: payload.clerk_user_id,
+      store_id: payload.storeId || payload.branchId,
+      total_amount: payload.totalAmount,
+      items: payload.items.map(item => ({
+        product_id: item.productId,
+        quantity: item.quantity,
+        unit_price: item.unitPrice,
+        discount_amount: item.discountAmount || 0,
+        tax_amount: item.taxAmount || 0,
+      })),
+      customer_id: String(payload.customerId || ''),
     })
-    return offlineOrder.id
+    return { success: true, invoiceId: offlineOrder.id }
   }
 
-  const { data, error } = await supabase.rpc('create_transaction', {
-    p_tenant_id: payload.tenant_id,
-    p_clerk_user_id: payload.clerk_user_id,
-    p_transaction_number: payload.transaction_number,
-    p_transaction_type: 'sale',
-    p_currency: 'USD',
-    p_notes: payload.notes,
-    p_items: payload.items,
-  })
+  try {
+    const invoiceNo = generateInvoiceNumber()
+    const orderId = uuidv4()
+    const transactionId = uuidv4()
+
+    // 1. Create Sales Invoice
+    const { data: invoice, error: invoiceError } = await supabase
+      .from('sales_invoices')
+      .insert({
+        branch_id: payload.branchId,
+        store_id: payload.storeId,
+        customer_id: payload.customerId,
+        invoice_no: invoiceNo,
+        invoice_date: new Date().toISOString(),
+        status: 'paid',
+        subtotal: payload.subtotal,
+        total_amount: payload.totalAmount,
+        discount_amount: payload.discountTotal || 0,
+        tax_amount: payload.taxTotal || 0,
+        paid_amount: payload.totalAmount,
+        notes: payload.notes,
+      })
+      .select('id')
+      .single()
+
+    if (invoiceError) throw new Error(`Invoice creation failed: ${invoiceError.message}`)
+
+    // 2. Create Sales Invoice Items
+    const invoiceItems = payload.items.map((item, index) => ({
+      invoice_id: invoice.id,
+      product_variant_id: item.productVariantId,
+      line_no: index + 1,
+      quantity: item.quantity,
+      unit_price: item.unitPrice,
+      line_subtotal: item.quantity * item.unitPrice,
+      line_total: (item.quantity * item.unitPrice) - (item.discountAmount || 0) + (item.taxAmount || 0),
+      discount_amount: item.discountAmount || 0,
+      tax_amount: item.taxAmount || 0,
+    }))
+
+    const { error: itemsError } = await supabase
+      .from('sales_invoice_items')
+      .insert(invoiceItems)
+
+    if (itemsError) throw new Error(`Invoice items creation failed: ${itemsError.message}`)
+
+    // 3. Create Restaurant Order
+    const { data: resOrder, error: orderError } = await supabase
+      .from('res_orders')
+      .insert({
+        id: orderId,
+        order_number: invoiceNo,
+        total_amount: payload.totalAmount,
+        subtotal: payload.subtotal,
+        tax_amount: payload.taxTotal || 0,
+        discount_amount: payload.discountTotal || 0,
+        status: 'completed',
+        payment_method: payload.paymentMethod,
+        paid_at: new Date().toISOString(),
+        notes: payload.notes,
+      })
+      .select('id')
+      .single()
+
+    if (orderError) throw new Error(`Order creation failed: ${orderError.message}`)
+
+    // 4. Create Shipment if requested
+    if (payload.isShipment && payload.shipment) {
+      const { error: shipmentError } = await supabase
+        .from('res_shipments')
+        .insert({
+          order_id: resOrder.id,
+          recipient_name: payload.shipment.recipientName,
+          recipient_phone: payload.shipment.recipientPhone,
+          delivery_address: payload.shipment.deliveryAddress,
+          city: payload.shipment.city,
+          state: payload.shipment.state,
+          postal_code: payload.shipment.postalCode,
+          notes: payload.shipment.notes,
+          status: 'pending',
+        })
+
+      if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+    }
+
+    // 5. Create Transaction record
+    const { error: txError } = await supabase
+      .from('transactions')
+      .insert({
+        id: transactionId,
+        transaction_number: `TRN-${invoiceNo}`,
+        transaction_type: 'sale',
+        status: 'completed',
+        subtotal: payload.subtotal,
+        total_amount: payload.totalAmount,
+        tax_amount: payload.taxTotal || 0,
+        discount_amount: payload.discountTotal || 0,
+        notes: `Payment for invoice ${invoiceNo} via ${payload.paymentMethod}`,
+      })
+
+    if (txError) throw new Error(`Transaction creation failed: ${txError.message}`)
+
+    // 6. Record Inventory Movements
+    const movements = payload.items.map(item => ({
+      branch_id: payload.branchId,
+      store_id: payload.storeId,
+      product_variant_id: item.productVariantId,
+      movement_type: 'sale',
+      reference_type: 'sales_invoice',
+      reference_id: invoice.id,
+      qty_out: item.quantity,
+      movement_date: new Date().toISOString(),
+    }))
+
+    const { error: movError } = await supabase
+      .from('inventory_movements')
+      .insert(movements)
+
+    if (movError) console.warn('Inventory movement recording failed:', movError.message)
+
+    return {
+      success: true,
+      invoiceNo,
+      invoiceId: invoice.id,
+      transactionId,
+      timestamp: new Date().toISOString(),
+    }
+  } catch (error: unknown) {
+    console.error('POS Checkout error:', error)
+    return {
+      success: false,
+      error: {
+        code: 'CHECKOUT_FAILED',
+        message: error instanceof Error ? error.message : 'Checkout failed',
+      },
+    }
+  }
+}
+
+export async function getPosShipments() {
+  const { data, error } = await supabase
+    .from('res_shipments')
+    .select('*')
+    .order('created_at', { ascending: false })
 
   if (error) throw error
-
-  return data as string
+  return data
 }

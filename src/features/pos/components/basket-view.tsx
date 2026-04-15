@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@clerk/clerk-react'
 import { Plus, Minus, Trash2, CreditCard, Loader2 } from 'lucide-react'
@@ -12,6 +13,9 @@ import { printReceipt } from '../utils/receipt-printer'
 import { DiscountToggle } from './discount-toggle'
 import { RefundDialog } from './refund-dialog'
 import { ReorderDialog } from './reorder-dialog'
+import { CheckoutModal } from './checkout-modal'
+import type { ShipmentType } from '../schemas/checkout'
+import type { CheckoutResponse } from '../types'
 
 export function BasketView() {
   const {
@@ -23,8 +27,9 @@ export function BasketView() {
     getTotalAmount,
     getTaxAmount,
   } = useBasket()
-  const { orgId, userId } = useAuth()
+  const { orgId } = useAuth()
   const queryClient = useQueryClient()
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
 
   const subtotal = getSubtotal()
   const tax = getTaxAmount()
@@ -34,26 +39,40 @@ export function BasketView() {
   const checkoutMutation = useMutation({
     mutationFn: async ({
       notes,
-      transactionNumber,
+      paymentMethod,
+      shipment,
     }: {
       notes: string
-      transactionNumber: string
+      paymentMethod: 'cash' | 'card' | 'mixed'
+      shipment?: ShipmentType
     }) => {
       return createPosTransaction({
-        tenant_id: orgId || '',
-        clerk_user_id: userId || '',
-        transaction_number: transactionNumber,
+        branchId: orgId || '',
+        paymentMethod,
         notes,
+        isShipment: !!shipment,
+        shipment,
+        subtotal: subtotal,
+        totalAmount: total,
+        discountTotal: cartDiscount > 0 ? cartDiscount : 0,
+        taxTotal: tax,
         items: items.map((item) => ({
-          product_id: item.productId,
+          productId: item.productId,
+          productVariantId: item.productId.toString(), // fallback until basket tracks variantId
           quantity: item.quantity,
-          unit_price: item.unitPrice,
-          discount_amount: item.unitPrice * item.quantity - item.total,
-          tax_amount: 0,
+          unitPrice: item.unitPrice,
+          discountAmount: item.unitPrice * item.quantity - item.total,
+          taxAmount: 0,
         })),
       })
     },
-    onSuccess: (transactionId: string) => {
+    onSuccess: (data: CheckoutResponse) => {
+      if (!data.success) {
+        toast.error(`Checkout failed: ${data.error?.message || 'Unknown error'}`)
+        return
+      }
+
+      const transactionId = data.invoiceId || data.transactionId || 'UNKNOWN'
       const receiptData = {
         transactionNumber: transactionId.slice(0, 8).toUpperCase(),
         date: new Date(),
@@ -86,8 +105,22 @@ export function BasketView() {
   })
 
   const handlePay = () => {
-    const transactionNumber = `POS-${Date.now()}`
-    checkoutMutation.mutate({ notes: 'POS Sale', transactionNumber })
+    setIsCheckoutOpen(true)
+  }
+
+  const handleConfirmCheckout = ({
+    paymentMethod,
+    shipment,
+  }: {
+    paymentMethod: string
+    shipment?: ShipmentType
+  }) => {
+    checkoutMutation.mutate({
+      notes: 'POS Sale',
+      paymentMethod: paymentMethod as 'cash' | 'card' | 'mixed',
+      shipment,
+    })
+    setIsCheckoutOpen(false)
   }
 
   return (
@@ -215,6 +248,13 @@ export function BasketView() {
           Pay {formatCurrency(total)}
         </Button>
       </div>
+      <CheckoutModal
+        open={isCheckoutOpen}
+        onOpenChange={setIsCheckoutOpen}
+        total={total}
+        onConfirm={handleConfirmCheckout}
+        isProcessing={checkoutMutation.isPending}
+      />
     </div>
   )
 }

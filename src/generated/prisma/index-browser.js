@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.7.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.7.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -672,6 +672,26 @@ exports.Prisma.Res_ordersScalarFieldEnum = {
   clerk_user_id: 'clerk_user_id'
 };
 
+exports.Prisma.Res_shipmentsScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  clerk_user_id: 'clerk_user_id',
+  recipient_name: 'recipient_name',
+  recipient_phone: 'recipient_phone',
+  delivery_address: 'delivery_address',
+  city: 'city',
+  state: 'state',
+  postal_code: 'postal_code',
+  status: 'status',
+  tracking_number: 'tracking_number',
+  carrier: 'carrier',
+  shipped_at: 'shipped_at',
+  delivered_at: 'delivered_at',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.Res_payment_methodsScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1256,6 +1276,7 @@ exports.Prisma.ModelName = {
   res_notifications: 'res_notifications',
   res_order_items: 'res_order_items',
   res_orders: 'res_orders',
+  res_shipments: 'res_shipments',
   res_payment_methods: 'res_payment_methods',
   res_promotion_usage: 'res_promotion_usage',
   res_promotions: 'res_promotions',

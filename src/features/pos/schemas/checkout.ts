@@ -9,6 +9,16 @@ export const checkoutItemSchema = z.object({
   taxAmount: z.number().min(0).optional().default(0),
 })
 
+export const shipmentSchema = z.object({
+  recipientName: z.string().min(1, 'Recipient name is required'),
+  recipientPhone: z.string().min(1, 'Recipient phone is required'),
+  deliveryAddress: z.string().min(1, 'Delivery address is required'),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  notes: z.string().optional(),
+})
+
 export const checkoutRequestSchema = z.object({
   branchId: z.string().uuid(),
   storeId: z.string().uuid().optional(),
@@ -20,6 +30,9 @@ export const checkoutRequestSchema = z.object({
   discountTotal: z.number().min(0).optional().default(0),
   taxTotal: z.number().min(0).optional().default(0),
   notes: z.string().optional(),
+  isShipment: z.boolean().default(false),
+  shipment: shipmentSchema.optional(),
 })
 
 export type CheckoutRequestType = z.infer<typeof checkoutRequestSchema>
+export type ShipmentType = z.infer<typeof shipmentSchema>

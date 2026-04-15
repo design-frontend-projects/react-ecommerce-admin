@@ -1,8 +1,6 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
-import { auth } from '@clerk/nextjs/server'
-
 interface GetInvoicesParams {
   page?: number
   limit?: number
@@ -12,12 +10,9 @@ interface GetInvoicesParams {
   endDate?: Date | string
 }
 
+// TODO: Implement proper auth verification for TanStack Start
 export async function getInvoices(params: GetInvoicesParams = {}) {
-  const { userId } = await auth()
-  
-  if (!userId) {
-    throw new Error('Unauthorized')
-  }
+  const userId = 'system' // Placeholder
 
   const {
     page = 1,

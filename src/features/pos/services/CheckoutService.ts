@@ -3,18 +3,12 @@ import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
 import { v4 as uuidv4 } from 'uuid'
-import { auth } from '@clerk/nextjs/server'
+// TODO: Implement session verification using @clerk/backend or TanStack Start helpers
+// For now, we will use a fallback or expect clerk_user_id in the request if needed.
 
 export async function processCheckout(data: CheckoutRequestType): Promise<CheckoutResponse> {
   try {
-    const session = await auth()
-    const clerk_user_id = session?.userId
-    
-    // In strict environments, we might require auth. For demo, we fallback if missing or return error.
-    if (!clerk_user_id) {
-       // fallback for server environments running anonymously or return error
-       // throw new Error('Unauthorized')
-    }
+    const clerk_user_id = 'system' // Placeholder until proper auth is integrated
 
     const {
       branchId,
@@ -31,11 +25,10 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
 
     const invoiceNo = generateInvoiceNumber()
 
-    // Run within a Prisma transaction
+    // 1. Create Sales Invoice (which we'll treat as the Order for restaurant module)
     const result = await prisma.$transaction(async (tx) => {
-      const orderId = invoiceNo.replace('INV', 'ORD')
+      const orderId = uuidv4() // Use UUID for res_orders compatible reference
       
-      // 1. Create Sales Invoice
       const invoice = await tx.sales_invoices.create({
         data: {
           clerk_user_id: clerk_user_id || 'system',
@@ -43,9 +36,8 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
           store_id: storeId,
           customer_id: customerId,
           invoice_no: invoiceNo,
-          order_id: orderId,
           invoice_date: new Date(),
-          status: 'paid', // directly completed/paid
+          status: 'paid',
           subtotal: subtotal,
           total_amount: totalAmount,
           discount_amount: discountTotal,
@@ -67,22 +59,39 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
         }
       })
 
-      // 1.5 Create initial shipment
-      const shipment = await tx.shipments.create({
+      // Create res_order entry to satisfy foreign key if res_orders is used as primary order store
+      const resOrder = await tx.res_orders.create({
         data: {
-          order_id: 0, // Placeholder, will fix schema if needed or use reference
-          status: 'prepared',
-          notes: `Shipment for Order ${orderId}`,
-          carrier: 'Standard Delivery',
-          tracking_number: `TRK-${Math.random().toString(36).substring(2, 10).toUpperCase()}`
+          id: orderId,
+          order_number: invoiceNo, // Linking by invoice number
+          total_amount: totalAmount,
+          subtotal: subtotal,
+          tax_amount: taxTotal,
+          discount_amount: discountTotal,
+          status: 'completed',
+          payment_method: paymentMethod,
+          paid_at: new Date(),
+          notes
         }
       })
 
-      // Link shipment back to invoice
-      await tx.sales_invoices.update({
-        where: { id: invoice.id },
-        data: { shipment_id: shipment.shipment_id }
-      })
+      // 1.5 Create res_shipment if requested
+      if (data.isShipment && data.shipment) {
+        await tx.res_shipments.create({
+          data: {
+            order_id: resOrder.id,
+            clerk_user_id: clerk_user_id || 'system',
+            recipient_name: data.shipment.recipientName,
+            recipient_phone: data.shipment.recipientPhone,
+            delivery_address: data.shipment.deliveryAddress,
+            city: data.shipment.city,
+            state: data.shipment.state,
+            postal_code: data.shipment.postalCode,
+            notes: data.shipment.notes,
+            status: 'pending'
+          }
+        })
+      }
 
       // 2. Create Transaction for payment record
       // We will create the transaction

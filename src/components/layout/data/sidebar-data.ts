@@ -26,6 +26,7 @@ import {
   Users,
   UtensilsCrossed,
   Wrench,
+  Truck,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { type SidebarData } from '../types'
@@ -169,6 +170,12 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.payments'),
             url: '/respos/payments',
             icon: CreditCard,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: 'POS Shipments',
+            url: '/pos/shipments',
+            icon: Truck,
             roles: ['admin', 'super_admin'],
           },
           // Admin only
