@@ -346,6 +346,8 @@ model products {
   has_variants           Boolean?               @default(false)
   is_deleted             Boolean?               @default(false)
   base_price             Decimal?               @db.Decimal(10, 2)
+  has_expiration         Boolean?               @default(false)
+  expiration_date        DateTime               @db.Date
   inventory              inventory?
   price_list             price_list[]
   product_variants       product_variants[]
@@ -1322,9 +1324,9 @@ model transactions {
 model user_roles {
   user_id       String       @db.Uuid
   role_id       String       @db.Uuid
+  clerk_user_id String?      @default(dbgenerated("clerk_user_id()"))
   roles         roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
   tenant_users  tenant_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  clerk_user_id String?      @default(dbgenerated("clerk_user_id()"))
 
   @@id([user_id, role_id])
 }

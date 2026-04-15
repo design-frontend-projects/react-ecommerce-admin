@@ -356,7 +356,9 @@ exports.Prisma.ProductsScalarFieldEnum = {
   store_id: 'store_id',
   has_variants: 'has_variants',
   is_deleted: 'is_deleted',
-  base_price: 'base_price'
+  base_price: 'base_price',
+  has_expiration: 'has_expiration',
+  expiration_date: 'expiration_date'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
