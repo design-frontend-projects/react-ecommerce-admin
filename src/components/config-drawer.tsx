@@ -29,6 +29,7 @@ import {
 import { useSidebar } from './ui/sidebar'
 
 export function ConfigDrawer() {
+  const { t } = useTranslation()
   const { setOpen } = useSidebar()
   const { resetDir } = useDirection()
   const { resetTheme } = useTheme()
@@ -47,7 +48,7 @@ export function ConfigDrawer() {
         <Button
           size='icon'
           variant='ghost'
-          aria-label='Install the interface.'
+          aria-label={t('configDrawer.title')}
           aria-describedby='config-drawer-description'
           className='rounded-full'
         >
@@ -56,9 +57,9 @@ export function ConfigDrawer() {
       </SheetTrigger>
       <SheetContent className='flex flex-col'>
         <SheetHeader className='pb-0 text-start'>
-          <SheetTitle>Install the interface.</SheetTitle>
+          <SheetTitle>{t('configDrawer.title')}</SheetTitle>
           <SheetDescription id='config-drawer-description'>
-            Customize the interface and layout to your liking.
+            {t('configDrawer.description')}
           </SheetDescription>
         </SheetHeader>
         <ScrollArea className='h-full'>
@@ -76,9 +77,9 @@ export function ConfigDrawer() {
           <Button
             variant='destructive'
             onClick={handleReset}
-            aria-label='Reset all settings to default values.'
+            aria-label={t('configDrawer.reset')}
           >
-            Reset
+            {t('configDrawer.reset')}
           </Button>
         </SheetFooter>
       </SheetContent>
@@ -246,7 +247,7 @@ function ThemeConfig() {
   return (
     <div>
       <SectionTitle
-        title={t('theme.title', 'Chủ đề')}
+        title={t('theme.title', 'Theme')}
         showReset={theme !== 'light'}
         onReset={() => setTheme('light')}
       />
@@ -254,7 +255,7 @@ function ThemeConfig() {
         value={theme}
         onValueChange={(val) => setTheme(val as any)}
         className='grid w-full max-w-md grid-cols-2 gap-4'
-        aria-label='Chọn chủ đề'
+        aria-label={t('theme.title', 'Theme')}
       >
         {items.map((item) => (
           <RadioGroupItem key={item.value} item={item} />
@@ -265,11 +266,12 @@ function ThemeConfig() {
 }
 
 function SidebarConfig() {
+  const { t } = useTranslation()
   const { defaultVariant, variant, setVariant } = useLayout()
   return (
     <div className='max-md:hidden'>
       <SectionTitle
-        title='Thanh bên'
+        title={t('sidebar.title', 'Sidebar')}
         showReset={defaultVariant !== variant}
         onReset={() => setVariant(defaultVariant)}
       />
@@ -277,23 +279,23 @@ function SidebarConfig() {
         value={variant}
         onValueChange={(v) => setVariant(v as any)}
         className='grid w-full max-w-md grid-cols-3 gap-4'
-        aria-label='Chọn kiểu thanh bên'
+        aria-label={t('sidebar.title', 'Sidebar')}
         aria-describedby='sidebar-description'
       >
         {[
           {
             value: 'inset',
-            label: 'Lồng trong',
+            label: t('sidebar.inset', 'Inset'),
             icon: IconSidebarInset,
           },
           {
             value: 'floating',
-            label: 'Nổi',
+            label: t('sidebar.floating', 'Floating'),
             icon: IconSidebarFloating,
           },
           {
             value: 'sidebar',
-            label: 'Thanh bên',
+            label: t('sidebar.sidebar', 'Sidebar'),
             icon: IconSidebarSidebar,
           },
         ].map((item) => (
@@ -301,13 +303,17 @@ function SidebarConfig() {
         ))}
       </RadioGroup>
       <div id='sidebar-description' className='sr-only'>
-        Chọn giữa bố cục lồng trong, nổi hoặc thanh bên tiêu chuẩn
+        {t(
+          'sidebar.description',
+          'Choose between inset, floating, or standard sidebar layout'
+        )}
       </div>
     </div>
   )
 }
 
 function LayoutConfig() {
+  const { t } = useTranslation()
   const { open, setOpen } = useSidebar()
   const { defaultCollapsible, collapsible, setCollapsible } = useLayout()
 
@@ -316,7 +322,7 @@ function LayoutConfig() {
   return (
     <div className='max-md:hidden'>
       <SectionTitle
-        title='Bố cục'
+        title={t('layout.title', 'Layout')}
         showReset={radioState !== 'default'}
         onReset={() => {
           setOpen(true)
@@ -334,23 +340,23 @@ function LayoutConfig() {
           setCollapsible(v as Collapsible)
         }}
         className='grid w-full max-w-md grid-cols-3 gap-4'
-        aria-label='Chọn kiểu bố cục'
+        aria-label={t('layout.title', 'Layout')}
         aria-describedby='layout-description'
       >
         {[
           {
             value: 'default',
-            label: 'Mặc định',
+            label: t('layout.default', 'Default'),
             icon: IconLayoutDefault,
           },
           {
             value: 'icon',
-            label: 'Thu gọn',
+            label: t('layout.compact', 'Compact'),
             icon: IconLayoutCompact,
           },
           {
             value: 'offcanvas',
-            label: 'Toàn màn hình',
+            label: t('layout.full', 'Full'),
             icon: IconLayoutFull,
           },
         ].map((item) => (
@@ -358,19 +364,22 @@ function LayoutConfig() {
         ))}
       </RadioGroup>
       <div id='layout-description' className='sr-only'>
-        Chọn giữa chế độ mở rộng mặc định, thu gọn chỉ biểu tượng hoặc toàn màn
-        hình
+        {t(
+          'layout.description',
+          'Choose between default expanded, icon-only compact, or full-screen mode'
+        )}
       </div>
     </div>
   )
 }
 
 function DirConfig() {
+  const { t } = useTranslation()
   const { defaultDir, dir, setDir } = useDirection()
   return (
     <div>
       <SectionTitle
-        title='Hướng'
+        title={t('direction.title', 'Direction')}
         showReset={defaultDir !== dir}
         onReset={() => setDir(defaultDir)}
       />
@@ -378,20 +387,20 @@ function DirConfig() {
         value={dir}
         onValueChange={(v) => setDir(v as any)}
         className='grid w-full max-w-md grid-cols-2 gap-4'
-        aria-label='Chọn hướng trang web'
+        aria-label={t('direction.title', 'Direction')}
         aria-describedby='direction-description'
       >
         {[
           {
             value: 'ltr',
-            label: 'Trái sang phải',
+            label: 'Left to Right',
             icon: (props: SVGProps<SVGSVGElement>) => (
               <IconDir dir='ltr' {...props} />
             ),
           },
           {
             value: 'rtl',
-            label: 'Phải sang trái',
+            label: 'Right to Left',
             icon: (props: SVGProps<SVGSVGElement>) => (
               <IconDir dir='rtl' {...props} />
             ),
@@ -401,7 +410,10 @@ function DirConfig() {
         ))}
       </RadioGroup>
       <div id='direction-description' className='sr-only'>
-        Chọn giữa hướng trái sang phải hoặc phải sang trái
+        {t(
+          'direction.description',
+          'Choose between left-to-right or right-to-left direction'
+        )}
       </div>
     </div>
   )

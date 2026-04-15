@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from 'recharts'
 import { supabase } from '@/lib/supabase'
+import { useTranslation } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -18,6 +19,7 @@ import {
 } from '@/components/ui/card'
 
 export function PurchaseOrderAnalytics() {
+  const { t } = useTranslation()
   const { data: analytics, isLoading } = useQuery({
     queryKey: ['po-analytics'],
     queryFn: async () => {
@@ -72,14 +74,14 @@ export function PurchaseOrderAnalytics() {
     },
   })
 
-  if (isLoading) return <div>Loading analytics...</div>
+  if (isLoading) return <div>{t('dashboard.loadingAnalytics')}</div>
 
   return (
     <div className='space-y-4'>
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Spend</CardTitle>
+            <CardTitle className='text-sm font-medium'>{t('dashboard.totalSpend')}</CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'
@@ -98,14 +100,14 @@ export function PurchaseOrderAnalytics() {
               ${analytics?.totalSpend.toLocaleString()}
             </div>
             <p className='text-xs text-muted-foreground'>
-              Lifetime purchase volume
+              {t('dashboard.lifetimePurchaseVolume')}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Pending Orders
+              {t('dashboard.pendingOrders')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -124,14 +126,14 @@ export function PurchaseOrderAnalytics() {
           <CardContent>
             <div className='text-2xl font-bold'>{analytics?.pendingCount}</div>
             <p className='text-xs text-muted-foreground'>
-              Orders waiting to be received
+              {t('dashboard.pendingOrdersWaiting')}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Received Orders
+              {t('dashboard.receivedOrders')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -150,7 +152,7 @@ export function PurchaseOrderAnalytics() {
           <CardContent>
             <div className='text-2xl font-bold'>{analytics?.receivedCount}</div>
             <p className='text-xs text-muted-foreground'>
-              Successfully completed orders
+              {t('dashboard.completedOrders')}
             </p>
           </CardContent>
         </Card>
@@ -158,9 +160,9 @@ export function PurchaseOrderAnalytics() {
 
       <Card className='col-span-4'>
         <CardHeader>
-          <CardTitle>Spending Overview</CardTitle>
+          <CardTitle>{t('dashboard.spendingOverview')}</CardTitle>
           <CardDescription>
-            Monthly purchase order spending over the last 6 months
+            {t('dashboard.monthlySpendingDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent className='pl-2'>
@@ -183,7 +185,7 @@ export function PurchaseOrderAnalytics() {
               <Tooltip
                 formatter={(value: any) => [
                   `$${(value || 0).toLocaleString()}`,
-                  'Spend',
+                  t('dashboard.spend'),
                 ]}
                 cursor={{ fill: 'transparent' }}
               />

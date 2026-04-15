@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { supabase } from '@/lib/supabase'
+import { useTranslation } from 'react-i18next'
 import { AnalyticsChart } from './analytics-chart'
 
 interface AnalyticsData {
@@ -19,6 +20,7 @@ interface AnalyticsData {
 }
 
 export function Analytics() {
+  const { t } = useTranslation()
   const { data: analytics, isLoading } = useQuery({
     queryKey: ['analytics_data'],
     queryFn: async (): Promise<AnalyticsData> => {
@@ -95,8 +97,8 @@ export function Analytics() {
     <div className='space-y-4'>
       <Card>
         <CardHeader>
-          <CardTitle>Sales Trend</CardTitle>
-          <CardDescription>Daily transaction volume (last 7 days)</CardDescription>
+          <CardTitle>{t('dashboard.salesTrend')}</CardTitle>
+          <CardDescription>{t('dashboard.dailyTransactionVolume')}</CardDescription>
         </CardHeader>
         <CardContent className='px-6'>
           <AnalyticsChart />
@@ -106,7 +108,7 @@ export function Analytics() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Total Transactions
+              {t('dashboard.totalTransactions')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -127,14 +129,14 @@ export function Analytics() {
               {isLoading ? '...' : analytics?.totalTransactions || 0}
             </div>
             <p className='text-xs text-muted-foreground'>
-              All transaction types
+              {t('dashboard.allTransactionTypes')}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Total Sale Amount
+              {t('dashboard.totalSaleAmount')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -160,14 +162,14 @@ export function Analytics() {
                   })}
             </div>
             <p className='text-xs text-muted-foreground'>
-              From sale transactions
+              {t('dashboard.fromSaleTransactions')}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Total Refund Amount
+              {t('dashboard.totalRefundAmount')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -197,14 +199,14 @@ export function Analytics() {
                   )}
             </div>
             <p className='text-xs text-muted-foreground'>
-              From refund transactions
+              {t('dashboard.fromRefundTransactions')}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Avg. Transaction
+              {t('dashboard.averageTransaction')}
             </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -234,7 +236,7 @@ export function Analytics() {
                   )}
             </div>
             <p className='text-xs text-muted-foreground'>
-              Per sale transaction
+              {t('dashboard.perSaleTransaction')}
             </p>
           </CardContent>
         </Card>
@@ -242,21 +244,21 @@ export function Analytics() {
       <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
         <Card className='col-span-1 lg:col-span-4'>
           <CardHeader>
-            <CardTitle>Top Selling Products</CardTitle>
-            <CardDescription>By quantity sold</CardDescription>
+            <CardTitle>{t('dashboard.topSellingProducts')}</CardTitle>
+            <CardDescription>{t('dashboard.byQuantitySold')}</CardDescription>
           </CardHeader>
           <CardContent>
             <SimpleBarList
               items={analytics?.topProducts || []}
               barClass='bg-primary'
-              valueFormatter={(n) => `${n} sold`}
+              valueFormatter={(n) => `${n} ${t('dashboard.sold')}`}
             />
           </CardContent>
         </Card>
         <Card className='col-span-1 lg:col-span-3'>
           <CardHeader>
-            <CardTitle>Transaction Status</CardTitle>
-            <CardDescription>Breakdown by status</CardDescription>
+            <CardTitle>{t('dashboard.transactionStatus')}</CardTitle>
+            <CardDescription>{t('dashboard.breakdownByStatus')}</CardDescription>
           </CardHeader>
           <CardContent>
             <SimpleBarList
@@ -280,9 +282,10 @@ function SimpleBarList({
   valueFormatter: (n: number) => string
   barClass: string
 }) {
+  const { t } = useTranslation()
   if (!items.length) {
     return (
-      <div className='text-sm text-muted-foreground'>No data available.</div>
+      <div className='text-sm text-muted-foreground'>{t('dashboard.noDataAvailable')}</div>
     )
   }
 

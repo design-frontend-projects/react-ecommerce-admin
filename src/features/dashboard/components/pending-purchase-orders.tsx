@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useTranslation } from 'react-i18next'
 import type { PendingPurchaseOrder } from '../use-dashboard-data'
 
 interface PendingPurchaseOrdersProps {
@@ -15,10 +16,12 @@ interface PendingPurchaseOrdersProps {
 }
 
 export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
+  const { t } = useTranslation()
+
   if (!data?.length) {
     return (
       <div className='text-sm text-muted-foreground'>
-        No pending purchase orders.
+        {t('dashboard.noPendingPO')}
       </div>
     )
   }
@@ -28,11 +31,11 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>PO Number</TableHead>
-            <TableHead>Supplier</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className='text-right'>Amount</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>{t('dashboard.poNumber')}</TableHead>
+            <TableHead>{t('dashboard.supplier')}</TableHead>
+            <TableHead>{t('dashboard.date')}</TableHead>
+            <TableHead className='text-right'>{t('dashboard.amount')}</TableHead>
+            <TableHead>{t('dashboard.status')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,8 +47,8 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
               <TableCell>{po.suppliers?.name || '—'}</TableCell>
               <TableCell>
                 {po.order_date
-                  ? format(new Date(po.order_date), 'MMM dd, yyyy')
-                  : 'N/A'}
+                   ? format(new Date(po.order_date), 'MMM dd, yyyy')
+                   : t('dashboard.na')}
               </TableCell>
               <TableCell className='text-right'>
                 ${Number(po.total_amount).toFixed(2)}

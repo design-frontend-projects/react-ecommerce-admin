@@ -1320,10 +1320,11 @@ model transactions {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model user_roles {
-  user_id      String       @db.Uuid
-  role_id      String       @db.Uuid
-  roles        roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
-  tenant_users tenant_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       String       @db.Uuid
+  role_id       String       @db.Uuid
+  roles         roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  tenant_users  tenant_users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  clerk_user_id String?      @default(dbgenerated("clerk_user_id()"))
 
   @@id([user_id, role_id])
 }

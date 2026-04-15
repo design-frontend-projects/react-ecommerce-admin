@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { SignInButton, useAuth } from '@clerk/clerk-react'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -28,8 +28,36 @@ import { LowQuantityProducts } from './components/low-quantity-products'
 import { useDashboardData } from './use-dashboard-data'
 
 export function Dashboard() {
+  const { t } = useTranslation()
   const { isSignedIn } = useAuth()
   const { data: dashboardData, isLoading } = useDashboardData()
+
+  const topNav = [
+    {
+      title: t('dashboard.overview'),
+      href: 'dashboard/overview',
+      isActive: true,
+      disabled: false,
+    },
+    {
+      title: t('dashboard.client'),
+      href: 'dashboard/customers',
+      isActive: false,
+      disabled: true,
+    },
+    {
+      title: t('sidebar.products'),
+      href: 'dashboard/products',
+      isActive: false,
+      disabled: true,
+    },
+    {
+      title: t('sidebar.settings'),
+      href: 'dashboard/settings',
+      isActive: false,
+      disabled: true,
+    },
+  ]
 
   if (isLoading) {
     return (
@@ -123,7 +151,7 @@ export function Dashboard() {
                       : '0.00'}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Net revenue from all sale transactions
+                    {t('dashboard.totalRevenueDescription')}
                   </p>
                 </CardContent>
               </Card>
@@ -153,7 +181,7 @@ export function Dashboard() {
                     {stats?.totalSales || 0}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Sale transactions (transaction_type = sale)
+                    {t('dashboard.totalSalesDescription')}
                   </p>
                 </CardContent>
               </Card>
@@ -189,7 +217,7 @@ export function Dashboard() {
                       : '0.00'}
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    {stats?.totalRefunds || 0} refunds processed
+                    {stats?.totalRefunds || 0} {t('dashboard.refundsProcessed')}
                   </p>
                 </CardContent>
               </Card>
@@ -434,29 +462,3 @@ export function Dashboard() {
   )
 }
 
-const topNav = [
-  {
-    title: 'Overview',
-    href: 'dashboard/overview',
-    isActive: true,
-    disabled: false,
-  },
-  {
-    title: 'Client',
-    href: 'dashboard/customers',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Products',
-    href: 'dashboard/products',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Settings',
-    href: 'dashboard/settings',
-    isActive: false,
-    disabled: true,
-  },
-]

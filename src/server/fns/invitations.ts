@@ -6,6 +6,7 @@ export interface InviteUserInput {
   roleId: string
   roleName: string
   desc?: string
+  clerk_user_id?: string
 }
 
 export interface InviteUserResult {
@@ -21,7 +22,9 @@ export interface InviteUserResult {
  * 2. Creates a tenant_users record in the database
  * 3. Creates an employee_roles assignment
  */
-export async function inviteUser(input: InviteUserInput): Promise<InviteUserResult> {
+export async function inviteUser(
+  input: InviteUserInput
+): Promise<InviteUserResult> {
   // 1. Create Clerk invitation with public metadata
   const invitation = await clerkBackend.invitations.createInvitation({
     emailAddress: input.email,
@@ -29,7 +32,7 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
       role: input.roleName,
       onboardingComplete: false,
     },
-    redirectUrl: `${process.env.VITE_APP_URL || 'http://localhost:5173'}/sign-up`,
+    redirectUrl: `${process.env.VITE_APP_URL || 'http://localhost:5177'}/sign-up`,
   })
 
   // 2. Create tenant_users record
@@ -47,12 +50,12 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
   })
 
   // 3. Assign role via employee_roles
-  await prisma.employee_roles.create({
-    data: {
-      clerk_user_id: `pending_${invitation.id}`,
-      role_id: input.roleId,
-    },
-  })
+  // await prisma.user_roles.create({
+  //   data: {
+  //     clerk_user_id: `pending_${invitation.id}`,
+  //     role_id: input.roleId,
+  //   },
+  // })
 
   return {
     success: true,

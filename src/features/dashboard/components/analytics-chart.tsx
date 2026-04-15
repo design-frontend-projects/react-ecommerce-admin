@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from 'recharts'
 import { supabase } from '@/lib/supabase'
+import { useTranslation } from 'react-i18next'
 
 interface DailyData {
   name: string
@@ -17,6 +18,7 @@ interface DailyData {
 }
 
 export function AnalyticsChart() {
+  const { t } = useTranslation()
   const { data: chartData } = useQuery({
     queryKey: ['analytics_chart_7days'],
     queryFn: async (): Promise<DailyData[]> => {
@@ -83,7 +85,7 @@ export function AnalyticsChart() {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}`,
-            name === 'sales' ? 'Sales' : 'Refunds',
+            name === 'sales' ? t('dashboard.sales') : t('dashboard.refunds'),
           ]}
         />
         <Area

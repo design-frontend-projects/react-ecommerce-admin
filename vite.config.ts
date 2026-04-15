@@ -1,9 +1,9 @@
 import path from 'path'
-import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vitest/config'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,7 +20,12 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['favicon.ico', 'images/pwa-192x192.png', 'images/pwa-512x512.png', 'images/maskable-icon.png'],
+      includeAssets: [
+        'favicon.ico',
+        'images/pwa-192x192.png',
+        'images/pwa-512x512.png',
+        'images/maskable-icon.png',
+      ],
       manifest: {
         name: 'Bluewave POS - Premium Restaurant Management',
         short_name: 'Bluewave POS',
@@ -70,5 +75,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+  },
+  server: {
+    port: 5177,
   },
 })

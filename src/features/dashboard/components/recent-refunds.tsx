@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { useTranslation } from 'react-i18next'
 import type { RecentRefund } from '../use-dashboard-data'
 
 interface RecentRefundsProps {
@@ -8,10 +9,12 @@ interface RecentRefundsProps {
 }
 
 export function RecentRefunds({ data }: RecentRefundsProps) {
+  const { t } = useTranslation()
+
   if (!data?.length) {
     return (
       <div className='text-sm text-muted-foreground'>
-        No recent refunds found.
+        {t('dashboard.noRecentRefunds')}
       </div>
     )
   }
@@ -45,13 +48,13 @@ export function RecentRefunds({ data }: RecentRefundsProps) {
           <div className='flex flex-1 flex-wrap items-center justify-between'>
             <div className='space-y-1'>
               <p className='text-sm leading-none font-medium'>
-                Refund #{String(refund.refund_id)}
+                {t('dashboard.refundNumber')} {String(refund.refund_id)}
               </p>
               <div className='flex items-center gap-2'>
                 <p className='text-sm text-muted-foreground'>
                   {refund.refund_date
                     ? format(new Date(refund.refund_date), 'MMM dd, yyyy')
-                    : 'N/A'}
+                    : t('dashboard.na')}
                 </p>
                 {refund.refund_status && (
                   <Badge

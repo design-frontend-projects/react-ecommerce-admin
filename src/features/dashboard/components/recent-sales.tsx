@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { useTranslation } from 'react-i18next'
 import type { RecentSale } from '../use-dashboard-data'
 
 interface RecentSalesProps {
@@ -7,10 +8,12 @@ interface RecentSalesProps {
 }
 
 export function RecentSales({ data }: RecentSalesProps) {
+  const { t } = useTranslation()
+
   if (!data?.length) {
     return (
       <div className='text-sm text-muted-foreground'>
-        No recent sales found.
+        {t('dashboard.noRecentSales')}
       </div>
     )
   }
@@ -21,7 +24,7 @@ export function RecentSales({ data }: RecentSalesProps) {
         const itemCount = sale.transaction_details?.length || 0
         const firstItem = sale.transaction_details?.[0]
         const productName =
-          firstItem?.products?.name || 'Unknown Product'
+          firstItem?.products?.name || t('dashboard.unknownProduct')
 
         return (
           <div key={sale.id} className='flex items-center gap-4'>
@@ -37,7 +40,7 @@ export function RecentSales({ data }: RecentSalesProps) {
                 </p>
                 <p className='text-sm text-muted-foreground'>
                   {productName}
-                  {itemCount > 1 && ` +${itemCount - 1} more`}
+                  {itemCount > 1 && ` +${itemCount - 1} ${t('dashboard.more')}`}
                   {sale.created_at &&
                     ` · ${format(new Date(sale.created_at), 'MMM dd')}`}
                 </p>
