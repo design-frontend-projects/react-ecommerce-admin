@@ -7,9 +7,17 @@ interface BasketState {
 
   // Actions
   addItem: (item: Omit<BasketItem, 'subtotal' | 'total'>) => void
-  removeItem: (productId: number) => void
-  updateQuantity: (productId: number, quantity: number) => void
-  applyItemDiscount: (productId: number, discount: PosDiscount) => void
+  removeItem: (productId: number, productVariantId?: string) => void
+  updateQuantity: (
+    productId: number,
+    quantity: number,
+    productVariantId?: string
+  ) => void
+  applyItemDiscount: (
+    productId: number,
+    discount: PosDiscount,
+    productVariantId?: string
+  ) => void
   applyCartDiscount: (discount: PosDiscount) => void
   removeCartDiscount: () => void
   setBasketItems: (items: BasketItem[]) => void
@@ -41,6 +49,14 @@ const calculateItemTotals = (
   }
 }
 
+const isSameBasketLine = (
+  item: Pick<BasketItem, 'productId' | 'productVariantId'>,
+  productId: number,
+  productVariantId?: string
+) =>
+  item.productId === productId &&
+  (item.productVariantId ?? null) === (productVariantId ?? null)
+
 export const useBasket = create<BasketState>((set, get) => ({
   items: [],
   cartDiscount: undefined,
@@ -48,14 +64,15 @@ export const useBasket = create<BasketState>((set, get) => ({
   addItem: (newItem) =>
     set((state) => {
       const existingItem = state.items.find(
-        (i) => i.productId === newItem.productId
+        (i) =>
+          isSameBasketLine(i, newItem.productId, newItem.productVariantId)
       )
 
       if (existingItem) {
         // Increase quantity
         const updatedQuantity = existingItem.quantity + newItem.quantity
         const updatedItems = state.items.map((i) =>
-          i.productId === newItem.productId
+          isSameBasketLine(i, newItem.productId, newItem.productVariantId)
             ? calculateItemTotals({ ...i, quantity: updatedQuantity })
             : i
         )
@@ -66,29 +83,37 @@ export const useBasket = create<BasketState>((set, get) => ({
       return { items: [...state.items, calculateItemTotals(newItem)] }
     }),
 
-  removeItem: (productId) =>
+  removeItem: (productId, productVariantId) =>
     set((state) => ({
-      items: state.items.filter((i) => i.productId !== productId),
+      items: state.items.filter(
+        (i) => !isSameBasketLine(i, productId, productVariantId)
+      ),
     })),
 
-  updateQuantity: (productId, quantity) =>
+  updateQuantity: (productId, quantity, productVariantId) =>
     set((state) => {
       if (quantity <= 0) {
-        return { items: state.items.filter((i) => i.productId !== productId) }
+        return {
+          items: state.items.filter(
+            (i) => !isSameBasketLine(i, productId, productVariantId)
+          ),
+        }
       }
       return {
         items: state.items.map((i) =>
-          i.productId === productId
+          isSameBasketLine(i, productId, productVariantId)
             ? calculateItemTotals({ ...i, quantity })
             : i
         ),
       }
     }),
 
-  applyItemDiscount: (productId, discount) =>
+  applyItemDiscount: (productId, discount, productVariantId) =>
     set((state) => ({
       items: state.items.map((i) =>
-        i.productId === productId ? calculateItemTotals({ ...i, discount }) : i
+        isSameBasketLine(i, productId, productVariantId)
+          ? calculateItemTotals({ ...i, discount })
+          : i
       ),
     })),
 

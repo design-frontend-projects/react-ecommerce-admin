@@ -58,7 +58,7 @@ export function BasketView() {
         taxTotal: tax,
         items: items.map((item) => ({
           productId: item.productId,
-          productVariantId: item.productId.toString(), // fallback until basket tracks variantId
+          productVariantId: item.productVariantId ?? item.productId.toString(),
           quantity: item.quantity,
           unitPrice: item.unitPrice,
           discountAmount: item.unitPrice * item.quantity - item.total,
@@ -153,7 +153,7 @@ export function BasketView() {
           <ul className='space-y-4'>
             {items.map((item) => (
               <li
-                key={item.productId}
+                key={`${item.productId}-${item.productVariantId ?? 'base'}`}
                 className='flex items-center justify-between'
               >
                 <div className='min-w-0 flex-1 pr-4'>
@@ -178,7 +178,11 @@ export function BasketView() {
                     size='icon'
                     className='h-10 w-10'
                     onClick={() =>
-                      updateQuantity(item.productId, item.quantity - 1)
+                      updateQuantity(
+                        item.productId,
+                        item.quantity - 1,
+                        item.productVariantId
+                      )
                     }
                   >
                     <Minus className='h-5 w-5 text-slate-500' />
@@ -191,7 +195,11 @@ export function BasketView() {
                     size='icon'
                     className='h-10 w-10'
                     onClick={() =>
-                      updateQuantity(item.productId, item.quantity + 1)
+                      updateQuantity(
+                        item.productId,
+                        item.quantity + 1,
+                        item.productVariantId
+                      )
                     }
                   >
                     <Plus className='h-5 w-5 text-slate-500' />
@@ -200,7 +208,9 @@ export function BasketView() {
                     variant='ghost'
                     size='icon'
                     className='ml-2 h-10 w-10 text-destructive'
-                    onClick={() => removeItem(item.productId)}
+                    onClick={() =>
+                      removeItem(item.productId, item.productVariantId)
+                    }
                   >
                     <Trash2 className='h-5 w-5 text-red-500' />
                   </Button>

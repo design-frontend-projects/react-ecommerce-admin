@@ -7,6 +7,7 @@ export const posDiscountSchema = z.object({
 
 export const basketItemSchema = z.object({
   productId: z.number(),
+  productVariantId: z.string().optional(),
   name: z.string(),
   sku: z.string(),
   barcode: z.string().nullable(),

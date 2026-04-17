@@ -13,7 +13,7 @@ interface VariantSelectionDialogProps {
   onOpenChange: (open: boolean) => void
   productName: string
   variants: PosProductVariant[]
-  onSelect: (variant: PosProductVariant, priceToUse: number) => void
+  onSelect: (variant: PosProductVariant) => void
 }
 
 export function VariantSelectionDialog({
@@ -31,14 +31,14 @@ export function VariantSelectionDialog({
         </DialogHeader>
         <div className='grid max-h-[60vh] grid-cols-2 gap-4 overflow-y-auto py-4 md:grid-cols-3'>
           {variants.map((v) => {
-            const price = v.price
+            const price = Number(v.price ?? 0)
 
             return (
               <Card
                 key={v.id}
                 className='cursor-pointer transition-all hover:border-primary active:scale-95'
                 onClick={() => {
-                  onSelect(v, price)
+                  onSelect(v)
                   onOpenChange(false)
                 }}
               >

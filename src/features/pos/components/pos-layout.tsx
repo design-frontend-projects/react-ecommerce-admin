@@ -91,10 +91,11 @@ export function PosLayout() {
             v.sku.toLowerCase() === barcodeOrSku.toLowerCase()
         )
         if (variant) {
-          const price = variant.price
+          const price = Number(variant.price ?? p.base_price)
 
           addItem({
             productId: p.product_id,
+            productVariantId: variant.id,
             name: `${p.name} - ${variant.dimensions || variant.sku}`,
             sku: variant.sku,
             barcode: variant.barcode,
@@ -355,13 +356,16 @@ export function PosLayout() {
           onOpenChange={setIsVariantDialogOpen}
           productName={selectedProductForVariant.name}
           variants={selectedProductForVariant.product_variants}
-          onSelect={(variant, priceToUse) => {
+          onSelect={(variant) => {
             addItem({
               productId: selectedProductForVariant.product_id,
+              productVariantId: variant.id,
               name: `${selectedProductForVariant.name} - ${variant.dimensions || variant.sku}`,
               sku: variant.sku,
               barcode: variant.barcode,
-              unitPrice: priceToUse,
+              unitPrice: Number(
+                variant.price ?? selectedProductForVariant.base_price
+              ),
               quantity: 1,
             })
             toast.success(
