@@ -13,14 +13,32 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import type { User } from '../data/schema'
 import { useQuery } from '@tanstack/react-query'
+import type { User } from '../data/types'
+import { users as dummyUsers } from '../data/users'
+
+export function useUsersList() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+  })
+}
 
 async function fetchUsers(): Promise<User[]> {
-  // Let's assume there's a backend endpoint or server fn.
-  // In a real application, you'd call a server fn here.
-  // We'll mock the fetching for the UI since it's a block.
-  return fetch('/api/users').then(res => res.json())
+  try {
+    const response = await fetch('/api/users')
+    if (!response.ok) {
+      throw new Error('Failed to fetch users from API')
+    }
+    const data = await response.json()
+    return data as User[]
+  } catch (error) {
+    console.warn('Real API failed, falling back to dummy data:', error)
+    // Fallback to dummy data for development/demo purposes
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(dummyUsers as User[]), 800)
+    })
+  }
 }
 
 export function UserList() {

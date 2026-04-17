@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { inviteUser } from '../data/actions'
+import { useInviteUser } from '../hooks/use-invitations'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -37,7 +37,6 @@ const inviteSchema = z.object({
 type InviteFormValues = z.infer<typeof inviteSchema>
 
 export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
-  const [loading, setLoading] = useState(false)
 
   // In a real application, fetch from /api/roles or use RBACStore
   const availableRoles = [
@@ -55,23 +54,23 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
     },
   })
 
+  const inviteMutation = useInviteUser()
+
   async function onSubmit(data: InviteFormValues) {
-    setLoading(true)
-    try {
-      const selectedRole = availableRoles.find(r => r.name === data.roleName)
-      await inviteUser({
+    const selectedRole = availableRoles.find((r) => r.name === data.roleName)
+    inviteMutation.mutate(
+      {
         email: data.email,
         roleName: data.roleName,
         roleId: selectedRole?.id || '',
-      })
-      toast.success('User invited successfully!')
-      onOpenChange(false)
-      form.reset()
-    } catch (error) {
-      toast.error('Failed to invite user.')
-    } finally {
-      setLoading(false)
-    }
+      },
+      {
+        onSuccess: () => {
+          onOpenChange(false)
+          form.reset()
+        },
+      }
+    )
   }
 
   return (
@@ -92,7 +91,7 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@example.com" disabled={loading} {...field} />
+                    <Input placeholder="name@example.com" disabled={inviteMutation.isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,7 +103,7 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={loading}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={inviteMutation.isPending}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a role" />
@@ -121,11 +120,11 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
               )}
             />
             <div className="flex justify-end gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={inviteMutation.isPending}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Inviting...' : 'Send Invitation'}
+              <Button type="submit" disabled={inviteMutation.isPending}>
+                {inviteMutation.isPending ? 'Inviting...' : 'Send Invitation'}
               </Button>
             </div>
           </form>

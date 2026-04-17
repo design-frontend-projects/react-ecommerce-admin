@@ -1,19 +1,6 @@
 import { clerkBackend } from '@/server/clerk'
 import prisma from '@/lib/prisma'
-
-export interface InviteUserInput {
-  email: string
-  roleId: string
-  roleName: string
-  desc?: string
-  clerk_user_id?: string
-}
-
-export interface InviteUserResult {
-  success: boolean
-  clerkInvitationId: string
-  tenantUserId: string
-}
+import type { InviteUserInput, InviteUserResult } from '../data/types'
 
 /**
  * Invites a user via Clerk Backend API and creates a tenant_users record.

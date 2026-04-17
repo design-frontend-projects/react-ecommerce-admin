@@ -1,10 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type {
-  InviteUserInput,
-  InviteUserResult,
-} from '@/server/fns/invitations'
-import type { RoleWithPermissions } from '@/server/fns/rbac.types'
 import { toast } from 'sonner'
+import type { InviteUserInput, InviteUserResult, RoleWithPermissions } from '../data/types'
 
 // Placeholder for API client - replace with your actual API transport (e.g. fetch, axios, trpc)
 const api = {

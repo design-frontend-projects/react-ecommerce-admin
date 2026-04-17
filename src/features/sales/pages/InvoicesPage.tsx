@@ -37,6 +37,11 @@ export function InvoicesPage() {
       cell: ({ row }) => new Date(row.original.invoice_date).toLocaleString(),
     },
     {
+      accessorKey: 'branches.name',
+      header: 'Branch',
+      cell: ({ row }) => row.original.branches?.name || 'N/A',
+    },
+    {
       accessorKey: 'status',
       header: 'Status',
       cell: ({ row }) => {

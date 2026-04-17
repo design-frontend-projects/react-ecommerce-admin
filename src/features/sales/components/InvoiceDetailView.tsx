@@ -39,6 +39,10 @@ export function InvoiceDetailView({ invoice, open, onOpenChange }: InvoiceDetail
               <p className="font-medium">{invoice.order_id || 'N/A'}</p>
             </div>
             <div>
+              <p className="text-muted-foreground">Branch</p>
+              <p className="font-medium">{invoice.branches?.name || 'N/A'}</p>
+            </div>
+            <div>
               <p className="text-muted-foreground">Cashier ID</p>
               <p className="font-medium truncate">{invoice.clerk_user_id}</p>
             </div>

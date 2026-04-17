@@ -1,12 +1,11 @@
 import prisma from '@/lib/prisma'
-
 import type {
   RoleWithPermissions,
   PermissionRecord,
   CreateRoleInput,
   UpdateRoleInput,
   ToggleRolePermissionInput,
-} from './rbac.types'
+} from '@/features/users/data/types'
 
 // ─── Queries ───────────────────────────────────────────────────────────────────
 
