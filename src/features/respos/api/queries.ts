@@ -76,6 +76,8 @@ export const resposQueryKeys = {
   promotions: (code: string, subtotal: number) =>
     ['respos', 'promotions', 'validate', code, subtotal] as const,
   dashboardStats: ['respos', 'dashboard-stats'] as const,
+  analyticsOrders: (days: number) =>
+    ['respos', 'analytics', 'orders', days] as const,
 }
 
 // ============ Roles ============
@@ -442,6 +444,64 @@ export function useOrders(status?: string) {
           order_items: Array<ResOrderItem & { menu_item: ResMenuItem }>
         }
       >
+    },
+  })
+}
+
+export function useAnalyticsOrders(params?: { days?: number }) {
+  const days = params?.days ?? 30
+
+  return useQuery({
+    queryKey: resposQueryKeys.analyticsOrders(days),
+    queryFn: async () => {
+      const fromDate = new Date()
+      fromDate.setDate(fromDate.getDate() - days)
+
+      const { data, error } = await supabase
+        .from('res_orders')
+        .select(
+          `
+            id,
+            order_number,
+            table_id,
+            status,
+            total_amount,
+            created_at,
+            paid_at,
+            table:res_tables(id, table_number, floor_id),
+            order_items:res_order_items(
+              id,
+              quantity,
+              unit_price,
+              menu_item:res_menu_items(id, name)
+            )
+          `
+        )
+        .gte('created_at', fromDate.toISOString())
+        .order('created_at', { ascending: true })
+
+      if (error) throw error
+
+      return data as Array<{
+        id: string
+        order_number: string
+        table_id?: string | null
+        status?: string | null
+        total_amount?: number | string | null
+        created_at?: string | null
+        paid_at?: string | null
+        table?: {
+          id?: string | null
+          table_number?: string | null
+          floor_id?: string | null
+        } | null
+        order_items?: Array<{
+          id: string
+          quantity?: number | null
+          unit_price?: number | string | null
+          menu_item?: { id?: string | null; name?: string | null } | null
+        }> | null
+      }>
     },
   })
 }
