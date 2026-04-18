@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@clerk/clerk-react'
 import { Plus, Minus, Trash2, CreditCard, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { formatCurrency } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
+import { cn, formatCurrency } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -27,14 +28,16 @@ export function BasketView() {
     getTotalAmount,
     getTaxAmount,
   } = useBasket()
-  const { orgId } = useAuth()
+  const { selectedBranchId } = useAuthStore((state) => state.auth)
   const queryClient = useQueryClient()
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [itemView, setItemView] = useState<'detailed' | 'compact'>('detailed')
 
   const subtotal = getSubtotal()
   const tax = getTaxAmount()
   const total = getTotalAmount()
   const cartDiscount = subtotal + tax - total
+  const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const checkoutMutation = useMutation({
     mutationFn: async ({
@@ -47,7 +50,7 @@ export function BasketView() {
       shipment?: ShipmentType
     }) => {
       return createPosTransaction({
-        branchId: orgId || '',
+        branchId: selectedBranchId || '',
         paymentMethod,
         notes,
         isShipment: !!shipment,
@@ -115,6 +118,11 @@ export function BasketView() {
     paymentMethod: string
     shipment?: ShipmentType
   }) => {
+    if (!selectedBranchId) {
+      toast.error('Please select a branch before checkout.')
+      return
+    }
+
     checkoutMutation.mutate({
       notes: 'POS Sale',
       paymentMethod: paymentMethod as 'cash' | 'card' | 'mixed',
@@ -123,100 +131,207 @@ export function BasketView() {
     setIsCheckoutOpen(false)
   }
 
+  const getDiscountLabel = (
+    discount: NonNullable<(typeof items)[number]['discount']>
+  ) =>
+    discount.type === 'fixed'
+      ? formatCurrency(discount.value)
+      : `${discount.value}%`
+
   return (
-    <div className='flex h-full flex-col rounded-lg border bg-white shadow'>
-      <h2 className='text-center text-lg font-bold text-slate-950'>
-        Current Order
-      </h2>
-      <div className='flex items-center justify-between gap-1 rounded-t-lg border-b bg-muted/50 p-4'>
-        <RefundDialog />
-        <ReorderDialog />
-        <DiscountToggle />
-        {items.length > 0 && (
-          <Button
-            variant='ghost'
-            size='sm'
-            className='text-destructive'
-            onClick={clearBasket}
-          >
-            Clear
-          </Button>
-        )}
+    <div className='flex h-full flex-col overflow-hidden rounded-lg border bg-background shadow-sm'>
+      <div className='border-b bg-background p-4'>
+        <div className='mb-3 flex items-start justify-between gap-2'>
+          <div>
+            <h2 className='text-lg font-semibold tracking-tight'>Current Order</h2>
+            <p className='text-xs text-muted-foreground'>
+              {items.length === 0
+                ? 'Basket is empty'
+                : `${items.length} line${items.length === 1 ? '' : 's'} | ${totalUnits} item${totalUnits === 1 ? '' : 's'}`}
+            </p>
+          </div>
+          <Badge variant='secondary' className='font-semibold tabular-nums'>
+            {formatCurrency(total)}
+          </Badge>
+        </div>
+
+        <div className='flex flex-wrap items-center gap-2'>
+          <RefundDialog />
+          <ReorderDialog />
+          <DiscountToggle />
+
+          <div className='ml-auto inline-flex items-center gap-1 rounded-md border bg-muted/40 p-1'>
+            <Button
+              type='button'
+              variant={itemView === 'detailed' ? 'secondary' : 'ghost'}
+              size='sm'
+              className='h-7 px-2 text-xs'
+              onClick={() => setItemView('detailed')}
+            >
+              Detailed
+            </Button>
+            <Button
+              type='button'
+              variant={itemView === 'compact' ? 'secondary' : 'ghost'}
+              size='sm'
+              className='h-7 px-2 text-xs'
+              onClick={() => setItemView('compact')}
+            >
+              Compact
+            </Button>
+          </div>
+
+          {items.length > 0 && (
+            <Button variant='outline' size='sm' onClick={clearBasket}>
+              Clear
+            </Button>
+          )}
+        </div>
       </div>
 
-      <ScrollArea className='flex-1 p-4'>
+      <ScrollArea className='flex-1'>
         {items.length === 0 ? (
-          <div className='flex h-full items-center justify-center py-20 text-slate-500'>
-            Basket is empty. Scan an item.
+          <div className='flex h-full flex-col items-center justify-center px-4 py-20 text-center'>
+            <p className='text-sm font-medium text-foreground'>
+              No items in the basket yet
+            </p>
+            <p className='mt-1 text-xs text-muted-foreground'>
+              Scan a barcode or select a product to begin.
+            </p>
           </div>
         ) : (
-          <ul className='space-y-4'>
+          <ul className='flex flex-col gap-3 p-4'>
             {items.map((item) => (
               <li
                 key={`${item.productId}-${item.productVariantId ?? 'base'}`}
-                className='flex items-center justify-between'
+                className={cn(
+                  'rounded-lg border bg-background transition-colors hover:bg-muted/20',
+                  itemView === 'detailed' ? 'p-3 shadow-xs' : 'p-2.5'
+                )}
               >
-                <div className='min-w-0 flex-1 pr-4'>
-                  <p className='truncate font-medium text-slate-600'>
-                    {item.name}
-                  </p>
-                  <p className='text-sm text-muted-foreground'>
-                    {formatCurrency(item.unitPrice)} x {item.quantity}
-                  </p>
-                  {item.discount && (
-                    <p className='flex items-center gap-1 rounded-full bg-orange-500/10 px-2 py-0.5 text-[10px] font-medium text-orange-500'>
-                      Discount:{' '}
-                      {item.discount.type === 'fixed'
-                        ? formatCurrency(item.discount.value)
-                        : `${item.discount.value}%`}
-                    </p>
+                <div
+                  className={cn(
+                    'flex justify-between gap-3',
+                    itemView === 'detailed' ? 'items-start' : 'items-center'
                   )}
+                >
+                  <div className='min-w-0 flex-1'>
+                    <p className='truncate text-sm font-medium text-foreground'>
+                      {item.name}
+                    </p>
+                    {itemView === 'detailed' && (
+                      <p className='mt-0.5 truncate text-xs text-muted-foreground'>
+                        SKU: {item.sku}
+                      </p>
+                    )}
+
+                    <div
+                      className={cn(
+                        'flex items-center text-muted-foreground',
+                        itemView === 'detailed'
+                          ? 'mt-2 flex-wrap gap-2 text-xs'
+                          : 'mt-1 gap-1 text-[11px]'
+                      )}
+                    >
+                      <span className='tabular-nums'>
+                        {formatCurrency(item.unitPrice)}
+                      </span>
+                      <span>x</span>
+                      <span className='tabular-nums'>{item.quantity}</span>
+                      {itemView === 'detailed' && (
+                        <>
+                          <span>|</span>
+                          <span className='tabular-nums'>
+                            {formatCurrency(item.subtotal)}
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {item.discount && (
+                      <Badge
+                        variant='outline'
+                        className={cn(
+                          'mt-2 text-[10px]',
+                          itemView === 'compact' && 'mt-1'
+                        )}
+                      >
+                        Discount {getDiscountLabel(item.discount)}
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className='text-right'>
+                    <p
+                      className={cn(
+                        'font-semibold text-foreground tabular-nums',
+                        itemView === 'detailed' ? 'text-base' : 'text-sm'
+                      )}
+                    >
+                      {formatCurrency(item.total)}
+                    </p>
+                    {itemView === 'detailed' && item.discount && (
+                      <p className='text-[11px] text-emerald-600 tabular-nums'>
+                        -{formatCurrency(item.subtotal - item.total)}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className='flex items-center gap-2'>
+
+                <div
+                  className={cn(
+                    'mt-2 flex items-center justify-between',
+                    itemView === 'compact' && 'mt-1'
+                  )}
+                >
+                  <div className='inline-flex items-center rounded-md border bg-muted/30'>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='icon'
+                      className='size-8 rounded-r-none'
+                      onClick={() =>
+                        updateQuantity(
+                          item.productId,
+                          item.quantity - 1,
+                          item.productVariantId
+                        )
+                      }
+                      aria-label={`Decrease quantity for ${item.name}`}
+                    >
+                      <Minus />
+                    </Button>
+                    <span className='flex h-8 min-w-10 items-center justify-center border-x px-2 text-sm font-medium tabular-nums'>
+                      {item.quantity}
+                    </span>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='icon'
+                      className='size-8 rounded-l-none'
+                      onClick={() =>
+                        updateQuantity(
+                          item.productId,
+                          item.quantity + 1,
+                          item.productVariantId
+                        )
+                      }
+                      aria-label={`Increase quantity for ${item.name}`}
+                    >
+                      <Plus />
+                    </Button>
+                  </div>
+
                   <Button
-                    variant='outline'
-                    size='icon'
-                    className='h-10 w-10'
-                    onClick={() =>
-                      updateQuantity(
-                        item.productId,
-                        item.quantity - 1,
-                        item.productVariantId
-                      )
-                    }
-                  >
-                    <Minus className='h-5 w-5 text-slate-500' />
-                  </Button>
-                  <span className='w-8 text-center text-lg text-slate-900 tabular-nums'>
-                    {item.quantity}
-                  </span>
-                  <Button
-                    variant='outline'
-                    size='icon'
-                    className='h-10 w-10'
-                    onClick={() =>
-                      updateQuantity(
-                        item.productId,
-                        item.quantity + 1,
-                        item.productVariantId
-                      )
-                    }
-                  >
-                    <Plus className='h-5 w-5 text-slate-500' />
-                  </Button>
-                  <Button
+                    type='button'
                     variant='ghost'
                     size='icon'
-                    className='ml-2 h-10 w-10 text-destructive'
-                    onClick={() =>
-                      removeItem(item.productId, item.productVariantId)
-                    }
+                    className='size-8 text-destructive hover:text-destructive'
+                    onClick={() => removeItem(item.productId, item.productVariantId)}
+                    aria-label={`Remove ${item.name}`}
                   >
-                    <Trash2 className='h-5 w-5 text-red-500' />
+                    <Trash2 />
                   </Button>
-                </div>
-                <div className='w-20 text-right font-medium text-slate-800 tabular-nums'>
-                  {formatCurrency(item.total)}
                 </div>
               </li>
             ))}
@@ -224,36 +339,38 @@ export function BasketView() {
         )}
       </ScrollArea>
 
-      <div className='space-y-2 rounded-b-lg border-t bg-muted/20 p-4'>
-        <div className='flex justify-between text-sm text-muted-foreground'>
-          <span>Subtotal</span>
-          <span>{formatCurrency(subtotal)}</span>
-        </div>
-        {cartDiscount > 0 && (
-          <div className='flex justify-between text-sm text-orange-500'>
-            <span>Discount</span>
-            <span>-{formatCurrency(cartDiscount)}</span>
+      <div className='rounded-b-lg border-t bg-muted/20 p-4'>
+        <div className='flex flex-col gap-2'>
+          <div className='flex justify-between text-sm text-muted-foreground'>
+            <span>Subtotal</span>
+            <span className='tabular-nums'>{formatCurrency(subtotal)}</span>
           </div>
-        )}
-        <div className='flex justify-between text-sm text-muted-foreground'>
-          <span>Tax</span>
-          <span>{formatCurrency(tax)}</span>
+          {cartDiscount > 0 && (
+            <div className='flex justify-between text-sm text-orange-500'>
+              <span>Discount</span>
+              <span className='tabular-nums'>-{formatCurrency(cartDiscount)}</span>
+            </div>
+          )}
+          <div className='flex justify-between text-sm text-muted-foreground'>
+            <span>Tax</span>
+            <span className='tabular-nums'>{formatCurrency(tax)}</span>
+          </div>
         </div>
         <Separator className='my-2' />
-        <div className='flex justify-between text-2xl font-bold'>
+        <div className='flex items-center justify-between text-2xl font-bold'>
           <span>Total</span>
-          <span>{formatCurrency(total)}</span>
+          <span className='tabular-nums'>{formatCurrency(total)}</span>
         </div>
 
         <Button
-          className='mt-4 h-16 w-full text-xl'
+          className='mt-4 h-14 w-full text-base font-semibold md:text-lg'
           disabled={items.length === 0 || checkoutMutation.isPending}
           onClick={handlePay}
         >
           {checkoutMutation.isPending ? (
-            <Loader2 className='mr-2 h-6 w-6 animate-spin' />
+            <Loader2 data-icon='inline-start' className='animate-spin' />
           ) : (
-            <CreditCard className='mr-2 h-6 w-6' />
+            <CreditCard data-icon='inline-start' />
           )}
           Pay {formatCurrency(total)}
         </Button>

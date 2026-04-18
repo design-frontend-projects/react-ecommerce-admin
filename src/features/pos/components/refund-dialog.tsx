@@ -52,6 +52,7 @@ import {
 } from '../data/refund-api'
 import { refundFormSchema, type RefundFormValues } from '../data/schema'
 import { ManagerAuthDialog } from './manager-auth-dialog'
+import { useAuthStore } from '@/stores/auth-store'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -110,6 +111,7 @@ function TransactionRow({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function RefundDialog() {
+  const selectedBranchId = useAuthStore.getState().auth.selectedBranchId
   const [open, setOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [step, setStep] = useState<Step>('lookup')
@@ -143,6 +145,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
+      branch_id: selectedBranchId,
     },
   })
 
@@ -162,6 +165,7 @@ export function RefundDialog() {
       setNewRefundId(refundId)
       setStep('success')
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
+      queryClient.invalidateQueries({ queryKey: ['shift-dashboard-analytics'] })
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
       toast.success('Refund processed successfully.')

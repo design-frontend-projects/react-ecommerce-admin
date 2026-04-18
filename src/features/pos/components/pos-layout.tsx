@@ -285,7 +285,7 @@ export function PosLayout() {
         <TabsContent value='checkout' className='mt-0 flex-1 outline-none'>
           <div className='flex h-full gap-4 overflow-hidden'>
             {/* Main Catalog Area */}
-            <div className='flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg border bg-white shadow-sm'>
+            <div className='flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg border bg-card shadow-sm'>
               <div className='flex-1 overflow-y-auto p-4'>
                 {isLoading ? (
                   <div className='flex h-full items-center justify-center'>
@@ -338,7 +338,7 @@ export function PosLayout() {
 
         <TabsContent
           value='dashboard'
-          className='mt-0 flex-1 overflow-y-auto rounded-lg border bg-white shadow-sm outline-none'
+          className='mt-0 flex-1 overflow-y-auto rounded-lg border bg-card shadow-sm outline-none'
         >
           <ShiftDashboard />
         </TabsContent>

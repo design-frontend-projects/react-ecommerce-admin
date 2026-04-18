@@ -159,7 +159,7 @@ function TableCard({
       </div>
 
       {/* Select Overlay */}
-      <div className='absolute inset-0 rounded-[inherit] bg-white opacity-0 transition-opacity group-hover:opacity-5 dark:bg-black' />
+      <div className='absolute inset-0 rounded-[inherit] bg-foreground opacity-0 transition-opacity group-hover:opacity-5' />
     </motion.button>
   )
 }

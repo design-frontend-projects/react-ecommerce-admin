@@ -762,6 +762,7 @@ model res_orders {
   id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   order_number          String              @unique @db.VarChar(20)
   table_id              String?             @db.Uuid
+  shipment_id           String?             @db.Uuid
   shift_id              String?             @db.Uuid
   created_by            String?             @db.Uuid
   customer_name         String?             @db.VarChar(200)
@@ -789,9 +790,11 @@ model res_orders {
   res_employees         res_employees?      @relation(fields: [res_employeesId], references: [id])
   res_shifts            res_shifts?         @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   res_tables            res_tables?         @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  res_shipment          res_shipments?
+  res_shipment          res_shipments?      @relation("OrderShipmentByOrderId")
+  shipment              res_shipments?      @relation("OrderShipmentByShipmentId", fields: [shipment_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   res_void_requests     res_void_requests[]
 
+  @@index([shipment_id], map: "idx_res_orders_shipment")
   @@index([shift_id], map: "idx_res_orders_shift")
   @@index([status], map: "idx_res_orders_status")
   @@index([table_id], map: "idx_res_orders_table")
@@ -816,7 +819,8 @@ model res_shipments {
   notes            String?
   created_at       DateTime?  @default(now()) @db.Timestamptz(6)
   updated_at       DateTime?  @default(now()) @db.Timestamptz(6)
-  res_orders       res_orders @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  res_orders       res_orders @relation("OrderShipmentByOrderId", fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  linked_orders    res_orders[] @relation("OrderShipmentByShipmentId")
 
   @@index([order_id], map: "idx_res_shipments_order_id")
 }
@@ -1014,7 +1018,7 @@ model sale_items {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model sales_invoice_items {
   id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sales_invoice_id    String                @db.Uuid
+  invoice_id          String                @db.Uuid
   product_variant_id  String                @db.Uuid
   tax_rate_id         Int?
   line_no             Int                   @default(1)
@@ -1030,8 +1034,8 @@ model sales_invoice_items {
   unit_cost           Decimal               @default(0) @db.Decimal(18, 4)
   created_at          DateTime              @default(now()) @db.Timestamptz(6)
   returned_quantity   Decimal               @default(0) @db.Decimal(18, 4)
+  sales_invoices      sales_invoices        @relation(fields: [invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product_variants    product_variants      @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
-  sales_invoices      sales_invoices        @relation(fields: [sales_invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   tax_rates           tax_rates?            @relation(fields: [tax_rate_id], references: [tax_rate_id], onUpdate: NoAction)
   sales_return_items  sales_return_items[]
   transaction_details transaction_details[]
@@ -1039,7 +1043,7 @@ model sales_invoice_items {
 
 model sales_invoices {
   id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id       String
+  clerk_user_id       String                @default(dbgenerated("clerk_user_id()"))
   branch_id           String                @db.Uuid
   store_id            String?               @db.Uuid
   customer_id         Int?

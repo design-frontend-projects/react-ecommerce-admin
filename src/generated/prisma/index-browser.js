@@ -648,6 +648,7 @@ exports.Prisma.Res_ordersScalarFieldEnum = {
   id: 'id',
   order_number: 'order_number',
   table_id: 'table_id',
+  shipment_id: 'shipment_id',
   shift_id: 'shift_id',
   created_by: 'created_by',
   customer_name: 'customer_name',
@@ -823,7 +824,7 @@ exports.Prisma.Sale_itemsScalarFieldEnum = {
 
 exports.Prisma.Sales_invoice_itemsScalarFieldEnum = {
   id: 'id',
-  sales_invoice_id: 'sales_invoice_id',
+  invoice_id: 'invoice_id',
   product_variant_id: 'product_variant_id',
   tax_rate_id: 'tax_rate_id',
   line_no: 'line_no',

@@ -49,6 +49,13 @@ const checkoutSchema = z
     promoCode: z.string().optional(),
     receivedAmount: z.number().min(0, 'Received amount is required'),
     tipAmount: z.number().min(0),
+    recipientName: z.string().optional(),
+    recipientPhone: z.string().optional(),
+    deliveryAddress: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    postalCode: z.string().optional(),
+    deliveryNotes: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -100,8 +107,17 @@ export function CheckoutDialog({
       promoCode: '',
       receivedAmount: 0,
       tipAmount: 0,
+      recipientName: '',
+      recipientPhone: '',
+      deliveryAddress: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      deliveryNotes: '',
     },
   })
+
+  const isDeliveryOrder = !order?.table_id
 
   // Reset when dialog opens
   useEffect(() => {
@@ -120,6 +136,13 @@ export function CheckoutDialog({
         promoCode: cart.promoCode || '',
         receivedAmount: cart.receivedAmount || 0,
         tipAmount: 0,
+        recipientName: order.shipment?.recipient_name ?? '',
+        recipientPhone: order.shipment?.recipient_phone ?? '',
+        deliveryAddress: order.shipment?.delivery_address ?? '',
+        city: order.shipment?.city ?? '',
+        state: order.shipment?.state ?? '',
+        postalCode: order.shipment?.postal_code ?? '',
+        deliveryNotes: order.shipment?.notes ?? '',
       })
       setPromoInput(cart.promoCode || '')
       setAppliedPromoCode(cart.promoCode || '')
@@ -203,6 +226,30 @@ export function CheckoutDialog({
   const onSubmit = (values: CheckoutFormValues) => {
     if (!order) return
 
+    if (isDeliveryOrder) {
+      if (!values.recipientName?.trim()) {
+        form.setError('recipientName', {
+          type: 'manual',
+          message: 'Recipient name is required for delivery',
+        })
+        return
+      }
+      if (!values.recipientPhone?.trim()) {
+        form.setError('recipientPhone', {
+          type: 'manual',
+          message: 'Recipient phone is required for delivery',
+        })
+        return
+      }
+      if (!values.deliveryAddress?.trim()) {
+        form.setError('deliveryAddress', {
+          type: 'manual',
+          message: 'Delivery address is required for delivery',
+        })
+        return
+      }
+    }
+
     // Block if received amount is less than grand total
     if (values.receivedAmount < grandTotal && !isCard) {
       form.setError('receivedAmount', {
@@ -219,6 +266,18 @@ export function CheckoutDialog({
         paymentMethod: values.paymentMethodId,
         customerName: values.customerName,
         mobileNumber: values.mobileNumber,
+        isDelivery: isDeliveryOrder,
+        shipment: isDeliveryOrder
+          ? {
+              recipientName: values.recipientName?.trim() || '',
+              recipientPhone: values.recipientPhone?.trim() || '',
+              deliveryAddress: values.deliveryAddress?.trim() || '',
+              city: values.city?.trim() || '',
+              state: values.state?.trim() || '',
+              postalCode: values.postalCode?.trim() || '',
+              notes: values.deliveryNotes?.trim() || '',
+            }
+          : undefined,
         discountType: values.discountType,
         discountAmount: manualDiscount,
         appliedPromotionId: appliedPromotion?.promotion_id,
@@ -297,6 +356,114 @@ export function CheckoutDialog({
                 )}
               />
             </div>
+
+            {isDeliveryOrder && (
+              <>
+                <Separator />
+                <div className='space-y-4'>
+                  <h4 className='text-sm font-semibold'>Delivery Details</h4>
+                  <div className='grid grid-cols-2 gap-4'>
+                    <FormField
+                      control={form.control}
+                      name='recipientName'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Recipient Name *</FormLabel>
+                          <FormControl>
+                            <Input placeholder='Full name' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='recipientPhone'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Recipient Phone *</FormLabel>
+                          <FormControl>
+                            <Input placeholder='Phone number' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='deliveryAddress'
+                      render={({ field }) => (
+                        <FormItem className='col-span-2'>
+                          <FormLabel>Delivery Address *</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Street, building, apartment'
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='city'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>City</FormLabel>
+                          <FormControl>
+                            <Input placeholder='City' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='state'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>State</FormLabel>
+                          <FormControl>
+                            <Input placeholder='State' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='postalCode'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Postal Code</FormLabel>
+                          <FormControl>
+                            <Input placeholder='Postal code' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='deliveryNotes'
+                      render={({ field }) => (
+                        <FormItem className='col-span-2'>
+                          <FormLabel>Delivery Notes</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Landmark, gate code, etc.'
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
 
             <Separator />
 

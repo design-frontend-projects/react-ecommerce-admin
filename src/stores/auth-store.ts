@@ -4,6 +4,7 @@ import type { Profile } from '@/features/auth/services/profile-service'
 
 
 const ACCESS_TOKEN = 'respos_access_token'
+const SELECTED_BRANCH = 'respos_selected_branch'
 
 interface AuthUser {
   accountNo: string
@@ -20,6 +21,8 @@ interface AuthState {
     setProfile: (profile: Profile | null) => void
     accessToken: string
     setAccessToken: (accessToken: string) => void
+    selectedBranchId: string
+    setSelectedBranchId: (branchId: string) => void
     resetAccessToken: () => void
     reset: () => void
   }
@@ -28,6 +31,10 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()((set) => {
   const cookieState = getCookie(ACCESS_TOKEN)
   const initToken = cookieState ? JSON.parse(cookieState) : ''
+  const selectedBranchState = getCookie(SELECTED_BRANCH)
+  const initSelectedBranchId = selectedBranchState
+    ? JSON.parse(selectedBranchState)
+    : ''
   return {
     auth: {
       user: null,
@@ -42,6 +49,12 @@ export const useAuthStore = create<AuthState>()((set) => {
           setCookie(ACCESS_TOKEN, JSON.stringify(accessToken))
           return { ...state, auth: { ...state.auth, accessToken } }
         }),
+      selectedBranchId: initSelectedBranchId,
+      setSelectedBranchId: (branchId) =>
+        set((state) => {
+          setCookie(SELECTED_BRANCH, JSON.stringify(branchId))
+          return { ...state, auth: { ...state.auth, selectedBranchId: branchId } }
+        }),
       resetAccessToken: () =>
         set((state) => {
           removeCookie(ACCESS_TOKEN)
@@ -50,9 +63,16 @@ export const useAuthStore = create<AuthState>()((set) => {
       reset: () =>
         set((state) => {
           removeCookie(ACCESS_TOKEN)
+          removeCookie(SELECTED_BRANCH)
           return {
             ...state,
-            auth: { ...state.auth, user: null, profile: null, accessToken: '' },
+            auth: {
+              ...state.auth,
+              user: null,
+              profile: null,
+              accessToken: '',
+              selectedBranchId: '',
+            },
           }
         }),
     },

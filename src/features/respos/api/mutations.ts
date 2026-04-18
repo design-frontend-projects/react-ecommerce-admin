@@ -9,6 +9,7 @@ import type {
   OrderStatus,
   ResOrder,
   ResOrderItem,
+  ResShipmentInput,
   ReservationStatus,
   TableStatus,
   VoidRequestStatus,
@@ -133,6 +134,7 @@ export function useCreateOrder() {
   return useMutation({
     mutationFn: async ({
       tableId,
+      isDelivery,
       shiftId,
       createdBy,
       customerName,
@@ -141,6 +143,7 @@ export function useCreateOrder() {
       items,
     }: {
       tableId?: string
+      isDelivery?: boolean
       shiftId?: string
       createdBy?: string
       customerName?: string
@@ -158,6 +161,7 @@ export function useCreateOrder() {
       // If offline, save locally
       if (typeof window !== 'undefined' && !window.navigator.onLine) {
         const orderNumber = generateOrderNumber()
+        const deliveryOrder = !!isDelivery
         const subtotal = items.reduce(
           (sum, item) => sum + item.unit_price * item.quantity,
           0
@@ -179,7 +183,7 @@ export function useCreateOrder() {
           status: 'open',
           total_amount: subtotal,
           subtotal,
-          table_id: tableId,
+          table_id: deliveryOrder ? null : tableId,
           shift_id: shiftId,
           created_by: createdBy,
           customer_name: customerName,
@@ -192,6 +196,7 @@ export function useCreateOrder() {
 
       return createResOrder({
         tableId,
+        isDelivery,
         shiftId,
         createdBy,
         customerName,
@@ -202,6 +207,9 @@ export function useCreateOrder() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
+      queryClient.invalidateQueries({
+        queryKey: resposQueryKeys.deliveryOrders,
+      })
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.tables() })
       queryClient.invalidateQueries({
         queryKey: resposQueryKeys.dashboardStats,
@@ -228,6 +236,8 @@ export function useUpdateOrderStatus() {
       receivedAmount,
       changeAmount,
       notes,
+      isDelivery,
+      shipment,
     }: {
       orderId: string
       status: OrderStatus
@@ -242,6 +252,8 @@ export function useUpdateOrderStatus() {
       receivedAmount?: number
       changeAmount?: number
       notes?: string
+      isDelivery?: boolean
+      shipment?: ResShipmentInput
     }) => {
       interface OrderUpdate {
         status: OrderStatus
@@ -258,11 +270,26 @@ export function useUpdateOrderStatus() {
         received_amount?: number
         change_amount?: number
         notes?: string
+        shipment_id?: string
       }
 
       const updates: OrderUpdate = {
         status,
         updated_at: new Date().toISOString(),
+      }
+
+      const { data: currentOrder, error: currentOrderError } = await supabase
+        .from('res_orders')
+        .select('id, table_id, clerk_user_id')
+        .eq('id', orderId)
+        .maybeSingle()
+
+      if (currentOrderError) throw currentOrderError
+      if (!currentOrder) throw new Error('Order not found')
+
+      const deliveryOrder = !!isDelivery
+      if (deliveryOrder && currentOrder.table_id) {
+        throw new Error('Delivery is only available for tableless orders')
       }
 
       if (customerName) updates.customer_name = customerName
@@ -280,6 +307,46 @@ export function useUpdateOrderStatus() {
       if (notes !== undefined) updates.notes = notes
       if (status === 'paid') updates.paid_at = new Date().toISOString()
 
+      if (deliveryOrder) {
+        if (!shipment) {
+          throw new Error('Shipment details are required for delivery orders')
+        }
+
+        if (
+          !shipment.recipientName?.trim() ||
+          !shipment.recipientPhone?.trim() ||
+          !shipment.deliveryAddress?.trim()
+        ) {
+          throw new Error(
+            'Recipient name, phone, and delivery address are required'
+          )
+        }
+
+        const { data: shipmentRow, error: shipmentError } = await supabase
+          .from('res_shipments')
+          .upsert(
+            {
+              order_id: orderId,
+              clerk_user_id: currentOrder.clerk_user_id || 'system',
+              recipient_name: shipment.recipientName.trim(),
+              recipient_phone: shipment.recipientPhone.trim(),
+              delivery_address: shipment.deliveryAddress.trim(),
+              city: shipment.city?.trim() || null,
+              state: shipment.state?.trim() || null,
+              postal_code: shipment.postalCode?.trim() || null,
+              notes: shipment.notes?.trim() || null,
+              status: 'pending',
+            },
+            { onConflict: 'order_id' }
+          )
+          .select('id')
+          .maybeSingle()
+
+        if (shipmentError) throw shipmentError
+        if (!shipmentRow) throw new Error('Failed to create shipment')
+        updates.shipment_id = shipmentRow.id
+      }
+
       const { data, error } = await supabase
         .from('res_orders')
         .update(updates)
@@ -292,6 +359,9 @@ export function useUpdateOrderStatus() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
+      queryClient.invalidateQueries({
+        queryKey: resposQueryKeys.deliveryOrders,
+      })
       queryClient.invalidateQueries({
         queryKey: resposQueryKeys.order(data.id),
       })

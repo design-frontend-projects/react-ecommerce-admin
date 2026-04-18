@@ -14,6 +14,7 @@ import {
   Search,
   Shield,
   ShoppingCart,
+  Truck,
   Trash2,
   UtensilsCrossed,
 } from 'lucide-react'
@@ -53,6 +54,8 @@ import type {
   SelectedProperty,
 } from '../types'
 
+type OrderMode = 'dine_in' | 'delivery'
+
 function NavButton({
   active,
   onClick,
@@ -86,6 +89,7 @@ export function POSScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [orderMode, setOrderMode] = useState<OrderMode>('dine_in')
 
   // Item Details Dialog State
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -122,7 +126,9 @@ export function POSScreen() {
 
   // Active Order
   const { data: activeOrder, isLoading: activeOrderLoading } =
-    useActiveOrderByTable(selectedTable?.id || '')
+    useActiveOrderByTable(
+      orderMode === 'delivery' ? '' : (selectedTable?.id ?? '')
+    )
 
   // Mutations
   const { mutate: createOrder, isPending: isCreating } = useCreateOrder()
@@ -135,8 +141,30 @@ export function POSScreen() {
     itemsLoading ||
     activeOrderLoading
 
+  const showFloorView = orderMode === 'dine_in' && !selectedTable
+
+  const switchOrderMode = (mode: OrderMode) => {
+    if (mode === orderMode) return
+    if (cart.items.length > 0) {
+      toast.error('Complete the current order first!', {
+        description: 'Place the order or clear the cart before switching mode.',
+      })
+      return
+    }
+
+    setOrderMode(mode)
+    setSelectedCategory(null)
+    if (mode === 'delivery') {
+      setSelectedTable(null)
+      setSelectedFloorId(null)
+    }
+  }
+
   // Table Selection Logic with Locking
   const handleTableSelect = (table: ResTable) => {
+    if (orderMode === 'delivery') {
+      return
+    }
     // If we have items in cart for a different table, prevent switching
     if (cart.items.length > 0 && selectedTable?.id !== table.id) {
       toast.error('Complete the current order first!', {
@@ -177,7 +205,8 @@ export function POSScreen() {
 
   // Order Placement Logic
   const handlePlaceOrder = () => {
-    if (!selectedTable || cart.items.length === 0) return
+    if (cart.items.length === 0) return
+    if (orderMode === 'dine_in' && !selectedTable) return
 
     const orderItems = cart.items.map((item) => ({
       item_id: item.item.id,
@@ -199,7 +228,14 @@ export function POSScreen() {
     if (activeOrder) {
       addItems({ orderId: activeOrder.id, items: orderItems }, callbacks)
     } else {
-      createOrder({ tableId: selectedTable.id, items: orderItems }, callbacks)
+      createOrder(
+        {
+          tableId: orderMode === 'dine_in' ? selectedTable?.id : undefined,
+          isDelivery: orderMode === 'delivery',
+          items: orderItems,
+        },
+        callbacks
+      )
     }
   }
 
@@ -277,7 +313,7 @@ export function POSScreen() {
         onAddToOrder={handleAddItemToCart}
       />
 
-      <div className='flex h-screen flex-col overflow-hidden bg-background font-sans dark:bg-[#09090b]'>
+      <div className='flex h-screen flex-col overflow-hidden bg-background font-sans'>
         {/* Top Header */}
         <Header className='z-20 h-16 border-b bg-background/50 px-6 backdrop-blur-xl'>
           <div className='flex items-center gap-4'>
@@ -296,14 +332,23 @@ export function POSScreen() {
 
           <div className='mx-auto flex items-center gap-2 rounded-2xl bg-muted/50 p-1.5 backdrop-blur-md'>
             <NavButton
-              active={!selectedTable}
+              active={orderMode === 'dine_in' && !selectedTable}
               onClick={() => {
-                setSelectedTable(null)
-                setSelectedFloorId(null)
-                setSelectedCategory(null)
+                switchOrderMode('dine_in')
+                if (orderMode === 'dine_in') {
+                  setSelectedTable(null)
+                  setSelectedFloorId(null)
+                  setSelectedCategory(null)
+                }
               }}
               icon={<Home className='h-4 w-4' />}
               label='Floor'
+            />
+            <NavButton
+              active={orderMode === 'delivery'}
+              onClick={() => switchOrderMode('delivery')}
+              icon={<Truck className='h-4 w-4' />}
+              label='Delivery'
             />
             {selectedTable && (
               <div className='flex items-center gap-2'>
@@ -345,7 +390,7 @@ export function POSScreen() {
           {/* Left Side: Navigation & Floor/Menu View */}
           <div className='flex flex-1 flex-col overflow-hidden bg-muted/5'>
             <AnimatePresence mode='wait'>
-              {!selectedTable ? (
+              {showFloorView ? (
                 // Floor Manager Mode
                 <motion.div
                   key='floor-view'
@@ -415,33 +460,45 @@ export function POSScreen() {
                   <div className='flex flex-1 flex-col overflow-hidden px-6 py-4'>
                     <div className='mb-4 flex items-center justify-between'>
                       <div className='flex items-center gap-3'>
-                        <div
-                          className={cn(
-                            'flex h-10 w-10 items-center justify-center rounded-xl border-2',
-                            TABLE_STATUS_COLORS[selectedTable.status]
-                          )}
-                        >
-                          <span className='font-black'>
-                            {selectedTable.table_number}
-                          </span>
-                        </div>
+                        {orderMode === 'dine_in' && selectedTable ? (
+                          <div
+                            className={cn(
+                              'flex h-10 w-10 items-center justify-center rounded-xl border-2',
+                              TABLE_STATUS_COLORS[selectedTable.status]
+                            )}
+                          >
+                            <span className='font-black'>
+                              {selectedTable.table_number}
+                            </span>
+                          </div>
+                        ) : (
+                          <div className='flex h-10 w-10 items-center justify-center rounded-xl border-2 border-orange-300 bg-orange-50 text-orange-600'>
+                            <Truck className='h-5 w-5' />
+                          </div>
+                        )}
                         <div>
                           <h2 className='text-xl font-black tracking-tight uppercase'>
                             Menu Selection
                           </h2>
-                          <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-                            <span
-                              className={cn(
-                                'h-1.5 w-1.5 rounded-full bg-current',
-                                TABLE_STATUS_TEXT_COLORS[selectedTable.status]
-                              )}
-                            />
-                            <span className='font-bold tracking-wider uppercase'>
-                              {selectedTable.status}
-                            </span>
-                            <span className='mx-1 opacity-20'>|</span>
-                            <span>{selectedTable.seats} Seats</span>
-                          </div>
+                          {orderMode === 'dine_in' && selectedTable ? (
+                            <div className='flex items-center gap-2 text-xs text-muted-foreground'>
+                              <span
+                                className={cn(
+                                  'h-1.5 w-1.5 rounded-full bg-current',
+                                  TABLE_STATUS_TEXT_COLORS[selectedTable.status]
+                                )}
+                              />
+                              <span className='font-bold tracking-wider uppercase'>
+                                {selectedTable.status}
+                              </span>
+                              <span className='mx-1 opacity-20'>|</span>
+                              <span>{selectedTable.seats} Seats</span>
+                            </div>
+                          ) : (
+                            <div className='text-xs font-bold tracking-wider text-orange-600 uppercase'>
+                              Delivery Order (Tableless)
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -479,6 +536,7 @@ export function POSScreen() {
               <OrderHistoryPanel onClose={() => setShowHistory(false)} />
             ) : (
               <OrderPanel
+                orderMode={orderMode}
                 activeOrder={activeOrder || null}
                 cart={cart}
                 onPlaceOrder={handlePlaceOrder}
@@ -547,6 +605,7 @@ function MenuGridItem({
 }
 
 interface OrderPanelProps {
+  orderMode: OrderMode
   activeOrder: ResOrderWithDetails | null
   cart: Cart
   onPlaceOrder: () => void
@@ -560,6 +619,7 @@ interface OrderPanelProps {
 }
 
 function OrderPanel({
+  orderMode,
   activeOrder,
   cart,
   onPlaceOrder,
@@ -578,7 +638,7 @@ function OrderPanel({
   const cartTotal = orderCalc.total || 0
   // const grandTotal = activeTotal + cartTotal
 
-  if (!selectedTable) {
+  if (orderMode === 'dine_in' && !selectedTable) {
     return (
       <div className='flex flex-1 flex-col items-center justify-center p-8 text-center text-muted-foreground'>
         <div className='mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted/50 shadow-inner'>
@@ -602,23 +662,35 @@ function OrderPanel({
         <div className='flex items-center justify-between'>
           <div>
             <div className='flex items-center gap-3'>
-              <div className='flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20'>
-                <span className='text-xl font-black'>
-                  {selectedTable.table_number}
-                </span>
-              </div>
+              {orderMode === 'dine_in' && selectedTable ? (
+                <div className='flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20'>
+                  <span className='text-xl font-black'>
+                    {selectedTable.table_number}
+                  </span>
+                </div>
+              ) : (
+                <div className='flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20'>
+                  <Truck className='h-6 w-6' />
+                </div>
+              )}
               <div>
                 <h2 className='text-lg font-black tracking-tight uppercase'>
-                  Active Order
+                  {orderMode === 'dine_in' ? 'Active Order' : 'Delivery Order'}
                 </h2>
                 <div className='flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase'>
-                  <span
-                    className={cn(
-                      'h-1.5 w-1.5 rounded-full bg-current',
-                      TABLE_STATUS_TEXT_COLORS[selectedTable.status]
-                    )}
-                  />
-                  <span>Table {selectedTable.table_number}</span>
+                  {orderMode === 'dine_in' && selectedTable ? (
+                    <>
+                      <span
+                        className={cn(
+                          'h-1.5 w-1.5 rounded-full bg-current',
+                          TABLE_STATUS_TEXT_COLORS[selectedTable.status]
+                        )}
+                      />
+                      <span>Table {selectedTable.table_number}</span>
+                    </>
+                  ) : (
+                    <span className='text-orange-600'>Tableless Delivery</span>
+                  )}
                   {activeOrder && (
                     <>
                       <span className='opacity-30'>•</span>
@@ -771,6 +843,8 @@ function OrderPanel({
               <Loader2 className='h-6 w-6 animate-spin' />
             ) : activeOrder ? (
               'Update Order'
+            ) : orderMode === 'delivery' ? (
+              'Create Delivery Order'
             ) : (
               'Send to Kitchen'
             )}

@@ -44,6 +44,7 @@ export const refundFormSchema = z.object({
   reason: z.string().min(1, 'Please select a reason for the refund.'),
   notes: z.string().optional(),
   clerk_user_id: z.string(),
+  branch_id: z.string(),
 })
 
 export type RefundFormValues = z.infer<typeof refundFormSchema>

@@ -192,6 +192,7 @@ export interface ResOrder {
   id: string
   order_number: string
   table_id?: string
+  shipment_id?: string
   shift_id?: string
   created_by?: string
   customer_name?: string
@@ -243,6 +244,36 @@ export interface ResOrderWithDetails extends ResOrder {
   table?: ResTable
   items: ResOrderItemWithDetails[]
   creator?: ResEmployee
+  shipment?: ResShipment | null
+}
+
+export interface ResShipment {
+  id: string
+  order_id: string
+  recipient_name: string
+  recipient_phone: string
+  delivery_address: string
+  city?: string
+  state?: string
+  postal_code?: string
+  status: string
+  tracking_number?: string
+  carrier?: string
+  shipped_at?: string
+  delivered_at?: string
+  notes?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface ResShipmentInput {
+  recipientName: string
+  recipientPhone: string
+  deliveryAddress: string
+  city?: string
+  state?: string
+  postalCode?: string
+  notes?: string
 }
 
 // ============ Notification Types ============

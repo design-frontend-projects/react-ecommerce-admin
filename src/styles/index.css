@@ -14,10 +14,10 @@
     @apply overflow-x-hidden;
   }
   body {
-    @apply min-h-svh w-full bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-primary-foreground;
-    background-image: 
-      radial-gradient(at 0% 0%, oklch(0.15 0.05 260 / 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, oklch(0.15 0.05 310 / 0.15) 0px, transparent 50%);
+    @apply min-h-svh w-full bg-background font-sans text-foreground antialiased selection:bg-primary/30 selection:text-primary-foreground;
+    background-image:
+      radial-gradient(at 0% 0%, var(--bg-glow-1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, var(--bg-glow-2) 0px, transparent 50%);
   }
 
   /* Override Radix scroll locking for sticky headers */
@@ -64,13 +64,13 @@
 }
 
 @utility glass-thick {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: color-mix(in srgb, var(--glass-bg) 80%, transparent);
+  backdrop-filter: blur(calc(var(--glass-blur) + 8px));
+  border: 1px solid color-mix(in srgb, var(--glass-border) 120%, transparent);
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/60;
+  @apply bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent;
 }
 
 @utility premium-shadow {

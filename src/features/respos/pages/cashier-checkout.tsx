@@ -1,37 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { Loader2, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { useUpdateTableStatus } from '../api/mutations'
-import { useActiveOrderByTable, useFloors, useTables } from '../api/queries'
+import {
+  useActiveOrderByTable,
+  useFloors,
+  useOpenDeliveryOrders,
+  useTables,
+} from '../api/queries'
 import { CheckoutDialog } from '../components/checkout-dialog'
 import { FloorManagerView } from '../components/floor-manager-view'
-import { type ResTable } from '../types'
+import { formatCurrency } from '../lib/formatters'
+import { Button } from '@/components/ui/button'
+import { type ResOrderWithDetails, type ResTable } from '../types'
 
 export default function CashierCheckout() {
   const { has, isLoaded, isSignedIn } = useAuth()
+  const [checkoutMode, setCheckoutMode] = useState<'table' | 'delivery'>('table')
   const [selectedFloorId, setSelectedFloorId] = useState<string | null>(null)
   const [selectedTable, setSelectedTable] = useState<ResTable | null>(null)
+  const [selectedDeliveryOrder, setSelectedDeliveryOrder] =
+    useState<ResOrderWithDetails | null>(null)
 
   // Queries
   const { data: floors, isLoading: floorsLoading } = useFloors()
   const { data: tables, isLoading: tablesLoading } = useTables()
   const { mutate: updateTableStatus } = useUpdateTableStatus()
+  const { data: deliveryOrders, isLoading: deliveryLoading } =
+    useOpenDeliveryOrders()
 
   // Fetch active order for selected table
   const {
     data: activeOrder,
     isLoading: orderLoading,
     isFetching: orderFetching,
-  } = useActiveOrderByTable(selectedTable?.id || '')
+  } = useActiveOrderByTable(
+    checkoutMode === 'table' ? (selectedTable?.id ?? '') : ''
+  )
 
   // Handle table selection
   const handleTableSelect = (table: ResTable) => {
+    if (checkoutMode !== 'table') return
+
     if (table.status !== 'occupied') {
-      // Option: allow checking out "active" tables even if not strictly "occupied" if they have an order?
-      // But for now, restrict to occupied tables as per requirement implying "served orders"
-      // Also might want to allow "dirty" tables? No, dirty means it needs cleaning.
-      // User said: "with served orders".
       if (table.status === 'free') {
         toast.info('This table is free.')
         return
@@ -43,24 +55,27 @@ export default function CashierCheckout() {
 
   // Check for invalid table state (occupied but no order)
   useEffect(() => {
+    if (checkoutMode !== 'table') return
     if (selectedTable && !activeOrder && !orderLoading && !orderFetching) {
-      // Table is occupied but no active order found?
       toast.error('No active order found for this table.')
-      setTimeout(() => setSelectedTable(null), 0) // Reset selection
+      setTimeout(() => setSelectedTable(null), 0)
     }
-  }, [selectedTable, activeOrder, orderLoading, orderFetching])
+  }, [checkoutMode, selectedTable, activeOrder, orderLoading, orderFetching])
 
   // Handle dialog close
   const handleDialogClose = (open: boolean) => {
     if (!open) {
-      setSelectedTable(null)
+      if (checkoutMode === 'table') {
+        setSelectedTable(null)
+      } else {
+        setSelectedDeliveryOrder(null)
+      }
     }
   }
 
   // Handle checkout success
   const handleCheckoutSuccess = () => {
-    if (selectedTable) {
-      // Set table to free
+    if (checkoutMode === 'table' && selectedTable) {
       updateTableStatus(
         { tableId: selectedTable.id, status: 'free' },
         {
@@ -73,7 +88,14 @@ export default function CashierCheckout() {
         }
       )
     }
+
+    if (checkoutMode === 'delivery') {
+      setSelectedDeliveryOrder(null)
+    }
   }
+
+  const checkoutOrder =
+    checkoutMode === 'table' ? (activeOrder ?? null) : selectedDeliveryOrder
 
   // Loading state
   const isLoading = floorsLoading || tablesLoading || !isLoaded
@@ -109,23 +131,89 @@ export default function CashierCheckout() {
 
   return (
     <>
-      <FloorManagerView
-        floors={floors || []}
-        tables={tables || []}
-        selectedFloorId={selectedFloorId}
-        onSelectFloor={setSelectedFloorId}
-        onSelectTable={handleTableSelect}
-      />
+      <div className='flex h-full flex-col gap-4 p-4'>
+        <div className='flex items-center gap-2'>
+          <Button
+            type='button'
+            variant={checkoutMode === 'table' ? 'default' : 'outline'}
+            onClick={() => {
+              setCheckoutMode('table')
+              setSelectedDeliveryOrder(null)
+            }}
+          >
+            Table Orders
+          </Button>
+          <Button
+            type='button'
+            variant={checkoutMode === 'delivery' ? 'default' : 'outline'}
+            onClick={() => {
+              setCheckoutMode('delivery')
+              setSelectedTable(null)
+            }}
+          >
+            Delivery Orders
+          </Button>
+        </div>
+
+        {checkoutMode === 'table' ? (
+          <FloorManagerView
+            floors={floors || []}
+            tables={tables || []}
+            selectedFloorId={selectedFloorId}
+            onSelectFloor={setSelectedFloorId}
+            onSelectTable={handleTableSelect}
+          />
+        ) : (
+          <div className='rounded-lg border bg-card p-4'>
+            <h3 className='mb-3 text-sm font-semibold tracking-wide uppercase text-muted-foreground'>
+              Open Delivery Orders
+            </h3>
+
+            {deliveryLoading ? (
+              <div className='flex items-center justify-center py-10'>
+                <Loader2 className='h-6 w-6 animate-spin text-muted-foreground' />
+              </div>
+            ) : !deliveryOrders || deliveryOrders.length === 0 ? (
+              <p className='py-8 text-center text-sm text-muted-foreground'>
+                No open delivery orders found.
+              </p>
+            ) : (
+              <div className='space-y-3'>
+                {deliveryOrders.map((order) => (
+                  <button
+                    key={order.id}
+                    type='button'
+                    className='w-full rounded-lg border p-3 text-left transition-colors hover:bg-muted/40'
+                    onClick={() => setSelectedDeliveryOrder(order)}
+                  >
+                    <div className='flex items-center justify-between'>
+                      <span className='font-semibold'>#{order.order_number}</span>
+                      <span className='text-sm font-semibold text-orange-600'>
+                        {formatCurrency(order.total_amount || 0)}
+                      </span>
+                    </div>
+                    <div className='mt-1 text-xs text-muted-foreground'>
+                      {order.items?.length || 0} items • {order.status}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       <CheckoutDialog
-        open={!!selectedTable && !!activeOrder}
+        open={!!checkoutOrder}
         onOpenChange={handleDialogClose}
-        order={activeOrder || null}
+        order={checkoutOrder || null}
         onSuccess={handleCheckoutSuccess}
       />
 
       {/* Loading overlay for order fetch */}
-      {(orderLoading || orderFetching) && selectedTable && (
+      {checkoutMode === 'table' &&
+        (orderLoading || orderFetching) &&
+        selectedTable && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'>
           <Loader2 className='h-10 w-10 animate-spin text-white' />
         </div>

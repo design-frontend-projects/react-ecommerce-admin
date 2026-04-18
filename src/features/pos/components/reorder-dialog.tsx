@@ -17,17 +17,36 @@ import { useBasket } from '../store/use-basket'
 import { createRefund } from '../data/refund-api'
 import { ManagerAuthDialog } from './manager-auth-dialog'
 
+type RecentTransaction = {
+  id: string
+  transaction_number: string
+  total_amount: number | string
+  created_at: string
+  transaction_details: Array<{
+    product_id: number
+    quantity: number | string
+    unit_price: number | string
+    products: {
+      name: string | null
+      sku: string | null
+      barcode: string | null
+    } | null
+  }>
+}
+
 export function ReorderDialog() {
   const [open, setOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
-  const [refundingTx, setRefundingTx] = useState<any>(null)
+  const [refundingTx, setRefundingTx] = useState<RecentTransaction | null>(
+    null
+  )
   
   const { setBasketItems } = useBasket()
   const { userId } = useAuth()
   const { user: clerkUser } = useUser()
   const queryClient = useQueryClient()
 
-  const { data: recentTransactions, isLoading } = useQuery({
+  const { data: recentTransactions, isLoading } = useQuery<RecentTransaction[]>({
     queryKey: ['recent-pos-transactions'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -60,10 +79,8 @@ export function ReorderDialog() {
     enabled: open,
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleReorder = (transaction: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const newItems = transaction.transaction_details.map((d: any) => {
+  const handleReorder = (transaction: RecentTransaction) => {
+    const newItems = transaction.transaction_details.map((d) => {
       const up = Number(d.unit_price)
       const qty = Number(d.quantity)
       return {
@@ -83,7 +100,7 @@ export function ReorderDialog() {
   }
 
   const refundMutation = useMutation({
-    mutationFn: (tx: any) =>
+    mutationFn: (tx: RecentTransaction) =>
       createRefund({
         saleId: tx.id,
         refundAmount: Number(tx.total_amount),
@@ -95,6 +112,7 @@ export function ReorderDialog() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
+      queryClient.invalidateQueries({ queryKey: ['shift-dashboard-analytics'] })
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
       toast.success('Fast refund processed successfully.')
@@ -106,7 +124,7 @@ export function ReorderDialog() {
     },
   })
 
-  const handleFastRefund = (tx: any) => {
+  const handleFastRefund = (tx: RecentTransaction) => {
     setRefundingTx(tx)
     setAuthOpen(true)
   }

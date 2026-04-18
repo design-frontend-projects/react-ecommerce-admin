@@ -1,6 +1,7 @@
 import { db } from '@/lib/db/indexed-db'
 import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
+import { useAuthStore } from '@/stores/auth-store'
 
 export type PosProductVariant = {
   id: string
@@ -78,20 +79,27 @@ export async function getPosProducts(): Promise<PosProduct[]> {
 
   if (error) throw error
 
-  const mapped = (data || []).map((p) => ({
-    product_id: p.product_id,
-    store_id: p.store_id || '',
-    name: p.name,
-    sku: p.sku || '',
-    barcode: p.barcode,
-    base_price: Number(p.base_price || 0),
-    category_id: p.category_id,
-    category_name: Array.isArray(p.categories) ? p.categories[0]?.name : (p.categories as any)?.name || null,
-    has_variants: !!p.has_variants,
-    product_variants: p.product_variants || [],
-    description: p.description,
-    is_active: p.is_active ? 1 : 0,
-  }))
+  const mapped = (data || []).map((p) => {
+    const categoryName =
+      Array.isArray(p.categories)
+        ? p.categories[0]?.name
+        : (p.categories as { name?: string } | null)?.name
+
+    return {
+      product_id: p.product_id,
+      store_id: p.store_id || '',
+      name: p.name,
+      sku: p.sku || '',
+      barcode: p.barcode,
+      base_price: Number(p.base_price || 0),
+      category_id: p.category_id,
+      category_name: categoryName || null,
+      has_variants: !!p.has_variants,
+      product_variants: p.product_variants || [],
+      description: p.description,
+      is_active: p.is_active ? 1 : 0,
+    }
+  })
 
   // Save to Dexie
   if (typeof window !== 'undefined') {
@@ -145,7 +153,7 @@ export async function getPosCategories(): Promise<PosCategory[]> {
         }))
       }
     } catch (e) {
-      console.warn('Failed to fetch categories from IndexedDB', e)
+      console.warn('Failed to fetch categories from IndexedDB', e) // eslint-disable-line no-console
     }
   }
 
@@ -191,11 +199,48 @@ import type { CheckoutRequestType } from '../schemas/checkout'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import { v4 as uuidv4 } from 'uuid'
 
+type SerializedShipmentDetails = {
+  recipientName?: string
+  recipientPhone?: string
+  deliveryAddress?: string
+  city?: string
+  state?: string
+  postalCode?: string
+  notes?: string
+}
+
+function isRestaurantModuleContext(): boolean {
+  return typeof window !== 'undefined' && window.location.pathname.includes('/respos')
+}
+
+function parseSerializedShipmentDetails(notes: string | null): SerializedShipmentDetails | null {
+  if (!notes) return null
+
+  try {
+    const parsed = JSON.parse(notes) as SerializedShipmentDetails
+    return parsed && typeof parsed === 'object' ? parsed : null
+  } catch {
+    return null
+  }
+}
+
 export async function createPosTransaction(payload: CheckoutRequestType): Promise<CheckoutResponse> {
+  const selectedBranchId = useAuthStore.getState().auth.selectedBranchId
+
+  if (!selectedBranchId) {
+    return {
+      success: false,
+      error: {
+        code: 'BRANCH_REQUIRED',
+        message: 'Please select a branch before checkout.',
+      },
+    }
+  }
+
   // If offline, save locally
   if (typeof window !== 'undefined' && !window.navigator.onLine) {
     const offlineOrder = await offlineOrderService.saveOfflineOrder({
-      store_id: payload.storeId || payload.branchId,
+      store_id: payload.storeId || selectedBranchId,
       total_amount: payload.totalAmount,
       items: payload.items.map(item => ({
         product_id: item.productId,
@@ -210,15 +255,15 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
   }
 
   try {
+    const isRestaurant = isRestaurantModuleContext()
     const invoiceNo = generateInvoiceNumber()
-    const orderId = uuidv4()
     const transactionId = uuidv4()
 
     // 1. Create Sales Invoice
     const { data: invoice, error: invoiceError } = await supabase
       .from('sales_invoices')
       .insert({
-        branch_id: payload.branchId,
+        branch_id: selectedBranchId,
         store_id: payload.storeId,
         customer_id: payload.customerId,
         invoice_no: invoiceNo,
@@ -255,43 +300,87 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
 
     if (itemsError) throw new Error(`Invoice items creation failed: ${itemsError.message}`)
 
-    // 3. Create Restaurant Order
-    const { data: resOrder, error: orderError } = await supabase
-      .from('res_orders')
-      .insert({
-        id: orderId,
-        order_number: invoiceNo,
-        total_amount: payload.totalAmount,
-        subtotal: payload.subtotal,
-        tax_amount: payload.taxTotal || 0,
-        discount_amount: payload.discountTotal || 0,
-        status: 'completed',
-        payment_method: payload.paymentMethod,
-        paid_at: new Date().toISOString(),
-        notes: payload.notes,
-      })
-      .select('id')
-      .single()
+    // 3. Create Restaurant Order (restaurant module only)
+    let restaurantOrderId: string | null = null
+    if (isRestaurant) {
+      const orderId = uuidv4()
+      const { data: resOrder, error: orderError } = await supabase
+        .from('res_orders')
+        .insert({
+          id: orderId,
+          order_number: invoiceNo,
+          total_amount: payload.totalAmount,
+          subtotal: payload.subtotal,
+          tax_amount: payload.taxTotal || 0,
+          discount_amount: payload.discountTotal || 0,
+          status: 'completed',
+          payment_method: payload.paymentMethod,
+          paid_at: new Date().toISOString(),
+          notes: payload.notes,
+        })
+        .select('id')
+        .single()
 
-    if (orderError) throw new Error(`Order creation failed: ${orderError.message}`)
+      if (orderError) throw new Error(`Order creation failed: ${orderError.message}`)
+      restaurantOrderId = resOrder.id
+    }
 
     // 4. Create Shipment if requested
     if (payload.isShipment && payload.shipment) {
-      const { error: shipmentError } = await supabase
-        .from('res_shipments')
-        .insert({
-          order_id: resOrder.id,
-          recipient_name: payload.shipment.recipientName,
-          recipient_phone: payload.shipment.recipientPhone,
-          delivery_address: payload.shipment.deliveryAddress,
+      if (isRestaurant) {
+        const { error: shipmentError } = await supabase
+          .from('res_shipments')
+          .insert({
+            order_id: restaurantOrderId,
+            recipient_name: payload.shipment.recipientName,
+            recipient_phone: payload.shipment.recipientPhone,
+            delivery_address: payload.shipment.deliveryAddress,
+            city: payload.shipment.city,
+            state: payload.shipment.state,
+            postal_code: payload.shipment.postalCode,
+            notes: payload.shipment.notes,
+            status: 'pending',
+          })
+
+        if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+      } else {
+        // `shipments.order_id` is Int, so link it to a minimal `pos_sales.sale_id` record.
+        const { data: posSale, error: posSaleError } = await supabase
+          .from('pos_sales')
+          .insert({
+            customer_id: payload.customerId,
+            subtotal: payload.subtotal,
+            discount_amount: payload.discountTotal || 0,
+            tax_amount: payload.taxTotal || 0,
+            total_amount: payload.totalAmount,
+            payment_method: payload.paymentMethod,
+            status: 'completed',
+          })
+          .select('sale_id')
+          .single()
+
+        if (posSaleError) throw new Error(`POS sale creation failed: ${posSaleError.message}`)
+
+        const serializedShipment = JSON.stringify({
+          recipientName: payload.shipment.recipientName,
+          recipientPhone: payload.shipment.recipientPhone,
+          deliveryAddress: payload.shipment.deliveryAddress,
           city: payload.shipment.city,
           state: payload.shipment.state,
-          postal_code: payload.shipment.postalCode,
+          postalCode: payload.shipment.postalCode,
           notes: payload.shipment.notes,
-          status: 'pending',
-        })
+        } satisfies SerializedShipmentDetails)
 
-      if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+        const { error: shipmentError } = await supabase
+          .from('shipments')
+          .insert({
+            order_id: posSale.sale_id,
+            status: 'prepared',
+            notes: serializedShipment,
+          })
+
+        if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+      }
     }
 
     // 5. Create Transaction record
@@ -313,7 +402,7 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
 
     // 6. Record Inventory Movements
     const movements = payload.items.map(item => ({
-      branch_id: payload.branchId,
+      branch_id: selectedBranchId,
       store_id: payload.storeId,
       product_variant_id: item.productVariantId,
       movement_type: 'sale',
@@ -327,7 +416,7 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       .from('inventory_movements')
       .insert(movements)
 
-    if (movError) console.warn('Inventory movement recording failed:', movError.message)
+    if (movError) console.warn('Inventory movement recording failed:', movError.message) // eslint-disable-line no-console
 
     return {
       success: true,
@@ -337,7 +426,7 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       timestamp: new Date().toISOString(),
     }
   } catch (error: unknown) {
-    console.error('POS Checkout error:', error)
+    console.error('POS Checkout error:', error) // eslint-disable-line no-console
     return {
       success: false,
       error: {
@@ -349,11 +438,40 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
 }
 
 export async function getPosShipments() {
+  const isRestaurant = isRestaurantModuleContext()
+
+  if (isRestaurant) {
+    const { data, error } = await supabase
+      .from('res_shipments')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    return data
+  }
+
   const { data, error } = await supabase
-    .from('res_shipments')
+    .from('shipments')
     .select('*')
-    .order('created_at', { ascending: false })
+    .order('shipment_id', { ascending: false })
 
   if (error) throw error
-  return data
+
+  return (data || []).map((shipment) => {
+    const details = parseSerializedShipmentDetails(shipment.notes)
+
+    return {
+      id: String(shipment.shipment_id),
+      order_id: String(shipment.order_id),
+      recipient_name: details?.recipientName || 'N/A',
+      recipient_phone: details?.recipientPhone || 'N/A',
+      delivery_address: details?.deliveryAddress || 'N/A',
+      city: details?.city || '',
+      state: details?.state || '',
+      postal_code: details?.postalCode || '',
+      status: shipment.status || 'prepared',
+      notes: details?.notes || '',
+      created_at: shipment.shipped_date || shipment.delivered_date || new Date().toISOString(),
+    }
+  })
 }

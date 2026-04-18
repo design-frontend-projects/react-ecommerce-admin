@@ -311,7 +311,7 @@ function MenuItemDetailsContent({
           >
             <span>Add to Order</span>
             <div className='flex items-center gap-2'>
-              <Separator orientation='vertical' className='h-4 bg-white/20' />
+              <Separator orientation='vertical' className='h-4 bg-border' />
               <span>{formatCurrency(totalPrice)}</span>
             </div>
           </Button>

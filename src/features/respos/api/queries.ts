@@ -49,6 +49,7 @@ export const resposQueryKeys = {
       : (['respos', 'shifts', 'active'] as const),
   activeOrder: (tableId: string) =>
     ['respos', 'orders', 'active', tableId] as const,
+  deliveryOrders: ['respos', 'orders', 'delivery-open'] as const,
   orders: (status?: string) =>
     status
       ? (['respos', 'orders', status] as const)
@@ -541,6 +542,25 @@ export function useActiveOrderByTable(tableId: string) {
       return data as ResOrderWithDetails | null
     },
     enabled: !!tableId,
+  })
+}
+
+export function useOpenDeliveryOrders() {
+  return useQuery({
+    queryKey: resposQueryKeys.deliveryOrders,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('res_orders')
+        .select(
+          '*, items:res_order_items(*, item:res_menu_items(*), variant:res_item_variants(*))'
+        )
+        .is('table_id', null)
+        .in('status', ['open', 'in_progress', 'ready'])
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      return (data || []) as ResOrderWithDetails[]
+    },
   })
 }
 

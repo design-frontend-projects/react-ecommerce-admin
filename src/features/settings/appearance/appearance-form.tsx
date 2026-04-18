@@ -20,19 +20,38 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark']),
+  theme: z.enum(['light', 'dark', 'system']),
   font: z.enum(fonts),
 })
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
+
+function ThemePreview({ mode }: { mode: 'light' | 'dark' }) {
+  return (
+    <div className={cn('space-y-2 rounded-sm bg-background p-2', mode)}>
+      <div className='space-y-2 rounded-md border border-border bg-card p-2 shadow-xs'>
+        <div className='h-2 w-[80px] rounded-lg bg-muted' />
+        <div className='h-2 w-[100px] rounded-lg bg-muted' />
+      </div>
+      <div className='flex items-center space-x-2 rounded-md border border-border bg-card p-2 shadow-xs'>
+        <div className='h-4 w-4 rounded-full bg-primary/30' />
+        <div className='h-2 w-[100px] rounded-lg bg-muted' />
+      </div>
+      <div className='flex items-center space-x-2 rounded-md border border-border bg-card p-2 shadow-xs'>
+        <div className='h-4 w-4 rounded-full bg-accent' />
+        <div className='h-2 w-[100px] rounded-lg bg-muted' />
+      </div>
+    </div>
+  )
+}
 
 export function AppearanceForm() {
   const { font, setFont } = useFont()
   const { theme, setTheme } = useTheme()
 
   // This can come from your database or API.
-  const defaultValues: Partial<AppearanceFormValues> = {
-    theme: theme as 'light' | 'dark',
+  const defaultValues: AppearanceFormValues = {
+    theme: (theme as AppearanceFormValues['theme']) || 'system',
     font,
   }
 
@@ -62,8 +81,7 @@ export function AppearanceForm() {
                   <select
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'w-[200px] appearance-none font-normal capitalize',
-                      'dark:bg-background dark:hover:bg-background'
+                      'w-[200px] appearance-none font-normal capitalize'
                     )}
                     {...field}
                   >
@@ -96,7 +114,7 @@ export function AppearanceForm() {
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                className='grid max-w-md grid-cols-2 gap-8 pt-2'
+                className='grid max-w-3xl grid-cols-1 gap-6 pt-2 md:grid-cols-3'
               >
                 <FormItem>
                   <FormLabel className='[&:has([data-state=checked])>div]:border-primary'>
@@ -104,20 +122,7 @@ export function AppearanceForm() {
                       <RadioGroupItem value='light' className='sr-only' />
                     </FormControl>
                     <div className='items-center rounded-md border-2 border-muted p-1 hover:border-accent'>
-                      <div className='space-y-2 rounded-sm bg-[#ecedef] p-2'>
-                        <div className='space-y-2 rounded-md bg-white p-2 shadow-xs'>
-                          <div className='h-2 w-[80px] rounded-lg bg-[#ecedef]' />
-                          <div className='h-2 w-[100px] rounded-lg bg-[#ecedef]' />
-                        </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-white p-2 shadow-xs'>
-                          <div className='h-4 w-4 rounded-full bg-[#ecedef]' />
-                          <div className='h-2 w-[100px] rounded-lg bg-[#ecedef]' />
-                        </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-white p-2 shadow-xs'>
-                          <div className='h-4 w-4 rounded-full bg-[#ecedef]' />
-                          <div className='h-2 w-[100px] rounded-lg bg-[#ecedef]' />
-                        </div>
-                      </div>
+                      <ThemePreview mode='light' />
                     </div>
                     <span className='block w-full p-2 text-center font-normal'>
                       Light
@@ -129,24 +134,27 @@ export function AppearanceForm() {
                     <FormControl>
                       <RadioGroupItem value='dark' className='sr-only' />
                     </FormControl>
-                    <div className='items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground'>
-                      <div className='space-y-2 rounded-sm bg-slate-950 p-2'>
-                        <div className='space-y-2 rounded-md bg-slate-800 p-2 shadow-xs'>
-                          <div className='h-2 w-[80px] rounded-lg bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
-                        </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-xs'>
-                          <div className='h-4 w-4 rounded-full bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
-                        </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-xs'>
-                          <div className='h-4 w-4 rounded-full bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
-                        </div>
-                      </div>
+                    <div className='items-center rounded-md border-2 border-muted p-1 hover:border-accent'>
+                      <ThemePreview mode='dark' />
                     </div>
                     <span className='block w-full p-2 text-center font-normal'>
                       Dark
+                    </span>
+                  </FormLabel>
+                </FormItem>
+                <FormItem>
+                  <FormLabel className='[&:has([data-state=checked])>div]:border-primary'>
+                    <FormControl>
+                      <RadioGroupItem value='system' className='sr-only' />
+                    </FormControl>
+                    <div className='items-center rounded-md border-2 border-muted p-1 hover:border-accent'>
+                      <div className='grid grid-cols-2 gap-1 rounded-sm bg-muted p-2'>
+                        <ThemePreview mode='light' />
+                        <ThemePreview mode='dark' />
+                      </div>
+                    </div>
+                    <span className='block w-full p-2 text-center font-normal'>
+                      System
                     </span>
                   </FormLabel>
                 </FormItem>

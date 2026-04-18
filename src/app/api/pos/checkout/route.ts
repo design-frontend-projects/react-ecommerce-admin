@@ -4,7 +4,11 @@ import { processCheckout } from '@/features/pos/services/CheckoutService'
 export async function POST(req: Request): Promise<Response> {
   try {
     const body = await req.json()
+    console.log(body)
+
     const parsed = checkoutRequestSchema.safeParse(body)
+    console.log('parsed body')
+    console.log(parsed)
 
     if (!parsed.success) {
       return Response.json(

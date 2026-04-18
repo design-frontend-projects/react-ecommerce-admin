@@ -1,11 +1,12 @@
 import { supabase } from '@/lib/supabase'
 import { generateOrderNumber } from '../lib/formatters'
-import { ResOrder } from '../types'
+import type { ResOrder } from '../types'
 
 export { generateOrderNumber }
 
 export async function createResOrder(payload: {
   tableId?: string
+  isDelivery?: boolean
   shiftId?: string
   createdBy?: string
   customerName?: string
@@ -20,6 +21,11 @@ export async function createResOrder(payload: {
     notes?: string
   }>
 }): Promise<ResOrder> {
+  const isDelivery = !!payload.isDelivery
+  if (!isDelivery && !payload.tableId) {
+    throw new Error('Table is required for dine-in orders')
+  }
+
   const orderNumber = generateOrderNumber()
   const subtotal = payload.items.reduce(
     (sum, item) => sum + item.unit_price * item.quantity,
@@ -30,7 +36,7 @@ export async function createResOrder(payload: {
     .from('res_orders')
     .insert({
       order_number: orderNumber,
-      table_id: payload.tableId,
+      table_id: isDelivery ? null : payload.tableId,
       shift_id: payload.shiftId,
       created_by: payload.createdBy,
       customer_name: payload.customerName,
@@ -63,7 +69,7 @@ export async function createResOrder(payload: {
   if (itemsError) throw itemsError
 
   // Update table status
-  if (payload.tableId) {
+  if (!isDelivery && payload.tableId) {
     await supabase
       .from('res_tables')
       .update({ status: 'occupied' })

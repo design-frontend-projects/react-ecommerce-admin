@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const checkoutItemSchema = z.object({
   productId: z.number().int().positive(),
-  productVariantId: z.string().uuid(),
+  productVariantId: z.uuid(),
   quantity: z.number().positive(),
   unitPrice: z.number().min(0),
   discountAmount: z.number().min(0).optional().default(0),
