@@ -318,6 +318,7 @@ model product_variants {
   updated_at             DateTime?                @default(now()) @db.Timestamp(6)
   clerk_user_id          String?                  @default(dbgenerated("clerk_user_id()"))
   inventory_movements    inventory_movements[]
+  pos_reorder_requests   pos_reorder_requests[]
   price_list_items       price_list_items[]
   products               products                 @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
   purchase_invoice_items purchase_invoice_items[]
@@ -351,6 +352,7 @@ model products {
   has_expiration         Boolean?               @default(false)
   expiration_date        DateTime               @db.Date
   inventory              inventory?
+  pos_reorder_requests   pos_reorder_requests[]
   price_list             price_list[]
   product_variants       product_variants[]
   categories             categories?            @relation(fields: [category_id], references: [category_id], onUpdate: NoAction)
@@ -362,6 +364,31 @@ model products {
   @@index([category_id], map: "idx_products_category")
   @@index([sku], map: "idx_products_sku")
   @@index([supplier_id], map: "idx_products_supplier")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pos_reorder_requests {
+  id                         String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerk_user_id              String                 @default(dbgenerated("clerk_user_id()")) @db.VarChar(255)
+  product_id                 Int
+  product_variant_id         String?                @db.Uuid
+  requested_by_clerk_user_id String                 @db.VarChar(255)
+  requested_by_name          String                 @db.VarChar(255)
+  requested_by_role          String?                @db.VarChar(100)
+  requested_quantity         Int?
+  requested_min_stock        Int?
+  status                     reorder_request_status @default(pending)
+  read_by_clerk_user_id      String?                @db.VarChar(255)
+  read_at                    DateTime?              @db.Timestamptz(6)
+  created_at                 DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime               @default(now()) @db.Timestamptz(6)
+  product_variants           product_variants?      @relation(fields: [product_variant_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  products                   products               @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([clerk_user_id, status, created_at], map: "idx_pos_reorder_requests_tenant_status_created")
+  @@index([requested_by_clerk_user_id, status], map: "idx_pos_reorder_requests_requester_status")
+  @@index([product_id], map: "idx_pos_reorder_requests_product")
+  @@index([product_variant_id], map: "idx_pos_reorder_requests_variant")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1128,12 +1155,12 @@ model sales_returns {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model shipments {
-  shipment_id     Int       @id @default(autoincrement())
+  shipment_id     Int                  @id @default(autoincrement())
   order_id        Int
-  tracking_number String?   @db.VarChar(100)
-  shipped_date    DateTime? @db.Timestamp(6)
-  delivered_date  DateTime? @db.Timestamp(6)
-  carrier         String?   @db.VarChar(100)
+  tracking_number String?              @db.VarChar(100)
+  shipped_date    DateTime?            @db.Timestamp(6)
+  delivered_date  DateTime?            @db.Timestamp(6)
+  carrier         String?              @db.VarChar(100)
   status          shipment_status_enum @default(prepared)
   notes           String?
 

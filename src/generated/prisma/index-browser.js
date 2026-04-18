@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.7.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.7.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -359,6 +359,23 @@ exports.Prisma.ProductsScalarFieldEnum = {
   base_price: 'base_price',
   has_expiration: 'has_expiration',
   expiration_date: 'expiration_date'
+};
+
+exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
+  id: 'id',
+  clerk_user_id: 'clerk_user_id',
+  product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
+  requested_by_clerk_user_id: 'requested_by_clerk_user_id',
+  requested_by_name: 'requested_by_name',
+  requested_by_role: 'requested_by_role',
+  requested_quantity: 'requested_quantity',
+  requested_min_stock: 'requested_min_stock',
+  status: 'status',
+  read_by_clerk_user_id: 'read_by_clerk_user_id',
+  read_at: 'read_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
@@ -1162,6 +1179,11 @@ exports.price_list_types = exports.$Enums.price_list_types = {
   valintine_day: 'valintine_day'
 };
 
+exports.reorder_request_status = exports.$Enums.reorder_request_status = {
+  pending: 'pending',
+  read: 'read'
+};
+
 exports.discount_type_enum = exports.$Enums.discount_type_enum = {
   fixed: 'fixed',
   percentage: 'percentage'
@@ -1190,6 +1212,19 @@ exports.refund_status = exports.$Enums.refund_status = {
   rejected: 'rejected',
   waiting_manager: 'waiting_manager',
   waiting_review: 'waiting_review'
+};
+
+exports.shipment_status_enum = exports.$Enums.shipment_status_enum = {
+  prepared: 'prepared',
+  pending: 'pending',
+  approved: 'approved',
+  in_transit: 'in_transit',
+  shipped: 'shipped',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+  failed: 'failed',
+  delayed: 'delayed',
+  refundable: 'refundable'
 };
 
 exports.subscription_status = exports.$Enums.subscription_status = {
@@ -1257,6 +1292,7 @@ exports.Prisma.ModelName = {
   price_list_items: 'price_list_items',
   product_variants: 'product_variants',
   products: 'products',
+  pos_reorder_requests: 'pos_reorder_requests',
   profiles: 'profiles',
   promotion_usage: 'promotion_usage',
   promotions: 'promotions',
