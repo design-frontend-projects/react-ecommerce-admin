@@ -203,6 +203,12 @@ export function useSidebarData(): SidebarData {
             roles: ['admin', 'super_admin'],
           },
           {
+            title: t('sidebar.shipments'),
+            url: '/inventory/shipments',
+            icon: Truck,
+            roles: ['admin', 'super_admin'],
+          },
+          {
             title: t('sidebar.suppliers'),
             url: '/suppliers',
             icon: Package,

@@ -1,4 +1,4 @@
-import { formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog,
@@ -13,7 +13,8 @@ interface VariantSelectionDialogProps {
   onOpenChange: (open: boolean) => void
   productName: string
   variants: PosProductVariant[]
-  onSelect: (variant: PosProductVariant) => void
+  onSelect: (variantId: string, variant: PosProductVariant) => void
+  isVariantDisabled?: (variant: PosProductVariant) => boolean
 }
 
 export function VariantSelectionDialog({
@@ -22,6 +23,7 @@ export function VariantSelectionDialog({
   productName,
   variants,
   onSelect,
+  isVariantDisabled,
 }: VariantSelectionDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -32,16 +34,26 @@ export function VariantSelectionDialog({
         <div className='grid max-h-[60vh] grid-cols-2 gap-4 overflow-y-auto py-4 md:grid-cols-3'>
           {variants.map((v) => {
             const price = Number(v.price ?? 0)
+            const disabled = isVariantDisabled?.(v) ?? false
 
             return (
               <Card
                 key={v.id}
-                className='cursor-pointer transition-all hover:border-primary active:scale-95'
+                className={cn(
+                  'relative transition-all',
+                  disabled
+                    ? 'cursor-not-allowed border-destructive/40 opacity-60'
+                    : 'cursor-pointer hover:border-primary active:scale-95'
+                )}
                 onClick={() => {
-                  onSelect(v)
+                  if (disabled) return
+                  onSelect(v.id, v)
                   onOpenChange(false)
                 }}
               >
+                {disabled && (
+                  <span className='absolute top-0 right-0 left-0 h-1 rounded-t-lg bg-destructive' />
+                )}
                 <CardContent className='relative flex flex-col gap-2 p-4'>
                   {v.dimensions && (
                     <div className='font-semibold'>{v.dimensions}</div>
@@ -57,6 +69,11 @@ export function VariantSelectionDialog({
                   <div className='mt-auto text-lg font-bold'>
                     {formatCurrency(price)}
                   </div>
+                  {disabled && (
+                    <div className='text-xs font-medium text-destructive'>
+                      Low stock - unavailable
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )

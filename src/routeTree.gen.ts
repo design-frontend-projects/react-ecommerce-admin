@@ -73,6 +73,7 @@ import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
+import { Route as AuthenticatedInventoryShipmentsRouteImport } from './routes/_authenticated/inventory/shipments'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
@@ -438,6 +439,12 @@ const AuthenticatedResposAnalyticsRoute =
     path: '/respos/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInventoryShipmentsRoute =
+  AuthenticatedInventoryShipmentsRouteImport.update({
+    id: '/inventory/shipments',
+    path: '/inventory/shipments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedErrorsErrorRoute =
   AuthenticatedErrorsErrorRouteImport.update({
     id: '/errors/$error',
@@ -515,6 +522,7 @@ export interface FileRoutesByFullPath {
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -582,6 +590,7 @@ export interface FileRoutesByTo {
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -654,6 +663,7 @@ export interface FileRoutesById {
   '/_authenticated/_system/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/_authenticated/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -725,6 +735,7 @@ export interface FileRouteTypes {
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
+    | '/inventory/shipments'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -792,6 +803,7 @@ export interface FileRouteTypes {
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
+    | '/inventory/shipments'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -863,6 +875,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_system/system-dashboard'
     | '/_authenticated/_system/system-management'
     | '/_authenticated/errors/$error'
+    | '/_authenticated/inventory/shipments'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
     | '/_authenticated/respos/cashier'
@@ -1353,6 +1366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory/shipments': {
+      id: '/_authenticated/inventory/shipments'
+      path: '/inventory/shipments'
+      fullPath: '/inventory/shipments'
+      preLoaderRoute: typeof AuthenticatedInventoryShipmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/errors/$error': {
       id: '/_authenticated/errors/$error'
       path: '/errors/$error'
@@ -1482,6 +1502,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
+  AuthenticatedInventoryShipmentsRoute: typeof AuthenticatedInventoryShipmentsRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
@@ -1529,6 +1550,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
+  AuthenticatedInventoryShipmentsRoute: AuthenticatedInventoryShipmentsRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,

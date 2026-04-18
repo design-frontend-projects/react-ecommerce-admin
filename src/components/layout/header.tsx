@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth, UserButton } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/clerk-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 import {
   Select,
   SelectContent,
@@ -14,6 +15,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ConfigDrawer } from './config-drawer'
+import { ReorderNotificationsBell } from '@/features/pos/components/reorder-notifications-bell'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -99,15 +101,9 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
               </SelectContent>
             </Select>
           )}
+          <ReorderNotificationsBell />
           <ConfigDrawer />
-          <UserButton
-            afterSignOutUrl='/sign-in'
-            appearance={{
-              elements: {
-                avatarBox: 'h-9 w-9',
-              },
-            }}
-          />
+          {isSignedIn && <ProfileDropdown />}
         </div>
       </div>
     </header>

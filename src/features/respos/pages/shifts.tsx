@@ -1,6 +1,6 @@
 // ResPOS Shift Management Page
 // Manage cashier shifts: open, close, and view shift history
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useForm, useWatch } from 'react-hook-form'
@@ -419,6 +419,9 @@ export function OpenShiftDialog({
   employeeName,
   isPending,
   defaultOpeningCash = 0,
+  nonDismissible = false,
+  showCancelButton = true,
+  lockOpeningCash = false,
   onSubmit,
 }: {
   open: boolean
@@ -426,6 +429,9 @@ export function OpenShiftDialog({
   employeeName: string
   isPending: boolean
   defaultOpeningCash?: number
+  nonDismissible?: boolean
+  showCancelButton?: boolean
+  lockOpeningCash?: boolean
   onSubmit: (values: OpenShiftFormValues) => Promise<void>
 }) {
   const form = useForm<OpenShiftFormValues>({
@@ -433,14 +439,35 @@ export function OpenShiftDialog({
     defaultValues: { openingCash: defaultOpeningCash },
   })
 
+  useEffect(() => {
+    if (open) {
+      form.reset({ openingCash: defaultOpeningCash })
+    }
+  }, [defaultOpeningCash, form, open])
+
   const handleSubmit = async (values: OpenShiftFormValues) => {
     await onSubmit(values)
     form.reset()
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-md'>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (nonDismissible && !nextOpen) return
+        onOpenChange(nextOpen)
+      }}
+    >
+      <DialogContent
+        className='sm:max-w-md'
+        showCloseButton={!nonDismissible}
+        onEscapeKeyDown={(event) => {
+          if (nonDismissible) event.preventDefault()
+        }}
+        onInteractOutside={(event) => {
+          if (nonDismissible) event.preventDefault()
+        }}
+      >
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
             <BadgeCheck className='h-5 w-5 text-green-500' />
@@ -472,6 +499,7 @@ export function OpenShiftDialog({
                         min='0'
                         placeholder='0.00'
                         className='pl-9'
+                        readOnly={lockOpeningCash}
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseFloat(e.target.value) || 0)
@@ -485,14 +513,16 @@ export function OpenShiftDialog({
             />
 
             <DialogFooter>
-              <Button
-                type='button'
-                variant='outline'
-                onClick={() => onOpenChange(false)}
-                disabled={isPending}
-              >
-                Cancel
-              </Button>
+              {showCancelButton && (
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => onOpenChange(false)}
+                  disabled={isPending || nonDismissible}
+                >
+                  Cancel
+                </Button>
+              )}
               <Button type='submit' disabled={isPending} className='gap-2'>
                 {isPending && <Loader2 className='h-4 w-4 animate-spin' />}
                 Open Shift

@@ -1,5 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useAuth, useUser } from '@clerk/clerk-react'
+import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import {
   Search,
   Keyboard,
@@ -7,9 +9,10 @@ import {
   LayoutDashboard,
   ShoppingCart,
   Scan,
+  Truck,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -22,13 +25,24 @@ import {
 } from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
-import { getPosProducts } from '../data/api'
+import {
+  getPosProducts,
+  type PosProduct,
+  type PosProductVariant,
+} from '../data/api'
+import {
+  useCreatePosReorderRequest,
+  usePosReorderRealtime,
+} from '../hooks/use-pos-reorder-requests'
 import { useBasket } from '../store/use-basket'
+import { getProductStockFlags, isVariantSellable } from '../utils/stock'
 import { BarcodeScannerListener } from './barcode-scanner-listener'
 import { BasketView } from './basket-view'
 import { ManualSkuDialog } from './manual-sku-dialog'
+import { ReorderNotificationsBell } from './reorder-notifications-bell'
 import { ShiftDashboard } from './shift-dashboard'
 import { VariantSelectionDialog } from './variant-selection-dialog'
+import { NonRestaurantShipmentsBoard } from './non-restaurant-shipments-board'
 
 export function PosLayout() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -38,11 +52,14 @@ export function PosLayout() {
   const [isBasketOpen, setIsBasketOpen] = useState(false)
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false)
-  const [selectedProductForVariant, setSelectedProductForVariant] = useState<
-    NonNullable<typeof products>[number] | null
-  >(null)
+  const [selectedProductForVariant, setSelectedProductForVariant] =
+    useState<PosProduct | null>(null)
+  const acknowledgedRequestIdsRef = useRef<Set<string>>(new Set())
 
+  const { isLoaded: authLoaded, isSignedIn, has } = useAuth()
+  const { user } = useUser()
   const { addItem, items } = useBasket()
+  const createReorderRequest = useCreatePosReorderRequest()
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['pos-products'],
@@ -60,10 +77,94 @@ export function PosLayout() {
     )
   }, [products, searchQuery])
 
-  const handleProductClick = (
-    product: NonNullable<typeof products>[number]
-  ) => {
-    if (product.has_variants && product.product_variants?.length > 0) {
+  const requesterRole = useMemo(() => {
+    const metadataRole = (user?.publicMetadata as { role?: unknown } | null)
+      ?.role
+
+    if (typeof metadataRole === 'string' && metadataRole.length > 0) {
+      return metadataRole
+    }
+
+    if (!authLoaded || !isSignedIn) return 'employee'
+    if (has({ role: 'super_admin' }) || has({ role: 'org:super_admin' })) {
+      return 'super_admin'
+    }
+    if (has({ role: 'admin' }) || has({ role: 'org:admin' })) return 'admin'
+
+    return 'employee'
+  }, [authLoaded, has, isSignedIn, user?.publicMetadata])
+
+  const handleEmployeeRequestRead = useCallback(
+    (payload: RealtimePostgresChangesPayload<Record<string, unknown>>) => {
+      const nextRow = payload.new ?? {}
+      const previousRow = payload.old ?? {}
+      const requestId = String(nextRow.id ?? '')
+      const nextStatus = String(nextRow.status ?? '')
+      const previousStatus = String(previousRow.status ?? '')
+
+      if (!requestId || nextStatus !== 'read' || previousStatus === 'read') {
+        return
+      }
+
+      if (acknowledgedRequestIdsRef.current.has(requestId)) return
+      acknowledgedRequestIdsRef.current.add(requestId)
+
+      toast.success('Admin acknowledged your reorder request.')
+    },
+    []
+  )
+
+  usePosReorderRealtime({
+    enabled: !!user?.id,
+    employeeClerkUserId: user?.id,
+    onEmployeeRequestRead: handleEmployeeRequestRead,
+  })
+
+  const handleNotifyAdmin = useCallback(
+    (product: PosProduct, variant: PosProductVariant | null) => {
+      if (!user?.id) {
+        toast.error('Please sign in before sending a reorder request.')
+        return
+      }
+
+      createReorderRequest.mutate(
+        {
+          product_id: product.product_id,
+          product_variant_id: variant?.id ?? null,
+          requested_by_clerk_user_id: user.id,
+          requested_by_name:
+            user.fullName || user.primaryEmailAddress?.emailAddress || user.id,
+          requested_by_role: requesterRole,
+          requested_quantity: variant?.stock_quantity ?? null,
+          requested_min_stock: variant?.min_stock ?? null,
+        },
+        {
+          onSuccess: (result) => {
+            if (result.duplicate) {
+              toast.info('A pending reorder request already exists.')
+              return
+            }
+            toast.success('Admin has been notified to reorder this item.')
+          },
+          onError: (error: Error) => {
+            toast.error(`Failed to notify admin: ${error.message}`)
+          },
+        }
+      )
+    },
+    [createReorderRequest, requesterRole, user]
+  )
+
+  const handleProductClick = (product: PosProduct) => {
+    const hasVariants = (product.product_variants?.length ?? 0) > 0
+    const { hasSellableVariants } = getProductStockFlags(product.product_variants)
+
+    if (hasVariants && !hasSellableVariants) {
+      toast.error(`${product.name} is low stock and currently unavailable.`)
+      return
+    }
+
+    if (hasVariants) {
       setSelectedProductForVariant(product)
       setIsVariantDialogOpen(true)
       return
@@ -77,6 +178,7 @@ export function PosLayout() {
       unitPrice: product.base_price,
       quantity: 1,
     })
+    toast.success(`Added ${product.name}`)
   }
 
   const handleScan = (barcodeOrSku: string) => {
@@ -84,13 +186,20 @@ export function PosLayout() {
 
     // Priority 1: Check variants first (as requested)
     for (const p of products) {
-      if (p.has_variants && p.product_variants) {
+      if (p.product_variants?.length > 0) {
         const variant = p.product_variants.find(
           (v) =>
             v.barcode === barcodeOrSku ||
             v.sku.toLowerCase() === barcodeOrSku.toLowerCase()
         )
         if (variant) {
+          if (!isVariantSellable(variant)) {
+            toast.error(
+              `Cannot add ${p.name} (${variant.dimensions || variant.sku}): low stock.`
+            )
+            return
+          }
+
           const price = Number(variant.price ?? p.base_price)
 
           addItem({
@@ -117,12 +226,8 @@ export function PosLayout() {
         p.sku.toLowerCase() === barcodeOrSku.toLowerCase()
     )
 
-    if (
-      product &&
-      (!product.has_variants || product.product_variants.length === 0)
-    ) {
+    if (product) {
       handleProductClick(product)
-      toast.success(`Added ${product.name}`)
       return
     }
 
@@ -145,7 +250,7 @@ export function PosLayout() {
         className='flex flex-1 flex-col'
       >
         <div className='mb-4 flex items-center justify-between gap-4'>
-          <TabsList className='grid w-full max-w-md grid-cols-2'>
+          <TabsList className='grid w-full max-w-xl grid-cols-3'>
             <TabsTrigger value='checkout' className='gap-2'>
               <ShoppingCart className='h-4 w-4' />
               Checkout
@@ -154,10 +259,16 @@ export function PosLayout() {
               <LayoutDashboard className='h-4 w-4' />
               Shift Dashboard
             </TabsTrigger>
+            <TabsTrigger value='shipments' className='gap-2'>
+              <Truck className='h-4 w-4' />
+              Shipments
+            </TabsTrigger>
           </TabsList>
 
           {activeTab === 'checkout' && (
             <div className='flex flex-1 items-center justify-end gap-2 sm:gap-4'>
+              <ReorderNotificationsBell />
+
               <div
                 className={`relative flex transition-all duration-300 ${
                   isSearchExpanded
@@ -294,35 +405,80 @@ export function PosLayout() {
                 ) : (
                   <div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                     {filteredProducts.map((product) => (
-                      <Card
-                        key={product.product_id}
-                        className='cursor-pointer transition-colors hover:border-primary active:scale-95'
-                        onClick={() => handleProductClick(product)}
-                      >
-                        <CardContent className='flex aspect-square flex-col justify-between p-4'>
-                          <div className='line-clamp-2 font-semibold'>
-                            {product.name}
-                          </div>
-                          <div>
-                            <div className='mb-1 text-sm text-muted-foreground'>
-                              {product.sku}
-                            </div>
-                            <div className='text-lg font-bold'>
-                              {product.has_variants &&
-                              product.product_variants &&
-                              product.product_variants.length > 0
-                                ? formatCurrency(
-                                    Math.min(
-                                      ...product.product_variants.map((v) =>
-                                        Number(v.price)
+                      (() => {
+                        const hasVariants =
+                          (product.product_variants?.length ?? 0) > 0
+                        const { hasLowStockVariants, hasSellableVariants } =
+                          hasVariants
+                            ? getProductStockFlags(product.product_variants)
+                            : {
+                                hasLowStockVariants: false,
+                                hasSellableVariants: true,
+                              }
+                        const firstLowVariant =
+                          product.product_variants.find(
+                            (variant) => !isVariantSellable(variant)
+                          ) ?? null
+
+                        return (
+                          <Card
+                            key={product.product_id}
+                            className={cn(
+                              'relative transition-colors',
+                              hasSellableVariants
+                                ? 'cursor-pointer hover:border-primary active:scale-95'
+                                : 'cursor-not-allowed border-destructive/50 opacity-70'
+                            )}
+                            onClick={() => handleProductClick(product)}
+                          >
+                            {hasLowStockVariants && (
+                              <span className='absolute top-0 right-0 left-0 h-1 rounded-t-lg bg-destructive' />
+                            )}
+                            <CardContent className='flex aspect-square flex-col justify-between gap-2 p-4'>
+                              <div className='line-clamp-2 font-semibold'>
+                                {product.name}
+                              </div>
+                              <div>
+                                <div className='mb-1 text-sm text-muted-foreground'>
+                                  {product.sku}
+                                </div>
+                                <div className='text-lg font-bold'>
+                                  {product.has_variants &&
+                                  product.product_variants &&
+                                  product.product_variants.length > 0
+                                    ? formatCurrency(
+                                        Math.min(
+                                          ...product.product_variants.map((v) =>
+                                            Number(v.price)
+                                          )
+                                        )
                                       )
-                                    )
-                                  )
-                                : formatCurrency(product.base_price)}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                                    : formatCurrency(product.base_price)}
+                                </div>
+                              </div>
+                              {hasLowStockVariants && (
+                                <Button
+                                  size='sm'
+                                  variant='outline'
+                                  className='h-7 border-destructive/50 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive'
+                                  disabled={createReorderRequest.isPending}
+                                  onClick={(event) => {
+                                    event.stopPropagation()
+                                    handleNotifyAdmin(product, firstLowVariant)
+                                  }}
+                                >
+                                  Notify Admin
+                                </Button>
+                              )}
+                              {!hasSellableVariants && (
+                                <p className='text-xs font-medium text-destructive'>
+                                  Low stock - unavailable
+                                </p>
+                              )}
+                            </CardContent>
+                          </Card>
+                        )
+                      })()
                     ))}
                   </div>
                 )}
@@ -342,6 +498,13 @@ export function PosLayout() {
         >
           <ShiftDashboard />
         </TabsContent>
+
+        <TabsContent
+          value='shipments'
+          className='mt-0 flex-1 overflow-y-auto rounded-lg border bg-card p-4 shadow-sm outline-none'
+        >
+          <NonRestaurantShipmentsBoard variant='embedded' context='pos' />
+        </TabsContent>
       </Tabs>
 
       <ManualSkuDialog
@@ -356,10 +519,16 @@ export function PosLayout() {
           onOpenChange={setIsVariantDialogOpen}
           productName={selectedProductForVariant.name}
           variants={selectedProductForVariant.product_variants}
-          onSelect={(variant) => {
+          isVariantDisabled={(variant) => !isVariantSellable(variant)}
+          onSelect={(variantId, variant) => {
+            if (!isVariantSellable(variant)) {
+              toast.error('This variant is low stock and unavailable.')
+              return
+            }
+
             addItem({
               productId: selectedProductForVariant.product_id,
-              productVariantId: variant.id,
+              productVariantId: variantId,
               name: `${selectedProductForVariant.name} - ${variant.dimensions || variant.sku}`,
               sku: variant.sku,
               barcode: variant.barcode,

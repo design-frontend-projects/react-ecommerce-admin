@@ -38,6 +38,7 @@ export function BasketView() {
   const total = getTotalAmount()
   const cartDiscount = subtotal + tax - total
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0)
+  const hasMissingVariantItems = items.some((item) => !item.productVariantId)
 
   const checkoutMutation = useMutation({
     mutationFn: async ({
@@ -49,6 +50,21 @@ export function BasketView() {
       paymentMethod: 'cash' | 'card' | 'mixed'
       shipment?: ShipmentType
     }) => {
+      const checkoutItems = items.map((item) => {
+        if (!item.productVariantId) {
+          throw new Error(`Missing product variant for "${item.name}"`)
+        }
+
+        return {
+          productId: item.productId,
+          productVariantId: item.productVariantId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          discountAmount: item.unitPrice * item.quantity - item.total,
+          taxAmount: 0,
+        }
+      })
+
       return createPosTransaction({
         branchId: selectedBranchId || '',
         paymentMethod,
@@ -59,14 +75,7 @@ export function BasketView() {
         totalAmount: total,
         discountTotal: cartDiscount > 0 ? cartDiscount : 0,
         taxTotal: tax,
-        items: items.map((item) => ({
-          productId: item.productId,
-          productVariantId: item.productVariantId ?? item.productId.toString(),
-          quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          discountAmount: item.unitPrice * item.quantity - item.total,
-          taxAmount: 0,
-        })),
+        items: checkoutItems,
       })
     },
     onSuccess: (data: CheckoutResponse) => {
@@ -120,6 +129,21 @@ export function BasketView() {
   }) => {
     if (!selectedBranchId) {
       toast.error('Please select a branch before checkout.')
+      return
+    }
+
+    const invalidItems = items.filter((item) => !item.productVariantId)
+    if (invalidItems.length > 0) {
+      const preview = invalidItems
+        .slice(0, 3)
+        .map((item) => item.name)
+        .join(', ')
+      const suffix =
+        invalidItems.length > 3 ? ` and ${invalidItems.length - 3} more` : ''
+
+      toast.error(
+        `Checkout blocked: ${invalidItems.length} item(s) missing variant ID (${preview}${suffix}).`
+      )
       return
     }
 
@@ -364,7 +388,11 @@ export function BasketView() {
 
         <Button
           className='mt-4 h-14 w-full text-base font-semibold md:text-lg'
-          disabled={items.length === 0 || checkoutMutation.isPending}
+          disabled={
+            items.length === 0 ||
+            hasMissingVariantItems ||
+            checkoutMutation.isPending
+          }
           onClick={handlePay}
         >
           {checkoutMutation.isPending ? (

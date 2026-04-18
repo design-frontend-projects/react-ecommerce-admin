@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
@@ -68,6 +68,12 @@ interface LineItem {
   subtotal: number
 }
 
+interface VariantOption {
+  id: string
+  sku: string
+  cost_price: number | null
+}
+
 export function POActionDialog() {
   const { open, setOpen, currentRow } = usePOContext()
   const isCreate = open === 'create'
@@ -78,6 +84,7 @@ export function POActionDialog() {
   const { data: products } = useProducts()
   const createMutation = useCreatePurchaseOrder()
   const updateMutation = useUpdatePurchaseOrder()
+  const [showLineValidation, setShowLineValidation] = useState(false)
 
   // Fetch full PO with items for edit mode
   const { data: fullPO } = usePurchaseOrder(
@@ -112,19 +119,52 @@ export function POActionDialog() {
     values: formDefaults,
   })
 
+  const variantsByProductId = useMemo(() => {
+    const map = new Map<number, VariantOption[]>()
+
+    for (const product of products ?? []) {
+      if (!product.product_id) continue
+
+      const variants = (product.product_variants ?? [])
+        .filter((variant): variant is VariantOption => !!variant.id)
+        .map((variant) => ({
+          id: variant.id,
+          sku: variant.sku,
+          cost_price: variant.cost_price ?? 0,
+        }))
+
+      map.set(product.product_id, variants)
+    }
+
+    return map
+  }, [products])
+
+  const getVariantsForProduct = (productId: number): VariantOption[] =>
+    variantsByProductId.get(productId) ?? []
+
+  const getProductName = (productId: number): string =>
+    products?.find((product) => product.product_id === productId)?.name ??
+    `Product #${productId}`
+
   // Compute initial line items from PO data
   const initialLineItems = useMemo<LineItem[]>(() => {
     if (isEdit && fullPO) {
       return fullPO.purchase_order_items.map((item) => ({
+        // Keep existing variant ID, but auto-map to the only variant if exactly one exists.
         product_id: item.product_id,
-        product_variant_id: item.product_variant_id,
+        product_variant_id: (() => {
+          const variants = variantsByProductId.get(item.product_id) ?? []
+          return (
+            item.product_variant_id ?? (variants.length === 1 ? variants[0].id : null)
+          )
+        })(),
         quantity_ordered: item.quantity_ordered,
         unit_cost: item.unit_cost,
         subtotal: item.subtotal,
       }))
     }
     return []
-  }, [isEdit, fullPO])
+  }, [isEdit, fullPO, variantsByProductId])
 
   // User edits tracked separately; null = no user edits yet
   const [lineItemOverrides, setLineItemOverrides] = useState<LineItem[] | null>(
@@ -134,12 +174,24 @@ export function POActionDialog() {
   // Active line items: user-edited values or computed initial values
   const lineItems = lineItemOverrides ?? initialLineItems
 
+  const closeDialog = () => {
+    setLineItemOverrides(null)
+    setShowLineValidation(false)
+    setOpen(null)
+  }
+
   // ─── Line item handlers ─────────────────────────────────
   const addLineItem = () => {
     const current = lineItemOverrides ?? initialLineItems
     setLineItemOverrides([
       ...current,
-      { product_id: 0, product_variant_id: null, quantity_ordered: 1, unit_cost: 0, subtotal: 0 },
+      {
+        product_id: 0,
+        product_variant_id: null,
+        quantity_ordered: 1,
+        unit_cost: 0,
+        subtotal: 0,
+      },
     ])
   }
 
@@ -155,51 +207,55 @@ export function POActionDialog() {
   ) => {
     const current = lineItemOverrides ?? initialLineItems
     const updated = [...current]
-    
+    setShowLineValidation(false)
+
     const item = { ...updated[index] }
 
-    if (field === 'product_id') item.product_id = value as number
-    else if (field === 'product_variant_id') item.product_variant_id = value as string | null
-    else if (field === 'quantity_ordered') item.quantity_ordered = value as number
-    else if (field === 'unit_cost') item.unit_cost = value as number
-    
+    if (field === 'product_id') {
+      const nextProductId = Number(value) || 0
+      const variants = getVariantsForProduct(nextProductId)
 
-    updated[index] = item
+      item.product_id = nextProductId
+      item.product_variant_id = null
 
-    // Auto-calc subtotal
-    if (field === 'quantity_ordered' || field === 'unit_cost') {
-      updated[index].subtotal =
-        Number(updated[index].quantity_ordered) * Number(updated[index].unit_cost)
-    }
-
-    // When product changes, reset variant and apply default cost if single variant
-    if (field === 'product_id' && products) {
-      const product = products.find((p) => p.product_id === Number(value))
-      if (product) {
-        // If single variant, auto-select it
-        if (product.product_variants && product.product_variants.length === 1) {
-          const v = product.product_variants[0]
-          updated[index].product_variant_id = v.id || null
-          updated[index].unit_cost = v.cost_price || 0
-          updated[index].subtotal = updated[index].quantity_ordered * updated[index].unit_cost
-        } else {
-          updated[index].product_variant_id = null
-          updated[index].unit_cost = 0
-          updated[index].subtotal = 0
-        }
+      if (variants.length === 1) {
+        item.product_variant_id = variants[0].id
+        item.unit_cost = Number(variants[0].cost_price ?? 0)
+      } else {
+        item.unit_cost = 0
       }
+
+      item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
+      updated[index] = item
+      setLineItemOverrides(updated)
+      return
     }
 
-    // When variant changes, use its cost_price
-    if (field === 'product_variant_id' && products) {
-      const product = products.find(p => p.product_id === updated[index].product_id)
-      const variant = product?.product_variants?.find(v => v.id === value)
+    if (field === 'product_variant_id') {
+      item.product_variant_id = value ? String(value) : null
+      const variants = getVariantsForProduct(item.product_id)
+      const variant = variants.find((v) => v.id === item.product_variant_id)
+
       if (variant) {
-        updated[index].unit_cost = variant.cost_price || 0
-        updated[index].subtotal = updated[index].quantity_ordered * updated[index].unit_cost
+        item.unit_cost = Number(variant.cost_price ?? 0)
+      } else {
+        item.unit_cost = 0
       }
+
+      item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
+      updated[index] = item
+      setLineItemOverrides(updated)
+      return
     }
 
+    if (field === 'quantity_ordered') {
+      item.quantity_ordered = Math.max(1, Number(value) || 1)
+    } else if (field === 'unit_cost') {
+      item.unit_cost = Math.max(0, Number(value) || 0)
+    }
+
+    item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
+    updated[index] = item
     setLineItemOverrides(updated)
   }
 
@@ -209,13 +265,32 @@ export function POActionDialog() {
   const onSubmit: SubmitHandler<POFormValues> = async (values) => {
     const validItems = lineItems.filter((item) => item.product_id > 0)
     if (validItems.length === 0) {
+      setShowLineValidation(true)
       toast.error('Add at least one line item')
       return
     }
 
+    for (const item of validItems) {
+      const variants = getVariantsForProduct(item.product_id)
+
+      if (variants.length === 0) {
+        setShowLineValidation(true)
+        toast.error(
+          `${getProductName(item.product_id)} has no variants. Select a product that has variants.`
+        )
+        return
+      }
+
+      if (!item.product_variant_id) {
+        setShowLineValidation(true)
+        toast.error(`Variant is required for ${getProductName(item.product_id)}.`)
+        return
+      }
+    }
+
     const items: PurchaseOrderItemInput[] = validItems.map((item) => ({
       product_id: item.product_id,
-      product_variant_id: item.product_variant_id,
+      product_variant_id: item.product_variant_id!,
       quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
       subtotal: item.subtotal,
@@ -246,8 +321,7 @@ export function POActionDialog() {
         })
         toast.success('Purchase order updated')
       }
-      setLineItemOverrides(null)
-      setOpen(null)
+      closeDialog()
     } catch (error: unknown) {
       toast.error('Error', {
         description:
@@ -259,7 +333,7 @@ export function POActionDialog() {
   const isPending = createMutation.isPending || updateMutation.isPending
 
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
+    <Dialog open={isOpen} onOpenChange={(v) => !v && closeDialog()}>
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-3xl'>
         <DialogHeader>
           <DialogTitle>
@@ -400,36 +474,78 @@ export function POActionDialog() {
                                     <SelectItem
                                       key={p.product_id}
                                       value={String(p.product_id)}
+                                      disabled={
+                                        getVariantsForProduct(p.product_id ?? 0)
+                                          .length === 0
+                                      }
                                     >
                                       {p.name}
+                                      {getVariantsForProduct(p.product_id ?? 0)
+                                        .length === 0
+                                        ? ' (No variants)'
+                                        : ''}
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
                               </Select>
 
-                              {/* Variant Selection if available */}
                               {item.product_id > 0 && (() => {
-                                const p = products?.find(prod => prod.product_id === item.product_id)
-                                if (p?.product_variants && p.product_variants.length > 1) {
+                                const variants = getVariantsForProduct(
+                                  item.product_id
+                                )
+
+                                if (variants.length === 0) {
                                   return (
+                                    <p className='text-xs text-destructive'>
+                                      This product has no variants and cannot be
+                                      added to a purchase order.
+                                    </p>
+                                  )
+                                }
+
+                                if (variants.length === 1) {
+                                  return (
+                                    <p className='text-xs text-muted-foreground'>
+                                      Variant: {variants[0].sku} (auto-selected)
+                                    </p>
+                                  )
+                                }
+
+                                return (
+                                  <div className='space-y-1'>
                                     <Select
-                                      value={item.product_variant_id || ''}
-                                      onValueChange={(v) => updateLineItem(index, 'product_variant_id', v)}
+                                      value={item.product_variant_id ?? undefined}
+                                      onValueChange={(v) =>
+                                        updateLineItem(
+                                          index,
+                                          'product_variant_id',
+                                          v
+                                        )
+                                      }
                                     >
                                       <SelectTrigger className='h-8 text-xs'>
                                         <SelectValue placeholder='Select variant...' />
                                       </SelectTrigger>
                                       <SelectContent>
-                                        {p.product_variants.map(v => (
-                                          <SelectItem key={v.id} value={v.id!} className='text-xs'>
-                                            {v.sku}
+                                        {variants.map((variant) => (
+                                          <SelectItem
+                                            key={variant.id}
+                                            value={variant.id}
+                                            className='text-xs'
+                                          >
+                                            {variant.sku}
                                           </SelectItem>
                                         ))}
                                       </SelectContent>
                                     </Select>
-                                  )
-                                }
-                                return null
+                                    {showLineValidation &&
+                                      !item.product_variant_id && (
+                                        <p className='text-xs text-destructive'>
+                                          Variant is required.
+                                        </p>
+                                      )}
+                                  </div>
+                                )
                               })()}
                             </div>
                           </TableCell>
@@ -455,6 +571,12 @@ export function POActionDialog() {
                               step={0.01}
                               className='h-9'
                               value={item.unit_cost}
+                              disabled={
+                                item.product_id > 0 &&
+                                getVariantsForProduct(item.product_id).length >
+                                  0 &&
+                                !item.product_variant_id
+                              }
                               onChange={(e) =>
                                 updateLineItem(
                                   index,
@@ -504,7 +626,7 @@ export function POActionDialog() {
               <Button
                 type='button'
                 variant='outline'
-                onClick={() => setOpen(null)}
+                onClick={closeDialog}
                 disabled={isPending}
               >
                 Cancel

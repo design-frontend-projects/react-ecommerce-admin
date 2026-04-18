@@ -66,6 +66,8 @@ export interface PurchaseOrderInput {
 
 export interface PurchaseOrderItemInput {
   product_id: number
+  product_variant_id: string
+  quantity_ordered: number
   unit_cost: number
   subtotal: number
 }

@@ -5,6 +5,7 @@ import { POTable } from './components/po-table'
 import { POPrimaryButtons } from './components/po-primary-buttons'
 import { PODialogs } from './components/po-dialogs'
 import { POReorderAlerts } from './components/po-reorder-alerts'
+import { useProducts } from '../products/hooks/use-products'
 
 export function PurchaseOrders() {
   return (
@@ -16,6 +17,8 @@ export function PurchaseOrders() {
 
 function PurchaseOrdersContent() {
   const { data: purchaseOrders, isLoading, error } = usePurchaseOrders()
+  // Warm products + variants query cache before opening PO dialogs.
+  useProducts()
 
   return (
     <Main>
@@ -52,4 +55,3 @@ function PurchaseOrdersContent() {
     </Main>
   )
 }
-

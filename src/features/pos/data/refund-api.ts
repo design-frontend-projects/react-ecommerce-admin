@@ -259,7 +259,9 @@ export async function createRefund(
 
   const { data: originalTx, error: txError } = await supabase
     .from('transactions')
-    .select('id, tenant_id, clerk_user_id, currency, transaction_number')
+    .select(
+      'id, tenant_id, clerk_user_id, currency, transaction_number, sales_invoice_id'
+    )
     .eq('transaction_number', payload.orderId)
     .maybeSingle()
 
@@ -286,6 +288,7 @@ export async function createRefund(
     transaction_type: 'refund',
     status: 'completed',
     currency: originalTx.currency,
+    sales_invoice_id: originalTx.sales_invoice_id ?? null,
     subtotal: -Math.abs(payload.refundAmount),
     tax_amount: 0,
     discount_amount: 0,
