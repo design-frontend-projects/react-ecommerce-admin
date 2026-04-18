@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import type { ResReservation, ResTable } from '../types'
 
 interface ReservationCalendarProps {
-  reservations: Array<ResReservation & { table: ResTable }>
+  reservations: Array<ResReservation & { table?: ResTable | null }>
   onEventClick: (reservation: ResReservation) => void
   onDateSelect: (start: Date) => void
 }

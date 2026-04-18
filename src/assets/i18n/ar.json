@@ -86,7 +86,8 @@
     "display": "العرض",
     "signOut": "تسجيل الخروج",
     "usersRoles": "المستخدمين والأدوار",
-    "upgradeToPro": "ترقية للنسخة المدفوعة"
+    "upgradeToPro": "ترقية للنسخة المدفوعة",
+    "shipments": "الشحنات"
   },
   "dashboard": {
     "loading": "جاري تحميل لوحة التحكم...",

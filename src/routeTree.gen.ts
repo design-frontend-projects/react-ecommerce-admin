@@ -61,6 +61,7 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedResposShipmentsRouteImport } from './routes/_authenticated/respos/shipments'
 import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
@@ -72,7 +73,6 @@ import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
-import { Route as AuthenticatedPosShipmentsRouteImport } from './routes/_authenticated/pos/shipments'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
@@ -368,6 +368,12 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedResposShipmentsRoute =
+  AuthenticatedResposShipmentsRouteImport.update({
+    id: '/respos/shipments',
+    path: '/respos/shipments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposShiftsRoute =
   AuthenticatedResposShiftsRouteImport.update({
     id: '/respos/shifts',
@@ -430,12 +436,6 @@ const AuthenticatedResposAnalyticsRoute =
   AuthenticatedResposAnalyticsRouteImport.update({
     id: '/respos/analytics',
     path: '/respos/analytics',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPosShipmentsRoute =
-  AuthenticatedPosShipmentsRouteImport.update({
-    id: '/pos/shipments',
-    path: '/pos/shipments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedErrorsErrorRoute =
@@ -515,7 +515,6 @@ export interface FileRoutesByFullPath {
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/pos/shipments': typeof AuthenticatedPosShipmentsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -527,6 +526,7 @@ export interface FileRoutesByFullPath {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -582,7 +582,6 @@ export interface FileRoutesByTo {
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/pos/shipments': typeof AuthenticatedPosShipmentsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -594,6 +593,7 @@ export interface FileRoutesByTo {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -654,7 +654,6 @@ export interface FileRoutesById {
   '/_authenticated/_system/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/_authenticated/pos/shipments': typeof AuthenticatedPosShipmentsRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -666,6 +665,7 @@ export interface FileRoutesById {
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
+  '/_authenticated/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -725,7 +725,6 @@ export interface FileRouteTypes {
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
-    | '/pos/shipments'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -737,6 +736,7 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shifts'
+    | '/respos/shipments'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -792,7 +792,6 @@ export interface FileRouteTypes {
     | '/system-dashboard'
     | '/system-management'
     | '/errors/$error'
-    | '/pos/shipments'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -804,6 +803,7 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shifts'
+    | '/respos/shipments'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -863,7 +863,6 @@ export interface FileRouteTypes {
     | '/_authenticated/_system/system-dashboard'
     | '/_authenticated/_system/system-management'
     | '/_authenticated/errors/$error'
-    | '/_authenticated/pos/shipments'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
     | '/_authenticated/respos/cashier'
@@ -875,6 +874,7 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/pos'
     | '/_authenticated/respos/reservations'
     | '/_authenticated/respos/shifts'
+    | '/_authenticated/respos/shipments'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -1269,6 +1269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/respos/shipments': {
+      id: '/_authenticated/respos/shipments'
+      path: '/respos/shipments'
+      fullPath: '/respos/shipments'
+      preLoaderRoute: typeof AuthenticatedResposShipmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/shifts': {
       id: '/_authenticated/respos/shifts'
       path: '/respos/shifts'
@@ -1344,13 +1351,6 @@ declare module '@tanstack/react-router' {
       path: '/respos/analytics'
       fullPath: '/respos/analytics'
       preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/pos/shipments': {
-      id: '/_authenticated/pos/shipments'
-      path: '/pos/shipments'
-      fullPath: '/pos/shipments'
-      preLoaderRoute: typeof AuthenticatedPosShipmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/errors/$error': {
@@ -1482,7 +1482,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
-  AuthenticatedPosShipmentsRoute: typeof AuthenticatedPosShipmentsRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
@@ -1494,6 +1493,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
+  AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
@@ -1529,7 +1529,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
-  AuthenticatedPosShipmentsRoute: AuthenticatedPosShipmentsRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,
@@ -1541,6 +1540,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
+  AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,

@@ -1,7 +1,11 @@
+import { v4 as uuidv4 } from 'uuid'
+import { useAuthStore } from '@/stores/auth-store'
 import { db } from '@/lib/db/indexed-db'
 import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
-import { useAuthStore } from '@/stores/auth-store'
+import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
+import type { CheckoutRequestType } from '../schemas/checkout'
+import type { CheckoutResponse } from '../types'
 
 export type PosProductVariant = {
   id: string
@@ -80,10 +84,9 @@ export async function getPosProducts(): Promise<PosProduct[]> {
   if (error) throw error
 
   const mapped = (data || []).map((p) => {
-    const categoryName =
-      Array.isArray(p.categories)
-        ? p.categories[0]?.name
-        : (p.categories as { name?: string } | null)?.name
+    const categoryName = Array.isArray(p.categories)
+      ? p.categories[0]?.name
+      : (p.categories as { name?: string } | null)?.name
 
     return {
       product_id: p.product_id,
@@ -194,11 +197,6 @@ export async function getPosCategories(): Promise<PosCategory[]> {
   return categories
 }
 
-import type { CheckoutResponse } from '../types'
-import type { CheckoutRequestType } from '../schemas/checkout'
-import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
-import { v4 as uuidv4 } from 'uuid'
-
 type SerializedShipmentDetails = {
   recipientName?: string
   recipientPhone?: string
@@ -210,10 +208,15 @@ type SerializedShipmentDetails = {
 }
 
 function isRestaurantModuleContext(): boolean {
-  return typeof window !== 'undefined' && window.location.pathname.includes('/respos')
+  return (
+    typeof window !== 'undefined' &&
+    window.location.pathname.includes('/respos')
+  )
 }
 
-function parseSerializedShipmentDetails(notes: string | null): SerializedShipmentDetails | null {
+function parseSerializedShipmentDetails(
+  notes: string | null
+): SerializedShipmentDetails | null {
   if (!notes) return null
 
   try {
@@ -224,7 +227,9 @@ function parseSerializedShipmentDetails(notes: string | null): SerializedShipmen
   }
 }
 
-export async function createPosTransaction(payload: CheckoutRequestType): Promise<CheckoutResponse> {
+export async function createPosTransaction(
+  payload: CheckoutRequestType
+): Promise<CheckoutResponse> {
   const selectedBranchId = useAuthStore.getState().auth.selectedBranchId
 
   if (!selectedBranchId) {
@@ -242,7 +247,7 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
     const offlineOrder = await offlineOrderService.saveOfflineOrder({
       store_id: payload.storeId || selectedBranchId,
       total_amount: payload.totalAmount,
-      items: payload.items.map(item => ({
+      items: payload.items.map((item) => ({
         product_id: item.productId,
         quantity: item.quantity,
         unit_price: item.unitPrice,
@@ -279,7 +284,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       .select('id')
       .single()
 
-    if (invoiceError) throw new Error(`Invoice creation failed: ${invoiceError.message}`)
+    if (invoiceError)
+      throw new Error(`Invoice creation failed: ${invoiceError.message}`)
 
     // 2. Create Sales Invoice Items
     const invoiceItems = payload.items.map((item, index) => ({
@@ -289,7 +295,10 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       quantity: item.quantity,
       unit_price: item.unitPrice,
       line_subtotal: item.quantity * item.unitPrice,
-      line_total: (item.quantity * item.unitPrice) - (item.discountAmount || 0) + (item.taxAmount || 0),
+      line_total:
+        item.quantity * item.unitPrice -
+        (item.discountAmount || 0) +
+        (item.taxAmount || 0),
       discount_amount: item.discountAmount || 0,
       tax_amount: item.taxAmount || 0,
     }))
@@ -298,7 +307,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       .from('sales_invoice_items')
       .insert(invoiceItems)
 
-    if (itemsError) throw new Error(`Invoice items creation failed: ${itemsError.message}`)
+    if (itemsError)
+      throw new Error(`Invoice items creation failed: ${itemsError.message}`)
 
     // 3. Create Restaurant Order (restaurant module only)
     let restaurantOrderId: string | null = null
@@ -321,7 +331,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
         .select('id')
         .single()
 
-      if (orderError) throw new Error(`Order creation failed: ${orderError.message}`)
+      if (orderError)
+        throw new Error(`Order creation failed: ${orderError.message}`)
       restaurantOrderId = resOrder.id
     }
 
@@ -342,7 +353,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
             status: 'pending',
           })
 
-        if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+        if (shipmentError)
+          throw new Error(`Shipment creation failed: ${shipmentError.message}`)
       } else {
         // `shipments.order_id` is Int, so link it to a minimal `pos_sales.sale_id` record.
         const { data: posSale, error: posSaleError } = await supabase
@@ -359,7 +371,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
           .select('sale_id')
           .single()
 
-        if (posSaleError) throw new Error(`POS sale creation failed: ${posSaleError.message}`)
+        if (posSaleError)
+          throw new Error(`POS sale creation failed: ${posSaleError.message}`)
 
         const serializedShipment = JSON.stringify({
           recipientName: payload.shipment.recipientName,
@@ -379,29 +392,30 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
             notes: serializedShipment,
           })
 
-        if (shipmentError) throw new Error(`Shipment creation failed: ${shipmentError.message}`)
+        if (shipmentError)
+          throw new Error(`Shipment creation failed: ${shipmentError.message}`)
       }
     }
 
     // 5. Create Transaction record
-    const { error: txError } = await supabase
-      .from('transactions')
-      .insert({
-        id: transactionId,
-        transaction_number: `TRN-${invoiceNo}`,
-        transaction_type: 'sale',
-        status: 'completed',
-        subtotal: payload.subtotal,
-        total_amount: payload.totalAmount,
-        tax_amount: payload.taxTotal || 0,
-        discount_amount: payload.discountTotal || 0,
-        notes: `Payment for invoice ${invoiceNo} via ${payload.paymentMethod}`,
-      })
+    const { error: txError } = await supabase.from('transactions').insert({
+      id: transactionId,
+      transaction_number: `TRN-${invoiceNo}`,
+      transaction_type: 'sale',
+      tenant_id: payload.tenantId,
+      status: 'completed',
+      subtotal: payload.subtotal,
+      total_amount: payload.totalAmount,
+      tax_amount: payload.taxTotal || 0,
+      discount_amount: payload.discountTotal || 0,
+      notes: `Payment for invoice ${invoiceNo} via ${payload.paymentMethod}`,
+    })
 
-    if (txError) throw new Error(`Transaction creation failed: ${txError.message}`)
+    if (txError)
+      throw new Error(`Transaction creation failed: ${txError.message}`)
 
     // 6. Record Inventory Movements
-    const movements = payload.items.map(item => ({
+    const movements = payload.items.map((item) => ({
       branch_id: selectedBranchId,
       store_id: payload.storeId,
       product_variant_id: item.productVariantId,
@@ -416,7 +430,8 @@ export async function createPosTransaction(payload: CheckoutRequestType): Promis
       .from('inventory_movements')
       .insert(movements)
 
-    if (movError) console.warn('Inventory movement recording failed:', movError.message) // eslint-disable-line no-console
+    if (movError)
+      console.warn('Inventory movement recording failed:', movError.message) // eslint-disable-line no-console
 
     return {
       success: true,
@@ -471,7 +486,57 @@ export async function getPosShipments() {
       postal_code: details?.postalCode || '',
       status: shipment.status || 'prepared',
       notes: details?.notes || '',
-      created_at: shipment.shipped_date || shipment.delivered_date || new Date().toISOString(),
+      created_at:
+        shipment.shipped_date ||
+        shipment.delivered_date ||
+        new Date().toISOString(),
     }
   })
+}
+
+export async function updatePosShipmentStatus(
+  shipmentId: string,
+  status: string
+) {
+  const isRestaurant = isRestaurantModuleContext()
+
+  if (isRestaurant) {
+    const { error } = await supabase
+      .from('res_shipments')
+      .update({ status })
+      .eq('id', shipmentId)
+
+    if (error) throw error
+
+    return { id: shipmentId, status }
+  }
+
+  const numericShipmentId = Number(shipmentId)
+  if (!Number.isFinite(numericShipmentId)) {
+    throw new Error(`Invalid shipment id: ${shipmentId}`)
+  }
+
+  const now = new Date().toISOString()
+  const updates: {
+    status: string
+    shipped_date?: string
+    delivered_date?: string
+  } = { status }
+
+  if (status === 'shipped' || status === 'in_transit') {
+    updates.shipped_date = now
+  }
+
+  if (status === 'delivered') {
+    updates.delivered_date = now
+  }
+
+  const { error } = await supabase
+    .from('shipments')
+    .update(updates)
+    .eq('shipment_id', numericShipmentId)
+
+  if (error) throw error
+
+  return { id: shipmentId, status }
 }

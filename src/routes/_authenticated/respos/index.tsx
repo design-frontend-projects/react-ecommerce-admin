@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ResposDashboard } from '@/features/respos/pages/dashboard'
+import { Reservations } from '@/features/respos/pages/reservations'
 
 export const Route = createFileRoute('/_authenticated/respos/')({
-  component: ResposDashboard,
+  component: Reservations,
 })

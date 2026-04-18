@@ -143,8 +143,7 @@ export function ReservationDialog({
         toast.success('Reservation created successfully')
       }
       onOpenChange(false)
-    } catch (error) {
-      console.error(error)
+    } catch {
       toast.error('Failed to save reservation')
     }
   }
@@ -317,9 +316,10 @@ export function ReservationDialog({
                   <FormItem>
                     <FormLabel>Table (Optional)</FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
+                      onValueChange={(value) =>
+                        field.onChange(value === '__none__' ? '' : value)
+                      }
+                      value={field.value || '__none__'}
                     >
                       <FormControl>
                         <SelectTrigger>

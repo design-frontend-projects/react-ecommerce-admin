@@ -173,8 +173,8 @@ export function useSidebarData(): SidebarData {
             roles: ['admin', 'super_admin'],
           },
           {
-            title: 'POS Shipments',
-            url: '/pos/shipments',
+            title: t('sidebar.shipments'),
+            url: '/respos/shipments',
             icon: Truck,
             roles: ['admin', 'super_admin'],
           },

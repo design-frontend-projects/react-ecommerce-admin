@@ -23,6 +23,7 @@ export const checkoutRequestSchema = z.object({
   branchId: z.string().uuid(),
   storeId: z.string().uuid().optional(),
   customerId: z.number().int().positive().optional(),
+  tenantId: z.uuid(),
   paymentMethod: z.enum(['cash', 'card', 'mixed']),
   items: z.array(checkoutItemSchema).min(1),
   subtotal: z.number().min(0),
