@@ -1,29 +1,28 @@
+import { useAuth, useUser } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import { useRouter } from '@tanstack/react-router'
-
-const api = {
-  completeOnboarding: async (data: any) => {
-    // In a real app this would be: await fetch('/api/users/onboarding', { method: 'POST' })
-    console.log('Completing onboarding with data:', data)
-    return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
-  }
-}
+import { toast } from 'sonner'
+import { completeOnboarding } from '@/features/users/data/actions'
+import type { CompleteOnboardingInput } from '@/features/users/data/types'
 
 export function useCompleteOnboarding() {
+  const { getToken } = useAuth()
+  const { user } = useUser()
   const queryClient = useQueryClient()
   const router = useRouter()
 
   return useMutation({
-    mutationFn: api.completeOnboarding,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] })
-      queryClient.invalidateQueries({ queryKey: ['auth'] })
-      toast.success('Your account is now fully set up!')
+    mutationFn: (input: CompleteOnboardingInput) =>
+      completeOnboarding(getToken, input),
+    onSuccess: async () => {
+      await user?.reload()
+      toast.success('Account setup completed.')
+      void queryClient.invalidateQueries({ queryKey: ['users'] })
+      void queryClient.invalidateQueries({ queryKey: ['rbac', 'current-access'] })
       router.navigate({ to: '/' })
     },
     onError: (error: Error) => {
-      toast.error(`Error completing account setup: ${error.message}`)
+      toast.error(error.message || 'Unable to complete account setup.')
     },
   })
 }

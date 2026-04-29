@@ -1,25 +1,28 @@
 import { useEffect, useRef } from 'react'
-import { useRBACStore } from '../data/store'
+import { ShieldCheckIcon } from 'lucide-react'
 import { toast } from 'sonner'
-import { ShieldCheck } from 'lucide-react'
-import React from 'react'
+import { useRBACStore } from '../data/store'
 
 export function RoleSyncToast() {
-  const roles = useRBACStore((state) => state.roles)
-  const isFirstRender = useRef(true)
+  const notificationVersion = useRBACStore((state) => state.notificationVersion)
+  const lastSyncSource = useRBACStore((state) => state.lastSyncSource)
+  const firstVersion = useRef(notificationVersion)
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
+    if (notificationVersion === firstVersion.current) {
       return
     }
-    
-    // Show a toast that roles has been updated
-    toast('Access Permissions Updated', {
-      description: 'Your user roles and permissions have been updated via realtime sync.',
-      icon: <ShieldCheck className="w-4 h-4 text-green-500" />
+
+    if (lastSyncSource !== 'realtime') {
+      return
+    }
+
+    toast('Access updated', {
+      description:
+        'Your roles or permissions changed and were applied to this session.',
+      icon: <ShieldCheckIcon className='size-4 text-emerald-500' />,
     })
-  }, [roles])
+  }, [lastSyncSource, notificationVersion])
 
   return null
 }

@@ -5,11 +5,14 @@ import { Loader2 } from 'lucide-react'
 import { isSubscriptionActive } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
+import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
+import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
   const { isLoaded, userId, isSignedIn, sessionClaims } = useAuth()
   const { user: clerkUser } = useUser()
   const navigate = useNavigate()
+  useRBACSession()
 
   const { data: subscription, isLoading: subLoading } = useSubscriptionStatus(
     userId ?? undefined
@@ -21,15 +24,32 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    // Check if onboarding is complete
-    const onboardingComplete =
-      clerkUser?.publicMetadata?.onboardingComplete === true
+    const onboardingComplete = clerkUser?.publicMetadata?.onboardingComplete === true
+    const invitedViaRbac = clerkUser?.publicMetadata?.invitedViaRbac === true
     const currentPath = window.location.pathname
 
-    // if (isLoaded && isSignedIn && clerkUser && !onboardingComplete && currentPath !== '/complete-account') {
-    //   navigate({ to: '/complete-account' })
-    //   return
-    // }
+    if (
+      isLoaded &&
+      isSignedIn &&
+      clerkUser &&
+      invitedViaRbac &&
+      !onboardingComplete &&
+      currentPath !== '/complete-account'
+    ) {
+      navigate({ to: '/complete-account' })
+      return
+    }
+
+    if (
+      isLoaded &&
+      isSignedIn &&
+      clerkUser &&
+      onboardingComplete &&
+      currentPath === '/complete-account'
+    ) {
+      navigate({ to: '/' })
+      return
+    }
 
     if (isLoaded && isSignedIn && !subLoading) {
       // Check for super_admin role in public metadata
@@ -70,7 +90,12 @@ const AuthenticatedRoute = () => {
     )
   }
 
-  return <AuthenticatedLayout />
+  return (
+    <>
+      <RoleSyncToast />
+      <AuthenticatedLayout />
+    </>
+  )
 }
 
 export const Route = createFileRoute('/_authenticated')({

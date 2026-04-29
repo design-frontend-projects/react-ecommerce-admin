@@ -1,22 +1,24 @@
-import { useRBACStore } from '../data/store'
-import { hasPermission } from '../data/rbac'
-import React from 'react'
+import type { ReactNode } from 'react'
+import { useRBAC } from '../hooks/use-rbac'
 
 interface RBACGuardProps {
-  children: React.ReactNode
+  children: ReactNode
   resource: string
   action: 'create' | 'read' | 'update' | 'delete' | 'manage'
-  fallback?: React.ReactNode
+  fallback?: ReactNode
 }
 
-export function RBACGuard({ children, resource, action, fallback = null }: RBACGuardProps) {
-  const permissions = useRBACStore((state) => state.permissions)
-  
-  const allowed = hasPermission(permissions, resource, action)
-  
+export function RBACGuard({
+  children,
+  resource,
+  action,
+  fallback = null,
+}: RBACGuardProps) {
+  const allowed = useRBAC(resource, action)
+
   if (!allowed) {
     return <>{fallback}</>
   }
-  
+
   return <>{children}</>
 }

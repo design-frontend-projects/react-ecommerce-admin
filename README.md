@@ -100,6 +100,26 @@ Start the server
   pnpm run dev
 ```
 
+## RBAC Setup
+
+The users and access surface now uses Clerk for identity, Prisma for RBAC data, and Supabase Realtime for live permission refresh in active browser sessions.
+
+Required environment variables:
+
+- `CLERK_SECRET_KEY`
+- `VITE_CLERK_PUBLISHABLE_KEY`
+- Supabase project URL and anon key used by `src/lib/supabase.ts`
+- Database connection values required by Prisma
+
+Operational notes:
+
+- Base permissions and default roles are seeded automatically the first time the RBAC catalog is requested through `src/server/fns/rbac.ts`.
+- Invitations are created through Clerk and store `invitedViaRbac`, `onboardingComplete`, tenant, and role metadata.
+- Invited users are redirected to `/complete-account` until onboarding is finished.
+- Active sessions refresh access from Supabase Realtime subscriptions on `tenant_users`, `user_roles`, and `role_permissions`.
+
+If the users page loads but role changes do not propagate live, verify that Supabase Realtime is enabled for the relevant tables and that the Clerk session can mint the `supabase` JWT template used by `src/components/supabase-token-sync.tsx`.
+
 ## Sponsoring this project ❤️
 
 If you find this project helpful or use this in your own work, consider [sponsoring me](https://github.com/sponsors/satnaing) to support development and maintenance. You can [buy me a coffee](https://buymeacoffee.com/satnaing) as well. Don’t worry, every penny helps. Thank you! 🙏

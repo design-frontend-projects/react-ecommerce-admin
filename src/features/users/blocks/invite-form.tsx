@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useInviteUser } from '../hooks/use-invitations'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -13,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -20,54 +26,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { toast } from 'sonner'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { inviteUserInputSchema } from '../data/schema'
+import type { RoleWithPermissions } from '../data/types'
+import { useInviteUser } from '../hooks/use-invitations'
 
-const inviteSchema = z.object({
-  email: z.string().email(),
-  roleName: z.string().min(1, 'Role is required'),
+const inviteFormSchema = inviteUserInputSchema.extend({
+  roleId: z.string().min(1, 'Select a role'),
 })
 
-type InviteFormValues = z.infer<typeof inviteSchema>
+type InviteFormValues = z.infer<typeof inviteFormSchema>
 
-export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+interface InviteFormProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  roles: RoleWithPermissions[]
+}
 
-  // In a real application, fetch from /api/roles or use RBACStore
-  const availableRoles = [
-    { id: '1', name: 'superadmin' },
-    { id: '2', name: 'admin' },
-    { id: '3', name: 'manager' },
-    { id: '4', name: 'cashier' },
-  ]
-
+export function InviteForm({
+  open,
+  onOpenChange,
+  roles,
+}: InviteFormProps) {
+  const inviteMutation = useInviteUser()
   const form = useForm<InviteFormValues>({
-    resolver: zodResolver(inviteSchema),
+    resolver: zodResolver(inviteFormSchema),
     defaultValues: {
       email: '',
-      roleName: 'manager',
+      roleId: '',
     },
   })
 
-  const inviteMutation = useInviteUser()
+  useEffect(() => {
+    if (!open) {
+      form.reset({
+        email: '',
+        roleId: '',
+      })
+    }
+  }, [form, open])
 
-  async function onSubmit(data: InviteFormValues) {
-    const selectedRole = availableRoles.find((r) => r.name === data.roleName)
+  const onSubmit = (values: InviteFormValues) => {
+    const selectedRole = roles.find((role) => role.id === values.roleId)
     inviteMutation.mutate(
       {
-        email: data.email,
-        roleName: data.roleName,
-        roleId: selectedRole?.id || '',
+        email: values.email,
+        roleId: values.roleId,
+        roleName: selectedRole?.name,
       },
       {
         onSuccess: () => {
           onOpenChange(false)
-          form.reset()
         },
       }
     )
@@ -77,21 +85,29 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Invite User</DialogTitle>
+          <DialogTitle>Invite a team member</DialogTitle>
           <DialogDescription>
-            Send an invitation email to add a new team member.
+            Send an email invitation and assign the initial role before the user
+            joins the tenant.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-5'
+          >
             <FormField
               control={form.control}
-              name="email"
+              name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>Email address</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@example.com" disabled={inviteMutation.isPending} {...field} />
+                    <Input
+                      placeholder='manager@restaurant.com'
+                      disabled={inviteMutation.isPending}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,19 +115,25 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
             />
             <FormField
               control={form.control}
-              name="roleName"
+              name='roleId'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={inviteMutation.isPending}>
+                  <FormLabel>Initial role</FormLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    disabled={inviteMutation.isPending}
+                  >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a role" />
+                        <SelectValue placeholder='Select a role' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {availableRoles.map(r => (
-                        <SelectItem key={r.id} value={r.name}>{r.name}</SelectItem>
+                      {roles.map((role) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          {role.name}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -119,12 +141,17 @@ export function InviteForm({ open, onOpenChange }: { open: boolean, onOpenChange
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={inviteMutation.isPending}>
+            <div className='flex items-center justify-end gap-3'>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => onOpenChange(false)}
+                disabled={inviteMutation.isPending}
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={inviteMutation.isPending}>
-                {inviteMutation.isPending ? 'Inviting...' : 'Send Invitation'}
+              <Button type='submit' disabled={inviteMutation.isPending}>
+                Send invitation
               </Button>
             </div>
           </form>

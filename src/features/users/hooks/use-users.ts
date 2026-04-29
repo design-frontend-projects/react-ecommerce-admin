@@ -1,23 +1,34 @@
-import { useQuery } from '@tanstack/react-query'
-import type { User } from '../data/schema'
-import { users as dummyUsers } from '../data/users'
+import { useAuth } from '@clerk/clerk-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { fetchUsers, updateUserRoles } from '../data/actions'
+import type { UpdateUserRolesInput } from '../data/types'
 
-// Placeholder for API client - replace with actual fetch call
-const api = {
-  getUsers: async (): Promise<User[]> => {
-    // A real implementation would be: 
-    // const res = await fetch('/api/users')
-    // return res.json()
-    console.log('Fetching users from server...')
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(dummyUsers), 500)
-    })
-  }
+export const usersQueryKey = ['users'] as const
+
+export function useUsersList(enabled = true) {
+  const { getToken, isLoaded, isSignedIn } = useAuth()
+
+  return useQuery({
+    queryKey: usersQueryKey,
+    queryFn: () => fetchUsers(getToken),
+    enabled: enabled && isLoaded && isSignedIn,
+  })
 }
 
-export function useUsersList() {
-  return useQuery({
-    queryKey: ['users'],
-    queryFn: api.getUsers,
+export function useUpdateUserRole() {
+  const { getToken } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (input: UpdateUserRolesInput) => updateUserRoles(getToken, input),
+    onSuccess: () => {
+      toast.success('User role updated.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+      void queryClient.invalidateQueries({ queryKey: ['rbac-catalog'] })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to update the selected role.')
+    },
   })
 }

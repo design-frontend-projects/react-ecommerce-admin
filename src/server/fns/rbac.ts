@@ -1,18 +1,135 @@
 import prisma from '@/lib/prisma'
+import { clerkBackend } from '@/server/clerk'
+import {
+  BASE_PERMISSION_DEFINITIONS,
+  DEFAULT_ROLE_PERMISSION_NAMES,
+  getFallbackPermissionNamesForRoles,
+  getPrimaryRoleName,
+  normalizeRoleName,
+} from '@/features/users/data/rbac'
 import type {
-  RoleWithPermissions,
-  PermissionRecord,
   CreateRoleInput,
-  UpdateRoleInput,
+  PermissionRecord,
+  RoleWithPermissions,
   ToggleRolePermissionInput,
+  UpdateRoleInput,
 } from '@/features/users/data/types'
 
-// ─── Queries ───────────────────────────────────────────────────────────────────
+function serializePermission(permission: {
+  id: string
+  name: string
+  description: string | null
+  created_at: Date | null
+  updated_at: Date | null
+}): PermissionRecord {
+  return {
+    id: permission.id,
+    name: permission.name,
+    description: permission.description,
+    created_at: permission.created_at?.toISOString() ?? null,
+    updated_at: permission.updated_at?.toISOString() ?? null,
+  }
+}
 
-/**
- * Retrieves all roles with their associated permissions.
- */
+function serializeRole(role: {
+  id: string
+  name: string
+  description: string | null
+  is_active: boolean
+  created_at: Date | null
+  updated_at: Date | null
+  role_permissions: Array<{
+    permissions: {
+      id: string
+      name: string
+      description: string | null
+      created_at: Date | null
+      updated_at: Date | null
+    }
+  }>
+}): RoleWithPermissions {
+  return {
+    id: role.id,
+    name: role.name,
+    description: role.description,
+    is_active: role.is_active,
+    created_at: role.created_at?.toISOString() ?? null,
+    updated_at: role.updated_at?.toISOString() ?? null,
+    permissions: role.role_permissions.map((rolePermission) =>
+      serializePermission(rolePermission.permissions)
+    ),
+  }
+}
+
+export async function ensureBasePermissionsSeeded() {
+  await Promise.all(
+    BASE_PERMISSION_DEFINITIONS.map((permission) =>
+      prisma.permissions.upsert({
+        where: { name: permission.name },
+        update: {
+          description: permission.description,
+          updated_at: new Date(),
+        },
+        create: {
+          name: permission.name,
+          description: permission.description,
+        },
+      })
+    )
+  )
+
+  const permissions = (await prisma.permissions.findMany()) as Array<{
+    id: string
+    name: string
+    description: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }>
+  const permissionIdByName = new Map(permissions.map((permission) => [permission.name, permission.id]))
+
+  for (const [roleName, defaultPermissions] of Object.entries(DEFAULT_ROLE_PERMISSION_NAMES)) {
+    const role = await prisma.roles.upsert({
+      where: { name: roleName },
+      update: {},
+      create: {
+        name: roleName,
+        description: `${roleName.replace(/_/g, ' ')} role`,
+        is_active: true,
+      },
+      include: {
+        role_permissions: true,
+      },
+    })
+
+    if (role.role_permissions.length > 0) {
+      continue
+    }
+
+    const permissionIds = (
+      defaultPermissions.includes('*')
+        ? permissions.map((permission) => permission.id)
+        : defaultPermissions
+            .map((permissionName) => permissionIdByName.get(permissionName))
+            .filter((permissionId): permissionId is string => Boolean(permissionId))
+    )
+
+    if (permissionIds.length === 0) {
+      continue
+    }
+
+    await prisma.role_permissions.createMany({
+      data: permissionIds.map((permissionId) => ({
+        role_id: role.id,
+        permission_id: permissionId,
+      })),
+      skipDuplicates: true,
+    })
+  }
+}
+
 export async function getRolesWithPermissions(): Promise<RoleWithPermissions[]> {
+  await ensureBasePermissionsSeeded()
+
   const roles = await prisma.roles.findMany({
     include: {
       role_permissions: {
@@ -24,41 +141,19 @@ export async function getRolesWithPermissions(): Promise<RoleWithPermissions[]> 
     orderBy: { name: 'asc' },
   })
 
-  return roles.map((role) => ({
-    id: role.id,
-    name: role.name,
-    description: role.description,
-    is_active: role.is_active,
-    created_at: role.created_at?.toISOString() ?? null,
-    updated_at: role.updated_at?.toISOString() ?? null,
-    permissions: role.role_permissions.map((rp) => ({
-      id: rp.permissions.id,
-      name: rp.permissions.name,
-      description: rp.permissions.description,
-    })),
-  }))
+  return roles.map(serializeRole)
 }
 
-/**
- * Retrieves all system permissions.
- */
 export async function getAllPermissions(): Promise<PermissionRecord[]> {
+  await ensureBasePermissionsSeeded()
+
   const permissions = await prisma.permissions.findMany({
     orderBy: { name: 'asc' },
   })
 
-  return permissions.map((p) => ({
-    id: p.id,
-    name: p.name,
-    description: p.description,
-    created_at: p.created_at?.toISOString() ?? null,
-    updated_at: p.updated_at?.toISOString() ?? null,
-  }))
+  return permissions.map(serializePermission)
 }
 
-/**
- * Get roles and permissions combined endpoint.
- */
 export async function getRolesPermissions() {
   const [roles, allPermissions] = await Promise.all([
     getRolesWithPermissions(),
@@ -68,26 +163,19 @@ export async function getRolesPermissions() {
   return { roles, allPermissions }
 }
 
-// ─── Mutations ─────────────────────────────────────────────────────────────────
-
-/**
- * Creates a new role with optional permissions.
- */
 export async function createRole(input: CreateRoleInput): Promise<RoleWithPermissions> {
   const role = await prisma.roles.create({
     data: {
-      name: input.name,
+      name: normalizeRoleName(input.name),
       description: input.description,
       is_active: true,
-      ...(input.permissionIds?.length
+      role_permissions: input.permissionIds?.length
         ? {
-            role_permissions: {
-              create: input.permissionIds.map((permissionId) => ({
-                permission_id: permissionId,
-              })),
-            },
+            create: input.permissionIds.map((permissionId) => ({
+              permission_id: permissionId,
+            })),
           }
-        : {}),
+        : undefined,
     },
     include: {
       role_permissions: {
@@ -96,31 +184,16 @@ export async function createRole(input: CreateRoleInput): Promise<RoleWithPermis
     },
   })
 
-  return {
-    id: role.id,
-    name: role.name,
-    description: role.description,
-    is_active: role.is_active,
-    created_at: role.created_at?.toISOString() ?? null,
-    updated_at: role.updated_at?.toISOString() ?? null,
-    permissions: role.role_permissions.map((rp) => ({
-      id: rp.permissions.id,
-      name: rp.permissions.name,
-      description: rp.permissions.description,
-    })),
-  }
+  return serializeRole(role)
 }
 
-/**
- * Updates an existing role.
- */
 export async function updateRole(input: UpdateRoleInput): Promise<RoleWithPermissions> {
   const role = await prisma.roles.update({
     where: { id: input.id },
     data: {
-      ...(input.name !== undefined ? { name: input.name } : {}),
-      ...(input.description !== undefined ? { description: input.description } : {}),
-      ...(input.is_active !== undefined ? { is_active: input.is_active } : {}),
+      name: input.name ? normalizeRoleName(input.name) : undefined,
+      description: input.description,
+      is_active: input.is_active,
       updated_at: new Date(),
     },
     include: {
@@ -130,34 +203,45 @@ export async function updateRole(input: UpdateRoleInput): Promise<RoleWithPermis
     },
   })
 
-  return {
-    id: role.id,
-    name: role.name,
-    description: role.description,
-    is_active: role.is_active,
-    created_at: role.created_at?.toISOString() ?? null,
-    updated_at: role.updated_at?.toISOString() ?? null,
-    permissions: role.role_permissions.map((rp) => ({
-      id: rp.permissions.id,
-      name: rp.permissions.name,
-      description: rp.permissions.description,
-    })),
+  return serializeRole(role)
+}
+
+export async function deleteRole(roleId: string) {
+  await prisma.roles.delete({
+    where: { id: roleId },
+  })
+}
+
+export async function setRolePermissions(roleId: string, permissionIds: string[]) {
+  await prisma.role_permissions.deleteMany({
+    where: { role_id: roleId },
+  })
+
+  if (permissionIds.length > 0) {
+    await prisma.role_permissions.createMany({
+      data: permissionIds.map((permissionId) => ({
+        role_id: roleId,
+        permission_id: permissionId,
+      })),
+      skipDuplicates: true,
+    })
   }
+
+  const role = await prisma.roles.findUniqueOrThrow({
+    where: { id: roleId },
+    include: {
+      role_permissions: {
+        include: {
+          permissions: true,
+        },
+      },
+    },
+  })
+
+  return serializeRole(role)
 }
 
-/**
- * Deletes a role by ID.
- */
-export async function deleteRole(roleId: string): Promise<void> {
-  await prisma.roles.delete({ where: { id: roleId } })
-}
-
-/**
- * Toggles a permission on a role (add if missing, remove if exists).
- */
-export async function toggleRolePermission(
-  input: ToggleRolePermissionInput
-): Promise<{ added: boolean }> {
+export async function toggleRolePermission(input: ToggleRolePermissionInput) {
   const existing = await prisma.role_permissions.findFirst({
     where: {
       role_id: input.roleId,
@@ -167,8 +251,14 @@ export async function toggleRolePermission(
 
   if (existing) {
     await prisma.role_permissions.delete({
-      where: { role_id_permission_id: { role_id: input.roleId, permission_id: input.permissionId } },
+      where: {
+        role_id_permission_id: {
+          role_id: input.roleId,
+          permission_id: input.permissionId,
+        },
+      },
     })
+
     return { added: false }
   }
 
@@ -178,62 +268,115 @@ export async function toggleRolePermission(
       permission_id: input.permissionId,
     },
   })
+
   return { added: true }
 }
 
-/**
- * Updates roles assigned to a user (clerk_user_id) using the employee_roles table.
- */
+async function syncClerkUserRoleMetadata(clerkUserId: string, roleNames: string[]) {
+  if (!clerkUserId || clerkUserId.startsWith('pending_')) {
+    return
+  }
+
+  const user = await clerkBackend.users.getUser(clerkUserId)
+  const primaryRole = getPrimaryRoleName(roleNames)
+  const mergedPermissions = getFallbackPermissionNamesForRoles(roleNames)
+
+  await clerkBackend.users.updateUserMetadata(clerkUserId, {
+    publicMetadata: {
+      ...(user.publicMetadata as Record<string, unknown>),
+      role: primaryRole,
+      roles: roleNames,
+      permissions: mergedPermissions,
+    },
+  })
+}
+
 export async function updateUserRoles(
-  clerkUserId: string,
+  userId: string,
   roleIds: string[],
-  assignedBy?: string
-): Promise<void> {
-  // Delete existing assignments
-  await prisma.employee_roles.deleteMany({
-    where: { clerk_user_id: clerkUserId },
+  _assignedBy?: string
+) {
+  await prisma.user_roles.deleteMany({
+    where: { user_id: userId },
   })
 
-  // Create new assignments
   if (roleIds.length > 0) {
-    await prisma.employee_roles.createMany({
-      data: roleIds.map((roleId) => ({
-        clerk_user_id: clerkUserId,
-        role_id: roleId,
-        assigned_by: assignedBy,
-      })),
+    const tenantUser = await prisma.tenant_users.findUniqueOrThrow({
+      where: { id: userId },
     })
+
+    await prisma.user_roles.createMany({
+      data: roleIds.map((roleId) => ({
+        user_id: userId,
+        role_id: roleId,
+        clerk_user_id: tenantUser.clerk_user_id,
+      })),
+      skipDuplicates: true,
+    })
+
+    const roles = (await prisma.roles.findMany({
+      where: { id: { in: roleIds } },
+      orderBy: { name: 'asc' },
+    })) as Array<{
+      id: string
+      name: string
+    }>
+
+    await prisma.tenant_users.update({
+      where: { id: userId },
+      data: {
+        default_role: getPrimaryRoleName(roles.map((role) => role.name)),
+        updated_at: new Date(),
+      },
+    })
+
+    await syncClerkUserRoleMetadata(tenantUser.clerk_user_id, roles.map((role) => role.name))
   }
 }
 
-/**
- * Get roles assigned to a specific user.
- */
 export async function getUserRoles(clerkUserId: string): Promise<RoleWithPermissions[]> {
-  const assignments = await prisma.employee_roles.findMany({
+  const tenantUser = (await prisma.tenant_users.findUnique({
     where: { clerk_user_id: clerkUserId },
     include: {
-      roles: {
+      user_roles: {
         include: {
-          role_permissions: {
-            include: { permissions: true },
+          roles: {
+            include: {
+              role_permissions: {
+                include: {
+                  permissions: true,
+                },
+              },
+            },
           },
         },
       },
     },
-  })
+  })) as {
+    user_roles: Array<{
+      roles: {
+        id: string
+        name: string
+        description: string | null
+        is_active: boolean
+        created_at: Date | null
+        updated_at: Date | null
+        role_permissions: Array<{
+          permissions: {
+            id: string
+            name: string
+            description: string | null
+            created_at: Date | null
+            updated_at: Date | null
+          }
+        }>
+      }
+    }>
+  } | null
 
-  return assignments.map((a) => ({
-    id: a.roles.id,
-    name: a.roles.name,
-    description: a.roles.description,
-    is_active: a.roles.is_active,
-    created_at: a.roles.created_at?.toISOString() ?? null,
-    updated_at: a.roles.updated_at?.toISOString() ?? null,
-    permissions: a.roles.role_permissions.map((rp) => ({
-      id: rp.permissions.id,
-      name: rp.permissions.name,
-      description: rp.permissions.description,
-    })),
-  }))
+  if (!tenantUser) {
+    return []
+  }
+
+  return tenantUser.user_roles.map((assignment) => serializeRole(assignment.roles))
 }

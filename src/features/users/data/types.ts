@@ -1,17 +1,17 @@
-/**
- * Shared types for User Management feature.
- * These types are environment-agnostic and can be safely imported 
- * in both client and server contexts.
- */
+export type UserStatus = 'active' | 'inactive' | 'invited' | 'suspended'
 
 export interface User {
   id: string
+  clerkUserId: string
   firstName: string
   lastName: string
   username: string
   email: string
   phoneNumber: string
   role: string
+  roleNames: string[]
+  roleIds: string[]
+  status: UserStatus
   createdAt: string
   updatedAt: string
 }
@@ -19,39 +19,37 @@ export interface User {
 export interface InviteUserInput {
   email: string
   roleId: string
-  roleName: string
+  roleName?: string
+  redirectUrl?: string
   desc?: string
-  clerk_user_id?: string
+  inviterClerkUserId?: string
 }
 
 export interface InviteUserResult {
   success: boolean
-  clerkInvitationId: string
+  clerkInvitationId: string | null
   tenantUserId: string
+  mode: 'created' | 'updated' | 'pending-existing'
+  message: string
 }
 
-export interface Permission {
+export interface PermissionRecord {
   id: string
   name: string
   description?: string | null
-}
-
-export interface PermissionRecord extends Permission {
   created_at?: string | null
   updated_at?: string | null
 }
 
-export interface Role {
+export interface RoleWithPermissions {
   id: string
   name: string
   description?: string | null
   is_active?: boolean
   created_at?: string | null
   updated_at?: string | null
-  permissions: Permission[]
+  permissions: PermissionRecord[]
 }
-
-export interface RoleWithPermissions extends Role {}
 
 export interface CreateRoleInput {
   name: string
@@ -69,4 +67,28 @@ export interface UpdateRoleInput {
 export interface ToggleRolePermissionInput {
   roleId: string
   permissionId: string
+}
+
+export interface RBACCatalog {
+  roles: RoleWithPermissions[]
+  allPermissions: PermissionRecord[]
+}
+
+export interface UpdateUserRolesInput {
+  userId: string
+  roleIds: string[]
+}
+
+export interface CompleteOnboardingInput {
+  clerkId: string
+  firstName: string
+  lastName: string
+  phone?: string
+}
+
+export interface CurrentUserAccess {
+  clerkUserId: string
+  roleIds: string[]
+  roleNames: string[]
+  permissionNames: string[]
 }

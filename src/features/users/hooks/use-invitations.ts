@@ -1,80 +1,32 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAuth } from '@clerk/clerk-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import type { InviteUserInput, InviteUserResult, RoleWithPermissions } from '../data/types'
-
-// Placeholder for API client - replace with your actual API transport (e.g. fetch, axios, trpc)
-const api = {
-  inviteUser: async (data: InviteUserInput): Promise<InviteUserResult> => {
-    // In a real app, this would be: await fetch('/api/users/invite', { method: 'POST', body: JSON.stringify(data) })
-    console.log('Sending invite payload to server:', data)
-    return {
-      success: true,
-      clerkInvitationId: 'mock_inv_id',
-      tenantUserId: 'mock_tenant_id',
-    }
-  },
-  getRoles: async (): Promise<RoleWithPermissions[]> => {
-    // In a real app, this would be: await fetch('/api/roles').then(res => res.json())
-    console.log('Fetching roles from server...')
-    return [
-      {
-        id: '1',
-        name: 'super_admin',
-        description: 'System Admin',
-        is_active: true,
-        created_at: null,
-        updated_at: null,
-        permissions: [],
-      },
-      {
-        id: '2',
-        name: 'admin',
-        description: 'Restaurant Admin',
-        is_active: true,
-        created_at: null,
-        updated_at: null,
-        permissions: [],
-      },
-      {
-        id: '3',
-        name: 'manager',
-        description: 'Branch Manager',
-        is_active: true,
-        created_at: null,
-        updated_at: null,
-        permissions: [],
-      },
-      {
-        id: '4',
-        name: 'cashier',
-        description: 'Cashier',
-        is_active: true,
-        created_at: null,
-        updated_at: null,
-        permissions: [],
-      },
-    ]
-  },
-}
-
-export function useRoles() {
-  return useQuery({
-    queryKey: ['roles'],
-    queryFn: api.getRoles,
-  })
-}
+import { fetchRBACCatalog, inviteUser } from '../data/actions'
+import type { InviteUserInput } from '../data/types'
 
 export function useInviteUser() {
+  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: api.inviteUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] })
-      toast.success('User invited successfully.')
+    mutationFn: (input: InviteUserInput) => inviteUser(getToken, input),
+    onSuccess: (result) => {
+      toast.success(result.message)
+      void queryClient.invalidateQueries({ queryKey: ['users'] })
     },
     onError: (error: Error) => {
-      toast.error(`Failed to invite user: ${error.message}`)
+      toast.error(error.message || 'Unable to send the invitation.')
     },
+  })
+}
+
+export function useRoles(enabled = true) {
+  const { getToken, isLoaded, isSignedIn } = useAuth()
+
+  return useQuery({
+    queryKey: ['rbac-catalog'],
+    queryFn: () => fetchRBACCatalog(getToken),
+    enabled: enabled && isLoaded && isSignedIn,
+    select: (catalog) => catalog.roles,
   })
 }

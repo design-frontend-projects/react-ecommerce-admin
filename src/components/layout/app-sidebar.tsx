@@ -1,6 +1,8 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useLayout } from '@/context/layout-provider'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
+import { normalizeRoleName } from '@/features/users/data/rbac'
+import { useRBACStore } from '@/features/users/data/store'
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +20,7 @@ export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   const { has, isSignedIn } = useAuth()
   const { isSystemOwner } = useSystemOwner()
+  const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
   const sidebarData = useSidebarData()
 
   // Filter navigation items based on user roles and system ownership
@@ -34,8 +37,15 @@ export function AppSidebar() {
         // If roles specified but no employee (not authenticated in POS), hid
         if (!isSignedIn) return false
 
-        // Check if employee has any of the required roles
-        return item.roles.some((role) => has({ role: role as RoleName }))
+        const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
+
+        return item.roles.some((role) => {
+          const normalizedRole = normalizeRoleName(role)
+          return (
+            normalizedRoleNames.includes(normalizedRole) ||
+            has({ role: role as RoleName })
+          )
+        })
       }),
     }))
     .filter((group) => group.items.length > 0)

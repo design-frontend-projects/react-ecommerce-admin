@@ -1,7 +1,9 @@
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUser } from '@clerk/clerk-react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -12,109 +14,117 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Main } from '@/components/layout/main'
-import { Header } from '@/components/layout/header'
+import { Loader2Icon } from 'lucide-react'
 import { useCompleteOnboarding } from './hooks/use-onboarding'
-import { Loader2 } from 'lucide-react'
 
-const formSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  phoneNumber: z.string().optional(),
+const onboardingSchema = z.object({
+  firstName: z.string().trim().min(1, 'First name is required'),
+  lastName: z.string().trim().min(1, 'Last name is required'),
+  phone: z.string().trim().optional(),
 })
 
-type OnboardingFormValues = z.infer<typeof formSchema>
+type OnboardingFormValues = z.infer<typeof onboardingSchema>
 
 export function CompleteAccountFeature() {
   const { user } = useUser()
-  const completeOnboarding = useCompleteOnboarding()
+  const completeOnboardingMutation = useCompleteOnboarding()
 
   const form = useForm<OnboardingFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      phoneNumber: user?.primaryPhoneNumber?.phoneNumber || '',
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
+      phone: user?.primaryPhoneNumber?.phoneNumber ?? '',
     },
   })
 
-  // Using optional chaining because clerk user object loads asynchronously
-  const isPending = completeOnboarding.isPending
-
   const onSubmit = (values: OnboardingFormValues) => {
-    completeOnboarding.mutate({
-      userId: user?.id,
-      ...values,
+    if (!user?.id) {
+      return
+    }
+
+    completeOnboardingMutation.mutate({
+      clerkId: user.id,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
     })
   }
 
   return (
     <>
       <Header fixed>
-        <div className='flex items-center space-x-4'>
-          <h2 className='text-lg font-semibold'>Complete Account Setup</h2>
+        <div className='flex min-w-0 flex-1 flex-col gap-1'>
+          <p className='text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground'>
+            Invitation onboarding
+          </p>
+          <h1 className='truncate text-lg font-semibold'>Complete your account</h1>
         </div>
       </Header>
-      <Main className='flex flex-1 items-center justify-center p-4 sm:p-6'>
-        <div className='w-full max-w-md space-y-8 rounded-lg border bg-card p-6 shadow-sm'>
-          <div className='flex flex-col space-y-2 text-center'>
-            <h1 className='text-2xl font-semibold tracking-tight'>Welcome aboard!</h1>
+      <Main className='flex flex-1 items-center justify-center'>
+        <section className='w-full max-w-lg rounded-2xl border border-border/70 bg-card/70 p-6 shadow-sm'>
+          <div className='flex flex-col gap-2'>
+            <h2 className='text-2xl font-semibold tracking-tight'>
+              Finish the tenant setup
+            </h2>
             <p className='text-sm text-muted-foreground'>
-              Please confirm your details to finish setting up your account.
+              Confirm your profile details so the invitation can be linked to the
+              correct tenant record and role assignment.
             </p>
           </div>
-
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-              <div className='space-y-4'>
-                <FormField
-                  control={form.control}
-                  name='firstName'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Jane' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='lastName'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Doe' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='phoneNumber'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder='+123456789' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <Button type='submit' className='w-full' disabled={isPending}>
-                {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                Complete Setup
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='mt-6 flex flex-col gap-5'
+            >
+              <FormField
+                control={form.control}
+                name='firstName'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder='Mariam' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='lastName'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder='Hassan' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='phone'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder='+20 100 000 0000' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type='submit' disabled={completeOnboardingMutation.isPending}>
+                {completeOnboardingMutation.isPending ? (
+                  <Loader2Icon data-icon='inline-start' className='animate-spin' />
+                ) : null}
+                Complete setup
               </Button>
             </form>
           </Form>
-        </div>
+        </section>
       </Main>
     </>
   )
