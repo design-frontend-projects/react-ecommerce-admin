@@ -12,10 +12,10 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
-import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
@@ -90,11 +90,6 @@ const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
   path: '/subscription-required',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SsoCallbackRoute = SsoCallbackRouteImport.update({
-  id: '/sso-callback',
-  path: '/sso-callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -108,6 +103,11 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
   AuthenticatedSubscriptionsRouteImport.update({
@@ -483,7 +483,6 @@ const AuthenticatedResposInvoiceOrderIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
@@ -516,6 +515,7 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -553,7 +553,6 @@ export interface FileRoutesByFullPath {
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
@@ -584,6 +583,7 @@ export interface FileRoutesByTo {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -623,7 +623,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/sso-callback': typeof SsoCallbackRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
@@ -657,6 +656,7 @@ export interface FileRoutesById {
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
   '/_authenticated/_system/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -696,7 +696,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/sso-callback'
     | '/subscription-required'
     | '/apps'
     | '/branches'
@@ -729,6 +728,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/auth/callback'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -766,7 +766,6 @@ export interface FileRouteTypes {
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/sso-callback'
     | '/subscription-required'
     | '/apps'
     | '/branches'
@@ -797,6 +796,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/auth/callback'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -835,7 +835,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
-    | '/sso-callback'
     | '/subscription-required'
     | '/_authenticated/apps'
     | '/_authenticated/branches'
@@ -869,6 +868,7 @@ export interface FileRouteTypes {
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
     | '/_authenticated/subscriptions'
+    | '/auth/callback'
     | '/_authenticated/'
     | '/menu/'
     | '/_authenticated/_system/audit-logs'
@@ -908,7 +908,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  SsoCallbackRoute: typeof SsoCallbackRoute
   SubscriptionRequiredRoute: typeof SubscriptionRequiredRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -920,6 +919,7 @@ export interface RootRouteChildren {
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   MenuIndexRoute: typeof MenuIndexRoute
 }
 
@@ -930,13 +930,6 @@ declare module '@tanstack/react-router' {
       path: '/subscription-required'
       fullPath: '/subscription-required'
       preLoaderRoute: typeof SubscriptionRequiredRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sso-callback': {
-      id: '/sso-callback'
-      path: '/sso-callback'
-      fullPath: '/sso-callback'
-      preLoaderRoute: typeof SsoCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -959,6 +952,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
       id: '/_authenticated/subscriptions'
@@ -1579,7 +1579,6 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  SsoCallbackRoute: SsoCallbackRoute,
   SubscriptionRequiredRoute: SubscriptionRequiredRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
@@ -1591,6 +1590,7 @@ const rootRouteChildren: RootRouteChildren = {
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   MenuIndexRoute: MenuIndexRoute,
 }
 export const routeTree = rootRouteImport

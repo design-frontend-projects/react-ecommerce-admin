@@ -105,7 +105,7 @@ export function UserDialog({
           <DialogDescription>
             {isEditing
               ? 'Update user details and role assignments.'
-              : 'Add a new user to the system. This will create a Clerk account and restaurant profile.'}
+              : 'Add a new user to the system. This will create a Supabase account and restaurant profile.'}
           </DialogDescription>
         </DialogHeader>
 

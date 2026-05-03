@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth } from '@/lib/auth'
 import { Loader2 } from 'lucide-react'
 import { isSubscriptionActive } from '@/lib/subscription_utils'
+import { useAuthStore } from '@/stores/auth-store'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
 import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
-  const { isLoaded, userId, isSignedIn, sessionClaims } = useAuth()
-  const { user: clerkUser } = useUser()
+  const { isLoaded, userId, isSignedIn, has } = useAuth()
+  const profile = useAuthStore((state) => state.auth.profile)
   const navigate = useNavigate()
   useRBACSession()
 
@@ -24,15 +25,13 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    const onboardingComplete = clerkUser?.publicMetadata?.onboardingComplete === true
-    const invitedViaRbac = clerkUser?.publicMetadata?.invitedViaRbac === true
+    const onboardingComplete = profile?.onboarding_complete === true
     const currentPath = window.location.pathname
 
     if (
       isLoaded &&
       isSignedIn &&
-      clerkUser &&
-      invitedViaRbac &&
+      userId &&
       !onboardingComplete &&
       currentPath !== '/complete-account'
     ) {
@@ -43,7 +42,7 @@ const AuthenticatedRoute = () => {
     if (
       isLoaded &&
       isSignedIn &&
-      clerkUser &&
+      userId &&
       onboardingComplete &&
       currentPath === '/complete-account'
     ) {
@@ -52,9 +51,7 @@ const AuthenticatedRoute = () => {
     }
 
     if (isLoaded && isSignedIn && !subLoading) {
-      // Check for super_admin role in public metadata
-      const isSuperAdmin =
-        (sessionClaims as { o?: { rol?: string } })?.o?.rol === 'super_admin'
+      const isSuperAdmin = has?.({ role: 'super_admin' }) ?? false
 
       // If not super_admin and no active paid subscription, redirect
       const active = isSubscriptionActive(
@@ -78,8 +75,9 @@ const AuthenticatedRoute = () => {
     subLoading,
     subscription,
     navigate,
-    clerkUser,
-    sessionClaims,
+    profile?.onboarding_complete,
+    userId,
+    has,
   ])
 
   if (!isLoaded || subLoading) {

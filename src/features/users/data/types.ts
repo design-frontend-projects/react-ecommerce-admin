@@ -2,7 +2,7 @@ export type UserStatus = 'active' | 'inactive' | 'invited' | 'suspended'
 
 export interface User {
   id: string
-  clerkUserId: string
+  authUserId: string
   firstName: string
   lastName: string
   username: string
@@ -22,12 +22,12 @@ export interface InviteUserInput {
   roleName?: string
   redirectUrl?: string
   desc?: string
-  inviterClerkUserId?: string
+  inviterAuthUserId?: string
 }
 
 export interface InviteUserResult {
   success: boolean
-  clerkInvitationId: string | null
+  invitationId: string | null
   tenantUserId: string
   mode: 'created' | 'updated' | 'pending-existing'
   message: string
@@ -80,14 +80,14 @@ export interface UpdateUserRolesInput {
 }
 
 export interface CompleteOnboardingInput {
-  clerkId: string
+  authUserId: string
   firstName: string
   lastName: string
   phone?: string
 }
 
 export interface CurrentUserAccess {
-  clerkUserId: string
+  authUserId: string
   roleIds: string[]
   roleNames: string[]
   permissionNames: string[]

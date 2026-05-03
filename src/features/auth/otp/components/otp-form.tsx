@@ -3,9 +3,9 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,6 +21,11 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from '@/components/ui/input-otp'
+import { profileService } from '../../services/profile-service'
+import {
+  clearPendingOtpRequest,
+  getPendingOtpRequest,
+} from '../pending-otp'
 
 const formSchema = z.object({
   otp: z
@@ -33,7 +38,6 @@ type OtpFormProps = React.HTMLAttributes<HTMLFormElement>
 
 export function OtpForm({ className, ...props }: OtpFormProps) {
   const navigate = useNavigate()
-  const { isLoaded, signUp, setActive } = useSignUp()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,25 +49,52 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
   const otp = form.watch('otp')
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    if (!isLoaded) return
-
     setIsLoading(true)
 
     try {
-      const result = await signUp.attemptEmailAddressVerification({
-        code: data.otp,
-      })
-
-      if (result.status === 'complete') {
-        await setActive({ session: result.createdSessionId })
-        navigate({ to: '/' })
-        toast.success('Email verified successfully!')
-      } else {
-        toast.error('Verification failed. Please try again.')
+      const pending = getPendingOtpRequest()
+      if (!pending) {
+        throw new Error('No pending verification request. Please request a new code.')
       }
+
+      const verifyPayload =
+        pending.contactType === 'email'
+          ? {
+              email: pending.contact,
+              token: data.otp,
+              type: pending.flow === 'sign-up' ? ('signup' as const) : ('email' as const),
+            }
+          : {
+              phone: pending.contact,
+              token: data.otp,
+              type: 'sms' as const,
+            }
+
+      const { data: authData, error } = await supabase.auth.verifyOtp(verifyPayload)
+      if (error) throw error
+
+      const authUserId = authData.user?.id
+      if (!authUserId) {
+        throw new Error('Verification succeeded but no user session was returned.')
+      }
+
+      clearPendingOtpRequest()
+      const profile = await profileService.getProfile(authUserId)
+      if (!profile?.onboarding_complete) {
+        navigate({ to: '/complete-account', search: {}, replace: true })
+        toast.success('Verified. Complete your account to continue.')
+        return
+      }
+
+      const target =
+        pending.redirectTo ||
+        (pending.module === 'restaurant' ? '/respos' : '/')
+      navigate({ to: target as never, search: true, replace: true })
+      toast.success('Signed in successfully.')
     } catch (err: unknown) {
       const errorMsg =
         (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        (err as { message?: string })?.message ||
         'Invalid code. Please try again.'
       toast.error(errorMsg)
     } finally {

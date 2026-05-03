@@ -1,4 +1,4 @@
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { useEffect, useMemo, useRef } from 'react'
 import {
   extractRoleNames,
@@ -112,7 +112,7 @@ export function useRBACSession() {
 
     setCurrentAccess(
       {
-        userId: currentAccessQuery.data.clerkUserId,
+        userId: currentAccessQuery.data.authUserId,
         roleIds: currentAccessQuery.data.roleIds,
         roleNames:
           currentAccessQuery.data.roleNames.length > 0

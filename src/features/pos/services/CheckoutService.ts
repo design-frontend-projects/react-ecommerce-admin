@@ -3,12 +3,13 @@ import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
 import { v4 as uuidv4 } from 'uuid'
-// TODO: Implement session verification using @clerk/backend or TanStack Start helpers
-// For now, we will use a fallback or expect clerk_user_id in the request if needed.
+// TODO: Implement session verification using Supabase Auth or TanStack Start helpers
+// For now, we will use a fallback or expect auth_user_id in the request if needed.
+const SYSTEM_AUTH_USER_ID = '00000000-0000-0000-0000-000000000000'
 
 export async function processCheckout(data: CheckoutRequestType): Promise<CheckoutResponse> {
   try {
-    const clerk_user_id = 'system' // Placeholder until proper auth is integrated
+    const auth_user_id = SYSTEM_AUTH_USER_ID
 
     const {
       branchId,
@@ -31,7 +32,7 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
       
       const invoice = await tx.sales_invoices.create({
         data: {
-          clerk_user_id: clerk_user_id || 'system',
+          auth_user_id,
           branch_id: branchId,
           store_id: storeId,
           customer_id: customerId,
@@ -80,7 +81,7 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
         await tx.res_shipments.create({
           data: {
             order_id: resOrder.id,
-            clerk_user_id: clerk_user_id || 'system',
+            auth_user_id,
             recipient_name: data.shipment.recipientName,
             recipient_phone: data.shipment.recipientPhone,
             delivery_address: data.shipment.deliveryAddress,
@@ -99,8 +100,8 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
       const transactionRec = await tx.transactions.create({
         data: {
           id: transactionId,
-          tenant_id: clerk_user_id || 'system',
-          clerk_user_id: clerk_user_id || 'system',
+          tenant_id: auth_user_id,
+          auth_user_id,
           transaction_number: `TRN-${invoiceNo}`,
           transaction_type: 'sale',
           status: 'completed',
@@ -116,7 +117,7 @@ export async function processCheckout(data: CheckoutRequestType): Promise<Checko
       const movementPromises = items.map(item => 
         tx.inventory_movements.create({
           data: {
-            clerk_user_id: clerk_user_id || 'system',
+            auth_user_id,
             branch_id: branchId,
             store_id: storeId,
             product_variant_id: item.productVariantId,

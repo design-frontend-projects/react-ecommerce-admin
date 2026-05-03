@@ -34,7 +34,7 @@ export async function getTransactions(): Promise<TransactionRow[]> {
 
 export type CreateTransactionPayload = {
   tenant_id: string
-  clerk_user_id: string
+  auth_user_id: string
   transaction_number: string
   transaction_type: string
   currency: string
@@ -53,7 +53,7 @@ export async function createTransaction(
 ): Promise<string> {
   const { data, error } = await supabase.rpc('create_transaction', {
     p_tenant_id: payload.tenant_id,
-    p_clerk_user_id: payload.clerk_user_id,
+    p_auth_user_id: payload.auth_user_id,
     p_transaction_number: payload.transaction_number,
     p_transaction_type: payload.transaction_type,
     p_currency: payload.currency,

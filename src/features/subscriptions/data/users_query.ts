@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase'
 export const userSearchQueryKey = (search: string) =>
   ['users-search', search] as const
 
-export function useSearchClerkUsers(search: string) {
+export function useSearchAuthUsers(search: string) {
   return useQuery({
     queryKey: userSearchQueryKey(search),
     queryFn: async () => {
@@ -12,7 +12,7 @@ export function useSearchClerkUsers(search: string) {
 
       const { data, error } = await supabase
         .from('tenant_subscriptions')
-        .select('id, clerk_user_id, email, first_name, last_name')
+        .select('id, auth_user_id, email, first_name, last_name')
         .or(
           `email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%`
         )

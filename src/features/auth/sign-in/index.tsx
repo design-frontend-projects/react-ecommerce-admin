@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/lib/auth'
 import {
   Card,
   CardContent,
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ProfileDropdown } from '@/components/profile-dropdown'
 import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
 
@@ -19,7 +18,7 @@ export function SignIn() {
   const navigate = useNavigate()
   useEffect(() => {
     if (isSignedIn && isLoaded) {
-      navigate({ to: redirect || '/' })
+      navigate({ to: (redirect || '/') as never, search: true })
     }
   }, [isSignedIn, isLoaded, navigate, redirect])
 

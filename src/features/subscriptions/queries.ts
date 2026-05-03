@@ -55,7 +55,7 @@ export function useTenantSubscriptions() {
 
 // Assign subscription to tenant
 async function assignSubscription(payload: {
-  clerk_user_id: string
+  auth_user_id: string
   email: string
   subscription_id: number
   status: 'new' | 'paid' | 'canceled'
@@ -86,13 +86,13 @@ export function useAssignSubscription() {
 }
 
 // Fetch current user's subscription status
-async function getCurrentUserSubscription(clerkUserId: string) {
-  if (!clerkUserId) return null
+async function getCurrentUserSubscription(authUserId: string) {
+  if (!authUserId) return null
 
   const { data, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('clerk_user_id', clerkUserId)
+    .eq('auth_user_id', authUserId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
@@ -104,11 +104,11 @@ async function getCurrentUserSubscription(clerkUserId: string) {
   return data
 }
 
-export function useSubscriptionStatus(clerkUserId: string | undefined) {
+export function useSubscriptionStatus(authUserId: string | undefined) {
   return useQuery({
-    queryKey: subscriptionQueryKeys.byTenantId(clerkUserId ?? ''),
-    queryFn: () => getCurrentUserSubscription(clerkUserId!),
-    enabled: !!clerkUserId,
+    queryKey: subscriptionQueryKeys.byTenantId(authUserId ?? ''),
+    queryFn: () => getCurrentUserSubscription(authUserId!),
+    enabled: !!authUserId,
   })
 }
 
@@ -117,7 +117,7 @@ async function getSubscriptionAnalytics(userId: string) {
   const { data: allSubs, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('clerk_user_id', userId)
+    .eq('auth_user_id', userId)
     .eq('status', 'paid')
 
   if (error) throw error

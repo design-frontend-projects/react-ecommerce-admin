@@ -30,7 +30,7 @@ export type Role = z.infer<typeof roleSchema>
 
 export const userSchema = z.object({
   id: z.string(),
-  clerkUserId: z.string(),
+  authUserId: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   username: z.string(),
@@ -55,7 +55,7 @@ export const inviteUserInputSchema = z.object({
 
 export const inviteUserResultSchema = z.object({
   success: z.boolean(),
-  clerkInvitationId: z.string().nullable(),
+  invitationId: z.string().nullable(),
   tenantUserId: z.string(),
   mode: z.enum(['created', 'updated', 'pending-existing']),
   message: z.string(),
@@ -90,7 +90,7 @@ export const setRolePermissionsInputSchema = z.object({
 })
 
 export const completeOnboardingInputSchema = z.object({
-  clerkId: z.string().min(1),
+  authUserId: z.string().min(1),
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
   phone: z.string().trim().optional(),

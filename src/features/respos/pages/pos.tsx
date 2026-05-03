@@ -1,7 +1,7 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
 import { useState } from 'react'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,

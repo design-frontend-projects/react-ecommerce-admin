@@ -2,14 +2,14 @@ import prisma from '@/lib/prisma'
 import type { AppSetting, UpsertSettingInput } from './schema'
 
 /**
- * Fetch all settings for a given clerk user.
+ * Fetch all settings for a given Auth User.
  * If `publicOnly` is true, only returns settings marked as public.
  */
 export async function getSettings(
-  clerkUserId: string,
+  authUserId: string,
   publicOnly = false
 ): Promise<AppSetting[]> {
-  const where: Record<string, unknown> = { clerk_user_id: clerkUserId }
+  const where: Record<string, unknown> = { auth_user_id: authUserId }
   if (publicOnly) {
     where.is_public = true
   }
@@ -25,22 +25,22 @@ export async function getSettings(
     value: s.value,
     group: s.group,
     is_public: s.is_public,
-    clerk_user_id: s.clerk_user_id,
+    auth_user_id: s.auth_user_id,
     created_at: s.created_at,
     updated_at: s.updated_at,
   }))
 }
 
 /**
- * Fetch a single setting by key for a given clerk user.
+ * Fetch a single setting by key for a given Auth User.
  */
 export async function getSettingByKey(
-  clerkUserId: string,
+  authUserId: string,
   key: string
 ): Promise<AppSetting | null> {
   const setting = await prisma.app_settings.findUnique({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key },
+      auth_user_id_key: { auth_user_id: authUserId, key },
     },
   })
 
@@ -52,29 +52,29 @@ export async function getSettingByKey(
     value: setting.value,
     group: setting.group,
     is_public: setting.is_public,
-    clerk_user_id: setting.clerk_user_id,
+    auth_user_id: setting.auth_user_id,
     created_at: setting.created_at,
     updated_at: setting.updated_at,
   }
 }
 
 /**
- * Upsert a setting (create or update) for a given clerk user.
+ * Upsert a setting (create or update) for a given Auth User.
  */
 export async function upsertSetting(
-  clerkUserId: string,
+  authUserId: string,
   input: UpsertSettingInput
 ): Promise<AppSetting> {
   const setting = await prisma.app_settings.upsert({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key: input.key },
+      auth_user_id_key: { auth_user_id: authUserId, key: input.key },
     },
     create: {
       key: input.key,
       value: input.value,
       group: input.group ?? null,
       is_public: input.is_public ?? true,
-      clerk_user_id: clerkUserId,
+      auth_user_id: authUserId,
     },
     update: {
       value: input.value,
@@ -90,22 +90,22 @@ export async function upsertSetting(
     value: setting.value,
     group: setting.group,
     is_public: setting.is_public,
-    clerk_user_id: setting.clerk_user_id,
+    auth_user_id: setting.auth_user_id,
     created_at: setting.created_at,
     updated_at: setting.updated_at,
   }
 }
 
 /**
- * Delete a setting by key for a given clerk user.
+ * Delete a setting by key for a given Auth User.
  */
 export async function deleteSetting(
-  clerkUserId: string,
+  authUserId: string,
   key: string
 ): Promise<void> {
   await prisma.app_settings.delete({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key },
+      auth_user_id_key: { auth_user_id: authUserId, key },
     },
   })
 }
@@ -114,13 +114,13 @@ export async function deleteSetting(
  * Initialize default settings for a new tenant if they don't exist.
  */
 export async function initializeDefaultSettings(
-  clerkUserId: string,
+  authUserId: string,
   defaults: Array<UpsertSettingInput>
 ): Promise<void> {
   for (const setting of defaults) {
     const existing = await prisma.app_settings.findUnique({
       where: {
-        clerk_user_id_key: { clerk_user_id: clerkUserId, key: setting.key },
+        auth_user_id_key: { auth_user_id: authUserId, key: setting.key },
       },
     })
 
@@ -131,7 +131,7 @@ export async function initializeDefaultSettings(
           value: setting.value,
           group: setting.group ?? null,
           is_public: setting.is_public ?? true,
-          clerk_user_id: clerkUserId,
+          auth_user_id: authUserId,
         },
       })
     }

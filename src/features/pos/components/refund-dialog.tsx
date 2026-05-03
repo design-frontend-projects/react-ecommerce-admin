@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -132,7 +132,7 @@ export function RefundDialog() {
   const [newRefundId, setNewRefundId] = useState<string | null>(null)
 
   const { userId } = useAuth()
-  const { user: clerkUser } = useUser()
+  const { user: authUser } = useUser()
   const queryClient = useQueryClient()
 
   const form = useForm<RefundFormValues>({
@@ -142,7 +142,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      clerk_user_id: clerkUser?.id ?? '',
+      auth_user_id: authUser?.id ?? '',
       branch_id: selectedBranchId,
     },
   })
@@ -177,7 +177,7 @@ export function RefundDialog() {
         processedBy: userId ?? '',
         notes: values.notes,
         orderId: selectedTx?.transaction_number as string,
-        clerk_user_id: clerkUser?.id as string,
+        auth_user_id: authUser?.id as string,
       }),
     onSuccess: (refundId) => {
       setNewRefundId(refundId)
@@ -204,7 +204,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      clerk_user_id: clerkUser?.id ?? '',
+      auth_user_id: authUser?.id ?? '',
       branch_id: selectedBranchId,
     })
   }

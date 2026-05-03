@@ -18,9 +18,9 @@ vi.mock('../queries', () => ({
 }));
 
 vi.mock('../data/users_query', () => ({
-  useSearchClerkUsers: () => ({
+  useSearchAuthUsers: () => ({
     data: [
-      { clerk_user_id: 'user_1', email: 'test@example.com', first_name: 'Test', last_name: 'User' },
+      { auth_user_id: 'user_1', email: 'test@example.com', first_name: 'Test', last_name: 'User' },
     ],
     isLoading: false,
   }),

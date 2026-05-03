@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const transactionSchema = z.object({
   id: z.string().uuid(),
   tenant_id: z.string().uuid(),
-  clerk_user_id: z.string(),
+  auth_user_id: z.string(),
   transaction_number: z.string(),
   transaction_type: z.string(),
   status: z.string(),

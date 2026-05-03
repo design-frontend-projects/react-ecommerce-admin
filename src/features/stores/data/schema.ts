@@ -3,7 +3,7 @@ import { z } from "zod";
 export const storeSchema = z.object({
   store_id: z.string().uuid().optional(),
   name: z.string().min(1, "Store name is required").nullable(),
-  clerk_user_id: z.string().optional().nullable(),
+  auth_user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   email: z.string().email("Invalid email format").optional().nullable().or(z.literal("")),
   address: z.string().optional().nullable(),

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { Header } from '@/components/layout/header'
@@ -26,7 +26,7 @@ export function Products() {
       const { data, error } = await supabase
         .from('products')
         .select('*, categories(name), product_variants(*)')
-        .eq('clerk_user_id', user.id)
+        .eq('auth_user_id', user.id)
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
 

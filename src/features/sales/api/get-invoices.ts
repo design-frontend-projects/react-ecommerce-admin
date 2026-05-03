@@ -26,7 +26,7 @@ export async function getInvoices(params: GetInvoicesParams = {}) {
   const skip = (page - 1) * limit
 
   const whereCondition: Record<string, unknown> = {
-    clerk_user_id: userId,
+    auth_user_id: userId,
   }
 
   if (startDate || endDate) {

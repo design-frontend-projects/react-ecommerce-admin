@@ -8,7 +8,7 @@ import {
 import type { CurrentUserAccess, RoleWithPermissions } from './types'
 
 type TenantUserAccessRow = {
-  clerk_user_id: string
+  auth_user_id: string
   user_roles: Array<{
     role_id: string
     roles: {
@@ -31,8 +31,8 @@ type TenantUserAccessRow = {
   }>
 } | null
 
-export const currentAccessQueryKey = (clerkUserId: string | null | undefined) =>
-  ['rbac', 'current-access', clerkUserId] as const
+export const currentAccessQueryKey = (authUserId: string | null | undefined) =>
+  ['rbac', 'current-access', authUserId] as const
 
 function normalizeRoles(row: NonNullable<TenantUserAccessRow>): RoleWithPermissions[] {
   return row.user_roles
@@ -56,13 +56,13 @@ function normalizeRoles(row: NonNullable<TenantUserAccessRow>): RoleWithPermissi
 }
 
 export async function fetchCurrentUserAccess(
-  clerkUserId: string
+  authUserId: string
 ): Promise<CurrentUserAccess | null> {
   const { data, error } = await supabase
     .from('tenant_users')
     .select(
       `
-        clerk_user_id,
+        auth_user_id,
         user_roles (
           role_id,
           roles (
@@ -85,7 +85,7 @@ export async function fetchCurrentUserAccess(
         )
       `
     )
-    .eq('clerk_user_id', clerkUserId)
+    .eq('auth_user_id', authUserId)
     .maybeSingle()
 
   if (error) {
@@ -103,7 +103,7 @@ export async function fetchCurrentUserAccess(
 
   const roles = normalizeRoles(row)
   return {
-    clerkUserId: row.clerk_user_id,
+    authUserId: row.auth_user_id,
     roleIds: row.user_roles.map((assignment) => assignment.role_id),
     roleNames: roles.map((role) => role.name),
     permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
@@ -111,52 +111,52 @@ export async function fetchCurrentUserAccess(
 }
 
 export function useCurrentUserAccess(
-  clerkUserId: string | null | undefined,
+  authUserId: string | null | undefined,
   onRealtimeEvent?: () => void
 ) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
-    queryKey: currentAccessQueryKey(clerkUserId),
-    queryFn: () => fetchCurrentUserAccess(clerkUserId!),
-    enabled: Boolean(clerkUserId),
+    queryKey: currentAccessQueryKey(authUserId),
+    queryFn: () => fetchCurrentUserAccess(authUserId!),
+    enabled: Boolean(authUserId),
     staleTime: 60_000,
   })
   const roleIdsKey = (query.data?.roleIds ?? []).join(',')
 
   useEffect(() => {
-    if (!clerkUserId) {
+    if (!authUserId) {
       return undefined
     }
 
     const invalidate = () => {
       onRealtimeEvent?.()
       void queryClient.invalidateQueries({
-        queryKey: currentAccessQueryKey(clerkUserId),
+        queryKey: currentAccessQueryKey(authUserId),
       })
     }
 
     const channels = [
-      createRealtimeChannel(`rbac-user-roles-${clerkUserId}`)
+      createRealtimeChannel(`rbac-user-roles-${authUserId}`)
         .on(
           'postgres_changes',
           {
             event: '*',
             schema: 'public',
             table: 'user_roles',
-            filter: `clerk_user_id=eq.${clerkUserId}`,
+            filter: `auth_user_id=eq.${authUserId}`,
           },
           invalidate
         )
         .subscribe(),
-      createRealtimeChannel(`rbac-tenant-user-${clerkUserId}`)
+      createRealtimeChannel(`rbac-tenant-user-${authUserId}`)
         .on(
           'postgres_changes',
           {
             event: '*',
             schema: 'public',
             table: 'tenant_users',
-            filter: `clerk_user_id=eq.${clerkUserId}`,
+            filter: `auth_user_id=eq.${authUserId}`,
           },
           invalidate
         )
@@ -185,7 +185,7 @@ export function useCurrentUserAccess(
         void supabase.removeChannel(channel)
       }
     }
-  }, [clerkUserId, onRealtimeEvent, queryClient, roleIdsKey])
+  }, [authUserId, onRealtimeEvent, queryClient, roleIdsKey])
 
   return query
 }

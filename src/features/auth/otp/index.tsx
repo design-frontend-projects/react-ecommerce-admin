@@ -16,11 +16,10 @@ export function Otp() {
       <Card className='gap-4'>
         <CardHeader>
           <CardTitle className='text-base tracking-tight'>
-            Two-factor Authentication
+            Verify your code
           </CardTitle>
           <CardDescription>
-            Please enter the authentication code. <br /> We have sent the
-            authentication code to your email.
+            Enter the 6-digit code sent to your email or phone.
           </CardDescription>
         </CardHeader>
         <CardContent>

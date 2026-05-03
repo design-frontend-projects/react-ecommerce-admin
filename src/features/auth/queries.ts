@@ -1,23 +1,22 @@
 // User Module Query Hook
 // Fetches user module assignments from Supabase
 import { useQuery } from '@tanstack/react-query'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import type { User } from './types'
 
 export const userQueryKeys = {
   all: ['users'] as const,
   current: () => [...userQueryKeys.all, 'current'] as const,
-  byClerkId: (clerkId: string) =>
-    [...userQueryKeys.all, 'clerk', clerkId] as const,
+  byAuthUserId: (authUserId: string) =>
+    [...userQueryKeys.all, 'auth', authUserId] as const,
 }
 
-// Get user by Clerk ID
-async function getUserByClerkId(clerkId: string): Promise<User | null> {
+async function getUserByAuthUserId(authUserId: string): Promise<User | null> {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('clerk_user_id', clerkId)
+    .eq('auth_user_id', authUserId)
     .maybeSingle()
 
   if (error) {
@@ -33,12 +32,12 @@ async function getUserByClerkId(clerkId: string): Promise<User | null> {
 
 // Hook to get current user's module access
 export function useCurrentUserModules() {
-  const { user: clerkUser, isLoaded } = useUser()
+  const { user, isLoaded } = useUser()
 
   return useQuery({
-    queryKey: userQueryKeys.byClerkId(clerkUser?.id ?? ''),
-    queryFn: () => getUserByClerkId(clerkUser!.id),
-    enabled: isLoaded && !!clerkUser?.id,
+    queryKey: userQueryKeys.byAuthUserId(user?.id ?? ''),
+    queryFn: () => getUserByAuthUserId(user!.id),
+    enabled: isLoaded && !!user?.id,
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
 }

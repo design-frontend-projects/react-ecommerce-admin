@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {
@@ -63,15 +63,15 @@ export function ResposDashboard() {
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
   const { has, isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
-  const clerkUserId = user?.id ?? null
+  const authUserId = user?.id ?? null
 
-  // Pass clerkUserId so the query is enabled and actually fetches
-  const { data: activeShift, isLoading: shiftLoading } = useActiveShift(clerkUserId)
+  // Pass authUserId so the query is enabled and actually fetches
+  const { data: activeShift, isLoading: shiftLoading } = useActiveShift(authUserId)
 
-  const { openShift, closeShift, isOpening, isClosing } = useShift({ clerkUserId })
+  const { openShift, closeShift, isOpening, isClosing } = useShift({ authUserId })
   
   const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
-  const { data: allShifts = [] } = useShifts(isAdmin ? null : clerkUserId)
+  const { data: allShifts = [] } = useShifts(isAdmin ? null : authUserId)
   const closedShifts = allShifts.filter((s) => s.status === 'closed')
   const previousClosingCash = closedShifts[0]?.closing_cash ?? 0
 

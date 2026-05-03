@@ -1,22 +1,23 @@
 import prisma from '@/lib/prisma'
-import { clerkBackend } from '@/server/clerk'
+import { supabaseAdmin } from '@/server/supabase'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
 import type { InviteUserInput, InviteUserResult } from '@/features/users/data/types'
 import { updateUserRoles } from './rbac'
 
 export async function inviteUser(input: InviteUserInput): Promise<InviteUserResult> {
-  if (!input.inviterClerkUserId) {
+  if (!input.inviterAuthUserId) {
     throw new Error('Inviter context is required')
   }
 
   const inviter = await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: input.inviterClerkUserId },
+    where: { auth_user_id: input.inviterAuthUserId },
   })
 
   if (!inviter) {
     throw new Error('Inviter tenant profile was not found')
   }
 
+  const email = input.email.trim().toLowerCase()
   const role =
     (input.roleId
       ? await prisma.roles.findUnique({ where: { id: input.roleId } })
@@ -32,7 +33,7 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
   }
 
   const existingUser = await prisma.tenant_users.findUnique({
-    where: { email: input.email.trim().toLowerCase() },
+    where: { email },
   })
 
   if (existingUser) {
@@ -45,40 +46,43 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
       },
     })
 
-    await updateUserRoles(existingUser.id, [role.id], input.inviterClerkUserId)
+    await updateUserRoles(existingUser.id, [role.id], input.inviterAuthUserId)
 
     return {
       success: true,
-      clerkInvitationId: existingUser.clerk_user_id.startsWith('pending_')
-        ? existingUser.clerk_user_id.replace('pending_', '')
-        : null,
+      invitationId: null,
       tenantUserId: existingUser.id,
-      mode: existingUser.clerk_user_id.startsWith('pending_') ? 'pending-existing' : 'updated',
-      message: existingUser.clerk_user_id.startsWith('pending_')
-        ? 'Pending invitation already exists. The assigned role has been updated.'
-        : 'Existing user role has been updated for this tenant.',
+      mode: existingUser.auth_user_id ? 'updated' : 'pending-existing',
+      message: existingUser.auth_user_id
+        ? 'Existing user role has been updated for this tenant.'
+        : 'Pending invitation already exists. The assigned role has been updated.',
     }
   }
 
-  const invitation = await clerkBackend.invitations.createInvitation({
-    emailAddress: input.email.trim().toLowerCase(),
-    publicMetadata: {
-      role: role.name,
-      roles: [role.name],
-      onboardingComplete: false,
-      invitedViaRbac: true,
-      tenantId: inviter.parent_tenant_id,
-    },
-    redirectUrl:
-      input.redirectUrl ??
-      `${process.env.VITE_APP_URL || 'http://localhost:5177'}/sign-up`,
-  })
+  const redirectTo =
+    input.redirectUrl ??
+    `${process.env.VITE_APP_URL || 'http://localhost:5177'}/auth/callback`
 
-  const pendingClerkUserId = `pending_${invitation.id}`
+  const { data: invitation, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(
+    email,
+    {
+      redirectTo,
+      data: {
+        role: role.name,
+        roles: [role.name],
+        tenant_id: inviter.parent_tenant_id,
+      },
+    }
+  )
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
   const tenantUser = await prisma.tenant_users.create({
     data: {
-      clerk_user_id: pendingClerkUserId,
-      email: input.email.trim().toLowerCase(),
+      auth_user_id: invitation.user?.id ?? null,
+      email,
       first_name: null,
       last_name: null,
       is_active: true,
@@ -86,6 +90,7 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
       is_restuarant_user: true,
       modules: ['inventory', 'restaurant'],
       parent_tenant_id: inviter.parent_tenant_id,
+      onboarding_complete: false,
     },
   })
 
@@ -93,13 +98,13 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
     data: {
       user_id: tenantUser.id,
       role_id: role.id,
-      clerk_user_id: pendingClerkUserId,
+      auth_user_id: tenantUser.auth_user_id,
     },
   })
 
   return {
     success: true,
-    clerkInvitationId: invitation.id,
+    invitationId: invitation.user?.id ?? null,
     tenantUserId: tenantUser.id,
     mode: 'created',
     message: 'Invitation sent successfully.',
@@ -107,19 +112,27 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
 }
 
 export async function listPendingInvitations() {
-  const invitations = await clerkBackend.invitations.getInvitationList({
-    status: 'pending',
+  const pendingUsers = await prisma.tenant_users.findMany({
+    where: { onboarding_complete: false },
+    orderBy: { created_at: 'desc' },
   })
 
-  return invitations.data.map((invitation) => ({
-    id: invitation.id,
-    emailAddress: invitation.emailAddress,
-    status: invitation.status,
-    role: (invitation.publicMetadata as { role?: string })?.role ?? 'unknown',
-    createdAt: new Date(invitation.createdAt).toISOString(),
+  return pendingUsers.map((user: {
+    id: string
+    email: string | null
+    default_role: string | null
+    created_at: Date | null
+  }) => ({
+    id: user.id,
+    emailAddress: user.email ?? '',
+    status: 'pending',
+    role: user.default_role ?? 'unknown',
+    createdAt: user.created_at?.toISOString() ?? new Date().toISOString(),
   }))
 }
 
 export async function revokeInvitation(invitationId: string) {
-  await clerkBackend.invitations.revokeInvitation(invitationId)
+  await prisma.tenant_users.delete({
+    where: { id: invitationId },
+  })
 }

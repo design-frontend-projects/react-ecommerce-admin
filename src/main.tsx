@@ -7,10 +7,10 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { ClerkProvider } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
+import { SupabaseAuthProvider } from '@/lib/auth'
 import { PwaUpdatePrompt } from './components/pwa-update-prompt'
 import { NetworkStatus } from './components/NetworkStatus'
 import { InstallPrompt } from './components/InstallPrompt'
@@ -25,13 +25,6 @@ import { ThemeProvider } from './context/theme-provider'
 import { routeTree } from './routeTree.gen'
 // Styles
 import './styles/index.css'
-
-// Import your Publishable Key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key')
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,7 +101,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <SupabaseAuthProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
             <FontProvider>
@@ -124,7 +117,7 @@ if (!rootElement.innerHTML) {
             </FontProvider>
           </ThemeProvider>
         </QueryClientProvider>
-      </ClerkProvider>
+      </SupabaseAuthProvider>
     </StrictMode>
   )
 }

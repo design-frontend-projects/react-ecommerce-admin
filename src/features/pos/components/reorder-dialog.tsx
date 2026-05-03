@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import {
   Dialog,
   DialogContent,
@@ -43,7 +43,7 @@ export function ReorderDialog() {
   
   const { setBasketItems } = useBasket()
   const { userId } = useAuth()
-  const { user: clerkUser } = useUser()
+  const { user: authUser } = useUser()
   const queryClient = useQueryClient()
 
   const { data: recentTransactions, isLoading } = useQuery<RecentTransaction[]>({
@@ -108,7 +108,7 @@ export function ReorderDialog() {
         processedBy: userId ?? '',
         notes: 'Fast refund triggered beside reorder button.',
         orderId: tx.transaction_number,
-        clerk_user_id: clerkUser?.id as string,
+        auth_user_id: authUser?.id as string,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })

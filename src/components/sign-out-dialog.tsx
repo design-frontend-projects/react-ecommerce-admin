@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth, useClerk, useUser } from '@clerk/clerk-react'
+import { useAuth, useSupabaseAuth, useUser } from '@/lib/auth'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { LogOut, Timer } from 'lucide-react'
 import { Trans } from 'react-i18next'
@@ -38,26 +38,26 @@ function clearResposSessionState() {
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const clerk = useClerk()
+  const { signOut } = useSupabaseAuth()
   const auth = useAuthStore((state) => state.auth)
   const { isLoaded, isSignedIn, has } = useAuth()
   const { user } = useUser()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [closeShiftDialogOpen, setCloseShiftDialogOpen] = useState(false)
 
-  const clerkUserId = user?.id ?? null
+  const authUserId = user?.id ?? null
   const isCashier = has?.({ role: RoleNames.cashier }) ?? false
   const {
     data: activeShift,
     isLoading: isShiftStatusLoading,
-  } = useActiveShift(clerkUserId)
+  } = useActiveShift(authUserId)
 
-  const { closeShift, isClosing } = useShift({ clerkUserId })
+  const { closeShift, isClosing } = useShift({ authUserId })
 
   const signOutAndRedirect = async () => {
     setIsSigningOut(true)
     try {
-      await clerk.signOut()
+      await signOut()
       auth.reset()
       clearResposSessionState()
 
@@ -101,7 +101,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   }
 
   const shouldCheckShiftForSignOut =
-    open && isLoaded && isSignedIn && isCashier && !!clerkUserId
+    open && isLoaded && isSignedIn && isCashier && !!authUserId
 
   const shouldShowShiftActionDialog =
     shouldCheckShiftForSignOut && !!activeShift

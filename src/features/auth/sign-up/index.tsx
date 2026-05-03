@@ -19,7 +19,7 @@ export function SignUp() {
             Create an account
           </CardTitle>
           <CardDescription>
-            Enter your email and password to create an account. <br />
+            Enter your email or phone and verify a one-time code. <br />
             Already have an account?{' '}
             <Link
               to='/sign-in'

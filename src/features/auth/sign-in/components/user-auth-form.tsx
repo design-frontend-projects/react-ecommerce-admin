@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
-import { Link, useNavigate } from '@tanstack/react-router'
-import { useSignIn } from '@clerk/clerk-react'
+import { useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
@@ -20,7 +19,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/password-input'
 import {
   Select,
   SelectContent,
@@ -34,6 +32,7 @@ import {
   type UserAuthFormValues,
   type UserModule,
 } from './sign-in.schema'
+import { savePendingOtpRequest } from '../../otp/pending-otp'
 
 interface UserAuthFormProps extends Omit<HTMLMotionProps<'form'>, 'ref'> {
   redirectTo?: string
@@ -46,7 +45,6 @@ export function UserAuthForm({
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
-  const { isLoaded, signIn, setActive } = useSignIn()
   const navigate = useNavigate()
   const { selectedBranchId, setSelectedBranchId } = useAuthStore(
     (state) => state.auth
@@ -70,79 +68,49 @@ export function UserAuthForm({
     resolver: zodResolver(userAuthFormSchema),
     defaultValues: {
       branchId: selectedBranchId || '',
-      email: '',
-      password: '',
+      contactType: 'email',
+      contact: '',
     },
   })
 
   async function onSubmit(data: UserAuthFormValues) {
-    if (!isLoaded) return
-
     setIsLoading(true)
     try {
       setSelectedBranchId(data.branchId)
 
-      const result = await signIn.create({
-        identifier: data.email,
-        password: data.password,
+      const payload =
+        data.contactType === 'email'
+          ? {
+              email: data.contact.trim().toLowerCase(),
+              options: { shouldCreateUser: false },
+            }
+          : {
+              phone: data.contact.trim(),
+              options: { shouldCreateUser: false },
+            }
+
+      const { error } = await supabase.auth.signInWithOtp(payload)
+      if (error) {
+        throw error
+      }
+
+      savePendingOtpRequest({
+        contactType: data.contactType,
+        contact: data.contact.trim(),
+        flow: 'sign-in',
+        redirectTo,
+        module: selectedModule,
       })
 
-      if (result.status === 'complete') {
-        await setActive({ session: result.createdSessionId })
-
-        // Redirect based on selected module
-        let targetPath = redirectTo || '/'
-        if (selectedModule === 'restaurant') {
-          targetPath = redirectTo || '/respos'
-        }
-
-        navigate({ to: targetPath, replace: true })
-        toast.success(
-          `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
-        )
-      } else if (result.status === 'needs_second_factor') {
-        toast.info('Sign in requires further steps.')
-        navigate({ to: '/sso-callback', replace: true })
-      } else {
-        toast.info('Sign in requires further steps.')
-      }
+      navigate({ to: '/otp' })
+      toast.success('Verification code sent.')
     } catch (err: unknown) {
       const errorMsg =
         (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        (err as { message?: string })?.message ||
         'Something went wrong. Please try again.'
       toast.error(errorMsg)
     } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const _handleOAuthSignIn = async (
-    strategy: 'oauth_github' | 'oauth_facebook'
-  ) => {
-    if (!isLoaded) return
-
-    const validBranch = await form.trigger('branchId')
-    if (!validBranch) {
-      toast.error('Please select a branch before continuing.')
-      return
-    }
-
-    const branchId = form.getValues('branchId')
-    setSelectedBranchId(branchId)
-
-    try {
-      setIsLoading(true)
-      const redirectPath = selectedModule === 'restaurant' ? '/respos' : '/'
-      await signIn.authenticateWithRedirect({
-        strategy,
-        redirectUrl: '/sso-callback',
-        redirectUrlComplete: redirectTo || redirectPath,
-      })
-    } catch (err: unknown) {
-      const errorMsg =
-        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
-        'OAuth invalid'
-      toast.error(errorMsg)
       setIsLoading(false)
     }
   }
@@ -271,43 +239,49 @@ export function UserAuthForm({
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
-              name='email'
+              name='contact'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <div className='flex items-center justify-between gap-3'>
+                    <FormLabel>
+                      {form.watch('contactType') === 'email' ? 'Email' : 'Phone'}
+                    </FormLabel>
+                    <FormField
+                      control={form.control}
+                      name='contactType'
+                      render={({ field: typeField }) => (
+                        <div className='grid grid-cols-2 rounded-lg bg-muted p-1 text-xs'>
+                          {(['email', 'phone'] as const).map((type) => (
+                            <button
+                              key={type}
+                              type='button'
+                              onClick={() => typeField.onChange(type)}
+                              className={cn(
+                                'rounded-md px-3 py-1 font-medium capitalize transition-colors',
+                                typeField.value === type
+                                  ? 'bg-background text-foreground shadow-sm'
+                                  : 'text-muted-foreground hover:text-foreground'
+                              )}
+                            >
+                              {type}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    />
+                  </div>
                   <FormControl>
                     <Input
-                      placeholder='name@example.com'
+                      placeholder={
+                        form.watch('contactType') === 'email'
+                          ? 'name@example.com'
+                          : '+201000000000'
+                      }
                       className='h-11 bg-background/50 focus-visible:ring-primary'
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      placeholder='Enter your password'
-                      className='h-11 bg-background/50 focus-visible:ring-primary'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <Link
-                    to='/forgot-password'
-                    className='absolute end-0 -top-0.5 text-xs font-medium text-primary transition-colors hover:text-primary/80 sm:text-sm'
-                  >
-                    Forgot password?
-                  </Link>
                 </FormItem>
               )}
             />
@@ -327,20 +301,9 @@ export function UserAuthForm({
               ) : (
                 <LogIn className='mr-2 h-5 w-5' />
               )}
-              Sign in to{' '}
+              Send code for{' '}
               {selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'}
             </Button>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className='relative my-4'>
-            <div className='absolute inset-0 flex items-center'>
-              <span className='w-full border-t border-border/50' />
-            </div>
-            <div className='relative flex justify-center text-xs uppercase'>
-              <span className='bg-background px-2 text-muted-foreground'>
-                Or continue with
-              </span>
-            </div>
           </motion.div>
         </motion.form>
       </Form>

@@ -1,9 +1,7 @@
 import prisma from '@/lib/prisma'
-import { clerkBackend } from '@/server/clerk'
 import {
   BASE_PERMISSION_DEFINITIONS,
   DEFAULT_ROLE_PERMISSION_NAMES,
-  getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
@@ -272,25 +270,6 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
   return { added: true }
 }
 
-async function syncClerkUserRoleMetadata(clerkUserId: string, roleNames: string[]) {
-  if (!clerkUserId || clerkUserId.startsWith('pending_')) {
-    return
-  }
-
-  const user = await clerkBackend.users.getUser(clerkUserId)
-  const primaryRole = getPrimaryRoleName(roleNames)
-  const mergedPermissions = getFallbackPermissionNamesForRoles(roleNames)
-
-  await clerkBackend.users.updateUserMetadata(clerkUserId, {
-    publicMetadata: {
-      ...(user.publicMetadata as Record<string, unknown>),
-      role: primaryRole,
-      roles: roleNames,
-      permissions: mergedPermissions,
-    },
-  })
-}
-
 export async function updateUserRoles(
   userId: string,
   roleIds: string[],
@@ -309,7 +288,7 @@ export async function updateUserRoles(
       data: roleIds.map((roleId) => ({
         user_id: userId,
         role_id: roleId,
-        clerk_user_id: tenantUser.clerk_user_id,
+        auth_user_id: tenantUser.auth_user_id,
       })),
       skipDuplicates: true,
     })
@@ -330,13 +309,12 @@ export async function updateUserRoles(
       },
     })
 
-    await syncClerkUserRoleMetadata(tenantUser.clerk_user_id, roles.map((role) => role.name))
   }
 }
 
-export async function getUserRoles(clerkUserId: string): Promise<RoleWithPermissions[]> {
+export async function getUserRoles(authUserId: string): Promise<RoleWithPermissions[]> {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: clerkUserId },
+    where: { auth_user_id: authUserId },
     include: {
       user_roles: {
         include: {

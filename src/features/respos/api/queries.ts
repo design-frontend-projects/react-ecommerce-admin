@@ -39,13 +39,13 @@ export const resposQueryKeys = {
       ? (['respos', 'menu-items', categoryId] as const)
       : (['respos', 'menu-items'] as const),
   menuItem: (id: string) => ['respos', 'menu-items', 'detail', id] as const,
-  shifts: (clerkUserId?: string) =>
-    clerkUserId
-      ? (['respos', 'shifts', clerkUserId] as const)
+  shifts: (authUserId?: string) =>
+    authUserId
+      ? (['respos', 'shifts', authUserId] as const)
       : (['respos', 'shifts'] as const),
-  activeShift: (clerkUserId?: string) =>
-    clerkUserId
-      ? (['respos', 'shifts', 'active', clerkUserId] as const)
+  activeShift: (authUserId?: string) =>
+    authUserId
+      ? (['respos', 'shifts', 'active', authUserId] as const)
       : (['respos', 'shifts', 'active'] as const),
   activeOrder: (tableId: string) =>
     ['respos', 'orders', 'active', tableId] as const,
@@ -368,9 +368,9 @@ export function useMenuItem(id: string) {
 
 // ============ Shifts ============
 
-export function useActiveShift(clerkUserId?: string | null) {
+export function useActiveShift(authUserId?: string | null) {
   return useQuery({
-    queryKey: resposQueryKeys.activeShift(clerkUserId ?? undefined),
+    queryKey: resposQueryKeys.activeShift(authUserId ?? undefined),
     queryFn: async () => {
       let query = supabase
         .from('res_shifts')
@@ -379,8 +379,8 @@ export function useActiveShift(clerkUserId?: string | null) {
         .order('opened_at', { ascending: false })
         .limit(1)
 
-      if (clerkUserId) {
-        query = query.eq('clerk_user_id', clerkUserId)
+      if (authUserId) {
+        query = query.eq('auth_user_id', authUserId)
       }
 
       const { data, error } = await query.maybeSingle()
@@ -388,21 +388,21 @@ export function useActiveShift(clerkUserId?: string | null) {
       if (error) throw error
       return data as ResShift | null
     },
-    enabled: !!clerkUserId,
+    enabled: !!authUserId,
   })
 }
 
-export function useShifts(clerkUserId?: string | null) {
+export function useShifts(authUserId?: string | null) {
   return useQuery({
-    queryKey: resposQueryKeys.shifts(clerkUserId ?? undefined),
+    queryKey: resposQueryKeys.shifts(authUserId ?? undefined),
     queryFn: async () => {
       let query = supabase
         .from('res_shifts')
         .select('*')
         .order('opened_at', { ascending: false })
 
-      if (clerkUserId) {
-        query = query.eq('clerk_user_id', clerkUserId)
+      if (authUserId) {
+        query = query.eq('auth_user_id', authUserId)
       }
 
       const { data, error } = await query
@@ -415,8 +415,8 @@ export function useShifts(clerkUserId?: string | null) {
         }
       >
     },
-    // If clerkUserId is explicitly null (admin), we still want to run the query
-    enabled: clerkUserId !== undefined,
+    // If authUserId is explicitly null (admin), we still want to run the query
+    enabled: authUserId !== undefined,
   })
 }
 

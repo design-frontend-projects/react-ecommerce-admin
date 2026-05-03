@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { useTenantSubscriptions, useUpdateSubscriptionStatus } from '../queries';
 import { format } from 'date-fns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@/lib/auth';
 import { toast } from 'sonner';
 
 export function TenantSubscriptionList() {

@@ -7,16 +7,16 @@ export type ReorderRequestStatus = 'pending' | 'read'
 
 export interface PosReorderRequest {
   id: string
-  clerk_user_id: string
+  auth_user_id: string
   product_id: number
   product_variant_id: string | null
-  requested_by_clerk_user_id: string
+  requested_by_auth_user_id: string
   requested_by_name: string
   requested_by_role: string | null
   requested_quantity: number | null
   requested_min_stock: number | null
   status: ReorderRequestStatus
-  read_by_clerk_user_id: string | null
+  read_by_auth_user_id: string | null
   read_at: string | null
   created_at: string
   updated_at: string
@@ -32,7 +32,7 @@ export interface PosReorderRequest {
 export interface CreatePosReorderRequestInput {
   product_id: number
   product_variant_id?: string | null
-  requested_by_clerk_user_id: string
+  requested_by_auth_user_id: string
   requested_by_name: string
   requested_by_role?: string | null
   requested_quantity?: number | null
@@ -41,7 +41,7 @@ export interface CreatePosReorderRequestInput {
 
 export interface MarkPosReorderRequestReadInput {
   requestId: string
-  readByClerkUserId: string
+  readByAuthUserId: string
 }
 
 export const posReorderRequestKeys = {
@@ -55,7 +55,7 @@ function buildDuplicateCheckQuery(input: CreatePosReorderRequestInput) {
     .from('pos_reorder_requests')
     .select('id')
     .eq('status', 'pending')
-    .eq('requested_by_clerk_user_id', input.requested_by_clerk_user_id)
+    .eq('requested_by_auth_user_id', input.requested_by_auth_user_id)
     .eq('product_id', input.product_id)
     .limit(1)
 
@@ -75,16 +75,16 @@ export function useAdminPendingReorderRequests(enabled = true) {
         .select(
           `
           id,
-          clerk_user_id,
+          auth_user_id,
           product_id,
           product_variant_id,
-          requested_by_clerk_user_id,
+          requested_by_auth_user_id,
           requested_by_name,
           requested_by_role,
           requested_quantity,
           requested_min_stock,
           status,
-          read_by_clerk_user_id,
+          read_by_auth_user_id,
           read_at,
           created_at,
           updated_at,
@@ -141,7 +141,7 @@ export function useCreatePosReorderRequest() {
         .insert({
           product_id: input.product_id,
           product_variant_id: input.product_variant_id ?? null,
-          requested_by_clerk_user_id: input.requested_by_clerk_user_id,
+          requested_by_auth_user_id: input.requested_by_auth_user_id,
           requested_by_name: input.requested_by_name,
           requested_by_role: input.requested_by_role ?? null,
           requested_quantity: input.requested_quantity ?? null,
@@ -168,12 +168,12 @@ export function useMarkPosReorderRequestRead() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ requestId, readByClerkUserId }: MarkPosReorderRequestReadInput) => {
+    mutationFn: async ({ requestId, readByAuthUserId }: MarkPosReorderRequestReadInput) => {
       const { error } = await supabase
         .from('pos_reorder_requests')
         .update({
           status: 'read',
-          read_by_clerk_user_id: readByClerkUserId,
+          read_by_auth_user_id: readByAuthUserId,
           read_at: new Date().toISOString(),
         })
         .eq('id', requestId)
@@ -189,7 +189,7 @@ export function useMarkPosReorderRequestRead() {
 
 interface UsePosReorderRealtimeOptions {
   enabled?: boolean
-  employeeClerkUserId?: string
+  employeeauthUserId?: string
   onEmployeeRequestRead?: (
     payload: RealtimePostgresChangesPayload<Record<string, unknown>>
   ) => void
@@ -197,7 +197,7 @@ interface UsePosReorderRealtimeOptions {
 
 export function usePosReorderRealtime({
   enabled = true,
-  employeeClerkUserId,
+  employeeauthUserId,
   onEmployeeRequestRead,
 }: UsePosReorderRealtimeOptions = {}) {
   const queryClient = useQueryClient()
@@ -219,14 +219,14 @@ export function usePosReorderRealtime({
       }
     )
 
-    if (employeeClerkUserId) {
+    if (employeeauthUserId) {
       channel.on(
         'postgres_changes',
         {
           event: 'UPDATE',
           schema: 'public',
           table: 'pos_reorder_requests',
-          filter: `requested_by_clerk_user_id=eq.${employeeClerkUserId}`,
+          filter: `requested_by_auth_user_id=eq.${employeeauthUserId}`,
         },
         (payload) => {
           onEmployeeRequestRead?.(payload)
@@ -239,6 +239,6 @@ export function usePosReorderRealtime({
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [queryClient, enabled, employeeClerkUserId, onEmployeeRequestRead])
+  }, [queryClient, enabled, employeeauthUserId, onEmployeeRequestRead])
 }
 

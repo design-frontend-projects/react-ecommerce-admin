@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { SignInButton, useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/lib/auth'
 import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
@@ -81,7 +81,11 @@ export function Dashboard() {
           <ThemeSwitch />
           <ConfigDrawer />
           {isSignedIn && <ProfileDropdown />}
-          {!isSignedIn && <SignInButton />}
+          {!isSignedIn && (
+            <Button asChild size='sm'>
+              <Link to='/sign-in'>Sign in</Link>
+            </Button>
+          )}
         </div>
       </Header>
 

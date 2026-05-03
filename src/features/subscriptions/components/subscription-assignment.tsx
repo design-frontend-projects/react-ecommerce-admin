@@ -31,11 +31,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSearchClerkUsers } from '../data/users_query'
+import { useSearchAuthUsers } from '../data/users_query'
 import { useSubscriptionPlans, useAssignSubscription } from '../queries'
 
 const assignmentSchema = z.object({
-  clerk_user_id: z.string().min(1, 'Please select a user'),
+  auth_user_id: z.string().min(1, 'Please select a user'),
   email: z.email('Please enter a valid email'),
   subscription_id: z.string().min(1, 'Please select a plan'),
   status: z.enum(['new', 'paid', 'canceled']),
@@ -49,13 +49,13 @@ export function SubscriptionAssignment() {
 
   const { data: plans } = useSubscriptionPlans()
   const { data: users, isLoading: usersLoading } =
-    useSearchClerkUsers(searchQuery)
+    useSearchAuthUsers(searchQuery)
   const assignMutation = useAssignSubscription()
 
   const form = useForm<AssignmentForm>({
     resolver: zodResolver(assignmentSchema),
     defaultValues: {
-      clerk_user_id: '',
+      auth_user_id: '',
       email: '',
       subscription_id: '',
       status: 'paid',
@@ -118,10 +118,10 @@ export function SubscriptionAssignment() {
                 <div className='max-h-32 overflow-y-auto rounded-md border p-1'>
                   {users.map((user) => (
                     <div
-                      key={user.clerk_user_id}
+                      key={user.auth_user_id}
                       className='cursor-pointer rounded-sm p-2 text-sm hover:bg-accent'
                       onClick={() => {
-                        form.setValue('clerk_user_id', user.clerk_user_id)
+                        form.setValue('auth_user_id', user.auth_user_id)
                         form.setValue('email', user.email)
                         setSearchQuery(user.email)
                       }}

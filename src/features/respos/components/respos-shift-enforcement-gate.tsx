@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { useLocation } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
@@ -16,20 +16,20 @@ export function ResposShiftEnforcementGate() {
   const setActiveShift = useResposStore((state) => state.setActiveShift)
   const openShiftMutation = useOpenShift()
 
-  const clerkUserId = user?.id ?? null
+  const authUserId = user?.id ?? null
   const isCashier = has?.({ role: RoleNames.cashier }) ?? false
   const shouldEvaluateShiftGate =
     isLoaded &&
     isSignedIn &&
     isCashier &&
-    !!clerkUserId &&
+    !!authUserId &&
     isResposPath(pathname)
 
   const { data: activeShift, isLoading: activeShiftLoading, refetch: refetchActiveShift } =
-    useActiveShift(shouldEvaluateShiftGate ? clerkUserId : undefined)
+    useActiveShift(shouldEvaluateShiftGate ? authUserId : undefined)
 
   const { data: shifts = [], isLoading: shiftsLoading } = useShifts(
-    shouldEvaluateShiftGate ? clerkUserId : undefined
+    shouldEvaluateShiftGate ? authUserId : undefined
   )
 
   const previousClosingCash = useMemo(() => {
@@ -56,7 +56,7 @@ export function ResposShiftEnforcementGate() {
       const openedShift = await openShiftMutation.mutateAsync({
         employeeId: user.id,
         openingCash: values.openingCash,
-        clerkUserId,
+        authUserId: authUserId ?? undefined,
       })
       setActiveShift(openedShift)
       await refetchActiveShift()

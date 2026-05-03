@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
 import { Bell, Loader2 } from 'lucide-react'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -97,7 +97,7 @@ export function ReorderNotificationsBell() {
                         if (!user?.id) return
                         markReadMutation.mutate({
                           requestId: request.id,
-                          readByClerkUserId: user.id,
+                          readByAuthUserId: user.id,
                         })
                       }}
                     >

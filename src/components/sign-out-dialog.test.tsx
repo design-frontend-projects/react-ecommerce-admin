@@ -25,8 +25,8 @@ vi.mock('@tanstack/react-router', () => ({
   useLocation: () => ({ href: '/respos/pos' }),
 }))
 
-vi.mock('@clerk/clerk-react', () => ({
-  useClerk: () => ({ signOut: mockSignOut }),
+vi.mock('@/lib/auth', () => ({
+  useSupabaseAuth: () => ({ signOut: mockSignOut }),
   useUser: () => ({ user: { id: 'user_1' } }),
   useAuth: () => ({
     isLoaded: true,

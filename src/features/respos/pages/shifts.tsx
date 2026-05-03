@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import { motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -109,7 +109,7 @@ export function ShiftManagement() {
 
   const { has, isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
-  const clerkUserId = user?.id ?? null
+  const authUserId = user?.id ?? null
   const {
     shift: activeShift,
     isLoading: shiftLoading,
@@ -118,11 +118,11 @@ export function ShiftManagement() {
     closeShift,
     isOpening,
     isClosing,
-  } = useShift({ clerkUserId })
+  } = useShift({ authUserId })
 
   const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
   const { data: allShifts = [], isLoading: historyLoading } =
-    useShifts(isAdmin ? null : clerkUserId)
+    useShifts(isAdmin ? null : authUserId)
 
   const isLoading = !isLoaded || shiftLoading
 

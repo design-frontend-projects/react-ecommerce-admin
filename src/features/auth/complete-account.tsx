@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Header } from '@/components/layout/header'
@@ -44,7 +44,7 @@ export function CompleteAccountFeature() {
     }
 
     completeOnboardingMutation.mutate({
-      clerkId: user.id,
+      authUserId: user.id,
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,

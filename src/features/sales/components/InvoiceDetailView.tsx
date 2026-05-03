@@ -44,7 +44,7 @@ export function InvoiceDetailView({ invoice, open, onOpenChange }: InvoiceDetail
             </div>
             <div>
               <p className="text-muted-foreground">Cashier ID</p>
-              <p className="font-medium truncate">{invoice.clerk_user_id}</p>
+              <p className="font-medium truncate">{invoice.auth_user_id}</p>
             </div>
           </div>
 

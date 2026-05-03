@@ -1,19 +1,29 @@
 import { z } from 'zod'
-import { passwordSchema } from '@/lib/password-validation'
 
 export const signUpFormSchema = z
   .object({
-    email: z
-      .string()
-      .min(1, 'Please enter your email')
-      .email('Invalid email address')
-      .max(255),
-    password: passwordSchema,
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    contactType: z.enum(['email', 'phone']),
+    contact: z.string().trim().min(1, 'Please enter your email or phone').max(255),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match.",
-    path: ['confirmPassword'],
+  .superRefine((value, ctx) => {
+    if (value.contactType === 'email') {
+      const result = z.string().email().safeParse(value.contact)
+      if (!result.success) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['contact'],
+          message: 'Invalid email address',
+        })
+      }
+    }
+
+    if (value.contactType === 'phone' && !value.contact.startsWith('+')) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['contact'],
+        message: 'Use international phone format, for example +201000000000',
+      })
+    }
   })
 
 export type SignUpFormValues = z.infer<typeof signUpFormSchema>

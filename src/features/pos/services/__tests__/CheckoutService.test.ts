@@ -10,11 +10,6 @@ vi.mock('@/lib/prisma', () => ({
   }
 }))
 
-// Mocking NextJS Auth
-vi.mock('@clerk/nextjs/server', () => ({
-  auth: vi.fn(() => ({ userId: 'test-user-id' }))
-}))
-
 describe('CheckoutService', () => {
   beforeEach(() => {
     vi.clearAllMocks()

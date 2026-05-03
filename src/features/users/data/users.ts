@@ -2,7 +2,7 @@ import { type User } from './schema'
 import usersData from './users.json'
 
 export const users: User[] = usersData.map((user) => ({
-  clerkUserId: user.id,
+  authUserId: user.id,
   ...user,
   roleNames: [user.role],
   roleIds: [],

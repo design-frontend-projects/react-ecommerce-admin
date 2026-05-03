@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -15,74 +15,54 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/password-input'
 import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
+import { savePendingOtpRequest } from '../../otp/pending-otp'
 
 export function SignUpForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
   const [isLoading, setIsLoading] = useState(false)
-  const { isLoaded, signUp } = useSignUp()
   const navigate = useNavigate()
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      contactType: 'email',
+      contact: '',
     },
   })
 
   async function onSubmit(data: SignUpFormValues) {
-    if (!isLoaded) return
-
     setIsLoading(true)
 
     try {
-      await signUp.create({
-        emailAddress: data.email,
-        password: data.password,
-      })
+      const payload =
+        data.contactType === 'email'
+          ? { email: data.contact.trim().toLowerCase() }
+          : { phone: data.contact.trim() }
 
-      // Send email verification code
-      await signUp.prepareEmailAddressVerification({
-        strategy: 'email_code',
+      const { error } = await supabase.auth.signInWithOtp(payload)
+      if (error) throw error
+
+      savePendingOtpRequest({
+        contactType: data.contactType,
+        contact: data.contact.trim(),
+        flow: 'sign-up',
       })
 
       navigate({ to: '/otp' })
-      toast.success('Account created. Please verify your email.')
+      toast.success('Verification code sent.')
     } catch (err: unknown) {
       const errorMsg =
         (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
+        (err as { message?: string })?.message ||
         'Something went wrong. Please try again.'
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
     }
   }
-
-  // async function handleOAuthSignUp(
-  //   strategy: 'oauth_github' | 'oauth_facebook'
-  // ) {
-  //   if (!isLoaded) return
-
-  //   try {
-  //     setIsLoading(true)
-  //     await signUp.authenticateWithRedirect({
-  //       strategy,
-  //       redirectUrl: '/sso-callback',
-  //       redirectUrlComplete: '/',
-  //     })
-  //   } catch (err: unknown) {
-  //     const errorMsg =
-  //       (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
-  //       'Something went wrong. Please try again.'
-  //     toast.error(errorMsg)
-  //     setIsLoading(false)
-  //   }
-  // }
 
   return (
     <Form {...form}>
@@ -93,45 +73,53 @@ export function SignUpForm({
       >
         <FormField
           control={form.control}
-          name='email'
+          name='contact'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <div className='flex items-center justify-between gap-3'>
+                <FormLabel>
+                  {form.watch('contactType') === 'email' ? 'Email' : 'Phone'}
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name='contactType'
+                  render={({ field: typeField }) => (
+                    <div className='grid grid-cols-2 rounded-lg bg-muted p-1 text-xs'>
+                      {(['email', 'phone'] as const).map((type) => (
+                        <button
+                          key={type}
+                          type='button'
+                          onClick={() => typeField.onChange(type)}
+                          className={cn(
+                            'rounded-md px-3 py-1 font-medium capitalize transition-colors',
+                            typeField.value === type
+                              ? 'bg-background text-foreground shadow-sm'
+                              : 'text-muted-foreground hover:text-foreground'
+                          )}
+                        >
+                          {type}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                />
+              </div>
               <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='confirmPassword'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <PasswordInput {...field} />
+                <Input
+                  placeholder={
+                    form.watch('contactType') === 'email'
+                      ? 'name@example.com'
+                      : '+201000000000'
+                  }
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button className='mt-2' disabled={isLoading}>
-          Create Account
+          Send verification code
         </Button>
 
         <div className='relative my-2'>

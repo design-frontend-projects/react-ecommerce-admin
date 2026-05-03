@@ -1,4 +1,4 @@
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { Activity, DollarSign, AlertTriangle, UserPlus } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSubscriptionAnalytics } from '../queries'

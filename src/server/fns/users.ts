@@ -1,12 +1,12 @@
 import prisma from '@/lib/prisma'
 import type { User } from '@/features/users/data/types'
 
-function buildUserStatus(user: { clerk_user_id: string; is_active: boolean | null }) {
+function buildUserStatus(user: { auth_user_id: string | null; is_active: boolean | null }) {
   if (!user.is_active) {
     return 'inactive'
   }
 
-  if (user.clerk_user_id.startsWith('pending_')) {
+  if (!user.auth_user_id) {
     return 'invited'
   }
 
@@ -25,8 +25,9 @@ export async function getUsers(): Promise<User[]> {
     },
   })) as Array<{
     id: string
-    clerk_user_id: string
-    email: string
+    auth_user_id: string | null
+    email: string | null
+    phone: string | null
     first_name: string | null
     last_name: string | null
     is_active: boolean | null
@@ -45,16 +46,16 @@ export async function getUsers(): Promise<User[]> {
     const roleNames = user.user_roles.map((assignment) => assignment.roles.name)
     const roleIds = user.user_roles.map((assignment) => assignment.roles.id)
     const primaryRole = roleNames[0] ?? user.default_role ?? 'staff'
-    const username = user.email.split('@')[0] ?? user.clerk_user_id
+    const username = user.email?.split('@')[0] ?? user.phone ?? user.auth_user_id ?? 'invited'
 
     return {
       id: user.id,
-      clerkUserId: user.clerk_user_id,
+      authUserId: user.auth_user_id ?? '',
       firstName: user.first_name ?? '',
       lastName: user.last_name ?? '',
       username,
-      email: user.email,
-      phoneNumber: '',
+      email: user.email ?? '',
+      phoneNumber: user.phone ?? '',
       role: primaryRole,
       roleNames,
       roleIds,

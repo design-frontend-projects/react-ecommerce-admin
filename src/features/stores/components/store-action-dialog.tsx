@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { useForm, type SubmitHandler, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -42,7 +42,7 @@ import { useStoresContext } from './stores-provider'
 const formSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
   status: z.boolean(),
-  clerk_user_id: z.string().optional().nullable(),
+  auth_user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   email: z.string().email("Invalid email format").optional().nullable().or(z.literal("")),
   address: z.string().optional().nullable(),
@@ -71,7 +71,7 @@ export function StoreActionDialog() {
     resolver: zodResolver(formSchema) as Resolver<StoreFormValues>,
     defaultValues: {
       name: '',
-      clerk_user_id: user?.id || '',
+      auth_user_id: user?.id || '',
       phone: '',
       email: '',
       address: '',
@@ -101,7 +101,7 @@ export function StoreActionDialog() {
       if (currentRow) {
         form.reset({
           name: currentRow.name || '',
-          clerk_user_id: currentRow.clerk_user_id || user?.id || '',
+          auth_user_id: currentRow.auth_user_id || user?.id || '',
           phone: currentRow.phone || '',
           email: currentRow.email || '',
           address: currentRow.address || '',
@@ -115,7 +115,7 @@ export function StoreActionDialog() {
       } else {
         form.reset({
           name: '',
-          clerk_user_id: user?.id || '',
+          auth_user_id: user?.id || '',
           phone: '',
           email: '',
           address: '',

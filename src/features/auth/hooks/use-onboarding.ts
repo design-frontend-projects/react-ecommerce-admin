@@ -1,4 +1,4 @@
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useSupabaseAuth } from '@/lib/auth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
@@ -7,7 +7,7 @@ import type { CompleteOnboardingInput } from '@/features/users/data/types'
 
 export function useCompleteOnboarding() {
   const { getToken } = useAuth()
-  const { user } = useUser()
+  const { refreshUser } = useSupabaseAuth()
   const queryClient = useQueryClient()
   const router = useRouter()
 
@@ -15,7 +15,7 @@ export function useCompleteOnboarding() {
     mutationFn: (input: CompleteOnboardingInput) =>
       completeOnboarding(getToken, input),
     onSuccess: async () => {
-      await user?.reload()
+      await refreshUser()
       toast.success('Account setup completed.')
       void queryClient.invalidateQueries({ queryKey: ['users'] })
       void queryClient.invalidateQueries({ queryKey: ['rbac', 'current-access'] })

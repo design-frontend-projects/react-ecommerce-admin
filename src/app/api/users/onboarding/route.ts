@@ -7,22 +7,22 @@ export async function POST(request: Request): Promise<Response> {
     const token = getBearerToken(request)
     const authorizedUser = await requireAuth(token)
     const body = (await request.json()) as {
-      clerkId?: string
+      authUserId?: string
       firstName?: string
       lastName?: string
       phone?: string
     }
 
-    if (!body.clerkId || !body.firstName || !body.lastName) {
-      return jsonError('clerkId, firstName, and lastName are required.', 400)
+    if (!body.authUserId || !body.firstName || !body.lastName) {
+      return jsonError('authUserId, firstName, and lastName are required.', 400)
     }
 
-    if (authorizedUser.userId !== body.clerkId) {
+    if (authorizedUser.userId !== body.authUserId) {
       return jsonError('You can only complete onboarding for the signed-in user.', 403)
     }
 
     const result = await completeOnboarding({
-      clerkId: body.clerkId,
+      authUserId: body.authUserId,
       firstName: body.firstName,
       lastName: body.lastName,
       phone: body.phone,

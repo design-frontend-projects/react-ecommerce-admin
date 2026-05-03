@@ -20,8 +20,8 @@ export async function POST(request: Request): Promise<Response> {
       email: body.email,
       roleId: body.roleId,
       roleName: body.roleName,
-      redirectUrl: new URL('/sign-up', request.url).toString(),
-      inviterClerkUserId: authorizedUser.userId,
+      redirectUrl: new URL('/auth/callback', request.url).toString(),
+      inviterAuthUserId: authorizedUser.userId,
     })
 
     return Response.json({

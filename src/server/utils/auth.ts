@@ -1,8 +1,6 @@
-import { verifyToken } from '@clerk/backend'
-import { clerkBackend } from '@/server/clerk'
 import prisma from '@/lib/prisma'
+import { supabaseAdmin } from '@/server/supabase'
 import {
-  extractRoleNames,
   getFallbackPermissionNamesForRoles,
   hasAnyPermission,
   normalizeRoleName,
@@ -30,9 +28,9 @@ export function getBearerToken(request: Request) {
   return token
 }
 
-async function getDatabasePermissionNames(clerkUserId: string) {
+async function getDatabasePermissionNames(authUserId: string) {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: clerkUserId },
+    where: { auth_user_id: authUserId },
     include: {
       user_roles: {
         include: {
@@ -84,26 +82,21 @@ export async function requireAuth(
   requiredPermissions?: string | string[]
 ): Promise<AuthorizedUser> {
   try {
-    const verifiedToken = await verifyToken(sessionToken, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-    })
-    const userId = verifiedToken.sub
+    const { data, error } = await supabaseAdmin.auth.getUser(sessionToken)
+    if (error) {
+      throw new Error('Unauthorized: Invalid session token')
+    }
+
+    const userId = data.user?.id
 
     if (!userId) {
       throw new Error('Unauthorized: Invalid session token')
     }
 
-    const user = await clerkBackend.users.getUser(userId)
-    const publicMetadata = user.publicMetadata as Record<string, unknown>
-    const metadataRoleNames = [
-      ...extractRoleNames(publicMetadata.roles),
-      ...extractRoleNames(publicMetadata.role),
-    ]
-
     const { roleNames: dbRoleNames, permissionNames: dbPermissionNames } =
       await getDatabasePermissionNames(userId)
 
-    const roleNames = [...new Set([...metadataRoleNames, ...dbRoleNames])]
+    const roleNames = [...new Set(dbRoleNames)]
     const permissionNames = [
       ...new Set([
         ...dbPermissionNames,

@@ -5,14 +5,14 @@ import { useOpenShift, useCloseShift } from '../api/mutations'
 import { useActiveShift } from '../api/queries'
 
 interface UseShiftOptions {
-  clerkUserId?: string | null
+  authUserId?: string | null
   restaurantId?: string | null
 }
 
 export function useShift(options: UseShiftOptions = {}) {
-  const { clerkUserId, restaurantId } = options
+  const { authUserId, restaurantId } = options
   const { activeShift, setActiveShift } = useResposStore()
-  const { data: fetchedShift, isLoading, error, refetch } = useActiveShift(clerkUserId)
+  const { data: fetchedShift, isLoading, error, refetch } = useActiveShift(authUserId)
 
   const openShiftMutation = useOpenShift()
   const closeShiftMutation = useCloseShift()
@@ -28,7 +28,7 @@ export function useShift(options: UseShiftOptions = {}) {
     const result = await openShiftMutation.mutateAsync({
       employeeId,
       openingCash,
-      clerkUserId: clerkUserId ?? undefined,
+      authUserId: authUserId ?? undefined,
       restaurantId: restaurantId ?? undefined,
     })
     setActiveShift(result)

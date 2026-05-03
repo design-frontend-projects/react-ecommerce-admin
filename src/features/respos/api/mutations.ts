@@ -58,12 +58,12 @@ export function useOpenShift() {
     mutationFn: async ({
       employeeId,
       openingCash,
-      clerkUserId,
+      authUserId,
       restaurantId,
     }: {
       employeeId: string
       openingCash: number
-      clerkUserId?: string
+      authUserId?: string
       restaurantId?: string
     }) => {
       const { data, error } = await supabase
@@ -72,7 +72,7 @@ export function useOpenShift() {
           opened_by: employeeId,
           opening_cash: openingCash,
           status: 'open',
-          clerk_user_id: clerkUserId,
+          auth_user_id: authUserId,
           restaurant_id: restaurantId,
         })
         .select()
@@ -280,7 +280,7 @@ export function useUpdateOrderStatus() {
 
       const { data: currentOrder, error: currentOrderError } = await supabase
         .from('res_orders')
-        .select('id, table_id, clerk_user_id')
+        .select('id, table_id, auth_user_id')
         .eq('id', orderId)
         .maybeSingle()
 
@@ -327,7 +327,7 @@ export function useUpdateOrderStatus() {
           .upsert(
             {
               order_id: orderId,
-              clerk_user_id: currentOrder.clerk_user_id || 'system',
+              auth_user_id: currentOrder.auth_user_id || '00000000-0000-0000-0000-000000000000',
               recipient_name: shipment.recipientName.trim(),
               recipient_phone: shipment.recipientPhone.trim(),
               delivery_address: shipment.deliveryAddress.trim(),
@@ -1549,22 +1549,15 @@ export function useCreateUser() {
       inviterUserId: string
       orgRole?: string
     }) => {
-      // 1. Invite user to the organization via Clerk Backend SDK
-      const { clerkClient } = await import('../lib/clerk.server')
+      void organizationId
+      void inviterUserId
+      void orgRole
+      const invitationId = crypto.randomUUID()
 
-      const invitation =
-        await clerkClient.organizations.createOrganizationInvitation({
-          organizationId,
-          inviterUserId,
-          emailAddress: email,
-          role: orgRole || 'org:member',
-        })
-
-      // 2. Create res_employees record after invitation is sent
       const { data: employee, error: empError } = await supabase
         .from('res_employees')
         .insert({
-          user_id: invitation.id, // Temporary: replaced with real Clerk user ID when invite is accepted
+          user_id: invitationId,
           first_name: firstName,
           last_name: lastName,
           email,
@@ -1623,7 +1616,7 @@ export function useUpdateUser() {
       idNumber?: string
       roles: string[]
     }) => {
-      // 1. Get the employee record to retrieve the Clerk user_id
+      // 1. Get the employee record to retrieve the Auth User_id
       const { data: existing, error: fetchError } = await supabase
         .from('res_employees')
         .select('user_id')
@@ -1632,13 +1625,7 @@ export function useUpdateUser() {
 
       if (fetchError) throw fetchError
 
-      // 2. Update user in Clerk via Backend SDK
-      const { clerkClient } = await import('../lib/clerk.server')
-
-      await clerkClient.users.updateUser(existing.user_id, {
-        firstName,
-        lastName,
-      })
+      void existing
 
       // 3. Update res_employees record
       const { data: employee, error: empError } = await supabase

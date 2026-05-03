@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/lib/auth'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import {
   Search,
@@ -116,7 +116,7 @@ export function PosLayout() {
 
   usePosReorderRealtime({
     enabled: !!user?.id,
-    employeeClerkUserId: user?.id,
+    employeeauthUserId: user?.id,
     onEmployeeRequestRead: handleEmployeeRequestRead,
   })
 
@@ -131,7 +131,7 @@ export function PosLayout() {
         {
           product_id: product.product_id,
           product_variant_id: variant?.id ?? null,
-          requested_by_clerk_user_id: user.id,
+          requested_by_auth_user_id: user.id,
           requested_by_name:
             user.fullName || user.primaryEmailAddress?.emailAddress || user.id,
           requested_by_role: requesterRole,
