@@ -12,16 +12,31 @@ import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
 import { GeneralError } from '@/features/errors/general-error'
 import { NotFoundError } from '@/features/errors/not-found-error'
 import { SettingsProvider } from '@/components/providers/settings-provider'
+import { OnboardingModal } from '@/components/auth/OnboardingModal'
+import { SubscriptionRenewalModal } from '@/components/auth/SubscriptionRenewalModal'
+import { useSubscription } from '@/hooks/useSubscription'
+import { useQueryClient } from '@tanstack/react-query'
 
 const RootComponent = () => {
-  const { isLoading } = useSyncUser()
+  const { isLoading: isSyncing } = useSyncUser()
+  const { data: subscription, isLoading: isSubscriptionLoading } = useSubscription()
+  const queryClient = useQueryClient()
 
-  if (isLoading) {
+  if (isSyncing || isSubscriptionLoading) {
     return (
       <div className='flex h-screen w-full items-center justify-center bg-background'>
         <Loader2 className='h-10 w-10 animate-spin text-primary' />
       </div>
     )
+  }
+
+  const handleOnboardingSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['subscription'] })
+  }
+
+  const handleManageBilling = () => {
+    // In a real app this might redirect to Stripe portal
+    window.location.href = '/settings/billing'
   }
 
   return (
@@ -30,6 +45,12 @@ const RootComponent = () => {
         <NavigationProgress />
         <PwaUpdatePrompt />
         <Outlet />
+        {subscription && subscription.first_use && (
+          <OnboardingModal open={true} onSuccess={handleOnboardingSuccess} />
+        )}
+        {subscription && !subscription.first_use && !subscription.is_active && (
+          <SubscriptionRenewalModal open={true} onManageBilling={handleManageBilling} />
+        )}
         <Toaster duration={5000} />
         <OfflineBadge />
         <OnlineBadge />

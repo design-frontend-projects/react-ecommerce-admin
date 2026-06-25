@@ -1017,6 +1017,7 @@ exports.Prisma.Tenant_subscriptionsScalarFieldEnum = {
   email: 'email',
   subscription_id: 'subscription_id',
   status: 'status',
+  first_use: 'first_use',
   start_date: 'start_date',
   end_date: 'end_date',
   created_at: 'created_at',

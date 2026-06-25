@@ -12,6 +12,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
@@ -88,6 +89,11 @@ const AuthenticatedCitiesIndexLazyRouteImport = createFileRoute(
 const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
   id: '/subscription-required',
   path: '/subscription-required',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -483,6 +489,7 @@ const AuthenticatedResposInvoiceOrderIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/login': typeof LoginRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
@@ -553,6 +560,7 @@ export interface FileRoutesByFullPath {
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
@@ -623,6 +631,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
@@ -696,6 +705,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/login'
     | '/subscription-required'
     | '/apps'
     | '/branches'
@@ -766,6 +776,7 @@ export interface FileRouteTypes {
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/login'
     | '/subscription-required'
     | '/apps'
     | '/branches'
@@ -835,6 +846,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/login'
     | '/subscription-required'
     | '/_authenticated/apps'
     | '/_authenticated/branches'
@@ -908,6 +920,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
   SubscriptionRequiredRoute: typeof SubscriptionRequiredRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -930,6 +943,13 @@ declare module '@tanstack/react-router' {
       path: '/subscription-required'
       fullPath: '/subscription-required'
       preLoaderRoute: typeof SubscriptionRequiredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -1579,6 +1599,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
   SubscriptionRequiredRoute: SubscriptionRequiredRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
