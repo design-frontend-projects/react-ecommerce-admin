@@ -16,6 +16,7 @@ import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
@@ -81,6 +82,9 @@ import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_auth
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
+const CrmPipelineLazyRouteImport = createFileRoute('/crm/pipeline')()
+const CrmDashboardLazyRouteImport = createFileRoute('/crm/dashboard')()
+const CrmContactsLazyRouteImport = createFileRoute('/crm/contacts')()
 const AuthenticatedCitiesIndexLazyRouteImport = createFileRoute(
   '/_authenticated/cities/',
 )()
@@ -108,6 +112,26 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const CrmPipelineLazyRoute = CrmPipelineLazyRouteImport.update({
+  id: '/crm/pipeline',
+  path: '/crm/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/pipeline.lazy').then((d) => d.Route))
+const CrmDashboardLazyRoute = CrmDashboardLazyRouteImport.update({
+  id: '/crm/dashboard',
+  path: '/crm/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/dashboard.lazy').then((d) => d.Route))
+const CrmContactsLazyRoute = CrmContactsLazyRouteImport.update({
+  id: '/crm/contacts',
+  path: '/crm/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/contacts.lazy').then((d) => d.Route))
+const CrmLayoutRoute = CrmLayoutRouteImport.update({
+  id: '/crm/_layout',
+  path: '/crm',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
   AuthenticatedSubscriptionsRouteImport.update({
@@ -516,6 +540,10 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/crm': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -584,6 +612,10 @@ export interface FileRoutesByTo {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/crm': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -657,6 +689,10 @@ export interface FileRoutesById {
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/crm/_layout': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
   '/_authenticated/_system/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -729,6 +765,10 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/crm'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -797,6 +837,10 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/crm'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -869,6 +913,10 @@ export interface FileRouteTypes {
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
     | '/_authenticated/subscriptions'
+    | '/crm/_layout'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/_authenticated/'
     | '/menu/'
     | '/_authenticated/_system/audit-logs'
@@ -920,6 +968,10 @@ export interface RootRouteChildren {
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
+  CrmLayoutRoute: typeof CrmLayoutRoute
+  CrmContactsLazyRoute: typeof CrmContactsLazyRoute
+  CrmDashboardLazyRoute: typeof CrmDashboardLazyRoute
+  CrmPipelineLazyRoute: typeof CrmPipelineLazyRoute
   MenuIndexRoute: typeof MenuIndexRoute
 }
 
@@ -959,6 +1011,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/crm/pipeline': {
+      id: '/crm/pipeline'
+      path: '/crm/pipeline'
+      fullPath: '/crm/pipeline'
+      preLoaderRoute: typeof CrmPipelineLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/dashboard': {
+      id: '/crm/dashboard'
+      path: '/crm/dashboard'
+      fullPath: '/crm/dashboard'
+      preLoaderRoute: typeof CrmDashboardLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/contacts': {
+      id: '/crm/contacts'
+      path: '/crm/contacts'
+      fullPath: '/crm/contacts'
+      preLoaderRoute: typeof CrmContactsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/_layout': {
+      id: '/crm/_layout'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof CrmLayoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
       id: '/_authenticated/subscriptions'
@@ -1591,6 +1671,10 @@ const rootRouteChildren: RootRouteChildren = {
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
+  CrmLayoutRoute: CrmLayoutRoute,
+  CrmContactsLazyRoute: CrmContactsLazyRoute,
+  CrmDashboardLazyRoute: CrmDashboardLazyRoute,
+  CrmPipelineLazyRoute: CrmPipelineLazyRoute,
   MenuIndexRoute: MenuIndexRoute,
 }
 export const routeTree = rootRouteImport

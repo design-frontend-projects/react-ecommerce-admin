@@ -70,12 +70,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@crm': path.resolve(__dirname, './src/components/crm'),
+      '@tests': path.resolve(__dirname, './tests'),
     },
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
   server: {
     port: 5177,

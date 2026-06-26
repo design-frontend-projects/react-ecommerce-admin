@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // Auth form schema with module selection
 export const userAuthFormSchema = z.object({
-  branchId: z.string().uuid('Please select a valid branch'),
+  branchId: z.string().optional().nullable(),
   email: z.string().min(1, 'Please enter your email').email('Invalid email'),
   password: z
     .string()

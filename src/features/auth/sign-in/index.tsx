@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth,  UserButton } from '@clerk/clerk-react'
 import {
   Card,
   CardContent,
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ProfileDropdown } from '@/components/profile-dropdown'
 import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
 
@@ -29,6 +28,7 @@ export function SignIn() {
 
   return (
     <AuthLayout>
+      <UserButton />
       <Card className='w-full border-border/50 bg-background/60 p-2 shadow-xl backdrop-blur-xl sm:max-w-md sm:p-4'>
         <CardHeader className='space-y-1 text-center'>
           <CardTitle className='text-3xl font-extrabold tracking-tight sm:text-4xl'>
