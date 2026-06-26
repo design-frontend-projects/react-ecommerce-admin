@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { AxiosError } from 'axios'
 import {
@@ -30,7 +30,9 @@ import './styles/index.css'
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key')
+  console.warn(
+    '[Bluewave POS] VITE_CLERK_PUBLISHABLE_KEY is missing from .env — Clerk auth will be unavailable.'
+  )
 }
 
 const queryClient = new QueryClient({
@@ -102,13 +104,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+// Conditional Clerk wrapper — renders without Clerk if key is missing
+const ClerkWrapper = ({ children }: { children: React.ReactNode }) => {
+  if (PUBLISHABLE_KEY) {
+    return (
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        {children}
+      </ClerkProvider>
+    )
+  }
+  return <>{children}</>
+}
+
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ClerkWrapper>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
             <FontProvider>
@@ -124,7 +138,8 @@ if (!rootElement.innerHTML) {
             </FontProvider>
           </ThemeProvider>
         </QueryClientProvider>
-      </ClerkProvider>
+      </ClerkWrapper>
     </StrictMode>
   )
 }
+
