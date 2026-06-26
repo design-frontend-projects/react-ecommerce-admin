@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { useSignUp } from '@clerk/clerk-react'
 import { toast } from 'sonner'
+import { profileService } from '@/features/auth/services/profile-service'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -56,6 +57,20 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId })
+
+        // Create the profile now that the user is verified
+        try {
+          if (result.createdUserId && signUp.emailAddress) {
+            await profileService.createProfile({
+              clerk_user_id: result.createdUserId,
+              email: signUp.emailAddress,
+            })
+          }
+        } catch (profileErr) {
+          console.error('Failed to create initial profile:', profileErr)
+          // We don't block navigation, but you could handle this differently
+        }
+
         navigate({ to: '/' })
         toast.success('Email verified successfully!')
       } else {

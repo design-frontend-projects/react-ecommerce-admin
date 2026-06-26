@@ -24,15 +24,13 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    const onboardingComplete = clerkUser?.publicMetadata?.onboardingComplete === true
-    const invitedViaRbac = clerkUser?.publicMetadata?.invitedViaRbac === true
+    const onboardingComplete = clerkUser?.publicMetadata?.onboardingComplete === true || clerkUser?.unsafeMetadata?.onboardingComplete === true
     const currentPath = window.location.pathname
 
     if (
       isLoaded &&
       isSignedIn &&
       clerkUser &&
-      invitedViaRbac &&
       !onboardingComplete &&
       currentPath !== '/complete-account'
     ) {
