@@ -120,15 +120,24 @@ export function UserAuthForm({
           )
         }
       } else if (result.status === 'needs_second_factor') {
-        toast.info('Two-factor authentication is required.')
-        navigate({ to: '/otp', search: { flow: 'sign-in' }, replace: true })
-      } else if (result.status === 'needs_identifier') {
-        toast.error('Please provide a valid email address.')
+        toast.info('Sign in requires further steps.')
+        // navigate({ to: '/sso-callback', replace: true })
+        navigate({
+          to: '/sso-callback',
+          search: {
+            redirectPath: redirectTo || '/',
+          },
+          replace: true,
+        })
       } else {
-        console.warn('[SignIn] Unhandled sign-in status:', result.status)
-        toast.error(
-          'Sign in could not be completed. Please try again or contact support.'
-        )
+        toast.info('Sign in requires further steps.')
+        navigate({
+          to: '/sso-callback',
+          search: {
+            redirectPath: redirectTo || '/',
+          },
+          replace: true,
+        })
       }
     } catch (err: unknown) {
       const errorMsg =
