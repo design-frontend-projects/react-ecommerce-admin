@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
+import { profileService } from '@/features/auth/services/profile-service'
 import { useAuth, useUser } from '@clerk/clerk-react'
 import { Loader2 } from 'lucide-react'
 import { isSubscriptionActive } from '@/lib/subscription_utils'
@@ -18,19 +20,31 @@ const AuthenticatedRoute = () => {
     userId ?? undefined
   )
 
+  const { data: profile, isLoading: profileLoading } = useQuery({
+    queryKey: ['profile', userId],
+    queryFn: () => profileService.getProfile(userId!),
+    enabled: !!userId,
+  })
+
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate({ to: '/sign-in' })
       return
     }
 
-    const onboardingComplete = clerkUser?.publicMetadata?.onboardingComplete === true || clerkUser?.unsafeMetadata?.onboardingComplete === true
+    // Checking the database profile first; fallback to Clerk metadata
+    const onboardingComplete =
+      profile?.onboarding_complete ??
+      (clerkUser?.publicMetadata?.onboardingComplete === true ||
+        clerkUser?.unsafeMetadata?.onboardingComplete === true)
+
     const currentPath = window.location.pathname
 
     if (
       isLoaded &&
       isSignedIn &&
       clerkUser &&
+      !profileLoading &&
       !onboardingComplete &&
       currentPath !== '/complete-account'
     ) {
@@ -42,6 +56,7 @@ const AuthenticatedRoute = () => {
       isLoaded &&
       isSignedIn &&
       clerkUser &&
+      !profileLoading &&
       onboardingComplete &&
       currentPath === '/complete-account'
     ) {
@@ -49,7 +64,7 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    if (isLoaded && isSignedIn && !subLoading) {
+    if (isLoaded && isSignedIn && !subLoading && !profileLoading && onboardingComplete) {
       // Check for super_admin role in public metadata
       const isSuperAdmin =
         (sessionClaims as { o?: { rol?: string } })?.o?.rol === 'super_admin'
@@ -74,13 +89,15 @@ const AuthenticatedRoute = () => {
     isLoaded,
     isSignedIn,
     subLoading,
+    profileLoading,
     subscription,
+    profile,
     navigate,
     clerkUser,
     sessionClaims,
   ])
 
-  if (!isLoaded || subLoading) {
+  if (!isLoaded || subLoading || profileLoading) {
     return (
       <div className='flex h-screen w-full items-center justify-center bg-background'>
         <Loader2 className='h-10 w-10 animate-spin text-primary' />

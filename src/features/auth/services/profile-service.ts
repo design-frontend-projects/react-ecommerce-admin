@@ -9,6 +9,7 @@ export interface Profile {
   phone: string | null
   is_owner: boolean
   system_owner: boolean
+  onboarding_complete: boolean
   created_at: string
   updated_at: string
 }

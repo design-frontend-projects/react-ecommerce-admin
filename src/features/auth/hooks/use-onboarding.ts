@@ -19,6 +19,7 @@ export function useCompleteOnboarding() {
         first_name: input.firstName,
         last_name: input.lastName,
         phone: input.phone,
+        onboarding_complete: true,
       })
 
       // Update Clerk user's unsafeMetadata since publicMetadata might require backend
@@ -36,6 +37,7 @@ export function useCompleteOnboarding() {
       toast.success('Account setup completed.')
       void queryClient.invalidateQueries({ queryKey: ['users'] })
       void queryClient.invalidateQueries({ queryKey: ['rbac', 'current-access'] })
+      void queryClient.invalidateQueries({ queryKey: ['profile'] })
       router.navigate({ to: '/' })
     },
     onError: (error: Error) => {
