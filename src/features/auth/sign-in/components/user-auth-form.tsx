@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
-import { Loader2, LogIn, MailCheck } from 'lucide-react'
+import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { cn } from '@/lib/utils'
@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/password-input'
 import {
   Select,
   SelectContent,
@@ -26,11 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from '@/components/ui/input-otp'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -48,7 +44,6 @@ export function UserAuthForm({
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [isOtpSent, setIsOtpSent] = useState(false)
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
   const navigate = useNavigate()
   
@@ -74,7 +69,7 @@ export function UserAuthForm({
     defaultValues: {
       branchId: selectedBranchId || '',
       email: '',
-      otp: '',
+      password: '',
     },
   })
 
@@ -83,52 +78,32 @@ export function UserAuthForm({
     try {
       setSelectedBranchId(data.branchId)
 
-      if (!isOtpSent) {
-        // Step 1: Send OTP
-        const { error } = await supabase.auth.signInWithOtp({
-          email: data.email,
-        })
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      })
 
-        if (error) throw error
+      if (error) throw error
 
-        setIsOtpSent(true)
-        toast.info('A verification code has been sent to your email.')
-      } else {
-        // Step 2: Verify OTP
-        if (!data.otp || data.otp.length !== 6) {
-          toast.error('Please enter the 6-digit OTP.')
-          setIsLoading(false)
-          return
+      if (authData.session && authData.user) {
+        setSession(authData.session)
+        setUser(authData.user)
+
+        // Redirect based on selected module
+        let targetPath = redirectTo || '/'
+        if (selectedModule === 'restaurant') {
+          targetPath = redirectTo || '/respos'
         }
 
-        const { data: authData, error } = await supabase.auth.verifyOtp({
-          email: data.email,
-          token: data.otp,
-          type: 'email',
-        })
-
-        if (error) throw error
-
-        if (authData.session && authData.user) {
-          setSession(authData.session)
-          setUser(authData.user)
-
-          // Redirect based on selected module
-          let targetPath = redirectTo || '/'
-          if (selectedModule === 'restaurant') {
-            targetPath = redirectTo || '/respos'
-          }
-
-          navigate({ to: targetPath, replace: true })
-          toast.success(
-            `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
-          )
-        }
+        navigate({ to: targetPath, replace: true })
+        toast.success(
+          `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
+        )
       }
     } catch (err: unknown) {
       const errorMsg =
         (err as { message?: string })?.message ||
-        'Something went wrong. Please try again.'
+        'Invalid email or password.'
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -217,96 +192,92 @@ export function UserAuthForm({
           className={cn('grid gap-4', className)}
           {...props}
         >
-          {!isOtpSent ? (
-            <>
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
-                  name='branchId'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Branch</FormLabel>
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value)
-                          setSelectedBranchId(value)
-                        }}
-                      >
-                        <FormControl>
-                          <SelectTrigger className='h-11 bg-background/50 focus-visible:ring-primary'>
-                            <SelectValue
-                              placeholder={
-                                isBranchesLoading
-                                  ? 'Loading branches...'
-                                  : 'Select a branch'
-                              }
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {branches?.map((branch) => (
-                            <SelectItem key={branch.id} value={branch.id}>
-                              {branch.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
-                  name='email'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='name@example.com'
-                          className='h-11 bg-background/50 focus-visible:ring-primary'
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-            </>
-          ) : (
-            <motion.div variants={itemVariants}>
-              <FormField
-                control={form.control}
-                name='otp'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col items-center justify-center space-y-4'>
-                    <FormLabel className='text-center'>Enter Verification Code</FormLabel>
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='branchId'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Branch</FormLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value)
+                      setSelectedBranchId(value)
+                    }}
+                  >
                     <FormControl>
-                      <InputOTP maxLength={6} {...field}>
-                        <InputOTPGroup>
-                          <InputOTPSlot index={0} />
-                          <InputOTPSlot index={1} />
-                          <InputOTPSlot index={2} />
-                          <InputOTPSlot index={3} />
-                          <InputOTPSlot index={4} />
-                          <InputOTPSlot index={5} />
-                        </InputOTPGroup>
-                      </InputOTP>
+                      <SelectTrigger className='h-11 bg-background/50 focus-visible:ring-primary'>
+                        <SelectValue
+                          placeholder={
+                            isBranchesLoading
+                              ? 'Loading branches...'
+                              : 'Select a branch'
+                          }
+                        />
+                      </SelectTrigger>
                     </FormControl>
-                    <p className='text-xs text-muted-foreground'>
-                      Sent to {form.getValues('email')}
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
-          )}
+                    <SelectContent>
+                      {branches?.map((branch) => (
+                        <SelectItem key={branch.id} value={branch.id}>
+                          {branch.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='name@example.com'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel>Password</FormLabel>
+                    <Link
+                      to='/forgot-password'
+                      className='text-xs font-medium text-primary hover:underline'
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder='••••••••'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
 
           <motion.div variants={itemVariants}>
             <Button
@@ -320,26 +291,12 @@ export function UserAuthForm({
             >
               {isLoading ? (
                 <Loader2 className='mr-2 h-5 w-5 animate-spin' />
-              ) : isOtpSent ? (
-                <LogIn className='mr-2 h-5 w-5' />
               ) : (
-                <MailCheck className='mr-2 h-5 w-5' />
+                <LogIn className='mr-2 h-5 w-5' />
               )}
-              {isOtpSent ? 'Verify & Sign In' : 'Send Verification Code'}
+              Sign In
             </Button>
           </motion.div>
-          
-          {isOtpSent && (
-            <motion.div variants={itemVariants} className='text-center mt-2'>
-              <button
-                type='button'
-                onClick={() => setIsOtpSent(false)}
-                className='text-xs text-muted-foreground hover:text-foreground transition-colors'
-              >
-                Use a different email address
-              </button>
-            </motion.div>
-          )}
         </motion.form>
       </Form>
     </div>

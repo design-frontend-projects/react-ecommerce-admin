@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { motion, type HTMLMotionProps } from 'framer-motion'
-import { Loader2, MailCheck, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Loader2, ArrowRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -16,38 +16,36 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/password-input'
 import {
-  forgotPasswordFormSchema,
-  type ForgotPasswordFormValues,
-} from './forgot-password.schema'
+  updatePasswordFormSchema,
+  type UpdatePasswordFormValues,
+} from './update-password.schema'
 
-export function ForgotPasswordForm({
+export function UpdatePasswordForm({
   className,
   ...props
 }: Omit<HTMLMotionProps<'form'>, 'ref'>) {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
-  const form = useForm<ForgotPasswordFormValues>({
-    resolver: zodResolver(forgotPasswordFormSchema),
-    defaultValues: { email: '' },
+  const form = useForm<UpdatePasswordFormValues>({
+    resolver: zodResolver(updatePasswordFormSchema),
+    defaultValues: { password: '', confirmPassword: '' },
   })
 
-  async function onSubmit(data: ForgotPasswordFormValues) {
+  async function onSubmit(data: UpdatePasswordFormValues) {
     setIsLoading(true)
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-        redirectTo: `${window.location.origin}/update-password`,
+      const { error } = await supabase.auth.updateUser({
+        password: data.password,
       })
 
       if (error) throw error
 
-      setIsSuccess(true)
-      toast.success('Check your email', {
-        description: 'We sent you a password reset link.',
-      })
+      toast.success('Password updated successfully')
+      navigate({ to: '/' })
     } catch (err: unknown) {
       const errorMsg =
         (err as { message?: string })?.message ||
@@ -73,27 +71,6 @@ export function ForgotPasswordForm({
     show: { opacity: 1, y: 0 },
   }
 
-  if (isSuccess) {
-    return (
-      <div className='flex flex-col items-center justify-center space-y-4 text-center'>
-        <div className='rounded-full bg-primary/10 p-4'>
-          <MailCheck className='h-8 w-8 text-primary' />
-        </div>
-        <h3 className='text-lg font-medium'>Check your email</h3>
-        <p className='text-sm text-muted-foreground'>
-          We've sent a password reset link to {form.getValues('email')}. Please
-          check your inbox.
-        </p>
-        <Button variant='outline' className='mt-4 w-full' asChild>
-          <Link href='/sign-in'>
-            <ArrowLeft className='mr-2 h-4 w-4' />
-            Back to Sign In
-          </Link>
-        </Button>
-      </div>
-    )
-  }
-
   return (
     <Form {...form}>
       <motion.form
@@ -107,13 +84,33 @@ export function ForgotPasswordForm({
         <motion.div variants={itemVariants}>
           <FormField
             control={form.control}
-            name='email'
+            name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder='name@example.com'
+                  <PasswordInput
+                    placeholder='••••••••'
+                    className='h-11 bg-background/50 focus-visible:ring-primary'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <FormField
+            control={form.control}
+            name='confirmPassword'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    placeholder='••••••••'
                     className='h-11 bg-background/50 focus-visible:ring-primary'
                     {...field}
                   />
@@ -131,7 +128,7 @@ export function ForgotPasswordForm({
             ) : (
               <ArrowRight className='mr-2 h-5 w-5' />
             )}
-            Send Reset Link
+            Update Password
           </Button>
         </motion.div>
       </motion.form>

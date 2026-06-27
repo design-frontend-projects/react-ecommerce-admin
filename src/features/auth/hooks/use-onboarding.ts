@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/auth-store'
 
 export interface CompleteOnboardingData {
-  clerkId: string
+  userId: string
   firstName: string
   lastName: string
   phone?: string
@@ -25,7 +25,7 @@ export function useCompleteOnboarding() {
       if (!user) throw new Error('User not found')
       
       // 1. Update the user's profile in the database
-      await profileService.updateProfile(input.clerkId, {
+      await profileService.updateProfile(input.userId, {
         first_name: input.firstName,
         last_name: input.lastName,
         phone: input.phone || null,

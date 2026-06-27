@@ -96,7 +96,7 @@ export function CompleteAccountFeature() {
     if (!user?.id) return
 
     completeOnboardingMutation.mutate({
-      clerkId: user.id,
+      userId: user.id,
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,

@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from '@tanstack/react-router'
 import { motion, type HTMLMotionProps } from 'framer-motion'
-import { Loader2, MailCheck, LogIn } from 'lucide-react'
+import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
-import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -18,12 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from '@/components/ui/input-otp'
-import { profileService } from '@/features/auth/services/profile-service'
+import { PasswordInput } from '@/components/password-input'
 import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
 
 export function SignUpForm({
@@ -31,15 +24,15 @@ export function SignUpForm({
   ...props
 }: Omit<HTMLMotionProps<'form'>, 'ref'>) {
   const [isLoading, setIsLoading] = useState(false)
-  const [isOtpSent, setIsOtpSent] = useState(false)
-  const navigate = useNavigate()
-  const { setSession, setUser } = useAuthStore((state) => state.auth)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
-      otp: '',
+      password: '',
     },
   })
 
@@ -47,50 +40,24 @@ export function SignUpForm({
     setIsLoading(true)
 
     try {
-      if (!isOtpSent) {
-        // Step 1: Send OTP for signup
-        const { error } = await supabase.auth.signInWithOtp({
-          email: data.email,
-          options: {
-            shouldCreateUser: true, // Allow signup if user doesn't exist
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            firstName: data.firstName,
+            lastName: data.lastName,
           },
-        })
+          emailRedirectTo: `${window.location.origin}/complete-account`,
+        },
+      })
 
-        if (error) throw error
+      if (error) throw error
 
-        setIsOtpSent(true)
-        toast.info('A verification code has been sent to your email.')
-      } else {
-        // Step 2: Verify OTP
-        if (!data.otp || data.otp.length !== 6) {
-          toast.error('Please enter the 6-digit OTP.')
-          setIsLoading(false)
-          return
-        }
-
-        const { data: authData, error } = await supabase.auth.verifyOtp({
-          email: data.email,
-          token: data.otp,
-          type: 'email',
-        })
-
-        if (error) throw error
-
-        if (authData.session && authData.user) {
-          // Create the profile in the database
-          await profileService.getOrCreateProfile({
-            user_id: authData.user.id,
-            email: authData.user.email ?? data.email,
-          })
-
-          // Save session in Zustand store
-          setSession(authData.session)
-          setUser(authData.user)
-
-          navigate({ to: '/', replace: true })
-          toast.success('Account created and verified successfully!')
-        }
-      }
+      setIsSuccess(true)
+      toast.success('Account created successfully!', {
+        description: 'Please check your email to verify your account.',
+      })
     } catch (err: unknown) {
       const errorMsg =
         (err as { message?: string })?.message ||
@@ -116,6 +83,21 @@ export function SignUpForm({
     show: { opacity: 1, y: 0 },
   }
 
+  if (isSuccess) {
+    return (
+      <div className='flex flex-col items-center justify-center space-y-4 text-center'>
+        <div className='rounded-full bg-primary/10 p-4'>
+          <MailCheck className='h-8 w-8 text-primary' />
+        </div>
+        <h3 className='text-lg font-medium'>Check your email</h3>
+        <p className='text-sm text-muted-foreground'>
+          We've sent a verification link to {form.getValues('email')}. Please
+          click the link to verify your account and continue.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <Form {...form}>
       <motion.form
@@ -126,17 +108,17 @@ export function SignUpForm({
         className={cn('grid gap-3', className)}
         {...props}
       >
-        {!isOtpSent ? (
+        <div className='grid grid-cols-2 gap-3'>
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
-              name='email'
+              name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='name@example.com'
+                      placeholder='John'
                       className='h-11 bg-background/50 focus-visible:ring-primary'
                       {...field}
                     />
@@ -146,62 +128,77 @@ export function SignUpForm({
               )}
             />
           </motion.div>
-        ) : (
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
-              name='otp'
+              name='lastName'
               render={({ field }) => (
-                <FormItem className='flex flex-col items-center justify-center space-y-4'>
-                  <FormLabel className='text-center'>
-                    Enter Verification Code
-                  </FormLabel>
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <InputOTP maxLength={6} {...field}>
-                      <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP>
+                    <Input
+                      placeholder='Doe'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
                   </FormControl>
-                  <p className='text-xs text-muted-foreground'>
-                    Sent to {form.getValues('email')}
-                  </p>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </motion.div>
-        )}
+        </div>
+
+        <motion.div variants={itemVariants}>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder='name@example.com'
+                    className='h-11 bg-background/50 focus-visible:ring-primary'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    placeholder='••••••••'
+                    className='h-11 bg-background/50 focus-visible:ring-primary'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
 
         <motion.div variants={itemVariants}>
           <Button className='mt-2 h-11 w-full' disabled={isLoading}>
             {isLoading ? (
               <Loader2 className='mr-2 h-5 w-5 animate-spin' />
-            ) : isOtpSent ? (
-              <LogIn className='mr-2 h-5 w-5' />
             ) : (
-              <MailCheck className='mr-2 h-5 w-5' />
+              <LogIn className='mr-2 h-5 w-5' />
             )}
-            {isOtpSent ? 'Verify & Sign Up' : 'Send Verification Code'}
+            Sign Up
           </Button>
         </motion.div>
-
-        {isOtpSent && (
-          <motion.div variants={itemVariants} className='mt-2 text-center'>
-            <button
-              type='button'
-              onClick={() => setIsOtpSent(false)}
-              className='text-xs text-muted-foreground transition-colors hover:text-foreground'
-            >
-              Use a different email address
-            </button>
-          </motion.div>
-        )}
       </motion.form>
     </Form>
   )
