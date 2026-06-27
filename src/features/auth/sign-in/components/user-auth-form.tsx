@@ -100,11 +100,35 @@ export function UserAuthForm({
         toast.success(
           `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
         )
+      } else if (result.status === 'needs_first_factor') {
+        // User needs to verify their email — attempt email_code strategy
+        const emailFactor = result.supportedFirstFactors?.find(
+          (factor) => factor.strategy === 'email_code'
+        )
+
+        if (emailFactor && 'emailAddressId' in emailFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: 'email_code',
+            emailAddressId: emailFactor.emailAddressId,
+          })
+          toast.info('A verification code has been sent to your email.')
+          navigate({ to: '/otp', search: { flow: 'sign-in' }, replace: true })
+        } else {
+          // Fallback: try password strategy or notify user
+          toast.error(
+            'Email verification is required but not available. Please contact support.'
+          )
+        }
       } else if (result.status === 'needs_second_factor') {
-        toast.info('Sign in requires further steps.')
-        navigate({ to: '/sso-callback', replace: true })
+        toast.info('Two-factor authentication is required.')
+        navigate({ to: '/otp', search: { flow: 'sign-in' }, replace: true })
+      } else if (result.status === 'needs_identifier') {
+        toast.error('Please provide a valid email address.')
       } else {
-        toast.info('Sign in requires further steps.')
+        console.warn('[SignIn] Unhandled sign-in status:', result.status)
+        toast.error(
+          'Sign in could not be completed. Please try again or contact support.'
+        )
       }
     } catch (err: unknown) {
       const errorMsg =

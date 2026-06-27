@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useSignUp } from '@clerk/clerk-react'
+import { useSignUp, useSignIn } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { profileService } from '@/features/auth/services/profile-service'
 import { cn } from '@/lib/utils'
@@ -30,11 +30,14 @@ const formSchema = z.object({
     .max(6, 'Please enter the 6-digit code.'),
 })
 
-type OtpFormProps = React.HTMLAttributes<HTMLFormElement>
+interface OtpFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  flow: 'sign-up' | 'sign-in'
+}
 
-export function OtpForm({ className, ...props }: OtpFormProps) {
+export function OtpForm({ className, flow, ...props }: OtpFormProps) {
   const navigate = useNavigate()
-  const { isLoaded, signUp, setActive } = useSignUp()
+  const { isLoaded: isSignUpLoaded, signUp, setActive: setSignUpActive } = useSignUp()
+  const { isLoaded: isSignInLoaded, signIn, setActive: setSignInActive } = useSignIn()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,39 +45,64 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
     defaultValues: { otp: '' },
   })
 
-
   const otp = form.watch('otp')
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    if (!isLoaded) return
+  async function handleSignUpVerification(code: string) {
+    if (!isSignUpLoaded || !signUp) return
 
+    const result = await signUp.attemptEmailAddressVerification({ code })
+
+    if (result.status === 'complete') {
+      await setSignUpActive({ session: result.createdSessionId })
+
+      // Create the profile now that the user is verified
+      try {
+        if (result.createdUserId && signUp.emailAddress) {
+          await profileService.createProfile({
+            clerk_user_id: result.createdUserId,
+            email: signUp.emailAddress,
+          })
+        }
+      } catch (profileErr) {
+        console.error('Failed to create initial profile:', profileErr)
+      }
+
+      navigate({ to: '/' })
+      toast.success('Email verified successfully!')
+    } else {
+      toast.error('Verification failed. Please try again.')
+    }
+  }
+
+  async function handleSignInVerification(code: string) {
+    if (!isSignInLoaded || !signIn) return
+
+    const result = await signIn.attemptFirstFactor({
+      strategy: 'email_code',
+      code,
+    })
+
+    if (result.status === 'complete') {
+      await setSignInActive({ session: result.createdSessionId })
+      navigate({ to: '/', replace: true })
+      toast.success('Sign in successful!')
+    } else if (result.status === 'needs_second_factor') {
+      toast.info('Two-factor authentication is required.')
+      // Could navigate to a 2FA page if needed
+    } else {
+      console.warn('[OTP] Unhandled sign-in status:', result.status)
+      toast.error('Verification failed. Please try again.')
+    }
+  }
+
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
 
     try {
-      const result = await signUp.attemptEmailAddressVerification({
-        code: data.otp,
-      })
-
-      if (result.status === 'complete') {
-        await setActive({ session: result.createdSessionId })
-
-        // Create the profile now that the user is verified
-        try {
-          if (result.createdUserId && signUp.emailAddress) {
-            await profileService.createProfile({
-              clerk_user_id: result.createdUserId,
-              email: signUp.emailAddress,
-            })
-          }
-        } catch (profileErr) {
-          console.error('Failed to create initial profile:', profileErr)
-          // We don't block navigation, but you could handle this differently
-        }
-
-        navigate({ to: '/' })
-        toast.success('Email verified successfully!')
+      if (flow === 'sign-in') {
+        await handleSignInVerification(data.otp)
       } else {
-        toast.error('Verification failed. Please try again.')
+        await handleSignUpVerification(data.otp)
       }
     } catch (err: unknown) {
       const errorMsg =
