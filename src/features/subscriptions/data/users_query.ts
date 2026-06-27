@@ -12,7 +12,7 @@ export function useSearchClerkUsers(search: string) {
 
       const { data, error } = await supabase
         .from('tenant_subscriptions')
-        .select('id, clerk_user_id, email, first_name, last_name')
+        .select('id, user_id, email, first_name, last_name')
         .or(
           `email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%`
         )

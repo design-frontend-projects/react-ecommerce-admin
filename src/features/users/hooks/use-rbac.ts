@@ -1,4 +1,4 @@
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/hooks/use-auth'
 import { useEffect, useMemo, useRef } from 'react'
 import {
   extractRoleNames,

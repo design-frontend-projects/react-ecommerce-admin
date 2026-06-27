@@ -9,7 +9,7 @@ export async function getSettings(
   clerkUserId: string,
   publicOnly = false
 ): Promise<AppSetting[]> {
-  const where: Record<string, unknown> = { clerk_user_id: clerkUserId }
+  const where: Record<string, unknown> = { user_id: clerkUserId }
   if (publicOnly) {
     where.is_public = true
   }
@@ -25,7 +25,7 @@ export async function getSettings(
     value: s.value,
     group: s.group,
     is_public: s.is_public,
-    clerk_user_id: s.clerk_user_id,
+    user_id: s.user_id,
     created_at: s.created_at,
     updated_at: s.updated_at,
   }))
@@ -40,7 +40,7 @@ export async function getSettingByKey(
 ): Promise<AppSetting | null> {
   const setting = await prisma.app_settings.findUnique({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key },
+      user_id_key: { user_id: clerkUserId, key },
     },
   })
 
@@ -52,7 +52,7 @@ export async function getSettingByKey(
     value: setting.value,
     group: setting.group,
     is_public: setting.is_public,
-    clerk_user_id: setting.clerk_user_id,
+    user_id: setting.user_id,
     created_at: setting.created_at,
     updated_at: setting.updated_at,
   }
@@ -67,14 +67,14 @@ export async function upsertSetting(
 ): Promise<AppSetting> {
   const setting = await prisma.app_settings.upsert({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key: input.key },
+      user_id_key: { user_id: clerkUserId, key: input.key },
     },
     create: {
       key: input.key,
       value: input.value,
       group: input.group ?? null,
       is_public: input.is_public ?? true,
-      clerk_user_id: clerkUserId,
+      user_id: clerkUserId,
     },
     update: {
       value: input.value,
@@ -90,7 +90,7 @@ export async function upsertSetting(
     value: setting.value,
     group: setting.group,
     is_public: setting.is_public,
-    clerk_user_id: setting.clerk_user_id,
+    user_id: setting.user_id,
     created_at: setting.created_at,
     updated_at: setting.updated_at,
   }
@@ -105,7 +105,7 @@ export async function deleteSetting(
 ): Promise<void> {
   await prisma.app_settings.delete({
     where: {
-      clerk_user_id_key: { clerk_user_id: clerkUserId, key },
+      user_id_key: { user_id: clerkUserId, key },
     },
   })
 }
@@ -120,7 +120,7 @@ export async function initializeDefaultSettings(
   for (const setting of defaults) {
     const existing = await prisma.app_settings.findUnique({
       where: {
-        clerk_user_id_key: { clerk_user_id: clerkUserId, key: setting.key },
+        user_id_key: { user_id: clerkUserId, key: setting.key },
       },
     })
 
@@ -131,7 +131,7 @@ export async function initializeDefaultSettings(
           value: setting.value,
           group: setting.group ?? null,
           is_public: setting.is_public ?? true,
-          clerk_user_id: clerkUserId,
+          user_id: clerkUserId,
         },
       })
     }

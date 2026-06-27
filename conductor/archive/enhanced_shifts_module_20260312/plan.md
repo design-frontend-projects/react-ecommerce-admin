@@ -2,7 +2,7 @@
 
 ## Phase 1: Database & Model Setup
 - [ ] Task: Define the `res_shifts` model in `schema.prisma`
-    - [ ] Add `id`, `clerk_user_id`, `start_amount`, `end_amount`, `opened_at`, `closed_at`, `status`, and `restaurant_id` fields.
+    - [ ] Add `id`, `user_id`, `start_amount`, `end_amount`, `opened_at`, `closed_at`, `status`, and `restaurant_id` fields.
     - [ ] Run Prisma migrate or update the local schema representation.
 - [ ] Task: Write Tests for Shift Model & Database Access
     - [ ] Create a unit test for shift creation and status querying.

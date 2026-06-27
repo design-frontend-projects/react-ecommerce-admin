@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, test, expect, vi } from 'vitest';
-import { SubscriptionAssignment } from '../components/subscription-assignment';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, test, expect, vi } from 'vitest'
+import { SubscriptionAssignment } from '../components/subscription-assignment'
 
 // Mock the queries
 vi.mock('../queries', () => ({
@@ -15,18 +15,23 @@ vi.mock('../queries', () => ({
     mutateAsync: vi.fn().mockResolvedValue({}),
     isPending: false,
   }),
-}));
+}))
 
 vi.mock('../data/users_query', () => ({
   useSearchClerkUsers: () => ({
     data: [
-      { clerk_user_id: 'user_1', email: 'test@example.com', first_name: 'Test', last_name: 'User' },
+      {
+        user_id: 'user_1',
+        email: 'test@example.com',
+        first_name: 'Test',
+        last_name: 'User',
+      },
     ],
     isLoading: false,
   }),
-}));
+}))
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 describe('SubscriptionAssignment Component', () => {
   test('renders the assign button', () => {
@@ -34,20 +39,24 @@ describe('SubscriptionAssignment Component', () => {
       <QueryClientProvider client={queryClient}>
         <SubscriptionAssignment />
       </QueryClientProvider>
-    );
-    expect(screen.getByText('Assign Subscription')).toBeInTheDocument();
-  });
+    )
+    expect(screen.getByText('Assign Subscription')).toBeInTheDocument()
+  })
 
   test('opens dialog and shows search input', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <SubscriptionAssignment />
       </QueryClientProvider>
-    );
-    
-    fireEvent.click(screen.getByRole('button', { name: /assign subscription/i }));
-    
-    expect(screen.getByRole('heading', { name: /assign subscription/i })).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
-  });
-});
+    )
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /assign subscription/i })
+    )
+
+    expect(
+      screen.getByRole('heading', { name: /assign subscription/i })
+    ).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument()
+  })
+})

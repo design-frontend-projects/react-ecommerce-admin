@@ -1,5 +1,4 @@
-import { verifyToken } from '@clerk/backend'
-import { clerkBackend } from '@/server/clerk'
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
 import {
   extractRoleNames,
@@ -30,9 +29,9 @@ export function getBearerToken(request: Request) {
   return token
 }
 
-async function getDatabasePermissionNames(clerkUserId: string) {
+async function getDatabasePermissionNames(userId: string) {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: clerkUserId },
+    where: { user_id: userId },
     include: {
       user_roles: {
         include: {
@@ -68,9 +67,13 @@ async function getDatabasePermissionNames(clerkUserId: string) {
     }
   }
 
-  const roleNames = tenantUser.user_roles.map((assignment) => normalizeRoleName(assignment.roles.name))
+  const roleNames = tenantUser.user_roles.map((assignment) =>
+    normalizeRoleName(assignment.roles.name)
+  )
   const permissionNames = tenantUser.user_roles.flatMap((assignment) =>
-    assignment.roles.role_permissions.map((rolePermission) => rolePermission.permissions.name)
+    assignment.roles.role_permissions.map(
+      (rolePermission) => rolePermission.permissions.name
+    )
   )
 
   return {
@@ -84,20 +87,26 @@ export async function requireAuth(
   requiredPermissions?: string | string[]
 ): Promise<AuthorizedUser> {
   try {
-    const verifiedToken = await verifyToken(sessionToken, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-    })
-    const userId = verifiedToken.sub
+    const {
+      data: { user },
+      error,
+    } = await supabaseAdmin.auth.getUser(sessionToken)
 
-    if (!userId) {
+    if (error || !user) {
       throw new Error('Unauthorized: Invalid session token')
     }
 
-    const user = await clerkBackend.users.getUser(userId)
-    const publicMetadata = user.publicMetadata as Record<string, unknown>
+    const userId = user.id
+
+    // Fallback to roles stored in user_metadata or app_metadata if we want to emulate Clerk publicMetadata
+    const appMetadata = user.app_metadata || {}
+    const userMetadata = user.user_metadata || {}
+
     const metadataRoleNames = [
-      ...extractRoleNames(publicMetadata.roles),
-      ...extractRoleNames(publicMetadata.role),
+      ...extractRoleNames(appMetadata.roles as unknown),
+      ...extractRoleNames(appMetadata.role as unknown),
+      ...extractRoleNames(userMetadata.roles as unknown),
+      ...extractRoleNames(userMetadata.role as unknown),
     ]
 
     const { roleNames: dbRoleNames, permissionNames: dbPermissionNames } =
@@ -117,7 +126,10 @@ export async function requireAuth(
         ? [requiredPermissions]
         : []
 
-    if (requiredList.length > 0 && !hasAnyPermission(permissionNames, requiredList)) {
+    if (
+      requiredList.length > 0 &&
+      !hasAnyPermission(permissionNames, requiredList)
+    ) {
       throw new Error('Forbidden: Insufficient permissions')
     }
 
@@ -138,5 +150,8 @@ export async function requireAuth(
 
 export function hasAdminAccess(roleNames: string[]) {
   const normalizedRoleNames = roleNames.map(normalizeRoleName)
-  return normalizedRoleNames.includes('super_admin') || normalizedRoleNames.includes('admin')
+  return (
+    normalizedRoleNames.includes('super_admin') ||
+    normalizedRoleNames.includes('admin')
+  )
 }

@@ -19,7 +19,7 @@ As a cashier, I want to be able to mark an order for shipment and enter the deli
 
 1. **Given** I am in the POS screen with items in the cart, **When** I click "Checkout", **Then** I should see a "Shipment" toggle or option.
 2. **Given** the "Shipment" toggle is enabled, **When** I click "Process Payment" without filling address details, **Then** I should see validation errors for required shipment fields.
-3. **Given** valid shipment details are provided, **When** I process the payment, **Then** the order should be saved and a corresponding shipment record should be created with the current `clerk_user_id`.
+3. **Given** valid shipment details are provided, **When** I process the payment, **Then** the order should be saved and a corresponding shipment record should be created with the current `user_id`.
 
 ---
 
@@ -45,7 +45,7 @@ As a customer or delivery driver, I want the invoice to display the shipment det
 - **FR-001**: System MUST provide a "Shipment" toggle/switch in the Checkout Dialog.
 - **FR-002**: System MUST conditionalize the visibility of shipment fields (Recipient Name, Phone, Address, City, Notes) based on the "Shipment" toggle.
 - **FR-003**: System MUST require `recipient_name`, `recipient_phone`, and `delivery_address` if the order is marked for shipment.
-- **FR-004**: System MUST automatically associate the `clerk_user_id` of the logged-in employee with the shipment record.
+- **FR-004**: System MUST automatically associate the `user_id` of the logged-in employee with the shipment record.
 - **FR-005**: System MUST create a record in `res_shipments` table linked to the current `res_orders` record upon successful payment.
 - **FR-006**: System MUST update the invoice component to fetch and display shipment details if they exist for the order.
 - **FR-007**: System MUST display the Order ID prominently on all invoices.
@@ -55,7 +55,7 @@ As a customer or delivery driver, I want the invoice to display the shipment det
 - **res_shipments**:
     - `id` (UUID, PK)
     - `order_id` (UUID, FK, Unique) - Link to `res_orders`
-    - `clerk_user_id` (String) - The employee who created the shipment (Required)
+    - `user_id` (String) - The employee who created the shipment (Required)
     - `recipient_name` (String)
     - `recipient_phone` (String)
     - `delivery_address` (Text)
@@ -74,12 +74,12 @@ As a customer or delivery driver, I want the invoice to display the shipment det
 ### Measurable Outcomes
 
 - **SC-001**: Cashiers can add shipment details in under 30 seconds during the checkout flow.
-- **SC-002**: 100% of shipment orders have a corresponding record in the `res_shipments` table with valid `clerk_user_id`.
+- **SC-002**: 100% of shipment orders have a corresponding record in the `res_shipments` table with valid `user_id`.
 - **SC-003**: The invoice generated after a shipment order displays all 4 required shipment fields (ID, Name, Phone, Address).
 
 ## Assumptions
 
 - The `res_orders` table is the primary source of truth for POS orders.
-- Authentication (Clerk) is already configured and `clerk_user_id` is available in the current context.
+- Authentication (Clerk) is already configured and `user_id` is available in the current context.
 - The POS system uses a shared database where RLS (Row Level Security) might need adjustment for the new table.
 - Print/Invoice logic is client-side or accessible for modification in the frontend features directory.

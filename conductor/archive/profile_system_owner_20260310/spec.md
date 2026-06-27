@@ -13,7 +13,7 @@ This track introduces a new `profiles` table and an extensible `activity_types` 
   - Initial Seed: `restaurant`, `super_market`, `pharmacy`, `shop`, `online_shop`.
 - **`profiles` Table:**
   - `profile_id`: UUID (Primary Key)
-  - `clerk_user_id`: String (Unique, Indexed) - References the Clerk User ID.
+  - `user_id`: String (Unique, Indexed) - References the Clerk User ID.
   - `first_name`: String
   - `last_name`: String
   - `email`: String (Unique)
@@ -24,7 +24,7 @@ This track introduces a new `profiles` table and an extensible `activity_types` 
   - `updated_at`: Timestamp
 - **Audit Logs Table:**
   - `id`: UUID (Primary Key)
-  - `actor_id`: String (clerk_user_id)
+  - `actor_id`: String (user_id)
   - `action`: String (e.g., "UPDATE_SUBSCRIPTION")
   - `target_id`: String (The ID of the profile or subscription affected)
   - `details`: JSONB

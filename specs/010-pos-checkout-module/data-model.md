@@ -7,7 +7,7 @@
 | id | UUID | YES | Primary key, auto-generated |
 | invoice_no | String | YES | Unique invoice number |
 | invoice_date | DateTime | YES | Date and time when the sale occurred |
-| clerk_user_id | String | YES | Clerk user ID of the salesperson |
+| user_id | String | YES | Clerk user ID of the salesperson |
 | branch_id | UUID | YES | Link to the branch |
 | store_id | UUID | NO | Link to the store |
 | customer_id | Int | NO | Link to a customer record |

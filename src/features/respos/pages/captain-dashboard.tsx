@@ -1,4 +1,4 @@
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/hooks/use-auth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Loader2,

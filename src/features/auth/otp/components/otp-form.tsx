@@ -3,10 +3,9 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useSignUp, useSignIn } from '@clerk/clerk-react'
 import { toast } from 'sonner'
-import { profileService } from '@/features/auth/services/profile-service'
 import { cn } from '@/lib/utils'
+import { useSignUp, useSignIn } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -22,6 +21,7 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from '@/components/ui/input-otp'
+import { profileService } from '@/features/auth/services/profile-service'
 
 const formSchema = z.object({
   otp: z
@@ -36,8 +36,16 @@ interface OtpFormProps extends React.HTMLAttributes<HTMLFormElement> {
 
 export function OtpForm({ className, flow, ...props }: OtpFormProps) {
   const navigate = useNavigate()
-  const { isLoaded: isSignUpLoaded, signUp, setActive: setSignUpActive } = useSignUp()
-  const { isLoaded: isSignInLoaded, signIn, setActive: setSignInActive } = useSignIn()
+  const {
+    isLoaded: isSignUpLoaded,
+    signUp,
+    setActive: setSignUpActive,
+  } = useSignUp()
+  const {
+    isLoaded: isSignInLoaded,
+    signIn,
+    setActive: setSignInActive,
+  } = useSignIn()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,7 +67,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
       try {
         if (result.createdUserId && signUp.emailAddress) {
           await profileService.createProfile({
-            clerk_user_id: result.createdUserId,
+            user_id: result.createdUserId,
             email: signUp.emailAddress,
           })
         }

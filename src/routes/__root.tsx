@@ -8,7 +8,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { NavigationProgress } from '@/components/navigation-progress'
 import { OfflineBadge, OnlineBadge } from '@/components/offline-badge'
 import { PwaUpdatePrompt } from '@/components/pwa-update-prompt'
-import { SupabaseTokenSync } from '@/components/supabase-token-sync'
 import { useSyncUser } from '@/features/auth/hooks/use-sync-user'
 import { GeneralError } from '@/features/errors/general-error'
 import { NotFoundError } from '@/features/errors/not-found-error'
@@ -29,7 +28,6 @@ const RootComponent = () => {
     <NetworkStatusProvider>
       <SettingsProvider>
         <NavigationProgress />
-        <SupabaseTokenSync />
         <PwaUpdatePrompt />
         <Outlet />
         <Toaster duration={5000} />

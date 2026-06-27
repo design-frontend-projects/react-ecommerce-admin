@@ -7,7 +7,6 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { ClerkProvider } from '@clerk/clerk-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
@@ -25,16 +24,6 @@ import { ThemeProvider } from './context/theme-provider'
 import { routeTree } from './routeTree.gen'
 // Styles
 import './styles/index.css'
-
-// Import your Publishable Key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-if (!PUBLISHABLE_KEY) {
-  console.warn(
-    '[Bluewave POS] VITE_CLERK_PUBLISHABLE_KEY is missing from .env — Clerk auth will be unavailable.'
-  )
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -104,41 +93,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// Conditional Clerk wrapper — renders without Clerk if key is missing
-const ClerkWrapper = ({ children }: { children: React.ReactNode }) => {
-  if (PUBLISHABLE_KEY) {
-    return (
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        {children}
-      </ClerkProvider>
-    )
-  }
-  return <>{children}</>
-}
-
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ClerkWrapper>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <FontProvider>
-              <DirectionProvider>
-                <PWAProvider>
-                  <NetworkStatus />
-                  <InstallPrompt />
-                  <InstallBanner />
-                  <PwaUpdatePrompt />
-                  <RouterProvider router={router} />
-                </PWAProvider>
-              </DirectionProvider>
-            </FontProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </ClerkWrapper>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <FontProvider>
+            <DirectionProvider>
+              <PWAProvider>
+                <NetworkStatus />
+                <InstallPrompt />
+                <InstallBanner />
+                <PwaUpdatePrompt />
+                <RouterProvider router={router} />
+              </PWAProvider>
+            </DirectionProvider>
+          </FontProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </StrictMode>
   )
 }

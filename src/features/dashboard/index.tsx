@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { SignInButton, useAuth } from '@clerk/clerk-react'
+import { SignInButton, useAuth } from '@/hooks/use-auth'
 import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {

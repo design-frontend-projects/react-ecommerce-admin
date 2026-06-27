@@ -1,10 +1,22 @@
 import { useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useUser } from '@clerk/clerk-react'
-import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, ChevronRight, Loader2Icon, User, Phone } from 'lucide-react'
+import {
+  CheckCircle2,
+  ChevronRight,
+  Loader2Icon,
+  User,
+  Store,
+  Pill,
+  Utensils,
+  Shirt,
+  Laptop,
+} from 'lucide-react'
+import { Logo } from '@/assets/logo'
+import { cn } from '@/lib/utils'
+import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -16,15 +28,53 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useCompleteOnboarding } from './hooks/use-onboarding'
-import { Logo } from '@/assets/logo'
 
 const onboardingSchema = z.object({
   firstName: z.string().trim().min(1, 'First name is required'),
   lastName: z.string().trim().min(1, 'Last name is required'),
   phone: z.string().trim().optional(),
+  activity: z.enum(
+    ['market', 'pharmacy', 'restuarant', 'clothes', 'electronic'],
+    {
+      message: 'Please select a business activity',
+    }
+  ),
 })
 
 type OnboardingFormValues = z.infer<typeof onboardingSchema>
+
+const ACTIVITIES = [
+  {
+    id: 'market',
+    name: 'Market',
+    icon: Store,
+    color: 'from-emerald-500 to-teal-500',
+  },
+  {
+    id: 'pharmacy',
+    name: 'Pharmacy',
+    icon: Pill,
+    color: 'from-red-500 to-rose-500',
+  },
+  {
+    id: 'restuarant',
+    name: 'Restaurant',
+    icon: Utensils,
+    color: 'from-orange-500 to-red-500',
+  },
+  {
+    id: 'clothes',
+    name: 'Clothes Shop',
+    icon: Shirt,
+    color: 'from-purple-500 to-indigo-500',
+  },
+  {
+    id: 'electronic',
+    name: 'Electronics',
+    icon: Laptop,
+    color: 'from-blue-500 to-cyan-500',
+  },
+] as const
 
 export function CompleteAccountFeature() {
   const { user } = useUser()
@@ -34,9 +84,10 @@ export function CompleteAccountFeature() {
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      firstName: user?.firstName ?? '',
-      lastName: user?.lastName ?? '',
-      phone: user?.primaryPhoneNumber?.phoneNumber ?? '',
+      firstName: user?.user_metadata?.firstName || user?.firstName || '',
+      lastName: user?.user_metadata?.lastName || user?.lastName || '',
+      phone: user?.phone || '',
+      activity: undefined,
     },
     mode: 'onChange',
   })
@@ -49,11 +100,12 @@ export function CompleteAccountFeature() {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
+      activity: values.activity,
     })
   }
 
   const nextStep = async () => {
-    const isValid = await form.trigger(['firstName', 'lastName'])
+    const isValid = await form.trigger(['firstName', 'lastName', 'phone'])
     if (isValid) setStep(2)
   }
 
@@ -114,7 +166,10 @@ export function CompleteAccountFeature() {
           {/* Form Content */}
           <div className='p-8'>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-6'
+              >
                 <AnimatePresence mode='wait' initial={false}>
                   {step === 1 && (
                     <motion.div
@@ -163,10 +218,27 @@ export function CompleteAccountFeature() {
                           </FormItem>
                         )}
                       />
+                      <FormField
+                        control={form.control}
+                        name='phone'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone Number (Optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder='+1 (555) 000-0000'
+                                className='h-12 bg-background/50 text-lg'
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                       <Button
                         type='button'
                         size='lg'
-                        className='w-full text-base'
+                        className='mt-2 w-full text-base'
                         onClick={nextStep}
                         disabled={
                           !form.watch('firstName') || !form.watch('lastName')
@@ -187,31 +259,74 @@ export function CompleteAccountFeature() {
                       transition={{ duration: 0.3 }}
                       className='space-y-4'
                     >
-                      <div className='flex items-center gap-2 text-lg font-medium'>
-                        <Phone className='h-5 w-5 text-primary' />
-                        Contact Details
-                      </div>
-                      <p className='text-sm text-muted-foreground'>
-                        Optionally provide a phone number for your account.
-                      </p>
                       <FormField
                         control={form.control}
-                        name='phone'
+                        name='activity'
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                          <FormItem className='space-y-4'>
+                            <FormLabel className='flex items-center gap-2 text-lg font-medium'>
+                              <Store className='h-5 w-5 text-primary' />
+                              Select Business Activity
+                            </FormLabel>
                             <FormControl>
-                              <Input
-                                {...field}
-                                placeholder='+1 (555) 000-0000'
-                                className='h-12 bg-background/50 text-lg'
-                              />
+                              <div className='grid grid-cols-2 gap-3 sm:grid-cols-2'>
+                                {ACTIVITIES.map((act) => {
+                                  const Icon = act.icon
+                                  const isSelected = field.value === act.id
+                                  return (
+                                    <button
+                                      key={act.id}
+                                      type='button'
+                                      onClick={() => field.onChange(act.id)}
+                                      className={cn(
+                                        'relative flex flex-col items-center justify-center gap-2 rounded-xl border p-4 text-center transition-all duration-300 hover:border-primary/50',
+                                        isSelected
+                                          ? 'border-primary bg-primary/5 text-foreground shadow-md ring-1 ring-primary'
+                                          : 'border-border/50 bg-background/30 text-muted-foreground hover:bg-background/50'
+                                      )}
+                                    >
+                                      {isSelected && (
+                                        <motion.div
+                                          layoutId='activeActivity'
+                                          className={cn(
+                                            'absolute inset-0 rounded-xl bg-linear-to-r opacity-5',
+                                            act.color
+                                          )}
+                                          transition={{
+                                            type: 'spring',
+                                            bounce: 0.2,
+                                            duration: 0.6,
+                                          }}
+                                        />
+                                      )}
+                                      <Icon
+                                        className={cn(
+                                          'h-8 w-8 transition-transform duration-300',
+                                          isSelected
+                                            ? 'scale-110 text-primary'
+                                            : 'scale-100'
+                                        )}
+                                      />
+                                      <span
+                                        className={cn(
+                                          'text-sm font-semibold',
+                                          isSelected
+                                            ? 'font-bold text-foreground'
+                                            : ''
+                                        )}
+                                      >
+                                        {act.name}
+                                      </span>
+                                    </button>
+                                  )
+                                })}
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <div className='flex gap-3 pt-2'>
+                      <div className='flex gap-3 pt-4'>
                         <Button
                           type='button'
                           variant='outline'
@@ -225,7 +340,10 @@ export function CompleteAccountFeature() {
                           type='submit'
                           size='lg'
                           className='w-2/3 bg-linear-to-r from-blue-500 to-cyan-500 text-base shadow-blue-500/20 transition-all hover:from-blue-600 hover:to-cyan-600 hover:shadow-blue-500/30'
-                          disabled={completeOnboardingMutation.isPending}
+                          disabled={
+                            completeOnboardingMutation.isPending ||
+                            !form.watch('activity')
+                          }
                         >
                           {completeOnboardingMutation.isPending ? (
                             <Loader2Icon className='mr-2 h-5 w-5 animate-spin' />

@@ -27,7 +27,7 @@
   - `stock_quantity`: Integer (Default 0).
   - `min_stock`: Integer (Default 0).
 - **Attributes**:
-  - `clerk_user_id`: String (Audit Trail).
+  - `user_id`: String (Audit Trail).
   - `is_active`: Boolean (Default true).
 
 ## Validation Rules (Zod)

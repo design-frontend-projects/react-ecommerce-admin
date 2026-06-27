@@ -76,7 +76,7 @@ As a staff member, I want to find a specific invoice or set of invoices by crite
 
 ### Key Entities *(include if feature involves data)*
 
-- **Sales Invoice**: Represents the document of sale. Contains `invoice_no`, `total_amount`, `clerk_user_id`, etc.
+- **Sales Invoice**: Represents the document of sale. Contains `invoice_no`, `total_amount`, `user_id`, etc.
 - **Sales Invoice Item**: Represents a specific line in the invoice. Links to `product_variants`.
 - **Transaction**: Represents the movement of money or credit. Contains `transaction_number`, `transaction_type`, `status`.
 - **Transaction Detail**: Line items for the financial transaction. Links to `products`.

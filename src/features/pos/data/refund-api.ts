@@ -45,7 +45,7 @@ export interface CreateRefundPayload {
   processedBy: string
   notes?: string
   orderId: string
-  clerk_user_id: string
+  user_id: string
 }
 
 interface RefundLookupRow {
@@ -250,7 +250,7 @@ export async function createRefund(
       reason: payload.reason,
       processed_by: payload.processedBy,
       notes: payload.notes ?? null,
-      clerk_user_id: payload.clerk_user_id,
+      user_id: payload.user_id,
     })
     .select('refund_id')
     .maybeSingle()
@@ -260,7 +260,7 @@ export async function createRefund(
   const { data: originalTx, error: txError } = await supabase
     .from('transactions')
     .select(
-      'id, tenant_id, clerk_user_id, currency, transaction_number, sales_invoice_id'
+      'id, tenant_id, user_id, currency, transaction_number, sales_invoice_id'
     )
     .eq('transaction_number', payload.orderId)
     .maybeSingle()
@@ -283,7 +283,7 @@ export async function createRefund(
 
   const { error: txInsertError } = await supabase.from('transactions').insert({
     tenant_id: originalTx.tenant_id,
-    clerk_user_id: originalTx.clerk_user_id,
+    user_id: originalTx.user_id,
     transaction_number: `REF-${originalTx.transaction_number}`,
     transaction_type: 'refund',
     status: 'completed',

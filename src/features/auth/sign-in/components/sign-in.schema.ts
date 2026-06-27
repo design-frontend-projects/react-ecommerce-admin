@@ -4,10 +4,7 @@ import { z } from 'zod'
 export const userAuthFormSchema = z.object({
   branchId: z.string().min(1, 'Please select a branch'),
   email: z.string().min(1, 'Please enter your email').email('Invalid email'),
-  password: z
-    .string()
-    .min(1, 'Please enter your password')
-    .min(6, 'Password must be at least 6 characters'),
+  otp: z.string().length(6, 'OTP must be exactly 6 digits').optional(),
 })
 
 export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>

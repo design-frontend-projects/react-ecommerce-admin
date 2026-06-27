@@ -1,4 +1,4 @@
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/hooks/use-auth'
 import { useLayout } from '@/context/layout-provider'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 import { normalizeRoleName } from '@/features/users/data/rbac'

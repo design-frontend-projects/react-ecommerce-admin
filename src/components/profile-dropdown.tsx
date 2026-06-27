@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/hooks/use-auth'
 import { Trans } from 'react-i18next'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'

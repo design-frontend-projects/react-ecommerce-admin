@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { useLocation } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'

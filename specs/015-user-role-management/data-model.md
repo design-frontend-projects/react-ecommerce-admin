@@ -14,7 +14,7 @@ model roles {
 
 model user_roles {
   id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id   String         @unique
+  user_id   String         @unique
   role_id         String         @db.Uuid
   tenant_id       String         // Associates user with a specific store/tenant
   created_at      DateTime       @default(now()) @db.Timestamp(6)
@@ -51,5 +51,5 @@ export const UserInvitationSchema = z.object({
 
 ## State Transitions
 1. **Invite**: `POST /api/users/invite` -> Clerk Invitation Created -> `user_roles` pending state.
-2. **Accept**: User Signs Up -> Clerk Webhook -> Update `user_roles` to `clerk_user_id`.
+2. **Accept**: User Signs Up -> Clerk Webhook -> Update `user_roles` to `user_id`.
 3. **Role Change**: Admin Update -> Supabase Write -> Realtime Notify Client -> UI Refresh.

@@ -14,7 +14,7 @@ Implement the dual-insertion logic in the `createRefund` API function to ensure 
         - Generated `transaction_number` (e.g., `REF-POS-123`).
 - [ ] Task: **Implement Dual-Insertion in `createRefund`**
     - [ ] Modify `src/features/pos/data/refund-api.ts`.
-    - [ ] Fetch the original transaction to inherit `tenant_id`, `clerk_user_id`, and `currency`.
+    - [ ] Fetch the original transaction to inherit `tenant_id`, `user_id`, and `currency`.
     - [ ] Execute the insertion into `refunds`.
     - [ ] Execute the insertion into `transactions`.
     - [ ] **TDD Check**: Ensure all new tests pass.

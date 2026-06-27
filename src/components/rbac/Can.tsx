@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/hooks/use-auth'
 import {
   extractRoleNames,
   getFallbackPermissionNamesForRoles,

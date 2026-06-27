@@ -32,4 +32,4 @@
 ## Notes
 
 - [NEEDS CLARIFICATION] on coordinate input method (Manual vs Map).
-- [NEEDS CLARIFICATION] on `clerk_user_id` assignment logic (Self vs Any User).
+- [NEEDS CLARIFICATION] on `user_id` assignment logic (Self vs Any User).

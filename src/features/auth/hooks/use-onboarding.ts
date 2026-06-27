@@ -1,39 +1,57 @@
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/hooks/use-auth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { profileService } from '@/features/auth/services/profile-service'
-import type { CompleteOnboardingInput } from '@/features/users/data/types'
+import { supabase } from '@/lib/supabase'
+import { useAuthStore } from '@/stores/auth-store'
+
+export interface CompleteOnboardingData {
+  clerkId: string
+  firstName: string
+  lastName: string
+  phone?: string
+  activity: string
+}
 
 export function useCompleteOnboarding() {
   const { user } = useUser()
   const queryClient = useQueryClient()
   const router = useRouter()
+  const { setUser } = useAuthStore((state) => state.auth)
 
   return useMutation({
-    mutationFn: async (input: CompleteOnboardingInput) => {
+    mutationFn: async (input: CompleteOnboardingData) => {
       if (!user) throw new Error('User not found')
       
-      // Update the user's profile in the database
+      // 1. Update the user's profile in the database
       await profileService.updateProfile(input.clerkId, {
         first_name: input.firstName,
         last_name: input.lastName,
-        phone: input.phone,
+        phone: input.phone || null,
+        activity: input.activity,
         onboarding_complete: true,
       })
 
-      // Update Clerk user's unsafeMetadata since publicMetadata might require backend
-      await user.update({
-        unsafeMetadata: {
-          ...(user.unsafeMetadata as Record<string, unknown>),
+      // 2. Update Supabase Auth user metadata
+      const { data: authData, error } = await supabase.auth.updateUser({
+        data: {
+          firstName: input.firstName,
+          lastName: input.lastName,
           onboardingComplete: true,
-        },
+        }
       })
+      
+      if (error) throw error
+
+      // 3. Update Zustand store user state
+      if (authData.user) {
+        setUser(authData.user)
+      }
       
       return { success: true }
     },
-    onSuccess: async () => {
-      await user?.reload()
+    onSuccess: () => {
       toast.success('Account setup completed.')
       void queryClient.invalidateQueries({ queryKey: ['users'] })
       void queryClient.invalidateQueries({ queryKey: ['rbac', 'current-access'] })

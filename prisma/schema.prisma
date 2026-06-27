@@ -390,7 +390,6 @@ model pos_reorder_requests {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model profiles {
   id                  String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerk_user_id       String       @db.Uuid
   email               String?      @unique @db.VarChar(255)
   first_name          String?      @db.VarChar(100)
   last_name           String?      @db.VarChar(100)
@@ -400,6 +399,8 @@ model profiles {
   onboarding_complete Boolean      @default(false)
   created_at          DateTime?    @default(now()) @db.Timestamp(6)
   updated_at          DateTime?    @default(now()) @db.Timestamp(6)
+  activity            String?      @db.VarChar(100)
+  user_id             String       @db.Uuid
   audit_logs          audit_logs[]
 
   @@index([email], map: "idx_profiles_email")
@@ -1428,7 +1429,7 @@ model stock_balances {
 }
 
 /// Global system settings stored as key-value pairs with JSON values.
-/// Supports multi-tenancy via clerk_user_id and grouping for UI organization.
+/// Supports multi-tenancy via user_id and grouping for UI organization.
 model app_settings {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   key          String   @db.VarChar(100)

@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase'
 
 export interface Profile {
   id: string
-  clerk_user_id: string
+  user_id: string
   email: string
   first_name: string | null
   last_name: string | null
@@ -10,6 +10,7 @@ export interface Profile {
   is_owner: boolean
   system_owner: boolean
   onboarding_complete: boolean
+  activity: string | null
   created_at: string
   updated_at: string
 }
@@ -19,7 +20,7 @@ export const profileService = {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('clerk_user_id', clerkUserId)
+      .eq('user_id', clerkUserId)
       .maybeSingle()
 
     if (error) throw error
@@ -27,7 +28,7 @@ export const profileService = {
   },
 
   async createProfile(params: {
-    clerk_user_id: string
+    user_id: string
     email: string
     first_name?: string
     last_name?: string
@@ -37,7 +38,7 @@ export const profileService = {
       .from('profiles')
       .insert([
         {
-          clerk_user_id: params.clerk_user_id,
+          user_id: params.user_id,
           email: params.email,
           first_name: params.first_name || null,
           last_name: params.last_name || null,
@@ -54,13 +55,13 @@ export const profileService = {
   },
 
   async getOrCreateProfile(params: {
-    clerk_user_id: string
+    user_id: string
     email: string
     first_name?: string
     last_name?: string
     phone?: string
   }): Promise<Profile> {
-    const profile = await this.getProfile(params.clerk_user_id)
+    const profile = await this.getProfile(params.user_id)
     if (profile) return profile
 
     return this.createProfile(params)
@@ -68,12 +69,12 @@ export const profileService = {
 
   async updateProfile(
     clerkUserId: string,
-    updates: Partial<Omit<Profile, 'id' | 'clerk_user_id' | 'created_at'>>
+    updates: Partial<Omit<Profile, 'id' | 'user_id' | 'created_at'>>
   ): Promise<Profile> {
     const { data, error } = await supabase
       .from('profiles')
       .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq('clerk_user_id', clerkUserId)
+      .eq('user_id', clerkUserId)
       .select()
       .maybeSingle()
 

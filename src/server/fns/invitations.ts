@@ -1,16 +1,22 @@
+import { createServerFn } from '@tanstack/react-start'
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
-import { clerkBackend } from '@/server/clerk'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
-import type { InviteUserInput, InviteUserResult } from '@/features/users/data/types'
+import type {
+  InviteUserInput,
+  InviteUserResult,
+} from '@/features/users/data/types'
 import { updateUserRoles } from './rbac'
 
-export async function inviteUser(input: InviteUserInput): Promise<InviteUserResult> {
+export const inviteUser = createServerFn({ method: 'POST' })
+  .validator((data: InviteUserInput) => data)
+  .handler(async ({ data: input }): Promise<InviteUserResult> => {
   if (!input.inviterClerkUserId) {
     throw new Error('Inviter context is required')
   }
 
   const inviter = await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: input.inviterClerkUserId },
+    where: { user_id: input.inviterClerkUserId },
   })
 
   if (!inviter) {
@@ -49,35 +55,46 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
 
     return {
       success: true,
-      clerkInvitationId: existingUser.clerk_user_id.startsWith('pending_')
-        ? existingUser.clerk_user_id.replace('pending_', '')
+      clerkInvitationId: existingUser.user_id.startsWith('pending_')
+        ? existingUser.user_id.replace('pending_', '')
         : null,
       tenantUserId: existingUser.id,
-      mode: existingUser.clerk_user_id.startsWith('pending_') ? 'pending-existing' : 'updated',
-      message: existingUser.clerk_user_id.startsWith('pending_')
+      mode: existingUser.user_id.startsWith('pending_')
+        ? 'pending-existing'
+        : 'updated',
+      message: existingUser.user_id.startsWith('pending_')
         ? 'Pending invitation already exists. The assigned role has been updated.'
         : 'Existing user role has been updated for this tenant.',
     }
   }
 
-  const invitation = await clerkBackend.invitations.createInvitation({
-    emailAddress: input.email.trim().toLowerCase(),
-    publicMetadata: {
-      role: role.name,
-      roles: [role.name],
-      onboardingComplete: false,
-      invitedViaRbac: true,
-      tenantId: inviter.parent_tenant_id,
-    },
-    redirectUrl:
-      input.redirectUrl ??
-      `${process.env.VITE_APP_URL || 'http://localhost:5177'}/sign-up`,
-  })
+  const {
+    data: { user: invitation },
+    error,
+  } = await supabaseAdmin.auth.admin.inviteUserByEmail(
+    input.email.trim().toLowerCase(),
+    {
+      data: {
+        role: role.name,
+        roles: [role.name],
+        onboardingComplete: false,
+        invitedViaRbac: true,
+        tenantId: inviter.parent_tenant_id,
+      },
+      redirectTo:
+        input.redirectUrl ??
+        `${process.env.VITE_APP_URL || 'http://localhost:5177'}/sign-up`,
+    }
+  )
 
-  const pendingClerkUserId = `pending_${invitation.id}`
+  if (error || !invitation) {
+    throw new Error('Failed to create invitation in Supabase')
+  }
+
+  const pendingClerkUserId = invitation.id // Supabase already gives us the user ID immediately
   const tenantUser = await prisma.tenant_users.create({
     data: {
-      clerk_user_id: pendingClerkUserId,
+      user_id: pendingClerkUserId,
       email: input.email.trim().toLowerCase(),
       first_name: null,
       last_name: null,
@@ -93,7 +110,7 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
     data: {
       user_id: tenantUser.id,
       role_id: role.id,
-      clerk_user_id: pendingClerkUserId,
+      auth_user_id: pendingClerkUserId,
     },
   })
 
@@ -104,22 +121,37 @@ export async function inviteUser(input: InviteUserInput): Promise<InviteUserResu
     mode: 'created',
     message: 'Invitation sent successfully.',
   }
-}
+})
 
-export async function listPendingInvitations() {
-  const invitations = await clerkBackend.invitations.getInvitationList({
-    status: 'pending',
+export const listPendingInvitations = createServerFn({ method: 'GET' })
+  .handler(async () => {
+    // For Supabase we could list users and find those with no last_sign_in_at.
+    const {
+      data: { users },
+      error,
+    } = await supabaseAdmin.auth.admin.listUsers()
+
+    if (error) return []
+
+    const pendingUsers = users.filter((u) => !u.last_sign_in_at && u.invited_at)
+
+    return pendingUsers.map((invitation) => ({
+      id: invitation.id,
+      emailAddress: invitation.email ?? 'unknown',
+      status: 'pending',
+      role: (invitation.user_metadata as { role?: string })?.role ?? 'unknown',
+      createdAt: new Date(invitation.created_at).toISOString(),
+    }))
   })
 
-  return invitations.data.map((invitation) => ({
-    id: invitation.id,
-    emailAddress: invitation.emailAddress,
-    status: invitation.status,
-    role: (invitation.publicMetadata as { role?: string })?.role ?? 'unknown',
-    createdAt: new Date(invitation.createdAt).toISOString(),
-  }))
-}
+export const revokeInvitation = createServerFn({ method: 'POST' })
+  .validator((invitationId: string) => invitationId)
+  .handler(async ({ data: invitationId }) => {
+    // Delete the unconfirmed user
+    await supabaseAdmin.auth.admin.deleteUser(invitationId)
 
-export async function revokeInvitation(invitationId: string) {
-  await clerkBackend.invitations.revokeInvitation(invitationId)
-}
+    // Cleanup
+    await prisma.tenant_users.deleteMany({
+      where: { user_id: invitationId },
+    })
+  })

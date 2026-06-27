@@ -7,7 +7,7 @@ A production-ready transactions module designed for a multi-tenant SaaS environm
 
 ### 2.1 Database Schema (Prisma)
 - **Transactions (Header):**
-  - **Core:** `id` (UUID), `tenant_id` (UUID), `clerk_user_id` (Text), `transaction_number` (String), `transaction_type` (Enum: sale, purchase, return, adjustment).
+  - **Core:** `id` (UUID), `tenant_id` (UUID), `user_id` (Text), `transaction_number` (String), `transaction_type` (Enum: sale, purchase, return, adjustment).
   - **Financials:** `status` (Enum: pending, paid, cancelled, refunded, completed), `currency` (String), `subtotal`, `tax_amount`, `discount_amount`, `total_amount` (Decimal).
   - **Metadata & Audit:** `ip_address` (String), `user_agent` (String), `metadata` (JSONB), `notes` (Text), `created_at`, `updated_at`.
 - **Transaction Details (Items):**
@@ -17,7 +17,7 @@ A production-ready transactions module designed for a multi-tenant SaaS environm
 
 ### 2.2 Security & Multi-Tenancy
 - **Tenant Isolation:** Every record in `transactions` and `transaction_details` MUST contain a `tenant_id`.
-- **Clerk Integration:** Every transaction MUST reference a `clerk_user_id` from the authentication system.
+- **Clerk Integration:** Every transaction MUST reference a `user_id` from the authentication system.
 - **Auditing:** Tracking of the source IP and user agent for all transactions.
 
 ### 2.3 Business Logic & Validation
@@ -25,13 +25,13 @@ A production-ready transactions module designed for a multi-tenant SaaS environm
 - **Atomic Updates:** Calculations (subtotals/totals) MUST be verified server-side before persisting to the database.
 
 ## 3. Non-Functional Requirements
-- **Performance:** Optimized indexes on `tenant_id`, `clerk_user_id`, and `product_id`.
+- **Performance:** Optimized indexes on `tenant_id`, `user_id`, and `product_id`.
 - **Scalability:** Use of UUIDs and composite indexes for efficient querying in a multi-tenant environment.
 - **Integrity:** Database-level foreign keys with `ON DELETE CASCADE` for tenant data cleanup.
 
 ## 4. Acceptance Criteria
 - [ ] `prisma migrate` successfully creates `transactions` and `transaction_details` tables.
-- [ ] A transaction cannot be created without a valid `tenant_id` and `clerk_user_id`.
+- [ ] A transaction cannot be created without a valid `tenant_id` and `user_id`.
 - [ ] Line item subtotals are correctly validated against the provided quantity and unit price.
 - [ ] The system prevents transactions for products with insufficient inventory levels.
 - [ ] Metadata (JSONB) correctly stores and retrieves flexible transaction context.

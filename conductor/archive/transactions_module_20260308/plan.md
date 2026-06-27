@@ -6,7 +6,7 @@ This plan outlines the multi-phase implementation of the multi-tenant Transactio
 This phase focuses on defining the Prisma models and applying the database schema changes.
 
 - [ ] Task: Define the `Transaction` and `TransactionDetails` models in `prisma/schema.prisma` according to the specification.
-- [ ] Task: Add necessary database-level indexes for `tenant_id`, `clerk_user_id`, and `product_id`.
+- [ ] Task: Add necessary database-level indexes for `tenant_id`, `user_id`, and `product_id`.
 - [ ] Task: Run `pnpm prisma migrate dev` to create the new tables and update the Prisma client.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Database Schema & Migration' (Protocol in workflow.md)
 

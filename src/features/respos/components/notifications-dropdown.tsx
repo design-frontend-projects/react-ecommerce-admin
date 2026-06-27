@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useUser } from '@clerk/clerk-react'
+import { useUser } from '@/hooks/use-auth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,

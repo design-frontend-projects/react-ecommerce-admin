@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth, useUser } from '@clerk/clerk-react'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import {
   Search,
@@ -13,6 +12,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn, formatCurrency } from '@/lib/utils'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -39,10 +39,10 @@ import { getProductStockFlags, isVariantSellable } from '../utils/stock'
 import { BarcodeScannerListener } from './barcode-scanner-listener'
 import { BasketView } from './basket-view'
 import { ManualSkuDialog } from './manual-sku-dialog'
+import { NonRestaurantShipmentsBoard } from './non-restaurant-shipments-board'
 import { ReorderNotificationsBell } from './reorder-notifications-bell'
 import { ShiftDashboard } from './shift-dashboard'
 import { VariantSelectionDialog } from './variant-selection-dialog'
-import { NonRestaurantShipmentsBoard } from './non-restaurant-shipments-board'
 
 export function PosLayout() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -131,7 +131,7 @@ export function PosLayout() {
         {
           product_id: product.product_id,
           product_variant_id: variant?.id ?? null,
-          requested_by_clerk_user_id: user.id,
+          requested_by_user_id: user.id,
           requested_by_name:
             user.fullName || user.primaryEmailAddress?.emailAddress || user.id,
           requested_by_role: requesterRole,
@@ -157,7 +157,9 @@ export function PosLayout() {
 
   const handleProductClick = (product: PosProduct) => {
     const hasVariants = (product.product_variants?.length ?? 0) > 0
-    const { hasSellableVariants } = getProductStockFlags(product.product_variants)
+    const { hasSellableVariants } = getProductStockFlags(
+      product.product_variants
+    )
 
     if (hasVariants && !hasSellableVariants) {
       toast.error(`${product.name} is low stock and currently unavailable.`)
@@ -404,7 +406,7 @@ export function PosLayout() {
                   </div>
                 ) : (
                   <div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                    {filteredProducts.map((product) => (
+                    {filteredProducts.map((product) =>
                       (() => {
                         const hasVariants =
                           (product.product_variants?.length ?? 0) > 0
@@ -479,7 +481,7 @@ export function PosLayout() {
                           </Card>
                         )
                       })()
-                    ))}
+                    )}
                   </div>
                 )}
               </div>

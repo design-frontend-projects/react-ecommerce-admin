@@ -12,7 +12,7 @@ Extend the refund processing logic to create a corresponding record in the `tran
      - `transaction_number`: generated as `REF-` + original `transaction_number`.
      - `status`: set to `'completed'`.
      - `total_amount` & `subtotal`: set to the negative value of the refund amount.
-     - `tenant_id`, `clerk_user_id`, `currency`: inherited from the original transaction.
+     - `tenant_id`, `user_id`, `currency`: inherited from the original transaction.
      - `notes`: include refund reason and notes.
 
 2. **Recent Orders Filtering**:

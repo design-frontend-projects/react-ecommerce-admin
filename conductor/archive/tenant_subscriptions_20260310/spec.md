@@ -9,7 +9,7 @@ Implement a comprehensive subscriptions management module to control tenant acce
 - **`subscriptions` table:** Defines available plans.
     - Fields: `id`, `name` (1 Month, etc.), `duration_months`, `price`, `created_at`.
 - **`tenant_subscriptions` table:** Tracks individual user subscriptions.
-    - Fields: `id`, `clerk_user_id`, `email`, `subscription_id`, `status` (new, paid, canceled), `start_date`, `end_date`, `created_at`, `updated_at`.
+    - Fields: `id`, `user_id`, `email`, `subscription_id`, `status` (new, paid, canceled), `start_date`, `end_date`, `created_at`, `updated_at`.
 
 ### 2. User Management & Assignment
 - Ability to list users from the Clerk server within the admin module.

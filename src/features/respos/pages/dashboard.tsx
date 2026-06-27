@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {

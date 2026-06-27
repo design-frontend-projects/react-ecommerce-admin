@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '@clerk/clerk-react'
+import { useAuth } from '@/hooks/use-auth'
 import { Loader2, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { useUpdateTableStatus } from '../api/mutations'

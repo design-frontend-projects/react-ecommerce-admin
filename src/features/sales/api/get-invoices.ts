@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+
 interface GetInvoicesParams {
   page?: number
   limit?: number
@@ -26,23 +27,27 @@ export async function getInvoices(params: GetInvoicesParams = {}) {
   const skip = (page - 1) * limit
 
   const whereCondition: Record<string, unknown> = {
-    clerk_user_id: userId,
+    user_id: userId,
   }
 
   if (startDate || endDate) {
     whereCondition.invoice_date = {}
     if (startDate) {
-      (whereCondition.invoice_date as Record<string, unknown>).gte = new Date(startDate)
+      ;(whereCondition.invoice_date as Record<string, unknown>).gte = new Date(
+        startDate
+      )
     }
     if (endDate) {
-      (whereCondition.invoice_date as Record<string, unknown>).lte = new Date(endDate)
+      ;(whereCondition.invoice_date as Record<string, unknown>).lte = new Date(
+        endDate
+      )
     }
   }
 
   if (search) {
     whereCondition.invoice_no = {
       contains: search,
-      mode: 'insensitive'
+      mode: 'insensitive',
     }
   }
 
@@ -62,7 +67,7 @@ export async function getInvoices(params: GetInvoicesParams = {}) {
           sales_invoice_items: true,
           shipment: true,
           branches: true,
-        }
+        },
       }),
       prisma.sales_invoices.count({
         where: whereCondition,

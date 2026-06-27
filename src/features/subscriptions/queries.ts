@@ -55,7 +55,7 @@ export function useTenantSubscriptions() {
 
 // Assign subscription to tenant
 async function assignSubscription(payload: {
-  clerk_user_id: string
+  user_id: string
   email: string
   subscription_id: number
   status: 'new' | 'paid' | 'canceled'
@@ -92,7 +92,7 @@ async function getCurrentUserSubscription(clerkUserId: string) {
   const { data, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('clerk_user_id', clerkUserId)
+    .eq('user_id', clerkUserId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
@@ -117,7 +117,7 @@ async function getSubscriptionAnalytics(userId: string) {
   const { data: allSubs, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('clerk_user_id', userId)
+    .eq('user_id', userId)
     .eq('status', 'paid')
 
   if (error) throw error

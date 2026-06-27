@@ -62,7 +62,7 @@ export default defineConfig({
         // Don't cache auth-related or API routes
       },
       devOptions: {
-        enabled: false,
+        enabled: true,
         type: 'module',
       },
     }),
@@ -81,6 +81,6 @@ export default defineConfig({
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
   server: {
-    port: 5177,
+    port: 5190,
   },
 })

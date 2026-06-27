@@ -2,7 +2,7 @@
 // Full notifications list with filtering and management
 import { useState } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
-import { useAuth, useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,

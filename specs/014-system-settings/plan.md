@@ -16,7 +16,7 @@ This feature implements a global system settings management module. It adds an `
 **Target Platform**: Next.js App Router (TanStack Start/Router pattern)
 **Project Type**: Web Application  
 **Performance Goals**: Settings retrieval < 50ms (cached), UI update < 100ms  
-**Constraints**: Must support multi-tenancy via `clerk_user_id`, SSR safe  
+**Constraints**: Must support multi-tenancy via `user_id`, SSR safe  
 **Scale/Scope**: Global scope, accessible by all feature modules
 
 ## Constitution Check

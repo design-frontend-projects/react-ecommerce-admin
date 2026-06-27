@@ -26,7 +26,7 @@ export const taskSchema = z.object({
   customer_id: z.number().int().optional().nullable(),
   title: z.string().min(1, 'Task title is required').max(250),
   description: z.string().optional().nullable(),
-  due_date: z.date({ required_error: 'Due date is required' }),
+  due_date: z.date({ message: 'Due date is required' }),
   status: z.enum(['pending', 'in_progress', 'completed', 'overdue']),
   priority: z.enum(['low', 'medium', 'high']),
   assigned_to_user_id: z.string().max(100).optional().nullable(),

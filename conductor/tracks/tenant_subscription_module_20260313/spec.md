@@ -31,7 +31,7 @@ The following table will be used to store tenant subscription information:
 ```sql
 create table public.tenant_subscriptions (
     id uuid not null default gen_random_uuid (),
-    clerk_user_id character varying(255) not null,
+    user_id character varying(255) not null,
     email character varying(255) not null,
     subscription_id integer not null,
     status public.subscription_status not null default 'new'::subscription_status,
@@ -47,7 +47,7 @@ create table public.tenant_subscriptions (
     constraint tenant_subscriptions_pkey primary key (id),
     constraint tenant_subscriptions_subscription_id_fkey foreign KEY (subscription_id) references subscriptions (id)
 );
-create index IF not exists idx_tenant_subscriptions_clerk_id on public.tenant_subscriptions using btree (clerk_user_id) TABLESPACE pg_default;
+create index IF not exists idx_tenant_subscriptions_clerk_id on public.tenant_subscriptions using btree (user_id) TABLESPACE pg_default;
 create index IF not exists idx_tenant_subscriptions_status on public.tenant_subscriptions using btree (status) TABLESPACE pg_default;
 ```
 

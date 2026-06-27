@@ -380,7 +380,6 @@ exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
 
 exports.Prisma.ProfilesScalarFieldEnum = {
   id: 'id',
-  clerk_user_id: 'clerk_user_id',
   email: 'email',
   first_name: 'first_name',
   last_name: 'last_name',
@@ -389,7 +388,9 @@ exports.Prisma.ProfilesScalarFieldEnum = {
   system_owner: 'system_owner',
   onboarding_complete: 'onboarding_complete',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  activity: 'activity',
+  user_id: 'user_id'
 };
 
 exports.Prisma.Promotion_usageScalarFieldEnum = {

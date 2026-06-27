@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { useAuth,  UserButton } from '@clerk/clerk-react'
+import { useAuth,  UserButton } from '@/hooks/use-auth'
 import {
   Card,
   CardContent,

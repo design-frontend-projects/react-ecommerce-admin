@@ -1,7 +1,7 @@
 # Specification: Enhanced Shifts Module
 
 ## Overview
-This track focuses on enhancing the shifts module to ensure that all users in the "restaurant" primary module have an active shift before they can use the Point of Sale (`respos`) module. The system will integrate with the `res_shifts` table in Supabase, leveraging `clerk_user_id` as a foreign key for the current logged-in user.
+This track focuses on enhancing the shifts module to ensure that all users in the "restaurant" primary module have an active shift before they can use the Point of Sale (`respos`) module. The system will integrate with the `res_shifts` table in Supabase, leveraging `user_id` as a foreign key for the current logged-in user.
 
 ## Functional Requirements
 - **Shift Status Monitoring:**
@@ -33,4 +33,4 @@ This track focuses on enhancing the shifts module to ensure that all users in th
 
 ## Out of Scope
 - Detailed shift reporting and analytics (to be handled in a separate track).
-- Multi-user shared shifts (shifts are per `clerk_user_id`).
+- Multi-user shared shifts (shifts are per `user_id`).

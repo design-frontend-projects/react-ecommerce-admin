@@ -1,43 +1,50 @@
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
-import { clerkBackend } from '@/server/clerk'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
 
 export interface CompleteOnboardingInput {
-  clerkId: string
+  clerkId: string // We keep the name clerkId for backward compatibility but it expects the Supabase User ID
   firstName: string
   lastName: string
   phone?: string
 }
 
 export async function completeOnboarding(input: CompleteOnboardingInput) {
-  const clerkUser = await clerkBackend.users.getUser(input.clerkId)
-  const email = clerkUser.emailAddresses[0]?.emailAddress?.trim().toLowerCase()
+  // Use supabaseAdmin to get the user
+  const {
+    data: { user: authUser },
+    error,
+  } = await supabaseAdmin.auth.admin.getUserById(input.clerkId)
 
-  if (!email) {
-    throw new Error('Unable to resolve the user email from Clerk')
+  if (error || !authUser) {
+    throw new Error('Unable to resolve the user from Supabase Auth')
   }
 
-  await clerkBackend.users.updateUser(input.clerkId, {
-    firstName: input.firstName,
-    lastName: input.lastName,
-  })
+  const email = authUser.email?.trim().toLowerCase()
 
-  await clerkBackend.users.updateUserMetadata(input.clerkId, {
-    publicMetadata: {
-      ...(clerkUser.publicMetadata as Record<string, unknown>),
+  if (!email) {
+    throw new Error('Unable to resolve the user email from Supabase Auth')
+  }
+
+  // Update Supabase user metadata
+  const currentMetadata = authUser.user_metadata || {}
+  await supabaseAdmin.auth.admin.updateUserById(input.clerkId, {
+    user_metadata: {
+      ...currentMetadata,
+      firstName: input.firstName,
+      lastName: input.lastName,
       onboardingComplete: true,
       invitedViaRbac: false,
     },
   })
 
-  const metadata = clerkUser.publicMetadata as Record<string, unknown>
   const primaryRole =
-    typeof metadata.role === 'string' && metadata.role.trim()
-      ? metadata.role.trim().toLowerCase()
+    typeof currentMetadata.role === 'string' && currentMetadata.role.trim()
+      ? currentMetadata.role.trim().toLowerCase()
       : null
 
   const existingTenantUserByClerkId = await prisma.tenant_users.findUnique({
-    where: { clerk_user_id: input.clerkId },
+    where: { user_id: input.clerkId },
   })
 
   const existingTenantUserByEmail =
@@ -46,38 +53,69 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       where: { email },
     }))
 
-  const tenantUser =
-    existingTenantUserByEmail
-      ? await prisma.tenant_users.update({
-          where: { id: existingTenantUserByEmail.id },
-          data: {
-            clerk_user_id: input.clerkId,
-            email,
-            first_name: input.firstName,
-            last_name: input.lastName,
-            default_role: primaryRole ?? existingTenantUserByEmail.default_role,
-            updated_at: new Date(),
-          },
-        })
-      : await prisma.tenant_users.create({
-          data: {
-            clerk_user_id: input.clerkId,
-            email,
-            first_name: input.firstName,
-            last_name: input.lastName,
-            is_active: true,
-            is_restuarant_user: true,
-            modules: ['inventory', 'restaurant'],
-            default_role: primaryRole ?? getPrimaryRoleName([]),
-          },
-        })
+  const tenantUser = existingTenantUserByEmail
+    ? await prisma.tenant_users.update({
+        where: { id: existingTenantUserByEmail.id },
+        data: {
+          user_id: input.clerkId,
+          email,
+          first_name: input.firstName,
+          last_name: input.lastName,
+          default_role: primaryRole ?? existingTenantUserByEmail.default_role,
+          updated_at: new Date(),
+        },
+      })
+    : await prisma.tenant_users.create({
+        data: {
+          user_id: input.clerkId,
+          email,
+          first_name: input.firstName,
+          last_name: input.lastName,
+          is_active: true,
+          is_restuarant_user: true,
+          modules: ['inventory', 'restaurant'],
+          default_role: primaryRole ?? getPrimaryRoleName([]),
+        },
+      })
 
   await prisma.user_roles.updateMany({
     where: { user_id: tenantUser.id },
     data: {
-      clerk_user_id: input.clerkId,
+      user_id: input.clerkId,
     },
   })
+
+  // Insert or update profile
+  const existingProfile = await prisma.profiles.findUnique({
+    where: { email },
+  })
+
+  if (existingProfile) {
+    await prisma.profiles.update({
+      where: { id: existingProfile.id },
+      data: {
+        user_id: input.clerkId,
+        first_name: input.firstName,
+        last_name: input.lastName,
+        phone: input.phone,
+        onboarding_complete: true,
+        updated_at: new Date(),
+      },
+    })
+  } else {
+    await prisma.profiles.create({
+      data: {
+        user_id: input.clerkId,
+        email,
+        first_name: input.firstName,
+        last_name: input.lastName,
+        phone: input.phone,
+        is_owner: false, // Default logic, can be overridden based on metadata
+        system_owner: false,
+        onboarding_complete: true,
+      },
+    })
+  }
 
   return {
     success: true,

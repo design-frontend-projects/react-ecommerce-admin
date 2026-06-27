@@ -36,7 +36,7 @@ This feature enhances the shifts module to allow admin oversight of all user shi
 - [ ] T012 Create color-coded balance display component with green/red logic
 
 ### Database & API Preparation
-- [ ] T013 Verify res_shifts table has required fields (id, clerk_user_id, opened_by, closed_by, opening_cash, closing_cash, status, opened_at, closed_at, notes)
+- [ ] T013 Verify res_shifts table has required fields (id, user_id, opened_by, closed_by, opening_cash, closing_cash, status, opened_at, closed_at, notes)
 - [ ] T014 Test employee foreign key relations are functional
 - [ ] T015 Confirm useActiveShift and useShifts hooks are working
 
