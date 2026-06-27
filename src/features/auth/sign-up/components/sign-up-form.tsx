@@ -73,7 +73,7 @@ export function SignUpForm({
   //     await signUp.authenticateWithRedirect({
   //       strategy,
   //       redirectUrl: '/sso-callback',
-  //       redirectUrlComplete: '/',
+  //       fallbackRedirectUrl: '/',
   //     })
   //   } catch (err: unknown) {
   //     const errorMsg =
