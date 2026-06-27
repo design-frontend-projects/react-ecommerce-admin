@@ -71,6 +71,7 @@ export function useUser() {
           lastName: user.user_metadata?.lastName || '',
           publicMetadata: user.user_metadata || {},
           unsafeMetadata: user.app_metadata || {},
+          emailAddresses: user.email ? [{ emailAddress: user.email }] : [],
           primaryEmailAddress: { emailAddress: user.email },
           fullName:
             `${user.user_metadata?.firstName || ''} ${user.user_metadata?.lastName || ''}`.trim(),

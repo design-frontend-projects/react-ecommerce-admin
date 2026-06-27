@@ -193,5 +193,52 @@
     "title": "Install App",
     "description": "Install the app for the best experience and offline use.",
     "button": "Install"
+  },
+  "subscription": {
+    "modal": {
+      "title": "Start Trial or Select Plan",
+      "description": "Upgrade your account to unlock all professional restaurant management features.",
+      "cancelOrChange": "You can cancel or change your plan at any time.",
+      "continue": "Continue",
+      "paymentTitle": "Payment",
+      "paymentDescription": "You are selecting the {{planName}} plan for {{price}}/{{interval}}",
+      "demoPaymentTitle": "Demo Payment Information",
+      "demoPaymentDescription": "This is a simulated payment screen. In the actual app, this step will integrate with VietQR, VNPay, Momo or Stripe.",
+      "orderCode": "Order Code:",
+      "back": "Back",
+      "confirmPayment": "Confirm Payment",
+      "successTitle": "Payment Successful!",
+      "successDescription": "Thank you for subscribing to the {{planName}} plan. Redirecting...",
+      "intervalMonth": "month",
+      "intervalYear": "year"
+    },
+    "card": {
+      "popular": "Popular",
+      "selected": "Selected",
+      "selectPlan": "Select Plan"
+    },
+    "plans": {
+      "pro_monthly": {
+        "name": "Pro Monthly",
+        "description": "For small and medium restaurants",
+        "features": [
+          "Manage up to 50 tables",
+          "Basic revenue reports",
+          "Email support",
+          "QR payment integration"
+        ]
+      },
+      "premium_yearly": {
+        "name": "Premium Yearly",
+        "description": "Comprehensive solution for restaurant chains",
+        "features": [
+          "Manage unlimited tables",
+          "In-depth reporting & forecasting",
+          "24/7 priority support",
+          "CRM & Marketing integration",
+          "Save 20% compared to monthly plan"
+        ]
+      }
+    }
   }
 }

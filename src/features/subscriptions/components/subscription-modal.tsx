@@ -1,98 +1,130 @@
-import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { SubscriptionPlanCard, SubscriptionPlan } from "./subscription-plan-card";
-import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { useState } from 'react'
+import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import {
+  SubscriptionPlanCard,
+  type SubscriptionPlan,
+} from './subscription-plan-card'
 
 interface SubscriptionModalProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSuccess?: () => void;
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
+  onSuccess?: () => void
 }
 
 const MOCK_PLANS: SubscriptionPlan[] = [
   {
-    id: "pro_monthly",
-    name: "Pro Hàng Tháng",
-    description: "Dành cho quán ăn vừa và nhỏ",
+    id: 'pro_monthly',
+    name: 'Pro Hàng Tháng',
+    description: 'Dành cho quán ăn vừa và nhỏ',
     price: 199000,
-    interval: "month",
+    interval: 'month',
     features: [
-      "Quản lý tối đa 50 bàn",
-      "Báo cáo doanh thu cơ bản",
-      "Hỗ trợ qua email",
-      "Tích hợp thanh toán QR"
-    ]
+      'Quản lý tối đa 50 bàn',
+      'Báo cáo doanh thu cơ bản',
+      'Hỗ trợ qua email',
+      'Tích hợp thanh toán QR',
+    ],
   },
   {
-    id: "premium_yearly",
-    name: "Cao cấp Hàng Năm",
-    description: "Giải pháp toàn diện cho chuỗi nhà hàng",
+    id: 'premium_yearly',
+    name: 'Cao cấp Hàng Năm',
+    description: 'Giải pháp toàn diện cho chuỗi nhà hàng',
     price: 1990000,
-    interval: "year",
+    interval: 'year',
     isPopular: true,
     features: [
-      "Quản lý không giới hạn số bàn",
-      "Báo cáo chuyên sâu & dự báo",
-      "Hỗ trợ ưu tiên 24/7",
-      "Tích hợp CRM & Marketing",
-      "Tiết kiệm 20% so với gói tháng"
-    ]
-  }
-];
+      'Quản lý không giới hạn số bàn',
+      'Báo cáo chuyên sâu & dự báo',
+      'Hỗ trợ ưu tiên 24/7',
+      'Tích hợp CRM & Marketing',
+      'Tiết kiệm 20% so với gói tháng',
+    ],
+  },
+]
 
-export function SubscriptionModal({ isOpen, onOpenChange, onSuccess }: SubscriptionModalProps) {
-  const [step, setStep] = useState<"choose" | "pay" | "success">("choose");
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
+export function SubscriptionModal({
+  isOpen,
+  onOpenChange,
+  onSuccess,
+}: SubscriptionModalProps) {
+  const { t, i18n } = useTranslation()
+  const [step, setStep] = useState<'choose' | 'pay' | 'success'>('choose')
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
+    null
+  )
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [orderCode, setOrderCode] = useState(() =>
+    Math.floor(Math.random() * 100000)
+  )
 
   const handlePlanSelect = (plan: SubscriptionPlan) => {
-    setSelectedPlan(plan);
-  };
+    setSelectedPlan(plan)
+  }
 
   const handleNext = () => {
-    if (step === "choose" && selectedPlan) {
-      setStep("pay");
+    if (step === 'choose' && selectedPlan) {
+      setStep('pay')
+      setOrderCode(Math.floor(Math.random() * 100000))
     }
-  };
+  }
 
   const handleBack = () => {
-    if (step === "pay") {
-      setStep("choose");
+    if (step === 'pay') {
+      setStep('choose')
     }
-  };
+  }
 
   const handlePayment = async () => {
-    setIsProcessing(true);
+    setIsProcessing(true)
     // Giả lập thanh toán
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsProcessing(false);
-    setStep("success");
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setIsProcessing(false)
+    setStep('success')
+
     // Auto close sau thành công
     setTimeout(() => {
-      onOpenChange(false);
-      onSuccess?.();
+      onOpenChange(false)
+      onSuccess?.()
       // Reset khi mở lại
       setTimeout(() => {
-        setStep("choose");
-        setSelectedPlan(null);
-      }, 500);
-    }, 2000);
-  };
+        setStep('choose')
+        setSelectedPlan(null)
+      }, 500)
+    }, 2000)
+  }
+
+  const formattedPrice = selectedPlan
+    ? new Intl.NumberFormat(i18n.language === 'ar' ? 'ar-EG' : 'en-US', {
+        style: 'currency',
+        currency: 'VND',
+        maximumFractionDigits: 0,
+      }).format(selectedPlan.price)
+    : ''
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] overflow-hidden">
-        {step === "choose" && (
+      <DialogContent className='overflow-hidden sm:max-w-[800px]'>
+        {step === 'choose' && (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl">Bắt đầu dùng thử hoặc Chọn Gói</DialogTitle>
+              <DialogTitle className='text-2xl'>
+                {t('subscription.modal.title')}
+              </DialogTitle>
               <DialogDescription>
-                Nâng cấp tài khoản của bạn để mở khóa toàn bộ tính năng quản lý nhà hàng chuyên nghiệp.
+                {t('subscription.modal.description')}
               </DialogDescription>
             </DialogHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+            <div className='my-6 grid grid-cols-1 gap-6 md:grid-cols-2'>
               {MOCK_PLANS.map((plan) => (
                 <SubscriptionPlanCard
                   key={plan.id}
@@ -102,70 +134,95 @@ export function SubscriptionModal({ isOpen, onOpenChange, onSuccess }: Subscript
                 />
               ))}
             </div>
-            <DialogFooter className="flex items-center justify-between sm:justify-between">
-              <p className="text-sm text-muted-foreground mr-auto text-left">
-                Bạn có thể hủy hoặc thay đổi gói bất cứ lúc nào.
+            <DialogFooter className='flex items-center justify-between sm:justify-between'>
+              <p className='mr-auto text-left text-sm text-muted-foreground'>
+                {t('subscription.modal.cancelOrChange')}
               </p>
-              <Button 
-                onClick={handleNext} 
+              <Button
+                onClick={handleNext}
                 disabled={!selectedPlan}
-                className="w-full sm:w-auto mt-4 sm:mt-0"
+                className='mt-4 w-full sm:mt-0 sm:w-auto'
               >
-                Tiếp tục <ArrowRight className="ml-2 h-4 w-4" />
+                {t('subscription.modal.continue')}{' '}
+                <ArrowRight className='ml-2 h-4 w-4' />
               </Button>
             </DialogFooter>
           </>
         )}
 
-        {step === "pay" && selectedPlan && (
+        {step === 'pay' && selectedPlan && (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl">Thanh toán</DialogTitle>
+              <DialogTitle className='text-2xl'>
+                {t('subscription.modal.paymentTitle')}
+              </DialogTitle>
               <DialogDescription>
-                Bạn đang chọn gói <strong>{selectedPlan.name}</strong> với giá{" "}
-                {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(selectedPlan.price)}
-                /{selectedPlan.interval === "month" ? "tháng" : "năm"}
+                {t('subscription.modal.paymentDescription', {
+                  planName: t(`subscription.plans.${selectedPlan.id}.name`, {
+                    defaultValue: selectedPlan.name,
+                  }),
+                  price: formattedPrice,
+                  interval:
+                    selectedPlan.interval === 'month'
+                      ? t('subscription.modal.intervalMonth')
+                      : t('subscription.modal.intervalYear'),
+                })}
               </DialogDescription>
             </DialogHeader>
-            
-            <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="bg-muted p-6 rounded-lg max-w-sm w-full">
-                <h3 className="font-semibold text-lg mb-2">Thông tin thanh toán Demo</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Đây là màn hình thanh toán giả lập. Trong ứng dụng thực tế, bước này sẽ tích hợp với VietQR, VNPay, Momo hoặc Stripe.
+
+            <div className='flex flex-col items-center justify-center space-y-4 py-12 text-center'>
+              <div className='w-full max-w-sm rounded-lg bg-muted p-6'>
+                <h3 className='mb-2 text-lg font-semibold'>
+                  {t('subscription.modal.demoPaymentTitle')}
+                </h3>
+                <p className='mb-4 text-sm text-muted-foreground'>
+                  {t('subscription.modal.demoPaymentDescription')}
                 </p>
-                <div className="flex justify-between items-center bg-background border p-3 rounded text-sm mb-4 font-mono">
-                  <span>Mã đơn:</span>
-                  <span className="font-bold">SUB-{Math.floor(Math.random() * 100000)}</span>
+                <div className='mb-4 flex items-center justify-between rounded border bg-background p-3 font-mono text-sm'>
+                  <span>{t('subscription.modal.orderCode')}</span>
+                  <span className='font-bold'>SUB-{orderCode}</span>
                 </div>
               </div>
             </div>
 
-            <DialogFooter className="flex sm:justify-between">
-              <Button variant="outline" onClick={handleBack} disabled={isProcessing}>
-                Quay lại
+            <DialogFooter className='flex sm:justify-between'>
+              <Button
+                variant='outline'
+                onClick={handleBack}
+                disabled={isProcessing}
+              >
+                {t('subscription.modal.back')}
               </Button>
               <Button onClick={handlePayment} disabled={isProcessing}>
-                {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Xác nhận thanh toán
+                {isProcessing && (
+                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                )}
+                {t('subscription.modal.confirmPayment')}
               </Button>
             </DialogFooter>
           </>
         )}
 
-        {step === "success" && (
-          <div className="py-16 flex flex-col items-center justify-center text-center space-y-4 animate-in zoom-in duration-300">
-            <div className="h-20 w-20 rounded-full bg-green-100 flex items-center justify-center mb-4">
-              <CheckCircle2 className="h-10 w-10 text-green-600" />
+        {step === 'success' && (
+          <div className='flex animate-in flex-col items-center justify-center space-y-4 py-16 text-center duration-300 zoom-in'>
+            <div className='mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100'>
+              <CheckCircle2 className='h-10 w-10 text-green-600' />
             </div>
-            <DialogTitle className="text-2xl text-green-600">Thanh toán thành công!</DialogTitle>
-            <DialogDescription className="text-base">
-              Cảm ơn bạn đã đăng ký gói {selectedPlan?.name}.<br />
-              Đang chuyển hướng...
+            <DialogTitle className='text-2xl text-green-600'>
+              {t('subscription.modal.successTitle')}
+            </DialogTitle>
+            <DialogDescription className='text-base'>
+              {t('subscription.modal.successDescription', {
+                planName: selectedPlan
+                  ? t(`subscription.plans.${selectedPlan.id}.name`, {
+                      defaultValue: selectedPlan.name,
+                    })
+                  : '',
+              })}
             </DialogDescription>
           </div>
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }
