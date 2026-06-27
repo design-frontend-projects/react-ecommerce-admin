@@ -102,9 +102,23 @@ export function UserAuthForm({
         )
       } else if (result.status === 'needs_second_factor') {
         toast.info('Sign in requires further steps.')
-        navigate({ to: '/sso-callback', replace: true })
+        // navigate({ to: '/sso-callback', replace: true })
+        navigate({
+          to: '/sso-callback',
+          search: {
+            redirectPath: redirectTo || '/',
+          },
+          replace: true,
+        })
       } else {
         toast.info('Sign in requires further steps.')
+        navigate({
+          to: '/sso-callback',
+          search: {
+            redirectPath: redirectTo || '/',
+          },
+          replace: true,
+        })
       }
     } catch (err: unknown) {
       const errorMsg =
