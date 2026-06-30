@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { LogOut, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { SignOutDialog } from '@/components/sign-out-dialog'
 import { Button } from '@/components/ui/button'
-import { SubscriptionModal } from '@/features/subscriptions/components/subscription-modal'
+import { SubscriptionFlow } from '@/features/subscriptions/components/subscription-flow'
+import { useAuthStore } from '@/stores/auth-store'
 
 export const Route = createFileRoute('/subscription-required')({
   component: SubscriptionRequired,
@@ -11,56 +13,116 @@ export const Route = createFileRoute('/subscription-required')({
 
 function SubscriptionRequired() {
   const navigate = useNavigate()
-  const [modalOpen, setModalOpen] = useState(true)
   const [signOutDialogOpen, setSignOutDialogOpen] = useState(false)
+  const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
+  const roleNames = userMetadata?.roles || userMetadata?.role || []
+  const isRestaurantRole = Array.isArray(roleNames) 
+    ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) 
+    : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
 
   const handleSuccess = () => {
-    navigate({ to: '/' })
+    navigate({ to: isRestaurantRole ? '/respos' : '/products' })
   }
 
   return (
-    <div className='relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'>
-      <div className='pointer-events-none absolute inset-0 overflow-hidden'>
-        <div className='absolute -left-32 -top-32 h-96 w-96 animate-pulse rounded-full bg-primary/10 blur-3xl' />
-        <div className='absolute -right-32 -bottom-32 h-96 w-96 animate-pulse rounded-full bg-violet-500/10 blur-3xl delay-1000' />
-        <div className='absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-sky-500/5 blur-3xl delay-500' />
+    <div className='relative flex min-h-screen flex-col items-center overflow-x-hidden bg-slate-950 selection:bg-primary/30 pb-20'>
+      {/* Animated Mesh / Glowing Orbs Background */}
+      <div className='pointer-events-none fixed inset-0 overflow-hidden'>
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.15, 0.25, 0.15],
+            x: [0, 50, 0],
+            y: [0, -50, 0]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          className='absolute -left-[10%] top-[10%] h-[40vw] w-[40vw] rounded-full bg-primary/20 blur-[120px]' 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.1, 0.2, 0.1],
+            x: [0, -70, 0],
+            y: [0, 70, 0]
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          className='absolute right-[0%] top-[30%] h-[35vw] w-[35vw] rounded-full bg-violet-600/20 blur-[100px]' 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.05, 0.15, 0.05],
+            x: [0, 40, 0],
+            y: [0, 40, 0]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          className='absolute left-[40%] bottom-[-10%] h-[45vw] w-[45vw] rounded-full bg-sky-500/20 blur-[130px]' 
+        />
       </div>
 
-      <header className='absolute top-0 right-0 left-0 z-10 flex items-center justify-between p-4 sm:p-6'>
-        <div className='flex items-center gap-2 text-white/80'>
-          <Sparkles className='h-5 w-5 text-primary' />
-          <span className='text-sm font-medium'>Restaurant Management</span>
-        </div>
-        <Button
-          variant='ghost'
-          size='sm'
-          className='text-white/60 hover:bg-white/10 hover:text-white'
-          onClick={() => setSignOutDialogOpen(true)}
+      <header className='sticky top-0 right-0 left-0 z-50 flex w-full items-center justify-between border-b border-white/5 bg-slate-950/40 px-6 py-4 backdrop-blur-xl'>
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className='flex items-center gap-3 text-white'
         >
-          <LogOut className='mr-2 h-4 w-4' />
-          Sign Out
-        </Button>
+          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-violet-600 shadow-lg shadow-primary/20'>
+            <Sparkles className='h-5 w-5 text-white' />
+          </div>
+          <span className='text-lg font-semibold tracking-tight'>Restaurant OS</span>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Button
+            variant='ghost'
+            className='h-10 rounded-full border border-white/5 bg-white/5 px-6 text-sm font-medium text-white/80 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white'
+            onClick={() => setSignOutDialogOpen(true)}
+          >
+            <LogOut className='mr-2 h-4 w-4' />
+            Sign Out
+          </Button>
+        </motion.div>
       </header>
 
-      <div className='relative z-0 px-4 text-center'>
-        <h1 className='mb-3 text-3xl font-bold tracking-tight text-white sm:text-4xl'>
-          Welcome to the Management Platform
-        </h1>
-        <p className='mx-auto max-w-md text-base text-white/50'>
-          Choose a suitable plan to unlock all restaurant management
-          capabilities.
-        </p>
-      </div>
+      <div className='relative z-10 mt-12 w-full px-4 text-center sm:px-6 lg:px-8'>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mb-12"
+        >
+          <div className='mx-auto mb-6 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm'>
+            <span className='mr-2 flex h-2 w-2 rounded-full bg-primary animate-pulse'></span>
+            Premium Experience
+          </div>
+          
+          <h1 className='mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl'>
+            Welcome to the <br className="hidden sm:block" />
+            <span className='bg-gradient-to-r from-primary via-violet-400 to-sky-400 bg-clip-text text-transparent'>
+              Management Platform
+            </span>
+          </h1>
+          
+          <p className='mx-auto max-w-xl text-lg text-slate-400 sm:text-xl'>
+            Choose a suitable plan to unlock all restaurant management
+            capabilities and scale your business effortlessly.
+          </p>
+        </motion.div>
 
-      <SubscriptionModal
-        isOpen={modalOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            setModalOpen(true)
-          }
-        }}
-        onSuccess={handleSuccess}
-      />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mx-auto w-full max-w-4xl"
+        >
+          <SubscriptionFlow onSuccess={handleSuccess} />
+        </motion.div>
+      </div>
 
       <SignOutDialog
         open={signOutDialogOpen}

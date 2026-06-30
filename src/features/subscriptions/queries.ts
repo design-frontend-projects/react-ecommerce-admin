@@ -55,8 +55,11 @@ export function useTenantSubscriptions() {
 
 // Assign subscription to tenant
 async function assignSubscription(payload: {
-  user_id: string
+  auth_user_id: string
   email: string
+  first_name?: string
+  last_name?: string
+  is_owner?: boolean
   subscription_id: number
   status: 'new' | 'paid' | 'canceled'
   start_date: Date
@@ -69,6 +72,14 @@ async function assignSubscription(payload: {
     .maybeSingle()
 
   if (error) throw error
+  
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .update({ is_paid: true })
+    .eq('user_id', payload.auth_user_id)
+    
+  if (profileError) throw profileError
+
   return data
 }
 

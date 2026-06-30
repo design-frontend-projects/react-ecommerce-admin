@@ -387,6 +387,7 @@ exports.Prisma.ProfilesScalarFieldEnum = {
   is_owner: 'is_owner',
   system_owner: 'system_owner',
   onboarding_complete: 'onboarding_complete',
+  is_paid: 'is_paid',
   created_at: 'created_at',
   updated_at: 'updated_at',
   activity: 'activity',

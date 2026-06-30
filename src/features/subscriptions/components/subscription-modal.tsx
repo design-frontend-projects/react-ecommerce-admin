@@ -14,6 +14,8 @@ import {
   SubscriptionPlanCard,
   type SubscriptionPlan,
 } from './subscription-plan-card'
+import { useSubscriptionPlans, useAssignSubscription } from '../queries'
+import { useAuthStore } from '@/stores/auth-store'
 
 interface SubscriptionModalProps {
   isOpen: boolean
@@ -58,6 +60,20 @@ export function SubscriptionModal({
   onSuccess,
 }: SubscriptionModalProps) {
   const { t, i18n } = useTranslation()
+  const { user } = useAuthStore((state) => state.auth)
+  const { data: dbPlans, isLoading: isLoadingPlans } = useSubscriptionPlans()
+  const { mutateAsync: assignSubscription } = useAssignSubscription()
+
+  const plans: SubscriptionPlan[] = dbPlans?.map(p => ({
+    id: p.id,
+    name: p.name,
+    description: p.duration_months === 1 ? 'Dành cho quán ăn vừa và nhỏ' : 'Giải pháp toàn diện cho chuỗi nhà hàng',
+    price: Number(p.price),
+    interval: p.duration_months === 1 ? 'month' : 'year',
+    features: MOCK_PLANS.find(m => m.interval === (p.duration_months === 1 ? 'month' : 'year'))?.features || [],
+    isPopular: p.duration_months > 1,
+  })) || MOCK_PLANS // Fallback to MOCK_PLANS if db fetch fails or is empty
+
   const [step, setStep] = useState<'choose' | 'pay' | 'success'>('choose')
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
     null
@@ -86,21 +102,50 @@ export function SubscriptionModal({
 
   const handlePayment = async () => {
     setIsProcessing(true)
-    // Giả lập thanh toán
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsProcessing(false)
-    setStep('success')
+    try {
+      // Giả lập payment process
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      
+      // After mock payment, record the subscription in the database
+      if (user && selectedPlan) {
+        const startDate = new Date()
+        const endDate = new Date()
+        if (selectedPlan.interval === 'year') {
+          endDate.setFullYear(endDate.getFullYear() + 1)
+        } else {
+          endDate.setMonth(endDate.getMonth() + 1)
+        }
+        
+        await assignSubscription({
+          auth_user_id: user.id,
+          email: user.primaryEmailAddress?.emailAddress ?? '',
+          first_name: user.firstName ?? '',
+          last_name: user.lastName ?? '',
+          is_owner: true,
+          subscription_id: typeof selectedPlan.id === 'number' ? selectedPlan.id : 1, // Fallback if still using mock string id
+          status: 'paid',
+          start_date: startDate,
+          end_date: endDate
+        })
+      }
 
-    // Auto close sau thành công
-    setTimeout(() => {
-      onOpenChange(false)
-      onSuccess?.()
-      // Reset khi mở lại
+      setIsProcessing(false)
+      setStep('success')
+
+      // Auto close sau thành công
       setTimeout(() => {
-        setStep('choose')
-        setSelectedPlan(null)
-      }, 500)
-    }, 2000)
+        onOpenChange(false)
+        onSuccess?.()
+        // Reset khi mở lại
+        setTimeout(() => {
+          setStep('choose')
+          setSelectedPlan(null)
+        }, 500)
+      }, 2000)
+    } catch (error) {
+      console.error('Subscription failed', error)
+      setIsProcessing(false)
+    }
   }
 
   const formattedPrice = selectedPlan
@@ -125,7 +170,11 @@ export function SubscriptionModal({
               </DialogDescription>
             </DialogHeader>
             <div className='my-6 grid grid-cols-1 gap-6 md:grid-cols-2'>
-              {MOCK_PLANS.map((plan) => (
+              {isLoadingPlans ? (
+                <div className='col-span-1 md:col-span-2 flex justify-center py-12'>
+                  <Loader2 className='h-8 w-8 animate-spin text-primary' />
+                </div>
+              ) : plans.map((plan) => (
                 <SubscriptionPlanCard
                   key={plan.id}
                   plan={plan}

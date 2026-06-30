@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export interface SubscriptionPlan {
-  id: string;
+  id: string | number;
   name: string;
   description: string;
   price: number;
