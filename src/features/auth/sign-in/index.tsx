@@ -17,7 +17,8 @@ export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
   const { isSignedIn, isLoaded } = useAuth()
   const navigate = useNavigate()
-  const roleNames = useAuthStore((state) => state.auth.user?.user_metadata?.roles || state.auth.user?.user_metadata?.role || [])
+  const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
+  const roleNames = userMetadata?.roles || userMetadata?.role || []
   const isRestaurantRole = Array.isArray(roleNames) ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
 
   useEffect(() => {

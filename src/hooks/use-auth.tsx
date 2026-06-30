@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { useRBACStore } from '@/features/users/data/store'
@@ -61,7 +62,7 @@ export function useAuth() {
 export function useUser() {
   const { user } = useAuthStore((state) => state.auth)
 
-  return {
+  return useMemo(() => ({
     isLoaded: true,
     isSignedIn: !!user,
     user: user
@@ -77,7 +78,7 @@ export function useUser() {
             `${user.user_metadata?.firstName || ''} ${user.user_metadata?.lastName || ''}`.trim(),
         }
       : null,
-  }
+  }), [user])
 }
 
 export function useSupabase() {
