@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { useAuth } from '@/lib/auth'
+import { useAuth, UserButton } from '@/hooks/use-auth'
 import {
   Card,
   CardContent,
@@ -28,6 +28,7 @@ export function SignIn() {
 
   return (
     <AuthLayout>
+      <UserButton />
       <Card className='w-full border-border/50 bg-background/60 p-2 shadow-xl backdrop-blur-xl sm:max-w-md sm:p-4'>
         <CardHeader className='space-y-1 text-center'>
           <CardTitle className='text-3xl font-extrabold tracking-tight sm:text-4xl'>

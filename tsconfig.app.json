@@ -18,7 +18,9 @@
     /* Alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@crm/*": ["./src/components/crm/*"],
+      "@tests/*": ["./tests/*"]
     },
 
     /* Linting */
@@ -29,5 +31,5 @@
     "noUncheckedSideEffectImports": true,
     "types": ["vitest/globals"]
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

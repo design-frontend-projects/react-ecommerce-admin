@@ -1,6 +1,6 @@
-import { useAuth } from '@/lib/auth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/use-auth'
 import { fetchUsers, updateUserRoles } from '../data/actions'
 import type { UpdateUserRolesInput } from '../data/types'
 
@@ -21,7 +21,8 @@ export function useUpdateUserRole() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (input: UpdateUserRolesInput) => updateUserRoles(getToken, input),
+    mutationFn: (input: UpdateUserRolesInput) =>
+      updateUserRoles(getToken, input),
     onSuccess: () => {
       toast.success('User role updated.')
       void queryClient.invalidateQueries({ queryKey: usersQueryKey })

@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { AxiosError } from 'axios'
 import {
@@ -9,15 +9,15 @@ import {
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
-import { handleServerError } from '@/lib/handle-server-error'
 import { SupabaseAuthProvider } from '@/lib/auth'
-import { PwaUpdatePrompt } from './components/pwa-update-prompt'
-import { NetworkStatus } from './components/NetworkStatus'
-import { InstallPrompt } from './components/InstallPrompt'
+import { handleServerError } from '@/lib/handle-server-error'
 import { InstallBanner } from './components/InstallBanner'
-import { PWAProvider } from './context/PWAContext'
+import { InstallPrompt } from './components/InstallPrompt'
+import { NetworkStatus } from './components/NetworkStatus'
+import { PwaUpdatePrompt } from './components/pwa-update-prompt'
 // import i18n (needs to be bundled ;))
 import './config/i18n'
+import { PWAProvider } from './context/PWAContext'
 import { DirectionProvider } from './context/direction-provider'
 import { FontProvider } from './context/font-provider'
 import { ThemeProvider } from './context/theme-provider'
@@ -101,23 +101,21 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <SupabaseAuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <FontProvider>
-              <DirectionProvider>
-                <PWAProvider>
-                  <NetworkStatus />
-                  <InstallPrompt />
-                  <InstallBanner />
-                  <PwaUpdatePrompt />
-                  <RouterProvider router={router} />
-                </PWAProvider>
-              </DirectionProvider>
-            </FontProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </SupabaseAuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <FontProvider>
+            <DirectionProvider>
+              <PWAProvider>
+                <NetworkStatus />
+                <InstallPrompt />
+                <InstallBanner />
+                <PwaUpdatePrompt />
+                <RouterProvider router={router} />
+              </PWAProvider>
+            </DirectionProvider>
+          </FontProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </StrictMode>
   )
 }

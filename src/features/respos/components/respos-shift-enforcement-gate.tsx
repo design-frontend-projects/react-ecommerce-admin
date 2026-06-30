@@ -1,13 +1,19 @@
 import { useMemo } from 'react'
-import { useAuth, useUser } from '@/lib/auth'
 import { useLocation } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { useOpenShift } from '@/features/respos/api/mutations'
 import { useActiveShift, useShifts } from '@/features/respos/api/queries'
 import { RoleNames } from '@/features/respos/constants'
-import { isResposPath, shouldEnforceShiftGate } from '@/features/respos/lib/shift-enforcement'
-import { OpenShiftDialog, type OpenShiftFormValues } from '@/features/respos/pages/shifts'
+import {
+  isResposPath,
+  shouldEnforceShiftGate,
+} from '@/features/respos/lib/shift-enforcement'
+import {
+  OpenShiftDialog,
+  type OpenShiftFormValues,
+} from '@/features/respos/pages/shifts'
 
 export function ResposShiftEnforcementGate() {
   const { isLoaded, isSignedIn, has } = useAuth()
@@ -25,8 +31,11 @@ export function ResposShiftEnforcementGate() {
     !!authUserId &&
     isResposPath(pathname)
 
-  const { data: activeShift, isLoading: activeShiftLoading, refetch: refetchActiveShift } =
-    useActiveShift(shouldEvaluateShiftGate ? authUserId : undefined)
+  const {
+    data: activeShift,
+    isLoading: activeShiftLoading,
+    refetch: refetchActiveShift,
+  } = useActiveShift(shouldEvaluateShiftGate ? authUserId : undefined)
 
   const { data: shifts = [], isLoading: shiftsLoading } = useShifts(
     shouldEvaluateShiftGate ? authUserId : undefined
@@ -74,7 +83,11 @@ export function ResposShiftEnforcementGate() {
     <OpenShiftDialog
       open={isGateOpen}
       onOpenChange={() => {}}
-      employeeName={user ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'Unknown' : 'Unknown'}
+      employeeName={
+        user
+          ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'Unknown'
+          : 'Unknown'
+      }
       isPending={openShiftMutation.isPending}
       defaultOpeningCash={previousClosingCash}
       nonDismissible

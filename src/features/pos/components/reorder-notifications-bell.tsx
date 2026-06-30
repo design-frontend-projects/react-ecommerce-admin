@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
 import { Bell, Loader2 } from 'lucide-react'
-import { useAuth, useUser } from '@/lib/auth'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -132,4 +132,3 @@ export function ReorderNotificationsBell() {
     </Popover>
   )
 }
-

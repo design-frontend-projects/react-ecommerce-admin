@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { useAuth } from '@/lib/auth'
 import { Trans, useTranslation } from 'react-i18next'
+import { SignInButton, useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -19,12 +19,12 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Analytics } from './components/analytics'
+import { LowQuantityProducts } from './components/low-quantity-products'
 import { Overview } from './components/overview'
 import { PendingPurchaseOrders } from './components/pending-purchase-orders'
 import { PurchaseOrderAnalytics } from './components/purchase-order-analytics'
 import { RecentRefunds } from './components/recent-refunds'
 import { RecentSales } from './components/recent-sales'
-import { LowQuantityProducts } from './components/low-quantity-products'
 import { useDashboardData } from './use-dashboard-data'
 
 export function Dashboard() {
@@ -447,7 +447,9 @@ export function Dashboard() {
                 </CardContent>
               </Card>
               <div className='col-span-1'>
-                <LowQuantityProducts data={dashboardData?.lowStockProducts || []} />
+                <LowQuantityProducts
+                  data={dashboardData?.lowStockProducts || []}
+                />
               </div>
             </div>
           </TabsContent>
@@ -465,4 +467,3 @@ export function Dashboard() {
     </>
   )
 }
-

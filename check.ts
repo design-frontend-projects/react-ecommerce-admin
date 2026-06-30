@@ -1,0 +1,1 @@
+import type { useSignIn } from '@clerk/clerk-react'; type SignInResource = ReturnType<typeof useSignIn>['signIn']; type Keys = keyof Parameters<NonNullable<SignInResource>['authenticateWithRedirect']>[0]; const k1: Keys = 'fallbackRedirectUrl';

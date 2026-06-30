@@ -2,7 +2,6 @@
 // Full notifications list with filtering and management
 import { useState } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
-import { useAuth, useUser } from '@/lib/auth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -15,6 +14,7 @@ import {
   Trash2,
   XCircle,
 } from 'lucide-react'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {

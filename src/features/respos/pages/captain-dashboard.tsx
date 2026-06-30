@@ -1,12 +1,13 @@
-import { useAuth } from '@/lib/auth'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Loader2,
-  RefreshCw,
-  ShieldAlert,
-  UtensilsCrossed,
-} from 'lucide-react'
+import { Loader2, RefreshCw, ShieldAlert, UtensilsCrossed } from 'lucide-react'
+import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { LanguageSwitch } from '@/components/language-switch'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { ThemeSwitch } from '@/components/theme-switch'
 import {
   type ReadyOrderItem,
   useCaptainRealtime,
@@ -14,13 +15,7 @@ import {
   useReadyOrderItems,
 } from '../api/captain-queries'
 import { ReadyTableCard } from '../components/captain/ready-table-card'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { ProfileDropdown } from '@/components/profile-dropdown'
 import { NotificationsDropdown } from '../components/notifications-dropdown'
-import { Separator } from '@/components/ui/separator'
 
 const container = {
   hidden: { opacity: 0 },
@@ -90,8 +85,12 @@ export default function CaptainDashboard() {
             <UtensilsCrossed className='h-5 w-5' />
           </div>
           <div className='flex flex-col'>
-            <h1 className='text-sm font-semibold leading-none'>Captain Station</h1>
-            <p className='text-[10px] text-muted-foreground uppercase tracking-wider font-medium'>Service Quality</p>
+            <h1 className='text-sm leading-none font-semibold'>
+              Captain Station
+            </h1>
+            <p className='text-[10px] font-medium tracking-wider text-muted-foreground uppercase'>
+              Service Quality
+            </p>
           </div>
         </div>
         <div className='ml-auto flex items-center gap-2'>
@@ -127,7 +126,9 @@ export default function CaptainDashboard() {
                 >
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      isConnected ? 'animate-pulse bg-emerald-500' : 'bg-muted-foreground/50'
+                      isConnected
+                        ? 'animate-pulse bg-emerald-500'
+                        : 'bg-muted-foreground/50'
                     }`}
                   />
                   {isConnected ? 'Realtime Connected' : 'Disconnected'}
@@ -165,7 +166,8 @@ export default function CaptainDashboard() {
                 </div>
                 <h3 className='text-xl font-semibold'>No Orders Ready</h3>
                 <p className='mt-1 text-muted-foreground'>
-                  New ready items from the kitchen will appear here automatically.
+                  New ready items from the kitchen will appear here
+                  automatically.
                 </p>
               </motion.div>
             ) : (
@@ -177,7 +179,9 @@ export default function CaptainDashboard() {
                 className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
               >
                 {Object.entries(itemsByTable)
-                  .sort(([, a], [, b]) => a.tableNumber.localeCompare(b.tableNumber))
+                  .sort(([, a], [, b]) =>
+                    a.tableNumber.localeCompare(b.tableNumber)
+                  )
                   .map(([tableId, { tableNumber, items: tableItems }]) => (
                     <motion.div key={tableId} variants={item}>
                       <ReadyTableCard

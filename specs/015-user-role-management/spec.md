@@ -3,7 +3,7 @@
 **Feature Branch**: `015-user-role-management`  
 **Created**: 2026-04-15  
 **Status**: Draft  
-**Input**: User description: "Enhance the users module to fully support user management and role-based access control. The module should integrate with Clerk to list users, their roles, and associated permissions. Implement: 1. User Invitation & Tenant Association (relate invited user to current tenant via clerk_user_id). 2. Role & Permission Management (persist in Supabase roles/role_permissions models). 3. Real-Time Role Updates (propagate role updates in real time to affect permissions immediately). 4. API & Models for user listing, role assignment, and invitation workflows. 5. System Behavior (enforce RBAC dynamically)."
+**Input**: User description: "Enhance the users module to fully support user management and role-based access control. The module should integrate with Clerk to list users, their roles, and associated permissions. Implement: 1. User Invitation & Tenant Association (relate invited user to current tenant via user_id). 2. Role & Permission Management (persist in Supabase roles/role_permissions models). 3. Real-Time Role Updates (propagate role updates in real time to affect permissions immediately). 4. API & Models for user listing, role assignment, and invitation workflows. 5. System Behavior (enforce RBAC dynamically)."
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -63,7 +63,7 @@ As a Super Admin, I want role changes I make to be reflected instantly for the a
 
 - **FR-001**: System MUST integrate with Clerk's Backend API to list and synchronize user identities.
 - **FR-002**: Administrators MUST be able to invite users via email, specifying a destination role.
-- **FR-003**: System MUST link invited users to a unique `tenant_id` (or store owner's `clerk_user_id`) upon invitation.
+- **FR-003**: System MUST link invited users to a unique `tenant_id` (or store owner's `user_id`) upon invitation.
 - **FR-004**: Roles and Permissions MUST be persisted in Supabase using the `roles` and `role_permissions` schema.
 - **FR-005**: All access attempts (UI routes and API calls) MUST be validated against the user's current permissions in real-time.
 - **FR-006**: Permission checks MUST be dynamic and calculated based on the assigned role's permission set.

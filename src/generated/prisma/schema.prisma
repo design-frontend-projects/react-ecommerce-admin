@@ -254,8 +254,6 @@ model pos_terminals {
   updated_at           DateTime         @default(now()) @db.Timestamptz(6)
   stores               stores?          @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_invoices       sales_invoices[]
-
-  @@unique([auth_user_id, code])
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -382,11 +380,9 @@ model pos_reorder_requests {
   read_at                   DateTime?              @db.Timestamptz(6)
   created_at                DateTime               @default(now()) @db.Timestamptz(6)
   updated_at                DateTime               @default(now()) @db.Timestamptz(6)
-  product_variants          product_variants?      @relation(fields: [product_variant_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   products                  products               @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+  product_variants          product_variants?      @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
 
-  @@index([auth_user_id, status, created_at], map: "idx_pos_reorder_requests_tenant_status_created")
-  @@index([requested_by_auth_user_id, status], map: "idx_pos_reorder_requests_requester_status")
   @@index([product_id], map: "idx_pos_reorder_requests_product")
   @@index([product_variant_id], map: "idx_pos_reorder_requests_variant")
 }
@@ -394,19 +390,19 @@ model pos_reorder_requests {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model profiles {
   id                  String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id        String       @unique @db.Uuid
   email               String?      @unique @db.VarChar(255)
   first_name          String?      @db.VarChar(100)
   last_name           String?      @db.VarChar(100)
-  phone               String?      @unique @db.VarChar(20)
+  phone               String?      @db.VarChar(20)
   is_owner            Boolean      @default(true)
   system_owner        Boolean      @default(false)
   onboarding_complete Boolean      @default(false)
   created_at          DateTime?    @default(now()) @db.Timestamp(6)
   updated_at          DateTime?    @default(now()) @db.Timestamp(6)
+  activity            String?      @db.VarChar(100)
+  user_id             String       @db.Uuid
   audit_logs          audit_logs[]
 
-  @@index([auth_user_id], map: "idx_profiles_auth_user_id")
   @@index([email], map: "idx_profiles_email")
 }
 
@@ -502,8 +498,6 @@ model purchase_invoices {
   stores                 stores?                  @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   suppliers              suppliers                @relation(fields: [supplier_id], references: [supplier_id], onUpdate: NoAction)
   purchase_returns       purchase_returns[]
-
-  @@unique([auth_user_id, invoice_no])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -585,8 +579,6 @@ model purchase_returns {
   purchase_invoices     purchase_invoices?      @relation(fields: [purchase_invoice_id], references: [id], onUpdate: NoAction)
   stores                stores?                 @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   suppliers             suppliers?              @relation(fields: [supplier_id], references: [supplier_id], onUpdate: NoAction)
-
-  @@unique([auth_user_id, return_no])
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -940,7 +932,6 @@ model res_shifts {
   restaurant_id String?      @db.VarChar(255)
   res_orders    res_orders[]
 
-  @@index([auth_user_id], map: "idx_res_shifts_auth_user_id")
   @@index([restaurant_id], map: "idx_res_shifts_restaurant_id")
   @@index([status], map: "idx_res_shifts_status")
 }
@@ -1019,8 +1010,6 @@ model employee_roles {
   assigned_by  String?
   roles        roles     @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@unique([auth_user_id, role_id])
-  @@index([auth_user_id])
   @@index([role_id])
 }
 
@@ -1104,8 +1093,6 @@ model sales_invoices {
   stores              stores?               @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   sales_returns       sales_returns[]
   transactions        transactions[]
-
-  @@unique([auth_user_id, invoice_no])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -1149,8 +1136,6 @@ model sales_returns {
   sales_invoices     sales_invoices?      @relation(fields: [sales_invoice_id], references: [id], onUpdate: NoAction)
   stores             stores?              @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   transactions       transactions[]
-
-  @@unique([auth_user_id, return_no])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -1301,16 +1286,15 @@ model tenant_subscriptions {
   subscriptions     subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tenant_users      tenant_users[]
 
-  @@index([auth_user_id], map: "idx_tenant_subscriptions_auth_user_id")
   @@index([status], map: "idx_tenant_subscriptions_status")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tenant_users {
   id                   String                @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id         String?               @unique(map: "users_auth_user_id_key") @db.Uuid
+  auth_user_id         String?               @db.Uuid
   email                String?               @unique(map: "users_email_key") @db.VarChar(255)
-  phone                String?               @unique(map: "users_phone_key") @db.VarChar(20)
+  phone                String?               @db.VarChar(20)
   first_name           String?               @db.VarChar(100)
   last_name            String?               @db.VarChar(100)
   avatar_url           String?
@@ -1327,7 +1311,6 @@ model tenant_users {
   tenant_subscriptions tenant_subscriptions? @relation(fields: [parent_tenant_id], references: [id], onUpdate: NoAction)
   user_roles           user_roles[]
 
-  @@index([auth_user_id], map: "idx_users_auth_user_id")
   @@index([primary_module], map: "idx_users_primary_module")
 }
 
@@ -1384,7 +1367,6 @@ model transactions {
   sales_invoices           sales_invoices?       @relation(fields: [sales_invoice_id], references: [id], onUpdate: NoAction)
   sales_returns            sales_returns?        @relation(fields: [sales_return_id], references: [id], onUpdate: NoAction)
 
-  @@index([auth_user_id], map: "idx_transactions_auth_user_id")
   @@index([transaction_number], map: "idx_transactions_number")
   @@index([tenant_id], map: "idx_transactions_tenant")
   @@index([sales_invoice_id], map: "idx_transactions_invoice")
@@ -1447,7 +1429,7 @@ model stock_balances {
 }
 
 /// Global system settings stored as key-value pairs with JSON values.
-/// Supports multi-tenancy via auth_user_id and grouping for UI organization.
+/// Supports multi-tenancy via user_id and grouping for UI organization.
 model app_settings {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   key          String   @db.VarChar(100)
@@ -1458,9 +1440,121 @@ model app_settings {
   created_at   DateTime @default(now()) @db.Timestamp(6)
   updated_at   DateTime @default(now()) @updatedAt @db.Timestamp(6)
 
-  @@unique([auth_user_id, key])
   @@index([group])
-  @@index([auth_user_id])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_audit_logs {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id  String    @db.Uuid
+  user_id    String?   @db.Uuid
+  action     String    @db.VarChar(100)
+  resource   String    @db.VarChar(100)
+  before     Json?
+  after      Json?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+
+  @@index([tenant_id, created_at])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_otp_codes {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String?   @db.Uuid
+  email      String    @db.VarChar(255)
+  otp_hash   String    @db.Char(64)
+  purpose    String    @db.VarChar(20)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  expires_at DateTime  @db.Timestamp(6)
+  used_at    DateTime? @db.Timestamp(6)
+
+  @@index([email, purpose])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_permissions {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String    @unique @db.VarChar(100)
+  description String    @db.VarChar(255)
+  resource    String    @db.VarChar(100)
+  action      String    @db.VarChar(50)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_role_permissions {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role_id       String @db.Uuid
+  permission_id String @db.Uuid
+
+  @@unique([role_id, permission_id])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_roles {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id   String?   @db.Uuid
+  name        String    @db.VarChar(100)
+  description String?
+  is_system   Boolean   @default(false)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+
+  @@unique([tenant_id, name])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_subscriptions {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String  @db.VarChar(100)
+  features      Json
+  price         Decimal @db.Decimal(10, 2)
+  billing_cycle String  @db.VarChar(20)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_tenant_subscriptions {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id       String   @db.Uuid
+  subscription_id String   @db.Uuid
+  status          String   @db.VarChar(50)
+  started_at      DateTime @db.Timestamp(6)
+  expires_at      DateTime @db.Timestamp(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_tenant_users {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id     String    @db.Uuid
+  email         String    @db.VarChar(255)
+  is_active     Boolean   @default(true)
+  invited_by    String?   @db.Uuid
+  invited_at    DateTime? @db.Timestamp(6)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  last_login_at DateTime? @db.Timestamp(6)
+
+  @@unique([tenant_id, email])
+  @@index([email])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_tenants {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @db.VarChar(255)
+  activity_type String    @db.VarChar(50)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rbac_user_roles {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String    @db.Uuid
+  role_id     String    @db.Uuid
+  assigned_by String?   @db.Uuid
+  assigned_at DateTime? @default(now()) @db.Timestamp(6)
+  expires_at  DateTime? @db.Timestamp(6)
+
+  @@unique([user_id, role_id])
+  @@index([user_id])
 }
 
 enum cash_movement_reason_enum {

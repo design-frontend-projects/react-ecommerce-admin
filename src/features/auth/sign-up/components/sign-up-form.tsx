@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from '@tanstack/react-router'
+import { type HTMLMotionProps, motion } from 'framer-motion'
+import { Loader2, LogIn, MailCheck } from 'lucide-react'
 import { toast } from 'sonner'
+import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -21,15 +23,17 @@ import { savePendingOtpRequest } from '../../otp/pending-otp'
 export function SignUpForm({
   className,
   ...props
-}: React.HTMLAttributes<HTMLFormElement>) {
+}: Omit<HTMLMotionProps<'form'>, 'ref'>) {
   const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      contactType: 'email',
-      contact: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
     },
   })
 
@@ -37,25 +41,26 @@ export function SignUpForm({
     setIsLoading(true)
 
     try {
-      const payload =
-        data.contactType === 'email'
-          ? { email: data.contact.trim().toLowerCase() }
-          : { phone: data.contact.trim() }
-
-      const { error } = await supabase.auth.signInWithOtp(payload)
-      if (error) throw error
-
-      savePendingOtpRequest({
-        contactType: data.contactType,
-        contact: data.contact.trim(),
-        flow: 'sign-up',
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+          },
+          emailRedirectTo: `${window.location.origin}/complete-account`,
+        },
       })
 
-      navigate({ to: '/otp' })
-      toast.success('Verification code sent.')
+      if (error) throw error
+
+      setIsSuccess(true)
+      toast.success('Account created successfully!', {
+        description: 'Please check your email to verify your account.',
+      })
     } catch (err: unknown) {
       const errorMsg =
-        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
         (err as { message?: string })?.message ||
         'Something went wrong. Please try again.'
       toast.error(errorMsg)
@@ -64,75 +69,138 @@ export function SignUpForm({
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 },
+  }
+
+  if (isSuccess) {
+    return (
+      <div className='flex flex-col items-center justify-center space-y-4 text-center'>
+        <div className='rounded-full bg-primary/10 p-4'>
+          <MailCheck className='h-8 w-8 text-primary' />
+        </div>
+        <h3 className='text-lg font-medium'>Check your email</h3>
+        <p className='text-sm text-muted-foreground'>
+          We've sent a verification link to {form.getValues('email')}. Please
+          click the link to verify your account and continue.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <Form {...form}>
-      <form
+      <motion.form
+        variants={containerVariants}
+        initial='hidden'
+        animate='show'
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn('grid gap-3', className)}
         {...props}
       >
-        <FormField
-          control={form.control}
-          name='contact'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-center justify-between gap-3'>
-                <FormLabel>
-                  {form.watch('contactType') === 'email' ? 'Email' : 'Phone'}
-                </FormLabel>
-                <FormField
-                  control={form.control}
-                  name='contactType'
-                  render={({ field: typeField }) => (
-                    <div className='grid grid-cols-2 rounded-lg bg-muted p-1 text-xs'>
-                      {(['email', 'phone'] as const).map((type) => (
-                        <button
-                          key={type}
-                          type='button'
-                          onClick={() => typeField.onChange(type)}
-                          className={cn(
-                            'rounded-md px-3 py-1 font-medium capitalize transition-colors',
-                            typeField.value === type
-                              ? 'bg-background text-foreground shadow-sm'
-                              : 'text-muted-foreground hover:text-foreground'
-                          )}
-                        >
-                          {type}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                />
-              </div>
-              <FormControl>
-                <Input
-                  placeholder={
-                    form.watch('contactType') === 'email'
-                      ? 'name@example.com'
-                      : '+201000000000'
-                  }
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className='mt-2' disabled={isLoading}>
-          Send verification code
-        </Button>
-
-        <div className='relative my-2'>
-          <div className='absolute inset-0 flex items-center'>
-            <span className='w-full border-t' />
-          </div>
-          <div className='relative flex justify-center text-xs uppercase'>
-            <span className='bg-background px-2 text-muted-foreground'>
-              Or continue with
-            </span>
-          </div>
+        <div className='grid grid-cols-2 gap-3'>
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='firstName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='John'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Doe'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
         </div>
-      </form>
+
+        <motion.div variants={itemVariants}>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder='name@example.com'
+                    className='h-11 bg-background/50 focus-visible:ring-primary'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    placeholder='••••••••'
+                    className='h-11 bg-background/50 focus-visible:ring-primary'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <Button className='mt-2 h-11 w-full' disabled={isLoading}>
+            {isLoading ? (
+              <Loader2 className='mr-2 h-5 w-5 animate-spin' />
+            ) : (
+              <LogIn className='mr-2 h-5 w-5' />
+            )}
+            Sign Up
+          </Button>
+        </motion.div>
+      </motion.form>
     </Form>
   )
 }

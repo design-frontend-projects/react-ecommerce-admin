@@ -14,7 +14,7 @@ The shifts module manages cash register shift operations in a restaurant POS sys
 ```typescript
 interface res_shifts {
   id: string                    // Primary key (UUID)
-  clerk_user_id?: string        // Clerk authentication ID (optional for multi-tenant)
+  user_id?: string        // Clerk authentication ID (optional for multi-tenant)
   restaurant_id?: string        // Multi-tenant support
   opened_by: string            // Employee ID who opened the shift
   closed_by?: string           // Employee ID who closed the shift
@@ -34,7 +34,7 @@ interface res_shifts {
 **Business Rules**:
 - `opening_cash` must be >= 0
 - `closing_cash` must be >= 0 when status = 'closed'
-- Only one open shift per clerk_user_id at a time
+- Only one open shift per user_id at a time
 - `closed_at` automatically set when status changes to 'closed'
 
 **State Transitions**:
@@ -150,7 +150,7 @@ variance = current_input - opening_cash
 - Row Level Security (RLS) policies for multi-tenant access
 
 ### Indexes
-- `(clerk_user_id, status)` - Fast active shift lookup
+- `(user_id, status)` - Fast active shift lookup
 - `(restaurant_id, opened_at)` - Multi-tenant chronological queries
 - `(opened_by)` - Employee performance reporting
 - `(status, opened_at)` - Shift history queries

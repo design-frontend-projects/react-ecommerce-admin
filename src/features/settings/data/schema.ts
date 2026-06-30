@@ -7,7 +7,7 @@ export const SettingSchema = z.object({
   value: z.any(),
   group: z.string().max(50).nullable().optional(),
   is_public: z.boolean().default(true),
-  auth_user_id: z.string().optional(),
+  user_id: z.string().optional(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional(),
 })
@@ -18,7 +18,11 @@ export type AppSetting = z.infer<typeof SettingSchema>
 export const BrandingSettingsSchema = z.object({
   name: z.string().min(1, 'Site name is required').max(100),
   logo_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  favicon_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  favicon_url: z
+    .string()
+    .url('Must be a valid URL')
+    .optional()
+    .or(z.literal('')),
   description: z.string().max(500).optional().or(z.literal('')),
 })
 

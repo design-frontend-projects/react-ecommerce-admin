@@ -23,7 +23,7 @@ export const useSettings = () => {
       return (data ?? []) as AppSetting[]
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000,   // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   })
 }
 
@@ -81,7 +81,7 @@ export const useUpsertSetting = () => {
             is_public: input.is_public ?? true,
           },
           {
-            onConflict: 'auth_user_id,key',
+            onConflict: 'user_id,key',
           }
         )
         .select()

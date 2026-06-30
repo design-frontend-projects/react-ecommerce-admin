@@ -43,7 +43,7 @@ export const refundFormSchema = z.object({
   refundAmount: z.number().positive('Refund amount must be greater than zero.'),
   reason: z.string().min(1, 'Please select a reason for the refund.'),
   notes: z.string().optional(),
-  auth_user_id: z.string(),
+  user_id: z.string(),
   branch_id: z.string(),
 })
 

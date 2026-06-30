@@ -94,11 +94,11 @@ As a staff member, I need to see the current shift status on the dashboard so I 
 - **FR-009**: System MUST allow optional notes when closing a shift
 - **FR-010**: System MUST show shift active status indicator on dashboard with start time
 - **FR-011**: System MUST color-code positive balances/variances in green and negative in red
-- **FR-012**: System MUST use the exact fields from res_shifts table: id, clerk_user_id, closed_by, opening_cash, closing_cash, status, opened_at, closed_at, notes, opened_by, restaurant_id
+- **FR-012**: System MUST use the exact fields from res_shifts table: id, user_id, closed_by, opening_cash, closing_cash, status, opened_at, closed_at, notes, opened_by, restaurant_id
 
 ### Key Entities
 
-- **Shift (res_shifts)**: Represents a cash register shift period. Key attributes: id, clerk_user_id, opened_by (employee), closed_by (employee), opening_cash, closing_cash, status (open/closed), opened_at, closed_at, notes, restaurant_id
+- **Shift (res_shifts)**: Represents a cash register shift period. Key attributes: id, user_id, opened_by (employee), closed_by (employee), opening_cash, closing_cash, status (open/closed), opened_at, closed_at, notes, restaurant_id
 - **Employee (res_employees)**: Staff member who opens/closes shifts. Key attributes: id, first_name, last_name, user_id
 
 ## Success Criteria

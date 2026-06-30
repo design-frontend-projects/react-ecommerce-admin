@@ -5,7 +5,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
 import { AreasProvider, useAreasContext } from './context/areas-context'
 import { AreasTable } from './components/areas-table'
-import { AreasDialog } from './components/areas-dialog'
+import { AreasActionDialog } from './components/areas-action-dialog'
 import { AreasDeleteDialog } from './components/areas-delete-dialog'
 import { AreasPrimaryButtons } from './components/areas-primary-buttons'
 
@@ -43,7 +43,7 @@ function AreasContent() {
 
         <AreasTable />
 
-        <AreasDialog
+        <AreasActionDialog
           open={open === 'add' || open === 'edit'}
           onOpenChange={(v) => {
             if (!v) {

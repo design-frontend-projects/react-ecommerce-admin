@@ -1,14 +1,11 @@
 import { useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createRealtimeChannel, supabase } from '@/lib/supabase-service'
-import {
-  expandPermissionNames,
-  permissionNamesFromRoles,
-} from './rbac'
+import { expandPermissionNames, permissionNamesFromRoles } from './rbac'
 import type { CurrentUserAccess, RoleWithPermissions } from './types'
 
 type TenantUserAccessRow = {
-  auth_user_id: string
+  user_id: string
   user_roles: Array<{
     role_id: string
     roles: {
@@ -34,7 +31,9 @@ type TenantUserAccessRow = {
 export const currentAccessQueryKey = (authUserId: string | null | undefined) =>
   ['rbac', 'current-access', authUserId] as const
 
-function normalizeRoles(row: NonNullable<TenantUserAccessRow>): RoleWithPermissions[] {
+function normalizeRoles(
+  row: NonNullable<TenantUserAccessRow>
+): RoleWithPermissions[] {
   return row.user_roles
     .map((assignment) => assignment.roles)
     .filter((role): role is NonNullable<typeof role> => Boolean(role))
@@ -62,7 +61,7 @@ export async function fetchCurrentUserAccess(
     .from('tenant_users')
     .select(
       `
-        auth_user_id,
+        user_id,
         user_roles (
           role_id,
           roles (
@@ -85,7 +84,7 @@ export async function fetchCurrentUserAccess(
         )
       `
     )
-    .eq('auth_user_id', authUserId)
+    .eq('user_id', clerkUserId)
     .maybeSingle()
 
   if (error) {
@@ -103,7 +102,7 @@ export async function fetchCurrentUserAccess(
 
   const roles = normalizeRoles(row)
   return {
-    authUserId: row.auth_user_id,
+    clerkUserId: row.user_id,
     roleIds: row.user_roles.map((assignment) => assignment.role_id),
     roleNames: roles.map((role) => role.name),
     permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
@@ -144,7 +143,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'user_roles',
-            filter: `auth_user_id=eq.${authUserId}`,
+            filter: `user_id=eq.${clerkUserId}`,
           },
           invalidate
         )
@@ -156,7 +155,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'tenant_users',
-            filter: `auth_user_id=eq.${authUserId}`,
+            filter: `user_id=eq.${clerkUserId}`,
           },
           invalidate
         )

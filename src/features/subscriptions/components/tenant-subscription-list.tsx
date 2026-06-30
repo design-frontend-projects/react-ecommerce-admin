@@ -1,3 +1,14 @@
+import { format } from 'date-fns'
+import { toast } from 'sonner'
+import { useUser } from '@/hooks/use-auth'
+import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   Table,
   TableBody,
@@ -5,34 +16,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { useTenantSubscriptions, useUpdateSubscriptionStatus } from '../queries';
-import { format } from 'date-fns';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useUser } from '@/lib/auth';
-import { toast } from 'sonner';
+} from '@/components/ui/table'
+import { useTenantSubscriptions, useUpdateSubscriptionStatus } from '../queries'
 
 export function TenantSubscriptionList() {
-  const { data: subscriptions, isLoading } = useTenantSubscriptions();
-  const { user } = useUser();
-  const updateStatus = useUpdateSubscriptionStatus();
+  const { data: subscriptions, isLoading } = useTenantSubscriptions()
+  const { user } = useUser()
+  const updateStatus = useUpdateSubscriptionStatus()
 
-  const isSuperAdmin = user?.publicMetadata?.role === 'super_admin';
+  const isSuperAdmin = user?.publicMetadata?.role === 'super_admin'
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      await updateStatus.mutateAsync({ id, status: newStatus as any });
-      toast.success('Status updated successfully');
+      await updateStatus.mutateAsync({ id, status: newStatus as any })
+      toast.success('Status updated successfully')
     } catch (error) {
-      toast.error('Failed to update status');
+      toast.error('Failed to update status')
     }
-  };
+  }
 
-  if (isLoading) return <p>Loading subscriptions...</p>;
+  if (isLoading) return <p>Loading subscriptions...</p>
 
   return (
-    <div className='rounded-md border overflow-hidden bg-card'>
+    <div className='overflow-hidden rounded-md border bg-card'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -51,21 +57,23 @@ export function TenantSubscriptionList() {
               <TableCell>{sub.subscriptions?.name}</TableCell>
               <TableCell>
                 {isSuperAdmin ? (
-                  <Select 
-                    defaultValue={sub.status} 
+                  <Select
+                    defaultValue={sub.status}
                     onValueChange={(val) => handleStatusChange(sub.id, val)}
                   >
-                    <SelectTrigger className="w-[110px] h-8">
+                    <SelectTrigger className='h-8 w-[110px]'>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="paid">Paid</SelectItem>
-                      <SelectItem value="new">New</SelectItem>
-                      <SelectItem value="canceled">Canceled</SelectItem>
+                      <SelectItem value='paid'>Paid</SelectItem>
+                      <SelectItem value='new'>New</SelectItem>
+                      <SelectItem value='canceled'>Canceled</SelectItem>
                     </SelectContent>
                   </Select>
                 ) : (
-                  <Badge variant={sub.status === 'paid' ? 'default' : 'secondary'}>
+                  <Badge
+                    variant={sub.status === 'paid' ? 'default' : 'secondary'}
+                  >
                     {sub.status}
                   </Badge>
                 )}
@@ -85,7 +93,10 @@ export function TenantSubscriptionList() {
           ))}
           {subscriptions?.length === 0 && (
             <TableRow>
-              <TableCell colSpan={isSuperAdmin ? 6 : 5} className='h-24 text-center'>
+              <TableCell
+                colSpan={isSuperAdmin ? 6 : 5}
+                className='h-24 text-center'
+              >
                 No subscriptions found.
               </TableCell>
             </TableRow>
@@ -93,5 +104,5 @@ export function TenantSubscriptionList() {
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }

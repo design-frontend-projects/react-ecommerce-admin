@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useUser } from '@/lib/auth'
+import { useUser } from '@/hooks/use-auth'
 import {
   extractRoleNames,
   getFallbackPermissionNamesForRoles,
@@ -15,15 +15,12 @@ interface CanProps {
   fallback?: ReactNode
 }
 
-export function Can({
-  role,
-  permission,
-  children,
-  fallback = null,
-}: CanProps) {
+export function Can({ role, permission, children, fallback = null }: CanProps) {
   const { user, isLoaded } = useUser()
   const storeRoleNames = useRBACStore((state) => state.currentRoleNames)
-  const storePermissionNames = useRBACStore((state) => state.currentPermissionNames)
+  const storePermissionNames = useRBACStore(
+    (state) => state.currentPermissionNames
+  )
 
   if (!isLoaded || !user) {
     return <>{fallback}</>
@@ -50,7 +47,9 @@ export function Can({
   ]
 
   if (role) {
-    const requiredRoles = (Array.isArray(role) ? role : [role]).map(normalizeRoleName)
+    const requiredRoles = (Array.isArray(role) ? role : [role]).map(
+      normalizeRoleName
+    )
     const allowed = requiredRoles.some((requiredRole) =>
       roleNames.map(normalizeRoleName).includes(requiredRole)
     )

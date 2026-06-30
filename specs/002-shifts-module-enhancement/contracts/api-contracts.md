@@ -16,7 +16,7 @@ The shifts module exposes RESTful APIs through Supabase for shift management ope
 interface OpenShiftRequest {
   opened_by: string        // Employee ID
   opening_cash: number     // Starting cash amount
-  clerk_user_id?: string   // For multi-tenant support
+  user_id?: string   // For multi-tenant support
   restaurant_id?: string   // For multi-tenant support
 }
 ```
@@ -31,7 +31,7 @@ interface OpenShiftResponse extends ResShift {
 **Validation**:
 - `opening_cash >= 0`
 - `opened_by` must reference valid employee
-- No active shift for the same clerk_user_id
+- No active shift for the same user_id
 
 **Error Codes**:
 - `400`: Invalid cash amount or employee
@@ -75,7 +75,7 @@ interface CloseShiftResponse extends ResShift {
 **Query Parameters**:
 ```typescript
 interface ShiftQuery {
-  clerk_user_id?: string   // Filter by user (admin sees all if null)
+  user_id?: string   // Filter by user (admin sees all if null)
   status?: 'open' | 'closed'  // Filter by status
   limit?: number          // Pagination limit (default: 50)
   offset?: number         // Pagination offset
@@ -101,7 +101,7 @@ interface ShiftListResponse {
 **Query Parameters**:
 ```typescript
 interface ActiveShiftQuery {
-  clerk_user_id?: string   // User to check for active shift
+  user_id?: string   // User to check for active shift
 }
 ```
 
@@ -120,7 +120,7 @@ interface ActiveShiftResponse extends ResShift {
 interface ResShift {
   // Core fields
   id: string
-  clerk_user_id?: string
+  user_id?: string
   restaurant_id?: string
   opened_by: string
   closed_by?: string

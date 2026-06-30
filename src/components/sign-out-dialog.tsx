@@ -1,15 +1,12 @@
 import { useState } from 'react'
-import { useAuth, useSupabaseAuth, useUser } from '@/lib/auth'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { LogOut, Timer } from 'lucide-react'
 import { Trans } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { useResposStore } from '@/stores/respos-store'
-import { useActiveShift } from '@/features/respos/api/queries'
-import { RoleNames } from '@/features/respos/constants'
-import { useShift } from '@/features/respos/hooks/use-shift'
-import { CloseShiftDialog } from '@/features/respos/pages/shifts'
+import { useAuth, useSupabase, useUser } from '@/hooks/use-auth'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -18,8 +15,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
+import { useActiveShift } from '@/features/respos/api/queries'
+import { RoleNames } from '@/features/respos/constants'
+import { useShift } from '@/features/respos/hooks/use-shift'
+import { CloseShiftDialog } from '@/features/respos/pages/shifts'
 
 interface SignOutDialogProps {
   open: boolean
@@ -38,19 +38,17 @@ function clearResposSessionState() {
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const { signOut } = useSupabaseAuth()
+  const clerk = useSupabase()
   const auth = useAuthStore((state) => state.auth)
-  const { isLoaded, isSignedIn, has } = useAuth()
+  const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [closeShiftDialogOpen, setCloseShiftDialogOpen] = useState(false)
 
-  const authUserId = user?.id ?? null
-  const isCashier = has?.({ role: RoleNames.cashier }) ?? false
-  const {
-    data: activeShift,
-    isLoading: isShiftStatusLoading,
-  } = useActiveShift(authUserId)
+  const clerkUserId = user?.id ?? null
+  const isCashier = user?.role === RoleNames.cashier
+  const { data: activeShift, isLoading: isShiftStatusLoading } =
+    useActiveShift(clerkUserId)
 
   const { closeShift, isClosing } = useShift({ authUserId })
 

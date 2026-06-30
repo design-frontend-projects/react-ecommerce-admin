@@ -5,7 +5,6 @@ import { z } from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAuth, useUser } from '@/lib/auth'
 import { motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -20,6 +19,7 @@ import {
   X,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -107,7 +107,7 @@ export function ShiftManagement() {
   const [openDialogOpen, setOpenDialogOpen] = useState(false)
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
 
-  const { has, isLoaded, isSignedIn } = useAuth()
+  const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
   const authUserId = user?.id ?? null
   const {
@@ -120,9 +120,11 @@ export function ShiftManagement() {
     isClosing,
   } = useShift({ authUserId })
 
-  const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
-  const { data: allShifts = [], isLoading: historyLoading } =
-    useShifts(isAdmin ? null : authUserId)
+  const isAdmin =
+    user?.role === RoleNames.admin || user?.role === RoleNames.super_admin
+  const { data: allShifts = [], isLoading: historyLoading } = useShifts(
+    isAdmin ? null : clerkUserId
+  )
 
   const isLoading = !isLoaded || shiftLoading
 
@@ -210,8 +212,8 @@ export function ShiftManagement() {
                 onOpen={() => setOpenDialogOpen(true)}
                 canOpen={
                   isLoaded &&
-                  (has({ permission: RoleNames.admin }) ||
-                    has({ permission: RoleNames.super_admin }))
+                  (user?.role === RoleNames.admin ||
+                    user?.role === RoleNames.super_admin)
                 }
               />
             )}
@@ -226,7 +228,9 @@ export function ShiftManagement() {
                   {isAdmin ? 'All Shifts' : 'Shift History'}
                 </CardTitle>
                 <CardDescription>
-                  {isAdmin ? 'Organization-wide shift history' : 'Past shifts and their details'}
+                  {isAdmin
+                    ? 'Organization-wide shift history'
+                    : 'Past shifts and their details'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -260,7 +264,11 @@ export function ShiftManagement() {
                       </TableHeader>
                       <TableBody>
                         {closedShifts.map((s) => (
-                          <ShiftHistoryRow key={s.id} shift={s} isAdmin={isAdmin} />
+                          <ShiftHistoryRow
+                            key={s.id}
+                            shift={s}
+                            isAdmin={isAdmin}
+                          />
                         ))}
                       </TableBody>
                     </Table>
@@ -276,7 +284,7 @@ export function ShiftManagement() {
       <OpenShiftDialog
         open={openDialogOpen}
         onOpenChange={setOpenDialogOpen}
-        employeeName={user ? `${user.firstName} ${user.lastName}` : 'Unknown'}
+        employeeName={user ? `${user.fullName} ` : 'Unknown'}
         isPending={isOpening}
         defaultOpeningCash={previousClosingCash}
         onSubmit={async (values) => {
@@ -555,7 +563,8 @@ export function CloseShiftDialog({
     defaultValues: { closingCash: 0, notes: '' },
   })
 
-  const closingCash = useWatch({ control: form.control, name: 'closingCash' }) ?? 0
+  const closingCash =
+    useWatch({ control: form.control, name: 'closingCash' }) ?? 0
   const variance = closingCash - openingCash
 
   const handleSubmit = async (values: CloseShiftFormValues) => {
@@ -688,7 +697,13 @@ type ShiftWithEmployee = ResShift & {
   closer?: { first_name: string; last_name: string }
 }
 
-function ShiftHistoryRow({ shift, isAdmin }: { shift: ShiftWithEmployee; isAdmin?: boolean }) {
+function ShiftHistoryRow({
+  shift,
+  isAdmin,
+}: {
+  shift: ShiftWithEmployee
+  isAdmin?: boolean
+}) {
   const variance =
     typeof shift.closing_cash === 'number'
       ? shift.closing_cash - shift.opening_cash

@@ -3,34 +3,25 @@ import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 import type { Profile } from '@/features/auth/services/profile-service'
 
 
-const ACCESS_TOKEN = 'respos_access_token'
-const SELECTED_BRANCH = 'respos_selected_branch'
+import type { User, Session } from '@supabase/supabase-js'
 
-interface AuthUser {
-  accountNo: string
-  email: string
-  role: string[]
-  exp: number
-}
+const SELECTED_BRANCH = 'respos_selected_branch'
 
 interface AuthState {
   auth: {
-    user: AuthUser | null
-    setUser: (user: AuthUser | null) => void
+    user: User | null
+    setUser: (user: User | null) => void
+    session: Session | null
+    setSession: (session: Session | null) => void
     profile: Profile | null
     setProfile: (profile: Profile | null) => void
-    accessToken: string
-    setAccessToken: (accessToken: string) => void
     selectedBranchId: string
     setSelectedBranchId: (branchId: string) => void
-    resetAccessToken: () => void
     reset: () => void
   }
 }
 
 export const useAuthStore = create<AuthState>()((set) => {
-  const cookieState = getCookie(ACCESS_TOKEN)
-  const initToken = cookieState ? JSON.parse(cookieState) : ''
   const selectedBranchState = getCookie(SELECTED_BRANCH)
   const initSelectedBranchId = selectedBranchState
     ? JSON.parse(selectedBranchState)
@@ -40,37 +31,28 @@ export const useAuthStore = create<AuthState>()((set) => {
       user: null,
       setUser: (user) =>
         set((state) => ({ ...state, auth: { ...state.auth, user } })),
+      session: null,
+      setSession: (session) =>
+        set((state) => ({ ...state, auth: { ...state.auth, session } })),
       profile: null,
       setProfile: (profile) =>
         set((state) => ({ ...state, auth: { ...state.auth, profile } })),
-      accessToken: initToken,
-      setAccessToken: (accessToken) =>
-        set((state) => {
-          setCookie(ACCESS_TOKEN, JSON.stringify(accessToken))
-          return { ...state, auth: { ...state.auth, accessToken } }
-        }),
       selectedBranchId: initSelectedBranchId,
       setSelectedBranchId: (branchId) =>
         set((state) => {
           setCookie(SELECTED_BRANCH, JSON.stringify(branchId))
           return { ...state, auth: { ...state.auth, selectedBranchId: branchId } }
         }),
-      resetAccessToken: () =>
-        set((state) => {
-          removeCookie(ACCESS_TOKEN)
-          return { ...state, auth: { ...state.auth, accessToken: '' } }
-        }),
       reset: () =>
         set((state) => {
-          removeCookie(ACCESS_TOKEN)
           removeCookie(SELECTED_BRANCH)
           return {
             ...state,
             auth: {
               ...state.auth,
               user: null,
+              session: null,
               profile: null,
-              accessToken: '',
               selectedBranchId: '',
             },
           }

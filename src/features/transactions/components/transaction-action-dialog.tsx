@@ -3,10 +3,10 @@
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useUser } from '@/lib/auth'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
+import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -107,7 +107,7 @@ export function TransactionActionDialog({
 
       await createTransaction({
         tenant_id: dummyTenantId,
-        auth_user_id: user.id,
+        user_id: user.id,
         transaction_number: `TRX-${Date.now()}`,
         transaction_type: values.transaction_type,
         currency: values.currency,

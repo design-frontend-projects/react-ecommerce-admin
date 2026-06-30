@@ -1,3 +1,4 @@
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
 import {
@@ -28,9 +29,9 @@ export function getBearerToken(request: Request) {
   return token
 }
 
-async function getDatabasePermissionNames(authUserId: string) {
+async function getDatabasePermissionNames(userId: string) {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { auth_user_id: authUserId },
+    where: { user_id: userId },
     include: {
       user_roles: {
         include: {
@@ -66,9 +67,13 @@ async function getDatabasePermissionNames(authUserId: string) {
     }
   }
 
-  const roleNames = tenantUser.user_roles.map((assignment) => normalizeRoleName(assignment.roles.name))
+  const roleNames = tenantUser.user_roles.map((assignment) =>
+    normalizeRoleName(assignment.roles.name)
+  )
   const permissionNames = tenantUser.user_roles.flatMap((assignment) =>
-    assignment.roles.role_permissions.map((rolePermission) => rolePermission.permissions.name)
+    assignment.roles.role_permissions.map(
+      (rolePermission) => rolePermission.permissions.name
+    )
   )
 
   return {
@@ -82,16 +87,27 @@ export async function requireAuth(
   requiredPermissions?: string | string[]
 ): Promise<AuthorizedUser> {
   try {
-    const { data, error } = await supabaseAdmin.auth.getUser(sessionToken)
-    if (error) {
+    const {
+      data: { user },
+      error,
+    } = await supabaseAdmin.auth.getUser(sessionToken)
+
+    if (error || !user) {
       throw new Error('Unauthorized: Invalid session token')
     }
 
-    const userId = data.user?.id
+    const userId = user.id
 
-    if (!userId) {
-      throw new Error('Unauthorized: Invalid session token')
-    }
+    // Fallback to roles stored in user_metadata or app_metadata if we want to emulate Clerk publicMetadata
+    const appMetadata = user.app_metadata || {}
+    const userMetadata = user.user_metadata || {}
+
+    const metadataRoleNames = [
+      ...extractRoleNames(appMetadata.roles as unknown),
+      ...extractRoleNames(appMetadata.role as unknown),
+      ...extractRoleNames(userMetadata.roles as unknown),
+      ...extractRoleNames(userMetadata.role as unknown),
+    ]
 
     const { roleNames: dbRoleNames, permissionNames: dbPermissionNames } =
       await getDatabasePermissionNames(userId)
@@ -110,7 +126,10 @@ export async function requireAuth(
         ? [requiredPermissions]
         : []
 
-    if (requiredList.length > 0 && !hasAnyPermission(permissionNames, requiredList)) {
+    if (
+      requiredList.length > 0 &&
+      !hasAnyPermission(permissionNames, requiredList)
+    ) {
       throw new Error('Forbidden: Insufficient permissions')
     }
 
@@ -131,5 +150,8 @@ export async function requireAuth(
 
 export function hasAdminAccess(roleNames: string[]) {
   const normalizedRoleNames = roleNames.map(normalizeRoleName)
-  return normalizedRoleNames.includes('super_admin') || normalizedRoleNames.includes('admin')
+  return (
+    normalizedRoleNames.includes('super_admin') ||
+    normalizedRoleNames.includes('admin')
+  )
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '@/lib/auth'
 import { Loader2, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/use-auth'
+import { Button } from '@/components/ui/button'
 import { useUpdateTableStatus } from '../api/mutations'
 import {
   useActiveOrderByTable,
@@ -12,12 +13,13 @@ import {
 import { CheckoutDialog } from '../components/checkout-dialog'
 import { FloorManagerView } from '../components/floor-manager-view'
 import { formatCurrency } from '../lib/formatters'
-import { Button } from '@/components/ui/button'
 import { type ResOrderWithDetails, type ResTable } from '../types'
 
 export default function CashierCheckout() {
   const { has, isLoaded, isSignedIn } = useAuth()
-  const [checkoutMode, setCheckoutMode] = useState<'table' | 'delivery'>('table')
+  const [checkoutMode, setCheckoutMode] = useState<'table' | 'delivery'>(
+    'table'
+  )
   const [selectedFloorId, setSelectedFloorId] = useState<string | null>(null)
   const [selectedTable, setSelectedTable] = useState<ResTable | null>(null)
   const [selectedDeliveryOrder, setSelectedDeliveryOrder] =
@@ -165,7 +167,7 @@ export default function CashierCheckout() {
           />
         ) : (
           <div className='rounded-lg border bg-card p-4'>
-            <h3 className='mb-3 text-sm font-semibold tracking-wide uppercase text-muted-foreground'>
+            <h3 className='mb-3 text-sm font-semibold tracking-wide text-muted-foreground uppercase'>
               Open Delivery Orders
             </h3>
 
@@ -187,7 +189,9 @@ export default function CashierCheckout() {
                     onClick={() => setSelectedDeliveryOrder(order)}
                   >
                     <div className='flex items-center justify-between'>
-                      <span className='font-semibold'>#{order.order_number}</span>
+                      <span className='font-semibold'>
+                        #{order.order_number}
+                      </span>
                       <span className='text-sm font-semibold text-orange-600'>
                         {formatCurrency(order.total_amount || 0)}
                       </span>
@@ -214,10 +218,10 @@ export default function CashierCheckout() {
       {checkoutMode === 'table' &&
         (orderLoading || orderFetching) &&
         selectedTable && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'>
-          <Loader2 className='h-10 w-10 animate-spin text-white' />
-        </div>
-      )}
+          <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm'>
+            <Loader2 className='h-10 w-10 animate-spin text-white' />
+          </div>
+        )}
     </>
   )
 }

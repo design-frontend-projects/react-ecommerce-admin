@@ -1,8 +1,5 @@
-import { useAuth } from '@/lib/auth'
 import { useLayout } from '@/context/layout-provider'
-import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
-import { normalizeRoleName } from '@/features/users/data/rbac'
-import { useRBACStore } from '@/features/users/data/store'
+import { useAuth } from '@/hooks/use-auth'
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +7,10 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 import type { RoleName } from '@/features/respos/types'
+import { normalizeRoleName } from '@/features/users/data/rbac'
+import { useRBACStore } from '@/features/users/data/store'
 import { AppTitle } from './app-title'
 import { useSidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'

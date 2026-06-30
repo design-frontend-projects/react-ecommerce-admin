@@ -1,5 +1,6 @@
-import { useUser } from '@/lib/auth'
 import { useEffect, useMemo, useRef } from 'react'
+import { useUser } from '@/hooks/use-auth'
+import { useCurrentUserAccess } from '../data/queries'
 import {
   extractRoleNames,
   getFallbackPermissionNamesForRoles,
@@ -7,7 +8,6 @@ import {
   normalizeRoleName,
   toPermissionName,
 } from '../data/rbac'
-import { useCurrentUserAccess } from '../data/queries'
 import { useRBACStore } from '../data/store'
 
 function extractPermissionNames(input: unknown) {
@@ -25,7 +25,9 @@ function extractPermissionNames(input: unknown) {
 function useResolvedRBACAccess() {
   const { user } = useUser()
   const storeRoleNames = useRBACStore((state) => state.currentRoleNames)
-  const storePermissionNames = useRBACStore((state) => state.currentPermissionNames)
+  const storePermissionNames = useRBACStore(
+    (state) => state.currentPermissionNames
+  )
 
   const metadataRoleNames = useMemo(
     () =>
@@ -47,14 +49,13 @@ function useResolvedRBACAccess() {
   )
 
   const permissionNames = useMemo(
-    () =>
-      [
-        ...new Set([
-          ...storePermissionNames,
-          ...metadataPermissionNames,
-          ...getFallbackPermissionNamesForRoles(roleNames),
-        ]),
-      ],
+    () => [
+      ...new Set([
+        ...storePermissionNames,
+        ...metadataPermissionNames,
+        ...getFallbackPermissionNamesForRoles(roleNames),
+      ]),
+    ],
     [metadataPermissionNames, roleNames, storePermissionNames]
   )
 

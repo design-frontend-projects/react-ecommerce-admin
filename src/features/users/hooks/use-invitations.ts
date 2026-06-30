@@ -1,6 +1,6 @@
-import { useAuth } from '@/lib/auth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/use-auth'
 import { fetchRBACCatalog, inviteUser } from '../data/actions'
 import type { InviteUserInput } from '../data/types'
 

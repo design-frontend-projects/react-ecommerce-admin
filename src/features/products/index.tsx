@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
-import { useUser } from '@/lib/auth'
 import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { useUser } from '@/hooks/use-auth'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { ProductsDialogs } from './components/products-dialogs'
 import { ProductsPrimaryButtons } from './components/products-primary-buttons'
 import { ProductsProvider } from './components/products-provider'
@@ -26,7 +26,7 @@ export function Products() {
       const { data, error } = await supabase
         .from('products')
         .select('*, categories(name), product_variants(*)')
-        .eq('auth_user_id', user.id)
+        .eq('user_id', user.id)
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
 

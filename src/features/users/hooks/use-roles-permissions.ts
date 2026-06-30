@@ -1,6 +1,6 @@
-import { useAuth } from '@/lib/auth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/use-auth'
 import {
   createRole,
   deleteRole,
@@ -106,7 +106,11 @@ export function useUpdateUserRole() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (input: { userId: string; role: string } | { userId: string; roleIds: string[] }) => {
+    mutationFn: async (
+      input:
+        | { userId: string; role: string }
+        | { userId: string; roleIds: string[] }
+    ) => {
       if ('roleIds' in input) {
         return updateUserRoles(getToken, input)
       }

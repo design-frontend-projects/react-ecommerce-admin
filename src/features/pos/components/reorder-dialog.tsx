@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { History, Plus, Loader2, RotateCcw } from 'lucide-react'
+import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { formatCurrency } from '@/lib/utils'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
-import { useAuth, useUser } from '@/lib/auth'
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useBasket } from '../store/use-basket'
 import { createRefund } from '../data/refund-api'
+import { useBasket } from '../store/use-basket'
 import { ManagerAuthDialog } from './manager-auth-dialog'
 
 type RecentTransaction = {
@@ -37,22 +37,21 @@ type RecentTransaction = {
 export function ReorderDialog() {
   const [open, setOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
-  const [refundingTx, setRefundingTx] = useState<RecentTransaction | null>(
-    null
-  )
-  
+  const [refundingTx, setRefundingTx] = useState<RecentTransaction | null>(null)
+
   const { setBasketItems } = useBasket()
   const { userId } = useAuth()
-  const { user: authUser } = useUser()
+  const { user: supabaseUser } = useUser()
   const queryClient = useQueryClient()
 
-  const { data: recentTransactions, isLoading } = useQuery<RecentTransaction[]>({
-    queryKey: ['recent-pos-transactions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select(
-          `
+  const { data: recentTransactions, isLoading } = useQuery<RecentTransaction[]>(
+    {
+      queryKey: ['recent-pos-transactions'],
+      queryFn: async () => {
+        const { data, error } = await supabase
+          .from('transactions')
+          .select(
+            `
           id,
           transaction_number,
           total_amount,
@@ -68,16 +67,17 @@ export function ReorderDialog() {
             )
           )
         `
-        )
-        .eq('transaction_type', 'sale')
-        .order('created_at', { ascending: false })
-        .limit(10)
+          )
+          .eq('transaction_type', 'sale')
+          .order('created_at', { ascending: false })
+          .limit(10)
 
-      if (error) throw error
-      return data || []
-    },
-    enabled: open,
-  })
+        if (error) throw error
+        return (data as unknown as RecentTransaction[]) || []
+      },
+      enabled: open,
+    }
+  )
 
   const handleReorder = (transaction: RecentTransaction) => {
     const newItems = transaction.transaction_details.map((d) => {
@@ -108,7 +108,7 @@ export function ReorderDialog() {
         processedBy: userId ?? '',
         notes: 'Fast refund triggered beside reorder button.',
         orderId: tx.transaction_number,
-        auth_user_id: authUser?.id as string,
+        user_id: supabaseUser?.id as string,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
@@ -177,8 +177,20 @@ export function ReorderDialog() {
                       {formatCurrency(Number(tx.total_amount))}
                     </div>
                     <div className='flex items-center gap-2'>
-                      <Button size='sm' variant='destructive' onClick={() => handleFastRefund(tx)} disabled={refundMutation.isPending && refundingTx?.id === tx.id}>
-                        {refundMutation.isPending && refundingTx?.id === tx.id ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <RotateCcw className='mr-1 h-4 w-4' />}
+                      <Button
+                        size='sm'
+                        variant='destructive'
+                        onClick={() => handleFastRefund(tx)}
+                        disabled={
+                          refundMutation.isPending && refundingTx?.id === tx.id
+                        }
+                      >
+                        {refundMutation.isPending &&
+                        refundingTx?.id === tx.id ? (
+                          <Loader2 className='mr-1 h-4 w-4 animate-spin' />
+                        ) : (
+                          <RotateCcw className='mr-1 h-4 w-4' />
+                        )}
                         Refund
                       </Button>
                       <Button size='sm' onClick={() => handleReorder(tx)}>

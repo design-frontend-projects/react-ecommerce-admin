@@ -16,7 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
@@ -27,6 +27,7 @@ import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
 import { Route as errors403RouteImport } from './routes/(errors)/403'
 import { Route as errors401RouteImport } from './routes/(errors)/401'
+import { Route as authUpdatePasswordRouteImport } from './routes/(auth)/update-password'
 import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authOtpRouteImport } from './routes/(auth)/otp'
@@ -82,6 +83,9 @@ import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_auth
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
+const CrmPipelineLazyRouteImport = createFileRoute('/crm/pipeline')()
+const CrmDashboardLazyRouteImport = createFileRoute('/crm/dashboard')()
+const CrmContactsLazyRouteImport = createFileRoute('/crm/contacts')()
 const AuthenticatedCitiesIndexLazyRouteImport = createFileRoute(
   '/_authenticated/cities/',
 )()
@@ -110,9 +114,24 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/auth/callback',
-  path: '/auth/callback',
+const CrmPipelineLazyRoute = CrmPipelineLazyRouteImport.update({
+  id: '/crm/pipeline',
+  path: '/crm/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/pipeline.lazy').then((d) => d.Route))
+const CrmDashboardLazyRoute = CrmDashboardLazyRouteImport.update({
+  id: '/crm/dashboard',
+  path: '/crm/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/dashboard.lazy').then((d) => d.Route))
+const CrmContactsLazyRoute = CrmContactsLazyRouteImport.update({
+  id: '/crm/contacts',
+  path: '/crm/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/crm/contacts.lazy').then((d) => d.Route))
+const CrmLayoutRoute = CrmLayoutRouteImport.update({
+  id: '/crm/_layout',
+  path: '/crm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
@@ -164,6 +183,11 @@ const errors403Route = errors403RouteImport.update({
 const errors401Route = errors401RouteImport.update({
   id: '/(errors)/401',
   path: '/401',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authUpdatePasswordRoute = authUpdatePasswordRouteImport.update({
+  id: '/(auth)/update-password',
+  path: '/update-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authSignUpRoute = authSignUpRouteImport.update({
@@ -513,6 +537,7 @@ export interface FileRoutesByFullPath {
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/update-password': typeof authUpdatePasswordRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
   '/404': typeof errors404Route
@@ -522,7 +547,10 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/crm': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -582,6 +610,7 @@ export interface FileRoutesByTo {
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/update-password': typeof authUpdatePasswordRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
   '/404': typeof errors404Route
@@ -591,7 +620,10 @@ export interface FileRoutesByTo {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/crm': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -655,6 +687,7 @@ export interface FileRoutesById {
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/(auth)/update-password': typeof authUpdatePasswordRoute
   '/(errors)/401': typeof errors401Route
   '/(errors)/403': typeof errors403Route
   '/(errors)/404': typeof errors404Route
@@ -665,7 +698,10 @@ export interface FileRoutesById {
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/crm/_layout': typeof CrmLayoutRoute
+  '/crm/contacts': typeof CrmContactsLazyRoute
+  '/crm/dashboard': typeof CrmDashboardLazyRoute
+  '/crm/pipeline': typeof CrmPipelineLazyRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/menu/': typeof MenuIndexRoute
   '/_authenticated/_system/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
@@ -729,6 +765,7 @@ export interface FileRouteTypes {
     | '/otp'
     | '/sign-in'
     | '/sign-up'
+    | '/update-password'
     | '/401'
     | '/403'
     | '/404'
@@ -738,7 +775,10 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
-    | '/auth/callback'
+    | '/crm'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -798,6 +838,7 @@ export interface FileRouteTypes {
     | '/otp'
     | '/sign-in'
     | '/sign-up'
+    | '/update-password'
     | '/401'
     | '/403'
     | '/404'
@@ -807,7 +848,10 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
-    | '/auth/callback'
+    | '/crm'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/'
     | '/menu'
     | '/audit-logs'
@@ -870,6 +914,7 @@ export interface FileRouteTypes {
     | '/(auth)/otp'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/(auth)/update-password'
     | '/(errors)/401'
     | '/(errors)/403'
     | '/(errors)/404'
@@ -880,7 +925,10 @@ export interface FileRouteTypes {
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
     | '/_authenticated/subscriptions'
-    | '/auth/callback'
+    | '/crm/_layout'
+    | '/crm/contacts'
+    | '/crm/dashboard'
+    | '/crm/pipeline'
     | '/_authenticated/'
     | '/menu/'
     | '/_authenticated/_system/audit-logs'
@@ -926,13 +974,17 @@ export interface RootRouteChildren {
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
+  authUpdatePasswordRoute: typeof authUpdatePasswordRoute
   errors401Route: typeof errors401Route
   errors403Route: typeof errors403Route
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
-  AuthCallbackRoute: typeof AuthCallbackRoute
+  CrmLayoutRoute: typeof CrmLayoutRoute
+  CrmContactsLazyRoute: typeof CrmContactsLazyRoute
+  CrmDashboardLazyRoute: typeof CrmDashboardLazyRoute
+  CrmPipelineLazyRoute: typeof CrmPipelineLazyRoute
   MenuIndexRoute: typeof MenuIndexRoute
 }
 
@@ -973,11 +1025,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/auth/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
+    '/crm/pipeline': {
+      id: '/crm/pipeline'
+      path: '/crm/pipeline'
+      fullPath: '/crm/pipeline'
+      preLoaderRoute: typeof CrmPipelineLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/dashboard': {
+      id: '/crm/dashboard'
+      path: '/crm/dashboard'
+      fullPath: '/crm/dashboard'
+      preLoaderRoute: typeof CrmDashboardLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/contacts': {
+      id: '/crm/contacts'
+      path: '/crm/contacts'
+      fullPath: '/crm/contacts'
+      preLoaderRoute: typeof CrmContactsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/_layout': {
+      id: '/crm/_layout'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof CrmLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
@@ -1048,6 +1121,13 @@ declare module '@tanstack/react-router' {
       path: '/401'
       fullPath: '/401'
       preLoaderRoute: typeof errors401RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/update-password': {
+      id: '/(auth)/update-password'
+      path: '/update-password'
+      fullPath: '/update-password'
+      preLoaderRoute: typeof authUpdatePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/sign-up': {
@@ -1605,13 +1685,17 @@ const rootRouteChildren: RootRouteChildren = {
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
+  authUpdatePasswordRoute: authUpdatePasswordRoute,
   errors401Route: errors401Route,
   errors403Route: errors403Route,
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
-  AuthCallbackRoute: AuthCallbackRoute,
+  CrmLayoutRoute: CrmLayoutRoute,
+  CrmContactsLazyRoute: CrmContactsLazyRoute,
+  CrmDashboardLazyRoute: CrmDashboardLazyRoute,
+  CrmPipelineLazyRoute: CrmPipelineLazyRoute,
   MenuIndexRoute: MenuIndexRoute,
 }
 export const routeTree = rootRouteImport

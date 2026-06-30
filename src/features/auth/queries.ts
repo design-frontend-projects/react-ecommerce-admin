@@ -1,8 +1,8 @@
 // User Module Query Hook
 // Fetches user module assignments from Supabase
 import { useQuery } from '@tanstack/react-query'
-import { useUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
+import { useUser } from '@/hooks/use-auth'
 import type { User } from './types'
 
 export const userQueryKeys = {
@@ -16,7 +16,7 @@ async function getUserByAuthUserId(authUserId: string): Promise<User | null> {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('auth_user_id', authUserId)
+    .eq('user_id', clerkId)
     .maybeSingle()
 
   if (error) {

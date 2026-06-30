@@ -3,7 +3,6 @@ import { format } from 'date-fns'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useAuth, useUser } from '@/lib/auth'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -17,6 +16,7 @@ import {
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { formatCurrency } from '@/lib/utils'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -117,7 +117,7 @@ function refundStatusVariant(status: string | null) {
 }
 
 function formatRefundStatusLabel(status: string | null) {
-  return (status ?? 'processed').replaceAll('_', ' ')
+  return (status ?? 'processed').replace('_', ' ')
 }
 
 export function RefundDialog() {
@@ -132,7 +132,7 @@ export function RefundDialog() {
   const [newRefundId, setNewRefundId] = useState<string | null>(null)
 
   const { userId } = useAuth()
-  const { user: authUser } = useUser()
+  const { user: supabaseUser } = useUser()
   const queryClient = useQueryClient()
 
   const form = useForm<RefundFormValues>({
@@ -142,7 +142,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      auth_user_id: authUser?.id ?? '',
+      user_id: supabaseUser?.id ?? '',
       branch_id: selectedBranchId,
     },
   })
@@ -177,7 +177,7 @@ export function RefundDialog() {
         processedBy: userId ?? '',
         notes: values.notes,
         orderId: selectedTx?.transaction_number as string,
-        auth_user_id: authUser?.id as string,
+        user_id: supabaseUser?.id as string,
       }),
     onSuccess: (refundId) => {
       setNewRefundId(refundId)
@@ -204,7 +204,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      auth_user_id: authUser?.id ?? '',
+      user_id: supabaseUser?.id ?? '',
       branch_id: selectedBranchId,
     })
   }

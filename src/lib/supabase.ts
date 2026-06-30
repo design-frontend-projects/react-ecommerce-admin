@@ -4,13 +4,11 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
+  // eslint-disable-next-line no-console
+  console.warn('[Bluewave POS] Supabase credentials missing from .env')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    persistSession: true,
-  },
-})
+export const supabase = createClient(
+  supabaseUrl || 'https://agpyqixxpwowlmtvrqh.supabase.co',
+  supabaseAnonKey || 'placeholder'
+)

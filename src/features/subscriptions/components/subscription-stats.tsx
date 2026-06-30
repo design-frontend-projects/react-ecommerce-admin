@@ -1,5 +1,5 @@
-import { useUser } from '@/lib/auth'
 import { Activity, DollarSign, AlertTriangle, UserPlus } from 'lucide-react'
+import { useUser } from '@/hooks/use-auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSubscriptionAnalytics } from '../queries'
 

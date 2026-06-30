@@ -1,3 +1,4 @@
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
 import {
   BASE_PERMISSION_DEFINITIONS,
@@ -83,9 +84,13 @@ export async function ensureBasePermissionsSeeded() {
     created_at: Date | null
     updated_at: Date | null
   }>
-  const permissionIdByName = new Map(permissions.map((permission) => [permission.name, permission.id]))
+  const permissionIdByName = new Map(
+    permissions.map((permission) => [permission.name, permission.id])
+  )
 
-  for (const [roleName, defaultPermissions] of Object.entries(DEFAULT_ROLE_PERMISSION_NAMES)) {
+  for (const [roleName, defaultPermissions] of Object.entries(
+    DEFAULT_ROLE_PERMISSION_NAMES
+  )) {
     const role = await prisma.roles.upsert({
       where: { name: roleName },
       update: {},
@@ -103,13 +108,13 @@ export async function ensureBasePermissionsSeeded() {
       continue
     }
 
-    const permissionIds = (
-      defaultPermissions.includes('*')
-        ? permissions.map((permission) => permission.id)
-        : defaultPermissions
-            .map((permissionName) => permissionIdByName.get(permissionName))
-            .filter((permissionId): permissionId is string => Boolean(permissionId))
-    )
+    const permissionIds = defaultPermissions.includes('*')
+      ? permissions.map((permission) => permission.id)
+      : defaultPermissions
+          .map((permissionName) => permissionIdByName.get(permissionName))
+          .filter((permissionId): permissionId is string =>
+            Boolean(permissionId)
+          )
 
     if (permissionIds.length === 0) {
       continue
@@ -125,7 +130,9 @@ export async function ensureBasePermissionsSeeded() {
   }
 }
 
-export async function getRolesWithPermissions(): Promise<RoleWithPermissions[]> {
+export async function getRolesWithPermissions(): Promise<
+  RoleWithPermissions[]
+> {
   await ensureBasePermissionsSeeded()
 
   const roles = await prisma.roles.findMany({
@@ -161,7 +168,9 @@ export async function getRolesPermissions() {
   return { roles, allPermissions }
 }
 
-export async function createRole(input: CreateRoleInput): Promise<RoleWithPermissions> {
+export async function createRole(
+  input: CreateRoleInput
+): Promise<RoleWithPermissions> {
   const role = await prisma.roles.create({
     data: {
       name: normalizeRoleName(input.name),
@@ -185,7 +194,9 @@ export async function createRole(input: CreateRoleInput): Promise<RoleWithPermis
   return serializeRole(role)
 }
 
-export async function updateRole(input: UpdateRoleInput): Promise<RoleWithPermissions> {
+export async function updateRole(
+  input: UpdateRoleInput
+): Promise<RoleWithPermissions> {
   const role = await prisma.roles.update({
     where: { id: input.id },
     data: {
@@ -210,7 +221,10 @@ export async function deleteRole(roleId: string) {
   })
 }
 
-export async function setRolePermissions(roleId: string, permissionIds: string[]) {
+export async function setRolePermissions(
+  roleId: string,
+  permissionIds: string[]
+) {
   await prisma.role_permissions.deleteMany({
     where: { role_id: roleId },
   })
@@ -270,6 +284,30 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
   return { added: true }
 }
 
+async function syncClerkUserRoleMetadata(userId: string, roleNames: string[]) {
+  if (!userId || userId.startsWith('pending_')) {
+    return
+  }
+
+  const {
+    data: { user },
+  } = await supabaseAdmin.auth.admin.getUserById(userId)
+  if (!user) return
+
+  const primaryRole = getPrimaryRoleName(roleNames)
+  const mergedPermissions = getFallbackPermissionNamesForRoles(roleNames)
+
+  const currentMetadata = user.user_metadata || {}
+  await supabaseAdmin.auth.admin.updateUserById(userId, {
+    user_metadata: {
+      ...currentMetadata,
+      role: primaryRole,
+      roles: roleNames,
+      permissions: mergedPermissions,
+    },
+  })
+}
+
 export async function updateUserRoles(
   userId: string,
   roleIds: string[],
@@ -288,7 +326,7 @@ export async function updateUserRoles(
       data: roleIds.map((roleId) => ({
         user_id: userId,
         role_id: roleId,
-        auth_user_id: tenantUser.auth_user_id,
+        user_id: tenantUser.user_id,
       })),
       skipDuplicates: true,
     })
@@ -309,12 +347,18 @@ export async function updateUserRoles(
       },
     })
 
+    await syncClerkUserRoleMetadata(
+      tenantUser.user_id,
+      roles.map((role) => role.name)
+    )
   }
 }
 
-export async function getUserRoles(authUserId: string): Promise<RoleWithPermissions[]> {
+export async function getUserRoles(
+  clerkUserId: string
+): Promise<RoleWithPermissions[]> {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { auth_user_id: authUserId },
+    where: { user_id: clerkUserId },
     include: {
       user_roles: {
         include: {
@@ -356,5 +400,7 @@ export async function getUserRoles(authUserId: string): Promise<RoleWithPermissi
     return []
   }
 
-  return tenantUser.user_roles.map((assignment) => serializeRole(assignment.roles))
+  return tenantUser.user_roles.map((assignment) =>
+    serializeRole(assignment.roles)
+  )
 }

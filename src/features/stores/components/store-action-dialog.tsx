@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { useForm, type SubmitHandler, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { useUser } from '@/lib/auth'
+import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -31,20 +31,24 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Textarea } from '@/components/ui/textarea'
+import { useBranches } from '@/features/branches/hooks/use-branches'
 import { useCities } from '@/features/cities/hooks/use-cities'
 import { useCountries } from '@/features/countries/hooks/use-countries'
-import { useBranches } from '@/features/branches/hooks/use-branches'
 import { useCreateStore, useUpdateStore } from '../hooks/use-stores'
 import { useStoresContext } from './stores-provider'
-
 
 const formSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
   status: z.boolean(),
-  auth_user_id: z.string().optional().nullable(),
+  user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
-  email: z.string().email("Invalid email format").optional().nullable().or(z.literal("")),
+  email: z
+    .string()
+    .email('Invalid email format')
+    .optional()
+    .nullable()
+    .or(z.literal('')),
   address: z.string().optional().nullable(),
   latitude: z.number().optional().nullable(),
   longitude: z.number().optional().nullable(),
@@ -60,7 +64,7 @@ export function StoreActionDialog() {
   const { user } = useUser()
   const createMutation = useCreateStore()
   const updateMutation = useUpdateStore()
-  
+
   const { data: countries } = useCountries()
   const { data: branches } = useBranches()
 
@@ -71,7 +75,7 @@ export function StoreActionDialog() {
     resolver: zodResolver(formSchema) as Resolver<StoreFormValues>,
     defaultValues: {
       name: '',
-      auth_user_id: user?.id || '',
+      user_id: user?.id || '',
       phone: '',
       email: '',
       address: '',
@@ -101,7 +105,7 @@ export function StoreActionDialog() {
       if (currentRow) {
         form.reset({
           name: currentRow.name || '',
-          auth_user_id: currentRow.auth_user_id || user?.id || '',
+          user_id: currentRow.user_id || user?.id || '',
           phone: currentRow.phone || '',
           email: currentRow.email || '',
           address: currentRow.address || '',
@@ -115,7 +119,7 @@ export function StoreActionDialog() {
       } else {
         form.reset({
           name: '',
-          auth_user_id: user?.id || '',
+          user_id: user?.id || '',
           phone: '',
           email: '',
           address: '',
@@ -145,7 +149,10 @@ export function StoreActionDialog() {
       setOpen(null)
     } catch (error: any) {
       toast.error('Error', {
-        description: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong. Please try again.',
       })
     }
   }
@@ -161,9 +168,13 @@ export function StoreActionDialog() {
               : 'Add a new location to your system.'}
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className='pr-4 -mr-4 h-[450px]'>
+        <ScrollArea className='-mr-4 h-[450px] pr-4'>
           <Form {...form}>
-            <form id='store-form' onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+            <form
+              id='store-form'
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='space-y-4'
+            >
               <FormField
                 control={form.control}
                 name='name'
@@ -171,7 +182,11 @@ export function StoreActionDialog() {
                   <FormItem>
                     <FormLabel>Store Name</FormLabel>
                     <FormControl>
-                      <Input placeholder='Main Branch' {...field} value={field.value || ''} />
+                      <Input
+                        placeholder='Main Branch'
+                        {...field}
+                        value={field.value || ''}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -183,7 +198,10 @@ export function StoreActionDialog() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Branch</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value || ''}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ''}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='Select a branch' />
@@ -208,7 +226,10 @@ export function StoreActionDialog() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Country</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value || ''}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value || ''}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder='Select a country' />
@@ -216,7 +237,10 @@ export function StoreActionDialog() {
                         </FormControl>
                         <SelectContent>
                           {countries?.map((country) => (
-                            <SelectItem key={country.id} value={String(country.id)}>
+                            <SelectItem
+                              key={country.id}
+                              value={String(country.id)}
+                            >
                               {country.name}
                             </SelectItem>
                           ))}
@@ -268,7 +292,11 @@ export function StoreActionDialog() {
                   <FormItem>
                     <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Textarea placeholder='Street address' {...field} value={field.value || ''} />
+                      <Textarea
+                        placeholder='Street address'
+                        {...field}
+                        value={field.value || ''}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -282,7 +310,11 @@ export function StoreActionDialog() {
                     <FormItem>
                       <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input placeholder='+1-555-0100' {...field} value={field.value || ''} />
+                        <Input
+                          placeholder='+1-555-0100'
+                          {...field}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -295,7 +327,11 @@ export function StoreActionDialog() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder='contact@store.com' {...field} value={field.value || ''} />
+                        <Input
+                          placeholder='contact@store.com'
+                          {...field}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -310,11 +346,17 @@ export function StoreActionDialog() {
                     <FormItem>
                       <FormLabel>Latitude</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder='0.000000' 
-                          {...field} 
-                          value={field.value || ''} 
-                          onChange={(e) => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))}
+                        <Input
+                          placeholder='0.000000'
+                          {...field}
+                          value={field.value || ''}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ''
+                                ? undefined
+                                : Number(e.target.value)
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -328,11 +370,17 @@ export function StoreActionDialog() {
                     <FormItem>
                       <FormLabel>Longitude</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder='0.000000' 
-                          {...field} 
-                          value={field.value || ''} 
-                          onChange={(e) => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))}
+                        <Input
+                          placeholder='0.000000'
+                          {...field}
+                          value={field.value || ''}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ''
+                                ? undefined
+                                : Number(e.target.value)
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -347,10 +395,16 @@ export function StoreActionDialog() {
                   <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                     <div className='space-y-0.5'>
                       <FormLabel className='text-base'>Active</FormLabel>
-                      <div className='text-sm text-muted-foreground'> Operational status. </div>
+                      <div className='text-sm text-muted-foreground'>
+                        {' '}
+                        Operational status.{' '}
+                      </div>
                     </div>
                     <FormControl>
-                      <Switch checked={field.value || false} onCheckedChange={field.onChange} />
+                      <Switch
+                        checked={field.value || false}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -359,11 +413,21 @@ export function StoreActionDialog() {
           </Form>
         </ScrollArea>
         <DialogFooter>
-          <Button variant='outline' onClick={() => setOpen(null)} disabled={createMutation.isPending || updateMutation.isPending}>
+          <Button
+            variant='outline'
+            onClick={() => setOpen(null)}
+            disabled={createMutation.isPending || updateMutation.isPending}
+          >
             Cancel
           </Button>
-          <Button type='submit' form='store-form' disabled={createMutation.isPending || updateMutation.isPending}>
-            {createMutation.isPending || updateMutation.isPending ? 'Saving...' : 'Save'}
+          <Button
+            type='submit'
+            form='store-form'
+            disabled={createMutation.isPending || updateMutation.isPending}
+          >
+            {createMutation.isPending || updateMutation.isPending
+              ? 'Saving...'
+              : 'Save'}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react'
 import { useState } from 'react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SignOutDialog } from './sign-out-dialog'
@@ -25,8 +25,8 @@ vi.mock('@tanstack/react-router', () => ({
   useLocation: () => ({ href: '/respos/pos' }),
 }))
 
-vi.mock('@/lib/auth', () => ({
-  useSupabaseAuth: () => ({ signOut: mockSignOut }),
+vi.mock('@/hooks/use-auth', () => ({
+  useSupabase: () => ({ signOut: mockSignOut }),
   useUser: () => ({ user: { id: 'user_1' } }),
   useAuth: () => ({
     isLoaded: true,
@@ -36,8 +36,9 @@ vi.mock('@/lib/auth', () => ({
 }))
 
 vi.mock('@/stores/auth-store', () => ({
-  useAuthStore: (selector: (state: { auth: { reset: () => void } }) => unknown) =>
-    selector({ auth: { reset: mockAuthReset } }),
+  useAuthStore: (
+    selector: (state: { auth: { reset: () => void } }) => unknown
+  ) => selector({ auth: { reset: mockAuthReset } }),
 }))
 
 vi.mock('@/stores/respos-store', () => ({
@@ -134,11 +135,7 @@ describe('SignOutDialog', () => {
     )
 
     await waitFor(() =>
-      expect(mockCloseShift).toHaveBeenCalledWith(
-        'user_1',
-        150,
-        'close note'
-      )
+      expect(mockCloseShift).toHaveBeenCalledWith('user_1', 150, 'close note')
     )
     expect(mockSignOut).toHaveBeenCalledTimes(1)
     expect(mockAuthReset).toHaveBeenCalledTimes(1)

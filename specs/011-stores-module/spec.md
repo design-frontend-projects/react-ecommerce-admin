@@ -41,7 +41,7 @@ As an administrator, I want to quickly see the operational status of all my stor
 
 - **Duplicate Store ID**: How does the system handle if a duplicate `store_id` is somehow attempted? (Database should enforce UUID uniqueness).
 - **Missing Localization**: What happens if the `city_id` or `country_id` are not selected for a store? (UI should validate required fields if localization is enabled).
-- **Owner-less Store**: Can a store exist without a `clerk_user_id`? (Based on schema, it's optional, but we assume creation requires an owner).
+- **Owner-less Store**: Can a store exist without a `user_id`? (Based on schema, it's optional, but we assume creation requires an owner).
 
 ## Requirements *(mandatory)*
 
@@ -53,12 +53,12 @@ As an administrator, I want to quickly see the operational status of all my stor
 - **FR-004**: System MUST allow toggling the `status` field to mark stores as active or inactive.
 - **FR-005**: System MUST automatically populate `created_at` and `updated_at` timestamps on write operations.
 - **FR-006**: System MUST link with existing `cities` and `countries` tables via their respective IDs.
-- **FR-007**: System MUST associate the store with a `clerk_user_id`. [NEEDS CLARIFICATION: Should the store be automatically assigned to the current user, or should there be a way to search and assign other users?]
+- **FR-007**: System MUST associate the store with a `user_id`. [NEEDS CLARIFICATION: Should the store be automatically assigned to the current user, or should there be a way to search and assign other users?]
 
 ### Key Entities *(include if feature involves data)*
 
 - **Store**: Represents a physical or virtual business location.
-  - **Attributes**: `store_id` (PK, UUID), `name` (String), `status` (Boolean), `address` (Text), `coordinates` (`latitude`/`longitude`), `localization` (`city_id`/`country_id`), `contact` (`phone`/`email`), `owner` (`clerk_user_id`).
+  - **Attributes**: `store_id` (PK, UUID), `name` (String), `status` (Boolean), `address` (Text), `coordinates` (`latitude`/`longitude`), `localization` (`city_id`/`country_id`), `contact` (`phone`/`email`), `owner` (`user_id`).
 - **City/Country**: Reference entities used to provide geographic context to a store. (Already exist in schema).
 
 ## Success Criteria *(mandatory)*
@@ -71,7 +71,7 @@ As an administrator, I want to quickly see the operational status of all my stor
 
 ## Assumptions
 
-- **Clerk Auth**: Already implemented, as `clerk_user_id` is a core part of the model.
+- **Clerk Auth**: Already implemented, as `user_id` is a core part of the model.
 - **Standard CRUD**: Features will follow the standard atomic component structure (list, detail view, creation form).
 - **Localization Data**: `cities` and `countries` tables contain data or provide a way to add data to be linked.
 - **Admin Access**: Store management is restricted to system owners or designated admins.

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth } from '@/lib/auth'
 import { useAuthStore } from '@/stores/auth-store'
-import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
-import { ProfileDropdown } from '@/components/profile-dropdown'
+import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/use-auth'
 import {
   Select,
   SelectContent,
@@ -14,8 +13,9 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { ConfigDrawer } from './config-drawer'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ReorderNotificationsBell } from '@/features/pos/components/reorder-notifications-bell'
+import { ConfigDrawer } from './config-drawer'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -62,30 +62,28 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
         'z-50 h-16 transition-all duration-300 ease-in-out',
         fixed && 'header-fixed peer/header sticky top-0 w-full',
         offset > 10
-          ? 'glass border-b shadow-lg shadow-primary/5'
+          ? 'border-b shadow-lg glass shadow-primary/5'
           : 'bg-transparent',
         className
       )}
       {...props}
     >
       <div
-        className={cn(
-          'relative flex h-full items-center gap-3 px-6 sm:gap-4'
-        )}
+        className={cn('relative flex h-full items-center gap-3 px-6 sm:gap-4')}
       >
-        <SidebarTrigger variant='ghost' className='-ml-2 hover:bg-primary/10 hover:text-primary transition-colors duration-200' />
+        <SidebarTrigger
+          variant='ghost'
+          className='-ml-2 transition-colors duration-200 hover:bg-primary/10 hover:text-primary'
+        />
         <Separator orientation='vertical' className='h-6 bg-border/50' />
         {children}
-        <div className="ml-auto flex items-center gap-2">
+        <div className='ml-auto flex items-center gap-2'>
           {isSignedIn && (
             <Select
               value={selectedBranchId}
               onValueChange={setSelectedBranchId}
             >
-              <SelectTrigger
-                className='h-9 w-44'
-                aria-label='Select branch'
-              >
+              <SelectTrigger className='h-9 w-44' aria-label='Select branch'>
                 <SelectValue
                   placeholder={
                     isBranchesLoading ? 'Loading branches...' : 'Select branch'

@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
-import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -26,13 +26,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { savePendingOtpRequest } from '../../otp/pending-otp'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
   type UserAuthFormValues,
   type UserModule,
 } from './sign-in.schema'
-import { savePendingOtpRequest } from '../../otp/pending-otp'
 
 interface UserAuthFormProps extends Omit<HTMLMotionProps<'form'>, 'ref'> {
   redirectTo?: string
@@ -46,6 +46,8 @@ export function UserAuthForm({
   const [isLoading, setIsLoading] = useState(false)
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
   const navigate = useNavigate()
+
+  const { setSession, setUser } = useAuthStore((state) => state.auth)
   const { selectedBranchId, setSelectedBranchId } = useAuthStore(
     (state) => state.auth
   )
@@ -78,37 +80,31 @@ export function UserAuthForm({
     try {
       setSelectedBranchId(data.branchId)
 
-      const payload =
-        data.contactType === 'email'
-          ? {
-              email: data.contact.trim().toLowerCase(),
-              options: { shouldCreateUser: false },
-            }
-          : {
-              phone: data.contact.trim(),
-              options: { shouldCreateUser: false },
-            }
-
-      const { error } = await supabase.auth.signInWithOtp(payload)
-      if (error) {
-        throw error
-      }
-
-      savePendingOtpRequest({
-        contactType: data.contactType,
-        contact: data.contact.trim(),
-        flow: 'sign-in',
-        redirectTo,
-        module: selectedModule,
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
       })
 
-      navigate({ to: '/otp' })
-      toast.success('Verification code sent.')
+      if (error) throw error
+
+      if (authData.session && authData.user) {
+        setSession(authData.session)
+        setUser(authData.user)
+
+        // Redirect based on selected module
+        let targetPath = redirectTo || '/'
+        if (selectedModule === 'restaurant') {
+          targetPath = redirectTo || '/respos'
+        }
+
+        navigate({ to: targetPath, replace: true })
+        toast.success(
+          `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
+        )
+      }
     } catch (err: unknown) {
       const errorMsg =
-        (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
-        (err as { message?: string })?.message ||
-        'Something went wrong. Please try again.'
+        (err as { message?: string })?.message || 'Invalid email or password.'
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -244,7 +240,9 @@ export function UserAuthForm({
                 <FormItem>
                   <div className='flex items-center justify-between gap-3'>
                     <FormLabel>
-                      {form.watch('contactType') === 'email' ? 'Email' : 'Phone'}
+                      {form.watch('contactType') === 'email'
+                        ? 'Email'
+                        : 'Phone'}
                     </FormLabel>
                     <FormField
                       control={form.control}
@@ -286,6 +284,35 @@ export function UserAuthForm({
               )}
             />
           </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel>Password</FormLabel>
+                    <Link
+                      to='/forgot-password'
+                      className='text-xs font-medium text-primary hover:underline'
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder='••••••••'
+                      className='h-11 bg-background/50 focus-visible:ring-primary'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+
           <motion.div variants={itemVariants}>
             <Button
               className={cn(
@@ -301,8 +328,7 @@ export function UserAuthForm({
               ) : (
                 <LogIn className='mr-2 h-5 w-5' />
               )}
-              Send code for{' '}
-              {selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'}
+              Sign In
             </Button>
           </motion.div>
         </motion.form>

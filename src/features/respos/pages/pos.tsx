@@ -1,7 +1,6 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
 import { useState } from 'react'
-import { useAuth, useUser } from '@/lib/auth'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,
@@ -21,6 +20,7 @@ import {
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
 import { cn } from '@/lib/utils'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'

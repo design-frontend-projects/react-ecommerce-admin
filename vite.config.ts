@@ -59,6 +59,7 @@ export default defineConfig({
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         maximumFileSizeToCacheInBytes: 5000000,
+        // Don't cache auth-related or API routes
       },
       devOptions: {
         enabled: true,
@@ -69,14 +70,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@crm': path.resolve(__dirname, './src/components/crm'),
+      '@tests': path.resolve(__dirname, './tests'),
     },
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
   server: {
-    port: 5177,
+    port: 5190,
   },
 })

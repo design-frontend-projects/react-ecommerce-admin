@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useUser } from '@/lib/auth'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -14,6 +13,7 @@ import {
   Receipt,
   XCircle,
 } from 'lucide-react'
+import { useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {

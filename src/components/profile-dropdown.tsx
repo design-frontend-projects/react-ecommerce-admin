@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { useUser } from '@/lib/auth'
 import { Trans } from 'react-i18next'
+import { useUser } from '@/hooks/use-auth'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -38,7 +38,8 @@ export function ProfileDropdown() {
                 {user?.fullName}
               </p>
               <p className='text-xs leading-none text-muted-foreground'>
-                {user?.primaryEmailAddress?.emailAddress ?? user?.primaryPhoneNumber?.phoneNumber}
+                {user?.primaryEmailAddress?.emailAddress ??
+                  user?.primaryPhoneNumber?.phoneNumber}
               </p>
             </div>
           </DropdownMenuLabel>

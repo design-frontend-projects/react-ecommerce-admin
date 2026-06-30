@@ -6,7 +6,7 @@ The `stores` model is defined as follows in `prisma/schema.prisma`:
 
 ```prisma
 model stores {
-  clerk_user_id       String?
+  user_id       String?
   phone               String?
   email               String?
   address             String?
@@ -38,7 +38,7 @@ import { z } from "zod";
 export const StoreSchema = z.object({
   store_id: z.string().uuid().optional(),
   name: z.string().min(1, "Store name is required"),
-  clerk_user_id: z.string().optional(),
+  user_id: z.string().optional(),
   phone: z.string().optional(),
   email: z.string().email("Invalid email format").optional().or(z.literal("")),
   address: z.string().optional(),
@@ -58,7 +58,7 @@ export type StoreInput = z.infer<typeof StoreSchema>;
 1. **Creation**:
    - `store_id` is auto-generated if not provided (UUID).
    - `created_at` and `updated_at` are set to `now()`.
-   - `clerk_user_id` is linked directly.
+   - `user_id` is linked directly.
 2. **Update**:
    - `updated_at` is recalculated on every write.
    - All fields except `store_id` and `created_at` are mutable.

@@ -3,8 +3,6 @@
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useAuth, useUser } from '@/lib/auth'
-import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 import {
   CalendarClock,
@@ -20,6 +18,8 @@ import {
   Users,
   UtensilsCrossed,
 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -37,11 +37,11 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useDashboardStats, useActiveShift, useShifts } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
-import { useShift } from '../hooks/use-shift'
-import { OpenShiftDialog, CloseShiftDialog } from './shifts'
-import { formatCurrency } from '../lib/formatters'
 import { RoleNames } from '../constants'
+import { useShift } from '../hooks/use-shift'
+import { formatCurrency } from '../lib/formatters'
 import type { Permission } from '../types'
+import { OpenShiftDialog, CloseShiftDialog } from './shifts'
 
 const container = {
   hidden: { opacity: 0 },
@@ -66,11 +66,16 @@ export function ResposDashboard() {
   const authUserId = user?.id ?? null
 
   // Pass authUserId so the query is enabled and actually fetches
-  const { data: activeShift, isLoading: shiftLoading } = useActiveShift(authUserId)
+  const { data: activeShift, isLoading: shiftLoading } =
+    useActiveShift(authUserId)
 
-  const { openShift, closeShift, isOpening, isClosing } = useShift({ authUserId })
-  
-  const isAdmin = has?.({ permission: RoleNames.admin }) || has?.({ permission: RoleNames.super_admin })
+  const { openShift, closeShift, isOpening, isClosing } = useShift({
+    authUserId,
+  })
+
+  const isAdmin =
+    has?.({ permission: RoleNames.admin }) ||
+    has?.({ permission: RoleNames.super_admin })
   const { data: allShifts = [] } = useShifts(isAdmin ? null : authUserId)
   const closedShifts = allShifts.filter((s) => s.status === 'closed')
   const previousClosingCash = closedShifts[0]?.closing_cash ?? 0
@@ -193,7 +198,12 @@ export function ResposDashboard() {
                 <span className='text-muted-foreground'>
                   since {format(new Date(activeShift.opened_at), 'HH:mm')}
                 </span>
-                <Button variant='destructive' size='sm' className='ml-4' onClick={() => setCloseDialogOpen(true)}>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  className='ml-4'
+                  onClick={() => setCloseDialogOpen(true)}
+                >
                   Close Shift
                 </Button>
               </div>

@@ -72,7 +72,7 @@ export function useOpenShift() {
           opened_by: employeeId,
           opening_cash: openingCash,
           status: 'open',
-          auth_user_id: authUserId,
+          user_id: clerkUserId,
           restaurant_id: restaurantId,
         })
         .select()
@@ -280,7 +280,7 @@ export function useUpdateOrderStatus() {
 
       const { data: currentOrder, error: currentOrderError } = await supabase
         .from('res_orders')
-        .select('id, table_id, auth_user_id')
+        .select('id, table_id, user_id')
         .eq('id', orderId)
         .maybeSingle()
 
@@ -327,7 +327,7 @@ export function useUpdateOrderStatus() {
           .upsert(
             {
               order_id: orderId,
-              auth_user_id: currentOrder.auth_user_id || '00000000-0000-0000-0000-000000000000',
+              user_id: currentOrder.user_id || 'system',
               recipient_name: shipment.recipientName.trim(),
               recipient_phone: shipment.recipientPhone.trim(),
               delivery_address: shipment.deliveryAddress.trim(),
@@ -1520,160 +1520,6 @@ export function useDeleteTable() {
   })
 }
 
-// ============ User/Employee Mutations ============
-
-export function useCreateUser() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({
-      firstName,
-      lastName,
-      email,
-      phone,
-      pinCode,
-      idNumber,
-      roles,
-      organizationId,
-      inviterUserId,
-      orgRole,
-    }: {
-      firstName: string
-      lastName: string
-      email: string
-      phone?: string
-      pinCode?: string
-      idNumber?: string
-      roles: string[]
-      organizationId: string
-      inviterUserId: string
-      orgRole?: string
-    }) => {
-      void organizationId
-      void inviterUserId
-      void orgRole
-      const invitationId = crypto.randomUUID()
-
-      const { data: employee, error: empError } = await supabase
-        .from('res_employees')
-        .insert({
-          user_id: invitationId,
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone,
-          pin_code: pinCode,
-          id_number: idNumber || null,
-          is_active: true,
-        })
-        .select()
-        .maybeSingle()
-
-      if (empError) throw empError
-
-      // 3. Assign POS Roles
-      if (roles.length > 0) {
-        const roleAssignments = roles.map((roleId) => ({
-          employee_id: employee.id,
-          role_id: roleId,
-        }))
-
-        const { error: roleError } = await supabase
-          .from('res_employee_roles')
-          .insert(roleAssignments)
-
-        if (roleError) throw roleError
-      }
-
-      return employee
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
-    },
-  })
-}
-
-export function useUpdateUser() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({
-      id,
-      firstName,
-      lastName,
-      email,
-      phone,
-      pinCode,
-      idNumber,
-      roles,
-    }: {
-      id: string
-      firstName: string
-      lastName: string
-      email: string
-      phone?: string
-      pinCode?: string
-      idNumber?: string
-      roles: string[]
-    }) => {
-      // 1. Get the employee record to retrieve the Auth User_id
-      const { data: existing, error: fetchError } = await supabase
-        .from('res_employees')
-        .select('user_id')
-        .eq('id', id)
-        .maybeSingle()
-
-      if (fetchError) throw fetchError
-
-      void existing
-
-      // 3. Update res_employees record
-      const { data: employee, error: empError } = await supabase
-        .from('res_employees')
-        .update({
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone,
-          pin_code: pinCode,
-          id_number: idNumber || null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', id)
-        .select()
-        .maybeSingle()
-
-      if (empError) throw empError
-
-      // 4. Sync Roles — delete existing, insert new
-      const { error: deleteError } = await supabase
-        .from('res_employee_roles')
-        .delete()
-        .eq('employee_id', id)
-
-      if (deleteError) throw deleteError
-
-      if (roles.length > 0) {
-        const roleAssignments = roles.map((roleId) => ({
-          employee_id: id,
-          role_id: roleId,
-        }))
-
-        const { error: insertError } = await supabase
-          .from('res_employee_roles')
-          .insert(roleAssignments)
-
-        if (insertError) throw insertError
-      }
-
-      return employee
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.employees })
-    },
-  })
-}
-
 // ============ Role Mutations (Admin) ============
 
 export function useCreateRole() {
@@ -1770,8 +1616,8 @@ export function useRefundOrder() {
 
       if (orderError) throw orderError
 
-      const notes = order.notes 
-        ? `${order.notes}\nRefund Reason: ${reason}` 
+      const notes = order.notes
+        ? `${order.notes}\nRefund Reason: ${reason}`
         : `Refund Reason: ${reason}`
 
       const { data, error } = await supabase
@@ -1790,7 +1636,9 @@ export function useRefundOrder() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.dashboardStats })
+      queryClient.invalidateQueries({
+        queryKey: resposQueryKeys.dashboardStats,
+      })
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.tables() })
     },
   })
