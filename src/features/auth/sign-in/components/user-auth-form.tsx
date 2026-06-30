@@ -73,6 +73,7 @@ export function UserAuthForm({
       branchId: selectedBranchId || '',
       contactType: 'email',
       contact: '',
+      password: '',
     },
   })
 

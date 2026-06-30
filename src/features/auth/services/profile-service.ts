@@ -17,11 +17,10 @@ export interface Profile {
 
 export const profileService = {
   async getProfile(authUserId: string): Promise<Profile | null> {
-    console.log('ge profile data here')
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('user_id', clerkUserId)
+      .eq('user_id', authUserId)
       .maybeSingle()
 
     if (error) throw error
