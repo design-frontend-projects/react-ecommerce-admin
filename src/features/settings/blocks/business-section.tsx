@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -29,7 +30,7 @@ export function BusinessSection() {
   const isLoaded = useSettingsStore((s) => s.isLoaded)
   const upsertMutation = useUpsertSetting()
 
-  const form = useForm<BusinessSettings>({
+  const form = useForm<z.input<typeof BusinessSettingsSchema>, any, BusinessSettings>({
     resolver: zodResolver(BusinessSettingsSchema),
     defaultValues: isLoaded ? business : BUSINESS_DEFAULTS,
     values: isLoaded ? business : undefined,

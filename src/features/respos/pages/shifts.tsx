@@ -123,7 +123,7 @@ export function ShiftManagement() {
   const isAdmin =
     user?.role === RoleNames.admin || user?.role === RoleNames.super_admin
   const { data: allShifts = [], isLoading: historyLoading } = useShifts(
-    isAdmin ? null : clerkUserId
+    isAdmin ? null : authUserId
   )
 
   const isLoading = !isLoaded || shiftLoading

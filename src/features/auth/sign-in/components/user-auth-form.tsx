@@ -26,7 +26,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { savePendingOtpRequest } from '../../otp/pending-otp'
+import { PasswordInput } from '@/components/password-input'
+import { extractRoleNames } from '@/features/users/data/rbac'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -80,10 +81,12 @@ export function UserAuthForm({
     try {
       setSelectedBranchId(data.branchId)
 
-      const { data: authData, error } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      })
+      const credentials =
+        data.contactType === 'email'
+          ? { email: data.contact, password: data.password }
+          : { phone: data.contact, password: data.password }
+
+      const { data: authData, error } = await supabase.auth.signInWithPassword(credentials)
 
       if (error) throw error
 
@@ -91,13 +94,16 @@ export function UserAuthForm({
         setSession(authData.session)
         setUser(authData.user)
 
-        // Redirect based on selected module
-        let targetPath = redirectTo || '/'
-        if (selectedModule === 'restaurant') {
+        const roles = extractRoleNames(authData.user.user_metadata?.roles || authData.user.user_metadata?.role)
+        const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
+
+        // Redirect based on selected module and role
+        let targetPath = redirectTo || '/products'
+        if (selectedModule === 'restaurant' || isRestaurantRole) {
           targetPath = redirectTo || '/respos'
         }
 
-        navigate({ to: targetPath, replace: true })
+        navigate({ to: targetPath as never, replace: true })
         toast.success(
           `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
         )

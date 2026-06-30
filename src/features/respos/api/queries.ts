@@ -237,8 +237,8 @@ export function useMenuItemsWithDetails(categoryId?: string) {
               base_price: p.price,
               is_active: p.is_active === 1,
               is_available: p.is_available === 1,
-              variants: p.variants || [],
-              properties: p.properties || [],
+              variants: (p as any).variants || [],
+              properties: (p as any).properties || [],
             })) as unknown as ResMenuItemWithDetails[]
           }
           const results = await cachedQuery.toArray()
@@ -247,8 +247,8 @@ export function useMenuItemsWithDetails(categoryId?: string) {
             base_price: p.price,
             is_active: p.is_active === 1,
             is_available: p.is_available === 1,
-            variants: p.variants || [],
-            properties: p.properties || [],
+            variants: (p as any).variants || [],
+            properties: (p as any).properties || [],
           })) as unknown as ResMenuItemWithDetails[]
         } catch (_error) {
           // Silent catch for offline fetch failures
@@ -379,8 +379,8 @@ export function useActiveShift(authUserId?: string | null) {
         .order('opened_at', { ascending: false })
         .limit(1)
 
-      if (clerkUserId) {
-        query = query.eq('user_id', clerkUserId)
+      if (authUserId) {
+        query = query.eq('user_id', authUserId)
       }
 
       const { data, error } = await query.maybeSingle()
@@ -401,8 +401,8 @@ export function useShifts(authUserId?: string | null) {
         .select('*')
         .order('opened_at', { ascending: false })
 
-      if (clerkUserId) {
-        query = query.eq('user_id', clerkUserId)
+      if (authUserId) {
+        query = query.eq('user_id', authUserId)
       }
 
       const { data, error } = await query

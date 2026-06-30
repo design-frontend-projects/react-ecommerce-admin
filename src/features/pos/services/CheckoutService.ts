@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
@@ -29,7 +29,7 @@ export async function processCheckout(
     const invoiceNo = generateInvoiceNumber()
 
     // 1. Create Sales Invoice (which we'll treat as the Order for restaurant module)
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const orderId = uuidv4() // Use UUID for res_orders compatible reference
 
       const invoice = await tx.sales_invoices.create({

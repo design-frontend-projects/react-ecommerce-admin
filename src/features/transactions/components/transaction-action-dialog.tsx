@@ -311,7 +311,7 @@ export function TransactionActionDialog({
                   <div className='col-span-4 sm:col-span-2'>
                     <FormField
                       control={form.control}
-                      name={`items.${index}.name`}
+                      name={`items.${index}.quantity`}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className='text-xs'>Qty</FormLabel>

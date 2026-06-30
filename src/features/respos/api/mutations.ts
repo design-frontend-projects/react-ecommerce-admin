@@ -72,7 +72,7 @@ export function useOpenShift() {
           opened_by: employeeId,
           opening_cash: openingCash,
           status: 'open',
-          user_id: clerkUserId,
+          user_id: authUserId,
           restaurant_id: restaurantId,
         })
         .select()

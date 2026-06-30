@@ -11,12 +11,12 @@ import { updateUserRoles } from './rbac'
 export const inviteUser = createServerFn({ method: 'POST' })
   .validator((data: InviteUserInput) => data)
   .handler(async ({ data: input }): Promise<InviteUserResult> => {
-    if (!input.inviterClerkUserId) {
+    if (!input.inviterAuthUserId) {
       throw new Error('Inviter context is required')
     }
 
     const inviter = await prisma.tenant_users.findUnique({
-      where: { user_id: input.inviterClerkUserId },
+      where: { user_id: input.inviterAuthUserId },
     })
 
     if (!inviter) {
@@ -56,7 +56,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
       return {
         success: true,
-        clerkInvitationId: existingUser.user_id.startsWith('pending_')
+        invitationId: existingUser.user_id.startsWith('pending_')
           ? existingUser.user_id.replace('pending_', '')
           : null,
         tenantUserId: existingUser.id,
@@ -118,7 +118,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
     return {
       success: true,
-      invitationId: invitation.user?.id ?? null,
+      invitationId: invitation.id ?? null,
       tenantUserId: tenantUser.id,
       mode: 'created',
       message: 'Invitation sent successfully.',

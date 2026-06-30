@@ -17,6 +17,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
@@ -132,6 +133,11 @@ const CrmContactsLazyRoute = CrmContactsLazyRouteImport.update({
 const CrmLayoutRoute = CrmLayoutRouteImport.update({
   id: '/crm/_layout',
   path: '/crm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
@@ -547,6 +553,7 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
   '/crm/dashboard': typeof CrmDashboardLazyRoute
@@ -620,6 +627,7 @@ export interface FileRoutesByTo {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
   '/crm/dashboard': typeof CrmDashboardLazyRoute
@@ -698,6 +706,7 @@ export interface FileRoutesById {
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/crm/_layout': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
   '/crm/dashboard': typeof CrmDashboardLazyRoute
@@ -775,6 +784,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/auth/callback'
     | '/crm'
     | '/crm/contacts'
     | '/crm/dashboard'
@@ -848,6 +858,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
+    | '/auth/callback'
     | '/crm'
     | '/crm/contacts'
     | '/crm/dashboard'
@@ -925,6 +936,7 @@ export interface FileRouteTypes {
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
     | '/_authenticated/subscriptions'
+    | '/auth/callback'
     | '/crm/_layout'
     | '/crm/contacts'
     | '/crm/dashboard'
@@ -981,6 +993,7 @@ export interface RootRouteChildren {
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   CrmLayoutRoute: typeof CrmLayoutRoute
   CrmContactsLazyRoute: typeof CrmContactsLazyRoute
   CrmDashboardLazyRoute: typeof CrmDashboardLazyRoute
@@ -1051,6 +1064,13 @@ declare module '@tanstack/react-router' {
       path: '/crm'
       fullPath: '/crm'
       preLoaderRoute: typeof CrmLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
@@ -1692,6 +1712,7 @@ const rootRouteChildren: RootRouteChildren = {
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   CrmLayoutRoute: CrmLayoutRoute,
   CrmContactsLazyRoute: CrmContactsLazyRoute,
   CrmDashboardLazyRoute: CrmDashboardLazyRoute,

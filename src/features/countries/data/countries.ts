@@ -2,7 +2,7 @@ import type { Country } from './schema'
 
 export const countries: Country[] = [
   {
-    id: 1,
+    id: '',
     name: 'United States',
     code: 'US',
     phone_code: '+1',
@@ -11,7 +11,7 @@ export const countries: Country[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: 2,
+    id: '',
     name: 'Vietnam',
     code: 'VN',
     phone_code: '+84',
@@ -20,7 +20,7 @@ export const countries: Country[] = [
     updated_at: new Date().toISOString(),
   },
   {
-    id: 3,
+    id: '',
     name: 'Singapore',
     code: 'SG',
     phone_code: '+65',

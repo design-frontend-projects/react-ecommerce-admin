@@ -9,7 +9,7 @@ export async function getSettings(
   authUserId: string,
   publicOnly = false
 ): Promise<AppSetting[]> {
-  const where: Record<string, unknown> = { user_id: clerkUserId }
+  const where: Record<string, unknown> = { user_id: authUserId }
   if (publicOnly) {
     where.is_public = true
   }
@@ -19,7 +19,7 @@ export async function getSettings(
     orderBy: { key: 'asc' },
   })
 
-  return settings.map((s) => ({
+  return settings.map((s: any) => ({
     id: s.id,
     key: s.key,
     value: s.value,
@@ -40,7 +40,7 @@ export async function getSettingByKey(
 ): Promise<AppSetting | null> {
   const setting = await prisma.app_settings.findUnique({
     where: {
-      user_id_key: { user_id: clerkUserId, key },
+      user_id_key: { user_id: authUserId, key },
     },
   })
 
@@ -67,14 +67,14 @@ export async function upsertSetting(
 ): Promise<AppSetting> {
   const setting = await prisma.app_settings.upsert({
     where: {
-      user_id_key: { user_id: clerkUserId, key: input.key },
+      user_id_key: { user_id: authUserId, key: input.key },
     },
     create: {
       key: input.key,
       value: input.value,
       group: input.group ?? null,
       is_public: input.is_public ?? true,
-      user_id: clerkUserId,
+      user_id: authUserId,
     },
     update: {
       value: input.value,
@@ -105,7 +105,7 @@ export async function deleteSetting(
 ): Promise<void> {
   await prisma.app_settings.delete({
     where: {
-      user_id_key: { user_id: clerkUserId, key },
+      user_id_key: { user_id: authUserId, key },
     },
   })
 }
@@ -120,7 +120,7 @@ export async function initializeDefaultSettings(
   for (const setting of defaults) {
     const existing = await prisma.app_settings.findUnique({
       where: {
-        user_id_key: { user_id: clerkUserId, key: setting.key },
+        user_id_key: { user_id: authUserId, key: setting.key },
       },
     })
 
@@ -131,7 +131,7 @@ export async function initializeDefaultSettings(
           value: setting.value,
           group: setting.group ?? null,
           is_public: setting.is_public ?? true,
-          user_id: clerkUserId,
+          user_id: authUserId,
         },
       })
     }

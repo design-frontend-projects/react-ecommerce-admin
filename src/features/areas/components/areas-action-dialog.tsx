@@ -21,13 +21,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { type Area } from '../data/schema'
-import { useCreateArea, useUpdateArea } from '../hooks/use-areas'
 import { useCities } from '@/features/cities/hooks/use-cities'
+import { type Area } from '../data/schema'
 import { areaFormSchema, type AreaForm } from './areas-action-dialog.schema'
 
 type AreaActionDialogProps = {
-  currentRow?: Area
+  currentRow: Area | null
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -44,7 +43,7 @@ export function AreasActionDialog({
 
   const form = useForm<AreaForm>({
     resolver: zodResolver(areaFormSchema),
-    defaultValues: isEdit
+    defaultValues: currentRow
       ? {
           name: currentRow.name,
           city_id: currentRow.city_id,
@@ -58,7 +57,7 @@ export function AreasActionDialog({
   })
 
   const onSubmit = (values: AreaForm) => {
-    if (isEdit) {
+    if (currentRow) {
       updateArea.mutate(
         { id: currentRow.id, ...values },
         {
@@ -108,7 +107,9 @@ export function AreasActionDialog({
         <DialogHeader className='text-start'>
           <DialogTitle>{isEdit ? 'Edit Area' : 'Add New Area'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the area details here. ' : 'Create a new area here. '}
+            {isEdit
+              ? 'Update the area details here. '
+              : 'Create a new area here. '}
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>

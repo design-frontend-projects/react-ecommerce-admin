@@ -40,6 +40,6 @@ export const useAuthStore = create<AuthState>()(
 )
 
 // Initialize listener to sync with Supabase Auth state changes
-supabase.auth.onAuthStateChange((event, session) => {
+supabase.auth.onAuthStateChange((_event, session) => {
   useAuthStore.getState().setSession(session)
 })

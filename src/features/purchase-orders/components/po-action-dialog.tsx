@@ -126,9 +126,9 @@ export function POActionDialog() {
       if (!product.product_id) continue
 
       const variants = (product.product_variants ?? [])
-        .filter((variant): variant is VariantOption => !!variant.id)
+        .filter((variant) => !!variant.id)
         .map((variant) => ({
-          id: variant.id,
+          id: variant.id as string,
           sku: variant.sku,
           cost_price: variant.cost_price ?? 0,
         }))

@@ -9,7 +9,6 @@ import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
 import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
-import { useAuthStore } from '@/stores/auth-store'
 
 const AuthenticatedRoute = () => {
   const { session, user } = useAuthStore((state) => state.auth)

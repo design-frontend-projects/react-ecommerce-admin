@@ -38,19 +38,20 @@ function clearResposSessionState() {
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const clerk = useSupabase()
+  const { signOut } = useSupabase()
   const auth = useAuthStore((state) => state.auth)
   const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [closeShiftDialogOpen, setCloseShiftDialogOpen] = useState(false)
 
-  const clerkUserId = user?.id ?? null
+  const authUserId = user?.id || null
   const isCashier = user?.role === RoleNames.cashier
   const { data: activeShift, isLoading: isShiftStatusLoading } =
-    useActiveShift(clerkUserId)
+    useActiveShift(authUserId)
 
   const { closeShift, isClosing } = useShift({ authUserId })
+
 
   const signOutAndRedirect = async () => {
     setIsSigningOut(true)

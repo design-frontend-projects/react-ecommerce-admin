@@ -84,7 +84,7 @@ export async function fetchCurrentUserAccess(
         )
       `
     )
-    .eq('user_id', clerkUserId)
+    .eq('user_id', authUserId)
     .maybeSingle()
 
   if (error) {
@@ -102,7 +102,7 @@ export async function fetchCurrentUserAccess(
 
   const roles = normalizeRoles(row)
   return {
-    clerkUserId: row.user_id,
+    authUserId: row.user_id,
     roleIds: row.user_roles.map((assignment) => assignment.role_id),
     roleNames: roles.map((role) => role.name),
     permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
@@ -143,7 +143,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'user_roles',
-            filter: `user_id=eq.${clerkUserId}`,
+            filter: `user_id=eq.${authUserId}`,
           },
           invalidate
         )
@@ -155,7 +155,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'tenant_users',
-            filter: `user_id=eq.${clerkUserId}`,
+            filter: `user_id=eq.${authUserId}`,
           },
           invalidate
         )

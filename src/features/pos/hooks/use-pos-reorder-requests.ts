@@ -192,7 +192,7 @@ export function useMarkPosReorderRequestRead() {
 
 interface UsePosReorderRealtimeOptions {
   enabled?: boolean
-  employeeauthUserId?: string
+  employeeAuthUserId?: string
   onEmployeeRequestRead?: (
     payload: RealtimePostgresChangesPayload<Record<string, unknown>>
   ) => void
@@ -200,7 +200,7 @@ interface UsePosReorderRealtimeOptions {
 
 export function usePosReorderRealtime({
   enabled = true,
-  employeeauthUserId,
+  employeeAuthUserId,
   onEmployeeRequestRead,
 }: UsePosReorderRealtimeOptions = {}) {
   const queryClient = useQueryClient()
@@ -222,14 +222,14 @@ export function usePosReorderRealtime({
       }
     )
 
-    if (employeeauthUserId) {
+    if (employeeAuthUserId) {
       channel.on(
         'postgres_changes',
         {
           event: 'UPDATE',
           schema: 'public',
           table: 'pos_reorder_requests',
-          filter: `requested_by_user_id=eq.${employeeClerkUserId}`,
+          filter: `requested_by_user_id=eq.${employeeAuthUserId}`,
         },
         (payload) => {
           onEmployeeRequestRead?.(payload)
@@ -242,5 +242,5 @@ export function usePosReorderRealtime({
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [queryClient, enabled, employeeauthUserId, onEmployeeRequestRead])
+  }, [queryClient, enabled, employeeAuthUserId, onEmployeeRequestRead])
 }

@@ -18,7 +18,7 @@ export async function getCRMMetrics() {
     }
   });
 
-  const recentRevenue = recentWonOpportunities.reduce((sum, opp) => sum + Number(opp.value || 0), 0);
+  const recentRevenue = recentWonOpportunities.reduce((sum: number, opp: any) => sum + Number(opp.value || 0), 0);
   
   const leadConversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
   const winRate = opportunities > 0 ? (wonOpportunities / opportunities) * 100 : 0;

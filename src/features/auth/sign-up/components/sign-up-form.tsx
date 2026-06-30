@@ -6,7 +6,6 @@ import { Loader2, LogIn, MailCheck } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
-import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -17,8 +16,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/password-input'
 import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
-import { savePendingOtpRequest } from '../../otp/pending-otp'
 
 export function SignUpForm({
   className,

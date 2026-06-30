@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { AxiosError } from 'axios'
 import {
@@ -9,7 +9,7 @@ import {
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
-import { SupabaseAuthProvider } from '@/lib/auth'
+
 import { handleServerError } from '@/lib/handle-server-error'
 import { InstallBanner } from './components/InstallBanner'
 import { InstallPrompt } from './components/InstallPrompt'

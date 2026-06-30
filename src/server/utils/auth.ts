@@ -1,10 +1,10 @@
-import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
 import {
   getFallbackPermissionNamesForRoles,
   hasAnyPermission,
   normalizeRoleName,
+  extractRoleNames,
 } from '@/features/users/data/rbac'
 
 export interface AuthorizedUser {
@@ -112,7 +112,7 @@ export async function requireAuth(
     const { roleNames: dbRoleNames, permissionNames: dbPermissionNames } =
       await getDatabasePermissionNames(userId)
 
-    const roleNames = [...new Set(dbRoleNames)]
+    const roleNames = [...new Set([...dbRoleNames, ...metadataRoleNames])]
     const permissionNames = [
       ...new Set([
         ...dbPermissionNames,

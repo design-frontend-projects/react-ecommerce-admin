@@ -5,6 +5,7 @@ import {
   DEFAULT_ROLE_PERMISSION_NAMES,
   getPrimaryRoleName,
   normalizeRoleName,
+  getFallbackPermissionNamesForRoles,
 } from '@/features/users/data/rbac'
 import type {
   CreateRoleInput,
@@ -326,7 +327,7 @@ export async function updateUserRoles(
       data: roleIds.map((roleId) => ({
         user_id: userId,
         role_id: roleId,
-        user_id: tenantUser.user_id,
+        auth_user_id: tenantUser.user_id,
       })),
       skipDuplicates: true,
     })

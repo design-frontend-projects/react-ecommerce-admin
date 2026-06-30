@@ -168,7 +168,7 @@ export function Analytics() {
                             width={55}
                           />
                           <Tooltip
-                            formatter={(value: number | string) => [
+                            formatter={(value: any) => [
                               formatCurrency(Number(value)),
                               'Revenue',
                             ]}
@@ -209,7 +209,7 @@ export function Analytics() {
                             width={45}
                           />
                           <Tooltip
-                            formatter={(value: number | string) => [
+                            formatter={(value: any) => [
                               `${Number(value).toFixed(1)}%`,
                               'Occupancy',
                             ]}
@@ -246,7 +246,7 @@ export function Analytics() {
                           />
                           <YAxis tickLine={false} axisLine={false} width={40} />
                           <Tooltip
-                            formatter={(value: number | string) => [
+                            formatter={(value: any) => [
                               Number(value),
                               'Quantity',
                             ]}
@@ -281,7 +281,7 @@ export function Analytics() {
                           />
                           <YAxis tickLine={false} axisLine={false} width={45} />
                           <Tooltip
-                            formatter={(value: number | string) => [
+                            formatter={(value: any) => [
                               formatCurrency(Number(value)),
                               'Revenue',
                             ]}

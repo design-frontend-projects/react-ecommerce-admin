@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { useAuth, UserButton } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/auth-store'
 import {
   Card,
   CardContent,
@@ -16,11 +17,15 @@ export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
   const { isSignedIn, isLoaded } = useAuth()
   const navigate = useNavigate()
+  const roleNames = useAuthStore((state) => state.auth.user?.user_metadata?.roles || state.auth.user?.user_metadata?.role || [])
+  const isRestaurantRole = Array.isArray(roleNames) ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
+
   useEffect(() => {
     if (isSignedIn && isLoaded) {
-      navigate({ to: (redirect || '/') as never, search: true })
+      const defaultPath = isRestaurantRole ? '/respos' : '/products'
+      navigate({ to: (redirect || defaultPath) as never, search: true })
     }
-  }, [isSignedIn, isLoaded, navigate, redirect])
+  }, [isSignedIn, isLoaded, navigate, redirect, isRestaurantRole])
 
   if (isSignedIn && isLoaded) {
     return null

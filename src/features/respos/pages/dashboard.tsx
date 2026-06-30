@@ -409,7 +409,7 @@ function QuickActionCard({
   color,
 }: QuickActionCardProps) {
   return (
-    <Link to={href}>
+    <Link to={href as any}>
       <motion.div
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}

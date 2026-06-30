@@ -6,6 +6,7 @@ import { LoginOtpForm } from '@/components/auth/LoginOtpForm'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
+import { extractRoleNames } from '@/features/users/data/rbac'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
@@ -55,11 +56,11 @@ function LoginPage() {
       
       if (error) throw error
       
-      if (authData.session) {
+      if (authData.session && authData.user) {
         useAuthStore.getState().setSession(authData.session)
-        // TanStack Router will automatically handle the redirect in beforeLoad
-        // if we navigate to the dashboard or it might require an explicit navigate
-        navigate({ to: '/' })
+        const roles = extractRoleNames(authData.user.user_metadata?.roles || authData.user.user_metadata?.role)
+        const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
+        navigate({ to: isRestaurantRole ? '/respos' : '/products' })
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Invalid login code'

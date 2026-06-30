@@ -32,7 +32,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
     header: 'Order Date',
     cell: ({ row }) => {
       try {
-        return format(new Date(row.original.order_date), 'MMM dd, yyyy')
+        return format(new Date(row.original.order_date as string), 'MMM dd, yyyy')
       } catch {
         return row.original.order_date
       }
@@ -48,7 +48,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
       }
       try {
         return format(
-          new Date(row.original.expected_delivery_date),
+          new Date(row.original.expected_delivery_date as string),
           'MMM dd, yyyy'
         )
       } catch {

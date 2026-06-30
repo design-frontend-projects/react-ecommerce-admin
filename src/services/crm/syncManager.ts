@@ -17,7 +17,7 @@ export interface SyncPayload {
  * Links the resulting customer to the POS sale record.
  */
 export async function syncTransactionToCRM(payload: SyncPayload) {
-  const { orderId, customer, transactionAmount } = payload;
+  const { orderId, customer } = payload;
 
   // Try to find an existing customer by email or phone
   let existingCustomer = null;

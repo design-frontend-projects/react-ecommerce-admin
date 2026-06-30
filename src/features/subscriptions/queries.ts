@@ -92,7 +92,7 @@ async function getCurrentUserSubscription(authUserId: string) {
   const { data, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('user_id', clerkUserId)
+    .eq('user_id', authUserId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()

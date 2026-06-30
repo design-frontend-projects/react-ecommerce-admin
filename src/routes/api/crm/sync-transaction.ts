@@ -1,8 +1,8 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api';
+import { createAPIFileRoute } from '@tanstack/start';
 import { syncTransactionToCRM, SyncPayload } from '@/services/crm/syncManager';
 
 export const APIRoute = createAPIFileRoute('/api/crm/sync-transaction')({
-  POST: async ({ request }) => {
+  POST: async ({ request }: { request: Request }) => {
     try {
       const payload: SyncPayload = await request.json();
       

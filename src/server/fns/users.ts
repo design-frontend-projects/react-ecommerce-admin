@@ -49,12 +49,12 @@ export async function getUsers(): Promise<User[]> {
 
     return {
       id: user.id,
-      clerkUserId: user.user_id,
+      authUserId: user.user_id,
       firstName: user.first_name ?? '',
       lastName: user.last_name ?? '',
       username,
       email: user.email ?? '',
-      phoneNumber: user.phone ?? '',
+      phoneNumber: '',
       role: primaryRole,
       roleNames,
       roleIds,

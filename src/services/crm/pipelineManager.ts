@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 
 export async function promoteLeadToOpportunity(leadId: number, estimatedValue: number) {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const lead = await tx.crm_leads.findUnique({
       where: { id: leadId },
     });

@@ -26,7 +26,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 
   const handleSelect = (e: string) => {
     setVal(e)
-    navigate({ to: e })
+    navigate({ to: e as any })
   }
 
   return (
@@ -64,7 +64,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
           {items.map((item) => (
             <Link
               key={item.href}
-              to={item.href}
+              to={item.href as any}
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
                 pathname === item.href

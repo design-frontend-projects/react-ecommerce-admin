@@ -128,7 +128,7 @@ export function useTableUrlState(
     const nextPage = next.pageIndex + 1
     const nextPageSize = next.pageSize
     navigate({
-      search: (prev) => ({
+      search: (prev: any) => ({
         ...(prev as SearchRecord),
         [pageKey]: nextPage <= defaultPage ? undefined : nextPage,
         [pageSizeKey]:
@@ -153,7 +153,7 @@ export function useTableUrlState(
           const value = trimGlobal ? next.trim() : next
           setGlobalFilter(value)
           navigate({
-            search: (prev) => ({
+            search: (prev: any) => ({
               ...(prev as SearchRecord),
               [pageKey]: undefined,
               [globalFilterKey]: value ? value : undefined,
@@ -186,7 +186,7 @@ export function useTableUrlState(
     }
 
     navigate({
-      search: (prev) => ({
+      search: (prev: any) => ({
         ...(prev as SearchRecord),
         [pageKey]: undefined,
         ...patch,
@@ -213,7 +213,7 @@ export function useTableUrlState(
     const value = next[0] ? `${next[0].id}:${next[0].desc ? 'desc' : 'asc'}` : undefined
 
     navigate({
-      search: (prev) => ({
+      search: (prev: any) => ({
         ...(prev as SearchRecord),
         [sortingKey]: value,
       }),
@@ -229,7 +229,7 @@ export function useTableUrlState(
     if (pageCount > 0 && pageNum > pageCount) {
       navigate({
         replace: true,
-        search: (prev) => ({
+        search: (prev: any) => ({
           ...(prev as SearchRecord),
           [pageKey]: opts.resetTo === 'last' ? pageCount : undefined,
         }),

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { processCheckout } from '../CheckoutService'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import type { CheckoutRequestType } from '../../schemas/checkout'
 
 // Mocking Prisma
