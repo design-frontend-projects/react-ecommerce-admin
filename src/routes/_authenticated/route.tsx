@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { profileService } from '@/features/auth/services/profile-service'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Loader2 } from 'lucide-react'
-import { isSubscriptionActive } from '@/lib/subscription_utils'
 import { useAuthStore } from '@/stores/auth-store'
+import { isSubscriptionActive } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
+import { profileService } from '@/features/auth/services/profile-service'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
 import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
-  const { session, user, selectedBranchId, setSelectedBranchId } = useAuthStore((state) => state.auth)
+  const { session, user, selectedBranchId, setSelectedBranchId } = useAuthStore(
+    (state) => state.auth
+  )
   const userId = user?.id
   const navigate = useNavigate()
   useRBACSession()
@@ -73,7 +75,13 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    if (isLoaded && isSignedIn && !subLoading && !profileLoading && onboardingComplete) {
+    if (
+      isLoaded &&
+      isSignedIn &&
+      !subLoading &&
+      !profileLoading &&
+      onboardingComplete
+    ) {
       // Check for super_admin role
       const isSuperAdmin = profile?.system_owner === true
 
@@ -82,7 +90,6 @@ const AuthenticatedRoute = () => {
         subscription?.status ?? '',
         subscription?.end_date ? new Date(subscription.end_date) : null
       )
-
       if (
         !isSuperAdmin &&
         !active &&
@@ -122,4 +129,3 @@ const AuthenticatedRoute = () => {
 export const Route = createFileRoute('/_authenticated')({
   component: AuthenticatedRoute,
 })
-
