@@ -23,7 +23,7 @@ import {
   InputOTPSeparator,
 } from '@/components/ui/input-otp'
 import { profileService } from '@/features/auth/services/profile-service'
-import { extractRoleNames } from '@/features/users/data/rbac'
+import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 import { getPendingOtpRequest, clearPendingOtpRequest } from '../pending-otp'
 
 const formSchema = z.object({
@@ -60,15 +60,19 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
   async function handleSignUpVerification(code: string) {
     if (!pendingRequest) return
 
-    const verifyParams: any = {
-      token: code,
-    }
+    let verifyParams: Parameters<typeof supabase.auth.verifyOtp>[0]
     if (pendingRequest.contactType === 'email') {
-      verifyParams.email = pendingRequest.contact
-      verifyParams.type = 'signup'
+      verifyParams = {
+        token: code,
+        email: pendingRequest.contact,
+        type: 'signup',
+      }
     } else {
-      verifyParams.phone = pendingRequest.contact
-      verifyParams.type = 'sms'
+      verifyParams = {
+        token: code,
+        phone: pendingRequest.contact,
+        type: 'sms',
+      }
     }
 
     const { data, error } = await supabase.auth.verifyOtp(verifyParams)
@@ -85,7 +89,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
           user_id: data.user.id,
           email: data.user.email ?? pendingRequest.contact,
         })
-      } catch (profileErr) {
+      } catch (_profileErr) {
         toast.error('Failed to create initial profile. Please contact support.')
       }
 
@@ -100,15 +104,19 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
   async function handleSignInVerification(code: string) {
     if (!pendingRequest) return
 
-    const verifyParams: any = {
-      token: code,
-    }
+    let verifyParams: Parameters<typeof supabase.auth.verifyOtp>[0]
     if (pendingRequest.contactType === 'email') {
-      verifyParams.email = pendingRequest.contact
-      verifyParams.type = 'email'
+      verifyParams = {
+        token: code,
+        email: pendingRequest.contact,
+        type: 'email',
+      }
     } else {
-      verifyParams.phone = pendingRequest.contact
-      verifyParams.type = 'sms'
+      verifyParams = {
+        token: code,
+        phone: pendingRequest.contact,
+        type: 'sms',
+      }
     }
 
     const { data, error } = await supabase.auth.verifyOtp(verifyParams)
@@ -121,14 +129,13 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
 
       clearPendingOtpRequest()
 
-      const roles = extractRoleNames(
-        data.user.user_metadata?.roles || data.user.user_metadata?.role
-      )
+      const access = await fetchCurrentUserAccess(data.user.id)
+      const roles = access?.roleNames || []
       const isRestaurantRole = roles.some((r) =>
         ['cashier', 'captain', 'kitchen'].includes(r)
       )
 
-      let targetPath = '/products'
+      let targetPath: '/products' | '/respos' = '/products'
       if (pendingRequest.module === 'restaurant' || isRestaurantRole) {
         targetPath = '/respos'
       }

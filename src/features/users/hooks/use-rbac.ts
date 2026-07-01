@@ -1,65 +1,20 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useUser } from '@/hooks/use-auth'
 import { useCurrentUserAccess } from '../data/queries'
 import {
-  extractRoleNames,
-  getFallbackPermissionNamesForRoles,
   hasPermission,
   normalizeRoleName,
   toPermissionName,
 } from '../data/rbac'
 import { useRBACStore } from '../data/store'
 
-function extractPermissionNames(input: unknown) {
-  if (Array.isArray(input)) {
-    return input.filter((value): value is string => typeof value === 'string')
-  }
-
-  if (typeof input === 'string' && input.trim()) {
-    return [input.trim()]
-  }
-
-  return []
-}
-
 function useResolvedRBACAccess() {
-  const { user } = useUser()
   const storeRoleNames = useRBACStore((state) => state.currentRoleNames)
   const storePermissionNames = useRBACStore(
     (state) => state.currentPermissionNames
   )
 
-  const metadataRoleNames = useMemo(
-    () =>
-      [
-        ...extractRoleNames(user?.publicMetadata?.roles),
-        ...extractRoleNames(user?.publicMetadata?.role),
-      ].map(normalizeRoleName),
-    [user?.publicMetadata?.role, user?.publicMetadata?.roles]
-  )
-
-  const metadataPermissionNames = useMemo(
-    () => extractPermissionNames(user?.publicMetadata?.permissions),
-    [user?.publicMetadata?.permissions]
-  )
-
-  const roleNames = useMemo(
-    () => [...new Set([...storeRoleNames, ...metadataRoleNames])],
-    [metadataRoleNames, storeRoleNames]
-  )
-
-  const permissionNames = useMemo(
-    () => [
-      ...new Set([
-        ...storePermissionNames,
-        ...metadataPermissionNames,
-        ...getFallbackPermissionNamesForRoles(roleNames),
-      ]),
-    ],
-    [metadataPermissionNames, roleNames, storePermissionNames]
-  )
-
-  return { roleNames, permissionNames }
+  return { roleNames: storeRoleNames, permissionNames: storePermissionNames }
 }
 
 export function useRBACSession() {
@@ -67,22 +22,6 @@ export function useRBACSession() {
   const setCurrentAccess = useRBACStore((state) => state.setCurrentAccess)
   const reset = useRBACStore((state) => state.reset)
   const realtimePendingRef = useRef(false)
-
-  const metadataRoleNames = useMemo(
-    () =>
-      [
-        ...extractRoleNames(user?.publicMetadata?.roles),
-        ...extractRoleNames(user?.publicMetadata?.role),
-      ].map(normalizeRoleName),
-    [user?.publicMetadata?.role, user?.publicMetadata?.roles]
-  )
-  const metadataPermissionNames = useMemo(
-    () => [
-      ...extractPermissionNames(user?.publicMetadata?.permissions),
-      ...getFallbackPermissionNamesForRoles(metadataRoleNames),
-    ],
-    [metadataRoleNames, user?.publicMetadata?.permissions]
-  )
 
   const currentAccessQuery = useCurrentUserAccess(user?.id, () => {
     realtimePendingRef.current = true
@@ -103,8 +42,8 @@ export function useRBACSession() {
         {
           userId: user.id,
           roleIds: [],
-          roleNames: metadataRoleNames,
-          permissionNames: metadataPermissionNames,
+          roleNames: [],
+          permissionNames: [],
         },
         'bootstrap'
       )
@@ -115,28 +54,14 @@ export function useRBACSession() {
       {
         userId: currentAccessQuery.data.authUserId,
         roleIds: currentAccessQuery.data.roleIds,
-        roleNames:
-          currentAccessQuery.data.roleNames.length > 0
-            ? currentAccessQuery.data.roleNames
-            : metadataRoleNames,
-        permissionNames:
-          currentAccessQuery.data.permissionNames.length > 0
-            ? currentAccessQuery.data.permissionNames
-            : metadataPermissionNames,
+        roleNames: currentAccessQuery.data.roleNames,
+        permissionNames: currentAccessQuery.data.permissionNames,
       },
       realtimePendingRef.current ? 'realtime' : 'bootstrap'
     )
 
     realtimePendingRef.current = false
-  }, [
-    currentAccessQuery.data,
-    isLoaded,
-    metadataPermissionNames,
-    metadataRoleNames,
-    reset,
-    setCurrentAccess,
-    user,
-  ])
+  }, [currentAccessQuery.data, isLoaded, reset, setCurrentAccess, user])
 
   const roleNames = useRBACStore((state) => state.currentRoleNames)
   const permissionNames = useRBACStore((state) => state.currentPermissionNames)

@@ -57,11 +57,18 @@ function normalizeRoles(
 export async function fetchCurrentUserAccess(
   authUserId: string
 ): Promise<CurrentUserAccess | null> {
-  const { data, error } = await supabase
-    .from('tenant_users')
-    .select(
-      `
+  const [profileResult, tenantUserResult] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('is_owner, onboarding_complete, role')
+      .eq('user_id', authUserId)
+      .maybeSingle(),
+    supabase
+      .from('tenant_users')
+      .select(
+        `
         user_id,
+        default_role,
         user_roles (
           role_id,
           roles (
@@ -83,28 +90,39 @@ export async function fetchCurrentUserAccess(
           )
         )
       `
-    )
-    .eq('user_id', authUserId)
-    .maybeSingle()
+      )
+      .eq('user_id', authUserId)
+      .maybeSingle(),
+  ])
 
-  if (error) {
-    throw error
+  if (profileResult.error) throw profileResult.error
+  if (tenantUserResult.error) throw tenantUserResult.error
+
+  const profile = profileResult.data
+  const row = tenantUserResult.data as unknown as TenantUserAccessRow & { default_role?: string | null }
+
+  let roleNames: string[] = []
+
+  // Apply requested role check logic
+  if (profile?.is_owner && profile.onboarding_complete) {
+    if (profile.role) {
+      roleNames = [profile.role]
+    }
+  } else if (row?.default_role) {
+    roleNames = [row.default_role]
   }
 
-  if (!data) {
-    return null
+  const roles = row ? normalizeRoles(row) : []
+
+  // Fallback to relations if no explicit role found
+  if (roleNames.length === 0 && roles.length > 0) {
+    roleNames = roles.map((role) => role.name)
   }
 
-  const row = data as unknown as TenantUserAccessRow
-  if (!row) {
-    return null
-  }
-
-  const roles = normalizeRoles(row)
   return {
-    authUserId: row.user_id,
-    roleIds: row.user_roles.map((assignment) => assignment.role_id),
-    roleNames: roles.map((role) => role.name),
+    authUserId: row?.user_id ?? authUserId,
+    roleIds: row?.user_roles.map((assignment) => assignment.role_id) ?? [],
+    roleNames,
     permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
   }
 }
@@ -136,6 +154,18 @@ export function useCurrentUserAccess(
     }
 
     const channels = [
+      createRealtimeChannel(`rbac-profiles-${authUserId}`)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'profiles',
+            filter: `user_id=eq.${authUserId}`,
+          },
+          invalidate
+        )
+        .subscribe(),
       createRealtimeChannel(`rbac-user-roles-${authUserId}`)
         .on(
           'postgres_changes',

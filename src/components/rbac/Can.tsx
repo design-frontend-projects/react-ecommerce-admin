@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react'
 import { useUser } from '@/hooks/use-auth'
 import {
-  extractRoleNames,
-  getFallbackPermissionNamesForRoles,
   hasAnyPermission,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
@@ -26,25 +24,8 @@ export function Can({ role, permission, children, fallback = null }: CanProps) {
     return <>{fallback}</>
   }
 
-  const metadataRoles = [
-    ...extractRoleNames(user.publicMetadata?.roles),
-    ...extractRoleNames(user.publicMetadata?.role),
-  ]
-  const roleNames = [...new Set([...storeRoleNames, ...metadataRoles])]
-  const metadataPermissions = Array.isArray(user.publicMetadata?.permissions)
-    ? user.publicMetadata.permissions.filter(
-        (value): value is string => typeof value === 'string'
-      )
-    : typeof user.publicMetadata?.permissions === 'string'
-      ? [user.publicMetadata.permissions]
-      : []
-  const permissionNames = [
-    ...new Set([
-      ...storePermissionNames,
-      ...metadataPermissions,
-      ...getFallbackPermissionNamesForRoles(roleNames),
-    ]),
-  ]
+  const roleNames = storeRoleNames
+  const permissionNames = storePermissionNames
 
   if (role) {
     const requiredRoles = (Array.isArray(role) ? role : [role]).map(

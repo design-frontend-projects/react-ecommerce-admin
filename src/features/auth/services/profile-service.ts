@@ -50,6 +50,7 @@ export const profileService = {
           is_owner: true, // Default to owner as per schema/logic
           system_owner: false,
           onboarding_complete: params.onboarding_complete ?? false,
+          role: 'super_admin',
         },
       ])
       .select()

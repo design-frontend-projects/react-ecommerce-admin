@@ -6,7 +6,7 @@ import { LoginOtpForm } from '@/components/auth/LoginOtpForm'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
-import { extractRoleNames } from '@/features/users/data/rbac'
+import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
@@ -58,7 +58,8 @@ function LoginPage() {
       
       if (authData.session && authData.user) {
         useAuthStore.getState().setSession(authData.session)
-        const roles = extractRoleNames(authData.user.user_metadata?.roles || authData.user.user_metadata?.role)
+        const access = await fetchCurrentUserAccess(authData.user.id)
+        const roles = access?.roleNames || []
         const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
         navigate({ to: isRestaurantRole ? '/respos' : '/products' })
       }

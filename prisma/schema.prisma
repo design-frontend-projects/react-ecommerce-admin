@@ -404,6 +404,7 @@ model profiles {
   user_id             String       @db.Uuid
   is_paid             Boolean      @default(false)
   branch_id           String?      @db.Uuid
+  role                String?
   audit_logs          audit_logs[]
   branches            branches?    @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
 

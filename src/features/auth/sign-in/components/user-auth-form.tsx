@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-import { extractRoleNames } from '@/features/users/data/rbac'
+import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -68,10 +68,8 @@ export function UserAuthForm({
         setSession(authData.session)
         setUser(authData.user)
 
-        const roles = extractRoleNames(
-          authData.user.user_metadata?.roles ||
-            authData.user.user_metadata?.role
-        )
+        const access = await fetchCurrentUserAccess(authData.user.id)
+        const roles = access?.roleNames || []
         const isRestaurantRole = roles.some((r) =>
           ['cashier', 'captain', 'kitchen'].includes(r)
         )

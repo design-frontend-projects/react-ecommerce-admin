@@ -1,11 +1,6 @@
-import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
-import {
-  getFallbackPermissionNamesForRoles,
-  hasAnyPermission,
-  normalizeRoleName,
-  extractRoleNames,
-} from '@/features/users/data/rbac'
+import prisma from '@/lib/prisma'
+import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 
 export interface AuthorizedUser {
   userId: string
@@ -98,27 +93,11 @@ export async function requireAuth(
 
     const userId = user.id
 
-    // Fallback to roles stored in user_metadata or app_metadata if we want to emulate Clerk publicMetadata
-    const appMetadata = user.app_metadata || {}
-    const userMetadata = user.user_metadata || {}
-
-    const metadataRoleNames = [
-      ...extractRoleNames(appMetadata.roles as unknown),
-      ...extractRoleNames(appMetadata.role as unknown),
-      ...extractRoleNames(userMetadata.roles as unknown),
-      ...extractRoleNames(userMetadata.role as unknown),
-    ]
-
     const { roleNames: dbRoleNames, permissionNames: dbPermissionNames } =
       await getDatabasePermissionNames(userId)
 
-    const roleNames = [...new Set([...dbRoleNames, ...metadataRoleNames])]
-    const permissionNames = [
-      ...new Set([
-        ...dbPermissionNames,
-        ...getFallbackPermissionNamesForRoles(roleNames),
-      ]),
-    ]
+    const roleNames = [...new Set([...dbRoleNames])]
+    const permissionNames = [...new Set([...dbPermissionNames])]
 
     const requiredList = Array.isArray(requiredPermissions)
       ? requiredPermissions

@@ -73,20 +73,7 @@ export function normalizeRoleName(roleName: string | null | undefined) {
   return (roleName ?? '').trim().toLowerCase()
 }
 
-export function extractRoleNames(input: unknown): string[] {
-  if (Array.isArray(input)) {
-    return input
-      .map((value) => normalizeRoleName(typeof value === 'string' ? value : ''))
-      .filter(Boolean)
-  }
 
-  if (typeof input === 'string') {
-    const role = normalizeRoleName(input)
-    return role ? [role] : []
-  }
-
-  return []
-}
 
 export function expandPermissionNames(permissionNames: string[]) {
   const expanded = new Set<string>()
@@ -106,17 +93,7 @@ export function expandPermissionNames(permissionNames: string[]) {
   return [...expanded]
 }
 
-export function getFallbackPermissionNamesForRoles(roleNames: string[]) {
-  const permissionNames = new Set<string>()
 
-  for (const roleName of roleNames.map(normalizeRoleName)) {
-    for (const permissionName of DEFAULT_ROLE_PERMISSION_NAMES[roleName] ?? []) {
-      permissionNames.add(permissionName)
-    }
-  }
-
-  return expandPermissionNames([...permissionNames])
-}
 
 export function getPrimaryRoleName(roleNames: string[]) {
   const normalized = roleNames.map(normalizeRoleName)

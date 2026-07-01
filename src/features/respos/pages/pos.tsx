@@ -262,8 +262,8 @@ export function POSScreen() {
   }
 
   if (
-    !has({ role: 'admin' }) &&
-    !has({ role: 'super_admin' }) &&
+    !has({ role: 'admin' }) ||
+    !has({ role: 'super_admin' }) ||
     !has({ role: 'captain' })
   ) {
     return (
