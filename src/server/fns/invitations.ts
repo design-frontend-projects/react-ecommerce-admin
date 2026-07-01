@@ -52,6 +52,13 @@ export const inviteUser = createServerFn({ method: 'POST' })
         },
       })
 
+      if (input.branchId) {
+        await prisma.profiles.updateMany({
+          where: { user_id: existingUser.user_id },
+          data: { branch_id: input.branchId, updated_at: new Date() },
+        })
+      }
+
       await updateUserRoles(existingUser.id, [role.id], input.inviterAuthUserId)
 
       return {
@@ -113,6 +120,18 @@ export const inviteUser = createServerFn({ method: 'POST' })
         user_id: tenantUser.id,
         role_id: role.id,
         auth_user_id: pendingClerkUserId,
+      },
+    })
+
+    // Pre-create the user's profile with the branchId if provided
+    await prisma.profiles.create({
+      data: {
+        user_id: pendingClerkUserId,
+        email: input.email.trim().toLowerCase(),
+        is_owner: false,
+        system_owner: false,
+        onboarding_complete: false,
+        branch_id: input.branchId || null,
       },
     })
 

@@ -65,9 +65,45 @@ async function assignSubscription(payload: {
   start_date: Date
   end_date: Date
 }) {
+  const { data: existingSubs, error: fetchError } = await supabase
+    .from('tenant_subscriptions')
+    .select('*')
+    .eq('auth_user_id', payload.auth_user_id)
+    .eq('status', 'paid')
+    .gte('end_date', new Date().toISOString())
+    .order('end_date', { ascending: false })
+    .limit(1)
+
+  if (fetchError) throw fetchError
+
+  let finalStartDate = payload.start_date
+  let finalEndDate = payload.end_date
+  let isExtension = false
+  let totalMonths = 0
+
+  if (existingSubs && existingSubs.length > 0) {
+    const activeSub = existingSubs[0]
+    finalStartDate = new Date(activeSub.end_date!)
+    // Add the duration of the new subscription to the end date of the active subscription
+    const durationMs = payload.end_date.getTime() - payload.start_date.getTime()
+    finalEndDate = new Date(finalStartDate.getTime() + durationMs)
+    isExtension = true
+  }
+
+  const monthsDiff = (d1: Date, d2: Date) => {
+    return (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth())
+  }
+  totalMonths = monthsDiff(new Date(), finalEndDate)
+
+  const insertPayload = {
+    ...payload,
+    start_date: finalStartDate,
+    end_date: finalEndDate
+  }
+
   const { data, error } = await supabase
     .from('tenant_subscriptions')
-    .insert([payload])
+    .insert([insertPayload])
     .select()
     .maybeSingle()
 
@@ -80,7 +116,7 @@ async function assignSubscription(payload: {
     
   if (profileError) throw profileError
 
-  return data
+  return { data, isExtension, totalMonths }
 }
 
 export function useAssignSubscription() {

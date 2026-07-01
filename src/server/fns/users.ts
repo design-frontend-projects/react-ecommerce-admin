@@ -41,6 +41,14 @@ export async function getUsers(): Promise<User[]> {
     }>
   }>
 
+  const userIds = dbUsers.map(u => u.user_id)
+  const profiles = await prisma.profiles.findMany({
+    where: { user_id: { in: userIds } },
+    select: { user_id: true, branch_id: true }
+  })
+  
+  const profileMap = new Map(profiles.map(p => [p.user_id, p.branch_id]))
+
   return dbUsers.map((user) => {
     const roleNames = user.user_roles.map((assignment) => assignment.roles.name)
     const roleIds = user.user_roles.map((assignment) => assignment.roles.id)
@@ -58,9 +66,42 @@ export async function getUsers(): Promise<User[]> {
       role: primaryRole,
       roleNames,
       roleIds,
+      branchId: profileMap.get(user.user_id) ?? undefined,
       status: buildUserStatus(user),
       createdAt: user.created_at?.toISOString() ?? new Date().toISOString(),
       updatedAt: user.updated_at?.toISOString() ?? new Date().toISOString(),
     }
   })
 }
+
+import { createServerFn } from '@tanstack/react-start'
+
+export const updateUserBranch = createServerFn({ method: 'POST' })
+  .validator((data: { userId: string; branchId: string | null }) => data)
+  .handler(async ({ data: { userId, branchId } }) => {
+    // Try to update existing profile
+    const updated = await prisma.profiles.updateMany({
+      where: { user_id: userId },
+      data: { branch_id: branchId, updated_at: new Date() },
+    })
+
+    // If profile didn't exist yet for this user
+    if (updated.count === 0) {
+      const tenantUser = await prisma.tenant_users.findUnique({ where: { user_id: userId } })
+      if (tenantUser) {
+        await prisma.profiles.create({
+          data: {
+            user_id: userId,
+            email: tenantUser.email,
+            is_owner: false,
+            system_owner: false,
+            onboarding_complete: false,
+            branch_id: branchId,
+          }
+        })
+      }
+    }
+    
+    return { success: true }
+  })
+

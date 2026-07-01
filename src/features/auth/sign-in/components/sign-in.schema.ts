@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 export const userAuthFormSchema = z
   .object({
-    branchId: z.string().min(1, 'Please select a branch'),
     contactType: z.enum(['email', 'phone']),
     contact: z.string().min(1, 'Please enter your email or phone number'),
     password: z.string().min(1, 'Please enter your password'),

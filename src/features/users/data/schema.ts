@@ -39,6 +39,7 @@ export const userSchema = z.object({
   role: z.string(),
   roleNames: z.array(z.string()),
   roleIds: z.array(z.string()),
+  branchId: z.string().nullable().optional(),
   status: userStatusSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -51,6 +52,7 @@ export const inviteUserInputSchema = z.object({
   email: z.string().email(),
   roleId: z.string().min(1),
   roleName: z.string().optional(),
+  branchId: z.string().optional(),
 })
 
 export const inviteUserResultSchema = z.object({

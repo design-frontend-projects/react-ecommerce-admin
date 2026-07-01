@@ -1,7 +1,9 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { MailPlus, Send, Loader2 } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -31,6 +33,7 @@ const formSchema = z.object({
       iss.input === '' ? 'Please enter an email to invite.' : undefined,
   }),
   role: z.string().min(1, 'Role is required.'),
+  branchId: z.string().optional(),
   desc: z.string().optional(),
 })
 
@@ -47,11 +50,25 @@ export function UsersInviteDialog({
 }: UserInviteDialogProps) {
   const form = useForm<UserInviteForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: '', role: '', desc: '' },
+    defaultValues: { email: '', role: '', branchId: '', desc: '' },
   })
 
   const { data: dynamicRoles = [], isLoading: isLoadingRoles } = useRoles()
   const inviteMutation = useInviteUser()
+
+  const { data: branches, isLoading: isBranchesLoading } = useQuery({
+    queryKey: ['branches', 'active', 'invite-dialog'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('branches')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name')
+
+      if (error) throw error
+      return data
+    },
+  })
 
   const onSubmit = (values: UserInviteForm) => {
     const selectedRole = dynamicRoles.find(r => r.id === values.role) || { name: values.role }
@@ -60,6 +77,7 @@ export function UsersInviteDialog({
       email: values.email,
       roleId: values.role,
       roleName: selectedRole.name,
+      branchId: values.branchId,
       desc: values.desc
     }, {
       onSuccess: () => {
@@ -84,7 +102,7 @@ export function UsersInviteDialog({
           </DialogTitle>
           <DialogDescription>
             Invite new user to join your team by sending them an email
-            invitation. Assign a role to define their access level.
+            invitation. Assign a role and branch to define their access level.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -126,6 +144,28 @@ export function UsersInviteDialog({
                     items={dynamicRoles.map((r) => ({
                       label: r.name,
                       value: r.id,
+                    }))}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='branchId'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='flex items-center gap-2'>
+                    Branch
+                    {isBranchesLoading && <Loader2 className='h-3 w-3 animate-spin' />}
+                  </FormLabel>
+                  <SelectDropdown
+                    defaultValue={field.value ?? ''}
+                    onValueChange={field.onChange}
+                    placeholder='Select a branch (optional)'
+                    items={(branches ?? []).map((b) => ({
+                      label: b.name,
+                      value: b.id,
                     }))}
                   />
                   <FormMessage />

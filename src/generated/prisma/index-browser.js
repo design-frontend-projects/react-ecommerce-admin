@@ -387,11 +387,12 @@ exports.Prisma.ProfilesScalarFieldEnum = {
   is_owner: 'is_owner',
   system_owner: 'system_owner',
   onboarding_complete: 'onboarding_complete',
-  is_paid: 'is_paid',
   created_at: 'created_at',
   updated_at: 'updated_at',
   activity: 'activity',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  is_paid: 'is_paid',
+  branch_id: 'branch_id'
 };
 
 exports.Prisma.Promotion_usageScalarFieldEnum = {

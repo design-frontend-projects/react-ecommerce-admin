@@ -13,7 +13,7 @@ export function useSubscription() {
   const session = useAuthStore((state) => state.session)
 
   return useQuery({
-    queryKey: ['subscription', session?.user?.id],
+    queryKey: ['subscription', session?.user?.id, session?.access_token],
     queryFn: async (): Promise<SubscriptionStatus> => {
       const response = await fetch('/api/tenant/subscription/status', {
         headers: {

@@ -11,7 +11,7 @@ import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
-  const { session, user } = useAuthStore((state) => state.auth)
+  const { session, user, selectedBranchId, setSelectedBranchId } = useAuthStore((state) => state.auth)
   const userId = user?.id
   const navigate = useNavigate()
   useRBACSession()
@@ -30,6 +30,13 @@ const AuthenticatedRoute = () => {
   // Actually, we should check if session is still loading, but Zustand has it synchronously if stored.
   const isLoaded = true
   const isSignedIn = !!session
+
+  // Auto-set branch from profile when not already selected
+  useEffect(() => {
+    if (profile?.branch_id && !selectedBranchId) {
+      setSelectedBranchId(profile.branch_id)
+    }
+  }, [profile, selectedBranchId, setSelectedBranchId])
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {

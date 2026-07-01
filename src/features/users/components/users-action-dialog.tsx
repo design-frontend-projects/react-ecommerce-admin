@@ -2,7 +2,10 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
 import { showSubmittedData } from '@/lib/show-submitted-data'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,7 +29,7 @@ import { SelectDropdown } from '@/components/select-dropdown'
 import { type User } from '../data/schema'
 import { userFormSchema, type UserForm } from './users-action-dialog.schema'
 import { useRoles } from '../hooks/use-invitations'
-import { useUpdateUserRole } from '../hooks/use-roles-permissions'
+import { useUpdateUserRole, useUpdateUserBranch } from '../hooks/use-roles-permissions'
 
 type UserActionDialogProps = {
   currentRow?: User
@@ -42,12 +45,28 @@ export function UsersActionDialog({
   const isEdit = !!currentRow
   const { data: rolesData = [] } = useRoles()
   const updateUserRole = useUpdateUserRole()
+  const updateUserBranch = useUpdateUserBranch()
+
+  const { data: branches, isLoading: isBranchesLoading } = useQuery({
+    queryKey: ['branches', 'active', 'user-dialog'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('branches')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name')
+
+      if (error) throw error
+      return data
+    },
+  })
 
   const form = useForm<UserForm>({
     resolver: zodResolver(userFormSchema),
     defaultValues: isEdit
       ? {
           ...currentRow,
+          branchId: (currentRow as User & { branchId?: string })?.branchId ?? '',
           password: '',
           confirmPassword: '',
           isEdit,
@@ -58,6 +77,7 @@ export function UsersActionDialog({
           username: '',
           email: '',
           role: '',
+          branchId: '',
           phoneNumber: '',
           password: '',
           confirmPassword: '',
@@ -68,6 +88,10 @@ export function UsersActionDialog({
   const onSubmit = (values: UserForm) => {
     if (isEdit && currentRow && values.role !== currentRow.role) {
        updateUserRole.mutate({ userId: currentRow.id, role: values.role })
+    }
+
+    if (isEdit && currentRow && values.branchId !== (currentRow as User & { branchId?: string }).branchId) {
+      updateUserBranch.mutate({ userId: currentRow.authUserId, branchId: values.branchId || null })
     }
     form.reset()
     showSubmittedData(values)
@@ -208,6 +232,29 @@ export function UsersActionDialog({
                       items={rolesData.map(({ name }) => ({
                         label: name,
                         value: name.toLowerCase(),
+                      }))}
+                    />
+                    <FormMessage className='col-span-4 col-start-3' />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='branchId'
+                render={({ field }) => (
+                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
+                    <FormLabel className='col-span-2 flex items-center justify-end gap-1'>
+                      Branch
+                      {isBranchesLoading && <Loader2 className='h-3 w-3 animate-spin' />}
+                    </FormLabel>
+                    <SelectDropdown
+                      defaultValue={field.value ?? ''}
+                      onValueChange={field.onChange}
+                      placeholder='Select a branch'
+                      className='col-span-4'
+                      items={(branches ?? []).map((b) => ({
+                        label: b.name,
+                        value: b.id,
                       }))}
                     />
                     <FormMessage className='col-span-4 col-start-3' />

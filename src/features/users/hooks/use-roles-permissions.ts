@@ -17,6 +17,7 @@ export function useRBACCatalog(enabled = true) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
 
   return useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: rbacCatalogQueryKey,
     queryFn: () => fetchRBACCatalog(getToken),
     enabled: enabled && isLoaded && isSignedIn,
@@ -28,6 +29,7 @@ export function usePermissions(enabled = true) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
 
   return useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: rbacCatalogQueryKey,
     queryFn: () => fetchRBACCatalog(getToken),
     enabled: enabled && isLoaded && isSignedIn,
@@ -139,3 +141,23 @@ export function useUpdateUserRole() {
     },
   })
 }
+
+import { updateUserBranch } from '@/server/fns/users'
+
+export function useUpdateUserBranch() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (input: { userId: string; branchId: string | null }) => {
+      return updateUserBranch({ data: input })
+    },
+    onSuccess: () => {
+      toast.success('User branch updated.')
+      void queryClient.invalidateQueries({ queryKey: ['users'] })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to update user branch.')
+    },
+  })
+}
+

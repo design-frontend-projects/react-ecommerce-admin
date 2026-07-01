@@ -3,29 +3,24 @@ import { ShieldPlusIcon, UsersIcon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { InviteForm } from '../blocks/invite-form'
 import { UserList } from '../blocks/user-list'
-import { RolesManagement } from '../components/roles-management'
 import { PermissionsManagement } from '../components/permissions-management'
 import { RBACGuard } from '../components/rbac-guard'
-import { useRBACCatalog } from '../hooks/use-roles-permissions'
+import { RolesManagement } from '../components/roles-management'
+import { useRBACStore } from '../data/store'
+import { useRBAC } from '../hooks/use-rbac'
 import {
   useCreateRole,
   useDeleteRole,
+  useRBACCatalog,
   useSetRolePermissions,
   useUpdateRole,
 } from '../hooks/use-roles-permissions'
-import { useRBAC } from '../hooks/use-rbac'
 import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
-import { useRBACStore } from '../data/store'
 
 export function UserManagementPage() {
   const [inviteOpen, setInviteOpen] = useState(false)
@@ -86,7 +81,7 @@ export function UserManagementPage() {
       <Header fixed>
         <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
           <div className='flex min-w-0 flex-col gap-1'>
-            <p className='text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground'>
+            <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
               Tenant security
             </p>
             <h1 className='truncate text-lg font-semibold'>Users and access</h1>

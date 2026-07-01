@@ -24,6 +24,7 @@ export function useRoles(enabled = true) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
 
   return useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ['rbac-catalog'],
     queryFn: () => fetchRBACCatalog(getToken),
     enabled: enabled && isLoaded && isSignedIn,

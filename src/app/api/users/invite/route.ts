@@ -10,6 +10,7 @@ export async function POST(request: Request): Promise<Response> {
       email?: string
       roleId?: string
       roleName?: string
+      branchId?: string
     }
 
     if (!body.email || !body.roleId) {
@@ -17,12 +18,16 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const result = await inviteUser({
-      email: body.email,
-      roleId: body.roleId,
-      roleName: body.roleName,
-      redirectUrl: new URL('/auth/callback', request.url).toString(),
-      inviterAuthUserId: authorizedUser.userId,
+      data: {
+        email: body.email,
+        roleId: body.roleId,
+        roleName: body.roleName,
+        branchId: body.branchId,
+        redirectUrl: new URL('/auth/callback', request.url).toString(),
+        inviterAuthUserId: authorizedUser.userId,
+      },
     })
+
 
     return Response.json({
       success: true,

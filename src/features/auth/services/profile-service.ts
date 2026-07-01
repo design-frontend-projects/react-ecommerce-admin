@@ -11,6 +11,7 @@ export interface Profile {
   system_owner: boolean
   onboarding_complete: boolean
   activity: string | null
+  branch_id: string | null
   created_at: string
   updated_at: string
 }
@@ -33,6 +34,7 @@ export const profileService = {
     first_name?: string
     last_name?: string
     phone?: string
+    branch_id?: string
     onboarding_complete?: boolean
   }): Promise<Profile> {
     const { data, error } = await supabase
@@ -44,6 +46,7 @@ export const profileService = {
           first_name: params.first_name || null,
           last_name: params.last_name || null,
           phone: params.phone || null,
+          branch_id: params.branch_id || null,
           is_owner: true, // Default to owner as per schema/logic
           system_owner: false,
           onboarding_complete: params.onboarding_complete ?? false,

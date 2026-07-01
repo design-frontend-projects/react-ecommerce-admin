@@ -93,7 +93,7 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.products'),
             url: '/products',
             icon: Package,
-            roles: ['admin', 'super_admin'],
+            // roles: ['admin', 'super_admin'],
           },
           {
             title: t('sidebar.subscriptions'),
@@ -110,13 +110,13 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.posDashboard'),
             url: '/respos',
             icon: LayoutDashboard,
-            roles: ['admin', 'super_admin'],
+            // roles: ['admin', 'super_admin'],
           },
           {
             title: t('sidebar.posScreen'),
             url: '/respos/pos',
             icon: Receipt,
-            roles: ['captain', 'admin', 'super_admin'],
+            // roles: ['captain', 'admin', 'super_admin'],
           },
           {
             title: t('sidebar.captainStation'),

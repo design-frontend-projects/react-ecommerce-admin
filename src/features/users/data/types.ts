@@ -11,6 +11,7 @@ export interface User {
   role: string
   roleNames: string[]
   roleIds: string[]
+  branchId?: string | null
   status: UserStatus
   createdAt: string
   updatedAt: string
@@ -20,6 +21,7 @@ export interface InviteUserInput {
   email: string
   roleId: string
   roleName?: string
+  branchId?: string
   redirectUrl?: string
   desc?: string
   inviterAuthUserId?: string

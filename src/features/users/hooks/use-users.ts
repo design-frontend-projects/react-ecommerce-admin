@@ -10,6 +10,7 @@ export function useUsersList(enabled = true) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
 
   return useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: usersQueryKey,
     queryFn: () => fetchUsers(getToken),
     enabled: enabled && isLoaded && isSignedIn,

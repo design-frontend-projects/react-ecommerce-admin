@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { LogOut, Sparkles } from 'lucide-react'
+import { LogOut, Sparkles, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { SignOutDialog } from '@/components/sign-out-dialog'
 import { Button } from '@/components/ui/button'
 import { SubscriptionFlow } from '@/features/subscriptions/components/subscription-flow'
 import { useAuthStore } from '@/stores/auth-store'
+import { useSubscriptionStatus } from '@/features/subscriptions/queries'
+import { isSubscriptionActive } from '@/lib/subscription_utils'
 
 export const Route = createFileRoute('/subscription-required')({
   component: SubscriptionRequired,
@@ -14,14 +16,40 @@ export const Route = createFileRoute('/subscription-required')({
 function SubscriptionRequired() {
   const navigate = useNavigate()
   const [signOutDialogOpen, setSignOutDialogOpen] = useState(false)
-  const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
+  const user = useAuthStore((state) => state.auth.user)
+  const userId = user?.id
+  const userMetadata = user?.user_metadata
   const roleNames = userMetadata?.roles || userMetadata?.role || []
   const isRestaurantRole = Array.isArray(roleNames) 
     ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) 
     : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
 
+  const { data: subscription, isLoading: subLoading } = useSubscriptionStatus(
+    userId ?? undefined
+  )
+
+  useEffect(() => {
+    if (!subLoading && subscription) {
+      const active = isSubscriptionActive(
+        subscription.status ?? '',
+        subscription.end_date ? new Date(subscription.end_date) : null
+      )
+      if (active) {
+        navigate({ to: isRestaurantRole ? '/respos' : '/products' })
+      }
+    }
+  }, [subLoading, subscription, isRestaurantRole, navigate])
+
   const handleSuccess = () => {
-    navigate({ to: isRestaurantRole ? '/respos' : '/products' })
+    navigate({ to: isRestaurantRole ? '/respos' : '/inventory' })
+  }
+
+  if (subLoading) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center bg-slate-950'>
+        <Loader2 className='h-10 w-10 animate-spin text-primary' />
+      </div>
+    )
   }
 
   return (

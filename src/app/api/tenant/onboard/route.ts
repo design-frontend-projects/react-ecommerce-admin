@@ -1,12 +1,12 @@
-import prisma from '@/lib/prisma'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import prisma from '@/lib/prisma'
 
 export async function POST(request: Request): Promise<Response> {
   try {
     const token = getBearerToken(request)
     const authorizedUser = await requireAuth(token)
-    
+
     const body = (await request.json()) as {
       company_name?: string
       billing_contact?: string
@@ -14,7 +14,12 @@ export async function POST(request: Request): Promise<Response> {
       industry?: string
     }
 
-    if (!body.company_name || !body.billing_contact || !body.timezone || !body.industry) {
+    if (
+      !body.company_name ||
+      !body.billing_contact ||
+      !body.timezone ||
+      !body.industry
+    ) {
       return jsonError('Missing required onboarding fields', 400)
     }
 
@@ -26,7 +31,10 @@ export async function POST(request: Request): Promise<Response> {
 
     if (!existingSubscription) {
       // In a real app we might create one here or when the user signs up
-      return jsonError('No subscription record found for authenticated user', 404)
+      return jsonError(
+        'No subscription record found for authenticated user',
+        404
+      )
     }
 
     // Update the subscription
@@ -35,7 +43,7 @@ export async function POST(request: Request): Promise<Response> {
       data: {
         first_use: false,
         // Typically we would also update company_name etc if they were on this model
-        // but based on the schema, we might not have all fields. 
+        // but based on the schema, we might not have all fields.
         // We will just update first_use for now.
       },
     })

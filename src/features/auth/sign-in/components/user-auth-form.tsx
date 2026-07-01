@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, LogIn } from 'lucide-react'
@@ -19,15 +18,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { PasswordInput } from '@/components/password-input'
 import { extractRoleNames } from '@/features/users/data/rbac'
+import { profileService } from '@/features/auth/services/profile-service'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -48,29 +41,13 @@ export function UserAuthForm({
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
   const navigate = useNavigate()
 
-  const { setSession, setUser } = useAuthStore((state) => state.auth)
-  const { selectedBranchId, setSelectedBranchId } = useAuthStore(
+  const { setSession, setUser, setSelectedBranchId } = useAuthStore(
     (state) => state.auth
   )
-
-  const { data: branches, isLoading: isBranchesLoading } = useQuery({
-    queryKey: ['branches', 'active', 'auth-form'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('branches')
-        .select('id, name')
-        .eq('is_active', true)
-        .order('name')
-
-      if (error) throw error
-      return data
-    },
-  })
 
   const form = useForm<UserAuthFormValues>({
     resolver: zodResolver(userAuthFormSchema),
     defaultValues: {
-      branchId: selectedBranchId || '',
       contactType: 'email',
       contact: '',
       password: '',
@@ -80,8 +57,6 @@ export function UserAuthForm({
   async function onSubmit(data: UserAuthFormValues) {
     setIsLoading(true)
     try {
-      setSelectedBranchId(data.branchId)
-
       const credentials =
         data.contactType === 'email'
           ? { email: data.contact, password: data.password }
@@ -94,6 +69,16 @@ export function UserAuthForm({
       if (authData.session && authData.user) {
         setSession(authData.session)
         setUser(authData.user)
+
+        // Auto-set branch from the user's profile
+        try {
+          const profile = await profileService.getProfile(authData.user.id)
+          if (profile?.branch_id) {
+            setSelectedBranchId(profile.branch_id)
+          }
+        } catch {
+          // Non-blocking — branch will fallback to header selector
+        }
 
         const roles = extractRoleNames(authData.user.user_metadata?.roles || authData.user.user_metadata?.role)
         const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
@@ -203,45 +188,6 @@ export function UserAuthForm({
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
-              name='branchId'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Branch</FormLabel>
-                  <Select
-                    value={field.value}
-                    onValueChange={(value) => {
-                      field.onChange(value)
-                      setSelectedBranchId(value)
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger className='h-11 bg-background/50 focus-visible:ring-primary'>
-                        <SelectValue
-                          placeholder={
-                            isBranchesLoading
-                              ? 'Loading branches...'
-                              : 'Select a branch'
-                          }
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {branches?.map((branch) => (
-                        <SelectItem key={branch.id} value={branch.id}>
-                          {branch.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <FormField
-              control={form.control}
               name='contact'
               render={({ field }) => (
                 <FormItem>
@@ -328,7 +274,7 @@ export function UserAuthForm({
                   ? 'from-orange-500 to-red-500 shadow-orange-500/20 hover:from-orange-600 hover:to-red-600 hover:shadow-orange-500/30'
                   : 'from-blue-500 to-cyan-500 shadow-blue-500/20 hover:from-blue-600 hover:to-cyan-600 hover:shadow-blue-500/30'
               )}
-              disabled={isLoading || isBranchesLoading}
+              disabled={isLoading}
             >
               {isLoading ? (
                 <Loader2 className='mr-2 h-5 w-5 animate-spin' />

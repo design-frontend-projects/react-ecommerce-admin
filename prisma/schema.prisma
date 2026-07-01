@@ -56,6 +56,7 @@ model branches {
   auth_user_id        String?               @db.Uuid
   cities              cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   inventory_movements inventory_movements[]
+  profiles            profiles[]
   purchase_invoices   purchase_invoices[]
   purchase_returns    purchase_returns[]
   refunds             refunds[]
@@ -397,14 +398,17 @@ model profiles {
   is_owner            Boolean      @default(true)
   system_owner        Boolean      @default(false)
   onboarding_complete Boolean      @default(false)
-  is_paid             Boolean      @default(false)
   created_at          DateTime?    @default(now()) @db.Timestamp(6)
   updated_at          DateTime?    @default(now()) @db.Timestamp(6)
   activity            String?      @db.VarChar(100)
   user_id             String       @db.Uuid
+  is_paid             Boolean      @default(false)
+  branch_id           String?      @db.Uuid
   audit_logs          audit_logs[]
+  branches            branches?    @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
 
   @@index([email], map: "idx_profiles_email")
+  @@index([branch_id], map: "idx_profiles_branch_id")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
