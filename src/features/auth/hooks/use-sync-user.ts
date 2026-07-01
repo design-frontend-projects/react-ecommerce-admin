@@ -5,8 +5,6 @@ import { useUser } from '@/hooks/use-auth'
 import { profileService } from '@/features/auth/services/profile-service'
 
 export function useSyncUser() {
-  console.log('use sync user funtion call')
-
   const { user, isLoaded, isSignedIn } = useUser()
   const { profile, setProfile } = useAuthStore((state) => state.auth)
 
@@ -26,7 +24,7 @@ export function useSyncUser() {
         email: user.primaryEmailAddress?.emailAddress ?? '',
         first_name: user.firstName ?? '',
         last_name: user.lastName ?? '',
-        phone: user.primaryPhoneNumber?.phoneNumber ?? '',
+        phone: user.publicMetadata?.phone_number ?? '',
       })
     }
   }, [isLoaded, isSignedIn, user, profile, sync])

@@ -20,7 +20,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { extractRoleNames } from '@/features/users/data/rbac'
-import { profileService } from '@/features/auth/services/profile-service'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -41,9 +40,7 @@ export function UserAuthForm({
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
   const navigate = useNavigate()
 
-  const { setSession, setUser, setSelectedBranchId } = useAuthStore(
-    (state) => state.auth
-  )
+  const { setSession, setUser } = useAuthStore((state) => state.auth)
 
   const form = useForm<UserAuthFormValues>({
     resolver: zodResolver(userAuthFormSchema),
@@ -62,7 +59,8 @@ export function UserAuthForm({
           ? { email: data.contact, password: data.password }
           : { phone: data.contact, password: data.password }
 
-      const { data: authData, error } = await supabase.auth.signInWithPassword(credentials)
+      const { data: authData, error } =
+        await supabase.auth.signInWithPassword(credentials)
 
       if (error) throw error
 
@@ -70,18 +68,13 @@ export function UserAuthForm({
         setSession(authData.session)
         setUser(authData.user)
 
-        // Auto-set branch from the user's profile
-        try {
-          const profile = await profileService.getProfile(authData.user.id)
-          if (profile?.branch_id) {
-            setSelectedBranchId(profile.branch_id)
-          }
-        } catch {
-          // Non-blocking — branch will fallback to header selector
-        }
-
-        const roles = extractRoleNames(authData.user.user_metadata?.roles || authData.user.user_metadata?.role)
-        const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
+        const roles = extractRoleNames(
+          authData.user.user_metadata?.roles ||
+            authData.user.user_metadata?.role
+        )
+        const isRestaurantRole = roles.some((r) =>
+          ['cashier', 'captain', 'kitchen'].includes(r)
+        )
 
         // Redirect based on selected module and role
         let targetPath = redirectTo || '/products'

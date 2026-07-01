@@ -91,14 +91,17 @@ async function assignSubscription(payload: {
   }
 
   const monthsDiff = (d1: Date, d2: Date) => {
-    return (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth())
+    return (
+      (d2.getFullYear() - d1.getFullYear()) * 12 +
+      (d2.getMonth() - d1.getMonth())
+    )
   }
   totalMonths = monthsDiff(new Date(), finalEndDate)
 
   const insertPayload = {
     ...payload,
     start_date: finalStartDate,
-    end_date: finalEndDate
+    end_date: finalEndDate,
   }
 
   const { data, error } = await supabase
@@ -108,12 +111,12 @@ async function assignSubscription(payload: {
     .maybeSingle()
 
   if (error) throw error
-  
+
   const { error: profileError } = await supabase
     .from('profiles')
     .update({ is_paid: true })
     .eq('user_id', payload.auth_user_id)
-    
+
   if (profileError) throw profileError
 
   return { data, isExtension, totalMonths }
@@ -139,10 +142,12 @@ async function getCurrentUserSubscription(authUserId: string) {
   const { data, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('user_id', authUserId)
+    .eq('auth_user_id', authUserId)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
+  console.log('subscirpton object data')
+  console.log(data)
 
   if (error) {
     if (error.code === 'PGRST116') return null // No record found
