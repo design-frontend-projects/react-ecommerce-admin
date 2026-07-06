@@ -39,6 +39,6 @@ function AuthCallback() {
   )
 }
 
-export const Route = createFileRoute('/auth/callback' as never)({
+export const Route = createFileRoute('/auth/callback')({
   component: AuthCallback,
 })

@@ -11,8 +11,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DummyRouteImport } from './routes/dummy'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
@@ -91,14 +94,29 @@ const AuthenticatedCitiesIndexLazyRouteImport = createFileRoute(
   '/_authenticated/cities/',
 )()
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SubscriptionRequiredRoute = SubscriptionRequiredRouteImport.update({
   id: '/subscription-required',
   path: '/subscription-required',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DummyRoute = DummyRouteImport.update({
+  id: '/dummy',
+  path: '/dummy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -519,8 +537,11 @@ const AuthenticatedResposInvoiceOrderIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
+  '/terms': typeof TermsRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
@@ -595,8 +616,11 @@ export interface FileRoutesByFullPath {
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
+  '/terms': typeof TermsRoute
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
@@ -671,8 +695,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
@@ -750,8 +777,11 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/dummy'
     | '/login'
+    | '/privacy'
     | '/subscription-required'
+    | '/terms'
     | '/apps'
     | '/branches'
     | '/categories'
@@ -826,8 +856,11 @@ export interface FileRouteTypes {
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/dummy'
     | '/login'
+    | '/privacy'
     | '/subscription-required'
+    | '/terms'
     | '/apps'
     | '/branches'
     | '/categories'
@@ -901,8 +934,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/dummy'
     | '/login'
+    | '/privacy'
     | '/subscription-required'
+    | '/terms'
     | '/_authenticated/apps'
     | '/_authenticated/branches'
     | '/_authenticated/categories'
@@ -980,8 +1016,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  DummyRoute: typeof DummyRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   SubscriptionRequiredRoute: typeof SubscriptionRequiredRoute
+  TermsRoute: typeof TermsRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
@@ -1003,6 +1042,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/subscription-required': {
       id: '/subscription-required'
       path: '/subscription-required'
@@ -1010,11 +1056,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubscriptionRequiredRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dummy': {
+      id: '/dummy'
+      path: '/dummy'
+      fullPath: '/dummy'
+      preLoaderRoute: typeof DummyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -1699,8 +1759,11 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  DummyRoute: DummyRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   SubscriptionRequiredRoute: SubscriptionRequiredRoute,
+  TermsRoute: TermsRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,

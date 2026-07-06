@@ -1,7 +1,10 @@
+import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,10 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { PrivacyPolicy, useUpdatePrivacyMutation } from '../data/queries'
-import { toast } from 'sonner'
-import { Loader2 } from 'lucide-react'
+import { type PrivacyPolicy, useUpdatePrivacyMutation } from '../data/queries'
 
 const privacySchema = z.object({
   title_en: z.string().min(1, 'English title is required'),
@@ -32,7 +32,11 @@ interface PrivacyEditorProps {
   onCancel: () => void
 }
 
-export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEditorProps) {
+export function PrivacyEditor({
+  initialData,
+  onSuccess,
+  onCancel,
+}: PrivacyEditorProps) {
   const { t } = useTranslation()
   const mutation = useUpdatePrivacyMutation()
 
@@ -51,26 +55,25 @@ export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEdito
       await mutation.mutateAsync(data)
       toast.success(t('privacy.successUpdate'))
       onSuccess()
-    } catch (error) {
-      console.error('Failed to update privacy policy:', error)
+    } catch (_error) {
       toast.error(t('privacy.errorUpdate'))
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-4 rounded-lg border p-4">
-            <h3 className="font-semibold text-lg">English</h3>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <div className='grid gap-6 md:grid-cols-2'>
+          <div className='space-y-4 rounded-lg border p-4'>
+            <h3 className='text-lg font-semibold'>English</h3>
             <FormField
               control={form.control}
-              name="title_en"
+              name='title_en'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Privacy Policy" {...field} />
+                    <Input placeholder='Privacy Policy' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -78,14 +81,14 @@ export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEdito
             />
             <FormField
               control={form.control}
-              name="content_en"
+              name='content_en'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter privacy policy in English..."
-                      className="min-h-[300px]"
+                      placeholder='Enter privacy policy in English...'
+                      className='min-h-[300px]'
                       {...field}
                     />
                   </FormControl>
@@ -95,16 +98,16 @@ export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEdito
             />
           </div>
 
-          <div className="space-y-4 rounded-lg border p-4" dir="rtl">
-            <h3 className="font-semibold text-lg">العربية</h3>
+          <div className='space-y-4 rounded-lg border p-4' dir='rtl'>
+            <h3 className='text-lg font-semibold'>العربية</h3>
             <FormField
               control={form.control}
-              name="title_ar"
+              name='title_ar'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>العنوان</FormLabel>
                   <FormControl>
-                    <Input placeholder="سياسة الخصوصية" {...field} />
+                    <Input placeholder='سياسة الخصوصية' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,14 +115,14 @@ export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEdito
             />
             <FormField
               control={form.control}
-              name="content_ar"
+              name='content_ar'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>المحتوى</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="أدخل سياسة الخصوصية بالعربية..."
-                      className="min-h-[300px]"
+                      placeholder='أدخل سياسة الخصوصية بالعربية...'
+                      className='min-h-[300px]'
                       {...field}
                     />
                   </FormControl>
@@ -130,13 +133,13 @@ export function PrivacyEditor({ initialData, onSuccess, onCancel }: PrivacyEdito
           </div>
         </div>
 
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onCancel}>
+        <div className='flex justify-end gap-2'>
+          <Button type='button' variant='outline' onClick={onCancel}>
             {t('privacy.cancelButton')}
           </Button>
-          <Button type="submit" disabled={mutation.isPending}>
+          <Button type='submit' disabled={mutation.isPending}>
             {mutation.isPending && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             )}
             {t('privacy.saveButton')}
           </Button>
