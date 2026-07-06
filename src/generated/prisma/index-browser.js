@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.8.0
- * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.8.0",
-  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -247,6 +247,7 @@ exports.Prisma.InventoryScalarFieldEnum = {
   max_stock_level: 'max_stock_level',
   location: 'location',
   last_restocked: 'last_restocked',
+  is_marketplace: 'is_marketplace',
   auth_user_id: 'auth_user_id',
   store_id: 'store_id'
 };
@@ -358,7 +359,8 @@ exports.Prisma.ProductsScalarFieldEnum = {
   is_deleted: 'is_deleted',
   base_price: 'base_price',
   has_expiration: 'has_expiration',
-  expiration_date: 'expiration_date'
+  expiration_date: 'expiration_date',
+  is_marketplace: 'is_marketplace'
 };
 
 exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
@@ -997,6 +999,7 @@ exports.Prisma.SuppliersScalarFieldEnum = {
   website: 'website',
   notes: 'notes',
   created_at: 'created_at',
+  is_preferred: 'is_preferred',
   auth_user_id: 'auth_user_id',
   city_id: 'city_id'
 };
@@ -1219,7 +1222,8 @@ exports.Prisma.Rbac_tenantsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   activity_type: 'activity_type',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auto_reorder: 'auto_reorder'
 };
 
 exports.Prisma.Rbac_user_rolesScalarFieldEnum = {

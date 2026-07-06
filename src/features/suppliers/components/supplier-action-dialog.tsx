@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { PhoneInput } from '@/components/custom-ui/phone-input'
 import { useCreateSupplier, useUpdateSupplier } from '../hooks/use-suppliers'
@@ -34,6 +35,7 @@ const formSchema = z.object({
   address: z.string().optional(),
   website: z.string().optional(), // Could add url validation but keeping simple for now
   notes: z.string().optional(),
+  is_preferred: z.boolean().default(false).optional(),
 })
 
 type SupplierFormValues = z.infer<typeof formSchema>
@@ -56,6 +58,7 @@ export function SupplierActionDialog() {
       address: '',
       website: '',
       notes: '',
+      is_preferred: false,
     },
   })
 
@@ -69,6 +72,7 @@ export function SupplierActionDialog() {
         address: currentRow.address || '',
         website: currentRow.website || '',
         notes: currentRow.notes || '',
+        is_preferred: currentRow.is_preferred || false,
       })
     } else {
       form.reset({
@@ -79,6 +83,7 @@ export function SupplierActionDialog() {
         address: '',
         website: '',
         notes: '',
+        is_preferred: false,
       })
     }
   }, [currentRow, form])
@@ -216,6 +221,28 @@ export function SupplierActionDialog() {
                     <Textarea placeholder='Additional notes' {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='is_preferred'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+                  <div className='space-y-0.5'>
+                    <FormLabel className='text-base'>
+                      Preferred Supplier
+                    </FormLabel>
+                    <DialogDescription>
+                      Prioritize this supplier for automatic stock reordering.
+                    </DialogDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />

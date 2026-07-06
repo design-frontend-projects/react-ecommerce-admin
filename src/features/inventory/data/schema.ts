@@ -11,6 +11,7 @@ export const inventorySchema = z.object({
   max_stock_level: z.coerce.number().int().min(0).optional().nullable(),
   location: z.string().optional().nullable(),
   last_restocked: z.string().optional().nullable(),
+  is_marketplace: z.boolean().default(false),
 })
 
 export type Inventory = z.infer<typeof inventorySchema> & {

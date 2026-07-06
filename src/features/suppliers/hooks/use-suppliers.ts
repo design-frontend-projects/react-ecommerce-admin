@@ -11,6 +11,7 @@ export interface Supplier {
   website: string | null
   notes: string | null
   created_at: string
+  is_preferred: boolean
 }
 
 export interface SupplierInput {
@@ -21,6 +22,7 @@ export interface SupplierInput {
   address?: string
   website?: string
   notes?: string
+  is_preferred?: boolean
 }
 
 export const useSuppliers = () => {

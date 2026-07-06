@@ -57,6 +57,7 @@ export const BusinessSettingsSchema = z.object({
   default_tax_rate: z.coerce.number().min(0).max(100).default(0),
   service_fee: z.coerce.number().min(0).max(100).default(0),
   free_shipping_threshold: z.coerce.number().min(0).default(0),
+  auto_reorder: z.boolean().default(false),
 })
 
 export type BusinessSettings = z.infer<typeof BusinessSettingsSchema>
@@ -65,6 +66,7 @@ export const BUSINESS_DEFAULTS: BusinessSettings = {
   default_tax_rate: 0,
   service_fee: 0,
   free_shipping_threshold: 0,
+  auto_reorder: false,
 }
 
 // ─── Setting Groups Config ─────────────────────────────────────────

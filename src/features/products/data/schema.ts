@@ -6,7 +6,11 @@ export const productVariantSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().optional().nullable(),
   price: z.coerce.number().min(0, 'Price must be 0 or greater'),
-  cost_price: z.coerce.number().min(0, 'Cost must be 0 or greater').optional().nullable(),
+  cost_price: z.coerce
+    .number()
+    .min(0, 'Cost must be 0 or greater')
+    .optional()
+    .nullable(),
   stock_quantity: z.coerce.number().default(0),
   min_stock: z.coerce.number().default(0),
   weight: z.coerce.number().optional().nullable(),
@@ -20,11 +24,16 @@ export const productSchema = z.object({
   description: z.string().optional().nullable(),
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().optional().nullable(),
-  base_price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable(),
+  base_price: z.coerce
+    .number()
+    .min(0, 'Price must be 0 or greater')
+    .optional()
+    .nullable(),
   category_id: z.coerce.number().optional().nullable(),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.string().optional().nullable(),
   is_active: z.boolean().default(true),
+  is_marketplace: z.boolean().default(false),
   has_variants: z.boolean().default(false),
   created_at: z.string().optional(),
   updated_at: z.string().optional(),
