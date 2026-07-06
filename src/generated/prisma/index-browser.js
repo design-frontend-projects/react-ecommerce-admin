@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.8.0
- * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.8.0",
-  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -392,7 +392,7 @@ exports.Prisma.ProfilesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   activity: 'activity',
-  user_id: 'user_id',
+  auth_user_id: 'auth_user_id',
   is_paid: 'is_paid',
   branch_id: 'branch_id',
   role: 'role'
@@ -1068,8 +1068,8 @@ exports.Prisma.TransactionsScalarFieldEnum = {
 };
 
 exports.Prisma.User_rolesScalarFieldEnum = {
-  auth_user_id: 'auth_user_id',
-  role_id: 'role_id'
+  role_id: 'role_id',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Inventory_movementsScalarFieldEnum = {
@@ -1120,23 +1120,23 @@ exports.Prisma.App_settingsScalarFieldEnum = {
 exports.Prisma.Rbac_audit_logsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
-  auth_user_id: 'auth_user_id',
   action: 'action',
   resource: 'resource',
   before: 'before',
   after: 'after',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Rbac_otp_codesScalarFieldEnum = {
   id: 'id',
-  auth_user_id: 'auth_user_id',
   email: 'email',
   otp_hash: 'otp_hash',
   purpose: 'purpose',
   created_at: 'created_at',
   expires_at: 'expires_at',
-  used_at: 'used_at'
+  used_at: 'used_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Rbac_permissionsScalarFieldEnum = {
@@ -1206,6 +1206,32 @@ exports.Prisma.Rbac_user_rolesScalarFieldEnum = {
   assigned_by: 'assigned_by',
   assigned_at: 'assigned_at',
   expires_at: 'expires_at'
+};
+
+exports.Prisma.App_termsScalarFieldEnum = {
+  id: 'id',
+  title_en: 'title_en',
+  title_ar: 'title_ar',
+  content_en: 'content_en',
+  content_ar: 'content_ar',
+  version: 'version',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.App_privacyScalarFieldEnum = {
+  id: 'id',
+  title_en: 'title_en',
+  title_ar: 'title_ar',
+  content_en: 'content_en',
+  content_ar: 'content_ar',
+  version: 'version',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  updated_by: 'updated_by'
 };
 
 exports.Prisma.SortOrder = {
@@ -1428,7 +1454,9 @@ exports.Prisma.ModelName = {
   rbac_tenant_subscriptions: 'rbac_tenant_subscriptions',
   rbac_tenant_users: 'rbac_tenant_users',
   rbac_tenants: 'rbac_tenants',
-  rbac_user_roles: 'rbac_user_roles'
+  rbac_user_roles: 'rbac_user_roles',
+  app_terms: 'app_terms',
+  app_privacy: 'app_privacy'
 };
 
 /**

@@ -345,5 +345,29 @@
         ]
       }
     }
+  },
+  "terms": {
+    "pageTitle": "قانوني",
+    "editButton": "تعديل الشروط",
+    "noTermsAvailable": "لا توجد شروط وأحكام متاحة حالياً.",
+    "title": "الشروط والأحكام",
+    "lastUpdated": "آخر تحديث:",
+    "editTitle": "تعديل الشروط والأحكام",
+    "successUpdate": "تم تحديث الشروط والأحكام بنجاح",
+    "errorUpdate": "فشل تحديث الشروط والأحكام",
+    "cancelButton": "إلغاء",
+    "saveButton": "حفظ التغييرات"
+  },
+  "privacy": {
+    "pageTitle": "سياسة الخصوصية",
+    "editButton": "تعديل السياسة",
+    "noPrivacyAvailable": "لا توجد سياسة خصوصية متاحة حالياً.",
+    "title": "سياسة الخصوصية",
+    "lastUpdated": "آخر تحديث:",
+    "editTitle": "تعديل سياسة الخصوصية",
+    "successUpdate": "تم تحديث سياسة الخصوصية بنجاح",
+    "errorUpdate": "فشل تحديث سياسة الخصوصية",
+    "cancelButton": "إلغاء",
+    "saveButton": "حفظ التغييرات"
   }
 }
