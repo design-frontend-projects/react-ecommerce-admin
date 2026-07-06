@@ -86,14 +86,14 @@ model crm_interactions {
 
 model crm_audit_logs {
   audit_id            Int      @id @default(autoincrement())
-  user_id             String   @db.VarChar(100) // Action taker
+  auth_user_id             String   @db.VarChar(100) // Action taker
   action              String   @db.VarChar(100) // e.g. VIEW_PII, UPDATE_CUSTOMER, EXPORT_ANALYTICS
   entity_type         String   @db.VarChar(50)  // e.g. customer, opportunity, lead
   entity_id           String   @db.VarChar(100)
   ip_address          String?  @db.VarChar(45)
   created_at          DateTime @default(now()) @db.Timestamp(6)
 
-  @@index([user_id])
+  @@index([auth_user_id])
   @@index([created_at])
 }
 ```

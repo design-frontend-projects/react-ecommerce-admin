@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/stores/auth-store'
 import { LoginEmailForm } from '@/components/auth/LoginEmailForm'
 import { LoginOtpForm } from '@/components/auth/LoginOtpForm'
 import { supabase } from '@/lib/supabase'
@@ -11,7 +11,7 @@ import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
     const state = useAuthStore.getState()
-    if (state.isAuthenticated) {
+    if (state.auth.session) {
       throw redirect({ to: '/' })
     }
   },
@@ -57,11 +57,18 @@ function LoginPage() {
       if (error) throw error
       
       if (authData.session && authData.user) {
-        useAuthStore.getState().setSession(authData.session)
+        useAuthStore.getState().auth.setSession(authData.session)
         const access = await fetchCurrentUserAccess(authData.user.id)
         const roles = access?.roleNames || []
         const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
-        navigate({ to: isRestaurantRole ? '/respos' : '/products' })
+        const profile = useAuthStore.getState().auth.profile
+        let targetPath = '/products'
+        if (profile?.activity === 'restaurant' || isRestaurantRole) {
+          targetPath = '/respos'
+        } else if (profile?.activity?.toLowerCase().includes('restaurant')) {
+          targetPath = '/respos'
+        }
+        navigate({ to: targetPath as any })
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Invalid login code'

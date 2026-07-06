@@ -315,7 +315,7 @@ export async function updateUserRoles(
   _assignedBy?: string
 ) {
   await prisma.user_roles.deleteMany({
-    where: { user_id: userId },
+    where: { auth_user_id: userId },
   })
 
   if (roleIds.length > 0) {
@@ -325,9 +325,9 @@ export async function updateUserRoles(
 
     await prisma.user_roles.createMany({
       data: roleIds.map((roleId) => ({
-        user_id: userId,
+        auth_user_id: userId,
         role_id: roleId,
-        auth_user_id: tenantUser.user_id,
+        auth_user_id: tenantUser.auth_user_id,
       })),
       skipDuplicates: true,
     })
@@ -349,7 +349,7 @@ export async function updateUserRoles(
     })
 
     await syncClerkUserRoleMetadata(
-      tenantUser.user_id,
+      tenantUser.auth_user_id,
       roles.map((role) => role.name)
     )
   }
@@ -359,7 +359,7 @@ export async function getUserRoles(
   clerkUserId: string
 ): Promise<RoleWithPermissions[]> {
   const tenantUser = (await prisma.tenant_users.findUnique({
-    where: { user_id: clerkUserId },
+    where: { auth_user_id: clerkUserId },
     include: {
       user_roles: {
         include: {

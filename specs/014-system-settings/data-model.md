@@ -11,9 +11,9 @@ model app_settings {
   is_public     Boolean   @default(true)
   created_at    DateTime  @default(now()) @db.Timestamp(6)
   updated_at    DateTime  @default(now()) @db.Timestamp(6)
-  user_id String    @default(dbgenerated("user_id()"))
+  auth_user_id String    @default(dbgenerated("auth_user_id()"))
   
-  @@unique([user_id, key])
+  @@unique([auth_user_id, key])
   @@index([group])
 }
 ```

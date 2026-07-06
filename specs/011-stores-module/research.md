@@ -6,7 +6,7 @@
 |-----------------|----------------|------|----------|-------|
 | `store_id` | ID | UUID | Yes (PK) | Auto-generated on create. |
 | `name` | Store Name | String | Yes | Required for identification. |
-| `user_id` | Owner | String | No | Link to Clerk Auth. |
+| `auth_user_id` | Owner | String | No | Link to Clerk Auth. |
 | `phone` | Phone Number | String | No | Contact field. |
 | `email` | Email Address | String | No | Contact field. |
 | `address` | Street Address | String | No | Physical location. |
@@ -30,7 +30,7 @@
 - **Form UI**: Should provide dropdowns for Country and then filter Cities accordingly.
 
 ### 3. Owner Assignment
-**Decision**: By default, the `user_id` will be set to the current authenticated user's ID using Clerk's `useUser()` hook on the frontend or server-side session.
+**Decision**: By default, the `auth_user_id` will be set to the current authenticated user's ID using Clerk's `useUser()` hook on the frontend or server-side session.
 
 ### 4. Branch Association
 - **Relation**: A store belongs to a `branch`.

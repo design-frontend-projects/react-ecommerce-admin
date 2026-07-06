@@ -1,6 +1,6 @@
-import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
+import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
 import { updateUserRoles } from './rbac'
@@ -29,7 +29,7 @@ export const createUserDirect = createServerFn({ method: 'POST' })
   .handler(async ({ data: input }) => {
     // 1. Verify caller is admin or super_admin
     const callerTenantUser = await prisma.tenant_users.findFirst({
-      where: { user_id: input.callerAuthUserId },
+      where: { auth_user_id: input.callerAuthUserId },
       include: {
         user_roles: {
           include: {
@@ -43,15 +43,18 @@ export const createUserDirect = createServerFn({ method: 'POST' })
       throw new Error('Caller not found in tenant users')
     }
 
-    const callerRoleNames = (callerTenantUser.user_roles as Array<{ roles: { name: string } }>)
-      .map((ur) => ur.roles.name.toLowerCase())
+    const callerRoleNames = (
+      callerTenantUser.user_roles as Array<{ roles: { name: string } }>
+    ).map((ur) => ur.roles.name.toLowerCase())
 
-    const isAdmin = callerRoleNames.includes('admin') || callerRoleNames.includes('super_admin')
+    const isAdmin =
+      callerRoleNames.includes('admin') ||
+      callerRoleNames.includes('super_admin')
 
     // Also check profiles for system_owner / is_owner with role
     if (!isAdmin) {
       const callerProfile = await prisma.profiles.findFirst({
-        where: { user_id: input.callerAuthUserId },
+        where: { auth_user_id: input.callerAuthUserId },
       })
       const profileRole = callerProfile?.role?.toLowerCase()
       if (profileRole !== 'admin' && profileRole !== 'super_admin') {
@@ -105,7 +108,7 @@ export const createUserDirect = createServerFn({ method: 'POST' })
     // 5. Create tenant_users record
     const tenantUser = await prisma.tenant_users.create({
       data: {
-        user_id: authUserId,
+        auth_user_id: authUserId,
         email,
         first_name: input.firstName ?? null,
         last_name: input.lastName ?? null,
@@ -121,7 +124,7 @@ export const createUserDirect = createServerFn({ method: 'POST' })
     // 6. Create user_roles record
     await prisma.user_roles.create({
       data: {
-        user_id: tenantUser.id,
+        auth_user_id: tenantUser.id,
         role_id: role.id,
         auth_user_id: authUserId,
       },
@@ -130,7 +133,7 @@ export const createUserDirect = createServerFn({ method: 'POST' })
     // 7. Create profiles record
     await prisma.profiles.create({
       data: {
-        user_id: authUserId,
+        auth_user_id: authUserId,
         email,
         first_name: input.firstName ?? null,
         last_name: input.lastName ?? null,

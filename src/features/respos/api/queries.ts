@@ -380,7 +380,7 @@ export function useActiveShift(authUserId?: string | null) {
         .limit(1)
 
       if (authUserId) {
-        query = query.eq('user_id', authUserId)
+        query = query.eq('auth_user_id', authUserId)
       }
 
       const { data, error } = await query.maybeSingle()
@@ -402,7 +402,7 @@ export function useShifts(authUserId?: string | null) {
         .order('opened_at', { ascending: false })
 
       if (authUserId) {
-        query = query.eq('user_id', authUserId)
+        query = query.eq('auth_user_id', authUserId)
       }
 
       const { data, error } = await query

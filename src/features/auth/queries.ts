@@ -16,7 +16,7 @@ async function getUserByAuthUserId(authUserId: string): Promise<User | null> {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('user_id', authUserId)
+    .eq('auth_user_id', authUserId)
     .maybeSingle()
 
   if (error) {

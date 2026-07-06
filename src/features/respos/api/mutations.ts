@@ -72,7 +72,7 @@ export function useOpenShift() {
           opened_by: employeeId,
           opening_cash: openingCash,
           status: 'open',
-          user_id: authUserId,
+          auth_user_id: authUserId,
           restaurant_id: restaurantId,
         })
         .select()
@@ -280,7 +280,7 @@ export function useUpdateOrderStatus() {
 
       const { data: currentOrder, error: currentOrderError } = await supabase
         .from('res_orders')
-        .select('id, table_id, user_id')
+        .select('id, table_id, auth_user_id')
         .eq('id', orderId)
         .maybeSingle()
 
@@ -327,7 +327,7 @@ export function useUpdateOrderStatus() {
           .upsert(
             {
               order_id: orderId,
-              user_id: currentOrder.user_id || 'system',
+              auth_user_id: currentOrder.auth_user_id || 'system',
               recipient_name: shipment.recipientName.trim(),
               recipient_phone: shipment.recipientPhone.trim(),
               delivery_address: shipment.deliveryAddress.trim(),

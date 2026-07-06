@@ -86,7 +86,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
       // Create the profile now that the user is verified
       try {
         await profileService.createProfile({
-          user_id: data.user.id,
+          auth_user_id: data.user.id,
           email: data.user.email ?? pendingRequest.contact,
         })
       } catch (_profileErr) {

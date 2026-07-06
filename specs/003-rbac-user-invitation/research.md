@@ -27,7 +27,7 @@
 ## DB Schema Alignment
 
 ### Findings
-- **Table**: `tenant_users` needs to link to `user_id`.
+- **Table**: `tenant_users` needs to link to `auth_user_id`.
 - **Roles**: Tables `roles`, `permissions`, `role_permissions`, and `user_roles` provide a standard RBAC foundation.
 - **Sync**: When a user completes their account, we update `tenant_users`.
 

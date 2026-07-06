@@ -38,7 +38,7 @@
 ```sql
 CREATE TABLE res_shifts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id VARCHAR(255),
+  auth_user_id VARCHAR(255),
   closed_by UUID REFERENCES res_employees(id),
   opening_cash DECIMAL(10,2) DEFAULT 0,
   closing_cash DECIMAL(10,2),
@@ -57,7 +57,7 @@ CREATE TABLE res_shifts (
 - Supports multi-tenancy via restaurant_id
 
 ### Performance Considerations
-- Indexed on user_id and status for fast queries
+- Indexed on auth_user_id and status for fast queries
 - opened_at ordering for chronological display
 - UUIDs ensure scalability
 

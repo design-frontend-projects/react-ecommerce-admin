@@ -44,7 +44,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       : null
 
   const existingTenantUserByClerkId = await prisma.tenant_users.findUnique({
-    where: { user_id: input.clerkId },
+    where: { auth_user_id: input.clerkId },
   })
 
   const existingTenantUserByEmail =
@@ -57,7 +57,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
     ? await prisma.tenant_users.update({
         where: { id: existingTenantUserByEmail.id },
         data: {
-          user_id: input.clerkId,
+          auth_user_id: input.clerkId,
           email,
           first_name: input.firstName,
           last_name: input.lastName,
@@ -67,7 +67,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       })
     : await prisma.tenant_users.create({
         data: {
-          user_id: input.clerkId,
+          auth_user_id: input.clerkId,
           email,
           first_name: input.firstName,
           last_name: input.lastName,
@@ -79,9 +79,9 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       })
 
   await prisma.user_roles.updateMany({
-    where: { user_id: tenantUser.id },
+    where: { auth_user_id: tenantUser.id },
     data: {
-      user_id: input.clerkId,
+      auth_user_id: input.clerkId,
     },
   })
 
@@ -94,7 +94,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
     await prisma.profiles.update({
       where: { id: existingProfile.id },
       data: {
-        user_id: input.clerkId,
+        auth_user_id: input.clerkId,
         first_name: input.firstName,
         last_name: input.lastName,
         phone: input.phone,
@@ -105,7 +105,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
   } else {
     await prisma.profiles.create({
       data: {
-        user_id: input.clerkId,
+        auth_user_id: input.clerkId,
         email,
         first_name: input.firstName,
         last_name: input.lastName,

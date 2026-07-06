@@ -38,7 +38,7 @@ export interface ResRole {
 
 export interface ResEmployee {
   id: string
-  user_id: string
+  auth_user_id: string
   first_name: string
   last_name: string
   email: string
@@ -171,7 +171,7 @@ export type OrderItemStatus = 'pending' | 'preparing' | 'ready' | 'served'
 
 export interface ResShift {
   id: string
-  user_id?: string
+  auth_user_id?: string
   restaurant_id?: string
   opened_by: string
   closed_by?: string

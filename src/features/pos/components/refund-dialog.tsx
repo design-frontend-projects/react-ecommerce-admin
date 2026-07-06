@@ -142,7 +142,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      user_id: supabaseUser?.id ?? '',
+      auth_user_id: supabaseUser?.id ?? '',
       branch_id: selectedBranchId,
     },
   })
@@ -177,7 +177,7 @@ export function RefundDialog() {
         processedBy: userId ?? '',
         notes: values.notes,
         orderId: selectedTx?.transaction_number as string,
-        user_id: supabaseUser?.id as string,
+        auth_user_id: supabaseUser?.id as string,
       }),
     onSuccess: (refundId) => {
       setNewRefundId(refundId)
@@ -204,7 +204,7 @@ export function RefundDialog() {
       refundAmount: 0,
       reason: '',
       notes: '',
-      user_id: supabaseUser?.id ?? '',
+      auth_user_id: supabaseUser?.id ?? '',
       branch_id: selectedBranchId,
     })
   }

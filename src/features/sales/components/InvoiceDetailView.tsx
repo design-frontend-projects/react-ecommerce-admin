@@ -50,7 +50,7 @@ export function InvoiceDetailView({
             </div>
             <div>
               <p className='text-muted-foreground'>Cashier ID</p>
-              <p className='truncate font-medium'>{invoice.user_id}</p>
+              <p className='truncate font-medium'>{invoice.auth_user_id}</p>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 
 vi.mock('@/lib/supabase', () => ({
@@ -17,7 +17,7 @@ vi.mock('@/lib/supabase', () => ({
 describe('Auth Flow Integration', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    useAuthStore.setState({ session: null, user: null, isAuthenticated: false, isLoading: false })
+    useAuthStore.getState().auth.reset()
   })
 
   it('handles sign in with OTP request', async () => {
@@ -41,28 +41,24 @@ describe('Auth Flow Integration', () => {
     expect(response.error).toBeNull()
 
     // Manually trigger the store update as if the auth state changed
-    useAuthStore.getState().setSession(mockSession as any)
+    useAuthStore.getState().auth.setSession(mockSession as any)
 
     const state = useAuthStore.getState()
-    expect(state.isAuthenticated).toBe(true)
-    expect(state.user?.email).toBe('user@example.com')
+    expect(state.auth.session).toBeTruthy()
+    expect(state.auth.user?.email).toBe('user@example.com')
   })
 
   it('handles sign out correctly', async () => {
     // Set initial authenticated state
-    useAuthStore.setState({
-      session: { access_token: 'fake' } as any,
-      user: { email: 'user@example.com' } as any,
-      isAuthenticated: true
-    })
+    useAuthStore.getState().auth.setSession({ access_token: 'fake' } as any)
+    useAuthStore.getState().auth.setUser({ email: 'user@example.com' } as any)
 
     ;(supabase.auth.signOut as any).mockResolvedValue({ error: null })
     
-    await useAuthStore.getState().signOut()
+    await useAuthStore.getState().auth.reset()
     
     expect(supabase.auth.signOut).toHaveBeenCalled()
-    expect(useAuthStore.getState().isAuthenticated).toBe(false)
-    expect(useAuthStore.getState().user).toBeNull()
-    expect(useAuthStore.getState().session).toBeNull()
+    expect(useAuthStore.getState().auth.session).toBeNull()
+    expect(useAuthStore.getState().auth.user).toBeNull()
   })
 })

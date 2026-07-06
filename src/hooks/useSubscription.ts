@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/stores/auth-store'
 
 export interface SubscriptionStatus {
   tenant_id: string
@@ -10,7 +10,7 @@ export interface SubscriptionStatus {
 }
 
 export function useSubscription() {
-  const session = useAuthStore((state) => state.session)
+  const session = useAuthStore((state) => state.auth.session)
 
   return useQuery({
     queryKey: ['subscription', session?.user?.id, session?.access_token],

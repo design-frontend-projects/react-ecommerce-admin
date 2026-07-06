@@ -11,7 +11,7 @@
 **Flow**:
 1. Admin triggers invite -> Clerk sends email with `tenant_id` in metadata.
 2. User signs up -> `publicMetadata.tenant_id` is set in Clerk.
-3. Application middleware/webhook -> Sync `user_id` + `tenant_id` to Supabase.
+3. Application middleware/webhook -> Sync `auth_user_id` + `tenant_id` to Supabase.
 
 ### 2. Real-Time Permissions Propagation
 **Decision**: Use Supabase Realtime `postgres_changes` subscriptions.
@@ -21,7 +21,7 @@
 supabase
   .channel('user-role-updates')
   .on('postgres_changes', 
-      { event: 'UPDATE', schema: 'public', table: 'user_roles', filter: `user_id=eq.${userId}` },
+      { event: 'UPDATE', schema: 'public', table: 'user_roles', filter: `auth_user_id=eq.${userId}` },
       (payload) => {
         // Force refresh TanStack Query cache or update Zustand store
         queryClient.invalidateQueries(['permissions', userId]);
@@ -35,7 +35,7 @@ supabase
 **Rationale**: Allows for O(1) checking using a Set on the client.
 **Structure**:
 - `roles`: `id`, `name`, `permissions` (JSONB: string[])
-- `user_roles`: `user_id`, `role_id`, `tenant_id`
+- `user_roles`: `auth_user_id`, `role_id`, `tenant_id`
 
 ### 4. RBAC Utility (`rbac.ts`)
 **Pattern**:

@@ -66,7 +66,7 @@ As an administrator, I want to configure global business rules such as default t
 - **FR-003**: Settings MUST be categorizable into groups (e.g., 'branding', 'localization', 'payment', 'inventory').
 - **FR-004**: System MUST provide a mechanism to fetch and cache settings globally to minimize database load.
 - **FR-005**: System MUST differentiate between public settings (visible to all users/frontend) and private settings (accessible only to authorized admins).
-- **FR-006**: Each tenant (user_id) MUST be able to manage their own isolated set of `app_settings`.
+- **FR-006**: Each tenant (auth_user_id) MUST be able to manage their own isolated set of `app_settings`.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -75,7 +75,7 @@ As an administrator, I want to configure global business rules such as default t
   - `value`: JSON representation of the setting's value.
   - `group`: String category for organization.
   - `is_public`: Boolean flag indicating if it's safe to expose to the frontend.
-  - `user_id`: Link to the owning tenant/admin.
+  - `auth_user_id`: Link to the owning tenant/admin.
 
 ## Success Criteria *(mandatory)*
 
@@ -88,7 +88,7 @@ As an administrator, I want to configure global business rules such as default t
 
 ## Assumptions
 
-- We will leverage the existing `user_id` pattern for tenant isolation.
+- We will leverage the existing `auth_user_id` pattern for tenant isolation.
 - Public settings will be made available via a global context provider or state management (e.g., Zustand).
 - Complex settings (like structured tax rules) will be stored as deep JSON objects within the `value` field.
 - The system already has an admin role capable of managing these settings.

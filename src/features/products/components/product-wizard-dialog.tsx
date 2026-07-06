@@ -51,6 +51,8 @@ export function ProductWizardDialog() {
           is_active: Boolean(baseProductData.is_active ?? true),
           has_variants: Boolean(baseProductData.has_variants ?? true),
           is_marketplace: Boolean(baseProductData.is_marketplace ?? false),
+          has_expiration: Boolean(baseProductData.has_expiration ?? false),
+          expiration_date: baseProductData.expiration_date ? baseProductData.expiration_date.toISOString() : null,
         },
         variants: variantsData,
       })
@@ -118,6 +120,8 @@ export function ProductWizardDialog() {
                     is_active: Boolean(data.is_active ?? true),
                     has_variants: false,
                     is_marketplace: Boolean(data.is_marketplace ?? false),
+                    has_expiration: Boolean(data.has_expiration ?? false),
+                    expiration_date: data.expiration_date ? data.expiration_date.toISOString() : null,
                   },
                   variants: [],
                 })

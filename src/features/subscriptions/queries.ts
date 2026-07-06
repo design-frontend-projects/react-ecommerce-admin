@@ -115,7 +115,7 @@ async function assignSubscription(payload: {
   const { error: profileError } = await supabase
     .from('profiles')
     .update({ is_paid: true })
-    .eq('user_id', payload.auth_user_id)
+    .eq('auth_user_id', payload.auth_user_id)
 
   if (profileError) throw profileError
 
@@ -169,7 +169,7 @@ async function getSubscriptionAnalytics(userId: string) {
   const { data: allSubs, error } = await supabase
     .from('tenant_subscriptions')
     .select('*, subscriptions(*)')
-    .eq('user_id', userId)
+    .eq('auth_user_id', userId)
     .eq('status', 'paid')
 
   if (error) throw error

@@ -14,7 +14,7 @@ The shifts module manages cash register shift operations in a restaurant POS sys
 ```typescript
 interface res_shifts {
   id: string                    // Primary key (UUID)
-  user_id?: string        // Clerk authentication ID (optional for multi-tenant)
+  auth_user_id?: string        // Clerk authentication ID (optional for multi-tenant)
   restaurant_id?: string        // Multi-tenant support
   opened_by: string            // Employee ID who opened the shift
   closed_by?: string           // Employee ID who closed the shift
@@ -34,7 +34,7 @@ interface res_shifts {
 **Business Rules**:
 - `opening_cash` must be >= 0
 - `closing_cash` must be >= 0 when status = 'closed'
-- Only one open shift per user_id at a time
+- Only one open shift per auth_user_id at a time
 - `closed_at` automatically set when status changes to 'closed'
 
 **State Transitions**:
@@ -58,7 +58,7 @@ CLOSED → (terminal state)
 ```typescript
 interface ResEmployee {
   id: string              // Primary key (UUID)
-  user_id: string         // Clerk user ID
+  auth_user_id: string         // Clerk user ID
   first_name: string      // Employee first name
   last_name: string       // Employee last name
   email: string           // Contact email
@@ -74,7 +74,7 @@ interface ResEmployee {
 **Business Rules**:
 - Unique email and id_number
 - is_active controls access to shift operations
-- user_id links to Clerk authentication
+- auth_user_id links to Clerk authentication
 
 ## Relationships
 
@@ -150,7 +150,7 @@ variance = current_input - opening_cash
 - Row Level Security (RLS) policies for multi-tenant access
 
 ### Indexes
-- `(user_id, status)` - Fast active shift lookup
+- `(auth_user_id, status)` - Fast active shift lookup
 - `(restaurant_id, opened_at)` - Multi-tenant chronological queries
 - `(opened_by)` - Employee performance reporting
 - `(status, opened_at)` - Shift history queries

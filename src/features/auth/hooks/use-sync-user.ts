@@ -20,7 +20,7 @@ export function useSyncUser() {
   useEffect(() => {
     if (isLoaded && isSignedIn && user && !profile) {
       sync({
-        user_id: user.id,
+        auth_user_id: user.id,
         email: user.primaryEmailAddress?.emailAddress ?? '',
         first_name: user.firstName ?? '',
         last_name: user.lastName ?? '',

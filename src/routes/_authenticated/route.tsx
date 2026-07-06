@@ -11,7 +11,7 @@ import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
-  const { session, user, selectedBranchId, setSelectedBranchId } = useAuthStore(
+  const { session, user, selectedBranchId, setSelectedBranchId, isInitializing } = useAuthStore(
     (state) => state.auth
   )
   const userId = user?.id
@@ -28,9 +28,8 @@ const AuthenticatedRoute = () => {
     enabled: !!userId,
   })
 
-  // We consider auth loaded as soon as we render this route (if wrapped properly or just handle nulls)
-  // Actually, we should check if session is still loading, but Zustand has it synchronously if stored.
-  const isLoaded = true
+  // We consider auth loaded once initialization is done
+  const isLoaded = !isInitializing
   const isSignedIn = !!session
 
   // Auto-set branch from profile when not already selected

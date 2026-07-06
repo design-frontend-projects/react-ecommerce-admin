@@ -4,11 +4,14 @@ import type { Profile } from '@/features/auth/services/profile-service'
 
 
 import type { User, Session } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 
 const SELECTED_BRANCH = 'respos_selected_branch'
 
 interface AuthState {
   auth: {
+    isInitializing: boolean
+    setIsInitializing: (isInitializing: boolean) => void
     user: User | null
     setUser: (user: User | null) => void
     session: Session | null
@@ -28,6 +31,9 @@ export const useAuthStore = create<AuthState>()((set) => {
     : ''
   return {
     auth: {
+      isInitializing: true,
+      setIsInitializing: (isInitializing) =>
+        set((state) => ({ ...state, auth: { ...state.auth, isInitializing } })),
       user: null,
       setUser: (user) =>
         set((state) => ({ ...state, auth: { ...state.auth, user } })),
@@ -59,4 +65,22 @@ export const useAuthStore = create<AuthState>()((set) => {
         }),
     },
   }
+})
+
+// Initialize listener to sync with Supabase Auth state changes
+supabase.auth.onAuthStateChange((_event, session) => {
+  const store = useAuthStore.getState()
+  store.auth.setSession(session)
+  store.auth.setUser(session?.user ?? null)
+  store.auth.setIsInitializing(false)
+})
+
+// Fetch initial session
+supabase.auth.getSession().then(({ data: { session } }) => {
+  const store = useAuthStore.getState()
+  if (session) {
+    store.auth.setSession(session)
+    store.auth.setUser(session.user)
+  }
+  store.auth.setIsInitializing(false)
 })

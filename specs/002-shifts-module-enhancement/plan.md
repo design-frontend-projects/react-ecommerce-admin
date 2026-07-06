@@ -87,7 +87,7 @@ src/features/respos/
 
 | Operation | Method | Table | Fields |
 |-----------|--------|-------|--------|
-| Open Shift | INSERT | res_shifts | opened_by, opening_cash, status, user_id, restaurant_id |
+| Open Shift | INSERT | res_shifts | opened_by, opening_cash, status, auth_user_id, restaurant_id |
 | Close Shift | UPDATE | res_shifts | closed_by, closing_cash, status, closed_at, notes |
 | Get Active Shift | SELECT | res_shifts | * WHERE status='open' |
 | Get All Shifts | SELECT | res_shifts | * ORDER BY opened_at DESC |

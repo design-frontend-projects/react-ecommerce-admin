@@ -7,7 +7,7 @@ This project leverages existing PostgreSQL tables for RBAC, synced with Clerk fo
 ### `res_employees` (Existing)
 Represents a user/employee in the system.
 - `id`: UUID (Primary Key)
-- `user_id`: String (Clerk User ID)
+- `auth_user_id`: String (Clerk User ID)
 - `email`: String (Unique)
 - `first_name`: String
 - `last_name`: String

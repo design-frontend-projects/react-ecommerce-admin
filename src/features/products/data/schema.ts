@@ -35,6 +35,8 @@ export const productSchema = z.object({
   is_active: z.boolean().default(true),
   is_marketplace: z.boolean().default(false),
   has_variants: z.boolean().default(false),
+  has_expiration: z.boolean().default(false),
+  expiration_date: z.string().optional().nullable(),
   created_at: z.string().optional(),
   updated_at: z.string().optional(),
   product_variants: z.array(productVariantSchema).optional(),

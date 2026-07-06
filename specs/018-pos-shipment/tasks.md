@@ -15,7 +15,7 @@
 - [ ] T005 [P] [US1] Add "Shipment" toggle state to `src/features/pos/components/checkout-modal.tsx`
 - [ ] T006 [P] [US1] Create shipment form fields (recipient_name, recipient_phone, delivery_address, city, state, postal_code, notes) in `src/features/pos/components/checkout-modal.tsx`
 - [ ] T007 [US1] Conditionalize visibility and validation of shipment form fields based on toggle in `src/features/pos/components/checkout-modal.tsx`
-- [ ] T008 [US1] Update `src/features/pos/services/CheckoutService.ts` to associate `user_id` and save shipment details when processing payment
+- [ ] T008 [US1] Update `src/features/pos/services/CheckoutService.ts` to associate `auth_user_id` and save shipment details when processing payment
 
 ### Phase 4: [US2] Shipment Details on Invoice
 **Story Goal**: Invoice displays shipment details and unique Order ID.

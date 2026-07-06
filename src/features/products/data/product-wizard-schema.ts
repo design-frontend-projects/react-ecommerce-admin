@@ -6,6 +6,8 @@ export const baseProductSchema = z.object({
   category_id: z.coerce.number().optional().nullable(),
   is_active: z.boolean().default(true),
   has_variants: z.boolean().default(true),
+  has_expiration: z.boolean().default(false),
+  expiration_date: z.date().optional().nullable(),
   is_marketplace: z.boolean().default(false),
   supplier_id: z.coerce.number().optional().nullable(),
   store_id: z.string().optional().nullable(),

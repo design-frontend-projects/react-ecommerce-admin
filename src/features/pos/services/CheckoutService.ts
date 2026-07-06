@@ -5,13 +5,13 @@ import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
 
 // TODO: Implement session verification using @clerk/backend or TanStack Start helpers
-// For now, we will use a fallback or expect user_id in the request if needed.
+// For now, we will use a fallback or expect auth_user_id in the request if needed.
 
 export async function processCheckout(
   data: CheckoutRequestType
 ): Promise<CheckoutResponse> {
   try {
-    const user_id = 'system' // Placeholder until proper auth is integrated
+    const auth_user_id = 'system' // Placeholder until proper auth is integrated
 
     const {
       branchId,
@@ -34,7 +34,7 @@ export async function processCheckout(
 
       const invoice = await tx.sales_invoices.create({
         data: {
-          user_id: user_id || 'system',
+          auth_user_id: auth_user_id || 'system',
           branch_id: branchId,
           store_id: storeId,
           customer_id: customerId,
@@ -86,7 +86,7 @@ export async function processCheckout(
         await tx.res_shipments.create({
           data: {
             order_id: resOrder.id,
-            user_id: user_id || 'system',
+            auth_user_id: auth_user_id || 'system',
             recipient_name: data.shipment.recipientName,
             recipient_phone: data.shipment.recipientPhone,
             delivery_address: data.shipment.deliveryAddress,
@@ -105,8 +105,8 @@ export async function processCheckout(
       const transactionRec = await tx.transactions.create({
         data: {
           id: transactionId,
-          tenant_id: user_id || 'system',
-          user_id: user_id || 'system',
+          tenant_id: auth_user_id || 'system',
+          auth_user_id: auth_user_id || 'system',
           transaction_number: `TRN-${invoiceNo}`,
           transaction_type: 'sale',
           status: 'completed',
@@ -122,7 +122,7 @@ export async function processCheckout(
       const movementPromises = items.map((item) =>
         tx.inventory_movements.create({
           data: {
-            user_id: user_id || 'system',
+            auth_user_id: auth_user_id || 'system',
             branch_id: branchId,
             store_id: storeId,
             product_variant_id: item.productVariantId,

@@ -134,7 +134,7 @@ As a CRM User, I want the UI to restrict my access to features outside my role (
 - **Order (External)**: Reference to the POS/ResPOS order entity. Relates to Customer (`customer_id`), Order ID, and Total Amount.
 - **Transaction (External)**: Reference to the payment gateway transaction. Relates to Order ID, Transaction ID, status, and payment method.
 - **Product (External)**: Reference to inventory items. Used to calculate product affinity and inventory demand by customer segment.
-- **AuditLog**: Immutable security trail. Attributes include `id`, `timestamp`, `user_id`, `action`, `entity_type`, `entity_id`, and `ip_address`.
+- **AuditLog**: Immutable security trail. Attributes include `id`, `timestamp`, `auth_user_id`, `action`, `entity_type`, `entity_id`, and `ip_address`.
 
 ## Success Criteria *(mandatory)*
 

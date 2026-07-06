@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/stores/auth-store'
 import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
 
 export function useSendOtpMutation() {
@@ -31,7 +31,7 @@ export function useVerifyOtpMutation() {
       if (error) throw error
       
       if (authData.session) {
-        useAuthStore.getState().setSession(authData.session)
+        useAuthStore.getState().auth.setSession(authData.session)
       }
       
       return authData

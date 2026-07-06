@@ -108,7 +108,7 @@ export function ReorderDialog() {
         processedBy: userId ?? '',
         notes: 'Fast refund triggered beside reorder button.',
         orderId: tx.transaction_number,
-        user_id: supabaseUser?.id as string,
+        auth_user_id: supabaseUser?.id as string,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })

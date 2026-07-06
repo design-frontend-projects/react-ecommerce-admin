@@ -8,7 +8,7 @@ import {
 import { OnboardingForm } from '@/components/auth/OnboardingForm'
 import type { OnboardingFormData } from '@/lib/validation/onboarding'
 import { useState } from 'react'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/stores/auth-store'
 import { toast } from 'sonner'
 import { telemetry } from '@/lib/telemetry'
 
@@ -19,7 +19,7 @@ interface OnboardingModalProps {
 
 export function OnboardingModal({ open, onSuccess }: OnboardingModalProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const user = useAuthStore((state) => state.user)
+  const user = useAuthStore((state) => state.auth.user)
 
   const handleSubmit = async (data: OnboardingFormData) => {
     setIsLoading(true)

@@ -5,7 +5,7 @@ import { expandPermissionNames, permissionNamesFromRoles } from './rbac'
 import type { CurrentUserAccess, RoleWithPermissions } from './types'
 
 type TenantUserAccessRow = {
-  user_id: string
+  auth_user_id: string
   user_roles: Array<{
     role_id: string
     roles: {
@@ -61,13 +61,13 @@ export async function fetchCurrentUserAccess(
     supabase
       .from('profiles')
       .select('is_owner, onboarding_complete, role')
-      .eq('user_id', authUserId)
+      .eq('auth_user_id', authUserId)
       .maybeSingle(),
     supabase
       .from('tenant_users')
       .select(
         `
-        user_id,
+        auth_user_id,
         default_role,
         user_roles (
           role_id,
@@ -91,7 +91,7 @@ export async function fetchCurrentUserAccess(
         )
       `
       )
-      .eq('user_id', authUserId)
+      .eq('auth_user_id', authUserId)
       .maybeSingle(),
   ])
 
@@ -99,7 +99,9 @@ export async function fetchCurrentUserAccess(
   if (tenantUserResult.error) throw tenantUserResult.error
 
   const profile = profileResult.data
-  const row = tenantUserResult.data as unknown as TenantUserAccessRow & { default_role?: string | null }
+  const row = tenantUserResult.data as unknown as TenantUserAccessRow & {
+    default_role?: string | null
+  }
 
   let roleNames: string[] = []
 
@@ -120,7 +122,7 @@ export async function fetchCurrentUserAccess(
   }
 
   return {
-    authUserId: row?.user_id ?? authUserId,
+    authUserId: row?.auth_user_id ?? authUserId,
     roleIds: row?.user_roles.map((assignment) => assignment.role_id) ?? [],
     roleNames,
     permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
@@ -161,7 +163,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'profiles',
-            filter: `user_id=eq.${authUserId}`,
+            filter: `auth_user_id=eq.${authUserId}`,
           },
           invalidate
         )
@@ -173,7 +175,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'user_roles',
-            filter: `user_id=eq.${authUserId}`,
+            filter: `auth_user_id=eq.${authUserId}`,
           },
           invalidate
         )
@@ -185,7 +187,7 @@ export function useCurrentUserAccess(
             event: '*',
             schema: 'public',
             table: 'tenant_users',
-            filter: `user_id=eq.${authUserId}`,
+            filter: `auth_user_id=eq.${authUserId}`,
           },
           invalidate
         )

@@ -5,7 +5,7 @@ import { useRBACStore } from '@/features/users/data/store'
 import { normalizeRoleName } from '@/features/users/data/rbac'
 
 export function useAuth() {
-  const { session, user, reset } = useAuthStore((state) => state.auth)
+  const { session, user, reset, isInitializing } = useAuthStore((state) => state.auth)
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
   const currentPermissionNames = useRBACStore((state) => state.currentPermissionNames)
 
@@ -42,7 +42,7 @@ export function useAuth() {
   }
 
   return {
-    isLoaded: true,
+    isLoaded: !isInitializing,
     isSignedIn: !!session,
     userId: user?.id,
     sessionId: session?.user?.id,
@@ -60,10 +60,10 @@ export function useAuth() {
 }
 
 export function useUser() {
-  const { user } = useAuthStore((state) => state.auth)
+  const { user, isInitializing } = useAuthStore((state) => state.auth)
 
   return useMemo(() => ({
-    isLoaded: true,
+    isLoaded: !isInitializing,
     isSignedIn: !!user,
     user: user
       ? {

@@ -3,7 +3,7 @@ import type { UserModule } from '@/features/auth/sign-in/components/sign-in.sche
 
 export interface User {
   id: string
-  user_id: string
+  auth_user_id: string
   email: string
   first_name: string | null
   last_name: string | null

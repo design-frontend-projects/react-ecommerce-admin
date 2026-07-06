@@ -18,15 +18,26 @@ export function SignIn() {
   const { isSignedIn, isLoaded } = useAuth()
   const navigate = useNavigate()
   const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
+  const profile = useAuthStore((state) => state.auth.profile)
   const roleNames = userMetadata?.roles || userMetadata?.role || []
   const isRestaurantRole = Array.isArray(roleNames) ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
 
   useEffect(() => {
     if (isSignedIn && isLoaded) {
-      const defaultPath = isRestaurantRole ? '/respos' : '/products'
+      let defaultPath = '/products'
+      if (profile?.activity === 'restaurant' || isRestaurantRole) {
+        defaultPath = '/respos'
+      } else if (profile?.activity) {
+        // Just in case it's set to something else we have a fallback or we use it directly
+        // But mostly it's either restaurant or products (inventory)
+        if (profile.activity.toLowerCase().includes('restaurant')) {
+          defaultPath = '/respos'
+        }
+      }
+      
       navigate({ to: (redirect || defaultPath) as never, search: true })
     }
-  }, [isSignedIn, isLoaded, navigate, redirect, isRestaurantRole])
+  }, [isSignedIn, isLoaded, navigate, redirect, isRestaurantRole, profile])
 
   if (isSignedIn && isLoaded) {
     return null

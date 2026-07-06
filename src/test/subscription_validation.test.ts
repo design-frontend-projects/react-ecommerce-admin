@@ -9,7 +9,7 @@ const SubscriptionSchema = z.object({
 })
 
 const TenantSubscriptionSchema = z.object({
-  user_id: z.string().min(1),
+  auth_user_id: z.string().min(1),
   email: z.string().email(),
   subscription_id: z.number().int().positive(),
   status: z.enum(['new', 'paid', 'canceled']),
@@ -36,7 +36,7 @@ describe('Subscription Model Validation (Structure)', () => {
 
   test('TenantSubscription model structure is valid', () => {
     const validTenantSub = {
-      user_id: 'user_123',
+      auth_user_id: 'user_123',
       email: 'test@example.com',
       subscription_id: 1,
       status: 'new' as const,
@@ -48,7 +48,7 @@ describe('Subscription Model Validation (Structure)', () => {
 
   test('TenantSubscription model validation fails with invalid email', () => {
     const invalidTenantSub = {
-      user_id: 'user_123',
+      auth_user_id: 'user_123',
       email: 'not-an-email',
       subscription_id: 1,
       status: 'new' as const,

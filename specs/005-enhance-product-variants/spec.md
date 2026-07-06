@@ -85,4 +85,4 @@ As an inventory clerk, I want to track stock levels for each specific variant se
 - **Existing categories**: Products will be linked to categories that already exist in the `categories` table.
 - **SKU uniqueness**: SKUs are unique across all variants and products in the system.
 - **Unit of Measure**: All products and variants use the same unit system (e.g., units, kg) unless specified in `weight`.
-- **Clerk User Context**: All creations will be associated with a valid `user_id` from the active session.
+- **Clerk User Context**: All creations will be associated with a valid `auth_user_id` from the active session.

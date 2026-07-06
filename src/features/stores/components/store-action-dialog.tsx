@@ -41,7 +41,7 @@ import { useStoresContext } from './stores-provider'
 const formSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
   status: z.boolean(),
-  user_id: z.string().optional().nullable(),
+  auth_user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   email: z
     .string()
@@ -75,7 +75,7 @@ export function StoreActionDialog() {
     resolver: zodResolver(formSchema) as Resolver<StoreFormValues>,
     defaultValues: {
       name: '',
-      user_id: user?.id || '',
+      auth_user_id: user?.id || '',
       phone: '',
       email: '',
       address: '',
@@ -105,7 +105,7 @@ export function StoreActionDialog() {
       if (currentRow) {
         form.reset({
           name: currentRow.name || '',
-          user_id: currentRow.user_id || user?.id || '',
+          auth_user_id: currentRow.auth_user_id || user?.id || '',
           phone: currentRow.phone || '',
           email: currentRow.email || '',
           address: currentRow.address || '',
@@ -119,7 +119,7 @@ export function StoreActionDialog() {
       } else {
         form.reset({
           name: '',
-          user_id: user?.id || '',
+          auth_user_id: user?.id || '',
           phone: '',
           email: '',
           address: '',

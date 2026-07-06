@@ -81,7 +81,7 @@ export const useUpsertSetting = () => {
             is_public: input.is_public ?? true,
           },
           {
-            onConflict: 'user_id,key',
+            onConflict: 'auth_user_id,key',
           }
         )
         .select()

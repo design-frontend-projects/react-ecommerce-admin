@@ -30,7 +30,7 @@ const createProduct = async (data: FullProductWizardSchema) => {
       product_variants: {
         create: data.variants.map((v) => ({
           ...v,
-          user_id: session.userId,
+          auth_user_id: session.userId,
         })),
       },
     },

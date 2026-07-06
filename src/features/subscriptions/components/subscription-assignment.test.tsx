@@ -21,7 +21,7 @@ vi.mock('../data/users_query', () => ({
   useSearchAuthUsers: () => ({
     data: [
       {
-        user_id: 'user_1',
+        auth_user_id: 'user_1',
         email: 'test@example.com',
         first_name: 'Test',
         last_name: 'User',

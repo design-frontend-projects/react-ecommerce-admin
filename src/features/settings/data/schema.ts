@@ -7,7 +7,7 @@ export const SettingSchema = z.object({
   value: z.any(),
   group: z.string().max(50).nullable().optional(),
   is_public: z.boolean().default(true),
-  user_id: z.string().optional(),
+  auth_user_id: z.string().optional(),
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional(),
 })

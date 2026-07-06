@@ -16,7 +16,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     }
 
     const inviter = await prisma.tenant_users.findUnique({
-      where: { user_id: input.inviterAuthUserId },
+      where: { auth_user_id: input.inviterAuthUserId },
     })
 
     if (!inviter) {
@@ -54,7 +54,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
       // Sync role to profiles table for role resolution
       await prisma.profiles.updateMany({
-        where: { user_id: existingUser.user_id },
+        where: { auth_user_id: existingUser.auth_user_id },
         data: {
           role: role.name,
           ...(input.branchId ? { branch_id: input.branchId } : {}),
@@ -66,14 +66,14 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
       return {
         success: true,
-        invitationId: existingUser.user_id.startsWith('pending_')
-          ? existingUser.user_id.replace('pending_', '')
+        invitationId: existingUser.auth_user_id.startsWith('pending_')
+          ? existingUser.auth_user_id.replace('pending_', '')
           : null,
         tenantUserId: existingUser.id,
-        mode: existingUser.user_id.startsWith('pending_')
+        mode: existingUser.auth_user_id.startsWith('pending_')
           ? 'pending-existing'
           : 'updated',
-        message: existingUser.user_id.startsWith('pending_')
+        message: existingUser.auth_user_id.startsWith('pending_')
           ? 'Pending invitation already exists. The assigned role has been updated.'
           : 'Existing user role has been updated for this tenant.',
       }
@@ -105,7 +105,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const pendingClerkUserId = invitation.id // Supabase already gives us the user ID immediately
     const tenantUser = await prisma.tenant_users.create({
       data: {
-        user_id: pendingClerkUserId,
+        auth_user_id: pendingClerkUserId,
         email: input.email.trim().toLowerCase(),
         first_name: null,
         last_name: null,
@@ -120,7 +120,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
     await prisma.user_roles.create({
       data: {
-        user_id: tenantUser.id,
+        auth_user_id: tenantUser.id,
         role_id: role.id,
         auth_user_id: pendingClerkUserId,
       },
@@ -129,7 +129,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     // Pre-create the user's profile with the branchId if provided
     await prisma.profiles.create({
       data: {
-        user_id: pendingClerkUserId,
+        auth_user_id: pendingClerkUserId,
         email: input.email.trim().toLowerCase(),
         is_owner: false,
         system_owner: false,
@@ -178,6 +178,6 @@ export const revokeInvitation = createServerFn({ method: 'POST' })
 
     // Cleanup
     await prisma.tenant_users.deleteMany({
-      where: { user_id: invitationId },
+      where: { auth_user_id: invitationId },
     })
   })

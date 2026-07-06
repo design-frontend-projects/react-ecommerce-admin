@@ -107,7 +107,7 @@ export function TransactionActionDialog({
 
       await createTransaction({
         tenant_id: dummyTenantId,
-        user_id: user.id,
+        auth_user_id: user.id,
         transaction_number: `TRX-${Date.now()}`,
         transaction_type: values.transaction_type,
         currency: values.currency,
