@@ -403,7 +403,7 @@ model profiles {
   created_at          DateTime?    @default(now()) @db.Timestamp(6)
   updated_at          DateTime?    @default(now()) @db.Timestamp(6)
   activity            String?      @db.VarChar(100)
-  auth_user_id        String       @db.Uuid
+  user_id             String       @db.Uuid
   is_paid             Boolean      @default(false)
   branch_id           String?      @db.Uuid
   role                String?
@@ -535,7 +535,7 @@ model purchase_orders {
   notes                  String?
   po_number              Int?
   created_at             DateTime?              @db.Date
-  auth_user_id           String?                @db.Uuid
+  auth_user_id           String?                @default("auth.jwt() ->> 'sub'")
   discounnt_amount       Decimal?               @db.Decimal
   shipping_amount        Decimal?               @db.Decimal
   tax_amount             Decimal?               @db.Decimal
@@ -1335,7 +1335,6 @@ model transactions {
 model user_roles {
   auth_user_id String       @db.Uuid
   role_id      String       @db.Uuid
-  auth_user_id String?      @db.Uuid
   roles        roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
   tenant_users tenant_users @relation(fields: [auth_user_id], references: [id], onDelete: Cascade)
 
@@ -1505,15 +1504,15 @@ model rbac_tenants {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model rbac_user_roles {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id String    @db.Uuid
-  role_id      String    @db.Uuid
-  assigned_by  String?   @db.Uuid
-  assigned_at  DateTime? @default(now()) @db.Timestamp(6)
-  expires_at   DateTime? @db.Timestamp(6)
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String    @db.Uuid
+  role_id     String    @db.Uuid
+  assigned_by String?   @db.Uuid
+  assigned_at DateTime? @default(now()) @db.Timestamp(6)
+  expires_at  DateTime? @db.Timestamp(6)
 
-  @@unique([auth_user_id, role_id])
-  @@index([auth_user_id])
+  @@unique([user_id, role_id])
+  @@index([user_id])
 }
 
 enum cash_movement_reason_enum {

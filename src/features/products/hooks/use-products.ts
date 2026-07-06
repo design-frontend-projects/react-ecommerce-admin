@@ -153,3 +153,96 @@ export const useCreateProductWithVariants = () => {
     },
   })
 }
+
+export const useUpdateProductWithVariants = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      base,
+      variants,
+    }: {
+      id: number
+      base: Partial<Product>
+      variants: Array<VariantRowFormData & { id?: string }>
+    }) => {
+      // 1. Update product
+      const { data: product, error: productError } = await supabase
+        .from('products')
+        .update(base)
+        .eq('product_id', id)
+        .select()
+        .single()
+
+      if (productError) throw productError
+
+      // 2. Fetch existing variants to know what to delete
+      const { data: existingVariants, error: fetchError } = await supabase
+        .from('product_variants')
+        .select('id')
+        .eq('product_id', id)
+      
+      if (fetchError) throw fetchError
+
+      const existingVariantIds = existingVariants?.map(v => v.id) || []
+      const incomingVariantIds = variants.filter(v => v.id).map(v => v.id)
+      
+      // Variants to delete (were in DB but not in incoming variants)
+      const variantsToDelete = existingVariantIds.filter(vId => !incomingVariantIds.includes(vId))
+      
+      if (variantsToDelete.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('product_variants')
+          .delete()
+          .in('id', variantsToDelete)
+        
+        if (deleteError) throw deleteError
+      }
+
+      // 3. Separate new variants (INSERT) from existing variants (UPDATE)
+      const buildVariantPayload = (v: VariantRowFormData & { id?: string }) => ({
+        product_id: id,
+        sku: v.sku,
+        barcode: v.barcode,
+        price: v.price,
+        cost_price: v.cost_price,
+        stock_quantity: v.stock_quantity,
+        min_stock: v.min_stock,
+        weight: v.weight,
+        dimensions: v.attributes_label ? JSON.stringify({ label: v.attributes_label }) : v.dimensions,
+        is_active: v.is_active,
+      })
+
+      const existingToUpdate = variants.filter(v => v.id)
+      const newToInsert = variants.filter(v => !v.id)
+
+      // Update existing variants one by one
+      for (const v of existingToUpdate) {
+        const { error: updateErr } = await supabase
+          .from('product_variants')
+          .update(buildVariantPayload(v))
+          .eq('id', v.id!)
+
+        if (updateErr) throw updateErr
+      }
+
+      // Insert new variants (no id — let DB generate UUID)
+      let insertedVariants = null
+      if (newToInsert.length > 0) {
+        const { data, error: insertErr } = await supabase
+          .from('product_variants')
+          .insert(newToInsert.map(buildVariantPayload))
+          .select()
+
+        if (insertErr) throw insertErr
+        insertedVariants = data
+      }
+
+      return { product, variants: insertedVariants }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    },
+  })
+}

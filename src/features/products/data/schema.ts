@@ -16,6 +16,7 @@ export const productVariantSchema = z.object({
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.any().optional().nullable(),
   is_active: z.boolean().default(true),
+  attributes_label: z.string().optional(),
 })
 
 export const productSchema = z.object({

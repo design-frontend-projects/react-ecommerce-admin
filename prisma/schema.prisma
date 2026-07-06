@@ -536,7 +536,6 @@ model purchase_orders {
   po_number              Int?
   created_at             DateTime?              @db.Date
   auth_user_id           String?                @default("auth.jwt() ->> 'sub'")
-  auth_user_id           String?                @db.Uuid
   discounnt_amount       Decimal?               @db.Decimal
   shipping_amount        Decimal?               @db.Decimal
   tax_amount             Decimal?               @db.Decimal
@@ -1334,11 +1333,10 @@ model transactions {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model user_roles {
-  auth_user_id String       @db.Uuid
   role_id      String       @db.Uuid
-  auth_user_id String?      @db.Uuid
-  roles        roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  auth_user_id String       @db.Uuid
   tenant_users tenant_users @relation(fields: [auth_user_id], references: [id], onDelete: Cascade)
+  roles        roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
   @@id([auth_user_id, role_id])
 }
@@ -1406,12 +1404,12 @@ model app_settings {
 model rbac_audit_logs {
   id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id    String    @db.Uuid
-  auth_user_id String?   @db.Uuid
   action       String    @db.VarChar(100)
   resource     String    @db.VarChar(100)
   before       Json?
   after        Json?
   created_at   DateTime? @default(now()) @db.Timestamp(6)
+  auth_user_id String?   @db.Uuid
 
   @@index([tenant_id, created_at])
 }
@@ -1419,13 +1417,13 @@ model rbac_audit_logs {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model rbac_otp_codes {
   id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id String?   @db.Uuid
   email        String    @db.VarChar(255)
   otp_hash     String    @db.Char(64)
   purpose      String    @db.VarChar(20)
   created_at   DateTime? @default(now()) @db.Timestamp(6)
   expires_at   DateTime  @db.Timestamp(6)
   used_at      DateTime? @db.Timestamp(6)
+  auth_user_id String?   @db.Uuid
 
   @@index([email, purpose])
 }
@@ -1506,15 +1504,15 @@ model rbac_tenants {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model rbac_user_roles {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id String    @db.Uuid
-  role_id      String    @db.Uuid
-  assigned_by  String?   @db.Uuid
-  assigned_at  DateTime? @default(now()) @db.Timestamp(6)
-  expires_at   DateTime? @db.Timestamp(6)
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String    @db.Uuid
+  role_id     String    @db.Uuid
+  assigned_by String?   @db.Uuid
+  assigned_at DateTime? @default(now()) @db.Timestamp(6)
+  expires_at  DateTime? @db.Timestamp(6)
 
-  @@unique([auth_user_id, role_id])
-  @@index([auth_user_id])
+  @@unique([user_id, role_id])
+  @@index([user_id])
 }
 
 enum cash_movement_reason_enum {
