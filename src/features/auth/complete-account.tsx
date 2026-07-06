@@ -17,6 +17,7 @@ import {
 import { Logo } from '@/assets/logo'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/use-auth'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -80,6 +81,7 @@ export function CompleteAccountFeature() {
   const { user } = useUser()
   const completeOnboardingMutation = useCompleteOnboarding()
   const [step, setStep] = useState(1)
+  const { t } = useTranslation()
 
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
@@ -145,10 +147,10 @@ export function CompleteAccountFeature() {
             </div>
             <div className='space-y-1'>
               <h2 className='text-2xl font-bold tracking-tight'>
-                Complete Your Profile
+                {t('completeAccount.title')}
               </h2>
               <p className='text-sm text-muted-foreground'>
-                Welcome to Bluewave POS! Let's get you set up.
+                {t('completeAccount.subtitle')}
               </p>
             </div>
 
@@ -182,14 +184,14 @@ export function CompleteAccountFeature() {
                     >
                       <div className='flex items-center gap-2 text-lg font-medium'>
                         <User className='h-5 w-5 text-primary' />
-                        Personal Information
+                        {t('completeAccount.personalInfo')}
                       </div>
                       <FormField
                         control={form.control}
                         name='firstName'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel>{t('completeAccount.firstName')}</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -206,7 +208,7 @@ export function CompleteAccountFeature() {
                         name='lastName'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel>{t('completeAccount.lastName')}</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -223,7 +225,7 @@ export function CompleteAccountFeature() {
                         name='phone'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number (Optional)</FormLabel>
+                            <FormLabel>{t('completeAccount.phoneOptional')}</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -244,7 +246,7 @@ export function CompleteAccountFeature() {
                           !form.watch('firstName') || !form.watch('lastName')
                         }
                       >
-                        Continue
+                        {t('completeAccount.continue')}
                         <ChevronRight className='ml-2 h-5 w-5' />
                       </Button>
                     </motion.div>
@@ -266,7 +268,7 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <Store className='h-5 w-5 text-primary' />
-                              Select Business Activity
+                              {t('completeAccount.selectActivity')}
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-2 gap-3 sm:grid-cols-2'>
@@ -315,7 +317,7 @@ export function CompleteAccountFeature() {
                                             : ''
                                         )}
                                       >
-                                        {act.name}
+                                        {t(`completeAccount.activities.${act.id}`)}
                                       </span>
                                     </button>
                                   )
@@ -334,7 +336,7 @@ export function CompleteAccountFeature() {
                           className='w-1/3 text-base'
                           onClick={prevStep}
                         >
-                          Back
+                          {t('completeAccount.back')}
                         </Button>
                         <Button
                           type='submit'
@@ -350,7 +352,7 @@ export function CompleteAccountFeature() {
                           ) : (
                             <CheckCircle2 className='mr-2 h-5 w-5' />
                           )}
-                          Complete Setup
+                          {t('completeAccount.completeSetup')}
                         </Button>
                       </div>
                     </motion.div>

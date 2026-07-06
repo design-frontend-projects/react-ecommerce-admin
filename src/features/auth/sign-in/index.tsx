@@ -12,11 +12,13 @@ import {
 } from '@/components/ui/card'
 import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
+import { useTranslation, Trans } from 'react-i18next'
 
 export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
   const { isSignedIn, isLoaded } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
   const profile = useAuthStore((state) => state.auth.profile)
   const roleNames = userMetadata?.roles || userMetadata?.role || []
@@ -49,10 +51,10 @@ export function SignIn() {
       <Card className='w-full border-border/50 bg-background/60 p-2 shadow-xl backdrop-blur-xl sm:max-w-md sm:p-4'>
         <CardHeader className='space-y-1 text-center'>
           <CardTitle className='text-3xl font-extrabold tracking-tight sm:text-4xl'>
-            Welcome Back
+            {t('auth.welcomeBack')}
           </CardTitle>
           <CardDescription className='text-muted-foreground sm:text-lg'>
-            Choose your module and sign in to continue
+            {t('auth.signInSubtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent className='p-4 pt-0 sm:p-6'>
@@ -63,27 +65,26 @@ export function SignIn() {
             to='/sign-up'
             className='text-sm font-medium transition-colors hover:text-primary'
           >
-            Don't have an account?{' '}
-            <span className='text-primary underline underline-offset-4'>
-              Sign Up
-            </span>
+            {t('auth.dontHaveAccount')} <span className='text-primary underline underline-offset-4'>{t('auth.signUp')}</span>
           </Link>
           <p className='px-4 text-center text-xs text-muted-foreground sm:px-8'>
-            By clicking sign in, you agree to our{' '}
-            <a
-              href='/terms'
-              className='font-medium text-foreground underline underline-offset-4 transition-colors hover:text-primary'
-            >
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a
-              href='/privacy'
-              className='font-medium text-foreground underline underline-offset-4 transition-colors hover:text-primary'
-            >
-              Privacy Policy
-            </a>
-            .
+            <Trans
+              i18nKey='auth.termsAgreement'
+              components={{
+                1: (
+                  <a
+                    href='/terms'
+                    className='font-medium text-foreground underline underline-offset-4 transition-colors hover:text-primary'
+                  />
+                ),
+                3: (
+                  <a
+                    href='/privacy'
+                    className='font-medium text-foreground underline underline-offset-4 transition-colors hover:text-primary'
+                  />
+                ),
+              }}
+            />
           </p>
         </CardFooter>
       </Card>

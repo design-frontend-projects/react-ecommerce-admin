@@ -16,6 +16,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ReorderNotificationsBell } from '@/features/pos/components/reorder-notifications-bell'
 import { ConfigDrawer } from './config-drawer'
+import { useTranslation } from 'react-i18next'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -28,6 +29,7 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
   const { selectedBranchId, setSelectedBranchId } = useAuthStore(
     (state) => state.auth
   )
+  const { t } = useTranslation()
 
   const { data: branches, isLoading: isBranchesLoading } = useQuery({
     queryKey: ['branches', 'active', 'header'],
@@ -83,10 +85,10 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
               value={selectedBranchId}
               onValueChange={setSelectedBranchId}
             >
-              <SelectTrigger className='h-9 w-44' aria-label='Select branch'>
+              <SelectTrigger className='h-9 w-44' aria-label={t('header.selectBranch')}>
                 <SelectValue
                   placeholder={
-                    isBranchesLoading ? 'Loading branches...' : 'Select branch'
+                    isBranchesLoading ? t('header.loadingBranches') : t('header.selectBranch')
                   }
                 />
               </SelectTrigger>

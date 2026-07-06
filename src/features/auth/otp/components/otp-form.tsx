@@ -25,6 +25,7 @@ import {
 import { profileService } from '@/features/auth/services/profile-service'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 import { getPendingOtpRequest, clearPendingOtpRequest } from '../pending-otp'
+import { useTranslation } from 'react-i18next'
 
 const formSchema = z.object({
   otp: z
@@ -42,13 +43,14 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
   const { setSession, setUser } = useAuthStore((state) => state.auth)
   const pendingRequest = getPendingOtpRequest()
   const [isLoading, setIsLoading] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!pendingRequest) {
-      toast.error('No pending verification request found. Redirecting...')
+      toast.error(t('otp.noPendingReq'))
       navigate({ to: flow === 'sign-in' ? '/sign-in' : '/sign-up' })
     }
-  }, [pendingRequest, navigate, flow])
+  }, [pendingRequest, navigate, flow, t])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -90,14 +92,14 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
           email: data.user.email ?? pendingRequest.contact,
         })
       } catch (_profileErr) {
-        toast.error('Failed to create initial profile. Please contact support.')
+        toast.error(t('otp.profileFailed'))
       }
 
       clearPendingOtpRequest()
       navigate({ to: '/' })
-      toast.success('Email verified successfully!')
+      toast.success(t('otp.verifiedSuccess'))
     } else {
-      toast.error('Verification failed. Please try again.')
+      toast.error(t('otp.verificationFailed'))
     }
   }
 
@@ -141,9 +143,9 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
       }
 
       navigate({ to: targetPath, replace: true })
-      toast.success('Sign in successful!')
+      toast.success(t('otp.signInSuccess'))
     } else {
-      toast.error('Verification failed. Please try again.')
+      toast.error(t('otp.verificationFailed'))
     }
   }
 
@@ -160,7 +162,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
       const errorMsg =
         (err as { errors?: { message: string }[] })?.errors?.[0]?.message ||
         (err as { message?: string })?.message ||
-        'Invalid code. Please try again.'
+        t('otp.invalidCode')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -179,7 +181,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
           name='otp'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='sr-only'>One-Time Password</FormLabel>
+              <FormLabel className='sr-only'>{t('otp.oneTimePassword')}</FormLabel>
               <FormControl>
                 <InputOTP
                   maxLength={6}
@@ -207,7 +209,7 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
           )}
         />
         <Button className='mt-2' disabled={otp.length < 6 || isLoading}>
-          Verify
+          {t('otp.verifyBtn')}
         </Button>
       </form>
     </Form>

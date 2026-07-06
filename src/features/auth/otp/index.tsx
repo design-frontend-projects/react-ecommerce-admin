@@ -9,9 +9,11 @@ import {
 } from '@/components/ui/card'
 import { AuthLayout } from '../auth-layout'
 import { OtpForm } from './components/otp-form'
+import { useTranslation } from 'react-i18next'
 
 export function Otp() {
   const { flow } = useSearch({ from: '/(auth)/otp' })
+  const { t } = useTranslation()
 
   return (
     <AuthLayout>
@@ -19,11 +21,11 @@ export function Otp() {
         <CardHeader>
           <CardTitle className='text-base tracking-tight'>
             {flow === 'sign-in'
-              ? 'Email Verification'
-              : 'Two-factor Authentication'}
+              ? t('otp.emailVerification')
+              : t('otp.twoFactorAuth')}
           </CardTitle>
           <CardDescription>
-            Enter the 6-digit code sent to your email or phone.
+            {t('otp.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -31,14 +33,13 @@ export function Otp() {
         </CardContent>
         <CardFooter>
           <p className='px-8 text-center text-sm text-muted-foreground'>
-            Haven&apos;t received it?{' '}
+            {t('otp.notReceived')}{' '}
             <Link
               to='/sign-in'
               className='underline underline-offset-4 hover:text-primary'
             >
-              Resend a new code.
+              {t('otp.resendCode')}
             </Link>
-            .
           </p>
         </CardFooter>
       </Card>

@@ -1,4 +1,109 @@
 {
+  "header": {
+    "selectBranch": "Select branch",
+    "loadingBranches": "Loading branches..."
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "signInSubtitle": "Choose your module and sign in to continue",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "termsAgreement": "By clicking sign in, you agree to our <1>Terms of Service</1> and <3>Privacy Policy</3>."
+  },
+  "authForm": {
+    "successLogin": "Welcome back! Logged in as {{module}} user.",
+    "invalidCredentials": "Invalid email or password.",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign In",
+    "modules": {
+      "inventory": "Inventory",
+      "inventoryDesc": "Manage products, categories & inventory",
+      "restaurant": "Restaurant",
+      "restaurantDesc": "POS, orders, kitchen & reservations"
+    }
+  },
+  "signUp": {
+    "title": "Create an account",
+    "subtitle": "Enter your email or phone and verify a one-time code.",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "termsAgreement": "By creating an account, you agree to our <1>Terms of Service</1> and <3>Privacy Policy</3>.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "signUpBtn": "Sign Up",
+    "successTitle": "Account created successfully!",
+    "successDesc": "Please check your email to verify your account.",
+    "checkEmailTitle": "Check your email",
+    "checkEmailDesc": "We've sent a verification link to {{email}}. Please click the link to verify your account and continue.",
+    "errorMsg": "Something went wrong. Please try again."
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "subtitle": "Enter your registered email and <br/> we will send you a link to reset your password.",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "checkEmailTitle": "Check your email",
+    "checkEmailToast": "We sent you a password reset link.",
+    "errorMsg": "Something went wrong. Please try again.",
+    "checkEmailDesc": "We've sent a password reset link to {{email}}. Please check your inbox.",
+    "backToSignIn": "Back to Sign In",
+    "email": "Email",
+    "sendResetLink": "Send Reset Link"
+  },
+  "updatePassword": {
+    "successMsg": "Password updated successfully",
+    "errorMsg": "Something went wrong. Please try again.",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "updateBtn": "Update Password"
+  },
+  "completeAccount": {
+    "title": "Complete Your Profile",
+    "subtitle": "Welcome to Bluewave POS! Let's get you set up.",
+    "personalInfo": "Personal Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneOptional": "Phone Number (Optional)",
+    "continue": "Continue",
+    "selectActivity": "Select Business Activity",
+    "back": "Back",
+    "completeSetup": "Complete Setup",
+    "activities": {
+      "market": "Market",
+      "pharmacy": "Pharmacy",
+      "restuarant": "Restaurant",
+      "clothes": "Clothes Shop",
+      "electronic": "Electronics"
+    }
+  },
+  "otp": {
+    "emailVerification": "Email Verification",
+    "twoFactorAuth": "Two-factor Authentication",
+    "subtitle": "Enter the 6-digit code sent to your email or phone.",
+    "notReceived": "Haven't received it?",
+    "resendCode": "Resend a new code.",
+    "noPendingReq": "No pending verification request found. Redirecting...",
+    "profileFailed": "Failed to create initial profile. Please contact support.",
+    "verifiedSuccess": "Email verified successfully!",
+    "verificationFailed": "Verification failed. Please try again.",
+    "signInSuccess": "Sign in successful!",
+    "invalidCode": "Invalid code. Please try again.",
+    "oneTimePassword": "One-Time Password",
+    "verifyBtn": "Verify"
+  },
+  "teamSwitcher": {
+    "teams": "Teams",
+    "addTeam": "Add team"
+  },
+  "appTitle": {
+    "premiumEdition": "Premium Edition",
+    "toggleSidebar": "Toggle Sidebar"
+  },
   "hello": "Hello world",
   "signOutDialog": {
     "desc": "Are you sure you want to sign out?",

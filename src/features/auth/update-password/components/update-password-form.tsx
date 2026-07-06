@@ -21,6 +21,7 @@ import {
   updatePasswordFormSchema,
   type UpdatePasswordFormValues,
 } from './update-password.schema'
+import { useTranslation } from 'react-i18next'
 
 export function UpdatePasswordForm({
   className,
@@ -28,6 +29,7 @@ export function UpdatePasswordForm({
 }: Omit<HTMLMotionProps<'form'>, 'ref'>) {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+  const { t } = useTranslation()
 
   const form = useForm<UpdatePasswordFormValues>({
     resolver: zodResolver(updatePasswordFormSchema),
@@ -44,12 +46,11 @@ export function UpdatePasswordForm({
 
       if (error) throw error
 
-      toast.success('Password updated successfully')
+      toast.success(t('updatePassword.successMsg'))
       navigate({ to: '/' })
     } catch (err: unknown) {
       const errorMsg =
-        (err as { message?: string })?.message ||
-        'Something went wrong. Please try again.'
+        (err as { message?: string })?.message || t('updatePassword.errorMsg')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -87,7 +88,7 @@ export function UpdatePasswordForm({
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Password</FormLabel>
+                <FormLabel>{t('updatePassword.newPassword')}</FormLabel>
                 <FormControl>
                   <PasswordInput
                     placeholder='••••••••'
@@ -107,7 +108,7 @@ export function UpdatePasswordForm({
             name='confirmPassword'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel>{t('updatePassword.confirmPassword')}</FormLabel>
                 <FormControl>
                   <PasswordInput
                     placeholder='••••••••'
@@ -128,7 +129,7 @@ export function UpdatePasswordForm({
             ) : (
               <ArrowRight className='mr-2 h-5 w-5' />
             )}
-            Update Password
+            {t('updatePassword.updateBtn')}
           </Button>
         </motion.div>
       </motion.form>

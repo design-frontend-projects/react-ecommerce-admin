@@ -20,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
+import { useTranslation } from 'react-i18next'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -39,6 +40,7 @@ export function UserAuthForm({
   const [isLoading, setIsLoading] = useState(false)
   const [selectedModule, setSelectedModule] = useState<UserModule>('inventory')
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const { setSession, setUser } = useAuthStore((state) => state.auth)
 
@@ -82,12 +84,14 @@ export function UserAuthForm({
 
         navigate({ to: targetPath as never, replace: true })
         toast.success(
-          `Welcome back! Logged in as ${selectedModule === 'restaurant' ? 'Restaurant' : 'Inventory'} user.`
+          t('authForm.successLogin', {
+            module: t(`authForm.modules.${selectedModule}`),
+          })
         )
       }
     } catch (err: unknown) {
       const errorMsg =
-        (err as { message?: string })?.message || 'Invalid email or password.'
+        (err as { message?: string })?.message || t('authForm.invalidCredentials')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -147,7 +151,7 @@ export function UserAuthForm({
                     : 'scale-100'
                 )}
               />
-              <span className='z-10'>{tab.label}</span>
+              <span className='z-10'>{t(`authForm.modules.${tab.id}`)}</span>
             </button>
           )
         })}
@@ -162,7 +166,7 @@ export function UserAuthForm({
           exit={{ opacity: 0, y: 5 }}
           className='text-center text-xs font-medium text-muted-foreground'
         >
-          {MODULE_TABS.find((t) => t.id === selectedModule)?.description}
+          {t(`authForm.modules.${selectedModule}Desc`)}
         </motion.p>
       </AnimatePresence>
 
@@ -185,8 +189,8 @@ export function UserAuthForm({
                   <div className='flex items-center justify-between gap-3'>
                     <FormLabel>
                       {form.watch('contactType') === 'email'
-                        ? 'Email'
-                        : 'Phone'}
+                        ? t('authForm.email')
+                        : t('authForm.phone')}
                     </FormLabel>
                     <FormField
                       control={form.control}
@@ -205,7 +209,7 @@ export function UserAuthForm({
                                   : 'text-muted-foreground hover:text-foreground'
                               )}
                             >
-                              {type}
+                              {type === 'email' ? t('authForm.email') : t('authForm.phone')}
                             </button>
                           ))}
                         </div>
@@ -236,12 +240,12 @@ export function UserAuthForm({
               render={({ field }) => (
                 <FormItem>
                   <div className='flex items-center justify-between'>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('authForm.password')}</FormLabel>
                     <Link
                       to='/forgot-password'
                       className='text-xs font-medium text-primary hover:underline'
                     >
-                      Forgot password?
+                      {t('authForm.forgotPassword')}
                     </Link>
                   </div>
                   <FormControl>
@@ -272,7 +276,7 @@ export function UserAuthForm({
               ) : (
                 <LogIn className='mr-2 h-5 w-5' />
               )}
-              Sign In
+              {t('authForm.signIn')}
             </Button>
           </motion.div>
         </motion.form>

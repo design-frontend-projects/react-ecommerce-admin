@@ -21,6 +21,7 @@ import {
   forgotPasswordFormSchema,
   type ForgotPasswordFormValues,
 } from './forgot-password.schema'
+import { useTranslation } from 'react-i18next'
 
 export function ForgotPasswordForm({
   className,
@@ -28,6 +29,7 @@ export function ForgotPasswordForm({
 }: Omit<HTMLMotionProps<'form'>, 'ref'>) {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const { t } = useTranslation()
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema),
@@ -45,13 +47,12 @@ export function ForgotPasswordForm({
       if (error) throw error
 
       setIsSuccess(true)
-      toast.success('Check your email', {
-        description: 'We sent you a password reset link.',
+      toast.success(t('forgotPassword.checkEmailTitle'), {
+        description: t('forgotPassword.checkEmailToast'),
       })
     } catch (err: unknown) {
       const errorMsg =
-        (err as { message?: string })?.message ||
-        'Something went wrong. Please try again.'
+        (err as { message?: string })?.message || t('forgotPassword.errorMsg')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -79,15 +80,14 @@ export function ForgotPasswordForm({
         <div className='rounded-full bg-primary/10 p-4'>
           <MailCheck className='h-8 w-8 text-primary' />
         </div>
-        <h3 className='text-lg font-medium'>Check your email</h3>
+        <h3 className='text-lg font-medium'>{t('forgotPassword.checkEmailTitle')}</h3>
         <p className='text-sm text-muted-foreground'>
-          We've sent a password reset link to {form.getValues('email')}. Please
-          check your inbox.
+          {t('forgotPassword.checkEmailDesc', { email: form.getValues('email') })}
         </p>
         <Button variant='outline' className='mt-4 w-full' asChild>
           <Link href='/sign-in'>
             <ArrowLeft className='mr-2 h-4 w-4' />
-            Back to Sign In
+            {t('forgotPassword.backToSignIn')}
           </Link>
         </Button>
       </div>
@@ -110,7 +110,7 @@ export function ForgotPasswordForm({
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('forgotPassword.email')}</FormLabel>
                 <FormControl>
                   <Input
                     placeholder='name@example.com'
@@ -131,7 +131,7 @@ export function ForgotPasswordForm({
             ) : (
               <ArrowRight className='mr-2 h-5 w-5' />
             )}
-            Send Reset Link
+            {t('forgotPassword.sendResetLink')}
           </Button>
         </motion.div>
       </motion.form>

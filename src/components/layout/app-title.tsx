@@ -8,9 +8,11 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { Button } from '../ui/button'
+import { useTranslation } from 'react-i18next'
 
 export function AppTitle() {
   const { setOpenMobile } = useSidebar()
+  const { t } = useTranslation()
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -30,7 +32,7 @@ export function AppTitle() {
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-bold text-gradient'>ResPOS</span>
-                <span className='truncate text-[10px] uppercase tracking-wider text-muted-foreground/70'>Premium Edition</span>
+                <span className='truncate text-[10px] uppercase tracking-wider text-muted-foreground/70'>{t('appTitle.premiumEdition')}</span>
               </div>
             </Link>
             <ToggleSidebar />
@@ -47,6 +49,7 @@ function ToggleSidebar({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar()
+  const { t } = useTranslation()
 
   return (
     <Button
@@ -63,7 +66,7 @@ function ToggleSidebar({
     >
       <X className='md:hidden' />
       <Menu className='max-md:hidden' />
-      <span className='sr-only'>Toggle Sidebar</span>
+      <span className='sr-only'>{t('appTitle.toggleSidebar')}</span>
     </Button>
   )
 }

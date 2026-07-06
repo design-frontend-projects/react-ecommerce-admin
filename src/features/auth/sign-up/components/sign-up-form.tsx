@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
+import { useTranslation } from 'react-i18next'
 
 export function SignUpForm({
   className,
@@ -25,6 +26,7 @@ export function SignUpForm({
 }: Omit<HTMLMotionProps<'form'>, 'ref'>) {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const { t } = useTranslation()
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
@@ -55,13 +57,12 @@ export function SignUpForm({
       if (error) throw error
 
       setIsSuccess(true)
-      toast.success('Account created successfully!', {
-        description: 'Please check your email to verify your account.',
+      toast.success(t('signUp.successTitle'), {
+        description: t('signUp.successDesc'),
       })
     } catch (err: unknown) {
       const errorMsg =
-        (err as { message?: string })?.message ||
-        'Something went wrong. Please try again.'
+        (err as { message?: string })?.message || t('signUp.errorMsg')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -89,10 +90,9 @@ export function SignUpForm({
         <div className='rounded-full bg-primary/10 p-4'>
           <MailCheck className='h-8 w-8 text-primary' />
         </div>
-        <h3 className='text-lg font-medium'>Check your email</h3>
+        <h3 className='text-lg font-medium'>{t('signUp.checkEmailTitle')}</h3>
         <p className='text-sm text-muted-foreground'>
-          We've sent a verification link to {form.getValues('email')}. Please
-          click the link to verify your account and continue.
+          {t('signUp.checkEmailDesc', { email: form.getValues('email') })}
         </p>
       </div>
     )
@@ -115,7 +115,7 @@ export function SignUpForm({
               name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>{t('signUp.firstName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='John'
@@ -134,7 +134,7 @@ export function SignUpForm({
               name='lastName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>{t('signUp.lastName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Doe'
@@ -155,7 +155,7 @@ export function SignUpForm({
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('signUp.email')}</FormLabel>
                 <FormControl>
                   <Input
                     placeholder='name@example.com'
@@ -175,7 +175,7 @@ export function SignUpForm({
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t('signUp.password')}</FormLabel>
                 <FormControl>
                   <PasswordInput
                     placeholder='••••••••'
@@ -196,7 +196,7 @@ export function SignUpForm({
             ) : (
               <LogIn className='mr-2 h-5 w-5' />
             )}
-            Sign Up
+            {t('signUp.signUpBtn')}
           </Button>
         </motion.div>
       </motion.form>

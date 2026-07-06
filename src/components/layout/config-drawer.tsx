@@ -73,7 +73,7 @@ export function ConfigDrawer() {
                   onClick={() => setTheme(item.name as any)}
                 >
                   <item.icon className='h-4 w-4' />
-                  <span className='text-[10px] capitalize'>{item.name}</span>
+                  <span className='text-[10px] capitalize'>{t(`theme.${item.name}`)}</span>
                 </Button>
               ))}
             </div>
