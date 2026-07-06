@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Trans, useTranslation } from 'react-i18next'
-import { SignInButton, useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,

@@ -11,6 +11,7 @@ export function AreasDialogs() {
         key={`area-add-${open === 'add'}`}
         open={open === 'add'}
         onOpenChange={() => setOpen(null)}
+        currentRow={null}
       />
 
       {currentRow && (

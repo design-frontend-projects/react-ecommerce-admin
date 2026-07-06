@@ -94,7 +94,7 @@ export function ProductBaseForm({
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      { }
       <form
         id='product-base-form'
         onSubmit={form.handleSubmit(onSubmit as any)}

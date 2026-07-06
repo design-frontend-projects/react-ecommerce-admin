@@ -24,9 +24,9 @@ import {
 import { formatCurrency } from '@/lib/utils'
 import { CreditCard, Banknote, Loader2, Truck } from 'lucide-react'
 import {
-  CheckoutRequestType,
+  type CheckoutRequestType,
   shipmentSchema,
-  ShipmentType,
+  type ShipmentType,
 } from '../schemas/checkout'
 
 interface CheckoutModalProps {

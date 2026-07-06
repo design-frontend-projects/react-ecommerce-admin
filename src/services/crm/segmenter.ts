@@ -5,7 +5,7 @@ export function determineSegment(customer: any, sales: any[]): string {
   const thirtyDaysAgo = subDays(new Date(), 30);
   const sixMonthsAgo = subMonths(new Date(), 6);
   
-  let segment = 'active'; // Default
+  const segment = 'active'; // Default
   
   // If no activity in 6 months, inactive
   if (customer.last_active_at && new Date(customer.last_active_at) < sixMonthsAgo) {
@@ -40,7 +40,7 @@ export async function classifySegments() {
     }
   });
 
-  const updates = customers.map(customer => {
+  const updates = customers.map((customer: any) => {
     const segment = determineSegment(customer, customer.pos_sales);
     return {
       customer_id: customer.customer_id,
@@ -49,7 +49,7 @@ export async function classifySegments() {
   });
 
   // Batch update
-  const updatePromises = updates.map(u => 
+  const updatePromises = updates.map((u: any) => 
     prisma.customers.update({
       where: { customer_id: u.customer_id },
       data: { crm_status: u.segment }

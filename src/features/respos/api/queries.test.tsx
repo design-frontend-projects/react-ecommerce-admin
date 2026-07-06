@@ -152,6 +152,6 @@ describe('ResPOS Offline Queries', () => {
     expect(cachedItems[0].name).toBe('Burger')
     expect(cachedItems[0].is_active).toBe(1)
     expect(cachedItems[0].is_available).toBe(1)
-    expect(cachedItems[0].variants).toEqual(mockVariants)
+    expect((cachedItems[0] as any).variants).toEqual(mockVariants)
   })
 })

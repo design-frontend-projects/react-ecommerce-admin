@@ -81,7 +81,7 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
     null
   )
   const [isProcessing, setIsProcessing] = useState(false)
-  const [orderCode, setOrderCode] = useState(() =>
+  const [orderCode] = useState(() =>
     Math.floor(Math.random() * 100000)
   )
 
@@ -139,6 +139,9 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
       }
     }
   }
+
+  const handleBack = () => setStep('choose')
+  const handlePayment = handleNext
 
   const formattedPrice = selectedPlan
     ? new Intl.NumberFormat(i18n.language === 'ar' ? 'ar-EG' : 'en-US', {

@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import { TransactionRow } from './schema'
+import { type TransactionRow } from './schema'
 
 export async function getTransactions(): Promise<TransactionRow[]> {
   const { data, error } = await supabase

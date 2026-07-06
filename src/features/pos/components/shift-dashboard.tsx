@@ -193,14 +193,14 @@ export function ShiftDashboard() {
                           tick={{ fontSize: 12 }}
                         />
                         <Tooltip
-                          formatter={(value: number, name: string) => [
+                          formatter={(value: any, name: any) => [
                             formatCurrency(Number(value)),
                             name === 'sales'
                               ? 'Sales'
                               : name === 'refunds'
                                 ? 'Refunds'
                                 : 'Net',
-                          ]}
+                          ] as any}
                           labelFormatter={(label) => `Bucket: ${label}`}
                         />
                         <Area

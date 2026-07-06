@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { Store } from '../data/schema'
+import { type Store } from '../data/schema'
 
 export const useStores = (search?: string) => {
   return useQuery({

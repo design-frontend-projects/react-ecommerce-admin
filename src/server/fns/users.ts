@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
+import { z } from 'zod'
+import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
 import type { User } from '@/features/users/data/types'
 
@@ -48,10 +50,10 @@ export async function getUsers(): Promise<User[]> {
   const userIds = dbUsers.map((u) => u.auth_user_id)
   const profiles = await prisma.profiles.findMany({
     where: { auth_user_id: { in: userIds } },
-    select: { auth_user_id: true, branch_id: true },
+    select: { auth_user_id: true, branch_id: true, phone: true } as any,
   })
 
-  const profileMap = new Map(profiles.map((p) => [p.auth_user_id, p.branch_id]))
+  const profileMap = new Map(profiles.map((p: any) => [p.auth_user_id, p]))
 
   return dbUsers.map((user) => {
     const roleNames = user.user_roles.map((assignment) => assignment.roles.name)
@@ -66,11 +68,11 @@ export async function getUsers(): Promise<User[]> {
       lastName: user.last_name ?? '',
       username,
       email: user.email ?? '',
-      phoneNumber: '',
+      phoneNumber: (profileMap.get(user.auth_user_id) as any)?.phone ?? '',
       role: primaryRole,
       roleNames,
       roleIds,
-      branchId: profileMap.get(user.auth_user_id) ?? undefined,
+      branchId: (profileMap.get(user.auth_user_id) as any)?.branch_id ?? undefined,
       status: buildUserStatus(user),
       createdAt: user.created_at?.toISOString() ?? new Date().toISOString(),
       updatedAt: user.updated_at?.toISOString() ?? new Date().toISOString(),
@@ -105,6 +107,85 @@ export const updateUserBranch = createServerFn({ method: 'POST' })
         })
       }
     }
+
+    return { success: true }
+  })
+
+export const getUserProfile = createServerFn({ method: 'GET' })
+  .validator((data: { userId: string }) => data)
+  .handler(async ({ data: { userId } }) => {
+    const profile = await prisma.profiles.findFirst({
+      where: { auth_user_id: userId },
+    })
+    
+    return {
+      success: true,
+      profile,
+    }
+  })
+
+export const updateUserProfile = createServerFn({ method: 'POST' })
+  .validator(
+    z.object({
+      userId: z.string(),
+      firstName: z.string(),
+      lastName: z.string(),
+      phone: z.string().optional(),
+    })
+  )
+  .handler(async ({ data: { userId, firstName, lastName, phone } }) => {
+    await prisma.profiles.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        updated_at: new Date(),
+      },
+    })
+    
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        updated_at: new Date(),
+      },
+    })
+
+    return { success: true }
+  })
+
+export const changeUserPassword = createServerFn({ method: 'POST' })
+  .validator(
+    z.object({
+      userId: z.string(),
+      password: z.string().min(6),
+    })
+  )
+  .handler(async ({ data: { userId, password } }) => {
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+      password,
+    })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return { success: true }
+  })
+
+export const deactivateUser = createServerFn({ method: 'POST' })
+  .validator(z.object({ userId: z.string() }))
+  .handler(async ({ data: { userId } }) => {
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        is_active: false,
+        updated_at: new Date(),
+      },
+    })
 
     return { success: true }
   })

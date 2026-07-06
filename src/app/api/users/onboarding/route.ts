@@ -26,7 +26,7 @@ export async function POST(request: Request): Promise<Response> {
       firstName: body.firstName,
       lastName: body.lastName,
       phone: body.phone,
-    })
+    } as any)
 
     return Response.json({
       success: true,

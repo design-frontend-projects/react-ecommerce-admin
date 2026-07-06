@@ -76,7 +76,7 @@ export function BasketView() {
         discountTotal: cartDiscount > 0 ? cartDiscount : 0,
         taxTotal: tax,
         items: checkoutItems,
-      })
+      } as any)
     },
     onSuccess: (data: CheckoutResponse) => {
       if (!data.success) {

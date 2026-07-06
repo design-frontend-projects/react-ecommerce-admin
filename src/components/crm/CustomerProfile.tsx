@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface TimelineEvent {
   id: string;
@@ -7,7 +6,7 @@ interface TimelineEvent {
   description: string;
 }
 
-export function CustomerProfile({ customerId }: { customerId: number }) {
+export function CustomerProfile({ customerId: _customerId }: { customerId: number }) {
   // In a real implementation, we would fetch the customer details and timeline by ID
   const customer = {
     first_name: 'Jane',

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { PrivacyPolicy } from '../data/queries'
+import { type PrivacyPolicy } from '../data/queries'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface PrivacyViewerProps {

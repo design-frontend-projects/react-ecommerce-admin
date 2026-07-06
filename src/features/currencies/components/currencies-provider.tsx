@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { Currency } from '../hooks/use-currencies'
+import { type Currency } from '../hooks/use-currencies'
 
 interface CurrenciesContextType {
   open: 'create' | 'update' | 'delete' | null

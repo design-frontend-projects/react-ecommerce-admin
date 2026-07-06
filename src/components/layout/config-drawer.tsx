@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Settings2, Sun, Moon, Monitor, Type, Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
@@ -20,7 +19,7 @@ import { fonts } from '@/config/fonts'
 export function ConfigDrawer() {
   const { t, i18n } = useTranslation()
   const { theme, setTheme } = useTheme()
-  const { dir, setDir } = useDirection()
+  const { setDir } = useDirection()
   const { font, setFont } = useFont()
   const { variant, setVariant } = useLayout()
 

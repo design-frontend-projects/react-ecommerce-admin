@@ -15,7 +15,6 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SubscriptionRequiredRouteImport } from './routes/subscription-required'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as DummyRouteImport } from './routes/dummy'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
@@ -112,11 +111,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DummyRoute = DummyRouteImport.update({
-  id: '/dummy',
-  path: '/dummy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -537,7 +531,6 @@ const AuthenticatedResposInvoiceOrderIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
@@ -616,7 +609,6 @@ export interface FileRoutesByFullPath {
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
@@ -695,7 +687,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/dummy': typeof DummyRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
@@ -777,7 +768,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/dummy'
     | '/login'
     | '/privacy'
     | '/subscription-required'
@@ -856,7 +846,6 @@ export interface FileRouteTypes {
     | '/restaurants'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/dummy'
     | '/login'
     | '/privacy'
     | '/subscription-required'
@@ -934,7 +923,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
-    | '/dummy'
     | '/login'
     | '/privacy'
     | '/subscription-required'
@@ -1016,7 +1004,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  DummyRoute: typeof DummyRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SubscriptionRequiredRoute: typeof SubscriptionRequiredRoute
@@ -1068,13 +1055,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dummy': {
-      id: '/dummy'
-      path: '/dummy'
-      fullPath: '/dummy'
-      preLoaderRoute: typeof DummyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -1759,7 +1739,6 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  DummyRoute: DummyRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   SubscriptionRequiredRoute: SubscriptionRequiredRoute,

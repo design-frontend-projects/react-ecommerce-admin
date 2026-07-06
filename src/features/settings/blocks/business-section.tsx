@@ -1,12 +1,11 @@
 'use client'
 
+import { type z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -16,13 +15,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { useSettingsStore } from '@/features/settings/data/store'
+import { Input } from '@/components/ui/input'
 import { useUpsertSetting } from '@/features/settings/data/queries'
 import {
   BusinessSettingsSchema,
   type BusinessSettings,
   BUSINESS_DEFAULTS,
 } from '@/features/settings/data/schema'
+import { useSettingsStore } from '@/features/settings/data/store'
 
 export function BusinessSection() {
   const business = useSettingsStore((s) => s.business)
@@ -30,7 +30,11 @@ export function BusinessSection() {
   const isLoaded = useSettingsStore((s) => s.isLoaded)
   const upsertMutation = useUpsertSetting()
 
-  const form = useForm<z.input<typeof BusinessSettingsSchema>, any, BusinessSettings>({
+  const form = useForm<
+    z.input<typeof BusinessSettingsSchema>,
+    any,
+    BusinessSettings
+  >({
     resolver: zodResolver(BusinessSettingsSchema),
     defaultValues: isLoaded ? business : BUSINESS_DEFAULTS,
     values: isLoaded ? business : undefined,
@@ -69,7 +73,10 @@ export function BusinessSection() {
                   max='100'
                   placeholder='0.00'
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  value={(field.value as number) ?? ''}
+                  onChange={(e) =>
+                    field.onChange(parseFloat(e.target.value) || 0)
+                  }
                 />
               </FormControl>
               <FormDescription>
@@ -94,7 +101,10 @@ export function BusinessSection() {
                   max='100'
                   placeholder='0.00'
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  value={(field.value as number) ?? ''}
+                  onChange={(e) =>
+                    field.onChange(parseFloat(e.target.value) || 0)
+                  }
                 />
               </FormControl>
               <FormDescription>
@@ -118,7 +128,10 @@ export function BusinessSection() {
                   min='0'
                   placeholder='0.00'
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  value={(field.value as number) ?? ''}
+                  onChange={(e) =>
+                    field.onChange(parseFloat(e.target.value) || 0)
+                  }
                 />
               </FormControl>
               <FormDescription>

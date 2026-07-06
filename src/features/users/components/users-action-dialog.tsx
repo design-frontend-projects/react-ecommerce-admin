@@ -27,6 +27,7 @@ import { PasswordInput } from '@/components/password-input'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { type User } from '../data/schema'
 import { useRoles } from '../hooks/use-invitations'
+import { useAuthStore } from '@/stores/auth-store'
 import {
   useUpdateUserRole,
   useUpdateUserBranch,
@@ -50,6 +51,7 @@ export function UsersActionDialog({
   const updateUserRole = useUpdateUserRole()
   const updateUserBranch = useUpdateUserBranch()
   const createUser = useCreateUser()
+  const { user } = useAuthStore((state) => state.auth)
 
   const { data: branches, isLoading: isBranchesLoading } = useQuery({
     queryKey: ['branches', 'active', 'user-dialog'],
@@ -116,6 +118,7 @@ export function UsersActionDialog({
           rolesData.find((r) => r.name.toLowerCase() === values.role)?.id ||
           values.role,
         branchId: values.branchId,
+        callerAuthUserId: user?.id || '',
       })
     }
 

@@ -25,7 +25,7 @@ export function CountriesDeleteDialog({
   const handleDelete = () => {
     if (value.trim() !== currentRow.name) return
 
-    deleteCountry.mutate(currentRow.id, {
+    deleteCountry.mutate(currentRow.id as any, {
       onSuccess: () => {
         onOpenChange(false)
         toast.success('Country deleted', {

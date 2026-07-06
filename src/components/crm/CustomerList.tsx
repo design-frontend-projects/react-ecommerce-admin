@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useCRMStore } from '@/store/crmStore';
 
 export function CustomerList() {

@@ -26,7 +26,7 @@ export function ProfileDropdown() {
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
             <Avatar className='h-8 w-8'>
-              <AvatarImage src={user?.imageUrl} alt='@shadcn' />
+              <AvatarImage src={(user as any)?.imageUrl} alt='@shadcn' />
               <AvatarFallback>SN</AvatarFallback>
             </Avatar>
           </Button>
@@ -38,8 +38,8 @@ export function ProfileDropdown() {
                 {user?.fullName}
               </p>
               <p className='text-xs leading-none text-muted-foreground'>
-                {user?.primaryEmailAddress?.emailAddress ??
-                  user?.primaryPhoneNumber?.phoneNumber}
+                {(user as any)?.primaryEmailAddress?.emailAddress ??
+                  (user as any)?.primaryPhoneNumber?.phoneNumber}
               </p>
             </div>
           </DropdownMenuLabel>

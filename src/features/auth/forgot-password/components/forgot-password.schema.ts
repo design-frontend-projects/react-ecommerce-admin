@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { passwordSchema } from '@/lib/password-validation'
 
 export const forgotPasswordFormSchema = z.object({
   email: z
