@@ -96,8 +96,8 @@ export function PosLayout() {
 
   const handleEmployeeRequestRead = useCallback(
     (payload: RealtimePostgresChangesPayload<Record<string, unknown>>) => {
-      const nextRow = payload.new ?? {}
-      const previousRow = payload.old ?? {}
+      const nextRow: any = payload.new ?? {}
+      const previousRow: any = payload.old ?? {}
       const requestId = String(nextRow.id ?? '')
       const nextStatus = String(nextRow.status ?? '')
       const previousStatus = String(previousRow.status ?? '')
@@ -116,7 +116,7 @@ export function PosLayout() {
 
   usePosReorderRealtime({
     enabled: !!user?.id,
-    employeeauthUserId: user?.id,
+    employeeAuthUserId: user?.id,
     onEmployeeRequestRead: handleEmployeeRequestRead,
   })
 

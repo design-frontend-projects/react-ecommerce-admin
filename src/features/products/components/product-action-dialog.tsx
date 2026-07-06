@@ -181,7 +181,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       const { base_price, cost_price, variants, ...productData } = values
       
       const defaultVariant = {
@@ -212,7 +212,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           base: {
             ...productData,
             has_variants: finalVariants.length > 1,
-          },
+          } as any,
           variants: finalVariants,
         })
       }
@@ -595,7 +595,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Price *</FormLabel>
                               <FormControl>
-                                <Input type="number" step="any" min="0" placeholder="0.00" {...field} />
+                                <Input type="number" step="any" min="0" placeholder="0.00" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -615,7 +615,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   min="0" 
                                   placeholder="0.00" 
                                   {...field} 
-                                  value={field.value ?? ''} 
+                                  value={(field.value as number) ?? ''} 
+                                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -630,7 +631,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Initial Stock</FormLabel>
                               <FormControl>
-                                <Input type="number" min="0" placeholder="0" {...field} />
+                                <Input type="number" min="0" placeholder="0" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -644,7 +645,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Min Stock Alert</FormLabel>
                               <FormControl>
-                                <Input type="number" min="0" placeholder="0" {...field} />
+                                <Input type="number" min="0" placeholder="0" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -667,7 +668,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   min="0" 
                                   placeholder="0.00" 
                                   {...field} 
-                                  value={field.value ?? ''} 
+                                  value={(field.value as number) ?? ''} 
+                                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                                 />
                               </FormControl>
                               <FormMessage />

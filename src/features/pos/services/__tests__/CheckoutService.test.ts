@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { processCheckout } from '../CheckoutService'
 import prisma from '@/lib/prisma'
-import type { CheckoutRequestType } from '../../schemas/checkout'
 
 // Mocking Prisma
 vi.mock('@/lib/prisma', () => ({
@@ -29,7 +28,7 @@ describe('CheckoutService', () => {
       return mockDbTx()
     })
 
-    const payload: CheckoutRequestType = {
+    const payload: any = {
       branchId: 'b-uuid',
       storeId: 's-uuid',
       paymentMethod: 'cash',

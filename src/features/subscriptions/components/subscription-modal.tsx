@@ -60,7 +60,7 @@ export function SubscriptionModal({
   onSuccess,
 }: SubscriptionModalProps) {
   const { t, i18n } = useTranslation()
-  const { user } = useAuthStore((state) => state.auth)
+  const { user, profile } = useAuthStore((state) => state.auth)
   const { data: dbPlans, isLoading: isLoadingPlans } = useSubscriptionPlans()
   const { mutateAsync: assignSubscription } = useAssignSubscription()
 
@@ -118,9 +118,9 @@ export function SubscriptionModal({
         
         await assignSubscription({
           auth_user_id: user.id,
-          email: user.primaryEmailAddress?.emailAddress ?? '',
-          first_name: user.firstName ?? '',
-          last_name: user.lastName ?? '',
+          email: user.email ?? profile?.email ?? '',
+          first_name: profile?.first_name ?? user.user_metadata?.first_name ?? '',
+          last_name: profile?.last_name ?? user.user_metadata?.last_name ?? '',
           is_owner: true,
           subscription_id: typeof selectedPlan.id === 'number' ? selectedPlan.id : 1, // Fallback if still using mock string id
           status: 'paid',

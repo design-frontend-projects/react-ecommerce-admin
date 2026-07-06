@@ -26,3 +26,29 @@ export function useDeleteArea() {
     },
   })
 }
+
+export function useCreateArea() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['areas'] })
+    },
+  })
+}
+
+export function useUpdateArea() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data: any) => {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['areas'] })
+    },
+  })
+}

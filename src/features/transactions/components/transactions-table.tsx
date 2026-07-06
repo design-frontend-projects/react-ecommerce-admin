@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table/data-table-pagination'
 import { DataTableToolbar } from '@/components/data-table/data-table-toolbar'
-import { TransactionRow } from '../data/schema'
+import { type TransactionRow } from '../data/schema'
 import { columns } from './columns'
 
 interface TransactionsTableProps {

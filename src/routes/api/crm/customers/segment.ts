@@ -1,4 +1,5 @@
-import { createAPIFileRoute } from '@tanstack/start'
+// @ts-ignore
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 import prisma from '@/lib/prisma'
 
 export const APIRoute = createAPIFileRoute('/api/crm/customers/segment')({

@@ -45,7 +45,7 @@ export const areaColumns: ColumnDef<Area>[] = [
     accessorKey: 'city',
     header: ({ column }) => <DataTableColumnHeader column={column} title='City' />,
     cell: ({ row }) => {
-      const city = row.original.city
+      const city = (row.original as any).city || (row.original as any).cities
       return (
         <div className='flex space-x-2'>
           <span className='max-w-[500px] truncate font-medium text-muted-foreground'>

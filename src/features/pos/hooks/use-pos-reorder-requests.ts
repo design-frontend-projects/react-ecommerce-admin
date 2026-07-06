@@ -97,7 +97,7 @@ export function useAdminPendingReorderRequests(enabled = true) {
         .limit(50)
 
       if (error) throw error
-      return (data ?? []) as PosReorderRequest[]
+      return (data ?? []) as any
     },
     enabled,
   })
@@ -170,13 +170,13 @@ export function useMarkPosReorderRequestRead() {
   return useMutation({
     mutationFn: async ({
       requestId,
-      readByClerkUserId,
+      readByAuthUserId,
     }: MarkPosReorderRequestReadInput) => {
       const { error } = await supabase
         .from('pos_reorder_requests')
         .update({
           status: 'read',
-          read_by_user_id: readByClerkUserId,
+          read_by_user_id: readByAuthUserId,
           read_at: new Date().toISOString(),
         })
         .eq('id', requestId)

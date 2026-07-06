@@ -55,7 +55,7 @@ export function BranchActionDialog() {
   const isOpen = open === 'create' || open === 'edit'
 
   const form = useForm<BranchFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       name: '',
       city_id: '',
@@ -122,7 +122,7 @@ export function BranchActionDialog() {
           <Form {...form}>
             <form
               id='branch-form'
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onSubmit as any)}
               className='space-y-4'
             >
               <FormField

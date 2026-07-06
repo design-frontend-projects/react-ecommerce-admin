@@ -32,8 +32,10 @@ export interface CreateUserInput {
   password: string
   firstName?: string
   lastName?: string
+  phone?: string
   roleId: string
   branchId?: string
+  callerAuthUserId: string
 }
 
 export interface InviteUserResult {
@@ -66,6 +68,7 @@ export interface CreateRoleInput {
   name: string
   description?: string
   permissionIds?: string[]
+  callerAuthUserId?: string
 }
 
 export interface UpdateRoleInput {
@@ -73,6 +76,7 @@ export interface UpdateRoleInput {
   name?: string
   description?: string
   is_active?: boolean
+  callerAuthUserId?: string
 }
 
 export interface ToggleRolePermissionInput {

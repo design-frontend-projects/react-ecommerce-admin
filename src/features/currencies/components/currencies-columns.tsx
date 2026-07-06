@@ -1,9 +1,9 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { Check, Minus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { Currency } from '../hooks/use-currencies'
+import { type Currency } from '../hooks/use-currencies'
 import { CurrencyRowActions } from './currency-row-actions'
 
 export const columns: ColumnDef<Currency>[] = [

@@ -1,4 +1,4 @@
-import { CheckoutRequestType } from '../schemas/checkout'
+import { type CheckoutRequestType } from '../schemas/checkout'
 
 export interface CheckoutRequest extends CheckoutRequestType {}
 

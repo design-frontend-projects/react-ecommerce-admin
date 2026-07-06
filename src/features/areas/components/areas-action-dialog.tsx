@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { useCities } from '@/features/cities/hooks/use-cities'
+import { useCreateArea, useUpdateArea } from '../hooks/use-areas'
 import { type Area } from '../data/schema'
 import { areaFormSchema, type AreaForm } from './areas-action-dialog.schema'
 
@@ -42,7 +43,7 @@ export function AreasActionDialog({
   const { data: cities = [] } = useCities()
 
   const form = useForm<AreaForm>({
-    resolver: zodResolver(areaFormSchema),
+    resolver: zodResolver(areaFormSchema) as any,
     defaultValues: currentRow
       ? {
           name: currentRow.name,
@@ -68,7 +69,7 @@ export function AreasActionDialog({
             })
             onOpenChange(false)
           },
-          onError: (error) => {
+          onError: (error: any) => {
             toast.error('Failed to update area', {
               description: error.message,
             })
@@ -84,7 +85,7 @@ export function AreasActionDialog({
           })
           onOpenChange(false)
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error('Failed to add area', {
             description: error.message,
           })
@@ -116,7 +117,7 @@ export function AreasActionDialog({
         <Form {...form}>
           <form
             id='area-form'
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit as any)}
             className='space-y-4'
           >
             <FormField

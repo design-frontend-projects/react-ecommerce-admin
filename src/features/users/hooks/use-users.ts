@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { fetchUsers, updateUserRoles } from '../data/actions'
 import type { UpdateUserRolesInput, CreateUserInput } from '../data/types'
 import { createUserDirect } from '@/server/fns/create-user'
+import { deactivateUser, changeUserPassword } from '@/server/fns/users'
 
 export const usersQueryKey = ['users'] as const
 
@@ -51,6 +52,45 @@ export function useCreateUser() {
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Unable to create user.')
+    },
+  })
+}
+
+export function useDeactivateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (userId: string) => {
+      return deactivateUser({ data: { userId } })
+    },
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success('User deactivated successfully.')
+        void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+      } else {
+        toast.error('Failed to deactivate user.')
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to deactivate user.')
+    },
+  })
+}
+
+export function useResetUserPassword() {
+  return useMutation({
+    mutationFn: async ({ userId, password }: { userId: string; password: string }) => {
+      return changeUserPassword({ data: { userId, password } })
+    },
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success('Password reset successfully.')
+      } else {
+        toast.error('Failed to reset password.')
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to reset password.')
     },
   })
 }

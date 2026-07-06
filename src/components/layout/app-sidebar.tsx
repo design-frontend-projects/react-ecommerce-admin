@@ -17,24 +17,35 @@ import { NavUser } from './nav-user'
 import type { NavItem } from './types'
 
 function canAccessItem(
-  item: { roles?: string[]; isSystemOwner?: boolean },
+  item: { roles?: string[]; permissions?: string[]; isSystemOwner?: boolean },
   normalizedRoleNames: string[],
+  normalizedPermissionNames: string[],
   isSystemOwner: boolean,
   isSignedIn: boolean
 ): boolean {
   // System owner restriction
   if (item.isSystemOwner && !isSystemOwner) return false
 
-  // No roles defined → everyone can access
-  if (!item.roles || item.roles.length === 0) return true
+  const hasRoles = item.roles && item.roles.length > 0
+  const hasPermissions = item.permissions && item.permissions.length > 0
 
-  // Roles defined but user not signed in → deny
+  // No roles or permissions defined → everyone can access
+  if (!hasRoles && !hasPermissions) return true
+
+  // Rules defined but user not signed in → deny
   if (!isSignedIn) return false
 
   // Check if any of the user's roles match the route's allowed roles
-  return item.roles.some((role) =>
-    normalizedRoleNames.includes(normalizeRoleName(role))
-  )
+  if (hasRoles && item.roles!.some((role) => normalizedRoleNames.includes(normalizeRoleName(role)))) {
+    return true
+  }
+
+  // Check if any of the user's permissions match the route's allowed permissions
+  if (hasPermissions && item.permissions!.some((permission) => normalizedPermissionNames.includes(normalizeRoleName(permission)))) {
+    return true
+  }
+
+  return false
 }
 
 export function AppSidebar() {
@@ -42,9 +53,11 @@ export function AppSidebar() {
   const { isSignedIn } = useAuth()
   const { isSystemOwner } = useSystemOwner()
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
+  const currentPermissionNames = useRBACStore((state) => state.currentPermissionNames)
   const sidebarData = useSidebarData()
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
+  const normalizedPermissionNames = currentPermissionNames.map(normalizeRoleName)
 
   // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sidebarData.navGroups
@@ -52,7 +65,7 @@ export function AppSidebar() {
       ...group,
       items: group.items
         .filter((item) =>
-          canAccessItem(item, normalizedRoleNames, isSystemOwner, !!isSignedIn)
+          canAccessItem(item, normalizedRoleNames, normalizedPermissionNames, isSystemOwner, !!isSignedIn)
         )
         .map((item): NavItem => {
           // Filter nested sub-items for collapsible menus
@@ -63,6 +76,7 @@ export function AppSidebar() {
                 canAccessItem(
                   subItem,
                   normalizedRoleNames,
+                  normalizedPermissionNames,
                   isSystemOwner,
                   !!isSignedIn
                 )

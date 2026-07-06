@@ -16,7 +16,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontal, KeyRound, UserX } from 'lucide-react'
+import { useState } from 'react'
 import type { RoleWithPermissions, User } from '../data/types'
+import { ResetPasswordDialog } from './reset-password-dialog'
+import { DeactivateUserDialog } from './deactivate-user-dialog'
 
 interface UserListProps {
   users: User[]
@@ -46,6 +57,9 @@ export function UserList({
   pendingUserId,
   onUpdateUserRole,
 }: UserListProps) {
+  const [resetPasswordUserId, setResetPasswordUserId] = useState<string | null>(null)
+  const [userToDeactivate, setUserToDeactivate] = useState<User | null>(null)
+
   if (isLoading) {
     return (
       <div className='flex flex-col gap-3'>
@@ -63,6 +77,7 @@ export function UserList({
           <TableRow>
             <TableHead>Team member</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Phone</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Updated</TableHead>
@@ -96,6 +111,9 @@ export function UserList({
                     </div>
                   </TableCell>
                   <TableCell>{user.email}</TableCell>
+                  <TableCell className='text-sm text-muted-foreground'>
+                    {user.phoneNumber || '-'}
+                  </TableCell>
                   <TableCell>
                     <Badge variant={statusVariant(user.status)}>{user.status}</Badge>
                   </TableCell>
@@ -118,21 +136,37 @@ export function UserList({
                         </SelectContent>
                       </Select>
                     ) : (
-                      <Badge variant='outline'>{user.role}</Badge>
+                      <Badge variant='outline'>{user.roleNames.join(', ') || 'None'}</Badge>
                     )}
                   </TableCell>
                   <TableCell className='text-sm text-muted-foreground'>
                     {new Date(user.updatedAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell className='text-right'>
-                    <Button
-                      type='button'
-                      variant='ghost'
-                      size='sm'
-                      disabled
-                    >
-                      {user.status === 'invited' ? 'Pending invite' : 'Managed'}
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant='ghost' size='icon' className='size-8 p-0'>
+                          <span className='sr-only'>Open menu</span>
+                          <MoreHorizontal className='size-4' />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align='end'>
+                        <DropdownMenuItem
+                          onClick={() => setResetPasswordUserId(user.id)}
+                        >
+                          <KeyRound className='mr-2 size-4' />
+                          Reset Password
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className='text-destructive focus:bg-destructive/10 focus:text-destructive'
+                          onClick={() => setUserToDeactivate(user)}
+                        >
+                          <UserX className='mr-2 size-4' />
+                          Deactivate User
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               )
@@ -140,6 +174,20 @@ export function UserList({
           )}
         </TableBody>
       </Table>
+      <ResetPasswordDialog
+        userId={resetPasswordUserId}
+        open={!!resetPasswordUserId}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setResetPasswordUserId(null)
+        }}
+      />
+      <DeactivateUserDialog
+        user={userToDeactivate}
+        open={!!userToDeactivate}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setUserToDeactivate(null)
+        }}
+      />
     </div>
   )
 }

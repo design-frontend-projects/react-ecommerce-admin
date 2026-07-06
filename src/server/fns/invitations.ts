@@ -122,7 +122,6 @@ export const inviteUser = createServerFn({ method: 'POST' })
       data: {
         auth_user_id: tenantUser.id,
         role_id: role.id,
-        auth_user_id: pendingClerkUserId,
       },
     })
 
@@ -131,7 +130,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
       data: {
         auth_user_id: pendingClerkUserId,
         email: input.email.trim().toLowerCase(),
-        is_owner: false,
+        is_owner: ['admin', 'super_admin'].includes(role.name.toLowerCase()),
         system_owner: false,
         onboarding_complete: false,
         branch_id: input.branchId || null,

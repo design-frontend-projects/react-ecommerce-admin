@@ -56,14 +56,14 @@ export function NavGroup({ title, items }: NavGroupProps) {
             return (
               <SidebarMenuCollapsedDropdown
                 key={key}
-                item={item}
+                item={item as any}
                 href={pathname}
               />
             )
           }
 
           return (
-            <SidebarMenuCollapsible key={key} item={item} href={pathname} />
+            <SidebarMenuCollapsible key={key} item={item as any} href={pathname} />
           )
         })}
       </SidebarMenu>

@@ -59,7 +59,7 @@ export function CountriesActionDialog({
   const onSubmit = (values: CountryForm) => {
     if (isEdit) {
       updateCountry.mutate(
-        { id: currentRow.id, ...values },
+        { id: currentRow.id as unknown as number, ...values },
         {
           onSuccess: () => {
             form.reset()

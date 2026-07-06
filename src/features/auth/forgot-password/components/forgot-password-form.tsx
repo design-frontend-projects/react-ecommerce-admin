@@ -85,7 +85,7 @@ export function ForgotPasswordForm({
           {t('forgotPassword.checkEmailDesc', { email: form.getValues('email') })}
         </p>
         <Button variant='outline' className='mt-4 w-full' asChild>
-          <Link href='/sign-in'>
+          <Link to='/sign-in'>
             <ArrowLeft className='mr-2 h-4 w-4' />
             {t('forgotPassword.backToSignIn')}
           </Link>

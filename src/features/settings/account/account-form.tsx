@@ -1,83 +1,106 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { showSubmittedData } from '@/lib/show-submitted-data'
 import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { DatePicker } from '@/components/date-picker'
+import { toast } from 'sonner'
+import { useUser } from '@/hooks/use-auth'
+import { useChangePassword } from '../profile/profile-queries'
+import { Loader2 } from 'lucide-react'
 
-const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Please enter your name.')
-    .min(2, 'Name must be at least 2 characters.')
-    .max(30, 'Name must not be longer than 30 characters.'),
-  dob: z.date({
-    message: 'Please select your date of birth.',
-  }),
-})
-
-type AccountFormValues = z.infer<typeof accountFormSchema>
-
-// This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
-  name: '',
-}
-
-export function AccountForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
-    defaultValues,
+const passwordFormSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters.')
+      .max(50, 'Password must not be longer than 50 characters.'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match.",
+    path: ['confirmPassword'],
   })
 
-  function onSubmit(data: AccountFormValues) {
-    showSubmittedData(data)
+type PasswordFormValues = z.infer<typeof passwordFormSchema>
+
+export function AccountForm() {
+  const { user } = useUser()
+  const userId = user?.id
+
+  const changePassword = useChangePassword()
+
+  const form = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordFormSchema),
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  })
+
+  function onSubmit(data: PasswordFormValues) {
+    if (!userId) return
+
+    changePassword.mutate(
+      { userId, password: data.password },
+      {
+        onSuccess: () => {
+          toast.success('Password updated', {
+            description: 'Your password has been successfully changed.',
+          })
+          form.reset()
+        },
+        onError: (error) => {
+          toast.error('Error', {
+            description: error.message || 'Failed to update password.',
+          })
+        },
+      }
+    )
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl">
         <FormField
           control={form.control}
-          name='name'
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder='Your name' {...field} />
+                <Input type="password" placeholder="••••••••" {...field} />
               </FormControl>
-              <FormDescription>
-                This is the name that will be displayed on your profile and in
-                emails.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name='dob'
+          name="confirmPassword"
           render={({ field }) => (
-            <FormItem className='flex flex-col'>
-              <FormLabel>Date of birth</FormLabel>
-              <DatePicker selected={field.value} onSelect={field.onChange} />
-              <FormDescription>
-                Your date of birth is used to calculate your age.
-              </FormDescription>
+            <FormItem>
+              <FormLabel>Confirm New Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="••••••••" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit'>Update account</Button>
+        <Button type="submit" disabled={changePassword.isPending}>
+          {changePassword.isPending && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
+          Change Password
+        </Button>
       </form>
     </Form>
   )

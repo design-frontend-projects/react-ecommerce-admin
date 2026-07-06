@@ -10,6 +10,7 @@ const createUserInputSchema = z.object({
   password: z.string().min(6),
   firstName: z.string().trim().min(1).optional(),
   lastName: z.string().trim().min(1).optional(),
+  phone: z.string().optional(),
   roleId: z.string().min(1),
   branchId: z.string().optional(),
   callerAuthUserId: z.string().min(1),
@@ -126,7 +127,6 @@ export const createUserDirect = createServerFn({ method: 'POST' })
       data: {
         auth_user_id: tenantUser.id,
         role_id: role.id,
-        auth_user_id: authUserId,
       },
     })
 
@@ -137,7 +137,8 @@ export const createUserDirect = createServerFn({ method: 'POST' })
         email,
         first_name: input.firstName ?? null,
         last_name: input.lastName ?? null,
-        is_owner: false,
+        phone: input.phone ?? null,
+        is_owner: ['admin', 'super_admin'].includes(role.name.toLowerCase()),
         system_owner: false,
         onboarding_complete: false,
         branch_id: input.branchId || null,

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
+import { CreateUserForm } from '../blocks/create-user-form'
 import { InviteForm } from '../blocks/invite-form'
 import { UserList } from '../blocks/user-list'
 import { PermissionsManagement } from '../components/permissions-management'
@@ -24,6 +25,7 @@ import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
 
 export function UserManagementPage() {
   const [inviteOpen, setInviteOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState(false)
   const canViewUsers = useRBAC('users', 'read')
   const canManageUsers = useRBAC('users', 'manage')
   const canManageRoles = useRBAC('roles', 'manage')
@@ -87,10 +89,16 @@ export function UserManagementPage() {
             <h1 className='truncate text-lg font-semibold'>Users and access</h1>
           </div>
           <RBACGuard resource='users' action='manage'>
-            <Button type='button' onClick={() => setInviteOpen(true)}>
-              <ShieldPlusIcon data-icon='inline-start' />
-              Invite user
-            </Button>
+            <div className='flex items-center gap-2'>
+              <Button type='button' variant='outline' onClick={() => setCreateOpen(true)}>
+                <ShieldPlusIcon className='mr-2 size-4' />
+                Create user
+              </Button>
+              <Button type='button' onClick={() => setInviteOpen(true)}>
+                <UsersIcon className='mr-2 size-4' />
+                Invite user
+              </Button>
+            </div>
           </RBACGuard>
         </div>
       </Header>
@@ -183,6 +191,11 @@ export function UserManagementPage() {
       <InviteForm
         open={inviteOpen}
         onOpenChange={setInviteOpen}
+        roles={roles}
+      />
+      <CreateUserForm
+        open={createOpen}
+        onOpenChange={setCreateOpen}
         roles={roles}
       />
     </>

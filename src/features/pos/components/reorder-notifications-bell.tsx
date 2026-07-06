@@ -83,7 +83,7 @@ export function ReorderNotificationsBell() {
             </div>
           ) : (
             <div className='divide-y divide-border/50'>
-              {pendingRequests.map((request) => (
+              {pendingRequests.map((request: any) => (
                 <div key={request.id} className='space-y-2 p-3'>
                   <div className='flex items-center justify-between gap-2'>
                     <p className='line-clamp-1 text-sm font-semibold'>
