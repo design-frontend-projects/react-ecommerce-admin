@@ -52,12 +52,15 @@ export const inviteUser = createServerFn({ method: 'POST' })
         },
       })
 
-      if (input.branchId) {
-        await prisma.profiles.updateMany({
-          where: { user_id: existingUser.user_id },
-          data: { branch_id: input.branchId, updated_at: new Date() },
-        })
-      }
+      // Sync role to profiles table for role resolution
+      await prisma.profiles.updateMany({
+        where: { user_id: existingUser.user_id },
+        data: {
+          role: role.name,
+          ...(input.branchId ? { branch_id: input.branchId } : {}),
+          updated_at: new Date(),
+        },
+      })
 
       await updateUserRoles(existingUser.id, [role.id], input.inviterAuthUserId)
 
@@ -132,6 +135,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
         system_owner: false,
         onboarding_complete: false,
         branch_id: input.branchId || null,
+        role: role.name,
       },
     })
 

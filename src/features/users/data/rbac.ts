@@ -95,6 +95,22 @@ export function expandPermissionNames(permissionNames: string[]) {
 
 
 
+export function getFallbackPermissionNamesForRoles(roleNames: string[]): string[] {
+  const merged = new Set<string>()
+
+  for (const roleName of roleNames) {
+    const normalized = normalizeRoleName(roleName)
+    const defaultPermissions = DEFAULT_ROLE_PERMISSION_NAMES[normalized]
+    if (defaultPermissions) {
+      for (const permission of defaultPermissions) {
+        merged.add(permission)
+      }
+    }
+  }
+
+  return expandPermissionNames([...merged])
+}
+
 export function getPrimaryRoleName(roleNames: string[]) {
   const normalized = roleNames.map(normalizeRoleName)
 

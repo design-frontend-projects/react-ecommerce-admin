@@ -12,24 +12,27 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { useSidebar } from '../ui/sidebar'
+import { useDirection } from '@/context/direction-provider'
+import { useFont } from '@/context/font-provider'
+import { useLayout } from '@/context/layout-provider'
+import { fonts } from '@/config/fonts'
 
 export function ConfigDrawer() {
   const { t, i18n } = useTranslation()
   const { theme, setTheme } = useTheme()
-  const { sidebarType, setSidebarType } = useSidebar()
-  const [font, setFont] = React.useState('Inter')
+  const { dir, setDir } = useDirection()
+  const { font, setFont } = useFont()
+  const { variant, setVariant } = useLayout()
 
-  const fonts = ['Inter', 'Roboto', 'Outfit', 'Cairo']
   const languages = [
     { code: 'en', label: 'English', dir: 'ltr' },
     { code: 'ar', label: 'العربية', dir: 'rtl' },
-  ]
+  ] as const
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
-    document.documentElement.dir =
-      languages.find((l) => l.code === lng)?.dir || 'ltr'
+    const newDir = languages.find((l) => l.code === lng)?.dir || 'ltr'
+    setDir(newDir)
   }
 
   return (
@@ -107,12 +110,8 @@ export function ConfigDrawer() {
                 <Button
                   key={f}
                   variant={font === f ? 'default' : 'outline'}
-                  className={cn('h-10', f === 'Cairo' ? 'font-cairo' : '')}
-                  style={{ fontFamily: f }}
-                  onClick={() => {
-                    setFont(f)
-                    document.body.style.fontFamily = f
-                  }}
+                  className={cn('h-10 capitalize', `font-${f}`)}
+                  onClick={() => setFont(f)}
                 >
                   {f}
                 </Button>
@@ -128,16 +127,16 @@ export function ConfigDrawer() {
             </div>
             <div className='grid grid-cols-2 gap-2'>
               <Button
-                variant={sidebarType === 'default' ? 'default' : 'outline'}
+                variant={variant !== 'floating' ? 'default' : 'outline'}
                 className='h-10'
-                onClick={() => setSidebarType('default')}
+                onClick={() => setVariant('sidebar')}
               >
                 {t('configDrawer.sidebarDefault')}
               </Button>
               <Button
-                variant={sidebarType === 'floating' ? 'default' : 'outline'}
+                variant={variant === 'floating' ? 'default' : 'outline'}
                 className='h-10'
-                onClick={() => setSidebarType('floating')}
+                onClick={() => setVariant('floating')}
               >
                 {t('configDrawer.sidebarFloating')}
               </Button>

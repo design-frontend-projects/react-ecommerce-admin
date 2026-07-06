@@ -27,6 +27,15 @@ export interface InviteUserInput {
   inviterAuthUserId?: string
 }
 
+export interface CreateUserInput {
+  email: string
+  password: string
+  firstName?: string
+  lastName?: string
+  roleId: string
+  branchId?: string
+}
+
 export interface InviteUserResult {
   success: boolean
   invitationId: string | null

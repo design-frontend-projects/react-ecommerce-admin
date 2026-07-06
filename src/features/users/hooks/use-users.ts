@@ -2,7 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { fetchUsers, updateUserRoles } from '../data/actions'
-import type { UpdateUserRolesInput } from '../data/types'
+import type { UpdateUserRolesInput, CreateUserInput } from '../data/types'
+import { createUserDirect } from '@/server/fns/create-user'
 
 export const usersQueryKey = ['users'] as const
 
@@ -31,6 +32,25 @@ export function useUpdateUserRole() {
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Unable to update the selected role.')
+    },
+  })
+}
+
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (input: CreateUserInput) => {
+      return createUserDirect({ data: input })
+    },
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success(result.message)
+        void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to create user.')
     },
   })
 }

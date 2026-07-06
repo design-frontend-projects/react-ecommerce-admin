@@ -55,6 +55,15 @@ export const inviteUserInputSchema = z.object({
   branchId: z.string().optional(),
 })
 
+export const createUserInputSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  firstName: z.string().trim().min(1, 'First name is required'),
+  lastName: z.string().trim().min(1, 'Last name is required'),
+  roleId: z.string().min(1, 'Role is required'),
+  branchId: z.string().optional(),
+})
+
 export const inviteUserResultSchema = z.object({
   success: z.boolean(),
   invitationId: z.string().nullable(),

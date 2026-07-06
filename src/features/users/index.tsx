@@ -1,21 +1,24 @@
+import { useEffect } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
-// Fixing imports:
+import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ConfigDrawer } from '@/components/config-drawer'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
+// Fixing imports:
+import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
+import { PermissionsManagement } from './components/permissions-management'
+import { RolesManagement } from './components/roles-management'
 import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
 import { UsersProvider } from './components/users-provider'
 import { UsersTable } from './components/users-table'
-import { RolesManagement } from './components/roles-management'
-import { PermissionsManagement } from './components/permissions-management'
+import { useRBACStore } from './data/store'
 import { useUsersList } from './hooks/use-users'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const route = getRouteApi('/_authenticated/users')
 
@@ -23,7 +26,25 @@ export function Users() {
   const search = route.useSearch()
   const navigate = route.useNavigate()
 
+  const { isSystemOwner } = useSystemOwner()
+  const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
+  const normalizedRoles = currentRoleNames.map((r) => r.toLowerCase())
+  const isAdmin =
+    isSystemOwner ||
+    normalizedRoles.includes('admin') ||
+    normalizedRoles.includes('super_admin')
+
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate({ to: '/' })
+    }
+  }, [isAdmin, navigate])
+
   const { data: users = [], isLoading } = useUsersList()
+
+  if (!isAdmin) {
+    return null
+  }
 
   return (
     <UsersProvider>
@@ -40,7 +61,9 @@ export function Users() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Access Management</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              Access Management
+            </h2>
             <p className='text-muted-foreground'>
               Manage your users, roles, and granular permissions here.
             </p>
@@ -78,7 +101,10 @@ export function Users() {
             <RolesManagement />
           </TabsContent>
 
-          <TabsContent value='permissions' className='m-0 focus-visible:outline-none'>
+          <TabsContent
+            value='permissions'
+            className='m-0 focus-visible:outline-none'
+          >
             <PermissionsManagement />
           </TabsContent>
         </Tabs>
@@ -88,4 +114,3 @@ export function Users() {
     </UsersProvider>
   )
 }
-

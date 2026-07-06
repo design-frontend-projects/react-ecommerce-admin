@@ -99,7 +99,7 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.subscriptions'),
             url: '/subscriptions',
             icon: CreditCard,
-            roles: ['super_admin'],
+            roles: ['super_admin', 'admin'],
           },
         ],
       },

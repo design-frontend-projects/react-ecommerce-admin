@@ -4,6 +4,7 @@ import {
   Users,
   CreditCard,
   User,
+  UserRound,
   Utensils,
 } from 'lucide-react'
 import { type UserStatus } from './schema'
@@ -43,6 +44,11 @@ export const roles = [
     label: 'Captain',
     value: 'captain',
     icon: User,
+  },
+  {
+    label: 'Staff',
+    value: 'staff',
+    icon: UserRound,
   },
   {
     label: 'Kitchen',

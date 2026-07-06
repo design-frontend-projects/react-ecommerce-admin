@@ -58,9 +58,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
             disabled={disabled}
             className={cn(
               'relative py-1 text-sm font-medium transition-all duration-300 ease-in-out hover:text-primary',
-              isActive 
-                ? 'text-primary' 
-                : 'text-muted-foreground'
+              isActive ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             {title}
