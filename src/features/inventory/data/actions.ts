@@ -42,12 +42,6 @@ export async function checkAndTriggerReorder(inventoryId: number) {
     isAutoReorderEnabled = value.auto_reorder === true
   }
 
-  // If not enabled via settings, fallback to checking rbac_tenants via tenant user email matching
-  // (In a real app, you'd accurately link auth_user_id to rbac_tenants)
-  if (!isAutoReorderEnabled) {
-    // Find tenant_id via rbac_tenant_users? Let's just rely on Business settings for MVP as implemented in T014.
-  }
-
   if (isAutoReorderEnabled) {
     // Determine quantity to order (e.g. max_stock_level - quantity)
     const maxStock = inventoryItem.max_stock_level || reorderLevel * 2 || 10

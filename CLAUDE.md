@@ -52,7 +52,7 @@ Prisma is **not** wrapped in npm scripts — invoke via `pnpm exec prisma ...`. 
 - **Supabase Auth** (Email + OTP, passwordless). Migrated off Clerk — lingering "clerk" references are legacy. Set `VITE_AUTH_PROVIDER=supabase`. Session lives in `src/stores/auth-store.ts` (hydrated via `supabase.auth.onAuthStateChange`).
 - **Server is authoritative:** every `app/api` handler calls `requireAuth(token, 'some.permission')` (`src/server/utils/auth.ts`), which verifies the JWT and checks permissions via `tenant_users → user_roles → roles → role_permissions → permissions`. Base roles/permissions are seeded on first RBAC catalog request (`src/server/fns/rbac.ts`); defaults in `src/features/users/data/rbac.ts`.
 - **Client gating is UX-only:** `<Can role= permission=>` (`src/components/rbac/Can.tsx`) and `rbac-guard.tsx`, reading a Zustand RBAC store. Permissions refresh live via Supabase Realtime subscriptions (`src/features/users/data/queries.ts`).
-- **Two RBAC model families exist** in the schema — the active `roles/permissions/tenant_users/...` set and a newer `rbac_*` set. The active production path is the non-prefixed set. Confirm which a table belongs to before touching it.
+- **RBAC lives on the non-prefixed tables** — `roles`, `permissions`, `tenant_users`, `user_roles`, `role_permissions`, `user_permissions`, plus the feature-024 access-control catalog. A parallel, never-wired `rbac_*` set was removed (schema models deleted + dropped via migration `20260708120000_drop_deprecated_rbac_tables`); do not reintroduce it.
 
 ## Conventions
 

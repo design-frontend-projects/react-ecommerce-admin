@@ -8,7 +8,9 @@
       "Bash(node -e ' *)",
       "Bash(node scripts_tmp_smoke.mjs)",
       "Bash(echo \"exit=$?\")",
-      "Bash(rm -f scripts_tmp_smoke.mjs)"
+      "Bash(rm -f scripts_tmp_smoke.mjs)",
+      "Bash(pnpm build *)",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }
