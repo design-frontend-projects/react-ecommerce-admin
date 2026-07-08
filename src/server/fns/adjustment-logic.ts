@@ -1,3 +1,5 @@
+"use server"
+
 /**
  * Pure adjustment-item math — no DB/Supabase imports so it is unit-testable in
  * isolation. Mirrors the delta semantics the apply_stock_adjustment() RPC uses.

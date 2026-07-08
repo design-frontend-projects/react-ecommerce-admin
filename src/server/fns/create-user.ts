@@ -1,3 +1,5 @@
+"use server"
+
 import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
 import { createServerFn } from '@tanstack/react-start'

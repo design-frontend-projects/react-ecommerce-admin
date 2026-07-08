@@ -37,7 +37,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreateReservation, useUpdateReservation } from '../api/mutations'
+import { useCreateReservation, useUpdateReservation, useDeleteReservation } from '../api/mutations'
 import { useTables } from '../api/queries'
 import {
   reservationSchema,
@@ -61,6 +61,7 @@ export function ReservationDialog({
   const isEditing = !!reservation
   const createReservationMutation = useCreateReservation()
   const updateReservationMutation = useUpdateReservation()
+  const deleteReservationMutation = useDeleteReservation()
   const { data: tables } = useTables()
 
   const form = useForm<ReservationFormValues>({
@@ -388,18 +389,45 @@ export function ReservationDialog({
               )}
             />
 
-            <DialogFooter>
-              <Button
-                type='button'
-                variant='outline'
-                onClick={() => onOpenChange(false)}
-              >
-                Cancel
-              </Button>
-              <Button type='submit' disabled={isPending}>
-                {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? 'Update Reservation' : 'Create Reservation'}
-              </Button>
+            <DialogFooter className='sm:justify-between'>
+              {isEditing ? (
+                <Button
+                  type='button'
+                  variant='destructive'
+                  disabled={deleteReservationMutation.isPending || isPending}
+                  onClick={async () => {
+                    const isConfirmed = window.confirm(
+                      `Are you sure you want to permanently delete this reservation?`
+                    )
+                    if (!isConfirmed) return
+                    try {
+                      await deleteReservationMutation.mutateAsync(reservation!.id)
+                      toast.success('Reservation deleted successfully')
+                      onOpenChange(false)
+                    } catch {
+                      toast.error('Failed to delete reservation')
+                    }
+                  }}
+                >
+                  {deleteReservationMutation.isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  Delete Reservation
+                </Button>
+              ) : (
+                <div />
+              )}
+              <div className='flex items-center gap-2'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => onOpenChange(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type='submit' disabled={isPending || deleteReservationMutation.isPending}>
+                  {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  {isEditing ? 'Update' : 'Create'}
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         </Form>

@@ -1,10 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseServiceKey = process.env.VITE_SUPABASE_SECRET_KEY
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.warn('[Bluewave POS Backend] Supabase admin credentials missing from environment variables')
+  console.warn(
+    '[Bluewave POS Backend] Supabase admin credentials missing from environment variables'
+  )
 }
 
 // Admin client should ONLY be used in server-side functions (fns)

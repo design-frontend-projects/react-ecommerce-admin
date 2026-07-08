@@ -1,3 +1,5 @@
+"use server"
+
 import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'

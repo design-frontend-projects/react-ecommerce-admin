@@ -42,7 +42,7 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useUpdateReservationStatus } from '../api/mutations'
+import { useDeleteReservation, useUpdateReservationStatus } from '../api/mutations'
 import { useReservations } from '../api/queries'
 import { ReservationCalendar } from '../components/reservation-calendar'
 import { ReservationDialog } from '../components/reservation-dialog'
@@ -124,6 +124,7 @@ export function Reservations() {
   } = useReservations(reservationParams)
 
   const cancelReservationMutation = useUpdateReservationStatus()
+  const deleteReservationMutation = useDeleteReservation()
 
   const reservations = reservationsData as ReservationWithTable[]
 
@@ -169,6 +170,21 @@ export function Reservations() {
       toast.success('Reservation cancelled')
     } catch {
       toast.error('Failed to cancel reservation')
+    }
+  }
+
+  const handleDeleteReservation = async (reservation: ReservationWithTable) => {
+    const isConfirmed = window.confirm(
+      `Are you sure you want to permanently delete the reservation for ${reservation.customer_name}?`
+    )
+
+    if (!isConfirmed) return
+
+    try {
+      await deleteReservationMutation.mutateAsync(reservation.id)
+      toast.success('Reservation deleted successfully')
+    } catch {
+      toast.error('Failed to delete reservation')
     }
   }
 
@@ -342,6 +358,18 @@ export function Reservations() {
                     <div className='flex h-full items-center justify-center'>
                       <div className='h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent' />
                     </div>
+                  ) : reservations.length === 0 ? (
+                    <div className='flex h-full flex-col items-center justify-center text-center p-6 bg-muted/20 rounded-md border border-dashed'>
+                      <CalendarClock className='h-12 w-12 text-muted-foreground/50 mb-4' />
+                      <h3 className='text-lg font-medium'>No reservations today</h3>
+                      <p className='text-sm text-muted-foreground mt-1'>
+                        Be ready for walk-ins or create a new reservation.
+                      </p>
+                      <Button variant='outline' size='sm' className='mt-4' onClick={handleCreateNew}>
+                        <Plus className='h-4 w-4 mr-2' />
+                        New Reservation
+                      </Button>
+                    </div>
                   ) : (
                     <ReservationCalendar
                       reservations={reservations}
@@ -385,8 +413,16 @@ export function Reservations() {
                             cancelReservationMutation.variables
                               ?.reservationId === reservation.id
 
+                          const isDeletingCurrent =
+                            deleteReservationMutation.isPending &&
+                            deleteReservationMutation.variables === reservation.id
+
                           return (
-                            <TableRow key={reservation.id}>
+                            <TableRow 
+                              key={reservation.id} 
+                              className="cursor-pointer"
+                              onClick={() => handleEventClick(reservation)}
+                            >
                               <TableCell>
                                 <div className='flex flex-col gap-0.5'>
                                   <span className='font-medium'>
@@ -450,6 +486,7 @@ export function Reservations() {
                                     <Button
                                       variant='ghost'
                                       className='h-8 w-8 p-0 data-[state=open]:bg-muted'
+                                      onClick={(e) => e.stopPropagation()}
                                     >
                                       <MoreHorizontal className='h-4 w-4' />
                                       <span className='sr-only'>
@@ -460,28 +497,42 @@ export function Reservations() {
                                   <DropdownMenuContent
                                     align='end'
                                     className='w-40'
+                                    onClick={(e) => e.stopPropagation()}
                                   >
                                     <DropdownMenuGroup>
                                       <DropdownMenuItem
-                                        onClick={() =>
+                                        onClick={(e) => {
+                                          e.stopPropagation()
                                           handleEventClick(reservation)
-                                        }
+                                        }}
                                       >
                                         Edit
                                       </DropdownMenuItem>
                                       <DropdownMenuItem
-                                        variant='destructive'
                                         disabled={
                                           reservation.status === 'cancelled' ||
                                           isCancellingCurrent
                                         }
-                                        onClick={() =>
+                                        onClick={(e) => {
+                                          e.stopPropagation()
                                           handleCancelReservation(reservation)
-                                        }
+                                        }}
                                       >
                                         {isCancellingCurrent
                                           ? 'Cancelling...'
                                           : 'Cancel'}
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem
+                                        variant='destructive'
+                                        disabled={isDeletingCurrent}
+                                        onClick={(e) => {
+                                          e.stopPropagation()
+                                          handleDeleteReservation(reservation)
+                                        }}
+                                      >
+                                        {isDeletingCurrent
+                                          ? 'Deleting...'
+                                          : 'Delete'}
                                       </DropdownMenuItem>
                                     </DropdownMenuGroup>
                                   </DropdownMenuContent>
