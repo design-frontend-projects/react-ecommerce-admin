@@ -20,6 +20,8 @@ export interface User {
 export interface InviteUserInput {
   email: string
   roleId: string
+  /** Multi-role invitation (min 1). Falls back to `roleId`/`roleName` when omitted. */
+  roleIds?: string[]
   roleName?: string
   branchId?: string
   redirectUrl?: string

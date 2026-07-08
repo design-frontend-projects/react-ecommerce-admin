@@ -19,6 +19,9 @@ export const BASE_PERMISSION_DEFINITIONS = [
   { name: 'orders.create', description: 'Create new orders and draft transactions.' },
   { name: 'reports.view', description: 'View reporting and operational analytics.' },
   { name: 'pos.access', description: 'Access point-of-sale and service surfaces.' },
+  { name: 'screens.view', description: 'View the application screen and module registry.' },
+  { name: 'screens.manage', description: 'Register and edit application screens and their access.' },
+  { name: 'buttons.manage', description: 'Manage the permission-button catalog and screen mappings.' },
 ] as const
 
 export type PermissionName = (typeof BASE_PERMISSION_DEFINITIONS)[number]['name'] | '*'
@@ -40,6 +43,9 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'orders.manage',
     'reports.view',
     'pos.access',
+    'screens.view',
+    'screens.manage',
+    'buttons.manage',
   ],
   manager: [
     'dashboard.view',
@@ -157,6 +163,49 @@ export function hasAnyPermission(permissionNames: string[], requiredPermissions:
   return requiredPermissions.some((requiredPermission) =>
     hasPermission(permissionNames, requiredPermission)
   )
+}
+
+/**
+ * Resolve a user's effective permission names from their role-derived permissions
+ * plus per-user grant/deny overrides.
+ *
+ * Precedence (highest first): explicit user deny > explicit user grant > role grant > wildcard.
+ *
+ * Wildcard handling: a bare `*` grants everything, but an explicit deny must win over it
+ * (spec US3 §3). When denies are present and the role set holds `*`, pass `allPermissionNames`
+ * (the concrete permission universe) so the wildcard can be expanded and the specific denied
+ * permissions subtracted precisely; without it the wildcard is dropped and only the expanded
+ * base permissions (minus denies) remain.
+ *
+ * Shared verbatim by the server gate (`getDatabasePermissionNames`) and the client store
+ * selector to prevent divergence (SC-005).
+ */
+export function resolveEffectivePermissions(
+  rolePermissionNames: string[],
+  userGrants: string[] = [],
+  userDenies: string[] = [],
+  allPermissionNames?: string[]
+): string[] {
+  const denied = new Set(userDenies.map((name) => name.trim()).filter(Boolean))
+  const granted = new Set<string>()
+
+  const hasWildcard = rolePermissionNames.includes('*')
+  if (hasWildcard && denied.size > 0 && allPermissionNames && allPermissionNames.length > 0) {
+    for (const name of allPermissionNames) granted.add(name)
+  } else {
+    for (const name of expandPermissionNames(rolePermissionNames)) granted.add(name)
+  }
+
+  for (const grant of userGrants) {
+    const normalized = grant.trim()
+    if (normalized) granted.add(normalized)
+  }
+
+  // Explicit deny wins over everything, including a wildcard.
+  if (denied.size > 0) granted.delete('*')
+  for (const deny of denied) granted.delete(deny)
+
+  return [...granted]
 }
 
 export function serializeRolePermissions(roles: Role[]) {

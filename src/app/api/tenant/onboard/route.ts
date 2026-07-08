@@ -1,6 +1,7 @@
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
 import prisma from '@/lib/prisma'
+import { setTenantActivityTypes } from '@/server/fns/activity-types'
 
 export async function POST(request: Request): Promise<Response> {
   try {
@@ -12,6 +13,7 @@ export async function POST(request: Request): Promise<Response> {
       billing_contact?: string
       timezone?: string
       industry?: string
+      activityTypeCodes?: string[]
     }
 
     if (
@@ -47,6 +49,11 @@ export async function POST(request: Request): Promise<Response> {
         // We will just update first_use for now.
       },
     })
+
+    // Seed the tenant's initial activity types from the module(s) chosen at onboarding.
+    if (Array.isArray(body.activityTypeCodes) && body.activityTypeCodes.length > 0) {
+      await setTenantActivityTypes(authorizedUser.userId, body.activityTypeCodes)
+    }
 
     return Response.json({
       success: true,

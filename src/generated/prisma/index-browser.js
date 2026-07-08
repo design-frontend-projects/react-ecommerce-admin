@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 Prisma.prismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -190,7 +190,8 @@ exports.Prisma.CurrenciesScalarFieldEnum = {
   symbol: 'symbol',
   is_active: 'is_active',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Customer_cardsScalarFieldEnum = {
@@ -265,6 +266,8 @@ exports.Prisma.PermissionsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  resource: 'resource',
+  action: 'action',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -492,11 +495,11 @@ exports.Prisma.Purchase_ordersScalarFieldEnum = {
   notes: 'notes',
   po_number: 'po_number',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id',
   discounnt_amount: 'discounnt_amount',
   shipping_amount: 'shipping_amount',
   tax_amount: 'tax_amount',
-  payment_status: 'payment_status'
+  payment_status: 'payment_status',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Purchase_return_itemsScalarFieldEnum = {
@@ -558,7 +561,8 @@ exports.Prisma.Res_eventsScalarFieldEnum = {
   blocked_tables: 'blocked_tables',
   is_active: 'is_active',
   created_by: 'created_by',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_floorsScalarFieldEnum = {
@@ -579,7 +583,8 @@ exports.Prisma.Res_item_propertiesScalarFieldEnum = {
   is_required: 'is_required',
   max_selections: 'max_selections',
   created_at: 'created_at',
-  price: 'price'
+  price: 'price',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_item_variantsScalarFieldEnum = {
@@ -588,7 +593,8 @@ exports.Prisma.Res_item_variantsScalarFieldEnum = {
   name: 'name',
   price_adjustment: 'price_adjustment',
   is_default: 'is_default',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_menu_categoriesScalarFieldEnum = {
@@ -598,7 +604,8 @@ exports.Prisma.Res_menu_categoriesScalarFieldEnum = {
   icon: 'icon',
   sort_order: 'sort_order',
   is_active: 'is_active',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_menu_itemsScalarFieldEnum = {
@@ -615,7 +622,8 @@ exports.Prisma.Res_menu_itemsScalarFieldEnum = {
   allergens: 'allergens',
   tags: 'tags',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_notificationsScalarFieldEnum = {
@@ -626,7 +634,8 @@ exports.Prisma.Res_notificationsScalarFieldEnum = {
   message: 'message',
   data: 'data',
   is_read: 'is_read',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_order_itemsScalarFieldEnum = {
@@ -738,7 +747,8 @@ exports.Prisma.Res_reservationsScalarFieldEnum = {
   status: 'status',
   notes: 'notes',
   created_by: 'created_by',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_rolesScalarFieldEnum = {
@@ -800,7 +810,8 @@ exports.Prisma.RolesScalarFieldEnum = {
   description: 'description',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  is_active: 'is_active'
+  is_active: 'is_active',
+  is_system: 'is_system'
 };
 
 exports.Prisma.Employee_rolesScalarFieldEnum = {
@@ -817,7 +828,8 @@ exports.Prisma.Sale_itemsScalarFieldEnum = {
   product_id: 'product_id',
   quantity: 'quantity',
   unit_price: 'unit_price',
-  subtotal: 'subtotal'
+  subtotal: 'subtotal',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Sales_invoice_itemsScalarFieldEnum = {
@@ -911,7 +923,8 @@ exports.Prisma.ShipmentsScalarFieldEnum = {
   delivered_date: 'delivered_date',
   carrier: 'carrier',
   status: 'status',
-  notes: 'notes'
+  notes: 'notes',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Shipping_methodsScalarFieldEnum = {
@@ -935,7 +948,8 @@ exports.Prisma.Shipping_ratesScalarFieldEnum = {
   min_order_amount: 'min_order_amount',
   max_order_amount: 'max_order_amount',
   cost: 'cost',
-  is_free: 'is_free'
+  is_free: 'is_free',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.StoresScalarFieldEnum = {
@@ -1041,7 +1055,8 @@ exports.Prisma.Transaction_detailsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   subtotal: 'subtotal',
   sales_invoice_item_id: 'sales_invoice_item_id',
-  sales_return_item_id: 'sales_return_item_id'
+  sales_return_item_id: 'sales_return_item_id',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.TransactionsScalarFieldEnum = {
@@ -1069,7 +1084,96 @@ exports.Prisma.TransactionsScalarFieldEnum = {
 
 exports.Prisma.User_rolesScalarFieldEnum = {
   role_id: 'role_id',
-  auth_user_id: 'auth_user_id'
+  tenant_user_id: 'tenant_user_id'
+};
+
+exports.Prisma.Business_activity_typesScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Tenant_activity_typesScalarFieldEnum = {
+  tenant_id: 'tenant_id',
+  activity_type_id: 'activity_type_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.App_modulesScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Module_activity_typesScalarFieldEnum = {
+  module_id: 'module_id',
+  activity_type_id: 'activity_type_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.App_screensScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  route: 'route',
+  description: 'description',
+  icon: 'icon',
+  module_id: 'module_id',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  is_system: 'is_system',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Screen_rolesScalarFieldEnum = {
+  screen_id: 'screen_id',
+  role_id: 'role_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Screen_permissionsScalarFieldEnum = {
+  screen_id: 'screen_id',
+  permission_id: 'permission_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Permission_buttonsScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  is_system: 'is_system',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Screen_buttonsScalarFieldEnum = {
+  screen_id: 'screen_id',
+  button_id: 'button_id',
+  permission_id: 'permission_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.User_permissionsScalarFieldEnum = {
+  tenant_user_id: 'tenant_user_id',
+  permission_id: 'permission_id',
+  is_granted: 'is_granted',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Inventory_movementsScalarFieldEnum = {
@@ -1206,32 +1310,6 @@ exports.Prisma.Rbac_user_rolesScalarFieldEnum = {
   assigned_by: 'assigned_by',
   assigned_at: 'assigned_at',
   expires_at: 'expires_at'
-};
-
-exports.Prisma.App_termsScalarFieldEnum = {
-  id: 'id',
-  title_en: 'title_en',
-  title_ar: 'title_ar',
-  content_en: 'content_en',
-  content_ar: 'content_ar',
-  version: 'version',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  updated_by: 'updated_by'
-};
-
-exports.Prisma.App_privacyScalarFieldEnum = {
-  id: 'id',
-  title_en: 'title_en',
-  title_ar: 'title_ar',
-  content_en: 'content_en',
-  content_ar: 'content_ar',
-  version: 'version',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  updated_by: 'updated_by'
 };
 
 exports.Prisma.SortOrder = {
@@ -1442,6 +1520,16 @@ exports.Prisma.ModelName = {
   transaction_details: 'transaction_details',
   transactions: 'transactions',
   user_roles: 'user_roles',
+  business_activity_types: 'business_activity_types',
+  tenant_activity_types: 'tenant_activity_types',
+  app_modules: 'app_modules',
+  module_activity_types: 'module_activity_types',
+  app_screens: 'app_screens',
+  screen_roles: 'screen_roles',
+  screen_permissions: 'screen_permissions',
+  permission_buttons: 'permission_buttons',
+  screen_buttons: 'screen_buttons',
+  user_permissions: 'user_permissions',
   inventory_movements: 'inventory_movements',
   stock_balances: 'stock_balances',
   app_settings: 'app_settings',
@@ -1454,9 +1542,7 @@ exports.Prisma.ModelName = {
   rbac_tenant_subscriptions: 'rbac_tenant_subscriptions',
   rbac_tenant_users: 'rbac_tenant_users',
   rbac_tenants: 'rbac_tenants',
-  rbac_user_roles: 'rbac_user_roles',
-  app_terms: 'app_terms',
-  app_privacy: 'app_privacy'
+  rbac_user_roles: 'rbac_user_roles'
 };
 
 /**

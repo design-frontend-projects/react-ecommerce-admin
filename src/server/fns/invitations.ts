@@ -24,19 +24,34 @@ export const inviteUser = createServerFn({ method: 'POST' })
     }
 
     const email = input.email.trim().toLowerCase()
-    const role =
-      (input.roleId
-        ? await prisma.roles.findUnique({ where: { id: input.roleId } })
-        : null) ??
-      (input.roleName
-        ? await prisma.roles.findUnique({
-            where: { name: input.roleName.trim().toLowerCase() },
-          })
-        : null)
 
-    if (!role) {
+    // Resolve one or more roles: prefer the multi-role `roleIds`, else fall back to the
+    // single `roleId`/`roleName`.
+    const roles = (
+      input.roleIds && input.roleIds.length > 0
+        ? await prisma.roles.findMany({ where: { id: { in: input.roleIds } } })
+        : [
+            (input.roleId
+              ? await prisma.roles.findUnique({ where: { id: input.roleId } })
+              : null) ??
+              (input.roleName
+                ? await prisma.roles.findUnique({
+                    where: { name: input.roleName.trim().toLowerCase() },
+                  })
+                : null),
+          ].filter(Boolean)
+    ) as Array<{ id: string; name: string }>
+
+    if (roles.length === 0) {
       throw new Error('Selected role was not found')
     }
+
+    const roleNames = roles.map((role) => role.name)
+    const roleIds = roles.map((role) => role.id)
+    const primaryRole = getPrimaryRoleName(roleNames)
+    const isOwnerRole = roleNames.some((name) =>
+      ['admin', 'super_admin'].includes(name.toLowerCase())
+    )
 
     const existingUser = await prisma.tenant_users.findUnique({
       where: { email },
@@ -46,7 +61,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
       await prisma.tenant_users.update({
         where: { id: existingUser.id },
         data: {
-          default_role: role.name,
+          default_role: primaryRole,
           parent_tenant_id: inviter.parent_tenant_id,
           updated_at: new Date(),
         },
@@ -56,13 +71,13 @@ export const inviteUser = createServerFn({ method: 'POST' })
       await prisma.profiles.updateMany({
         where: { auth_user_id: existingUser.auth_user_id },
         data: {
-          role: role.name,
+          role: primaryRole,
           ...(input.branchId ? { branch_id: input.branchId } : {}),
           updated_at: new Date(),
         },
       })
 
-      await updateUserRoles(existingUser.id, [role.id], input.inviterAuthUserId)
+      await updateUserRoles(existingUser.id, roleIds, input.inviterAuthUserId)
 
       return {
         success: true,
@@ -86,8 +101,8 @@ export const inviteUser = createServerFn({ method: 'POST' })
       input.email.trim().toLowerCase(),
       {
         data: {
-          role: role.name,
-          roles: [role.name],
+          role: primaryRole,
+          roles: roleNames,
           onboardingComplete: false,
           invitedViaRbac: true,
           tenantId: inviter.parent_tenant_id,
@@ -110,7 +125,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
         first_name: null,
         last_name: null,
         is_active: true,
-        default_role: getPrimaryRoleName([role.name]),
+        default_role: primaryRole,
         is_restuarant_user: true,
         modules: ['inventory', 'restaurant'],
         parent_tenant_id: inviter.parent_tenant_id,
@@ -118,11 +133,12 @@ export const inviteUser = createServerFn({ method: 'POST' })
       },
     })
 
-    await prisma.user_roles.create({
-      data: {
-        auth_user_id: tenantUser.id,
-        role_id: role.id,
-      },
+    await prisma.user_roles.createMany({
+      data: roleIds.map((roleId) => ({
+        tenant_user_id: tenantUser.id,
+        role_id: roleId,
+      })),
+      skipDuplicates: true,
     })
 
     // Pre-create the user's profile with the branchId if provided
@@ -130,11 +146,11 @@ export const inviteUser = createServerFn({ method: 'POST' })
       data: {
         auth_user_id: pendingClerkUserId,
         email: input.email.trim().toLowerCase(),
-        is_owner: ['admin', 'super_admin'].includes(role.name.toLowerCase()),
+        is_owner: isOwnerRole,
         system_owner: false,
         onboarding_complete: false,
         branch_id: input.branchId || null,
-        role: role.name,
+        role: primaryRole,
       },
     })
 

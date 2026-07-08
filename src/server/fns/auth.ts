@@ -79,9 +79,9 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       })
 
   await prisma.user_roles.updateMany({
-    where: { auth_user_id: tenantUser.id },
+    where: { tenant_user_id: tenantUser.id },
     data: {
-      auth_user_id: input.clerkId,
+      tenant_user_id: input.clerkId,
     },
   })
 
