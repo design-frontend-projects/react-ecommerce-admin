@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
 import { useCountries } from '@/features/countries/hooks/use-countries'
 import { useCreateTaxRate, useUpdateTaxRate } from '../hooks/use-tax-rates'
 import { useTaxContext } from './tax-rates-provider'
@@ -41,6 +42,7 @@ const formSchema = z.object({
   effective_from: z.string().min(1, 'Effective date is required'),
   effective_to: z.string().optional().nullable(),
   is_active: z.boolean().default(true),
+  is_inclusive: z.boolean().default(false),
 })
 
 type TaxFormValues = z.infer<typeof formSchema>
@@ -62,6 +64,7 @@ export function TaxActionDialog() {
       effective_from: new Date().toISOString().split('T')[0],
       effective_to: '',
       is_active: true,
+      is_inclusive: false,
     },
   })
 
@@ -75,6 +78,7 @@ export function TaxActionDialog() {
         effective_from: currentRow.effective_from,
         effective_to: currentRow.effective_to || '',
         is_active: currentRow.is_active,
+        is_inclusive: currentRow.is_inclusive ?? false,
       })
     } else {
       form.reset({
@@ -85,6 +89,7 @@ export function TaxActionDialog() {
         effective_from: new Date().toISOString().split('T')[0],
         effective_to: '',
         is_active: true,
+        is_inclusive: false,
       })
     }
   }, [currentRow, form])
@@ -220,21 +225,58 @@ export function TaxActionDialog() {
             </div>
             <FormField
               control={form.control}
-              name='is_active'
+              name='description'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
-                  <div className='space-y-0.5'>
-                    <FormLabel>Is Active</FormLabel>
-                  </div>
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Textarea
+                      placeholder='Optional tax description'
+                      className='resize-none'
+                      {...field}
+                      value={field.value || ''}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
+            <div className='grid grid-cols-2 gap-4'>
+              <FormField
+                control={form.control}
+                name='is_active'
+                render={({ field }) => (
+                  <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                    <div className='space-y-0.5'>
+                      <FormLabel>Is Active</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='is_inclusive'
+                render={({ field }) => (
+                  <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                    <div className='space-y-0.5'>
+                      <FormLabel>Is Inclusive</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type='submit'

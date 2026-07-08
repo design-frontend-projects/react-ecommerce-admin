@@ -14,13 +14,31 @@ export const columns: ColumnDef<TaxRate>[] = [
     cell: ({ row }) => <div>{row.getValue('rate')}%</div>,
   },
   {
-    accessorKey: 'country_code',
+    id: 'country',
     header: 'Country',
+    accessorFn: (row) =>
+      row.countries ? `${row.countries.name} (${row.countries.code})` : 'N/A',
   },
   {
-    accessorKey: 'state_province',
-    header: 'State/Province',
-    cell: ({ row }) => <div>{row.getValue('state_province') || 'N/A'}</div>,
+    accessorKey: 'is_inclusive',
+    header: 'Type',
+    cell: ({ row }) => (
+      <Badge variant={row.getValue('is_inclusive') ? 'outline' : 'secondary'}>
+        {row.getValue('is_inclusive') ? 'Inclusive' : 'Exclusive'}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: 'description',
+    header: 'Description',
+    cell: ({ row }) => (
+      <div
+        className='max-w-[200px] truncate'
+        title={row.getValue('description') || ''}
+      >
+        {row.getValue('description') || '—'}
+      </div>
+    ),
   },
   {
     accessorKey: 'is_active',

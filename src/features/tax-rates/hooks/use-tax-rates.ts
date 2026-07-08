@@ -10,6 +10,11 @@ export interface TaxRate {
   effective_from: string
   effective_to: string | null
   is_active: boolean
+  is_inclusive: boolean
+  countries?: {
+    name: string
+    code: string
+  } | null
 }
 
 export interface TaxRateInput {
@@ -20,6 +25,7 @@ export interface TaxRateInput {
   effective_from: string
   effective_to?: string | null
   is_active: boolean
+  is_inclusive: boolean
 }
 
 export const useTaxRates = () => {
@@ -28,7 +34,7 @@ export const useTaxRates = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('tax_rates')
-        .select('*')
+        .select('*, countries:countries(name, code)')
         .order('created_at', { ascending: false })
 
       if (error) throw error

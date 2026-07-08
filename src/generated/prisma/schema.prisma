@@ -1241,7 +1241,7 @@ model suppliers {
 model tax_rates {
   tax_rate_id            Int                      @id @default(autoincrement())
   tax_type               String                   @db.VarChar(50)
-  rate                   Decimal                  @db.Decimal(5, 4)
+  rate                   Float                    @db.Real
   description            String?
   effective_from         DateTime                 @default(dbgenerated("CURRENT_DATE")) @db.Date
   effective_to           DateTime?                @db.Date
