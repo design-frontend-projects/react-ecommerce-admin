@@ -45,26 +45,26 @@ model audit_logs {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model branches {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String                @db.VarChar(200)
-  city_id             String                @db.Uuid
-  address             String?
-  phone               String?               @db.VarChar(20)
-  is_active           Boolean?              @default(true)
-  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  auth_user_id        String?               @db.Uuid
-  cities              cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  inventory_movements inventory_movements[]
-  profiles            profiles[]
-  purchase_invoices   purchase_invoices[]
-  purchase_returns    purchase_returns[]
-  refunds             refunds[]
-  sales_invoices      sales_invoices[]
-  sales_returns       sales_returns[]
-  stores              stores[]
-  stock_transfers_from stock_transfers[]    @relation("stock_transfers_from_branch")
-  stock_transfers_to  stock_transfers[]     @relation("stock_transfers_to_branch")
+  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String                @db.VarChar(200)
+  city_id              String                @db.Uuid
+  address              String?
+  phone                String?               @db.VarChar(20)
+  is_active            Boolean?              @default(true)
+  created_at           DateTime?             @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?             @default(now()) @db.Timestamptz(6)
+  auth_user_id         String?               @db.Uuid
+  cities               cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  inventory_movements  inventory_movements[]
+  profiles             profiles[]
+  purchase_invoices    purchase_invoices[]
+  purchase_returns     purchase_returns[]
+  refunds              refunds[]
+  sales_invoices       sales_invoices[]
+  sales_returns        sales_returns[]
+  stock_transfers_from stock_transfers[]     @relation("stock_transfers_from_branch")
+  stock_transfers_to   stock_transfers[]     @relation("stock_transfers_to_branch")
+  stores               stores[]
 
   @@index([city_id], map: "idx_branches_city_id")
 }
@@ -218,14 +218,15 @@ model permissions {
   id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name               String               @unique @db.VarChar(100)
   description        String?              @db.VarChar(255)
-  /// Nullable, backfilled by splitting `name` on the first `.`. `name` stays the unique source of truth.
-  resource           String?              @db.VarChar(100)
-  action             String?              @db.VarChar(50)
   created_at         DateTime?            @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  action             String?              @db.VarChar(50)
+  /// Nullable, backfilled by splitting `name` on the first `.`. `name` stays the unique source of truth.
+  resource           String?              @db.VarChar(100)
+  auth_user_id       String?              @default(dbgenerated("auth.uid()")) @db.Uuid
   role_permissions   role_permissions[]
-  screen_permissions screen_permissions[]
   screen_buttons     screen_buttons[]
+  screen_permissions screen_permissions[]
   user_permissions   user_permissions[]
 }
 
@@ -242,6 +243,7 @@ model pos_sales {
   payment_method  String?           @db.VarChar(50)
   card_id         Int?
   status          String?           @default("completed") @db.VarChar(20)
+  auth_user_id    String?           @default(dbgenerated("auth.uid()")) @db.Uuid
   customer_cards  customer_cards?   @relation(fields: [card_id], references: [card_id], onUpdate: NoAction)
   customers       customers?        @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
   promotions      promotions?       @relation(fields: [promotion_id], references: [promotion_id], onUpdate: NoAction)
@@ -254,7 +256,7 @@ model pos_sales {
 
 model pos_terminals {
   id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id         String           @db.Uuid
+  auth_user_id         String           @default(dbgenerated("auth.uid()")) @db.Uuid
   store_id             String?          @db.Uuid
   name                 String           @db.VarChar(150)
   code                 String           @db.VarChar(100)
@@ -276,7 +278,7 @@ model price_list {
   start_date       DateTime           @default(dbgenerated("CURRENT_DATE")) @db.Date
   end_date         DateTime?          @db.Date
   is_active        Boolean?           @default(true)
-  auth_user_id     String?            @db.Uuid
+  auth_user_id     String?            @default(dbgenerated("auth.uid()")) @db.Uuid
   description      String?
   type             price_list_types?
   store_id         String?            @db.Uuid
@@ -303,7 +305,7 @@ model price_list_items {
   max_discount_percent Decimal          @default(0) @db.Decimal(7, 4)
   created_at           DateTime         @default(now()) @db.Timestamptz(6)
   updated_at           DateTime         @default(now()) @db.Timestamptz(6)
-  auth_user_id         String?          @db.Uuid
+  auth_user_id         String?          @default(dbgenerated("auth.uid()")) @db.Uuid
   price_list           price_list       @relation(fields: [price_list_id], references: [price_id], onDelete: Cascade, onUpdate: NoAction)
   product_variants     product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -334,9 +336,9 @@ model product_variants {
   purchase_return_items  purchase_return_items[]
   sales_invoice_items    sales_invoice_items[]
   sales_return_items     sales_return_items[]
+  stock_adjustment_items stock_adjustment_items[]
   stock_balances         stock_balances[]
   stock_transfer_items   stock_transfer_items[]
-  stock_adjustment_items stock_adjustment_items[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -381,7 +383,7 @@ model products {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pos_reorder_requests {
   id                        String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id              String                 @db.Uuid
+  auth_user_id              String                 @default(dbgenerated("auth.uid()")) @db.Uuid
   product_id                Int
   product_variant_id        String?                @db.Uuid
   requested_by_auth_user_id String                 @db.Uuid
@@ -488,7 +490,7 @@ model purchase_invoice_items {
 
 model purchase_invoices {
   id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id           String                   @db.Uuid
+  auth_user_id           String                   @default(dbgenerated("auth.uid()")) @db.Uuid
   branch_id              String                   @db.Uuid
   store_id               String?                  @db.Uuid
   supplier_id            Int
@@ -527,7 +529,7 @@ model purchase_order_items {
   product_id        Int
   quantity_ordered  Int
   unit_cost         Decimal         @db.Decimal(10, 2)
-  auth_user_id      String?         @db.Uuid
+  auth_user_id      String?         @default(dbgenerated("auth.uid()")) @db.Uuid
   subtotal          Decimal?        @db.Decimal
   received_quantity Decimal?        @db.Decimal
   purchase_orders   purchase_orders @relation(fields: [po_id], references: [po_id], onDelete: Cascade, onUpdate: NoAction)
@@ -569,6 +571,7 @@ model purchase_return_items {
   tax_amount               Decimal                 @default(0) @db.Decimal(18, 4)
   line_total               Decimal                 @default(0) @db.Decimal(18, 4)
   reason                   String?
+  auth_user_id             String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
   product_variants         product_variants        @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction)
   purchase_invoice_items   purchase_invoice_items? @relation(fields: [purchase_invoice_item_id], references: [id], onUpdate: NoAction)
   purchase_returns         purchase_returns        @relation(fields: [purchase_return_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -977,8 +980,8 @@ model roles {
   is_system        Boolean            @default(false)
   employee_roles   employee_roles[]
   role_permissions role_permissions[]
-  user_roles       user_roles[]
   screen_roles     screen_roles[]
+  user_roles       user_roles[]
 }
 
 /// DEPRECATED — unused, superseded by the active RBAC set (roles/permissions/role_permissions/user_roles).
@@ -1169,36 +1172,36 @@ model shipping_rates {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model stores {
-  auth_user_id        String?               @default(dbgenerated("auth.uid()")) @db.Uuid
-  phone               String?
-  email               String?
-  address             String?
-  latitude            Decimal?              @db.Decimal
-  longitude           Decimal?              @db.Decimal
-  created_at          DateTime?             @db.Timestamp(6)
-  updated_at          DateTime?             @db.Timestamp(6)
-  city_id             String?               @db.Uuid
-  country_id          String?               @db.Uuid
-  name                String?
-  store_id            String                @id @db.Uuid
-  status              Boolean?              @default(true)
-  branch_id           String?               @db.Uuid
-  inventory           inventory[]
-  inventory_movements inventory_movements[]
-  pos_terminals       pos_terminals[]
-  price_list          price_list[]
-  purchase_invoices   purchase_invoices[]
-  purchase_returns    purchase_returns[]
-  refunds             refunds[]
-  sales_invoices      sales_invoices[]
-  sales_returns       sales_returns[]
-  stock_balances      stock_balances[]
-  stock_adjustments   stock_adjustments[]
-  stock_transfers_from stock_transfers[]    @relation("stock_transfers_from_store")
-  stock_transfers_to  stock_transfers[]     @relation("stock_transfers_to_store")
-  branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  cities              cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
-  countries           countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
+  auth_user_id         String?               @default(dbgenerated("auth.uid()")) @db.Uuid
+  phone                String?
+  email                String?
+  address              String?
+  latitude             Decimal?              @db.Decimal
+  longitude            Decimal?              @db.Decimal
+  created_at           DateTime?             @db.Timestamp(6)
+  updated_at           DateTime?             @db.Timestamp(6)
+  city_id              String?               @db.Uuid
+  country_id           String?               @db.Uuid
+  name                 String?
+  store_id             String                @id @db.Uuid
+  status               Boolean?              @default(true)
+  branch_id            String?               @db.Uuid
+  inventory            inventory[]
+  inventory_movements  inventory_movements[]
+  pos_terminals        pos_terminals[]
+  price_list           price_list[]
+  purchase_invoices    purchase_invoices[]
+  purchase_returns     purchase_returns[]
+  refunds              refunds[]
+  sales_invoices       sales_invoices[]
+  sales_returns        sales_returns[]
+  stock_adjustments    stock_adjustments[]
+  stock_balances       stock_balances[]
+  stock_transfers_from stock_transfers[]     @relation("stock_transfers_from_store")
+  stock_transfers_to   stock_transfers[]     @relation("stock_transfers_to_store")
+  branches             branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cities               cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
+  countries            countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1222,9 +1225,10 @@ model suppliers {
   website           String?             @db.VarChar(200)
   notes             String?
   created_at        DateTime?           @default(now()) @db.Timestamp(6)
-  auth_user_id      String?             @db.Uuid
+  auth_user_id      String?             @default(dbgenerated("auth.uid()")) @db.Uuid
   city_id           String?             @db.Uuid
   is_preferred      Boolean?            @default(false)
+  is_system         Boolean?            @default(false)
   products          products[]
   purchase_invoices purchase_invoices[]
   purchase_orders   purchase_orders[]
@@ -1255,24 +1259,24 @@ model tax_rates {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tenant_subscriptions {
-  id                String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id      String                       @db.Uuid
-  email             String                       @db.VarChar(255)
-  subscription_id   Int
-  status            subscription_status          @default(new)
-  first_use         Boolean                      @default(true)
-  start_date        DateTime?                    @db.Timestamp(6)
-  end_date          DateTime?                    @db.Timestamp(6)
-  created_at        DateTime?                    @default(now()) @db.Timestamp(6)
-  updated_at        DateTime?                    @default(now()) @db.Timestamp(6)
-  commission_amount Decimal?                     @default(0) @db.Decimal(10, 2)
-  commission_type   subscription_commission_type @default(subscription)
-  first_name        String?
-  last_name         String?
-  is_owner          Boolean?
-  subscriptions     subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tenant_users      tenant_users[]
+  id                    String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_user_id          String                       @db.Uuid
+  email                 String                       @db.VarChar(255)
+  subscription_id       Int
+  status                subscription_status          @default(new)
+  first_use             Boolean                      @default(true)
+  start_date            DateTime?                    @db.Timestamp(6)
+  end_date              DateTime?                    @db.Timestamp(6)
+  created_at            DateTime?                    @default(now()) @db.Timestamp(6)
+  updated_at            DateTime?                    @default(now()) @db.Timestamp(6)
+  commission_amount     Decimal?                     @default(0) @db.Decimal(10, 2)
+  commission_type       subscription_commission_type @default(subscription)
+  first_name            String?
+  last_name             String?
+  is_owner              Boolean?
   tenant_activity_types tenant_activity_types[]
+  subscriptions         subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenant_users          tenant_users[]
 
   @@index([status], map: "idx_tenant_subscriptions_status")
 }
@@ -1297,8 +1301,8 @@ model tenant_users {
   parent_tenant_id     String?               @db.Uuid
   refund_pin_code      Decimal?              @db.Decimal
   tenant_subscriptions tenant_subscriptions? @relation(fields: [parent_tenant_id], references: [id], onUpdate: NoAction)
-  user_roles           user_roles[]
   user_permissions     user_permissions[]
+  user_roles           user_roles[]
 
   @@index([primary_module], map: "idx_users_primary_module")
 }
@@ -1365,7 +1369,7 @@ model transactions {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model user_roles {
-  role_id String @db.Uuid
+  role_id        String       @db.Uuid
   /// FKs tenant_users.id (the row PK), NOT the Supabase auth uid. Physical column stays `auth_user_id`
   /// (renamed at the Prisma level only to fix the code-level misnomer — no DB migration).
   tenant_user_id String       @map("auth_user_id") @db.Uuid
@@ -1375,12 +1379,6 @@ model user_roles {
   @@id([tenant_user_id, role_id])
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RBAC enhancements (feature 024) — screen/module registry, permission buttons,
-// per-user overrides, tenant activity types. All additive; see
-// specs/024-rbac-enhancements/data-model.md.
-// ─────────────────────────────────────────────────────────────────────────────
-
 model business_activity_types {
   id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   code                  String                  @unique @db.VarChar(50)
@@ -1389,8 +1387,8 @@ model business_activity_types {
   is_active             Boolean                 @default(true)
   created_at            DateTime?               @default(now()) @db.Timestamptz(6)
   updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
-  tenant_activity_types tenant_activity_types[]
   module_activity_types module_activity_types[]
+  tenant_activity_types tenant_activity_types[]
 }
 
 model tenant_activity_types {
@@ -1399,8 +1397,8 @@ model tenant_activity_types {
   is_active               Boolean                 @default(true)
   created_at              DateTime?               @default(now()) @db.Timestamptz(6)
   updated_at              DateTime?               @default(now()) @db.Timestamptz(6)
-  tenant_subscriptions    tenant_subscriptions    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   business_activity_types business_activity_types @relation(fields: [activity_type_id], references: [id], onDelete: Cascade)
+  tenant_subscriptions    tenant_subscriptions    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
   @@id([tenant_id, activity_type_id])
   @@index([activity_type_id], map: "idx_tenant_activity_types_activity")
@@ -1423,8 +1421,9 @@ model module_activity_types {
   module_id               String                  @db.Uuid
   activity_type_id        String                  @db.Uuid
   created_at              DateTime?               @default(now()) @db.Timestamptz(6)
-  app_modules             app_modules             @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  auth_user_id            String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
   business_activity_types business_activity_types @relation(fields: [activity_type_id], references: [id], onDelete: Cascade)
+  app_modules             app_modules             @relation(fields: [module_id], references: [id], onDelete: Cascade)
 
   @@id([module_id, activity_type_id])
   @@index([activity_type_id], map: "idx_module_activity_types_activity")
@@ -1444,9 +1443,9 @@ model app_screens {
   created_at         DateTime?            @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
   app_modules        app_modules          @relation(fields: [module_id], references: [id])
-  screen_roles       screen_roles[]
-  screen_permissions screen_permissions[]
   screen_buttons     screen_buttons[]
+  screen_permissions screen_permissions[]
+  screen_roles       screen_roles[]
 
   @@index([module_id], map: "idx_app_screens_module")
 }
@@ -1455,8 +1454,8 @@ model screen_roles {
   screen_id   String      @db.Uuid
   role_id     String      @db.Uuid
   created_at  DateTime?   @default(now()) @db.Timestamptz(6)
-  app_screens app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade)
   roles       roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  app_screens app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade)
 
   @@id([screen_id, role_id])
   @@index([role_id], map: "idx_screen_roles_role")
@@ -1466,8 +1465,8 @@ model screen_permissions {
   screen_id     String      @db.Uuid
   permission_id String      @db.Uuid
   created_at    DateTime?   @default(now()) @db.Timestamptz(6)
-  app_screens   app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade)
   permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+  app_screens   app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade)
 
   @@id([screen_id, permission_id])
   @@index([permission_id], map: "idx_screen_permissions_permission")
@@ -1481,6 +1480,7 @@ model permission_buttons {
   is_system      Boolean          @default(false)
   created_at     DateTime?        @default(now()) @db.Timestamptz(6)
   updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  auth_user_id   String?          @default(dbgenerated("auth.uid()")) @db.Uuid
   screen_buttons screen_buttons[]
 }
 
@@ -1491,9 +1491,9 @@ model screen_buttons {
   is_active          Boolean            @default(true)
   created_at         DateTime?          @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?          @default(now()) @db.Timestamptz(6)
-  app_screens        app_screens        @relation(fields: [screen_id], references: [id], onDelete: Cascade)
   permission_buttons permission_buttons @relation(fields: [button_id], references: [id], onDelete: Cascade)
   permissions        permissions        @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+  app_screens        app_screens        @relation(fields: [screen_id], references: [id], onDelete: Cascade)
 
   @@id([screen_id, button_id])
   @@index([button_id], map: "idx_screen_buttons_button")
@@ -1506,8 +1506,8 @@ model user_permissions {
   is_granted     Boolean      @default(true)
   created_at     DateTime?    @default(now()) @db.Timestamptz(6)
   updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
-  tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
   permissions    permissions  @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+  tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
 
   @@id([tenant_user_id, permission_id])
   @@index([permission_id], map: "idx_user_permissions_permission")
@@ -1577,11 +1577,11 @@ model stock_transfers {
   created_at           DateTime               @default(now()) @db.Timestamptz(6)
   updated_at           DateTime               @default(now()) @db.Timestamptz(6)
   auth_user_id         String?                @default(dbgenerated("auth.uid()")) @db.Uuid
-  from_store           stores                 @relation("stock_transfers_from_store", fields: [from_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
-  to_store             stores                 @relation("stock_transfers_to_store", fields: [to_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
-  from_branch          branches?              @relation("stock_transfers_from_branch", fields: [from_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  to_branch            branches?              @relation("stock_transfers_to_branch", fields: [to_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stock_transfer_items stock_transfer_items[]
+  from_branch          branches?              @relation("stock_transfers_from_branch", fields: [from_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  from_store           stores                 @relation("stock_transfers_from_store", fields: [from_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  to_branch            branches?              @relation("stock_transfers_to_branch", fields: [to_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  to_store             stores                 @relation("stock_transfers_to_store", fields: [to_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([tenant_id], map: "idx_stock_transfers_tenant_id")
   @@index([from_store_id], map: "idx_stock_transfers_from_store_id")
@@ -1596,8 +1596,8 @@ model stock_transfer_items {
   qty                Decimal          @db.Decimal(18, 4)
   unit_cost          Decimal          @default(0) @db.Decimal(18, 4)
   created_at         DateTime         @default(now()) @db.Timestamptz(6)
-  stock_transfers    stock_transfers  @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product_variants   product_variants @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stock_transfers    stock_transfers  @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([stock_transfer_id], map: "idx_stock_transfer_items_transfer_id")
   @@index([product_variant_id], map: "idx_stock_transfer_items_variant_id")
@@ -1618,8 +1618,8 @@ model stock_adjustments {
   created_at             DateTime                 @default(now()) @db.Timestamptz(6)
   updated_at             DateTime                 @default(now()) @db.Timestamptz(6)
   auth_user_id           String?                  @default(dbgenerated("auth.uid()")) @db.Uuid
-  stores                 stores                   @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
   stock_adjustment_items stock_adjustment_items[]
+  stores                 stores                   @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([tenant_id], map: "idx_stock_adjustments_tenant_id")
   @@index([store_id], map: "idx_stock_adjustments_store_id")
@@ -1636,8 +1636,8 @@ model stock_adjustment_items {
   unit_cost           Decimal                 @default(0) @db.Decimal(18, 4)
   reason              adjustment_reason_enum?
   created_at          DateTime                @default(now()) @db.Timestamptz(6)
-  stock_adjustments   stock_adjustments       @relation(fields: [stock_adjustment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product_variants    product_variants        @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stock_adjustments   stock_adjustments       @relation(fields: [stock_adjustment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([stock_adjustment_id], map: "idx_stock_adjustment_items_adjustment_id")
   @@index([product_variant_id], map: "idx_stock_adjustment_items_variant_id")

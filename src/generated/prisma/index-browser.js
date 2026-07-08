@@ -266,10 +266,11 @@ exports.Prisma.PermissionsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  resource: 'resource',
-  action: 'action',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  action: 'action',
+  resource: 'resource',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Pos_salesScalarFieldEnum = {
@@ -283,7 +284,8 @@ exports.Prisma.Pos_salesScalarFieldEnum = {
   total_amount: 'total_amount',
   payment_method: 'payment_method',
   card_id: 'card_id',
-  status: 'status'
+  status: 'status',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Pos_terminalsScalarFieldEnum = {
@@ -511,7 +513,8 @@ exports.Prisma.Purchase_return_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   tax_amount: 'tax_amount',
   line_total: 'line_total',
-  reason: 'reason'
+  reason: 'reason',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Purchase_returnsScalarFieldEnum = {
@@ -989,7 +992,8 @@ exports.Prisma.SuppliersScalarFieldEnum = {
   created_at: 'created_at',
   auth_user_id: 'auth_user_id',
   city_id: 'city_id',
-  is_preferred: 'is_preferred'
+  is_preferred: 'is_preferred',
+  is_system: 'is_system'
 };
 
 exports.Prisma.Tax_ratesScalarFieldEnum = {
@@ -1119,7 +1123,8 @@ exports.Prisma.App_modulesScalarFieldEnum = {
 exports.Prisma.Module_activity_typesScalarFieldEnum = {
   module_id: 'module_id',
   activity_type_id: 'activity_type_id',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.App_screensScalarFieldEnum = {
@@ -1156,7 +1161,8 @@ exports.Prisma.Permission_buttonsScalarFieldEnum = {
   description: 'description',
   is_system: 'is_system',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Screen_buttonsScalarFieldEnum = {
