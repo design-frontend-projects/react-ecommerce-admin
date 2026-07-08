@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(pnpm exec *)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(grep -rlE \"app/api|app\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\api|\\\\.route\\\\.|apiPlugin|/api/\" vite.config.ts src/*.ts scripts/ server/)",
+      "Bash(grep -riEl \"src/app/api|app\\\\\\\\\\\\\\\\api|route\\\\.ts|api-handler|handleApi\" --include=*.ts --include=*.mjs --include=*.js .)",
+      "Bash(node -e ' *)",
+      "Bash(node scripts_tmp_smoke.mjs)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(rm -f scripts_tmp_smoke.mjs)"
     ]
   }
 }

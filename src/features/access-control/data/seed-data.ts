@@ -109,6 +109,9 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
   { code: 'price_list', name: 'Price List', route: '/price-list', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
   { code: 'promotions', name: 'Promotions', route: '/promotions', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
   { code: 'transactions', name: 'Transactions', route: '/transactions', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
+  { code: 'stock_transfers', name: 'Stock Transfers', route: '/stock-transfers', moduleCode: 'inventory', roles: ADMINS, permissions: ['inventory.view'] },
+  { code: 'stock_adjustments', name: 'Stock Adjustments', route: '/stock-adjustments', moduleCode: 'inventory', roles: ADMINS, permissions: ['inventory.view'] },
+  { code: 'inventory_movements', name: 'Inventory Movements', route: '/inventory-movements', moduleCode: 'inventory', roles: ADMINS, permissions: ['inventory.view'] },
   { code: 'suppliers', name: 'Suppliers', route: '/suppliers', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
   { code: 'stores', name: 'Stores', route: '/stores', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
   { code: 'categories', name: 'Categories', route: '/categories', moduleCode: 'inventory', roles: ADMINS, permissions: [] },
@@ -136,4 +139,9 @@ export const SCREEN_BUTTON_SEEDS: ScreenButtonSeed[] = [
   { screenCode: 'orders', buttonCode: 'pay', roles: ['cashier', 'admin'] },
   { screenCode: 'orders', buttonCode: 'create', roles: ['captain'] },
   { screenCode: 'orders', buttonCode: 'update', roles: ['captain'] },
+  // Inventory movements: create drafts (manager+admin), approve/apply (admin)
+  { screenCode: 'stock_transfers', buttonCode: 'create', roles: ['manager', ...ADMINS] },
+  { screenCode: 'stock_transfers', buttonCode: 'approve', roles: ADMINS },
+  { screenCode: 'stock_adjustments', buttonCode: 'create', roles: ['manager', ...ADMINS] },
+  { screenCode: 'stock_adjustments', buttonCode: 'approve', roles: ADMINS },
 ]

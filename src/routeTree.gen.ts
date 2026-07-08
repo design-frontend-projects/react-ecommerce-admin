@@ -54,12 +54,15 @@ import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_auth
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
 import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
+import { Route as AuthenticatedStockTransfersIndexRouteImport } from './routes/_authenticated/stock-transfers/index'
 import { Route as AuthenticatedStockBalancesIndexRouteImport } from './routes/_authenticated/stock-balances/index'
+import { Route as AuthenticatedStockAdjustmentsIndexRouteImport } from './routes/_authenticated/stock-adjustments/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
+import { Route as AuthenticatedInventoryMovementsIndexRouteImport } from './routes/_authenticated/inventory-movements/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
@@ -347,10 +350,22 @@ const AuthenticatedTransactionsIndexRoute =
     path: '/transactions/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStockTransfersIndexRoute =
+  AuthenticatedStockTransfersIndexRouteImport.update({
+    id: '/stock-transfers/',
+    path: '/stock-transfers/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStockBalancesIndexRoute =
   AuthenticatedStockBalancesIndexRouteImport.update({
     id: '/stock-balances/',
     path: '/stock-balances/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStockAdjustmentsIndexRoute =
+  AuthenticatedStockAdjustmentsIndexRouteImport.update({
+    id: '/stock-adjustments/',
+    path: '/stock-adjustments/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsIndexRoute =
@@ -380,6 +395,12 @@ const AuthenticatedInventoryIndexRoute =
   AuthenticatedInventoryIndexRouteImport.update({
     id: '/inventory/',
     path: '/inventory/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryMovementsIndexRoute =
+  AuthenticatedInventoryMovementsIndexRouteImport.update({
+    id: '/inventory-movements/',
+    path: '/inventory-movements/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
@@ -597,12 +618,15 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/stock-adjustments': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
+  '/stock-transfers': typeof AuthenticatedStockTransfersIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -673,12 +697,15 @@ export interface FileRoutesByTo {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/stock-adjustments': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
+  '/stock-transfers': typeof AuthenticatedStockTransfersIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -754,12 +781,15 @@ export interface FileRoutesById {
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/stock-adjustments/': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/_authenticated/stock-balances/': typeof AuthenticatedStockBalancesIndexRoute
+  '/_authenticated/stock-transfers/': typeof AuthenticatedStockTransfersIndexRoute
   '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -834,12 +864,15 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/settings/system'
     | '/chats'
+    | '/inventory-movements'
     | '/inventory'
     | '/pos'
     | '/products'
     | '/respos'
     | '/settings/'
+    | '/stock-adjustments'
     | '/stock-balances'
+    | '/stock-transfers'
     | '/transactions'
     | '/cities/'
     | '/respos/invoice/$orderId'
@@ -910,12 +943,15 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/settings/system'
     | '/chats'
+    | '/inventory-movements'
     | '/inventory'
     | '/pos'
     | '/products'
     | '/respos'
     | '/settings'
+    | '/stock-adjustments'
     | '/stock-balances'
+    | '/stock-transfers'
     | '/transactions'
     | '/cities'
     | '/respos/invoice/$orderId'
@@ -990,12 +1026,15 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/notifications'
     | '/_authenticated/settings/system'
     | '/_authenticated/chats/'
+    | '/_authenticated/inventory-movements/'
     | '/_authenticated/inventory/'
     | '/_authenticated/pos/'
     | '/_authenticated/products/'
     | '/_authenticated/respos/'
     | '/_authenticated/settings/'
+    | '/_authenticated/stock-adjustments/'
     | '/_authenticated/stock-balances/'
+    | '/_authenticated/stock-transfers/'
     | '/_authenticated/transactions/'
     | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
@@ -1358,11 +1397,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stock-transfers/': {
+      id: '/_authenticated/stock-transfers/'
+      path: '/stock-transfers'
+      fullPath: '/stock-transfers'
+      preLoaderRoute: typeof AuthenticatedStockTransfersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/stock-balances/': {
       id: '/_authenticated/stock-balances/'
       path: '/stock-balances'
       fullPath: '/stock-balances'
       preLoaderRoute: typeof AuthenticatedStockBalancesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stock-adjustments/': {
+      id: '/_authenticated/stock-adjustments/'
+      path: '/stock-adjustments'
+      fullPath: '/stock-adjustments'
+      preLoaderRoute: typeof AuthenticatedStockAdjustmentsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -1398,6 +1451,13 @@ declare module '@tanstack/react-router' {
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory-movements/': {
+      id: '/_authenticated/inventory-movements/'
+      path: '/inventory-movements'
+      fullPath: '/inventory-movements'
+      preLoaderRoute: typeof AuthenticatedInventoryMovementsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chats/': {
@@ -1676,11 +1736,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedInventoryMovementsIndexRoute: typeof AuthenticatedInventoryMovementsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedStockAdjustmentsIndexRoute: typeof AuthenticatedStockAdjustmentsIndexRoute
   AuthenticatedStockBalancesIndexRoute: typeof AuthenticatedStockBalancesIndexRoute
+  AuthenticatedStockTransfersIndexRoute: typeof AuthenticatedStockTransfersIndexRoute
   AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
@@ -1724,11 +1787,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedInventoryMovementsIndexRoute:
+    AuthenticatedInventoryMovementsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedStockAdjustmentsIndexRoute:
+    AuthenticatedStockAdjustmentsIndexRoute,
   AuthenticatedStockBalancesIndexRoute: AuthenticatedStockBalancesIndexRoute,
+  AuthenticatedStockTransfersIndexRoute: AuthenticatedStockTransfersIndexRoute,
   AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,

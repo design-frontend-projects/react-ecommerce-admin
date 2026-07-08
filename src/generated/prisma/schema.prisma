@@ -45,24 +45,26 @@ model audit_logs {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model branches {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String                @db.VarChar(200)
-  city_id             String                @db.Uuid
-  address             String?
-  phone               String?               @db.VarChar(20)
-  is_active           Boolean?              @default(true)
-  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  auth_user_id        String?               @db.Uuid
-  cities              cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  inventory_movements inventory_movements[]
-  profiles            profiles[]
-  purchase_invoices   purchase_invoices[]
-  purchase_returns    purchase_returns[]
-  refunds             refunds[]
-  sales_invoices      sales_invoices[]
-  sales_returns       sales_returns[]
-  stores              stores[]
+  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String                @db.VarChar(200)
+  city_id              String                @db.Uuid
+  address              String?
+  phone                String?               @db.VarChar(20)
+  is_active            Boolean?              @default(true)
+  created_at           DateTime?             @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?             @default(now()) @db.Timestamptz(6)
+  auth_user_id         String?               @db.Uuid
+  cities               cities                @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  inventory_movements  inventory_movements[]
+  profiles             profiles[]
+  purchase_invoices    purchase_invoices[]
+  purchase_returns     purchase_returns[]
+  refunds              refunds[]
+  sales_invoices       sales_invoices[]
+  sales_returns        sales_returns[]
+  stores               stores[]
+  stock_transfers_from stock_transfers[]     @relation("stock_transfers_from_branch")
+  stock_transfers_to   stock_transfers[]     @relation("stock_transfers_to_branch")
 
   @@index([city_id], map: "idx_branches_city_id")
 }
@@ -333,6 +335,8 @@ model product_variants {
   sales_invoice_items    sales_invoice_items[]
   sales_return_items     sales_return_items[]
   stock_balances         stock_balances[]
+  stock_transfer_items   stock_transfer_items[]
+  stock_adjustment_items stock_adjustment_items[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1165,33 +1169,36 @@ model shipping_rates {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model stores {
-  auth_user_id        String?               @default(dbgenerated("auth.uid()")) @db.Uuid
-  phone               String?
-  email               String?
-  address             String?
-  latitude            Decimal?              @db.Decimal
-  longitude           Decimal?              @db.Decimal
-  created_at          DateTime?             @db.Timestamp(6)
-  updated_at          DateTime?             @db.Timestamp(6)
-  city_id             String?               @db.Uuid
-  country_id          String?               @db.Uuid
-  name                String?
-  store_id            String                @id @db.Uuid
-  status              Boolean?              @default(true)
-  branch_id           String?               @db.Uuid
-  inventory           inventory[]
-  inventory_movements inventory_movements[]
-  pos_terminals       pos_terminals[]
-  price_list          price_list[]
-  purchase_invoices   purchase_invoices[]
-  purchase_returns    purchase_returns[]
-  refunds             refunds[]
-  sales_invoices      sales_invoices[]
-  sales_returns       sales_returns[]
-  stock_balances      stock_balances[]
-  branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  cities              cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
-  countries           countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
+  auth_user_id         String?               @default(dbgenerated("auth.uid()")) @db.Uuid
+  phone                String?
+  email                String?
+  address              String?
+  latitude             Decimal?              @db.Decimal
+  longitude            Decimal?              @db.Decimal
+  created_at           DateTime?             @db.Timestamp(6)
+  updated_at           DateTime?             @db.Timestamp(6)
+  city_id              String?               @db.Uuid
+  country_id           String?               @db.Uuid
+  name                 String?
+  store_id             String                @id @db.Uuid
+  status               Boolean?              @default(true)
+  branch_id            String?               @db.Uuid
+  inventory            inventory[]
+  inventory_movements  inventory_movements[]
+  pos_terminals        pos_terminals[]
+  price_list           price_list[]
+  purchase_invoices    purchase_invoices[]
+  purchase_returns     purchase_returns[]
+  refunds              refunds[]
+  sales_invoices       sales_invoices[]
+  sales_returns        sales_returns[]
+  stock_balances       stock_balances[]
+  stock_adjustments    stock_adjustments[]
+  stock_transfers_from stock_transfers[]     @relation("stock_transfers_from_store")
+  stock_transfers_to   stock_transfers[]     @relation("stock_transfers_to_store")
+  branches             branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cities               cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
+  countries            countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1550,6 +1557,92 @@ model stock_balances {
   @@unique([store_id, product_variant_id])
 }
 
+/// Inter-store stock transfer header. Applied atomically via the apply_stock_transfer() RPC,
+/// which writes paired transfer_out/transfer_in rows to inventory_movements.
+model stock_transfers {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id            String                 @db.Uuid
+  from_store_id        String                 @db.Uuid
+  to_store_id          String                 @db.Uuid
+  from_branch_id       String?                @db.Uuid
+  to_branch_id         String?                @db.Uuid
+  status               transfer_status_enum   @default(draft)
+  reference_no         String?                @db.VarChar(50)
+  notes                String?
+  created_by           String?
+  shipped_by           String?
+  received_by          String?
+  shipped_at           DateTime?              @db.Timestamptz(6)
+  received_at          DateTime?              @db.Timestamptz(6)
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime               @default(now()) @db.Timestamptz(6)
+  auth_user_id         String?                @default(dbgenerated("auth.uid()")) @db.Uuid
+  from_store           stores                 @relation("stock_transfers_from_store", fields: [from_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  to_store             stores                 @relation("stock_transfers_to_store", fields: [to_store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  from_branch          branches?              @relation("stock_transfers_from_branch", fields: [from_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  to_branch            branches?              @relation("stock_transfers_to_branch", fields: [to_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stock_transfer_items stock_transfer_items[]
+
+  @@index([tenant_id], map: "idx_stock_transfers_tenant_id")
+  @@index([from_store_id], map: "idx_stock_transfers_from_store_id")
+  @@index([to_store_id], map: "idx_stock_transfers_to_store_id")
+  @@index([status], map: "idx_stock_transfers_status")
+}
+
+model stock_transfer_items {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  stock_transfer_id  String           @db.Uuid
+  product_variant_id String           @db.Uuid
+  qty                Decimal          @db.Decimal(18, 4)
+  unit_cost          Decimal          @default(0) @db.Decimal(18, 4)
+  created_at         DateTime         @default(now()) @db.Timestamptz(6)
+  stock_transfers    stock_transfers  @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants   product_variants @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([stock_transfer_id], map: "idx_stock_transfer_items_transfer_id")
+  @@index([product_variant_id], map: "idx_stock_transfer_items_variant_id")
+}
+
+/// Batch stock adjustment header (manual entry / damaged-expired / stocktake).
+/// Applied atomically via the apply_stock_adjustment() RPC. See specs/023-stock-adjustments.
+model stock_adjustments {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id              String                   @db.Uuid
+  store_id               String                   @db.Uuid
+  status                 adjustment_status_enum   @default(draft)
+  type                   adjustment_type_enum
+  notes                  String?
+  created_by             String?
+  approved_by            String?
+  approved_at            DateTime?                @db.Timestamptz(6)
+  created_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  auth_user_id           String?                  @default(dbgenerated("auth.uid()")) @db.Uuid
+  stores                 stores                   @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  stock_adjustment_items stock_adjustment_items[]
+
+  @@index([tenant_id], map: "idx_stock_adjustments_tenant_id")
+  @@index([store_id], map: "idx_stock_adjustments_store_id")
+  @@index([status], map: "idx_stock_adjustments_status")
+}
+
+model stock_adjustment_items {
+  id                  String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  stock_adjustment_id String                  @db.Uuid
+  product_variant_id  String                  @db.Uuid
+  qty_before          Decimal                 @db.Decimal(18, 4)
+  qty_after           Decimal                 @db.Decimal(18, 4)
+  qty_adjusted        Decimal                 @db.Decimal(18, 4)
+  unit_cost           Decimal                 @default(0) @db.Decimal(18, 4)
+  reason              adjustment_reason_enum?
+  created_at          DateTime                @default(now()) @db.Timestamptz(6)
+  stock_adjustments   stock_adjustments       @relation(fields: [stock_adjustment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants    product_variants        @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([stock_adjustment_id], map: "idx_stock_adjustment_items_adjustment_id")
+  @@index([product_variant_id], map: "idx_stock_adjustment_items_variant_id")
+}
+
 /// Global system settings stored as key-value pairs with JSON values.
 /// Supports multi-tenancy via auth_user_id and grouping for UI organization.
 model app_settings {
@@ -1890,6 +1983,28 @@ enum transfer_status_enum {
   in_transit
   received
   cancelled
+}
+
+enum adjustment_status_enum {
+  draft
+  pending
+  approved
+  cancelled
+}
+
+enum adjustment_type_enum {
+  manual
+  damage
+  stocktake
+}
+
+enum adjustment_reason_enum {
+  damage
+  expired
+  theft
+  data_entry_error
+  stocktake_discrepancy
+  other
 }
 
 enum user_module {

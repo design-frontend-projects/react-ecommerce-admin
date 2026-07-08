@@ -261,24 +261,6 @@ export function POSScreen() {
     )
   }
 
-  if (
-    !has({ role: 'admin' }) ||
-    !has({ role: 'super_admin' }) ||
-    !has({ role: 'captain' })
-  ) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <div className='text-center'>
-          <Shield className='mx-auto h-12 w-12 text-red-500' />
-          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
-          <p className='text-muted-foreground'>
-            You do not have permission to view this page.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
   if (isLoadingData) {
     return (
       <div className='flex h-screen items-center justify-center bg-muted/40'>

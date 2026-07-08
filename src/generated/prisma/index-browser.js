@@ -1210,6 +1210,62 @@ exports.Prisma.Stock_balancesScalarFieldEnum = {
   auth_user_id: 'auth_user_id'
 };
 
+exports.Prisma.Stock_transfersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  from_store_id: 'from_store_id',
+  to_store_id: 'to_store_id',
+  from_branch_id: 'from_branch_id',
+  to_branch_id: 'to_branch_id',
+  status: 'status',
+  reference_no: 'reference_no',
+  notes: 'notes',
+  created_by: 'created_by',
+  shipped_by: 'shipped_by',
+  received_by: 'received_by',
+  shipped_at: 'shipped_at',
+  received_at: 'received_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Stock_transfer_itemsScalarFieldEnum = {
+  id: 'id',
+  stock_transfer_id: 'stock_transfer_id',
+  product_variant_id: 'product_variant_id',
+  qty: 'qty',
+  unit_cost: 'unit_cost',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Stock_adjustmentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  status: 'status',
+  type: 'type',
+  notes: 'notes',
+  created_by: 'created_by',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Stock_adjustment_itemsScalarFieldEnum = {
+  id: 'id',
+  stock_adjustment_id: 'stock_adjustment_id',
+  product_variant_id: 'product_variant_id',
+  qty_before: 'qty_before',
+  qty_after: 'qty_after',
+  qty_adjusted: 'qty_adjusted',
+  unit_cost: 'unit_cost',
+  reason: 'reason',
+  created_at: 'created_at'
+};
+
 exports.Prisma.App_settingsScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -1451,6 +1507,35 @@ exports.movement_type_enum = exports.$Enums.movement_type_enum = {
   released: 'released'
 };
 
+exports.transfer_status_enum = exports.$Enums.transfer_status_enum = {
+  draft: 'draft',
+  in_transit: 'in_transit',
+  received: 'received',
+  cancelled: 'cancelled'
+};
+
+exports.adjustment_status_enum = exports.$Enums.adjustment_status_enum = {
+  draft: 'draft',
+  pending: 'pending',
+  approved: 'approved',
+  cancelled: 'cancelled'
+};
+
+exports.adjustment_type_enum = exports.$Enums.adjustment_type_enum = {
+  manual: 'manual',
+  damage: 'damage',
+  stocktake: 'stocktake'
+};
+
+exports.adjustment_reason_enum = exports.$Enums.adjustment_reason_enum = {
+  damage: 'damage',
+  expired: 'expired',
+  theft: 'theft',
+  data_entry_error: 'data_entry_error',
+  stocktake_discrepancy: 'stocktake_discrepancy',
+  other: 'other'
+};
+
 exports.Prisma.ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
@@ -1532,6 +1617,10 @@ exports.Prisma.ModelName = {
   user_permissions: 'user_permissions',
   inventory_movements: 'inventory_movements',
   stock_balances: 'stock_balances',
+  stock_transfers: 'stock_transfers',
+  stock_transfer_items: 'stock_transfer_items',
+  stock_adjustments: 'stock_adjustments',
+  stock_adjustment_items: 'stock_adjustment_items',
   app_settings: 'app_settings',
   rbac_audit_logs: 'rbac_audit_logs',
   rbac_otp_codes: 'rbac_otp_codes',

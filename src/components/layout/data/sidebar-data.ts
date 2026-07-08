@@ -1,7 +1,10 @@
 import {
+  ArrowLeftRight,
   AudioWaveform,
   Bell,
   Boxes,
+  ClipboardList,
+  History,
   Building2,
   CalendarClock,
   ChefHat,
@@ -254,6 +257,24 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.stockBalances'),
             url: '/stock-balances',
             icon: Boxes,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: t('sidebar.stockTransfers', 'Stock Transfers'),
+            url: '/stock-transfers',
+            icon: ArrowLeftRight,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: t('sidebar.stockAdjustments', 'Stock Adjustments'),
+            url: '/stock-adjustments',
+            icon: ClipboardList,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: t('sidebar.inventoryMovements', 'Inventory Movements'),
+            url: '/inventory-movements',
+            icon: History,
             roles: ['admin', 'super_admin'],
           },
           {
