@@ -11,11 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { useDeleteFloor, useDeleteTable } from '../api/mutations'
 import { useFloors, useTables } from '../api/queries'
 import { FloorDialog } from '../components/floor-dialog'
@@ -31,7 +31,7 @@ export function FloorsAndTables() {
   const [activeFloorIdForTable, setActiveFloorIdForTable] = useState<string>('')
 
   const { data: floors, isLoading: floorsLoading } = useFloors()
-  const { data: tables, isLoading: tablesLoading } = useTables()
+  const { data: tables, isLoading: tablesLoading } = useTables(undefined, true)
 
   const deleteFloor = useDeleteFloor()
   const deleteTable = useDeleteTable()
@@ -58,7 +58,7 @@ export function FloorsAndTables() {
       try {
         await deleteFloor.mutateAsync(id)
         toast.success('Floor deleted')
-      } catch (error) {
+      } catch (_error) {
         toast.error('Failed to delete floor')
       }
     }
@@ -82,7 +82,7 @@ export function FloorsAndTables() {
       try {
         await deleteTable.mutateAsync(id)
         toast.success('Table deleted')
-      } catch (error) {
+      } catch (_error) {
         toast.error('Failed to delete table')
       }
     }
@@ -246,7 +246,9 @@ function TableItem({
   onClick: () => void
   onContextMenu: (e: React.MouseEvent) => void
 }) {
-  const statusColor = TABLE_STATUS_COLORS[table.status]
+  const statusColor = table.is_active
+    ? (TABLE_STATUS_COLORS[table.status] || 'bg-muted border-muted')
+    : 'bg-green-100 border-green-300 text-green-800 dark:bg-green-950/20 dark:border-green-800/30 dark:text-green-400'
 
   return (
     <div
@@ -258,7 +260,7 @@ function TableItem({
       <span className='text-lg font-bold'>{table.table_number}</span>
       <span className='text-xs text-muted-foreground'>{table.seats} seats</span>
       <Badge variant='secondary' className='mt-1 text-xs capitalize'>
-        {table.status}
+        {table.is_active ? table.status : 'inactive'}
       </Badge>
     </div>
   )

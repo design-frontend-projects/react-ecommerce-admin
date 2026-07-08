@@ -70,6 +70,10 @@ export function TableDialog({
 
   const isLoading = createTable.isPending || updateTableMutation.isPending
 
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const isActive = form.watch('is_active')
+  const isFieldsDisabled = !isActive
+
   useEffect(() => {
     if (table) {
       form.reset({
@@ -155,6 +159,7 @@ export function TableDialog({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={isFieldsDisabled}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -181,7 +186,7 @@ export function TableDialog({
                 <FormItem>
                   <FormLabel>Table Number</FormLabel>
                   <FormControl>
-                    <Input placeholder='e.g., T-01' {...field} />
+                    <Input placeholder='e.g., T-01' {...field} disabled={isFieldsDisabled} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -201,6 +206,7 @@ export function TableDialog({
                       max={50}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
+                      disabled={isFieldsDisabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -233,6 +239,7 @@ export function TableDialog({
                         size='sm'
                         onClick={() => field.onChange(shape.value)}
                         className='flex items-center gap-1'
+                        disabled={isFieldsDisabled}
                       >
                         <shape.icon className='h-4 w-4' />
                         {shape.label}
@@ -257,6 +264,7 @@ export function TableDialog({
                         min={0}
                         {...field}
                         onChange={(e) => field.onChange(Number(e.target.value))}
+                        disabled={isFieldsDisabled}
                       />
                     </FormControl>
                     <FormMessage />
@@ -276,6 +284,7 @@ export function TableDialog({
                         min={0}
                         {...field}
                         onChange={(e) => field.onChange(Number(e.target.value))}
+                        disabled={isFieldsDisabled}
                       />
                     </FormControl>
                     <FormMessage />

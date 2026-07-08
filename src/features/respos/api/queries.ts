@@ -29,10 +29,12 @@ export const resposQueryKeys = {
   employeeByUserId: (userId: string) =>
     ['respos', 'employees', 'user', userId] as const,
   floors: ['respos', 'floors'] as const,
-  tables: (floorId?: string) =>
-    floorId
-      ? (['respos', 'tables', floorId] as const)
-      : (['respos', 'tables'] as const),
+  tables: (floorId?: string, includeInactive?: boolean) => {
+    const key: unknown[] = ['respos', 'tables']
+    if (floorId) key.push(floorId)
+    if (includeInactive) key.push('inactive')
+    return key
+  },
   menuCategories: ['respos', 'menu-categories'] as const,
   menuItems: (categoryId?: string) =>
     categoryId
@@ -116,15 +118,18 @@ export function useFloors() {
   })
 }
 
-export function useTables(floorId?: string) {
+export function useTables(floorId?: string, includeInactive = false) {
   return useQuery({
-    queryKey: resposQueryKeys.tables(floorId),
+    queryKey: resposQueryKeys.tables(floorId, includeInactive),
     queryFn: async () => {
       let query = supabase
         .from('res_tables')
         .select('*')
-        .eq('is_active', true)
         .order('table_number')
+
+      if (!includeInactive) {
+        query = query.eq('is_active', true)
+      }
 
       if (floorId) {
         query = query.eq('floor_id', floorId)
