@@ -1,17 +1,18 @@
-import { defineConfig } from 'vite'
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import viteReact from '@vitejs/plugin-react-swc'
 import path from 'path'
+import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vitest/config'
 
+// https://vite.dev/config/
 export default defineConfig({
-  server: {
-    port: 5190,
-  },
   plugins: [
-    tanstackStart(),
-    viteReact(),
+    tanstackRouter({
+      target: 'react',
+      autoCodeSplitting: true,
+    }),
+    react(),
     tailwindcss(),
     VitePWA({
       strategies: 'injectManifest',
@@ -58,6 +59,7 @@ export default defineConfig({
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         maximumFileSizeToCacheInBytes: 5000000,
+        // Don't cache auth-related or API routes
       },
       devOptions: {
         enabled: true,
@@ -71,5 +73,14 @@ export default defineConfig({
       '@crm': path.resolve(__dirname, './src/components/crm'),
       '@tests': path.resolve(__dirname, './tests'),
     },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+  },
+  server: {
+    port: 5190,
   },
 })

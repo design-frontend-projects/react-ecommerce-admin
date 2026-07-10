@@ -552,6 +552,7 @@ const AuthenticatedResposInvoiceOrderIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/subscription-required': typeof SubscriptionRequiredRoute
@@ -593,8 +594,7 @@ export interface FileRoutesByFullPath {
   '/crm/contacts': typeof CrmContactsLazyRoute
   '/crm/dashboard': typeof CrmDashboardLazyRoute
   '/crm/pipeline': typeof CrmPipelineLazyRoute
-  '/': typeof AuthenticatedIndexRoute
-  '/menu': typeof MenuIndexRoute
+  '/menu/': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
@@ -617,20 +617,20 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
-  '/chats': typeof AuthenticatedChatsIndexRoute
-  '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
-  '/inventory': typeof AuthenticatedInventoryIndexRoute
-  '/pos': typeof AuthenticatedPosIndexRoute
-  '/products': typeof AuthenticatedProductsIndexRoute
-  '/respos': typeof AuthenticatedResposIndexRoute
+  '/chats/': typeof AuthenticatedChatsIndexRoute
+  '/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
+  '/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/pos/': typeof AuthenticatedPosIndexRoute
+  '/products/': typeof AuthenticatedProductsIndexRoute
+  '/respos/': typeof AuthenticatedResposIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/stock-adjustments': typeof AuthenticatedStockAdjustmentsIndexRoute
-  '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
-  '/stock-transfers': typeof AuthenticatedStockTransfersIndexRoute
-  '/transactions': typeof AuthenticatedTransactionsIndexRoute
+  '/stock-adjustments/': typeof AuthenticatedStockAdjustmentsIndexRoute
+  '/stock-balances/': typeof AuthenticatedStockBalancesIndexRoute
+  '/stock-transfers/': typeof AuthenticatedStockTransfersIndexRoute
+  '/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
-  '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
+  '/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -664,6 +664,7 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/offline': typeof errorsOfflineRoute
+  '/': typeof AuthenticatedIndexRoute
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
@@ -672,7 +673,6 @@ export interface FileRoutesByTo {
   '/crm/contacts': typeof CrmContactsLazyRoute
   '/crm/dashboard': typeof CrmDashboardLazyRoute
   '/crm/pipeline': typeof CrmPipelineLazyRoute
-  '/': typeof AuthenticatedIndexRoute
   '/menu': typeof MenuIndexRoute
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
@@ -798,6 +798,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/login'
     | '/privacy'
     | '/subscription-required'
@@ -839,8 +840,7 @@ export interface FileRouteTypes {
     | '/crm/contacts'
     | '/crm/dashboard'
     | '/crm/pipeline'
-    | '/'
-    | '/menu'
+    | '/menu/'
     | '/audit-logs'
     | '/system-dashboard'
     | '/system-management'
@@ -863,20 +863,20 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
-    | '/chats'
-    | '/inventory-movements'
-    | '/inventory'
-    | '/pos'
-    | '/products'
-    | '/respos'
+    | '/chats/'
+    | '/inventory-movements/'
+    | '/inventory/'
+    | '/pos/'
+    | '/products/'
+    | '/respos/'
     | '/settings/'
-    | '/stock-adjustments'
-    | '/stock-balances'
-    | '/stock-transfers'
-    | '/transactions'
+    | '/stock-adjustments/'
+    | '/stock-balances/'
+    | '/stock-transfers/'
+    | '/transactions/'
     | '/cities/'
     | '/respos/invoice/$orderId'
-    | '/restaurants'
+    | '/restaurants/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -910,6 +910,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/offline'
+    | '/'
     | '/areas'
     | '/complete-account'
     | '/subscriptions'
@@ -918,7 +919,6 @@ export interface FileRouteTypes {
     | '/crm/contacts'
     | '/crm/dashboard'
     | '/crm/pipeline'
-    | '/'
     | '/menu'
     | '/audit-logs'
     | '/system-dashboard'
@@ -1099,14 +1099,14 @@ declare module '@tanstack/react-router' {
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu/': {
       id: '/menu/'
       path: '/menu'
-      fullPath: '/menu'
+      fullPath: '/menu/'
       preLoaderRoute: typeof MenuIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -1176,7 +1176,7 @@ declare module '@tanstack/react-router' {
     '/_authenticated/_system': {
       id: '/_authenticated/_system'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthenticatedSystemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
@@ -1393,28 +1393,28 @@ declare module '@tanstack/react-router' {
     '/_authenticated/transactions/': {
       id: '/_authenticated/transactions/'
       path: '/transactions'
-      fullPath: '/transactions'
+      fullPath: '/transactions/'
       preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/stock-transfers/': {
       id: '/_authenticated/stock-transfers/'
       path: '/stock-transfers'
-      fullPath: '/stock-transfers'
+      fullPath: '/stock-transfers/'
       preLoaderRoute: typeof AuthenticatedStockTransfersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/stock-balances/': {
       id: '/_authenticated/stock-balances/'
       path: '/stock-balances'
-      fullPath: '/stock-balances'
+      fullPath: '/stock-balances/'
       preLoaderRoute: typeof AuthenticatedStockBalancesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/stock-adjustments/': {
       id: '/_authenticated/stock-adjustments/'
       path: '/stock-adjustments'
-      fullPath: '/stock-adjustments'
+      fullPath: '/stock-adjustments/'
       preLoaderRoute: typeof AuthenticatedStockAdjustmentsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
@@ -1428,42 +1428,42 @@ declare module '@tanstack/react-router' {
     '/_authenticated/respos/': {
       id: '/_authenticated/respos/'
       path: '/respos'
-      fullPath: '/respos'
+      fullPath: '/respos/'
       preLoaderRoute: typeof AuthenticatedResposIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/products/': {
       id: '/_authenticated/products/'
       path: '/products'
-      fullPath: '/products'
+      fullPath: '/products/'
       preLoaderRoute: typeof AuthenticatedProductsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/pos/': {
       id: '/_authenticated/pos/'
       path: '/pos'
-      fullPath: '/pos'
+      fullPath: '/pos/'
       preLoaderRoute: typeof AuthenticatedPosIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory/': {
       id: '/_authenticated/inventory/'
       path: '/inventory'
-      fullPath: '/inventory'
+      fullPath: '/inventory/'
       preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory-movements/': {
       id: '/_authenticated/inventory-movements/'
       path: '/inventory-movements'
-      fullPath: '/inventory-movements'
+      fullPath: '/inventory-movements/'
       preLoaderRoute: typeof AuthenticatedInventoryMovementsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chats/': {
       id: '/_authenticated/chats/'
       path: '/chats'
-      fullPath: '/chats'
+      fullPath: '/chats/'
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
@@ -1624,7 +1624,7 @@ declare module '@tanstack/react-router' {
     '/_authenticated/_system/restaurants/': {
       id: '/_authenticated/_system/restaurants/'
       path: '/restaurants'
-      fullPath: '/restaurants'
+      fullPath: '/restaurants/'
       preLoaderRoute: typeof AuthenticatedSystemRestaurantsIndexRouteImport
       parentRoute: typeof AuthenticatedSystemRoute
     }
@@ -1832,3 +1832,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
