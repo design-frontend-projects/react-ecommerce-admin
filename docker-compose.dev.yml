@@ -1,0 +1,18 @@
+name: ecommerce-restaurant-dev
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    restart: always
+    ports:
+      - "4010:5190"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

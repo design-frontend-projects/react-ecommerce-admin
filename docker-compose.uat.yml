@@ -1,10 +1,10 @@
-name: ecommerce-restaurant
+name: ecommerce-restaurant-uat
 services:
   app:
-    build: .
+    build:
+      context: .
+      target: runner
     restart: always
-    ports:
-      - "3000:3000"
     deploy:
       replicas: 1
     networks:
@@ -14,7 +14,7 @@ services:
     image: nginx:alpine
     restart: always
     ports:
-      - "80:80"
+      - "4011:80"
     volumes:
       - ./nginx/lb.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
