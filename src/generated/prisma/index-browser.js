@@ -161,7 +161,8 @@ exports.Prisma.CategoriesScalarFieldEnum = {
   name: 'name',
   description: 'description',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  is_active: 'is_active'
 };
 
 exports.Prisma.CitiesScalarFieldEnum = {
@@ -410,7 +411,11 @@ exports.Prisma.Promotion_usageScalarFieldEnum = {
   sale_id: 'sale_id',
   used_at: 'used_at',
   order_id: 'order_id',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  created_at: 'created_at',
+  customer_mobile: 'customer_mobile',
+  res_order_id: 'res_order_id',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.PromotionsScalarFieldEnum = {
@@ -427,7 +432,23 @@ exports.Prisma.PromotionsScalarFieldEnum = {
   usage_per_customer: 'usage_per_customer',
   is_active: 'is_active',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  activities: 'activities',
+  buy_quantity: 'buy_quantity',
+  get_discount_value: 'get_discount_value',
+  get_quantity: 'get_quantity',
+  promo_type: 'promo_type',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Promotion_menu_scopesScalarFieldEnum = {
+  scope_id: 'scope_id',
+  promotion_id: 'promotion_id',
+  menu_item_id: 'menu_item_id',
+  menu_category_id: 'menu_category_id',
+  scope_role: 'scope_role',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Purchase_invoice_itemsScalarFieldEnum = {
@@ -681,7 +702,9 @@ exports.Prisma.Res_ordersScalarFieldEnum = {
   received_amount: 'received_amount',
   change_amount: 'change_amount',
   auth_user_id: 'auth_user_id',
-  shipment_id: 'shipment_id'
+  shipment_id: 'shipment_id',
+  applied_promotion_id: 'applied_promotion_id',
+  order_type: 'order_type'
 };
 
 exports.Prisma.Res_shipmentsScalarFieldEnum = {
@@ -1475,6 +1498,7 @@ exports.Prisma.ModelName = {
   profiles: 'profiles',
   promotion_usage: 'promotion_usage',
   promotions: 'promotions',
+  promotion_menu_scopes: 'promotion_menu_scopes',
   purchase_invoice_items: 'purchase_invoice_items',
   purchase_invoices: 'purchase_invoices',
   purchase_order_items: 'purchase_order_items',

@@ -195,7 +195,7 @@
     "shipments": "الشحنات",
     "stockTransfers": "تحويلات المخزون",
     "stockAdjustments": "تعديلات المخزون",
-    "inventoryMovements":"حركات المخزون"
+    "inventoryMovements": "حركات المخزون"
   },
   "d  ashboard": {
     "loading": "جاري تحميل لوحة التحكم...",
@@ -372,5 +372,59 @@
     "errorUpdate": "فشل تحديث سياسة الخصوصية",
     "cancelButton": "إلغاء",
     "saveButton": "حفظ التغييرات"
+  },
+  "respos": {
+    "promo": {
+      "title": "كود الخصم",
+      "placeholder": "كود الخصم",
+      "apply": "تطبيق",
+      "remove": "إزالة",
+      "applied": "تم تطبيق الخصم",
+      "appliedDesc": "تم تطبيق الكود {{code}} بنجاح",
+      "appliedOnOrder": "تم تطبيق عرض ترويجي",
+      "removedToast": "تمت إزالة كود الخصم",
+      "select": {
+        "title": "تصفح العروض",
+        "searchPlaceholder": "ابحث عن العروض...",
+        "empty": "لا توجد عروض متاحة",
+        "preview": "وفر {{amount}}"
+      },
+      "type": {
+        "orderDiscount": "خصم على الطلب",
+        "itemDiscount": "خصم على الأصناف",
+        "buyXGetY": "اشترِ {{buy}} واحصل على {{get}}"
+      },
+      "error": {
+        "empty": "أدخل كود الخصم",
+        "invalid": "كود الخصم غير صالح",
+        "notStarted": "كود الخصم غير مفعّل بعد",
+        "expired": "انتهت صلاحية كود الخصم",
+        "usageLimitReached": "تم بلوغ حد استخدام كود الخصم",
+        "perCustomerLimitReached": "هذا العميل استخدم هذا الكود من قبل",
+        "minPurchase": "الحد الأدنى للطلب هو {{amount}}",
+        "activityMismatch": "العرض غير متاح لنوع الطلب هذا",
+        "notEligibleItems": "العرض لا ينطبق على أصناف هذا الطلب",
+        "offline": "أكواد الخصم تتطلب اتصالاً بالإنترنت",
+        "recordFailed": "تعذر تسجيل استخدام العرض"
+      }
+    },
+    "checkout": {
+      "subtotal": "المجموع الفرعي",
+      "discount": "الخصم",
+      "promoDiscount": "خصم العرض",
+      "tax": "الضريبة",
+      "taxIncluded": "الضريبة (مشمولة)",
+      "tip": "الإكرامية",
+      "total": "الإجمالي",
+      "received": "المبلغ المستلم",
+      "change": "الباقي",
+      "paymentSuccess": "تمت معالجة الدفع بنجاح",
+      "paymentFailed": "فشلت معالجة الدفع"
+    },
+    "orderType": {
+      "dineIn": "صالة",
+      "takeaway": "استلام",
+      "delivery": "توصيل"
+    }
   }
 }

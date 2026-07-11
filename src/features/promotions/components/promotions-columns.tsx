@@ -42,9 +42,57 @@ export const columns: ColumnDef<Promotion>[] = [
     cell: ({ row }) => <Badge variant='outline'>{row.getValue('code')}</Badge>,
   },
   {
+    accessorKey: 'promo_type',
+    header: 'Type',
+    cell: ({ row }) => {
+      const promoType = row.original.promo_type
+      if (promoType === 'buy_x_get_y') {
+        return (
+          <Badge variant='secondary'>
+            Buy {row.original.buy_quantity ?? '?'} Get{' '}
+            {row.original.get_quantity ?? '?'}
+          </Badge>
+        )
+      }
+      return (
+        <Badge variant='secondary'>
+          {promoType === 'item_discount' ? 'Item Discount' : 'Order Discount'}
+        </Badge>
+      )
+    },
+  },
+  {
+    accessorKey: 'activities',
+    header: 'Activities',
+    cell: ({ row }) => {
+      const activities = row.original.activities ?? []
+      const labels: Record<string, string> = {
+        dine_in: 'Dine-in',
+        takeaway: 'Takeaway',
+        delivery: 'Delivery',
+      }
+      if (activities.length === 3) {
+        return <span className='text-muted-foreground'>All</span>
+      }
+      return (
+        <div className='flex flex-wrap gap-1'>
+          {activities.map((activity) => (
+            <Badge key={activity} variant='outline' className='text-xs'>
+              {labels[activity] ?? activity}
+            </Badge>
+          ))}
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: 'discount_value',
     header: 'Discount',
     cell: ({ row }) => {
+      if (row.original.promo_type === 'buy_x_get_y') {
+        const pct = row.original.get_discount_value ?? 100
+        return pct >= 100 ? 'Free items' : `${pct}% off items`
+      }
       const type = row.original.discount_type
       const value = row.getValue('discount_value') as number
       return type === 'percentage' ? `${value}%` : `$${value.toFixed(2)}`

@@ -198,6 +198,7 @@ export interface ResOrder {
   customer_name?: string
   mobile_number?: string
   status: OrderStatus
+  order_type?: OrderChannel
   subtotal: number
   discount_amount: number
   discount_type?: string
@@ -369,7 +370,22 @@ export interface ResPaymentMethod {
   created_at: string
 }
 
-export type DiscountType = 'percent' | 'amount'
+// Canonical discount vocabulary. Legacy rows may contain 'percent'/'amount';
+// they are normalized to 'percentage'/'fixed' at the read boundary
+// (see normalizePromotion in lib/promo-engine.ts).
+export type DiscountType = 'percentage' | 'fixed'
+
+export type PromoType = 'order_discount' | 'item_discount' | 'buy_x_get_y'
+
+export type OrderChannel = 'dine_in' | 'takeaway' | 'delivery'
+
+export interface PromotionMenuScope {
+  scope_id: number
+  promotion_id: number
+  menu_item_id?: string | null
+  menu_category_id?: string | null
+  scope_role: 'target' | 'buy' | 'get'
+}
 
 export interface ResPromotion {
   promotion_id: number
@@ -384,6 +400,12 @@ export interface ResPromotion {
   usage_limit?: number | null
   usage_per_customer?: number | null
   is_active: boolean | null
+  activities: OrderChannel[]
+  promo_type: PromoType
+  buy_quantity?: number | null
+  get_quantity?: number | null
+  get_discount_value?: number | null
+  scopes?: PromotionMenuScope[]
   created_at: string
 }
 
@@ -394,11 +416,22 @@ export interface ResPromotionUsage {
   applied_at: string
 }
 
+/** Structured, translatable validation error (i18n key + interpolation params). */
+export interface PromoError {
+  key: string
+  params?: Record<string, string | number>
+}
+
 export interface PromoValidationResult {
   valid: boolean
   promotion?: ResPromotion
   discountAmount: number
-  error?: string
+  error?: PromoError
+}
+
+export interface TaxConfig {
+  rate: number
+  isInclusive: boolean
 }
 
 // ============ Cart Types ============
@@ -423,6 +456,8 @@ export interface Cart {
   promoCode?: string
   promoDiscountAmount: number
   promotion?: ResPromotion
+  /** i18n key set when the cart stops qualifying and the promo is auto-removed. */
+  promoRemovedKey?: string
   // Customer & Payment
   customerMobile?: string
   paymentMethod?: string

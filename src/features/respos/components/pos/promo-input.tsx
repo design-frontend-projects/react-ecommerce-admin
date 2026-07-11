@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, Tag, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { usePromotion } from '../../hooks/use-promotion'
 import { formatCurrency } from '../../lib/formatters'
 
 export function PromoInput() {
+  const { t } = useTranslation()
   const [code, setCode] = useState('')
-  const { applyPromo, removePromo, isLoading, currentPromo, discountAmount } = usePromotion()
+  const { applyPromo, removePromo, isLoading, currentPromo, discountAmount } =
+    usePromotion()
 
   const handleApply = async () => {
     if (!code.trim()) return
@@ -60,15 +63,15 @@ export function PromoInput() {
             className='flex gap-2'
           >
             <div className='relative flex-1'>
-              <Tag className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50' />
+              <Tag className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground/50' />
               <Input
-                placeholder='Promo code'
+                placeholder={t('respos.promo.placeholder')}
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleApply()
                 }}
-                className='h-10 rounded-xl bg-background/50 pl-9 pr-4 font-mono font-bold uppercase transition-all focus-visible:ring-orange-500'
+                className='h-10 rounded-xl bg-background/50 pr-4 pl-9 font-mono font-bold uppercase transition-all focus-visible:ring-orange-500'
               />
             </div>
             <Button
@@ -76,7 +79,11 @@ export function PromoInput() {
               disabled={!code.trim() || isLoading}
               className='h-10 rounded-xl bg-primary px-4 font-bold shadow-sm transition-all'
             >
-              {isLoading ? <Loader2 className='h-4 w-4 animate-spin' /> : 'Apply'}
+              {isLoading ? (
+                <Loader2 className='h-4 w-4 animate-spin' />
+              ) : (
+                t('respos.promo.apply')
+              )}
             </Button>
           </motion.div>
         )}

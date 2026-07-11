@@ -3,23 +3,30 @@ import { useRef } from 'react'
 import { format } from 'date-fns'
 import { useParams, Link } from '@tanstack/react-router'
 import { ArrowLeft, Download, Loader2, Printer, Receipt } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useResposStore } from '@/stores/respos-store'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { useOrder } from '../api/queries'
+import { useTaxSync } from '../hooks/use-tax-sync'
 import { formatCurrency } from '../lib/formatters'
+import { computeOrderTotals } from '../lib/totals'
 import type { ResOrderItemWithDetails } from '../types'
 
 export function InvoiceViewer() {
+  const { t } = useTranslation()
   const { orderId } = useParams({
     from: '/_authenticated/respos/invoice/$orderId',
   })
   const { data: order, isLoading } = useOrder(orderId)
+  const taxConfig = useResposStore((state) => state.taxConfig)
+  useTaxSync()
   const printRef = useRef<HTMLDivElement>(null)
 
   const handlePrint = () => {
@@ -71,14 +78,30 @@ export function InvoiceViewer() {
     )
   }
 
-  const subtotal =
+  // Render the totals persisted on the order (DB always equals receipt).
+  // Legacy rows written before totals were persisted fall back to a
+  // recomputation from line items with the current tax config.
+  const itemsSubtotal =
     order.items?.reduce(
       (sum: number, orderItem: ResOrderItemWithDetails) =>
         sum + orderItem.unit_price * orderItem.quantity,
       0
     ) ?? 0
-  const tax = subtotal * 0.14 // 14% VAT
-  const total = subtotal + tax
+  const hasPersistedTotals = (order.total_amount ?? 0) > 0
+  const legacyTotals = computeOrderTotals({
+    subtotal: itemsSubtotal,
+    manualDiscount: order.discount_amount ?? 0,
+    promoDiscount: order.promo_discount_amount ?? 0,
+    taxConfig,
+    tipAmount: order.tip_amount ?? 0,
+  })
+  const subtotal = hasPersistedTotals ? (order.subtotal ?? 0) : itemsSubtotal
+  const tax = hasPersistedTotals
+    ? (order.tax_amount ?? 0)
+    : legacyTotals.taxAmount
+  const total = hasPersistedTotals ? order.total_amount : legacyTotals.total
+  const manualDiscount = order.discount_amount ?? 0
+  const promoDiscount = order.promo_discount_amount ?? 0
 
   return (
     <>
@@ -203,24 +226,36 @@ export function InvoiceViewer() {
               {/* Totals */}
               <div className='space-y-2'>
                 <div className='flex justify-between text-sm'>
-                  <span className='text-muted-foreground'>Subtotal</span>
+                  <span className='text-muted-foreground'>
+                    {t('respos.checkout.subtotal')}
+                  </span>
                   <span>{formatCurrency(subtotal)}</span>
                 </div>
-                <div className='flex justify-between text-sm'>
-                  <span className='text-muted-foreground'>VAT (14%)</span>
-                  <span>{formatCurrency(tax)}</span>
-                </div>
-                {order.discount_amount && order.discount_amount > 0 && (
+                {manualDiscount > 0 && (
                   <div className='flex justify-between text-sm text-green-600'>
-                    <span>Discount</span>
-                    <span>-{formatCurrency(order.discount_amount)}</span>
+                    <span>{t('respos.checkout.discount')}</span>
+                    <span>-{formatCurrency(manualDiscount)}</span>
                   </div>
                 )}
+                {promoDiscount > 0 && (
+                  <div className='flex justify-between text-sm text-green-600'>
+                    <span>{t('respos.checkout.promoDiscount')}</span>
+                    <span>-{formatCurrency(promoDiscount)}</span>
+                  </div>
+                )}
+                <div className='flex justify-between text-sm'>
+                  <span className='text-muted-foreground'>
+                    {taxConfig.isInclusive
+                      ? t('respos.checkout.taxIncluded')
+                      : t('respos.checkout.tax')}
+                  </span>
+                  <span>{formatCurrency(tax)}</span>
+                </div>
                 <Separator />
                 <div className='flex justify-between text-lg font-bold'>
-                  <span>Total</span>
+                  <span>{t('respos.checkout.total')}</span>
                   <span className='text-orange-500'>
-                    {formatCurrency(order.total_amount ?? total)}
+                    {formatCurrency(total)}
                   </span>
                 </div>
               </div>

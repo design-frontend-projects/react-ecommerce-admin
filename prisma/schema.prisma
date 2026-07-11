@@ -74,9 +74,9 @@ model categories {
   category_id  Int        @id @default(autoincrement())
   name         String     @db.VarChar(100)
   description  String?
-  is_active    Boolean?   @default(true)
   created_at   DateTime?  @default(now()) @db.Timestamp(6)
   auth_user_id String?    @db.Uuid
+  is_active    Boolean?   @default(true)
   products     products[]
 }
 
@@ -430,40 +430,75 @@ model profiles {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model promotion_usage {
-  usage_id     Int        @id @default(autoincrement())
-  promotion_id Int
-  customer_id  Int?
-  sale_id      Int?
-  used_at      DateTime?  @default(now()) @db.Timestamp(6)
-  order_id     Int?
-  auth_user_id String?    @default(dbgenerated("auth.uid()")) @db.Uuid
-  customers    customers? @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
-  promotions   promotions @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
-  pos_sales    pos_sales? @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
+  usage_id        Int         @id @default(autoincrement())
+  promotion_id    Int
+  customer_id     Int?
+  sale_id         Int?
+  used_at         DateTime?   @default(now()) @db.Timestamp(6)
+  order_id        Int?
+  auth_user_id    String?     @default(dbgenerated("auth.uid()")) @db.Uuid
+  created_at      DateTime?   @default(now()) @db.Timestamptz(6)
+  customer_mobile String?     @db.VarChar(50)
+  res_order_id    String?     @db.Uuid
+  updated_at      DateTime?   @default(now()) @db.Timestamptz(6)
+  customers       customers?  @relation(fields: [customer_id], references: [customer_id], onUpdate: NoAction)
+  promotions      promotions  @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
+  res_orders      res_orders? @relation(fields: [res_order_id], references: [id], onUpdate: NoAction)
+  pos_sales       pos_sales?  @relation(fields: [sale_id], references: [sale_id], onUpdate: NoAction)
+
+  @@index([res_order_id], map: "idx_promotion_usage_res_order")
+  @@index([promotion_id, customer_mobile], map: "idx_promotion_usage_promo_mobile")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model promotions {
-  promotion_id       Int               @id @default(autoincrement())
-  code               String?           @unique @db.VarChar(50)
-  name               String            @db.VarChar(200)
-  description        String?
-  discount_type      String?           @db.VarChar(20)
-  discount_value     Decimal           @db.Decimal(10, 2)
-  minimum_purchase   Decimal?          @default(0) @db.Decimal(10, 2)
-  start_date         DateTime          @db.Timestamp(6)
-  end_date           DateTime          @db.Timestamp(6)
-  usage_limit        Int?
-  usage_per_customer Int?              @default(1)
-  is_active          Boolean?          @default(true)
-  created_at         DateTime?         @default(now()) @db.Timestamp(6)
-  auth_user_id       String?           @default(dbgenerated("auth.uid()")) @db.Uuid
-  pos_sales          pos_sales[]
-  promotion_usage    promotion_usage[]
+  promotion_id          Int                     @id @default(autoincrement())
+  code                  String?                 @unique @db.VarChar(50)
+  name                  String                  @db.VarChar(200)
+  description           String?
+  discount_type         String?                 @db.VarChar(20)
+  discount_value        Decimal                 @db.Decimal(10, 2)
+  minimum_purchase      Decimal?                @default(0) @db.Decimal(10, 2)
+  start_date            DateTime                @db.Timestamp(6)
+  end_date              DateTime                @db.Timestamp(6)
+  usage_limit           Int?
+  usage_per_customer    Int?                    @default(1)
+  is_active             Boolean?                @default(true)
+  created_at            DateTime?               @default(now()) @db.Timestamp(6)
+  auth_user_id          String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
+  activities            String[]                @default(["dine_in", "takeaway", "delivery"])
+  buy_quantity          Int?
+  get_discount_value    Decimal?                @default(100) @db.Decimal(10, 2)
+  get_quantity          Int?
+  promo_type            String                  @default("order_discount") @db.VarChar(30)
+  updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  pos_sales             pos_sales[]
+  promotion_menu_scopes promotion_menu_scopes[]
+  promotion_usage       promotion_usage[]
+  res_orders            res_orders[]
 
   @@index([start_date, end_date], map: "idx_promotions_active_dates", where: raw("(is_active = true)"))
   @@index([code], map: "idx_promotions_code")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model promotion_menu_scopes {
+  scope_id            Int                  @id @default(autoincrement())
+  promotion_id        Int
+  menu_item_id        String?              @db.Uuid
+  menu_category_id    String?              @db.Uuid
+  scope_role          String               @default("target") @db.VarChar(10)
+  created_at          DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime?            @default(now()) @db.Timestamptz(6)
+  res_menu_categories res_menu_categories? @relation(fields: [menu_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  res_menu_items      res_menu_items?      @relation(fields: [menu_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  promotions          promotions           @relation(fields: [promotion_id], references: [promotion_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id], map: "idx_promotion_menu_scopes_promotion")
+  @@index([menu_item_id], map: "idx_promotion_menu_scopes_item")
+  @@index([menu_category_id], map: "idx_promotion_menu_scopes_category")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -688,38 +723,40 @@ model res_item_variants {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_menu_categories {
-  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name           String           @db.VarChar(100)
-  name_ar        String?          @db.VarChar(100)
-  icon           String?          @db.VarChar(50)
-  sort_order     Int?             @default(0)
-  is_active      Boolean?         @default(true)
-  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
-  auth_user_id   String?          @default(dbgenerated("auth.uid()")) @db.Uuid
-  res_menu_items res_menu_items[]
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String                  @db.VarChar(100)
+  name_ar               String?                 @db.VarChar(100)
+  icon                  String?                 @db.VarChar(50)
+  sort_order            Int?                    @default(0)
+  is_active             Boolean?                @default(true)
+  created_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  auth_user_id          String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
+  promotion_menu_scopes promotion_menu_scopes[]
+  res_menu_items        res_menu_items[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model res_menu_items {
-  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  category_id         String?               @db.Uuid
-  name                String                @db.VarChar(200)
-  name_ar             String?               @db.VarChar(200)
-  description         String?
-  description_ar      String?
-  base_price          Decimal               @db.Decimal(10, 2)
-  image_url           String?
-  is_available        Boolean?              @default(true)
-  preparation_time    Int?                  @default(15)
-  allergens           Json?                 @default("[]")
-  tags                Json?                 @default("[]")
-  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime?             @default(now()) @db.Timestamptz(6)
-  auth_user_id        String?               @default(dbgenerated("auth.uid()")) @db.Uuid
-  res_item_properties res_item_properties[]
-  res_item_variants   res_item_variants[]
-  res_menu_categories res_menu_categories?  @relation(fields: [category_id], references: [id], onUpdate: NoAction)
-  res_order_items     res_order_items[]
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  category_id           String?                 @db.Uuid
+  name                  String                  @db.VarChar(200)
+  name_ar               String?                 @db.VarChar(200)
+  description           String?
+  description_ar        String?
+  base_price            Decimal                 @db.Decimal(10, 2)
+  image_url             String?
+  is_available          Boolean?                @default(true)
+  preparation_time      Int?                    @default(15)
+  allergens             Json?                   @default("[]")
+  tags                  Json?                   @default("[]")
+  created_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  auth_user_id          String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
+  promotion_menu_scopes promotion_menu_scopes[]
+  res_item_properties   res_item_properties[]
+  res_item_variants     res_item_variants[]
+  res_menu_categories   res_menu_categories?    @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  res_order_items       res_order_items[]
 
   @@index([category_id], map: "idx_res_menu_items_category")
 }
@@ -790,7 +827,11 @@ model res_orders {
   change_amount         Decimal?            @default(0) @db.Decimal(10, 2)
   auth_user_id          String?             @default(dbgenerated("auth.uid()")) @db.Uuid
   shipment_id           String?             @db.Uuid
+  applied_promotion_id  Int?
+  order_type            String?             @db.VarChar(20)
+  promotion_usage       promotion_usage[]
   res_order_items       res_order_items[]
+  promotions            promotions?         @relation(fields: [applied_promotion_id], references: [promotion_id], onUpdate: NoAction)
   res_promotions        res_promotions?     @relation(fields: [promotion_id], references: [id], onUpdate: NoAction)
   res_shifts            res_shifts?         @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   res_tables            res_tables?         @relation(fields: [table_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -800,6 +841,7 @@ model res_orders {
   @@index([shift_id], map: "idx_res_orders_shift")
   @@index([status], map: "idx_res_orders_status")
   @@index([table_id], map: "idx_res_orders_table")
+  @@index([applied_promotion_id], map: "idx_res_orders_applied_promotion")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.

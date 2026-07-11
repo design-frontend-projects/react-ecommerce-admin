@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
+import { mapPromoRpcError } from '../lib/promo-engine'
 // generateOrderNumber imported via ./api instead
 import type {
   OrderItemStatus,
@@ -14,8 +15,45 @@ import type {
   TableStatus,
   VoidRequestStatus,
 } from '../types'
-import { createResOrder, generateOrderNumber } from './api'
+import {
+  createResOrder,
+  generateOrderNumber,
+  type CreateResOrderPayload,
+} from './api'
 import { resposQueryKeys } from './queries'
+
+/**
+ * Thrown when record_promotion_usage() rejects at payment time (limit
+ * exhausted between apply and pay). Carries the i18n key for the UI.
+ */
+export class PromoUsageError extends Error {
+  readonly promoErrorKey: string
+
+  constructor(promoErrorKey: string, message?: string) {
+    super(message ?? promoErrorKey)
+    this.name = 'PromoUsageError'
+    this.promoErrorKey = promoErrorKey
+  }
+}
+
+async function recordPromotionUsage(params: {
+  promotionId: number
+  resOrderId: string
+  customerMobile?: string
+}): Promise<void> {
+  const { error } = await supabase.rpc('record_promotion_usage', {
+    p_promotion_id: params.promotionId,
+    p_res_order_id: params.resOrderId,
+    p_customer_mobile: params.customerMobile ?? null,
+  })
+
+  if (error) {
+    throw new PromoUsageError(
+      mapPromoRpcError(error.message).key,
+      error.message
+    )
+  }
+}
 
 // ============ Table Mutations ============
 
@@ -132,36 +170,14 @@ export function useCreateOrder() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({
-      tableId,
-      isDelivery,
-      shiftId,
-      createdBy,
-      customerName,
-      appliedPromotionId,
-      promoDiscountAmount,
-      items,
-    }: {
-      tableId?: string
-      isDelivery?: boolean
-      shiftId?: string
-      createdBy?: string
-      customerName?: string
-      appliedPromotionId?: number
-      promoDiscountAmount?: number
-      items: Array<{
-        item_id: string
-        variant_id?: string
-        quantity: number
-        unit_price: number
-        properties?: unknown[]
-        notes?: string
-      }>
-    }) => {
-      // If offline, save locally
+    mutationFn: async (payload: CreateResOrderPayload) => {
+      const { tableId, orderType, shiftId, createdBy, customerName, items } =
+        payload
+
+      // If offline, save locally. Promotions require being online (usage
+      // limits are global counters), so offline orders are saved without one.
       if (typeof window !== 'undefined' && !window.navigator.onLine) {
         const orderNumber = generateOrderNumber()
-        const deliveryOrder = !!isDelivery
         const subtotal = items.reduce(
           (sum, item) => sum + item.unit_price * item.quantity,
           0
@@ -181,29 +197,19 @@ export function useCreateOrder() {
           id: offlineOrder.id,
           order_number: orderNumber,
           status: 'open',
+          order_type: orderType ?? 'dine_in',
           total_amount: subtotal,
           subtotal,
-          table_id: deliveryOrder ? null : tableId,
+          table_id: orderType === 'dine_in' ? tableId : null,
           shift_id: shiftId,
           created_by: createdBy,
           customer_name: customerName,
-          applied_promotion_id: appliedPromotionId,
-          promo_discount_amount: promoDiscountAmount,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         } as ResOrder
       }
 
-      return createResOrder({
-        tableId,
-        isDelivery,
-        shiftId,
-        createdBy,
-        customerName,
-        appliedPromotionId,
-        promoDiscountAmount,
-        items,
-      })
+      return createResOrder(payload)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
@@ -247,7 +253,8 @@ export function useUpdateOrderStatus() {
       discountType?: string
       customerName?: string
       mobileNumber?: string
-      appliedPromotionId?: number
+      /** number = set promo, null = clear the order's promo, undefined = keep */
+      appliedPromotionId?: number | null
       promoDiscountAmount?: number
       receivedAmount?: number
       changeAmount?: number
@@ -265,7 +272,7 @@ export function useUpdateOrderStatus() {
         paid_at?: string
         customer_name?: string
         mobile_number?: string
-        applied_promotion_id?: number
+        applied_promotion_id?: number | null
         promo_discount_amount?: number
         received_amount?: number
         change_amount?: number
@@ -280,7 +287,9 @@ export function useUpdateOrderStatus() {
 
       const { data: currentOrder, error: currentOrderError } = await supabase
         .from('res_orders')
-        .select('id, table_id, auth_user_id')
+        .select(
+          'id, table_id, auth_user_id, applied_promotion_id, mobile_number'
+        )
         .eq('id', orderId)
         .maybeSingle()
 
@@ -347,6 +356,25 @@ export function useUpdateOrderStatus() {
         updates.shipment_id = shipmentRow.id
       }
 
+      // Record promotion usage atomically BEFORE flipping the order to paid —
+      // the RPC re-checks usage limits inside a row lock, so a limit failure
+      // aborts the payment cleanly (never paid-but-unrecorded). Idempotent
+      // per order via a unique index, so retries are safe.
+      const promotionToRecord =
+        appliedPromotionId === null
+          ? undefined
+          : (appliedPromotionId ??
+            currentOrder.applied_promotion_id ??
+            undefined)
+      if (status === 'paid' && promotionToRecord) {
+        await recordPromotionUsage({
+          promotionId: promotionToRecord,
+          resOrderId: orderId,
+          customerMobile:
+            mobileNumber ?? currentOrder.mobile_number ?? undefined,
+        })
+      }
+
       const { data, error } = await supabase
         .from('res_orders')
         .update(updates)
@@ -377,19 +405,17 @@ export function useRecordPromotionUsage() {
     mutationFn: async ({
       promotionId,
       orderId,
+      customerMobile,
     }: {
       promotionId: number
       orderId: string
+      customerMobile?: string
     }) => {
-      // Record usage log
-      const { data, error } = await supabase
-        .from('promotion_usage')
-        .insert({ promotion_id: promotionId, res_order_id: orderId })
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
+      await recordPromotionUsage({
+        promotionId,
+        resOrderId: orderId,
+        customerMobile,
+      })
     },
   })
 }
@@ -993,7 +1019,9 @@ export function useUpdateMenuItem() {
         .eq('id', itemId)
         .select()
       queryClient.invalidateQueries({
-        queryKey: resposQueryKeys.menuItem((data as any)?.id || ''),
+        queryKey: resposQueryKeys.menuItem(
+          (data?.[0] as { id?: string } | undefined)?.id || ''
+        ),
       })
     },
   })
@@ -1626,7 +1654,7 @@ export function useRefundOrder() {
           status: 'refunded',
           notes,
           updated_at: new Date().toISOString(),
-        } as any)
+        })
         .eq('id', orderId)
         .select()
         .single()

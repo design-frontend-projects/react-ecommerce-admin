@@ -1,17 +1,22 @@
 import { supabase } from '@/lib/supabase'
 import { generateOrderNumber } from '../lib/formatters'
-import type { ResOrder } from '../types'
+import type { OrderChannel, ResOrder } from '../types'
 
 export { generateOrderNumber }
 
-export async function createResOrder(payload: {
+export interface CreateResOrderPayload {
   tableId?: string
-  isDelivery?: boolean
+  orderType?: OrderChannel
   shiftId?: string
   createdBy?: string
   customerName?: string
+  customerMobile?: string
   appliedPromotionId?: number
   promoDiscountAmount?: number
+  discountAmount?: number
+  discountType?: string
+  taxAmount?: number
+  totalAmount?: number
   items: Array<{
     item_id: string
     variant_id?: string
@@ -20,9 +25,13 @@ export async function createResOrder(payload: {
     properties?: unknown[]
     notes?: string
   }>
-}): Promise<ResOrder> {
-  const isDelivery = !!payload.isDelivery
-  if (!isDelivery && !payload.tableId) {
+}
+
+export async function createResOrder(
+  payload: CreateResOrderPayload
+): Promise<ResOrder> {
+  const orderType: OrderChannel = payload.orderType ?? 'dine_in'
+  if (orderType === 'dine_in' && !payload.tableId) {
     throw new Error('Table is required for dine-in orders')
   }
 
@@ -31,20 +40,28 @@ export async function createResOrder(payload: {
     (sum, item) => sum + item.unit_price * item.quantity,
     0
   )
+  const totalDiscount =
+    (payload.promoDiscountAmount || 0) + (payload.discountAmount || 0)
 
   const { data: order, error: orderError } = await supabase
     .from('res_orders')
     .insert({
       order_number: orderNumber,
-      table_id: isDelivery ? null : payload.tableId,
+      table_id: orderType === 'dine_in' ? payload.tableId : null,
+      order_type: orderType,
       shift_id: payload.shiftId,
       created_by: payload.createdBy,
       customer_name: payload.customerName,
+      mobile_number: payload.customerMobile,
       status: 'open',
       subtotal,
-      total_amount: subtotal - (payload.promoDiscountAmount || 0),
+      discount_amount: payload.discountAmount ?? 0,
+      discount_type: payload.discountType,
+      tax_amount: payload.taxAmount ?? 0,
+      total_amount:
+        payload.totalAmount ?? Math.max(0, subtotal - totalDiscount),
       applied_promotion_id: payload.appliedPromotionId,
-      promo_discount_amount: payload.promoDiscountAmount,
+      promo_discount_amount: payload.promoDiscountAmount ?? 0,
     })
     .select()
     .maybeSingle()
@@ -69,7 +86,7 @@ export async function createResOrder(payload: {
   if (itemsError) throw itemsError
 
   // Update table status
-  if (!isDelivery && payload.tableId) {
+  if (orderType === 'dine_in' && payload.tableId) {
     await supabase
       .from('res_tables')
       .update({ status: 'occupied' })

@@ -2,8 +2,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { db } from '@/lib/db/indexed-db'
 import { supabase } from '@/lib/supabase'
-import { validatePromoCode } from '../lib/promotion-validator'
+import {
+  fetchEligiblePromotions,
+  validatePromoCode,
+  type PromoValidationContext,
+} from '../lib/promotion-validator'
 import type {
+  OrderChannel,
   ResFloor,
   ResMenuCategory,
   ResMenuItem,
@@ -76,8 +81,10 @@ export const resposQueryKeys = {
       ? (['respos', 'events', date] as const)
       : (['respos', 'events'] as const),
   paymentMethods: ['respos', 'payment-methods'] as const,
-  promotions: (code: string, subtotal: number) =>
-    ['respos', 'promotions', 'validate', code, subtotal] as const,
+  promotions: (code: string, ctx: unknown) =>
+    ['respos', 'promotions', 'validate', code, ctx] as const,
+  eligiblePromotions: (orderType: string) =>
+    ['respos', 'promotions', 'eligible', orderType] as const,
   dashboardStats: ['respos', 'dashboard-stats'] as const,
   analyticsOrders: (days: number) =>
     ['respos', 'analytics', 'orders', days] as const,
@@ -122,10 +129,7 @@ export function useTables(floorId?: string, includeInactive = false) {
   return useQuery({
     queryKey: resposQueryKeys.tables(floorId, includeInactive),
     queryFn: async () => {
-      let query = supabase
-        .from('res_tables')
-        .select('*')
-        .order('table_number')
+      let query = supabase.from('res_tables').select('*').order('table_number')
 
       if (!includeInactive) {
         query = query.eq('is_active', true)
@@ -236,14 +240,15 @@ export function useMenuItemsWithDetails(categoryId?: string) {
           }
           const cachedItems = await cachedQuery.toArray()
 
+          type CachedExtras = { variants?: unknown[]; properties?: unknown[] }
           if (cachedItems.length > 0) {
             return cachedItems.map((p) => ({
               ...p,
               base_price: p.price,
               is_active: p.is_active === 1,
               is_available: p.is_available === 1,
-              variants: (p as any).variants || [],
-              properties: (p as any).properties || [],
+              variants: (p as CachedExtras).variants || [],
+              properties: (p as CachedExtras).properties || [],
             })) as unknown as ResMenuItemWithDetails[]
           }
           const results = await cachedQuery.toArray()
@@ -252,8 +257,8 @@ export function useMenuItemsWithDetails(categoryId?: string) {
             base_price: p.price,
             is_active: p.is_active === 1,
             is_available: p.is_available === 1,
-            variants: (p as any).variants || [],
-            properties: (p as any).properties || [],
+            variants: (p as CachedExtras).variants || [],
+            properties: (p as CachedExtras).properties || [],
           })) as unknown as ResMenuItemWithDetails[]
         } catch (_error) {
           // Silent catch for offline fetch failures
@@ -755,12 +760,29 @@ export function useDashboardStats() {
 
 // ============ Promotions ============
 
-export function useValidatePromoCode(code: string, subtotal: number) {
+export function useValidatePromoCode(
+  code: string,
+  ctx: PromoValidationContext
+) {
   return useQuery({
-    queryKey: resposQueryKeys.promotions(code, subtotal),
-    queryFn: () => validatePromoCode(code, subtotal),
-    enabled: !!code.trim() && subtotal > 0,
+    // ctx is part of the key: validation depends on lines/channel/mobile too
+    queryKey: resposQueryKeys.promotions(code, ctx),
+    queryFn: () => validatePromoCode(code, ctx),
+    enabled: !!code.trim() && ctx.subtotal > 0,
     staleTime: 30_000,
     retry: false,
+  })
+}
+
+export function useEligiblePromotions(
+  orderType: OrderChannel,
+  options?: { enabled?: boolean }
+) {
+  return useQuery({
+    queryKey: resposQueryKeys.eligiblePromotions(orderType),
+    queryFn: () => fetchEligiblePromotions(orderType),
+    enabled: options?.enabled ?? true,
+    staleTime: 60_000,
+    retry: 1,
   })
 }

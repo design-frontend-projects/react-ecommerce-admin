@@ -3,6 +3,7 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckCircle2, Loader2, Tag, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
 import { Badge } from '@/components/ui/badge'
@@ -27,10 +28,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
-import { useRecordPromotionUsage, useUpdateOrderStatus } from '../api/mutations'
+import { PromoUsageError, useUpdateOrderStatus } from '../api/mutations'
 import { usePaymentMethods, useValidatePromoCode } from '../api/queries'
+import { useTaxSync } from '../hooks/use-tax-sync'
 import { formatCurrency } from '../lib/formatters'
-import type { ResOrderWithDetails } from '../types'
+import type { PromoCartLine } from '../lib/promo-engine'
+import { computeOrderTotals } from '../lib/totals'
+import type { OrderChannel, ResOrderWithDetails } from '../types'
 
 interface CheckoutDialogProps {
   open: boolean
@@ -78,23 +82,47 @@ export function CheckoutDialog({
   order,
   onSuccess,
 }: CheckoutDialogProps) {
+  const { t } = useTranslation()
   const { cart } = useResposStore()
+  const taxConfig = useResposStore((state) => state.taxConfig)
+  useTaxSync()
   const { data: paymentMethods, isLoading: methodsLoading } =
     usePaymentMethods()
   const { mutate: updateOrder, isPending: isProcessing } =
     useUpdateOrderStatus()
-  const { mutate: recordPromoUsage } = useRecordPromotionUsage()
 
-  // Promo code state — debounced input drives the query
+  // Promo state — the order row (persisted at placement) is the source of
+  // truth; the input only applies a NEW promo when the order has none.
   const [promoInput, setPromoInput] = useState('')
   const [appliedPromoCode, setAppliedPromoCode] = useState<string>('')
+  // Set when the cashier removes the order's persisted promo (or the RPC
+  // rejects it at payment time) — submits applied_promotion_id: null.
+  const [promoRemoved, setPromoRemoved] = useState(false)
   const subtotal = order?.subtotal ?? 0
+  const orderHasPromo = !!order?.applied_promotion_id && !promoRemoved
+
+  const orderChannel: OrderChannel =
+    order?.order_type ?? (order?.table_id ? 'dine_in' : 'delivery')
+
+  const promoLines: PromoCartLine[] =
+    order?.items?.map((orderItem) => ({
+      itemId: orderItem.item_id,
+      categoryId: orderItem.item?.category_id ?? null,
+      quantity: orderItem.quantity,
+      unitPrice: orderItem.unit_price,
+      lineTotal: orderItem.unit_price * orderItem.quantity,
+    })) ?? []
 
   const {
     data: promoResult,
     isLoading: isValidatingPromo,
     isFetching: isFetchingPromo,
-  } = useValidatePromoCode(promoInput, subtotal)
+  } = useValidatePromoCode(promoInput, {
+    lines: promoLines,
+    subtotal,
+    orderType: orderChannel,
+    customerMobile: cart.customerMobile || order?.mobile_number || undefined,
+  })
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -117,7 +145,10 @@ export function CheckoutDialog({
     },
   })
 
-  const isDeliveryOrder = !order?.table_id
+  // Shipment details are only required for actual delivery orders — takeaway
+  // is tableless but needs none. Older rows without order_type fall back to
+  // the table heuristic.
+  const isDeliveryOrder = orderChannel === 'delivery'
 
   // Reset when dialog opens
   useEffect(() => {
@@ -144,8 +175,9 @@ export function CheckoutDialog({
         postalCode: order.shipment?.postal_code ?? '',
         deliveryNotes: order.shipment?.notes ?? '',
       })
-      setPromoInput(cart.promoCode || '')
-      setAppliedPromoCode(cart.promoCode || '')
+      setPromoInput('')
+      setAppliedPromoCode('')
+      setPromoRemoved(false)
     }
   }, [order, open, form, cart, paymentMethods])
 
@@ -169,19 +201,27 @@ export function CheckoutDialog({
     manualDiscount = discountValue || 0
   }
 
-  // Promo discount (only when a valid promo is applied)
-  const promoDiscount =
-    appliedPromoCode && promoResult?.valid
-      ? (promoResult.discountAmount ?? 0)
-      : 0
-  const appliedPromotion =
+  // Promo discount: either persisted on the order at placement, or from a
+  // promo newly applied in this dialog.
+  const newlyAppliedPromotion =
     appliedPromoCode && promoResult?.valid ? promoResult.promotion : undefined
+  const promoDiscount = newlyAppliedPromotion
+    ? (promoResult?.discountAmount ?? 0)
+    : orderHasPromo
+      ? (order?.promo_discount_amount ?? 0)
+      : 0
 
-  // Total calculations
-  const totalDiscount = manualDiscount + promoDiscount
-  const totalAfterDiscount = Math.max(0, subtotal - totalDiscount)
-  const taxAmount = order?.tax_amount ?? 0
-  const grandTotal = totalAfterDiscount + taxAmount
+  // Totals via the shared formula (tax recomputed after discounts, honoring
+  // inclusive/exclusive configuration) so checkout, cart panel, and invoice
+  // can never disagree.
+  const totals = computeOrderTotals({
+    subtotal,
+    manualDiscount,
+    promoDiscount,
+    taxConfig,
+  })
+  const taxAmount = totals.taxAmount
+  const grandTotal = totals.total
 
   // Change / tip
   const change = Math.max(0, (receivedAmount || 0) - grandTotal)
@@ -210,17 +250,27 @@ export function CheckoutDialog({
     if (!promoResult) return
     if (promoResult.valid) {
       setAppliedPromoCode(promoInput.toUpperCase().trim())
-      toast.success(
-        `Promo "${promoInput.toUpperCase().trim()}" applied — ${formatCurrency(promoResult.discountAmount)} off`
-      )
+      toast.success(t('respos.promo.applied'), {
+        description: t('respos.promo.appliedDesc', {
+          code: promoInput.toUpperCase().trim(),
+        }),
+      })
     } else {
-      toast.error(promoResult.error ?? 'Invalid promo code')
+      toast.error(
+        promoResult.error
+          ? t(promoResult.error.key, {
+              ...promoResult.error.params,
+              defaultValue: promoResult.error.key,
+            })
+          : t('respos.promo.error.invalid')
+      )
     }
   }
 
   function handleRemovePromo() {
     setPromoInput('')
     setAppliedPromoCode('')
+    if (order?.applied_promotion_id) setPromoRemoved(true)
   }
 
   const onSubmit = (values: CheckoutFormValues) => {
@@ -280,30 +330,38 @@ export function CheckoutDialog({
           : undefined,
         discountType: values.discountType,
         discountAmount: manualDiscount,
-        appliedPromotionId: appliedPromotion?.promotion_id,
+        appliedPromotionId:
+          newlyAppliedPromotion?.promotion_id ??
+          (promoRemoved ? null : order.applied_promotion_id),
         promoDiscountAmount: promoDiscount,
         receivedAmount: values.receivedAmount,
         changeAmount: change,
         tipAmount: change, // tip = change for cash scenarios
       },
       {
-        onSuccess: (data) => {
-          // Record promo usage after successful payment
-          if (appliedPromotion?.promotion_id) {
-            recordPromoUsage({
-              promotionId: appliedPromotion.promotion_id,
-              orderId: data.id,
-            })
-          }
-          toast.success('Payment processed successfully')
+        // Promo usage is recorded atomically inside the mutation, before the
+        // order flips to paid — no separate recording step here.
+        onSuccess: () => {
+          toast.success(t('respos.checkout.paymentSuccess'))
           onOpenChange(false)
           form.reset()
           setPromoInput('')
           setAppliedPromoCode('')
           onSuccess?.()
         },
-        onError: () => {
-          toast.error('Failed to process payment')
+        onError: (error) => {
+          if (error instanceof PromoUsageError) {
+            // Limit exhausted between apply and pay — drop the promo so the
+            // cashier sees corrected totals and can retry.
+            setPromoInput('')
+            setAppliedPromoCode('')
+            setPromoRemoved(true)
+            toast.error(
+              t(error.promoErrorKey, { defaultValue: error.promoErrorKey })
+            )
+            return
+          }
+          toast.error(t('respos.checkout.paymentFailed'))
         },
       }
     )
@@ -525,17 +583,17 @@ export function CheckoutDialog({
 
             {/* Promo Code */}
             <div className='space-y-2'>
-              <Label className='text-sm font-medium'>Promo Code</Label>
-              {appliedPromoCode ? (
+              <Label className='text-sm font-medium'>
+                {t('respos.promo.title')}
+              </Label>
+              {appliedPromoCode || orderHasPromo ? (
                 <div className='flex items-center gap-2 rounded-md border border-green-200 bg-green-50 p-2 dark:border-green-800 dark:bg-green-950'>
                   <CheckCircle2 className='h-4 w-4 text-green-600' />
                   <span className='flex-1 text-sm font-medium text-green-700 dark:text-green-400'>
-                    {appliedPromoCode}
-                    {appliedPromotion && (
-                      <Badge variant='secondary' className='ml-2 text-xs'>
-                        -{formatCurrency(promoDiscount)}
-                      </Badge>
-                    )}
+                    {appliedPromoCode || t('respos.promo.appliedOnOrder')}
+                    <Badge variant='secondary' className='ml-2 text-xs'>
+                      -{formatCurrency(promoDiscount)}
+                    </Badge>
                   </span>
                   <Button
                     type='button'
@@ -550,7 +608,7 @@ export function CheckoutDialog({
               ) : (
                 <div className='flex gap-2'>
                   <Input
-                    placeholder='Enter promo code'
+                    placeholder={t('respos.promo.placeholder')}
                     value={promoInput}
                     onChange={(e) =>
                       setPromoInput(e.target.value.toUpperCase())
@@ -577,7 +635,7 @@ export function CheckoutDialog({
                     ) : (
                       <Tag className='h-4 w-4' />
                     )}
-                    <span className='ml-2'>Apply</span>
+                    <span className='ml-2'>{t('respos.promo.apply')}</span>
                   </Button>
                 </div>
               )}
@@ -586,7 +644,12 @@ export function CheckoutDialog({
                 promoResult &&
                 !promoResult.valid && (
                   <p className='text-xs text-destructive'>
-                    {promoResult.error}
+                    {promoResult.error
+                      ? t(promoResult.error.key, {
+                          ...promoResult.error.params,
+                          defaultValue: promoResult.error.key,
+                        })
+                      : t('respos.promo.error.invalid')}
                   </p>
                 )}
             </div>
@@ -596,37 +659,46 @@ export function CheckoutDialog({
             {/* Order Summary */}
             <div className='space-y-2 rounded-lg bg-slate-50 p-4 dark:bg-slate-900'>
               <div className='flex justify-between text-sm'>
-                <span className='text-muted-foreground'>Subtotal</span>
+                <span className='text-muted-foreground'>
+                  {t('respos.checkout.subtotal')}
+                </span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
               {manualDiscount > 0 && (
                 <div className='flex justify-between text-sm text-green-600'>
-                  <span>Manual Discount</span>
+                  <span>{t('respos.checkout.discount')}</span>
                   <span>- {formatCurrency(manualDiscount)}</span>
                 </div>
               )}
               {promoDiscount > 0 && (
                 <div className='flex justify-between text-sm text-green-600'>
-                  <span>Promo ({appliedPromoCode})</span>
+                  <span>
+                    {t('respos.checkout.promoDiscount')}
+                    {appliedPromoCode ? ` (${appliedPromoCode})` : ''}
+                  </span>
                   <span>- {formatCurrency(promoDiscount)}</span>
                 </div>
               )}
               {taxAmount > 0 && (
                 <div className='flex justify-between text-sm text-muted-foreground'>
-                  <span>Tax</span>
+                  <span>
+                    {taxConfig.isInclusive
+                      ? t('respos.checkout.taxIncluded')
+                      : t('respos.checkout.tax')}
+                  </span>
                   <span>{formatCurrency(taxAmount)}</span>
                 </div>
               )}
               <Separator className='my-2' />
               <div className='flex justify-between text-lg font-bold'>
-                <span>Total Due</span>
+                <span>{t('respos.checkout.total')}</span>
                 <span className='text-orange-600'>
                   {formatCurrency(grandTotal)}
                 </span>
               </div>
               {receivedAmount > 0 && change > 0 && (
                 <div className='flex justify-between text-sm font-semibold text-emerald-600'>
-                  <span>Change</span>
+                  <span>{t('respos.checkout.change')}</span>
                   <span>{formatCurrency(change)}</span>
                 </div>
               )}

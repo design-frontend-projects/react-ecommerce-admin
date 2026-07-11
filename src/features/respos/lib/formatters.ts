@@ -1,4 +1,6 @@
 // ResPOS Formatting Utilities
+import type { TaxConfig } from '../types'
+import { computeOrderTotals } from './totals'
 
 /**
  * Format currency to Egyptian Pound
@@ -90,11 +92,12 @@ export function formatElapsedTime(minutes: number): string {
 }
 
 /**
- * Calculate order total from items
+ * Calculate order total from items, honoring inclusive/exclusive tax.
+ * Delegates to the shared totals module so every surface uses one formula.
  */
 export function calculateOrderTotal(
   items: Array<{ unit_price: number; quantity: number }>,
-  taxRate: number = 0.14,
+  taxConfig: TaxConfig,
   discountAmount: number = 0,
   tipAmount: number = 0
 ): {
@@ -106,13 +109,16 @@ export function calculateOrderTotal(
     (sum, item) => sum + item.unit_price * item.quantity,
     0
   )
-  const taxableAmount = subtotal - discountAmount
-  const tax = taxableAmount * taxRate
-  const total = taxableAmount + tax + tipAmount
+  const totals = computeOrderTotals({
+    subtotal,
+    manualDiscount: discountAmount,
+    taxConfig,
+    tipAmount,
+  })
 
   return {
-    subtotal: Math.round(subtotal * 100) / 100,
-    tax: Math.round(tax * 100) / 100,
-    total: Math.round(total * 100) / 100,
+    subtotal: totals.subtotal,
+    tax: totals.taxAmount,
+    total: totals.total,
   }
 }

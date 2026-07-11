@@ -12,11 +12,13 @@ import {
   Receipt,
   Search,
   Shield,
+  ShoppingBag,
   ShoppingCart,
   Truck,
   Trash2,
   UtensilsCrossed,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
 import { cn } from '@/lib/utils'
@@ -41,20 +43,24 @@ import { FloorManagerView } from '../components/floor-manager-view'
 import { MenuItemDetailsDialog } from '../components/menu-item-details-dialog'
 import { CartItem as CartItemComponent } from '../components/pos/cart-item'
 import { OrderHistoryPanel } from '../components/pos/order-history-panel'
+import { PromoInput } from '../components/pos/promo-input'
+import { PromoSelect } from '../components/pos/promo-select'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
 import { useResposRealtime } from '../hooks'
 import { useOrderCalc } from '../hooks/use-order-calc'
+import { useTaxSync } from '../hooks/use-tax-sync'
 import { formatCurrency } from '../lib/formatters'
 import type {
   Cart,
   CartItem,
+  OrderChannel,
   ResMenuItem,
   ResOrderWithDetails,
   ResTable,
   SelectedProperty,
 } from '../types'
 
-type OrderMode = 'dine_in' | 'delivery'
+type OrderMode = OrderChannel
 
 function NavButton({
   active,
@@ -84,12 +90,15 @@ function NavButton({
 }
 
 export function POSScreen() {
+  const { t } = useTranslation()
   // Local State
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const [orderMode, setOrderMode] = useState<OrderMode>('dine_in')
+
+  // Keep the configured tax rate flowing into cart totals
+  useTaxSync()
 
   // Item Details Dialog State
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
@@ -106,6 +115,8 @@ export function POSScreen() {
     selectedFloorId,
     selectedTable,
     cart,
+    orderType: orderMode,
+    setOrderType,
     setSelectedFloorId,
     setSelectedTable,
     addToCart,
@@ -127,7 +138,7 @@ export function POSScreen() {
   // Active Order
   const { data: activeOrder, isLoading: activeOrderLoading } =
     useActiveOrderByTable(
-      orderMode === 'delivery' ? '' : (selectedTable?.id ?? '')
+      orderMode !== 'dine_in' ? '' : (selectedTable?.id ?? '')
     )
 
   // Mutations
@@ -152,9 +163,9 @@ export function POSScreen() {
       return
     }
 
-    setOrderMode(mode)
+    setOrderType(mode)
     setSelectedCategory(null)
-    if (mode === 'delivery') {
+    if (mode !== 'dine_in') {
       setSelectedTable(null)
       setSelectedFloorId(null)
     }
@@ -162,7 +173,7 @@ export function POSScreen() {
 
   // Table Selection Logic with Locking
   const handleTableSelect = (table: ResTable) => {
-    if (orderMode === 'delivery') {
+    if (orderMode !== 'dine_in') {
       return
     }
     // If we have items in cart for a different table, prevent switching
@@ -228,10 +239,22 @@ export function POSScreen() {
     if (activeOrder) {
       addItems({ orderId: activeOrder.id, items: orderItems }, callbacks)
     } else {
+      // Persist the full cart snapshot (promo, discounts, tax, totals) so the
+      // order row always equals what the POS displayed.
       createOrder(
         {
           tableId: orderMode === 'dine_in' ? selectedTable?.id : undefined,
-          isDelivery: orderMode === 'delivery',
+          orderType: orderMode,
+          customerMobile: cart.customerMobile,
+          appliedPromotionId: cart.promotion?.promotion_id,
+          promoDiscountAmount: cart.promoDiscountAmount,
+          discountAmount:
+            cart.manualDiscountType === 'percentage'
+              ? cart.subtotal * (cart.manualDiscountAmount / 100)
+              : cart.manualDiscountAmount,
+          discountType: cart.manualDiscountType,
+          taxAmount: cart.taxAmount,
+          totalAmount: cart.total,
           items: orderItems,
         },
         callbacks
@@ -327,10 +350,16 @@ export function POSScreen() {
               label='Floor'
             />
             <NavButton
+              active={orderMode === 'takeaway'}
+              onClick={() => switchOrderMode('takeaway')}
+              icon={<ShoppingBag className='h-4 w-4' />}
+              label={t('respos.orderType.takeaway')}
+            />
+            <NavButton
               active={orderMode === 'delivery'}
               onClick={() => switchOrderMode('delivery')}
               icon={<Truck className='h-4 w-4' />}
-              label='Delivery'
+              label={t('respos.orderType.delivery')}
             />
             {selectedTable && (
               <div className='flex items-center gap-2'>
@@ -478,7 +507,9 @@ export function POSScreen() {
                             </div>
                           ) : (
                             <div className='text-xs font-bold tracking-wider text-orange-600 uppercase'>
-                              Delivery Order (Tableless)
+                              {orderMode === 'delivery'
+                                ? t('respos.orderType.delivery')
+                                : t('respos.orderType.takeaway')}
                             </div>
                           )}
                         </div>
@@ -611,13 +642,20 @@ function OrderPanel({
   onRemoveItem,
   selectedTable,
 }: OrderPanelProps) {
+  const { t } = useTranslation()
   const activeTotal = activeOrder?.total_amount || 0
   const orderCalc = useOrderCalc()
+  const taxConfig = useResposStore((state) => state.taxConfig)
 
   // Cart breakdown
   const cartSubtotal = orderCalc.subtotal || 0
   const cartTax = orderCalc.taxAmount || 0
   const cartTotal = orderCalc.total || 0
+  const manualDiscount =
+    orderCalc.manualDiscountType === 'percentage'
+      ? cartSubtotal * (orderCalc.manualDiscountAmount / 100)
+      : orderCalc.manualDiscountAmount
+  const promoDiscount = orderCalc.promoDiscountAmount || 0
   // const grandTotal = activeTotal + cartTotal
 
   if (orderMode === 'dine_in' && !selectedTable) {
@@ -657,7 +695,11 @@ function OrderPanel({
               )}
               <div>
                 <h2 className='text-lg font-black tracking-tight uppercase'>
-                  {orderMode === 'dine_in' ? 'Active Order' : 'Delivery Order'}
+                  {orderMode === 'dine_in'
+                    ? 'Active Order'
+                    : orderMode === 'delivery'
+                      ? t('respos.orderType.delivery')
+                      : t('respos.orderType.takeaway')}
                 </h2>
                 <div className='flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase'>
                   {orderMode === 'dine_in' && selectedTable ? (
@@ -671,7 +713,11 @@ function OrderPanel({
                       <span>Table {selectedTable.table_number}</span>
                     </>
                   ) : (
-                    <span className='text-orange-600'>Tableless Delivery</span>
+                    <span className='text-orange-600'>
+                      {orderMode === 'delivery'
+                        ? t('respos.orderType.delivery')
+                        : t('respos.orderType.takeaway')}
+                    </span>
                   )}
                   {activeOrder && (
                     <>
@@ -791,22 +837,42 @@ function OrderPanel({
 
       {/* Order Footer */}
       <div className='z-10 border-t bg-background/50 p-8 pt-6 backdrop-blur-xl'>
-        {/* <div className='mb-6'>
+        <div className='mb-6 space-y-2'>
           <PromoInput />
-        </div> */}
+          <PromoSelect />
+        </div>
         <div className='mb-6 space-y-2'>
           <div className='flex justify-between text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-            <span>Subtotal</span>
+            <span>{t('respos.checkout.subtotal')}</span>
             <span>{formatCurrency(cartSubtotal + activeTotal)}</span>
           </div>
+          {manualDiscount > 0 && (
+            <div className='flex justify-between text-xs font-bold tracking-wider text-emerald-600 uppercase'>
+              <span>{t('respos.checkout.discount')}</span>
+              <span>-{formatCurrency(manualDiscount)}</span>
+            </div>
+          )}
+          {promoDiscount > 0 && (
+            <div className='flex justify-between text-xs font-bold tracking-wider text-emerald-600 uppercase'>
+              <span>
+                {t('respos.checkout.promoDiscount')}
+                {orderCalc.promoCode ? ` (${orderCalc.promoCode})` : ''}
+              </span>
+              <span>-{formatCurrency(promoDiscount)}</span>
+            </div>
+          )}
           <div className='flex justify-between text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-            <span>Service & Tax</span>
+            <span>
+              {taxConfig.isInclusive
+                ? t('respos.checkout.taxIncluded')
+                : t('respos.checkout.tax')}
+            </span>
             <span>{formatCurrency(cartTax)}</span>
           </div>
           <Separator className='my-4 opacity-50' />
           <div className='flex items-baseline justify-between'>
             <span className='text-sm font-black tracking-tighter uppercase opacity-60'>
-              Total Amount
+              {t('respos.checkout.total')}
             </span>
             <span className='text-3xl font-black tracking-tighter text-orange-600 dark:text-orange-400'>
               {formatCurrency(cartTotal + activeTotal)}
@@ -827,6 +893,8 @@ function OrderPanel({
               'Update Order'
             ) : orderMode === 'delivery' ? (
               'Create Delivery Order'
+            ) : orderMode === 'takeaway' ? (
+              'Create Takeaway Order'
             ) : (
               'Send to Kitchen'
             )}

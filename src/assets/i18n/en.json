@@ -195,7 +195,7 @@
     "shipments": "Shipments",
     "stockTransfers": "Stock Transfers",
     "stockAdjustments": "Stock Adjustments",
-    "inventoryMovements":"Inventory Movements"
+    "inventoryMovements": "Inventory Movements"
   },
   "dashboard": {
     "loading": "Loading dashboard...",
@@ -372,5 +372,59 @@
     "errorUpdate": "Failed to update privacy policy",
     "cancelButton": "Cancel",
     "saveButton": "Save Changes"
+  },
+  "respos": {
+    "promo": {
+      "title": "Promo Code",
+      "placeholder": "Promo code",
+      "apply": "Apply",
+      "remove": "Remove",
+      "applied": "Promo applied",
+      "appliedDesc": "Code {{code}} applied successfully",
+      "appliedOnOrder": "Promotion applied",
+      "removedToast": "Promo code removed",
+      "select": {
+        "title": "Browse promotions",
+        "searchPlaceholder": "Search promotions...",
+        "empty": "No eligible promotions",
+        "preview": "Save {{amount}}"
+      },
+      "type": {
+        "orderDiscount": "Order discount",
+        "itemDiscount": "Item discount",
+        "buyXGetY": "Buy {{buy}} get {{get}}"
+      },
+      "error": {
+        "empty": "Enter a promo code",
+        "invalid": "Invalid promo code",
+        "notStarted": "Promo code not yet active",
+        "expired": "Promo code has expired",
+        "usageLimitReached": "Promo usage limit reached",
+        "perCustomerLimitReached": "This customer has already used this promo",
+        "minPurchase": "Minimum order amount is {{amount}}",
+        "activityMismatch": "Promo not available for this order type",
+        "notEligibleItems": "Promo does not apply to the items in this order",
+        "offline": "Promo codes require an internet connection",
+        "recordFailed": "Could not record promo usage"
+      }
+    },
+    "checkout": {
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "promoDiscount": "Promo discount",
+      "tax": "Tax",
+      "taxIncluded": "Tax (included)",
+      "tip": "Tip",
+      "total": "Total",
+      "received": "Amount received",
+      "change": "Change",
+      "paymentSuccess": "Payment processed successfully",
+      "paymentFailed": "Failed to process payment"
+    },
+    "orderType": {
+      "dineIn": "Dine-in",
+      "takeaway": "Takeaway",
+      "delivery": "Delivery"
+    }
   }
 }
