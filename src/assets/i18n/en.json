@@ -195,7 +195,8 @@
     "shipments": "Shipments",
     "stockTransfers": "Stock Transfers",
     "stockAdjustments": "Stock Adjustments",
-    "inventoryMovements": "Inventory Movements"
+    "inventoryMovements": "Inventory Movements",
+    "paymentMethods": "Payment Methods"
   },
   "dashboard": {
     "loading": "Loading dashboard...",
@@ -640,6 +641,41 @@
       "deleted": "Customer group deleted successfully",
       "error": "Error",
       "genericError": "Something went wrong. Please try again."
+    }
+  },
+  "paymentMethods": {
+    "title": "Payment Methods",
+    "subtitle": "Manage your payment methods.",
+    "accessDenied": "Access Denied",
+    "noPermission": "You do not have permission to view payment methods.",
+    "loadError": "Error loading payment methods",
+    "create": "Create Payment Method",
+    "edit": "Edit Payment Method",
+    "delete": "Delete Payment Method",
+    "addTitle": "Add Payment Method",
+    "editTitle": "Edit Payment Method",
+    "addDescription": "Fill in the details to add a new payment method.",
+    "editDescription": "Update the payment method details below.",
+    "name": "Name",
+    "icon": "Icon",
+    "sortOrder": "Sort Order",
+    "enabled": "Enabled",
+    "enabledDescription": "Determine if this payment method can be used.",
+    "default": "Default",
+    "defaultDescription": "Set as the default payment method.",
+    "setAsDefault": "Set as Default",
+    "deleteTitle": "Delete Payment Method",
+    "deleteConfirm": "Are you sure you want to delete",
+    "deleteWarning": "This action will permanently remove the payment method from the system and cannot be undone.",
+    "deleteInputLabel": "Enter payment method name to confirm",
+    "deleteAlertTitle": "Warning",
+    "deleteAlertDescription": "Any data associated with this payment method might be affected. If this payment method is the default or in use, the deletion may fail.",
+    "toast": {
+      "created": "Payment method created successfully.",
+      "updated": "Payment method updated successfully.",
+      "deleted": "Payment method deleted successfully.",
+      "defaultSet": "Default payment method updated.",
+      "error": "Something went wrong."
     }
   }
 }

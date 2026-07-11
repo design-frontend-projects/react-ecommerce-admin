@@ -44,6 +44,7 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_authenticated/purchase-orders/route'
 import { Route as AuthenticatedPromotionsRouteRouteImport } from './routes/_authenticated/promotions/route'
 import { Route as AuthenticatedPriceListRouteRouteImport } from './routes/_authenticated/price-list/route'
+import { Route as AuthenticatedPaymentMethodsRouteRouteImport } from './routes/_authenticated/payment-methods/route'
 import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authenticated/customers/route'
 import { Route as AuthenticatedCustomerGroupsRouteRouteImport } from './routes/_authenticated/customer-groups/route'
 import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_authenticated/customer-cards/route'
@@ -281,6 +282,12 @@ const AuthenticatedPriceListRouteRoute =
   AuthenticatedPriceListRouteRouteImport.update({
     id: '/price-list',
     path: '/price-list',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPaymentMethodsRouteRoute =
+  AuthenticatedPaymentMethodsRouteRouteImport.update({
+    id: '/payment-methods',
+    path: '/payment-methods',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCustomersRouteRoute =
@@ -566,6 +573,7 @@ export interface FileRoutesByFullPath {
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
+  '/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
@@ -645,6 +653,7 @@ export interface FileRoutesByTo {
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/customers': typeof AuthenticatedCustomersRouteRoute
+  '/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
   '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
@@ -727,6 +736,7 @@ export interface FileRoutesById {
   '/_authenticated/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
   '/_authenticated/customer-groups': typeof AuthenticatedCustomerGroupsRouteRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRouteRoute
+  '/_authenticated/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/_authenticated/price-list': typeof AuthenticatedPriceListRouteRoute
   '/_authenticated/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
@@ -812,6 +822,7 @@ export interface FileRouteTypes {
     | '/customer-cards'
     | '/customer-groups'
     | '/customers'
+    | '/payment-methods'
     | '/price-list'
     | '/promotions'
     | '/purchase-orders'
@@ -891,6 +902,7 @@ export interface FileRouteTypes {
     | '/customer-cards'
     | '/customer-groups'
     | '/customers'
+    | '/payment-methods'
     | '/price-list'
     | '/promotions'
     | '/purchase-orders'
@@ -972,6 +984,7 @@ export interface FileRouteTypes {
     | '/_authenticated/customer-cards'
     | '/_authenticated/customer-groups'
     | '/_authenticated/customers'
+    | '/_authenticated/payment-methods'
     | '/_authenticated/price-list'
     | '/_authenticated/promotions'
     | '/_authenticated/purchase-orders'
@@ -1318,6 +1331,13 @@ declare module '@tanstack/react-router' {
       path: '/price-list'
       fullPath: '/price-list'
       preLoaderRoute: typeof AuthenticatedPriceListRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/payment-methods': {
+      id: '/_authenticated/payment-methods'
+      path: '/payment-methods'
+      fullPath: '/payment-methods'
+      preLoaderRoute: typeof AuthenticatedPaymentMethodsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/customers': {
@@ -1707,6 +1727,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCustomerCardsRouteRoute: typeof AuthenticatedCustomerCardsRouteRoute
   AuthenticatedCustomerGroupsRouteRoute: typeof AuthenticatedCustomerGroupsRouteRoute
   AuthenticatedCustomersRouteRoute: typeof AuthenticatedCustomersRouteRoute
+  AuthenticatedPaymentMethodsRouteRoute: typeof AuthenticatedPaymentMethodsRouteRoute
   AuthenticatedPriceListRouteRoute: typeof AuthenticatedPriceListRouteRoute
   AuthenticatedPromotionsRouteRoute: typeof AuthenticatedPromotionsRouteRoute
   AuthenticatedPurchaseOrdersRouteRoute: typeof AuthenticatedPurchaseOrdersRouteRoute
@@ -1758,6 +1779,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCustomerCardsRouteRoute: AuthenticatedCustomerCardsRouteRoute,
   AuthenticatedCustomerGroupsRouteRoute: AuthenticatedCustomerGroupsRouteRoute,
   AuthenticatedCustomersRouteRoute: AuthenticatedCustomersRouteRoute,
+  AuthenticatedPaymentMethodsRouteRoute: AuthenticatedPaymentMethodsRouteRoute,
   AuthenticatedPriceListRouteRoute: AuthenticatedPriceListRouteRoute,
   AuthenticatedPromotionsRouteRoute: AuthenticatedPromotionsRouteRoute,
   AuthenticatedPurchaseOrdersRouteRoute: AuthenticatedPurchaseOrdersRouteRoute,

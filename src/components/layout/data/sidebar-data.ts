@@ -28,6 +28,7 @@ import {
   UserCog,
   Users,
   UtensilsCrossed,
+  Wallet,
   Wrench,
   Truck,
 } from 'lucide-react'
@@ -179,6 +180,12 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.shipments'),
             url: '/respos/shipments',
             icon: Truck,
+            roles: ['admin', 'super_admin'],
+          },
+          {
+            title: t('sidebar.paymentMethods'),
+            url: '/payment-methods',
+            icon: Wallet,
             roles: ['admin', 'super_admin'],
           },
           // Admin only
