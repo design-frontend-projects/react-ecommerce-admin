@@ -425,6 +425,221 @@
       "dineIn": "Dine-in",
       "takeaway": "Takeaway",
       "delivery": "Delivery"
+    },
+    "floor": {
+      "table": {
+        "add": "Add Table",
+        "edit": "Edit Table",
+        "addDesc": "Add a new table.",
+        "editDesc": "Update table details.",
+        "floor": "Floor",
+        "selectFloor": "Select floor",
+        "tableNumber": "Table Number",
+        "tableNumberPlaceholder": "e.g., T-01",
+        "seats": "Number of Seats",
+        "shape": "Table Shape",
+        "shapes": {
+          "square": "Square",
+          "round": "Round",
+          "rectangle": "Rectangle"
+        },
+        "positionX": "Position X",
+        "positionY": "Position Y",
+        "active": "Active",
+        "activeDesc": "Enable this table for orders",
+        "cancel": "Cancel",
+        "update": "Update",
+        "create": "Create",
+        "success": {
+          "created": "Table created",
+          "createdDesc": "Table has been created successfully.",
+          "updated": "Table updated",
+          "updatedDesc": "Table has been updated successfully."
+        },
+        "error": {
+          "title": "Error",
+          "generic": "An error occurred"
+        }
+      }
+    },
+    "users": {
+      "createUser": "Create User",
+      "editUser": "Edit User",
+      "createDesc": "Add a new user to the system. This will create a Supabase account and restaurant profile.",
+      "editDesc": "Update user details and role assignments.",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "email": "Email",
+      "emailPlaceholder": "john.doe@example.com",
+      "password": "Password",
+      "phone": "Phone (Optional)",
+      "phonePlaceholder": "+1234567890",
+      "pinCode": "PIN Code (6 digits)",
+      "roles": "Roles",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "error": {
+        "firstName": "First name must be at least 2 characters",
+        "lastName": "Last name must be at least 2 characters",
+        "email": "Invalid email address",
+        "password": "Password must be at least 8 characters",
+        "pin": "PIN must be exactly 6 digits",
+        "roles": "At least one role must be selected"
+      }
+    },
+    "history": {
+      "title": "Order History",
+      "subtitle": "Recent transactions & refunds",
+      "search": "Search Order #, Customer, or Status",
+      "noOrders": "No completed orders",
+      "discounted": "Discounted",
+      "status": {
+        "active": "Active",
+        "ready": "Ready",
+        "paid": "Paid",
+        "void": "Void",
+        "refunded": "Refunded"
+      },
+      "refund": {
+        "trigger": "Refund",
+        "confirmTitle": "Confirm Refund",
+        "confirmDesc": "Are you sure you want to refund this order? This action cannot be undone.",
+        "orderNumber": "Order Number",
+        "amount": "Amount",
+        "reasonLabel": "Refund Reason",
+        "reasonPlaceholder": "e.g., Customer requested cancellation",
+        "cancel": "Cancel",
+        "confirmButton": "Confirm Refund",
+        "success": {
+          "title": "Order refunded successfully",
+          "desc": "Order {{orderNumber}} has been refunded."
+        },
+        "error": {
+          "reasonRequired": "Refund reason is required",
+          "failed": "Failed to refund order"
+        }
+      }
+    },
+    "captain": {
+      "table": "Table {{number}}",
+      "readyItems": "{{count}} Ready Item",
+      "readyItems_plural": "{{count}} Ready Items",
+      "unknownItem": "Unknown Item",
+      "note": "Note",
+      "ready": "Ready",
+      "markServed": "Mark as Served",
+      "markAllServed": "Mark All Served"
+    }
+  },
+  "customerCards": {
+    "title": "Customer Cards",
+    "description": "Manage customer payment methods.",
+    "loading": "Loading...",
+    "addCard": "Add Card",
+    "editCard": "Edit Card",
+    "addNewCard": "Add New Card",
+    "editCardDesc": "Edit the card details below.",
+    "addCardDesc": "Add a new card for a customer.",
+    "form": {
+      "customer": "Customer",
+      "selectCustomer": "Select a customer",
+      "cardholderName": "Cardholder Name",
+      "placeholderName": "Name on Card",
+      "cardType": "Card Type",
+      "selectType": "Select type",
+      "lastFourDigits": "Last 4 Digits",
+      "placeholderDigits": "1234",
+      "expiryMonth": "Expiry Month",
+      "expiryYear": "Expiry Year",
+      "billingAddress": "Billing Address",
+      "placeholderAddress": "Address",
+      "defaultCard": "Default Card",
+      "defaultCardDesc": "Set as default payment method.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "table": {
+      "filterPlaceholder": "Filter cards...",
+      "noResults": "No results."
+    },
+    "columns": {
+      "customer": "Customer",
+      "cardholderName": "Cardholder Name",
+      "cardType": "Card Type",
+      "lastFourDigits": "Last 4 Digits",
+      "expiry": "Expiry",
+      "default": "Default"
+    },
+    "delete": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete the card ending in",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "validation": {
+      "customerRequired": "Customer is required",
+      "cardholderRequired": "Cardholder name is required",
+      "mustBeFourDigits": "Must be 4 digits"
+    },
+    "toast": {
+      "created": "Card created successfully",
+      "updated": "Card updated successfully",
+      "deleted": "Card deleted successfully",
+      "error": "Error",
+      "genericError": "Something went wrong. Please try again."
+    }
+  },
+  "customerGroups": {
+    "title": "Customer Groups",
+    "description": "Manage your customer groups and loyalty tiers.",
+    "loading": "Loading...",
+    "addGroup": "Add Group",
+    "editGroup": "Edit Customer Group",
+    "createGroup": "Create Customer Group",
+    "editGroupDesc": "Edit the customer group details below.",
+    "createGroupDesc": "Add a new customer group.",
+    "form": {
+      "name": "Name",
+      "placeholderName": "Group Name",
+      "description": "Description",
+      "placeholderDescription": "Description",
+      "minOrderAmount": "Min Order Amount",
+      "discount": "Discount %",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "table": {
+      "filterPlaceholder": "Filter groups...",
+      "noResults": "No results."
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "minOrderAmount": "Min. Order Amount",
+      "discount": "Discount (%)",
+      "createdAt": "Created At"
+    },
+    "delete": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete the customer group",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "validation": {
+      "nameRequired": "Name is required"
+    },
+    "toast": {
+      "created": "Customer group created successfully",
+      "updated": "Customer group updated successfully",
+      "deleted": "Customer group deleted successfully",
+      "error": "Error",
+      "genericError": "Something went wrong. Please try again."
     }
   }
 }

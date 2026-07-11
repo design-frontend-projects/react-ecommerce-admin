@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Loader2, Minus, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -72,6 +73,7 @@ function MenuItemDetailsContent({
   onAddToOrder: MenuItemDetailsDialogProps['onAddToOrder']
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   // Derive the initial variant id once via useMemo (no setState, pure derivation)
   const initialVariantId = useMemo(() => {
     const defaultVariant = itemDetails.variants.find((v) => v.is_default)
@@ -158,7 +160,7 @@ function MenuItemDetailsContent({
           {itemDetails.variants.length > 0 && (
             <div className='space-y-4'>
               <Label className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
-                Size / Option
+                {t('respos.menuItemDetails.sizeOption')}
               </Label>
               <RadioGroup
                 value={selectedVariantId || ''}
@@ -209,7 +211,7 @@ function MenuItemDetailsContent({
           {itemDetails.properties.length > 0 && (
             <div className='space-y-4'>
               <Label className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
-                Add-ons
+                {t('respos.menuItemDetails.addOns')}
               </Label>
               <div className='grid grid-cols-1 gap-3'>
                 {itemDetails.properties.map((property) => (
@@ -261,11 +263,11 @@ function MenuItemDetailsContent({
               htmlFor='notes'
               className='text-xs font-black tracking-widest text-muted-foreground uppercase'
             >
-              Special Instructions
+              {t('respos.menuItemDetails.specialInstructions')}
             </Label>
             <Textarea
               id='notes'
-              placeholder='E.g. No onions, extra spicy...'
+              placeholder={t('respos.menuItemDetails.specialInstructionsPlaceholder')}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className='min-h-[100px] rounded-3xl border-0 bg-muted/50 p-4 transition-all focus-visible:ring-2 focus-visible:ring-orange-500/30'
@@ -278,7 +280,7 @@ function MenuItemDetailsContent({
         <div className='flex flex-col gap-4'>
           <div className='flex items-center justify-between'>
             <span className='text-xs font-black tracking-widest text-muted-foreground uppercase'>
-              Quantity
+              {t('respos.menuItemDetails.quantity')}
             </span>
             <div className='flex items-center gap-1 rounded-2xl border-2 bg-muted/30 p-1'>
               <Button
@@ -309,7 +311,7 @@ function MenuItemDetailsContent({
             onClick={handleAddToCart}
             disabled={itemDetails.variants.length > 0 && !selectedVariantId}
           >
-            <span>Add to Order</span>
+            <span>{t('respos.menuItemDetails.addToOrder')}</span>
             <div className='flex items-center gap-2'>
               <Separator orientation='vertical' className='h-4 bg-border' />
               <span>{formatCurrency(totalPrice)}</span>

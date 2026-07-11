@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
 import { CheckCheck, Clock } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,6 +17,7 @@ export function ReadyTableCard({
   items,
   onMarkServed,
 }: ReadyTableCardProps) {
+  const { t } = useTranslation()
   // Sort items by updated_at to show oldest ready items at the top
   const sortedItems = [...items].sort(
     (a, b) =>
@@ -29,12 +31,12 @@ export function ReadyTableCard({
   return (
     <Card className='overflow-hidden border-l-4 border-l-green-500 shadow-md transition-all hover:shadow-lg'>
       <CardHeader className='flex flex-row items-center justify-between bg-muted/40 pb-2'>
-        <CardTitle className='text-lg font-bold'>Table {tableNumber}</CardTitle>
+        <CardTitle className='text-lg font-bold'>{t('respos.captain.table', { number: tableNumber })}</CardTitle>
         <Badge
           variant='outline'
           className='bg-green-100 text-green-800 hover:bg-green-100'
         >
-          {items.length} Ready Item{items.length !== 1 ? 's' : ''}
+          {t('respos.captain.readyItems', { count: items.length })}
         </Badge>
       </CardHeader>
       <CardContent className='p-4'>
@@ -47,16 +49,16 @@ export function ReadyTableCard({
               >
                 <div className='flex flex-col'>
                   <span className='font-medium text-foreground'>
-                    {item.quantity}x {item.menu_item?.name || 'Unknown Item'}
+                    {item.quantity}x {item.menu_item?.name || t('respos.captain.unknownItem')}
                   </span>
                   {item.notes && (
                     <span className='text-xs text-muted-foreground italic'>
-                      Note: {item.notes}
+                      {t('respos.captain.note')}: {item.notes}
                     </span>
                   )}
                   <div className='mt-1 flex items-center text-xs text-muted-foreground'>
                     <Clock className='mr-1 h-3 w-3' />
-                    Ready{' '}
+                    {t('respos.captain.ready')}
                     {formatDistanceToNow(new Date(item.updated_at), {
                       addSuffix: true,
                     })}
@@ -67,7 +69,7 @@ export function ReadyTableCard({
                   variant='ghost'
                   className='h-8 w-8 p-0 text-green-600 hover:bg-green-50 hover:text-green-700'
                   onClick={() => onMarkServed([item.id])}
-                  title='Mark as Served'
+                  title={t('respos.captain.markServed')}
                 >
                   <CheckCheck className='h-4 w-4' />
                 </Button>
@@ -79,7 +81,7 @@ export function ReadyTableCard({
             className='w-full bg-green-600 text-white hover:bg-green-700'
             onClick={handleServeAll}
           >
-            Mark All Served
+            {t('respos.captain.markAllServed')}
           </Button>
         </div>
       </CardContent>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteCustomerCard } from '../hooks/use-customer-cards'
 import { useCustomerCardsContext } from './customer-cards-provider'
 
 export function CustomerCardsDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCustomerCardsContext()
   const deleteMutation = useDeleteCustomerCard()
 
@@ -22,12 +24,14 @@ export function CustomerCardsDeleteDialog() {
     if (currentRow) {
       try {
         await deleteMutation.mutateAsync(currentRow.card_id)
-        toast.success('Card deleted successfully')
+        toast.success(t('customerCards.toast.deleted'))
         setOpen(null)
-      } catch (error: any) {
-        toast.error('Error', {
+      } catch (error: unknown) {
+        toast.error(t('customerCards.toast.error'), {
           description:
-            error.message || 'Something went wrong. Please try again.',
+            error instanceof Error
+              ? error.message
+              : t('customerCards.toast.genericError'),
         })
       }
     }
@@ -37,10 +41,9 @@ export function CustomerCardsDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('customerCards.delete.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the card
-            ending in
+            {t('customerCards.delete.description')}{' '}
             <span className='font-medium text-foreground'>
               {currentRow?.last_four_digits
                 ? ` "${currentRow.last_four_digits}"`
@@ -51,7 +54,7 @@ export function CustomerCardsDeleteDialog() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
+            {t('customerCards.delete.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -61,7 +64,9 @@ export function CustomerCardsDeleteDialog() {
             className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending
+              ? t('customerCards.delete.deleting')
+              : t('customerCards.delete.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

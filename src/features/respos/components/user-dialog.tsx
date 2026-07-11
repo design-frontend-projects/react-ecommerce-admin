@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,20 +26,20 @@ import { Input } from '@/components/ui/input'
 import { useRoles } from '../api/queries'
 import type { ResEmployeeWithRoles } from '../types'
 
-const userFormSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+const createUserFormSchema = (t: TFunction) => z.object({
+  firstName: z.string().min(2, t('respos.users.error.firstName')),
+  lastName: z.string().min(2, t('respos.users.error.lastName')),
+  email: z.string().email(t('respos.users.error.email')),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, t('respos.users.error.password'))
     .optional(),
   phone: z.string().optional(),
-  pinCode: z.string().length(6, 'PIN must be exactly 6 digits').optional(),
-  roles: z.array(z.string()).min(1, 'At least one role must be selected'),
+  pinCode: z.string().length(6, t('respos.users.error.pin')).optional(),
+  roles: z.array(z.string()).min(1, t('respos.users.error.roles')),
 })
 
-type UserFormValues = z.infer<typeof userFormSchema>
+type UserFormValues = z.infer<ReturnType<typeof createUserFormSchema>>
 
 interface UserDialogProps {
   open: boolean
@@ -52,10 +54,11 @@ export function UserDialog({
   user,
   onSubmit,
 }: UserDialogProps) {
+  const { t } = useTranslation()
   const { data: roles, isLoading: rolesLoading } = useRoles()
 
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(userFormSchema),
+    resolver: zodResolver(createUserFormSchema(t)),
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -101,11 +104,11 @@ export function UserDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit User' : 'Create User'}</DialogTitle>
+          <DialogTitle>{isEditing ? t('respos.users.editUser') : t('respos.users.createUser')}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update user details and role assignments.'
-              : 'Add a new user to the system. This will create a Supabase account and restaurant profile.'}
+              ? t('respos.users.editDesc')
+              : t('respos.users.createDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -120,9 +123,9 @@ export function UserDialog({
                 name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>{t('respos.users.firstName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='John' {...field} />
+                      <Input placeholder={t('respos.users.firstNamePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -133,9 +136,9 @@ export function UserDialog({
                 name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>{t('respos.users.lastName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Doe' {...field} />
+                      <Input placeholder={t('respos.users.lastNamePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,10 +151,10 @@ export function UserDialog({
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('respos.users.email')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='john.doe@example.com'
+                      placeholder={t('respos.users.emailPlaceholder')}
                       type='email'
                       {...field}
                       disabled={isEditing}
@@ -168,7 +171,7 @@ export function UserDialog({
                 name='password'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t('respos.users.password')}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder='••••••••'
@@ -188,9 +191,9 @@ export function UserDialog({
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone (Optional)</FormLabel>
+                    <FormLabel>{t('respos.users.phone')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='+1234567890' {...field} />
+                      <Input placeholder={t('respos.users.phonePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -201,7 +204,7 @@ export function UserDialog({
                 name='pinCode'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>PIN Code (6 digits)</FormLabel>
+                    <FormLabel>{t('respos.users.pinCode')}</FormLabel>
                     <FormControl>
                       <Input placeholder='123456' maxLength={6} {...field} />
                     </FormControl>
@@ -216,7 +219,7 @@ export function UserDialog({
               name='roles'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Roles</FormLabel>
+                  <FormLabel>{t('respos.users.roles')}</FormLabel>
                   <div className='grid grid-cols-2 gap-2 rounded-md border p-3'>
                     {rolesLoading ? (
                       <Loader2 className='h-4 w-4 animate-spin' />
@@ -262,13 +265,13 @@ export function UserDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.users.cancel')}
               </Button>
               <Button type='submit' disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting && (
                   <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 )}
-                {isEditing ? 'Save Changes' : 'Create User'}
+                {isEditing ? t('respos.users.saveChanges') : t('respos.users.createUser')}
               </Button>
             </DialogFooter>
           </form>

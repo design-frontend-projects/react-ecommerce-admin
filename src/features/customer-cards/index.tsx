@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -12,10 +13,11 @@ import { CustomerCardsTable } from './components/customer-cards-table'
 import { useCustomerCards } from './hooks/use-customer-cards'
 
 export default function CustomerCards() {
+  const { t } = useTranslation()
   const { data: customerCards, isLoading } = useCustomerCards()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>{t('customerCards.loading')}</div>
   }
 
   return (
@@ -33,10 +35,10 @@ export default function CustomerCards() {
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Customer Cards
+              {t('customerCards.title')}
             </h2>
             <p className='text-muted-foreground'>
-              Manage customer payment methods.
+              {t('customerCards.description')}
             </p>
           </div>
           <CustomerCardsPrimaryButtons />

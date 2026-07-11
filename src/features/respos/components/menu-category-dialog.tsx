@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -41,6 +42,7 @@ export function MenuCategoryDialog({
   onOpenChange,
   category,
 }: MenuCategoryDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!category
 
   const form = useForm<MenuCategoryForm>({
@@ -90,8 +92,8 @@ export function MenuCategoryDialog({
           sortOrder: values.sort_order,
           isActive: values.is_active,
         })
-        toast.success('Category updated', {
-          description: 'Menu category has been updated successfully.',
+        toast.success(t('respos.menuCategory.success.updated'), {
+          description: t('respos.menuCategory.success.updatedDesc'),
         })
       } else {
         await createCategory.mutateAsync({
@@ -101,16 +103,16 @@ export function MenuCategoryDialog({
           sortOrder: values.sort_order,
           isActive: values.is_active,
         })
-        toast.success('Category created', {
-          description: 'Menu category has been created successfully.',
+        toast.success(t('respos.menuCategory.success.created'), {
+          description: t('respos.menuCategory.success.createdDesc'),
         })
       }
       onOpenChange(false)
       form.reset()
     } catch (error) {
-      toast.error('Error', {
+      toast.error(t('respos.menuCategory.error.title'), {
         description:
-          error instanceof Error ? error.message : 'An error occurred',
+          error instanceof Error ? error.message : t('respos.menuCategory.error.unknown'),
       })
     }
   }
@@ -120,12 +122,12 @@ export function MenuCategoryDialog({
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? 'Edit Category' : 'Add Category'}
+            {isEditing ? t('respos.menuCategory.edit') : t('respos.menuCategory.add')}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update the menu category details.'
-              : 'Add a new menu category.'}
+              ? t('respos.menuCategory.editDesc')
+              : t('respos.menuCategory.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -136,9 +138,9 @@ export function MenuCategoryDialog({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name (English)</FormLabel>
+                  <FormLabel>{t('respos.menuCategory.nameEn')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='e.g., Appetizers' {...field} />
+                    <Input placeholder={t('respos.menuCategory.nameEnPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -150,10 +152,10 @@ export function MenuCategoryDialog({
               name='name_ar'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name (Arabic)</FormLabel>
+                  <FormLabel>{t('respos.menuCategory.nameAr')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='مقبلات'
+                      placeholder={t('respos.menuCategory.nameArPlaceholder')}
                       dir='rtl'
                       {...field}
                       value={field.value || ''}
@@ -169,10 +171,10 @@ export function MenuCategoryDialog({
               name='icon'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Icon (optional)</FormLabel>
+                  <FormLabel>{t('respos.menuCategory.icon')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='e.g., 🍕 or icon name'
+                      placeholder={t('respos.menuCategory.iconPlaceholder')}
                       {...field}
                       value={field.value || ''}
                     />
@@ -187,7 +189,7 @@ export function MenuCategoryDialog({
               name='sort_order'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sort Order</FormLabel>
+                  <FormLabel>{t('respos.menuCategory.sortOrder')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
@@ -207,9 +209,9 @@ export function MenuCategoryDialog({
               render={({ field }) => (
                 <FormItem className='flex items-center justify-between rounded-lg border p-3'>
                   <div className='space-y-0.5'>
-                    <FormLabel>Active</FormLabel>
+                    <FormLabel>{t('respos.menuCategory.active')}</FormLabel>
                     <p className='text-sm text-muted-foreground'>
-                      Show this category in the menu
+                      {t('respos.menuCategory.activeDesc')}
                     </p>
                   </div>
                   <FormControl>
@@ -228,11 +230,11 @@ export function MenuCategoryDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.menuCategory.cancel')}
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? t('respos.menuCategory.update') : t('respos.menuCategory.create')}
               </Button>
             </DialogFooter>
           </form>

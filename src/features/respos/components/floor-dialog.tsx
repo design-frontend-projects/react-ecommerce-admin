@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -35,6 +36,7 @@ interface FloorDialogProps {
 }
 
 export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!floor
 
   const form = useForm<FloorForm>({
@@ -80,8 +82,8 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
           sortOrder: values.sort_order,
           isActive: values.is_active,
         })
-        toast.success('Floor updated', {
-          description: 'Floor has been updated successfully.',
+        toast.success(t('respos.floor.success.updated'), {
+          description: t('respos.floor.success.updatedDesc'),
         })
       } else {
         await createFloor.mutateAsync({
@@ -90,16 +92,16 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
           sortOrder: values.sort_order,
           isActive: values.is_active,
         })
-        toast.success('Floor created', {
-          description: 'Floor has been created successfully.',
+        toast.success(t('respos.floor.success.created'), {
+          description: t('respos.floor.success.createdDesc'),
         })
       }
       onOpenChange(false)
       form.reset()
     } catch (error) {
-      toast.error('Error', {
+      toast.error(t('respos.floor.error.title'), {
         description:
-          error instanceof Error ? error.message : 'An error occurred',
+          error instanceof Error ? error.message : t('respos.floor.error.unknown'),
       })
     }
   }
@@ -108,11 +110,11 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Floor' : 'Add Floor'}</DialogTitle>
+          <DialogTitle>{isEditing ? t('respos.floor.edit') : t('respos.floor.add')}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update floor details.'
-              : 'Add a new floor for table management.'}
+              ? t('respos.floor.editDesc')
+              : t('respos.floor.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -123,9 +125,9 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Floor Name</FormLabel>
+                  <FormLabel>{t('respos.floor.name')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='e.g., Ground Floor' {...field} />
+                    <Input placeholder={t('respos.floor.namePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -137,10 +139,10 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description (optional)</FormLabel>
+                  <FormLabel>{t('respos.floor.description')}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Description of this floor...'
+                      placeholder={t('respos.floor.descriptionPlaceholder')}
                       {...field}
                       value={field.value || ''}
                     />
@@ -155,7 +157,7 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
               name='sort_order'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sort Order</FormLabel>
+                  <FormLabel>{t('respos.floor.sortOrder')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
@@ -175,9 +177,9 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
               render={({ field }) => (
                 <FormItem className='flex items-center justify-between rounded-lg border p-3'>
                   <div className='space-y-0.5'>
-                    <FormLabel>Active</FormLabel>
+                    <FormLabel>{t('respos.floor.active')}</FormLabel>
                     <p className='text-sm text-muted-foreground'>
-                      Enable this floor for table selection
+                      {t('respos.floor.activeDesc')}
                     </p>
                   </div>
                   <FormControl>
@@ -196,11 +198,11 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.floor.cancel')}
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? t('respos.floor.update') : t('respos.floor.create')}
               </Button>
             </DialogFooter>
           </form>

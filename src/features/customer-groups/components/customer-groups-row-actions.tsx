@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ interface CustomerGroupRowActionsProps<TData> {
 export function CustomerGroupRowActions<TData>({
   row,
 }: CustomerGroupRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const group = row.original as CustomerGroup
   const { setOpen, setCurrentRow } = useCustomerGroupsContext()
 
@@ -30,7 +32,7 @@ export function CustomerGroupRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('customerGroups.rowActions.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -41,7 +43,7 @@ export function CustomerGroupRowActions<TData>({
           }}
         >
           <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Edit
+          {t('customerGroups.form.save', 'Edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -51,7 +53,7 @@ export function CustomerGroupRowActions<TData>({
           }}
         >
           <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Delete
+          {t('customerGroups.delete.confirm', 'Delete')}
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

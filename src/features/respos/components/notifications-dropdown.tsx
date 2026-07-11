@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -92,6 +93,7 @@ function NotificationItem({ notification, onMarkRead }: NotificationItemProps) {
 }
 
 export function NotificationsDropdown() {
+  const { t } = useTranslation()
   const { user: employee } = useUser()
   const [open, setOpen] = useState(false)
   const employeeId = employee?.id || ''
@@ -122,7 +124,7 @@ export function NotificationsDropdown() {
           variant='ghost'
           size='icon'
           className='relative'
-          aria-label='Notifications'
+          aria-label={t('respos.notifications.title')}
         >
           <Bell className='h-5 w-5' />
           {unreadCount && unreadCount > 0 ? (
@@ -137,7 +139,7 @@ export function NotificationsDropdown() {
       </PopoverTrigger>
       <PopoverContent className='w-80 p-0' align='end'>
         <div className='flex items-center justify-between border-b p-3'>
-          <h4 className='font-semibold'>Notifications</h4>
+          <h4 className='font-semibold'>{t('respos.notifications.title')}</h4>
           {unreadCount && unreadCount > 0 ? (
             <Button
               variant='ghost'
@@ -146,7 +148,7 @@ export function NotificationsDropdown() {
               onClick={handleMarkAllRead}
               disabled={markAllRead.isPending}
             >
-              Mark all read
+              {t('respos.notifications.markAllRead')}
             </Button>
           ) : null}
         </div>
@@ -160,7 +162,7 @@ export function NotificationsDropdown() {
             <div className='flex flex-col items-center justify-center py-8 text-center'>
               <Bell className='mb-2 h-8 w-8 text-muted-foreground/50' />
               <p className='text-sm text-muted-foreground'>
-                No notifications yet
+                {t('respos.notifications.empty')}
               </p>
             </div>
           ) : (
@@ -187,7 +189,7 @@ export function NotificationsDropdown() {
             asChild
             onClick={() => setOpen(false)}
           >
-            <Link to='/respos/notifications'>View all notifications</Link>
+            <Link to='/respos/notifications'>{t('respos.notifications.viewAll')}</Link>
           </Button>
         </div>
       </PopoverContent>

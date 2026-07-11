@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon, Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -58,6 +59,7 @@ export function ReservationDialog({
   reservation,
   initialDate,
 }: ReservationDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!reservation
   const createReservationMutation = useCreateReservation()
   const updateReservationMutation = useUpdateReservation()
@@ -128,7 +130,7 @@ export function ReservationDialog({
           notes: values.notes,
           status: values.status,
         })
-        toast.success('Reservation updated successfully')
+        toast.success(t('respos.reservation.success.updated'))
       } else {
         await createReservationMutation.mutateAsync({
           customerName: values.customer_name,
@@ -141,11 +143,11 @@ export function ReservationDialog({
           tableId: values.table_id || undefined,
           notes: values.notes,
         })
-        toast.success('Reservation created successfully')
+        toast.success(t('respos.reservation.success.created'))
       }
       onOpenChange(false)
     } catch {
-      toast.error('Failed to save reservation')
+      toast.error(t('respos.reservation.error.save'))
     }
   }
 
@@ -157,12 +159,12 @@ export function ReservationDialog({
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? 'Edit Reservation' : 'New Reservation'}
+            {isEditing ? t('respos.reservation.edit') : t('respos.reservation.add')}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update reservation details.'
-              : 'Create a new reservation for a customer.'}
+              ? t('respos.reservation.editDesc')
+              : t('respos.reservation.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -174,9 +176,9 @@ export function ReservationDialog({
                 name='customer_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Name</FormLabel>
+                    <FormLabel>{t('respos.reservation.customerName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='John Doe' {...field} />
+                      <Input placeholder={t('respos.reservation.customerNamePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -188,9 +190,9 @@ export function ReservationDialog({
                 name='customer_phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>{t('respos.reservation.phone')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='+1 234 567 890' {...field} />
+                      <Input placeholder={t('respos.reservation.phonePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -202,11 +204,11 @@ export function ReservationDialog({
                 name='customer_email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email (Optional)</FormLabel>
+                    <FormLabel>{t('respos.reservation.email')}</FormLabel>
                     <FormControl>
                       <Input
                         type='email'
-                        placeholder='john@example.com'
+                        placeholder={t('respos.reservation.emailPlaceholder')}
                         {...field}
                       />
                     </FormControl>
@@ -220,7 +222,7 @@ export function ReservationDialog({
                 name='party_size'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Party Size</FormLabel>
+                    <FormLabel>{t('respos.reservation.partySize')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -239,7 +241,7 @@ export function ReservationDialog({
                 name='reservation_date'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date</FormLabel>
+                    <FormLabel>{t('respos.reservation.date')}</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -253,7 +255,7 @@ export function ReservationDialog({
                             {field.value ? (
                               format(field.value, 'PPP')
                             ) : (
-                              <span>Pick a date</span>
+                              <span>{t('respos.reservation.pickDate')}</span>
                             )}
                             <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                           </Button>
@@ -281,7 +283,7 @@ export function ReservationDialog({
                 name='reservation_time'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Time</FormLabel>
+                    <FormLabel>{t('respos.reservation.time')}</FormLabel>
                     <FormControl>
                       <Input type='time' {...field} />
                     </FormControl>
@@ -295,7 +297,7 @@ export function ReservationDialog({
                 name='duration_minutes'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration (minutes)</FormLabel>
+                    <FormLabel>{t('respos.reservation.duration')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -315,7 +317,7 @@ export function ReservationDialog({
                 name='table_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Table (Optional)</FormLabel>
+                    <FormLabel>{t('respos.reservation.table')}</FormLabel>
                     <Select
                       onValueChange={(value) =>
                         field.onChange(value === '__none__' ? '' : value)
@@ -324,16 +326,16 @@ export function ReservationDialog({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select a table' />
+                          <SelectValue placeholder={t('respos.reservation.tablePlaceholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value='__none__'>
-                          No Table Assigned
+                          {t('respos.reservation.noTable')}
                         </SelectItem>
                         {tables?.map((table) => (
                           <SelectItem key={table.id} value={table.id}>
-                            Table {table.table_number} ({table.seats} seats)
+                            {t('respos.reservation.tableNumber', { number: table.table_number })} ({table.seats} {t('respos.reservation.seats')})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -348,21 +350,21 @@ export function ReservationDialog({
                 name='status'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>{t('respos.reservation.status')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select status' />
+                          <SelectValue placeholder={t('respos.reservation.statusPlaceholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='pending'>Pending</SelectItem>
-                        <SelectItem value='confirmed'>Confirmed</SelectItem>
-                        <SelectItem value='completed'>Completed</SelectItem>
-                        <SelectItem value='cancelled'>Cancelled</SelectItem>
+                        <SelectItem value='pending'>{t('respos.reservation.statusOptions.pending')}</SelectItem>
+                        <SelectItem value='confirmed'>{t('respos.reservation.statusOptions.confirmed')}</SelectItem>
+                        <SelectItem value='completed'>{t('respos.reservation.statusOptions.completed')}</SelectItem>
+                        <SelectItem value='cancelled'>{t('respos.reservation.statusOptions.cancelled')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -376,10 +378,10 @@ export function ReservationDialog({
               name='notes'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notes</FormLabel>
+                  <FormLabel>{t('respos.reservation.notes')}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Special requests, allergies, etc.'
+                      placeholder={t('respos.reservation.notesPlaceholder')}
                       className='resize-none'
                       {...field}
                     />
@@ -397,20 +399,20 @@ export function ReservationDialog({
                   disabled={deleteReservationMutation.isPending || isPending}
                   onClick={async () => {
                     const isConfirmed = window.confirm(
-                      `Are you sure you want to permanently delete this reservation?`
+                      t('respos.reservation.deleteConfirm')
                     )
                     if (!isConfirmed) return
                     try {
                       await deleteReservationMutation.mutateAsync(reservation!.id)
-                      toast.success('Reservation deleted successfully')
+                      toast.success(t('respos.reservation.success.deleted'))
                       onOpenChange(false)
                     } catch {
-                      toast.error('Failed to delete reservation')
+                      toast.error(t('respos.reservation.error.delete'))
                     }
                   }}
                 >
                   {deleteReservationMutation.isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                  Delete Reservation
+                  {t('respos.reservation.delete')}
                 </Button>
               ) : (
                 <div />
@@ -421,11 +423,11 @@ export function ReservationDialog({
                   variant='outline'
                   onClick={() => onOpenChange(false)}
                 >
-                  Cancel
+                  {t('respos.reservation.cancel')}
                 </Button>
                 <Button type='submit' disabled={isPending || deleteReservationMutation.isPending}>
                   {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                  {isEditing ? 'Update' : 'Create'}
+                  {isEditing ? t('respos.reservation.update') : t('respos.reservation.create')}
                 </Button>
               </div>
             </DialogFooter>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Users, Clock } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -21,6 +22,7 @@ export function FloorManagerView({
   onSelectFloor,
   onSelectTable,
 }: FloorManagerViewProps) {
+  const { t } = useTranslation()
   // Filter tables for current floor
   const activeFloorId = selectedFloorId || floors[0]?.id
   const floorTables = tables.filter((t) => t.floor_id === activeFloorId)
@@ -67,7 +69,7 @@ export function FloorManagerView({
                   <Users className='h-10 w-10 opacity-20' />
                 </div>
                 <p className='text-sm font-medium'>
-                  No tables found on this floor.
+                  {t('respos.floor.noTables')}
                 </p>
               </div>
             )}
@@ -78,10 +80,10 @@ export function FloorManagerView({
       {/* Legend */}
       <div className='border-t bg-background/50 p-4 backdrop-blur-sm'>
         <div className='flex flex-wrap items-center justify-center gap-6 text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
-          <LegendItem color='bg-emerald-500' label='Free' />
-          <LegendItem color='bg-orange-500' label='Occupied' />
-          <LegendItem color='bg-indigo-500' label='Reserved' />
-          <LegendItem color='bg-amber-500' label='Dirty' />
+          <LegendItem color='bg-emerald-500' label={t('respos.floor.status.free')} />
+          <LegendItem color='bg-orange-500' label={t('respos.floor.status.occupied')} />
+          <LegendItem color='bg-indigo-500' label={t('respos.floor.status.reserved')} />
+          <LegendItem color='bg-amber-500' label={t('respos.floor.status.dirty')} />
         </div>
       </div>
     </div>
@@ -104,6 +106,7 @@ function TableCard({
   table: ResTable
   onClick: () => void
 }) {
+  const { t } = useTranslation()
   const statusStyles =
     TABLE_STATUS_COLORS[table.status] || 'bg-muted border-muted'
   const isOccupied = table.status === 'occupied'
@@ -136,7 +139,7 @@ function TableCard({
       <div className='relative z-10 mt-1 flex flex-col items-center gap-0.5 leading-none'>
         <div className='flex items-center gap-1 opacity-70'>
           <Users className='h-3 w-3' />
-          <span className='text-[10px] font-bold'>{table.seats} seats</span>
+          <span className='text-[10px] font-bold'>{table.seats} {t('respos.floor.seats')}</span>
         </div>
 
         {isOccupied && (

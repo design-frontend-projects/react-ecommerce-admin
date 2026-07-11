@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ interface CustomerCardRowActionsProps<TData> {
 export function CustomerCardRowActions<TData>({
   row,
 }: CustomerCardRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const card = row.original as CustomerCard
   const { setOpen, setCurrentRow } = useCustomerCardsContext()
 
@@ -30,7 +32,7 @@ export function CustomerCardRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('customerCards.rowActions.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -41,7 +43,7 @@ export function CustomerCardRowActions<TData>({
           }}
         >
           <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Edit
+          {t('customerCards.form.save', 'Edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -51,7 +53,7 @@ export function CustomerCardRowActions<TData>({
           }}
         >
           <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Delete
+          {t('customerCards.delete.confirm', 'Delete')}
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

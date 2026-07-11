@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
+import { type TFunction } from 'i18next'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -38,20 +40,26 @@ import {
 } from '../hooks/use-customer-cards'
 import { useCustomerCardsContext } from './customer-cards-provider'
 
-const formSchema = z.object({
-  customer_id: z.coerce.number().min(1, 'Customer is required'),
-  cardholder_name: z.string().min(1, 'Cardholder name is required'),
-  card_type: z.string().optional(),
-  last_four_digits: z.string().length(4, 'Must be 4 digits'),
-  expiry_month: z.coerce.number().min(1).max(12),
-  expiry_year: z.coerce.number().min(2025).max(2100),
-  billing_address: z.string().optional(),
-  is_default: z.boolean().default(false),
-})
+const formSchema = (t: TFunction) =>
+  z.object({
+    customer_id: z.coerce
+      .number()
+      .min(1, t('customerCards.validation.customerRequired')),
+    cardholder_name: z.string().min(1, t('customerCards.validation.cardholderRequired')),
+    card_type: z.string().optional(),
+    last_four_digits: z
+      .string()
+      .length(4, t('customerCards.validation.mustBeFourDigits')),
+    expiry_month: z.coerce.number().min(1).max(12),
+    expiry_year: z.coerce.number().min(2025).max(2100),
+    billing_address: z.string().optional(),
+    is_default: z.boolean().default(false),
+  })
 
-type CustomerCardFormValues = z.infer<typeof formSchema>
+type CustomerCardFormValues = z.infer<ReturnType<typeof formSchema>>
 
 export function CustomerCardsActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCustomerCardsContext()
   const createMutation = useCreateCustomerCard()
   const updateMutation = useUpdateCustomerCard()
@@ -61,8 +69,8 @@ export function CustomerCardsActionDialog() {
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
 
-  const form = useForm({
-    resolver: zodResolver(formSchema),
+  const form = useForm<CustomerCardFormValues>({
+    resolver: zodResolver(formSchema(t)),
     defaultValues: {
       customer_id: 0,
       cardholder_name: '',
@@ -108,18 +116,18 @@ export function CustomerCardsActionDialog() {
           id: currentRow.card_id,
           ...values,
         })
-        toast.success('Card updated successfully')
+        toast.success(t('customerCards.toast.updated'))
       } else {
         await createMutation.mutateAsync(values)
-        toast.success('Card created successfully')
+        toast.success(t('customerCards.toast.created'))
       }
       setOpen(null)
     } catch (error: unknown) {
-      toast.error('Error', {
+      toast.error(t('customerCards.toast.error'), {
         description:
           error instanceof Error
             ? error.message
-            : 'Something went wrong. Please try again.',
+            : t('customerCards.toast.genericError'),
       })
     }
   }
@@ -128,11 +136,13 @@ export function CustomerCardsActionDialog() {
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Card' : 'Add New Card'}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? t('customerCards.editCard') : t('customerCards.addNewCard')}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Edit the card details below.'
-              : 'Add a new card for a customer.'}
+              ? t('customerCards.editCardDesc')
+              : t('customerCards.addCardDesc')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -144,7 +154,7 @@ export function CustomerCardsActionDialog() {
               name='customer_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Customer</FormLabel>
+                  <FormLabel>{t('customerCards.form.customer')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={
@@ -153,7 +163,9 @@ export function CustomerCardsActionDialog() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a customer' />
+                        <SelectValue
+                          placeholder={t('customerCards.form.selectCustomer')}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -175,9 +187,12 @@ export function CustomerCardsActionDialog() {
               name='cardholder_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cardholder Name</FormLabel>
+                  <FormLabel>{t('customerCards.form.cardholderName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='Name on Card' {...field} />
+                    <Input
+                      placeholder={t('customerCards.form.placeholderName')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -188,14 +203,16 @@ export function CustomerCardsActionDialog() {
                 name='card_type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Card Type</FormLabel>
+                    <FormLabel>{t('customerCards.form.cardType')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || undefined}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select type' />
+                          <SelectValue
+                            placeholder={t('customerCards.form.selectType')}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -223,9 +240,13 @@ export function CustomerCardsActionDialog() {
                 name='last_four_digits'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last 4 Digits</FormLabel>
+                    <FormLabel>{t('customerCards.form.lastFourDigits')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='1234' maxLength={4} {...field} />
+                      <Input
+                        placeholder={t('customerCards.form.placeholderDigits')}
+                        maxLength={4}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -238,7 +259,7 @@ export function CustomerCardsActionDialog() {
                 name='expiry_month'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Expiry Month</FormLabel>
+                    <FormLabel>{t('customerCards.form.expiryMonth')}</FormLabel>
                     <FormControl>
                       <Input type='number' min={1} max={12} {...field} />
                     </FormControl>
@@ -250,7 +271,7 @@ export function CustomerCardsActionDialog() {
                 name='expiry_year'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Expiry Year</FormLabel>
+                    <FormLabel>{t('customerCards.form.expiryYear')}</FormLabel>
                     <FormControl>
                       <Input type='number' min={2025} {...field} />
                     </FormControl>
@@ -264,9 +285,12 @@ export function CustomerCardsActionDialog() {
               name='billing_address'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address</FormLabel>
+                  <FormLabel>{t('customerCards.form.billingAddress')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='Address' {...field} />
+                    <Input
+                      placeholder={t('customerCards.form.placeholderAddress')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -278,9 +302,11 @@ export function CustomerCardsActionDialog() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                   <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Default Card</FormLabel>
+                    <FormLabel className='text-base'>
+                      {t('customerCards.form.defaultCard')}
+                    </FormLabel>
                     <FormDescription>
-                      Set as default payment method.
+                      {t('customerCards.form.defaultCardDesc')}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -300,15 +326,15 @@ export function CustomerCardsActionDialog() {
                 onClick={() => setOpen(null)}
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
-                Cancel
+                {t('customerCards.form.cancel')}
               </Button>
               <Button
                 type='submit'
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending
-                  ? 'Saving...'
-                  : 'Save'}
+                  ? t('customerCards.form.saving')
+                  : t('customerCards.form.save')}
               </Button>
             </DialogFooter>
           </form>

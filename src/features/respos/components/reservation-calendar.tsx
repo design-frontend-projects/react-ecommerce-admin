@@ -2,6 +2,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import arLocale from '@fullcalendar/core/locales/ar'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent } from '@/components/ui/card'
 import type { ResReservation, ResTable } from '../types'
 
@@ -16,6 +18,7 @@ export function ReservationCalendar({
   onEventClick,
   onDateSelect,
 }: ReservationCalendarProps) {
+  const { i18n } = useTranslation()
   // Transform reservations to events
   const events = reservations.map((res) => ({
     id: res.id,
@@ -46,6 +49,8 @@ export function ReservationCalendar({
       <CardContent className='h-full overflow-hidden p-0 [&_.fc]:h-full [&_.fc-toolbar-title]:text-xl [&_.fc-toolbar-title]:font-bold'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          locales={[arLocale]}
+          locale={i18n.language}
           initialView='timeGridWeek'
           headerToolbar={{
             left: 'prev,next today',

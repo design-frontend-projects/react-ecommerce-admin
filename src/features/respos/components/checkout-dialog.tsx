@@ -45,13 +45,13 @@ interface CheckoutDialogProps {
 
 const checkoutSchema = z
   .object({
-    paymentMethodId: z.string().min(1, 'Payment method is required'),
+    paymentMethodId: z.string().min(1, 'respos.checkout.errors.paymentMethodRequired'),
     customerName: z.string().optional(),
     mobileNumber: z.string().optional(),
     discountType: z.enum(['percent', 'amount']),
     discountValue: z.number().min(0),
     promoCode: z.string().optional(),
-    receivedAmount: z.number().min(0, 'Received amount is required'),
+    receivedAmount: z.number().min(0, 'respos.checkout.errors.receivedAmountRequired'),
     tipAmount: z.number().min(0),
     recipientName: z.string().optional(),
     recipientPhone: z.string().optional(),
@@ -69,7 +69,7 @@ const checkoutSchema = z
       return true
     },
     {
-      message: 'Percentage cannot exceed 100%',
+      message: 'respos.checkout.errors.percentageExceeds',
       path: ['discountValue'],
     }
   )
@@ -237,7 +237,9 @@ export function CheckoutDialog({
       if (discountValue > maxDiscount) {
         form.setError('discountValue', {
           type: 'manual',
-          message: `Max discount is 10% (${formatCurrency(maxDiscount)})`,
+          message: t('respos.checkout.errors.maxDiscount', {
+            amount: formatCurrency(maxDiscount),
+          }),
         })
       } else {
         form.clearErrors('discountValue')
@@ -280,21 +282,21 @@ export function CheckoutDialog({
       if (!values.recipientName?.trim()) {
         form.setError('recipientName', {
           type: 'manual',
-          message: 'Recipient name is required for delivery',
+          message: t('respos.checkout.errors.recipientNameRequired'),
         })
         return
       }
       if (!values.recipientPhone?.trim()) {
         form.setError('recipientPhone', {
           type: 'manual',
-          message: 'Recipient phone is required for delivery',
+          message: t('respos.checkout.errors.recipientPhoneRequired'),
         })
         return
       }
       if (!values.deliveryAddress?.trim()) {
         form.setError('deliveryAddress', {
           type: 'manual',
-          message: 'Delivery address is required for delivery',
+          message: t('respos.checkout.errors.deliveryAddressRequired'),
         })
         return
       }
@@ -304,7 +306,9 @@ export function CheckoutDialog({
     if (values.receivedAmount < grandTotal && !isCard) {
       form.setError('receivedAmount', {
         type: 'manual',
-        message: `Amount must be at least ${formatCurrency(grandTotal)}`,
+        message: t('respos.checkout.errors.amountAtLeast', {
+          amount: formatCurrency(grandTotal),
+        }),
       })
       return
     }
@@ -373,10 +377,14 @@ export function CheckoutDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[640px]'>
         <DialogHeader>
-          <DialogTitle>Checkout — Order #{order.order_number}</DialogTitle>
+          <DialogTitle>
+            {t('respos.checkout.title')} — {t('respos.checkout.orderNumber', { orderNumber: order.order_number })}
+          </DialogTitle>
           <DialogDescription>
-            {order.table ? `Table ${order.table.table_number}` : 'Takeaway'} •{' '}
-            {order.items?.length || 0} items
+            {order.table
+              ? t('respos.checkout.tableNumber', { number: order.table.table_number })
+              : t('respos.checkout.takeaway')}{' '}
+            • {order.items?.length || 0} {t('respos.checkout.items')}
           </DialogDescription>
         </DialogHeader>
 
@@ -392,9 +400,9 @@ export function CheckoutDialog({
                 name='customerName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Name</FormLabel>
+                    <FormLabel>{t('respos.checkout.customerName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Optional' {...field} />
+                      <Input placeholder={t('respos.checkout.optional')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -405,9 +413,9 @@ export function CheckoutDialog({
                 name='mobileNumber'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mobile Number</FormLabel>
+                    <FormLabel>{t('respos.checkout.mobileNumber')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Optional' type='tel' {...field} />
+                      <Input placeholder={t('respos.checkout.optional')} type='tel' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -419,16 +427,16 @@ export function CheckoutDialog({
               <>
                 <Separator />
                 <div className='space-y-4'>
-                  <h4 className='text-sm font-semibold'>Delivery Details</h4>
+                  <h4 className='text-sm font-semibold'>{t('respos.checkout.deliveryDetails')}</h4>
                   <div className='grid grid-cols-2 gap-4'>
                     <FormField
                       control={form.control}
                       name='recipientName'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Recipient Name *</FormLabel>
+                          <FormLabel>{t('respos.checkout.recipientName')} *</FormLabel>
                           <FormControl>
-                            <Input placeholder='Full name' {...field} />
+                            <Input placeholder={t('respos.checkout.fullName')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -439,9 +447,9 @@ export function CheckoutDialog({
                       name='recipientPhone'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Recipient Phone *</FormLabel>
+                          <FormLabel>{t('respos.checkout.recipientPhone')} *</FormLabel>
                           <FormControl>
-                            <Input placeholder='Phone number' {...field} />
+                            <Input placeholder={t('respos.checkout.phoneNumber')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -452,10 +460,10 @@ export function CheckoutDialog({
                       name='deliveryAddress'
                       render={({ field }) => (
                         <FormItem className='col-span-2'>
-                          <FormLabel>Delivery Address *</FormLabel>
+                          <FormLabel>{t('respos.checkout.deliveryAddress')} *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder='Street, building, apartment'
+                              placeholder={t('respos.checkout.deliveryAddressPlaceholder')}
                               {...field}
                             />
                           </FormControl>
@@ -468,9 +476,9 @@ export function CheckoutDialog({
                       name='city'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>City</FormLabel>
+                          <FormLabel>{t('respos.checkout.city')}</FormLabel>
                           <FormControl>
-                            <Input placeholder='City' {...field} />
+                            <Input placeholder={t('respos.checkout.city')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -481,9 +489,9 @@ export function CheckoutDialog({
                       name='state'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>State</FormLabel>
+                          <FormLabel>{t('respos.checkout.state')}</FormLabel>
                           <FormControl>
-                            <Input placeholder='State' {...field} />
+                            <Input placeholder={t('respos.checkout.state')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -494,9 +502,9 @@ export function CheckoutDialog({
                       name='postalCode'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Postal Code</FormLabel>
+                          <FormLabel>{t('respos.checkout.postalCode')}</FormLabel>
                           <FormControl>
-                            <Input placeholder='Postal code' {...field} />
+                            <Input placeholder={t('respos.checkout.postalCode')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -507,10 +515,10 @@ export function CheckoutDialog({
                       name='deliveryNotes'
                       render={({ field }) => (
                         <FormItem className='col-span-2'>
-                          <FormLabel>Delivery Notes</FormLabel>
+                          <FormLabel>{t('respos.checkout.deliveryNotes')}</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder='Landmark, gate code, etc.'
+                              placeholder={t('respos.checkout.deliveryNotesPlaceholder')}
                               {...field}
                             />
                           </FormControl>
@@ -532,7 +540,7 @@ export function CheckoutDialog({
                 name='discountType'
                 render={({ field }) => (
                   <FormItem className='space-y-3'>
-                    <FormLabel>Manual Discount</FormLabel>
+                    <FormLabel>{t('respos.checkout.manualDiscount')}</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -543,7 +551,7 @@ export function CheckoutDialog({
                           <FormControl>
                             <RadioGroupItem value='amount' />
                           </FormControl>
-                          <FormLabel className='font-normal'>Amount</FormLabel>
+                          <FormLabel className='font-normal'>{t('respos.checkout.amount')}</FormLabel>
                         </FormItem>
                         <FormItem className='flex items-center space-y-0 space-x-2'>
                           <FormControl>
@@ -564,7 +572,7 @@ export function CheckoutDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Discount Value{discountType === 'percent' ? ' (%)' : ''}
+                      {t('respos.checkout.discountValue')}{discountType === 'percent' ? ' (%)' : ''}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -704,7 +712,7 @@ export function CheckoutDialog({
               )}
               {shortfall > 0 && (
                 <div className='flex justify-between text-sm font-semibold text-destructive'>
-                  <span>Shortfall</span>
+                  <span>{t('respos.checkout.shortfall')}</span>
                   <span>- {formatCurrency(shortfall)}</span>
                 </div>
               )}
@@ -716,7 +724,7 @@ export function CheckoutDialog({
               name='paymentMethodId'
               render={({ field }) => (
                 <FormItem className='space-y-3'>
-                  <FormLabel>Payment Method</FormLabel>
+                  <FormLabel>{t('respos.checkout.paymentMethod')}</FormLabel>
                   {methodsLoading ? (
                     <div className='flex justify-center p-2'>
                       <Loader2 className='h-4 w-4 animate-spin' />
@@ -758,7 +766,7 @@ export function CheckoutDialog({
                 name='receivedAmount'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Amount Received</FormLabel>
+                    <FormLabel>{t('respos.checkout.amountReceived')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -774,7 +782,7 @@ export function CheckoutDialog({
                 )}
               />
               <div className='space-y-2'>
-                <Label className='text-sm font-medium'>Change</Label>
+                <Label className='text-sm font-medium'>{t('respos.checkout.change')}</Label>
                 <div
                   className={`flex h-10 items-center rounded-md border px-3 text-sm font-semibold ${
                     change > 0
@@ -794,7 +802,7 @@ export function CheckoutDialog({
                 onClick={() => onOpenChange(false)}
                 disabled={isProcessing}
               >
-                Cancel
+                {t('respos.checkout.cancel')}
               </Button>
               <Button
                 type='submit'
@@ -804,7 +812,7 @@ export function CheckoutDialog({
                 {isProcessing && (
                   <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 )}
-                Process Payment
+                {t('respos.checkout.processPayment')}
               </Button>
             </DialogFooter>
           </form>

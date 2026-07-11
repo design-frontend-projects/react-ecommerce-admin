@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Plus, Trash2, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -57,6 +58,7 @@ export function MenuItemDialog({
   onOpenChange,
   item,
 }: MenuItemDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!item
   const [allergenInput, setAllergenInput] = useState('')
   const [tagInput, setTagInput] = useState('')
@@ -270,8 +272,8 @@ export function MenuItemDialog({
           }
         }
 
-        toast.success('Menu item updated', {
-          description: 'Menu item has been updated successfully.',
+        toast.success(t('respos.menuItem.success.updated'), {
+          description: t('respos.menuItem.success.updatedDesc'),
         })
       } else {
         const result = await createMenuItem.mutateAsync({
@@ -309,17 +311,17 @@ export function MenuItemDialog({
           })
         }
 
-        toast.success('Menu item created', {
-          description: 'Menu item has been created successfully.',
+        toast.success(t('respos.menuItem.success.created'), {
+          description: t('respos.menuItem.success.createdDesc'),
         })
       }
 
       onOpenChange(false)
       form.reset()
     } catch (error) {
-      toast.error('Error', {
+      toast.error(t('respos.menuItem.error.title'), {
         description:
-          error instanceof Error ? error.message : 'An error occurred',
+          error instanceof Error ? error.message : t('respos.menuItem.error.unknown'),
       })
     }
   }
@@ -329,12 +331,12 @@ export function MenuItemDialog({
       <DialogContent className='max-h-[90vh] max-w-3xl overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? 'Edit Menu Item' : 'Add Menu Item'}
+            {isEditing ? t('respos.menuItem.edit') : t('respos.menuItem.add')}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update the menu item details, variants, and properties.'
-              : 'Add a new menu item with optional variants and customization properties.'}
+              ? t('respos.menuItem.editDesc')
+              : t('respos.menuItem.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -342,9 +344,9 @@ export function MenuItemDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <Tabs defaultValue='basic' className='w-full'>
               <TabsList className='grid w-full grid-cols-3'>
-                <TabsTrigger value='basic'>Basic Info</TabsTrigger>
-                <TabsTrigger value='variants'>Variants</TabsTrigger>
-                <TabsTrigger value='properties'>Properties</TabsTrigger>
+                <TabsTrigger value='basic'>{t('respos.menuItem.tabs.basic')}</TabsTrigger>
+                <TabsTrigger value='variants'>{t('respos.menuItem.tabs.variants')}</TabsTrigger>
+                <TabsTrigger value='properties'>{t('respos.menuItem.tabs.properties')}</TabsTrigger>
               </TabsList>
 
               <TabsContent value='basic' className='space-y-4 pt-4'>
@@ -354,10 +356,10 @@ export function MenuItemDialog({
                     name='name'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name (English)</FormLabel>
+                        <FormLabel>{t('respos.menuItem.nameEn')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='e.g., Margherita Pizza'
+                            placeholder={t('respos.menuItem.nameEnPlaceholder')}
                             {...field}
                           />
                         </FormControl>
@@ -371,10 +373,10 @@ export function MenuItemDialog({
                     name='name_ar'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name (Arabic)</FormLabel>
+                        <FormLabel>{t('respos.menuItem.nameAr')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='بيتزا مارغريتا'
+                            placeholder={t('respos.menuItem.nameArPlaceholder')}
                             dir='rtl'
                             {...field}
                             value={field.value || ''}
@@ -391,14 +393,14 @@ export function MenuItemDialog({
                   name='category_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
+                      <FormLabel>{t('respos.menuItem.category')}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value || undefined}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select a category' />
+                            <SelectValue placeholder={t('respos.menuItem.categoryPlaceholder')} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -420,7 +422,7 @@ export function MenuItemDialog({
                     name='base_price'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Base Price</FormLabel>
+                        <FormLabel>{t('respos.menuItem.basePrice')}</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
@@ -443,7 +445,7 @@ export function MenuItemDialog({
                     name='preparation_time'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Prep Time (min)</FormLabel>
+                        <FormLabel>{t('respos.menuItem.prepTime')}</FormLabel>
                         <FormControl>
                           <Input
                             type='number'
@@ -465,10 +467,10 @@ export function MenuItemDialog({
                   name='description'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description (English)</FormLabel>
+                      <FormLabel>{t('respos.menuItem.description')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder='Describe the item...'
+                          placeholder={t('respos.menuItem.descriptionPlaceholder')}
                           className='resize-none'
                           {...field}
                           value={field.value || ''}
@@ -484,10 +486,10 @@ export function MenuItemDialog({
                   name='image_url'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image URL (optional)</FormLabel>
+                      <FormLabel>{t('respos.menuItem.imageUrl')}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder='https://example.com/image.jpg'
+                          placeholder={t('respos.menuItem.imageUrlPlaceholder')}
                           {...field}
                           value={field.value || ''}
                         />
@@ -499,10 +501,10 @@ export function MenuItemDialog({
 
                 {/* Allergens */}
                 <div className='space-y-2'>
-                  <FormLabel>Allergens</FormLabel>
+                  <FormLabel>{t('respos.menuItem.allergens')}</FormLabel>
                   <div className='flex gap-2'>
                     <Input
-                      placeholder='e.g., Gluten, Dairy'
+                      placeholder={t('respos.menuItem.allergensPlaceholder')}
                       value={allergenInput}
                       onChange={(e) => setAllergenInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -517,7 +519,7 @@ export function MenuItemDialog({
                       variant='outline'
                       onClick={handleAddAllergen}
                     >
-                      Add
+                      {t('respos.menuItem.addBtn')}
                     </Button>
                   </div>
                   <div className='flex flex-wrap gap-1'>
@@ -538,10 +540,10 @@ export function MenuItemDialog({
 
                 {/* Tags */}
                 <div className='space-y-2'>
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel>{t('respos.menuItem.tags')}</FormLabel>
                   <div className='flex gap-2'>
                     <Input
-                      placeholder='e.g., Spicy, Vegan'
+                      placeholder={t('respos.menuItem.tagsPlaceholder')}
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -556,7 +558,7 @@ export function MenuItemDialog({
                       variant='outline'
                       onClick={handleAddTag}
                     >
-                      Add
+                      {t('respos.menuItem.addBtn')}
                     </Button>
                   </div>
                   <div className='flex flex-wrap gap-1'>
@@ -581,9 +583,9 @@ export function MenuItemDialog({
                   render={({ field }) => (
                     <FormItem className='flex items-center justify-between rounded-lg border p-3'>
                       <div className='space-y-0.5'>
-                        <FormLabel>Available</FormLabel>
+                        <FormLabel>{t('respos.menuItem.available')}</FormLabel>
                         <p className='text-sm text-muted-foreground'>
-                          Show this item on the menu
+                          {t('respos.menuItem.availableDesc')}
                         </p>
                       </div>
                       <FormControl>
@@ -600,7 +602,7 @@ export function MenuItemDialog({
               <TabsContent value='variants' className='space-y-4 pt-4'>
                 <div className='flex items-center justify-between'>
                   <p className='text-sm text-muted-foreground'>
-                    Add size or type variations (e.g., Small, Medium, Large)
+                    {t('respos.menuItem.variantsDesc')}
                   </p>
                   <Button
                     type='button'
@@ -615,13 +617,13 @@ export function MenuItemDialog({
                     }
                   >
                     <Plus className='mr-1 h-4 w-4' />
-                    Add Variant
+                    {t('respos.menuItem.addVariantBtn')}
                   </Button>
                 </div>
 
                 {variantFields.length === 0 && (
                   <p className='py-4 text-center text-sm text-muted-foreground'>
-                    No variants added. Click "Add Variant" to create one.
+                    {t('respos.menuItem.noVariants')}
                   </p>
                 )}
 
@@ -630,7 +632,7 @@ export function MenuItemDialog({
                     <CardHeader className='pb-2'>
                       <div className='flex items-center justify-between'>
                         <CardTitle className='text-sm'>
-                          Variant {index + 1}
+                          {t('respos.menuItem.variant')} {index + 1}
                         </CardTitle>
                         <Button
                           type='button'
@@ -648,9 +650,9 @@ export function MenuItemDialog({
                         name={`variants.${index}.name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>{t('respos.menuItem.variantName')}</FormLabel>
                             <FormControl>
-                              <Input placeholder='e.g., Large' {...field} />
+                              <Input placeholder={t('respos.menuItem.variantNamePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -662,7 +664,7 @@ export function MenuItemDialog({
                           name={`variants.${index}.price_adjustment`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Price Adjustment</FormLabel>
+                              <FormLabel>{t('respos.menuItem.priceAdjustment')}</FormLabel>
                               <FormControl>
                                 <Input
                                   type='number'
@@ -689,7 +691,7 @@ export function MenuItemDialog({
                                   onCheckedChange={field.onChange}
                                 />
                               </FormControl>
-                              <FormLabel className='!mt-0'>Default</FormLabel>
+                              <FormLabel className='!mt-0'>{t('respos.menuItem.defaultVariant')}</FormLabel>
                             </FormItem>
                           )}
                         />
@@ -702,7 +704,7 @@ export function MenuItemDialog({
               <TabsContent value='properties' className='space-y-4 pt-4'>
                 <div className='flex items-center justify-between'>
                   <p className='text-sm text-muted-foreground'>
-                    Add customization options (e.g., Toppings, Sauce)
+                    {t('respos.menuItem.propertiesDesc')}
                   </p>
                   <Button
                     type='button'
@@ -718,13 +720,13 @@ export function MenuItemDialog({
                     }
                   >
                     <Plus className='mr-1 h-4 w-4' />
-                    Add Property
+                    {t('respos.menuItem.addPropertyBtn')}
                   </Button>
                 </div>
 
                 {propertyFields.length === 0 && (
                   <p className='py-4 text-center text-sm text-muted-foreground'>
-                    No properties added. Click "Add Property" to create one.
+                    {t('respos.menuItem.noProperties')}
                   </p>
                 )}
 
@@ -745,11 +747,11 @@ export function MenuItemDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.menuItem.cancel')}
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? t('respos.menuItem.update') : t('respos.menuItem.create')}
               </Button>
             </DialogFooter>
           </form>
@@ -769,6 +771,7 @@ function PropertyFieldCard({
   form: ReturnType<typeof useForm<MenuItemForm>>
   onRemove: () => void
 }) {
+  const { t } = useTranslation()
   const {
     fields: optionFields,
     append: appendOption,
@@ -782,7 +785,7 @@ function PropertyFieldCard({
     <Card>
       <CardHeader className='pb-2'>
         <div className='flex items-center justify-between'>
-          <CardTitle className='text-sm'>Property {index + 1}</CardTitle>
+          <CardTitle className='text-sm'>{t('respos.menuItem.property')} {index + 1}</CardTitle>
           <Button type='button' variant='ghost' size='sm' onClick={onRemove}>
             <Trash2 className='h-4 w-4 text-destructive' />
           </Button>
@@ -794,9 +797,9 @@ function PropertyFieldCard({
           name={`properties.${index}.name`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Property Name</FormLabel>
+              <FormLabel>{t('respos.menuItem.propertyName')}</FormLabel>
               <FormControl>
-                <Input placeholder='e.g., Toppings' {...field} />
+                <Input placeholder={t('respos.menuItem.propertyNamePlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -809,7 +812,7 @@ function PropertyFieldCard({
             name={`properties.${index}.max_selections`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Max Selections</FormLabel>
+                <FormLabel>{t('respos.menuItem.maxSelections')}</FormLabel>
                 <FormControl>
                   <Input
                     type='number'
@@ -833,7 +836,7 @@ function PropertyFieldCard({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className='!mt-0'>Required</FormLabel>
+                <FormLabel className='!mt-0'>{t('respos.menuItem.required')}</FormLabel>
               </FormItem>
             )}
           />
@@ -841,7 +844,7 @@ function PropertyFieldCard({
 
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
-            <FormLabel>Options</FormLabel>
+            <FormLabel>{t('respos.menuItem.options')}</FormLabel>
             <Button
               type='button'
               variant='ghost'
@@ -849,7 +852,7 @@ function PropertyFieldCard({
               onClick={() => appendOption({ name: '', price: 0 })}
             >
               <Plus className='mr-1 h-3 w-3' />
-              Add
+              {t('respos.menuItem.addBtn')}
             </Button>
           </div>
 
@@ -861,7 +864,7 @@ function PropertyFieldCard({
                 render={({ field }) => (
                   <FormItem className='flex-1'>
                     <FormControl>
-                      <Input placeholder='Option name' {...field} />
+                      <Input placeholder={t('respos.menuItem.optionNamePlaceholder')} {...field} />
                     </FormControl>
                   </FormItem>
                 )}

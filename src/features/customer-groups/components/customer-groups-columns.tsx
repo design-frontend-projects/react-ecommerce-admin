@@ -1,9 +1,10 @@
+import { type TFunction } from 'i18next'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type CustomerGroup } from '../hooks/use-customer-groups'
 import { CustomerGroupRowActions } from './customer-groups-row-actions'
 
-export const columns: ColumnDef<CustomerGroup>[] = [
+export const getColumns = (t: TFunction): ColumnDef<CustomerGroup>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -30,7 +31,7 @@ export const columns: ColumnDef<CustomerGroup>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: t('customerGroups.columns.name'),
     cell: ({ row }) => (
       <div className='font-medium'>{row.getValue('name')}</div>
     ),
@@ -38,11 +39,11 @@ export const columns: ColumnDef<CustomerGroup>[] = [
   },
   {
     accessorKey: 'description',
-    header: 'Description',
+    header: t('customerGroups.columns.description'),
   },
   {
     accessorKey: 'minimum_order_amount',
-    header: 'Min. Order Amount',
+    header: t('customerGroups.columns.minOrderAmount'),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('minimum_order_amount')) || 0
       return (
@@ -57,7 +58,7 @@ export const columns: ColumnDef<CustomerGroup>[] = [
   },
   {
     accessorKey: 'discount_percentage',
-    header: 'Discount (%)',
+    header: t('customerGroups.columns.discount'),
     cell: ({ row }) => (
       <div className='text-right font-medium'>
         {row.getValue('discount_percentage')}%
@@ -66,7 +67,7 @@ export const columns: ColumnDef<CustomerGroup>[] = [
   },
   {
     accessorKey: 'created_at',
-    header: 'Created At',
+    header: t('customerGroups.columns.createdAt'),
     cell: ({ row }) =>
       new Date(row.getValue('created_at')).toLocaleDateString(),
   },

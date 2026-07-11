@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AlertCircle, Loader2, Undo2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   Dialog,
@@ -18,13 +19,14 @@ import { useRefundOrder } from '../../api/mutations'
 import { formatCurrency } from '../../lib/formatters'
 
 export function RefundDialog({ order }: { order: ResOrder }) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [reason, setReason] = useState('')
   const refundOrder = useRefundOrder()
 
   const handleRefund = async () => {
     if (!reason.trim()) {
-      toast.error('Refund reason is required')
+      toast.error(t('respos.history.refund.error.reasonRequired'))
       return
     }
 
@@ -33,15 +35,15 @@ export function RefundDialog({ order }: { order: ResOrder }) {
         orderId: order.id,
         reason: reason.trim(),
       })
-      toast.success('Order refunded successfully', {
-        description: `Order ${order.order_number} has been refunded.`,
+      toast.success(t('respos.history.refund.success.title'), {
+        description: t('respos.history.refund.success.desc', { orderNumber: order.order_number }),
       })
       setOpen(false)
     } catch (e: unknown) {
       if (e instanceof Error) {
-        toast.error(e.message || 'Failed to refund order')
+        toast.error(e.message || t('respos.history.refund.error.failed'))
       } else {
-        toast.error('Failed to refund order')
+        toast.error(t('respos.history.refund.error.failed'))
       }
     }
   }
@@ -55,7 +57,7 @@ export function RefundDialog({ order }: { order: ResOrder }) {
           className='h-8 text-xs font-bold text-orange-600 hover:bg-orange-50 hover:text-orange-700'
         >
           <Undo2 className='mr-1.5 h-3 w-3' />
-          Refund
+          {t('respos.history.refund.trigger')}
         </Button>
       </DialogTrigger>
       <DialogContent className='overflow-hidden rounded-3xl sm:max-w-[425px]'>
@@ -64,23 +66,22 @@ export function RefundDialog({ order }: { order: ResOrder }) {
             <AlertCircle className='h-6 w-6 text-orange-600' />
           </div>
           <DialogTitle className='text-center text-xl font-black tracking-tight'>
-            Confirm Refund
+            {t('respos.history.refund.confirmTitle')}
           </DialogTitle>
           <DialogDescription className='text-center text-sm font-medium'>
-            Are you sure you want to refund this order? This action cannot be
-            undone.
+            {t('respos.history.refund.confirmDesc')}
           </DialogDescription>
         </DialogHeader>
 
         <div className='my-4 rounded-xl border bg-muted/30 p-4'>
           <div className='flex justify-between text-sm'>
             <span className='font-medium text-muted-foreground'>
-              Order Number
+              {t('respos.history.refund.orderNumber')}
             </span>
             <span className='font-mono font-bold'>{order.order_number}</span>
           </div>
           <div className='mt-2 flex justify-between text-sm'>
-            <span className='font-medium text-muted-foreground'>Amount</span>
+            <span className='font-medium text-muted-foreground'>{t('respos.history.refund.amount')}</span>
             <span className='font-black tracking-tight text-destructive'>
               {formatCurrency(order.total_amount)}
             </span>
@@ -89,11 +90,11 @@ export function RefundDialog({ order }: { order: ResOrder }) {
 
         <div className='grid gap-2'>
           <Label htmlFor='reason' className='font-semibold'>
-            Refund Reason <span className='text-destructive'>*</span>
+            {t('respos.history.refund.reasonLabel')} <span className='text-destructive'>*</span>
           </Label>
           <Input
             id='reason'
-            placeholder='e.g., Customer requested cancellation'
+            placeholder={t('respos.history.refund.reasonPlaceholder')}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             className='rounded-xl focus-visible:ring-orange-500'
@@ -107,7 +108,7 @@ export function RefundDialog({ order }: { order: ResOrder }) {
             onClick={() => setOpen(false)}
             className='w-full rounded-xl font-bold'
           >
-            Cancel
+            {t('respos.history.refund.cancel')}
           </Button>
           <Button
             type='button'
@@ -119,7 +120,7 @@ export function RefundDialog({ order }: { order: ResOrder }) {
             {refundOrder.isPending ? (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             ) : (
-              'Confirm Refund'
+              t('respos.history.refund.confirmButton')
             )}
           </Button>
         </DialogFooter>

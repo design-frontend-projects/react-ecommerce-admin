@@ -197,7 +197,7 @@
     "stockAdjustments": "تعديلات المخزون",
     "inventoryMovements": "حركات المخزون"
   },
-  "d  ashboard": {
+  "dashboard": {
     "loading": "جاري تحميل لوحة التحكم...",
     "download": "تحميل",
     "overview": "نظرة عامة",
@@ -425,6 +425,221 @@
       "dineIn": "صالة",
       "takeaway": "استلام",
       "delivery": "توصيل"
+    },
+    "floor": {
+      "table": {
+        "add": "إضافة طاولة",
+        "edit": "تعديل الطاولة",
+        "addDesc": "إضافة طاولة جديدة.",
+        "editDesc": "تحديث تفاصيل الطاولة.",
+        "floor": "الطابق",
+        "selectFloor": "اختر الطابق",
+        "tableNumber": "رقم الطاولة",
+        "tableNumberPlaceholder": "مثل: T-01",
+        "seats": "عدد المقاعد",
+        "shape": "شكل الطاولة",
+        "shapes": {
+          "square": "مربع",
+          "round": "دائري",
+          "rectangle": "مستطيل"
+        },
+        "positionX": "الموضع X",
+        "positionY": "الموضع Y",
+        "active": "نشط",
+        "activeDesc": "تفعيل هذه الطاولة للطلبات",
+        "cancel": "إلغاء",
+        "update": "تحديث",
+        "create": "إنشاء",
+        "success": {
+          "created": "تم إنشاء الطاولة",
+          "createdDesc": "تم إنشاء الطاولة بنجاح.",
+          "updated": "تم تحديث الطاولة",
+          "updatedDesc": "تم تحديث الطاولة بنجاح."
+        },
+        "error": {
+          "title": "خطأ",
+          "generic": "حدث خطأ ما"
+        }
+      }
+    },
+    "users": {
+      "createUser": "إنشاء مستخدم",
+      "editUser": "تعديل مستخدم",
+      "createDesc": "أضف مستخدمًا جديدًا إلى النظام. سيؤدي هذا إلى إنشاء حساب Supabase وملف تعريف مطعم.",
+      "editDesc": "تحديث تفاصيل المستخدم وتعيين الأدوار.",
+      "firstName": "الاسم الأول",
+      "firstNamePlaceholder": "أحمد",
+      "lastName": "اسم العائلة",
+      "lastNamePlaceholder": "محمد",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "ahmed@example.com",
+      "password": "كلمة المرور",
+      "phone": "رقم الهاتف (اختياري)",
+      "phonePlaceholder": "+1234567890",
+      "pinCode": "الرمز السري (6 أرقام)",
+      "roles": "الأدوار",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات",
+      "error": {
+        "firstName": "يجب أن يتكون الاسم الأول من حرفين على الأقل",
+        "lastName": "يجب أن يتكون اسم العائلة من حرفين على الأقل",
+        "email": "عنوان بريد إلكتروني غير صالح",
+        "password": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+        "pin": "يجب أن يتكون الرمز السري من 6 أرقام بالضبط",
+        "roles": "يجب تحديد دور واحد على الأقل"
+      }
+    },
+    "history": {
+      "title": "سجل الطلبات",
+      "subtitle": "المعاملات والاستردادات الأخيرة",
+      "search": "ابحث عن رقم الطلب أو العميل أو الحالة",
+      "noOrders": "لا توجد طلبات مكتملة",
+      "discounted": "مخفض",
+      "status": {
+        "active": "نشط",
+        "ready": "جاهز",
+        "paid": "مدفوع",
+        "void": "ملغى",
+        "refunded": "مسترد"
+      },
+      "refund": {
+        "trigger": "استرداد",
+        "confirmTitle": "تأكيد الاسترداد",
+        "confirmDesc": "هل أنت متأكد من أنك تريد استرداد هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.",
+        "orderNumber": "رقم الطلب",
+        "amount": "المبلغ",
+        "reasonLabel": "سبب الاسترداد",
+        "reasonPlaceholder": "مثل: طلب العميل الإلغاء",
+        "cancel": "إلغاء",
+        "confirmButton": "تأكيد الاسترداد",
+        "success": {
+          "title": "تم استرداد الطلب بنجاح",
+          "desc": "تم استرداد الطلب {{orderNumber}}."
+        },
+        "error": {
+          "reasonRequired": "سبب الاسترداد مطلوب",
+          "failed": "فشل استرداد الطلب"
+        }
+      }
+    },
+    "captain": {
+      "table": "طاولة {{number}}",
+      "readyItems": "{{count}} عنصر جاهز",
+      "readyItems_plural": "{{count}} عناصر جاهزة",
+      "unknownItem": "عنصر غير معروف",
+      "note": "ملاحظة",
+      "ready": "جاهز",
+      "markServed": "تحديد كمقدم",
+      "markAllServed": "تحديد الكل كمقدم"
+    }
+  },
+  "customerCards": {
+    "title": "بطاقات العملاء",
+    "description": "إدارة طرق دفع العملاء.",
+    "loading": "جاري التحميل...",
+    "addCard": "إضافة بطاقة",
+    "editCard": "تعديل البطاقة",
+    "addNewCard": "إضافة بطاقة جديدة",
+    "editCardDesc": "تعديل تفاصيل البطاقة أدناه.",
+    "addCardDesc": "إضافة بطاقة جديدة لعميل.",
+    "form": {
+      "customer": "العميل",
+      "selectCustomer": "اختر العميل",
+      "cardholderName": "اسم حامل البطاقة",
+      "placeholderName": "الاسم المكتوب على البطاقة",
+      "cardType": "نوع البطاقة",
+      "selectType": "اختر النوع",
+      "lastFourDigits": "آخر 4 أرقام",
+      "placeholderDigits": "1234",
+      "expiryMonth": "شهر الانتهاء",
+      "expiryYear": "سنة الانتهاء",
+      "billingAddress": "عنوان الفواتير",
+      "placeholderAddress": "العنوان",
+      "defaultCard": "البطاقة الافتراضية",
+      "defaultCardDesc": "تعيين كطريقة دفع افتراضية.",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "saving": "جاري الحفظ..."
+    },
+    "table": {
+      "filterPlaceholder": "تصفية البطاقات...",
+      "noResults": "لا توجد نتائج."
+    },
+    "columns": {
+      "customer": "العميل",
+      "cardholderName": "اسم حامل البطاقة",
+      "cardType": "نوع البطاقة",
+      "lastFourDigits": "آخر 4 أرقام",
+      "expiry": "تاريخ الانتهاء",
+      "default": "الافتراضية"
+    },
+    "delete": {
+      "title": "هل أنت متأكد تماماً؟",
+      "description": "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف البطاقة التي تنتهي بـ",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "validation": {
+      "customerRequired": "العميل مطلوب",
+      "cardholderRequired": "اسم حامل البطاقة مطلوب",
+      "mustBeFourDigits": "يجب أن تكون 4 أرقام"
+    },
+    "toast": {
+      "created": "تم إنشاء البطاقة بنجاح",
+      "updated": "تم تحديث البطاقة بنجاح",
+      "deleted": "تم حذف البطاقة بنجاح",
+      "error": "خطأ",
+      "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "customerGroups": {
+    "title": "مجموعات العملاء",
+    "description": "إدارة مجموعات العملاء وفئات الولاء الخاصة بك.",
+    "loading": "جاري التحميل...",
+    "addGroup": "إضافة مجموعة",
+    "editGroup": "تعديل مجموعة العملاء",
+    "createGroup": "إنشاء مجموعة عملاء",
+    "editGroupDesc": "تعديل تفاصيل مجموعة العملاء أدناه.",
+    "createGroupDesc": "إضافة مجموعة عملاء جديدة.",
+    "form": {
+      "name": "الاسم",
+      "placeholderName": "اسم المجموعة",
+      "description": "الوصف",
+      "placeholderDescription": "الوصف",
+      "minOrderAmount": "الحد الأدنى لقيمة الطلب",
+      "discount": "نسبة الخصم %",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "saving": "جاري الحفظ..."
+    },
+    "table": {
+      "filterPlaceholder": "تصفية المجموعات...",
+      "noResults": "لا توجد نتائج."
+    },
+    "columns": {
+      "name": "الاسم",
+      "description": "الوصف",
+      "minOrderAmount": "الحد الأدنى لقيمة الطلب",
+      "discount": "الخصم (%)",
+      "createdAt": "تاريخ الإنشاء"
+    },
+    "delete": {
+      "title": "هل أنت متأكد تماماً؟",
+      "description": "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف مجموعة العملاء نهائياً",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "validation": {
+      "nameRequired": "الاسم مطلوب"
+    },
+    "toast": {
+      "created": "تم إنشاء مجموعة العملاء بنجاح",
+      "updated": "تم تحديث مجموعة العملاء بنجاح",
+      "deleted": "تم حذف مجموعة العملاء بنجاح",
+      "error": "خطأ",
+      "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
     }
   }
 }

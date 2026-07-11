@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Circle, Loader2, Square } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -48,6 +49,7 @@ export function TableDialog({
   table,
   defaultFloorId,
 }: TableDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!table
 
   const { data: floors } = useFloors()
@@ -111,8 +113,8 @@ export function TableDialog({
           shape: values.shape,
           isActive: values.is_active,
         })
-        toast.success('Table updated', {
-          description: 'Table has been updated successfully.',
+        toast.success(t('respos.floor.table.success.updated'), {
+          description: t('respos.floor.table.success.updatedDesc'),
         })
       } else {
         await createTable.mutateAsync({
@@ -124,16 +126,16 @@ export function TableDialog({
           shape: values.shape,
           isActive: values.is_active,
         })
-        toast.success('Table created', {
-          description: 'Table has been created successfully.',
+        toast.success(t('respos.floor.table.success.created'), {
+          description: t('respos.floor.table.success.createdDesc'),
         })
       }
       onOpenChange(false)
       form.reset()
     } catch (error) {
-      toast.error('Error', {
+      toast.error(t('respos.floor.table.error.title'), {
         description:
-          error instanceof Error ? error.message : 'An error occurred',
+          error instanceof Error ? error.message : t('respos.floor.table.error.generic'),
       })
     }
   }
@@ -142,9 +144,9 @@ export function TableDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Table' : 'Add Table'}</DialogTitle>
+          <DialogTitle>{isEditing ? t('respos.floor.table.edit') : t('respos.floor.table.add')}</DialogTitle>
           <DialogDescription>
-            {isEditing ? 'Update table details.' : 'Add a new table.'}
+            {isEditing ? t('respos.floor.table.editDesc') : t('respos.floor.table.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -155,7 +157,7 @@ export function TableDialog({
               name='floor_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Floor</FormLabel>
+                  <FormLabel>{t('respos.floor.table.floor')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -163,7 +165,7 @@ export function TableDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select floor' />
+                        <SelectValue placeholder={t('respos.floor.table.selectFloor')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -184,9 +186,9 @@ export function TableDialog({
               name='table_number'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Table Number</FormLabel>
+                  <FormLabel>{t('respos.floor.table.tableNumber')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='e.g., T-01' {...field} disabled={isFieldsDisabled} />
+                    <Input placeholder={t('respos.floor.table.tableNumberPlaceholder')} {...field} disabled={isFieldsDisabled} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -198,7 +200,7 @@ export function TableDialog({
               name='seats'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Number of Seats</FormLabel>
+                  <FormLabel>{t('respos.floor.table.seats')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
@@ -219,15 +221,15 @@ export function TableDialog({
               name='shape'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Table Shape</FormLabel>
+                  <FormLabel>{t('respos.floor.table.shape')}</FormLabel>
                   <div className='flex gap-2'>
                     {[
-                      { value: 'square', icon: Square, label: 'Square' },
-                      { value: 'round', icon: Circle, label: 'Round' },
+                      { value: 'square', icon: Square, label: t('respos.floor.table.shapes.square') },
+                      { value: 'round', icon: Circle, label: t('respos.floor.table.shapes.round') },
                       {
                         value: 'rectangle',
                         icon: Square,
-                        label: 'Rectangle',
+                        label: t('respos.floor.table.shapes.rectangle'),
                       },
                     ].map((shape) => (
                       <Button
@@ -257,7 +259,7 @@ export function TableDialog({
                 name='position_x'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Position X</FormLabel>
+                    <FormLabel>{t('respos.floor.table.positionX')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -277,7 +279,7 @@ export function TableDialog({
                 name='position_y'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Position Y</FormLabel>
+                    <FormLabel>{t('respos.floor.table.positionY')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -299,9 +301,9 @@ export function TableDialog({
               render={({ field }) => (
                 <FormItem className='flex items-center justify-between rounded-lg border p-3'>
                   <div className='space-y-0.5'>
-                    <FormLabel>Active</FormLabel>
+                    <FormLabel>{t('respos.floor.table.active')}</FormLabel>
                     <p className='text-sm text-muted-foreground'>
-                      Enable this table for orders
+                      {t('respos.floor.table.activeDesc')}
                     </p>
                   </div>
                   <FormControl>
@@ -320,11 +322,11 @@ export function TableDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.floor.table.cancel')}
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? 'Update' : 'Create'}
+                {isEditing ? t('respos.floor.table.update') : t('respos.floor.table.create')}
               </Button>
             </DialogFooter>
           </form>

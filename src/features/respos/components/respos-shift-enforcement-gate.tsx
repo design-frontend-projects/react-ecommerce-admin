@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useLocation } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
 import { useAuth, useUser } from '@/hooks/use-auth'
@@ -16,6 +17,7 @@ import {
 } from '@/features/respos/pages/shifts'
 
 export function ResposShiftEnforcementGate() {
+  const { t } = useTranslation()
   const { isLoaded, isSignedIn, has } = useAuth()
   const { user } = useUser()
   const { pathname } = useLocation()
@@ -69,9 +71,9 @@ export function ResposShiftEnforcementGate() {
       })
       setActiveShift(openedShift)
       await refetchActiveShift()
-      toast.success('Shift opened successfully')
+      toast.success(t('respos.shift.success.opened'))
     } catch {
-      toast.error('Failed to open shift')
+      toast.error(t('respos.shift.error.open'))
     }
   }
 
@@ -85,8 +87,8 @@ export function ResposShiftEnforcementGate() {
       onOpenChange={() => {}}
       employeeName={
         user
-          ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'Unknown'
-          : 'Unknown'
+          ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || t('respos.shift.unknown')
+          : t('respos.shift.unknown')
       }
       isPending={openShiftMutation.isPending}
       defaultOpeningCash={previousClosingCash}

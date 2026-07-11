@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteCustomerGroup } from '../hooks/use-customer-groups'
 import { useCustomerGroupsContext } from './customer-groups-provider'
 
 export function CustomerGroupsDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCustomerGroupsContext()
   const deleteMutation = useDeleteCustomerGroup()
 
@@ -22,12 +24,14 @@ export function CustomerGroupsDeleteDialog() {
     if (currentRow) {
       try {
         await deleteMutation.mutateAsync(currentRow.group_id)
-        toast.success('Customer group deleted successfully')
+        toast.success(t('customerGroups.toast.deleted'))
         setOpen(null)
-      } catch (error: any) {
-        toast.error('Error', {
+      } catch (error: unknown) {
+        toast.error(t('customerGroups.toast.error'), {
           description:
-            error.message || 'Something went wrong. Please try again.',
+            error instanceof Error
+              ? error.message
+              : t('customerGroups.toast.genericError'),
         })
       }
     }
@@ -37,10 +41,9 @@ export function CustomerGroupsDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('customerGroups.delete.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            customer group
+            {t('customerGroups.delete.description')}{' '}
             <span className='font-medium text-foreground'>
               {currentRow?.name ? ` "${currentRow.name}"` : ''}
             </span>
@@ -49,7 +52,7 @@ export function CustomerGroupsDeleteDialog() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
+            {t('customerGroups.delete.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -59,7 +62,9 @@ export function CustomerGroupsDeleteDialog() {
             className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending
+              ? t('customerGroups.delete.deleting')
+              : t('customerGroups.delete.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Plus, Shield, Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -35,6 +36,7 @@ import type { ResRole } from '../types'
 import { RoleDialog } from './role-dialog'
 
 export function RolesTab() {
+  const { t } = useTranslation()
   const { data: roles, isLoading } = useRoles()
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false)
   const [selectedRole, setSelectedRole] = useState<ResRole | null>(null)
@@ -47,10 +49,12 @@ export function RolesTab() {
   const handleCreateRole = async (values: RoleFormValues) => {
     try {
       await createRole.mutateAsync(values)
-      toast.success('Role created successfully')
+      toast.success(t('respos.role.success.created'))
       setIsRoleDialogOpen(false)
     } catch (error) {
-      toast.error(`Failed to create role: ${(error as Error).message}`)
+      toast.error(
+        `${t('respos.role.error.create')}: ${(error as Error).message}`
+      )
     }
   }
 
@@ -58,11 +62,13 @@ export function RolesTab() {
     if (!selectedRole) return
     try {
       await updateRole.mutateAsync({ id: selectedRole.id, ...values })
-      toast.success('Role updated successfully')
+      toast.success(t('respos.role.success.updated'))
       setIsRoleDialogOpen(false)
       setSelectedRole(null)
     } catch (error) {
-      toast.error(`Failed to update role: ${(error as Error).message}`)
+      toast.error(
+        `${t('respos.role.error.update')}: ${(error as Error).message}`
+      )
     }
   }
 
@@ -70,10 +76,12 @@ export function RolesTab() {
     if (!deleteRoleId) return
     try {
       await deleteRole.mutateAsync(deleteRoleId)
-      toast.success('Role deleted successfully')
+      toast.success(t('respos.role.success.deleted'))
       setDeleteRoleId(null)
     } catch (error) {
-      toast.error(`Failed to delete role: ${(error as Error).message}`)
+      toast.error(
+        `${t('respos.role.error.delete')}: ${(error as Error).message}`
+      )
     }
   }
 
@@ -102,19 +110,18 @@ export function RolesTab() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Role</AlertDialogTitle>
+            <AlertDialogTitle>{t('respos.role.deleteRole')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this role? This action cannot be
-              undone. Users assigned this role may lose access.
+              {t('respos.role.deleteConfirm')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('respos.role.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteRole}
-              className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
+              className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             >
-              Delete
+              {t('respos.role.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -124,7 +131,7 @@ export function RolesTab() {
         <div className='flex items-center justify-end'>
           <Button onClick={() => setIsRoleDialogOpen(true)}>
             <Plus className='mr-2 h-4 w-4' />
-            Add Role
+            {t('respos.role.addRole')}
           </Button>
         </div>
 
@@ -132,33 +139,33 @@ export function RolesTab() {
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
               <Shield className='h-5 w-5 text-orange-500' />
-              Roles ({roles?.length || 0})
+              {t('respos.role.roles')} ({roles?.length || 0})
             </CardTitle>
-            <CardDescription>
-              Define roles and their permissions for the POS system.
-            </CardDescription>
+            <CardDescription>{t('respos.role.rolesDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Role Name</TableHead>
-                  <TableHead>Display Name</TableHead>
-                  <TableHead>Permissions</TableHead>
-                  <TableHead className='text-right'>Actions</TableHead>
+                  <TableHead>{t('respos.role.table.roleName')}</TableHead>
+                  <TableHead>{t('respos.role.table.displayName')}</TableHead>
+                  <TableHead>{t('respos.role.table.permissions')}</TableHead>
+                  <TableHead className='text-right'>
+                    {t('respos.role.table.actions')}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
                     <TableCell colSpan={4} className='text-center'>
-                      Loading roles...
+                      {t('respos.role.table.loading')}
                     </TableCell>
                   </TableRow>
                 ) : !roles || roles.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className='text-center'>
-                      No roles defined yet.
+                      {t('respos.role.table.empty')}
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -175,7 +182,9 @@ export function RolesTab() {
                       <TableCell>
                         <div className='flex flex-wrap gap-1'>
                           {role.permissions.includes('*') ? (
-                            <Badge variant='default'>All Permissions</Badge>
+                            <Badge variant='default'>
+                              {t('respos.role.permissions.all')}
+                            </Badge>
                           ) : (
                             role.permissions.slice(0, 4).map((perm) => (
                               <Badge key={perm} variant='outline'>
@@ -186,7 +195,9 @@ export function RolesTab() {
                           {!role.permissions.includes('*') &&
                             role.permissions.length > 4 && (
                               <Badge variant='outline'>
-                                +{role.permissions.length - 4} more
+                                {t('respos.role.permissions.more', {
+                                  count: role.permissions.length - 4,
+                                })}
                               </Badge>
                             )}
                         </div>
@@ -198,7 +209,7 @@ export function RolesTab() {
                             size='sm'
                             onClick={() => handleEditRole(role)}
                           >
-                            Edit
+                            {t('respos.role.edit')}
                           </Button>
                           <Button
                             variant='ghost'

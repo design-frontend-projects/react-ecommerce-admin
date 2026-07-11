@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   type SortingState,
   type VisibilityState,
@@ -21,16 +22,19 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type CustomerGroup } from '../hooks/use-customer-groups'
-import { columns } from './customer-groups-columns'
+import { getColumns } from './customer-groups-columns'
 
 interface CustomerGroupsTableProps {
   data: CustomerGroup[]
 }
 
 export function CustomerGroupsTable({ data }: CustomerGroupsTableProps) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -56,7 +60,7 @@ export function CustomerGroupsTable({ data }: CustomerGroupsTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter groups...'
+        searchPlaceholder={t('customerGroups.table.filterPlaceholder')}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -100,7 +104,7 @@ export function CustomerGroupsTable({ data }: CustomerGroupsTableProps) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('customerGroups.table.noResults')}
                 </TableCell>
               </TableRow>
             )}

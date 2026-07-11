@@ -1,11 +1,13 @@
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { CalendarClock, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useReservations } from '../api/queries'
 
 export function ReservationWidget() {
+  const { t } = useTranslation()
   const today = format(new Date(), 'yyyy-MM-dd')
   const { data: reservations = [], isLoading } = useReservations({
     date: today,
@@ -20,7 +22,7 @@ export function ReservationWidget() {
     <Card>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
         <CardTitle className='text-sm font-medium'>
-          Today's Reservations
+          {t('respos.reservation.todaysReservations')}
         </CardTitle>
         <CalendarClock className='h-4 w-4 text-muted-foreground' />
       </CardHeader>
@@ -41,7 +43,7 @@ export function ReservationWidget() {
                     {res.customer_name}
                   </p>
                   <p className='text-xs text-muted-foreground'>
-                    {res.reservation_time} • {res.duration_minutes} min
+                    {res.reservation_time} • {res.duration_minutes} {t('respos.reservation.min')}
                   </p>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -62,12 +64,12 @@ export function ReservationWidget() {
           </div>
         ) : (
           <div className='flex h-[100px] items-center justify-center text-sm text-muted-foreground'>
-            No upcoming reservations today
+            {t('respos.reservation.noUpcomingToday')}
           </div>
         )}
         <div className='mt-4'>
           <Button asChild variant='outline' className='w-full'>
-            <Link to='/respos/reservations'>View Calendar</Link>
+            <Link to='/respos/reservations'>{t('respos.reservation.viewCalendar')}</Link>
           </Button>
         </div>
       </CardContent>

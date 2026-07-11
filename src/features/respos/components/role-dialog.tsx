@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -49,6 +50,7 @@ export function RoleDialog({
   role,
   onSubmit,
 }: RoleDialogProps) {
+  const { t } = useTranslation()
   const form = useForm<RoleFormValues>({
     resolver: zodResolver(roleFormSchema),
     defaultValues: {
@@ -79,33 +81,33 @@ export function RoleDialog({
   }
 
   const permissionLabels: Record<string, string> = {
-    dashboard: 'Dashboard',
-    pos: 'POS',
-    orders: 'Orders',
-    menu: 'Menu',
-    floors: 'Floors',
-    reservations: 'Reservations',
-    reservations_view: 'View Reservations',
-    analytics: 'Analytics',
-    shifts: 'Shifts',
-    settings: 'Settings',
-    payments: 'Payments',
-    void_approve: 'Approve Voids',
-    void_request: 'Request Voids',
-    kitchen: 'Kitchen',
-    notifications: 'Notifications',
-    '*': 'All Permissions',
+    dashboard: t('respos.role.permissions.dashboard'),
+    pos: t('respos.role.permissions.pos'),
+    orders: t('respos.role.permissions.orders'),
+    menu: t('respos.role.permissions.menu'),
+    floors: t('respos.role.permissions.floors'),
+    reservations: t('respos.role.permissions.reservations'),
+    reservations_view: t('respos.role.permissions.reservationsView'),
+    analytics: t('respos.role.permissions.analytics'),
+    shifts: t('respos.role.permissions.shifts'),
+    settings: t('respos.role.permissions.settings'),
+    payments: t('respos.role.permissions.payments'),
+    void_approve: t('respos.role.permissions.voidApprove'),
+    void_request: t('respos.role.permissions.voidRequest'),
+    kitchen: t('respos.role.permissions.kitchen'),
+    notifications: t('respos.role.permissions.notifications'),
+    '*': t('respos.role.permissions.all'),
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-lg'>
         <DialogHeader>
-          <DialogTitle>{role ? 'Edit Role' : 'Create Role'}</DialogTitle>
+          <DialogTitle>{role ? t('respos.role.edit') : t('respos.role.add')}</DialogTitle>
           <DialogDescription>
             {role
-              ? 'Update the role details and permissions.'
-              : 'Define a new role with specific permissions.'}
+              ? t('respos.role.editDesc')
+              : t('respos.role.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -119,7 +121,7 @@ export function RoleDialog({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role Name</FormLabel>
+                  <FormLabel>{t('respos.role.roleName')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -127,7 +129,7 @@ export function RoleDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a role name' />
+                        <SelectValue placeholder={t('respos.role.selectRoleName')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -148,9 +150,9 @@ export function RoleDialog({
               name='display_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Display Name</FormLabel>
+                  <FormLabel>{t('respos.role.displayName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='e.g. Kitchen Staff' {...field} />
+                    <Input placeholder={t('respos.role.displayNamePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +164,7 @@ export function RoleDialog({
               name='permissions'
               render={() => (
                 <FormItem>
-                  <FormLabel>Permissions</FormLabel>
+                  <FormLabel>{t('respos.role.permissionsLabel')}</FormLabel>
                   <div className='grid grid-cols-2 gap-2 rounded-md border p-3'>
                     {PERMISSIONS.map((permission) => (
                       <FormField
@@ -206,9 +208,9 @@ export function RoleDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('respos.role.cancel')}
               </Button>
-              <Button type='submit'>{role ? 'Update' : 'Create'}</Button>
+              <Button type='submit'>{role ? t('respos.role.update') : t('respos.role.create')}</Button>
             </DialogFooter>
           </form>
         </Form>

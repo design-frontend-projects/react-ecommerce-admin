@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -12,10 +13,11 @@ import { CustomerGroupsTable } from './components/customer-groups-table'
 import { useCustomerGroups } from './hooks/use-customer-groups'
 
 export default function CustomerGroups() {
+  const { t } = useTranslation()
   const { data: customerGroups, isLoading } = useCustomerGroups()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>{t('customerGroups.loading')}</div>
   }
 
   return (
@@ -33,10 +35,10 @@ export default function CustomerGroups() {
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Customer Groups
+              {t('customerGroups.title')}
             </h2>
             <p className='text-muted-foreground'>
-              Manage your customer groups and loyalty tiers.
+              {t('customerGroups.description')}
             </p>
           </div>
           <CustomerGroupsPrimaryButtons />

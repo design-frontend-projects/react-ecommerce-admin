@@ -1,10 +1,11 @@
+import { type TFunction } from 'i18next'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type CustomerCard } from '../hooks/use-customer-cards'
 import { CustomerCardRowActions } from './customer-cards-row-actions'
 
-export const columns: ColumnDef<CustomerCard>[] = [
+export const getColumns = (t: TFunction): ColumnDef<CustomerCard>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -31,7 +32,7 @@ export const columns: ColumnDef<CustomerCard>[] = [
   },
   {
     id: 'customer_name',
-    header: 'Customer',
+    header: t('customerCards.columns.customer'),
     cell: ({ row }) => {
       const customer = row.original.customers
       return customer ? `${customer.first_name} ${customer.last_name}` : 'N/A'
@@ -40,11 +41,11 @@ export const columns: ColumnDef<CustomerCard>[] = [
   },
   {
     accessorKey: 'cardholder_name',
-    header: 'Cardholder Name',
+    header: t('customerCards.columns.cardholderName'),
   },
   {
     accessorKey: 'card_type',
-    header: 'Card Type',
+    header: t('customerCards.columns.cardType'),
     cell: ({ row }) => {
       const type = row.original.card_type
       if (!type) return 'N/A'
@@ -62,19 +63,21 @@ export const columns: ColumnDef<CustomerCard>[] = [
 
   {
     accessorKey: 'last_four_digits',
-    header: 'Last 4 Digits',
+    header: t('customerCards.columns.lastFourDigits'),
   },
   {
     id: 'expiry',
-    header: 'Expiry',
+    header: t('customerCards.columns.expiry'),
     cell: ({ row }) =>
       `${row.original.expiry_month}/${row.original.expiry_year}`,
   },
   {
     accessorKey: 'is_default',
-    header: 'Default',
+    header: t('customerCards.columns.default'),
     cell: ({ row }) =>
-      row.original.is_default ? <Badge variant='outline'>Default</Badge> : null,
+      row.original.is_default ? (
+        <Badge variant='outline'>{t('customerCards.columns.default')}</Badge>
+      ) : null,
   },
   {
     id: 'actions',
