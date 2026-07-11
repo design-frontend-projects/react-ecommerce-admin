@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn, formatCurrency } from '@/lib/utils'
+import { parseDimensionsLabel } from '../utils'
 import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -197,7 +198,7 @@ export function PosLayout() {
         if (variant) {
           if (!isVariantSellable(variant)) {
             toast.error(
-              `Cannot add ${p.name} (${variant.dimensions || variant.sku}): low stock.`
+              `Cannot add ${p.name} (${parseDimensionsLabel(variant.dimensions) || variant.sku}): low stock.`
             )
             return
           }
@@ -207,14 +208,14 @@ export function PosLayout() {
           addItem({
             productId: p.product_id,
             productVariantId: variant.id,
-            name: `${p.name} - ${variant.dimensions || variant.sku}`,
+            name: `${p.name} - ${parseDimensionsLabel(variant.dimensions) || variant.sku}`,
             sku: variant.sku,
             barcode: variant.barcode,
             unitPrice: price,
             quantity: 1,
           })
           toast.success(
-            `Added ${p.name} (${variant.dimensions || variant.sku})`
+            `Added ${p.name} (${parseDimensionsLabel(variant.dimensions) || variant.sku})`
           )
           return
         }
@@ -531,7 +532,7 @@ export function PosLayout() {
             addItem({
               productId: selectedProductForVariant.product_id,
               productVariantId: variantId,
-              name: `${selectedProductForVariant.name} - ${variant.dimensions || variant.sku}`,
+              name: `${selectedProductForVariant.name} - ${parseDimensionsLabel(variant.dimensions) || variant.sku}`,
               sku: variant.sku,
               barcode: variant.barcode,
               unitPrice: Number(
@@ -540,7 +541,7 @@ export function PosLayout() {
               quantity: 1,
             })
             toast.success(
-              `Added ${selectedProductForVariant.name} (${variant.dimensions || variant.sku})`
+              `Added ${selectedProductForVariant.name} (${parseDimensionsLabel(variant.dimensions) || variant.sku})`
             )
           }}
         />

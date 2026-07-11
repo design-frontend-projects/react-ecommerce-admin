@@ -16,12 +16,13 @@ import {
   useMarkPosReorderRequestRead,
   usePosReorderRealtime,
 } from '../hooks/use-pos-reorder-requests'
+import { parseDimensionsLabel } from '../utils'
 
 function getVariantLabel(
   variant: { sku: string; dimensions?: string | null } | null | undefined
 ) {
   if (!variant) return 'Base product'
-  return variant.dimensions || variant.sku
+  return parseDimensionsLabel(variant.dimensions) || variant.sku
 }
 
 export function ReorderNotificationsBell() {

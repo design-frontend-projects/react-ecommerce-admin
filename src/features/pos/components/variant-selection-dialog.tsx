@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import type { PosProductVariant } from '../data/api'
+import { parseDimensionsLabel } from '../utils'
 
 interface VariantSelectionDialogProps {
   open: boolean
@@ -56,7 +57,9 @@ export function VariantSelectionDialog({
                 )}
                 <CardContent className='relative flex flex-col gap-2 p-4'>
                   {v.dimensions && (
-                    <div className='font-semibold'>{v.dimensions}</div>
+                    <div className='font-semibold'>
+                      {parseDimensionsLabel(v.dimensions)}
+                    </div>
                   )}
                   {!v.dimensions && (
                     <div className='line-clamp-1 font-semibold'>{v.sku}</div>
