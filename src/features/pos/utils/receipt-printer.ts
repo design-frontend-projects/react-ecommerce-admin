@@ -45,7 +45,7 @@ export function printReceipt(data: ReceiptData) {
       </head>
       <body>
         <div class="header">
-          <h2 style="margin: 0;">RESTAURANT POS</h2>
+          <h2 style="margin: 0;">Bluewave POS</h2>
           <p style="margin: 5px 0;">Receipt: ${data.transactionNumber}</p>
           <p style="margin: 5px 0;">${data.date.toLocaleString()}</p>
         </div>

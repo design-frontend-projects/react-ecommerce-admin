@@ -192,9 +192,12 @@
     "signOut": "تسجيل الخروج",
     "usersRoles": "المستخدمين والأدوار",
     "upgradeToPro": "ترقية للنسخة المدفوعة",
-    "shipments": "الشحنات"
+    "shipments": "الشحنات",
+    "stockTransfers": "تحويلات المخزون",
+    "stockAdjustments": "تعديلات المخزون",
+    "inventoryMovements":"حركات المخزون"
   },
-  "dashboard": {
+  "d  ashboard": {
     "loading": "جاري تحميل لوحة التحكم...",
     "download": "تحميل",
     "overview": "نظرة عامة",

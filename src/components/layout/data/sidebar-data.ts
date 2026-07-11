@@ -260,19 +260,19 @@ export function useSidebarData(): SidebarData {
             roles: ['admin', 'super_admin'],
           },
           {
-            title: t('sidebar.stockTransfers', 'Stock Transfers'),
+            title: t('sidebar.stockTransfers'),
             url: '/stock-transfers',
             icon: ArrowLeftRight,
             roles: ['admin', 'super_admin'],
           },
           {
-            title: t('sidebar.stockAdjustments', 'Stock Adjustments'),
+            title: t('sidebar.stockAdjustments'),
             url: '/stock-adjustments',
             icon: ClipboardList,
             roles: ['admin', 'super_admin'],
           },
           {
-            title: t('sidebar.inventoryMovements', 'Inventory Movements'),
+            title: t('sidebar.inventoryMovements'),
             url: '/inventory-movements',
             icon: History,
             roles: ['admin', 'super_admin'],

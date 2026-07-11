@@ -192,7 +192,10 @@
     "signOut": "Sign Out",
     "usersRoles": "Users & Roles",
     "upgradeToPro": "Upgrade to Pro",
-    "shipments": "Shipments"
+    "shipments": "Shipments",
+    "stockTransfers": "Stock Transfers",
+    "stockAdjustments": "Stock Adjustments",
+    "inventoryMovements":"Inventory Movements"
   },
   "dashboard": {
     "loading": "Loading dashboard...",
