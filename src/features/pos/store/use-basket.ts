@@ -4,6 +4,8 @@ import { type BasketItem, type PosDiscount } from '../data/schema'
 interface BasketState {
   items: BasketItem[]
   cartDiscount?: PosDiscount
+  appliedPromotion?: any
+  taxRates: any[]
 
   // Actions
   addItem: (item: Omit<BasketItem, 'subtotal' | 'total'>) => void
@@ -20,12 +22,16 @@ interface BasketState {
   ) => void
   applyCartDiscount: (discount: PosDiscount) => void
   removeCartDiscount: () => void
+  applyPromotion: (promo: any) => void
+  removePromotion: () => void
+  setTaxRates: (rates: any[]) => void
   setBasketItems: (items: BasketItem[]) => void
   clearBasket: () => void
 
   // Computed Values getters (convenience)
   getSubtotal: () => number
   getTaxAmount: () => number
+  getDiscountAmount: () => number
   getTotalAmount: () => number
 }
 
@@ -60,6 +66,8 @@ const isSameBasketLine = (
 export const useBasket = create<BasketState>((set, get) => ({
   items: [],
   cartDiscount: undefined,
+  appliedPromotion: undefined,
+  taxRates: [],
 
   addItem: (newItem) =>
     set((state) => {
@@ -120,6 +128,7 @@ export const useBasket = create<BasketState>((set, get) => ({
   applyCartDiscount: (discount) =>
     set({
       cartDiscount: discount,
+      appliedPromotion: undefined, // Override promotion if manual discount is applied
     }),
 
   removeCartDiscount: () =>
@@ -127,16 +136,34 @@ export const useBasket = create<BasketState>((set, get) => ({
       cartDiscount: undefined,
     }),
 
+  applyPromotion: (promo) =>
+    set({
+      appliedPromotion: promo,
+      cartDiscount: undefined, // Override manual discount if promotion is applied
+    }),
+
+  removePromotion: () =>
+    set({
+      appliedPromotion: undefined,
+    }),
+
+  setTaxRates: (rates) =>
+    set({
+      taxRates: rates,
+    }),
+
   setBasketItems: (items) =>
     set({
       items,
       cartDiscount: undefined,
+      appliedPromotion: undefined,
     }),
 
   clearBasket: () =>
     set({
       items: [],
       cartDiscount: undefined,
+      appliedPromotion: undefined,
     }),
 
   getSubtotal: () => {
@@ -144,25 +171,61 @@ export const useBasket = create<BasketState>((set, get) => ({
     return items.reduce((sum, item) => sum + item.total, 0)
   },
 
-  getTaxAmount: () => {
-    // Basic tax logic placeholder. Depends on requirements.
-    return 0
-  },
-
-  getTotalAmount: () => {
-    const { getSubtotal, cartDiscount, getTaxAmount } = get()
+  getDiscountAmount: () => {
+    const { getSubtotal, cartDiscount, appliedPromotion } = get()
     const subtotal = getSubtotal()
 
     let discountAmount = 0
-    if (cartDiscount) {
+    if (appliedPromotion) {
+      if (appliedPromotion.discount_type === 'fixed') {
+        discountAmount = Number(appliedPromotion.discount_value)
+      } else if (appliedPromotion.discount_type === 'percentage') {
+        discountAmount = subtotal * (Number(appliedPromotion.discount_value) / 100)
+      }
+    } else if (cartDiscount) {
       if (cartDiscount.type === 'fixed') {
         discountAmount = cartDiscount.value
       } else if (cartDiscount.type === 'percentage') {
         discountAmount = subtotal * (cartDiscount.value / 100)
       }
     }
+    return discountAmount
+  },
 
+  getTaxAmount: () => {
+    const { getSubtotal, getDiscountAmount, taxRates } = get()
+    const subtotal = getSubtotal()
+    const discountAmount = getDiscountAmount()
     const afterDiscount = Math.max(0, subtotal - discountAmount)
-    return afterDiscount + getTaxAmount()
+
+    if (!taxRates || taxRates.length === 0) return 0
+
+    let totalTax = 0
+    taxRates.forEach((tax) => {
+      const rate = Number(tax.rate)
+      if (tax.is_inclusive) {
+        totalTax += afterDiscount - (afterDiscount / (1 + rate / 100))
+      } else {
+        totalTax += afterDiscount * (rate / 100)
+      }
+    })
+    return totalTax
+  },
+
+  getTotalAmount: () => {
+    const { getSubtotal, getDiscountAmount, taxRates } = get()
+    const subtotal = getSubtotal()
+    const discountAmount = getDiscountAmount()
+    const afterDiscount = Math.max(0, subtotal - discountAmount)
+
+    let exclusiveTax = 0
+    if (taxRates) {
+      taxRates.forEach((tax) => {
+        if (!tax.is_inclusive) {
+          exclusiveTax += afterDiscount * (Number(tax.rate) / 100)
+        }
+      })
+    }
+    return afterDiscount + exclusiveTax
   },
 }))

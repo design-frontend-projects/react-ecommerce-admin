@@ -206,8 +206,60 @@ export async function getPosCategories(): Promise<PosCategory[]> {
       console.warn('Failed to cache categories', e) // eslint-disable-line no-console
     }
   }
-
   return categories
+}
+
+export async function getInclusiveTaxRates() {
+  const { data, error } = await supabase
+    .from('tax_rates')
+    .select('*')
+    .eq('is_active', true)
+    .eq('is_inclusive', true)
+
+  if (error) {
+    console.error('Error fetching inclusive tax rates:', error) // eslint-disable-line no-console
+    return []
+  }
+  return data || []
+}
+
+export async function validatePosPromotion(code: string) {
+  const { data, error } = await supabase
+    .from('promotions')
+    .select('*')
+    .eq('code', code)
+    .eq('is_active', true)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      throw new Error('Promotion code not found or inactive.')
+    }
+    throw new Error(`Error fetching promotion: ${error.message}`)
+  }
+
+  const now = new Date()
+  if (data.start_date && new Date(data.start_date) > now) {
+    throw new Error('Promotion has not started yet.')
+  }
+  if (data.end_date && new Date(data.end_date) < now) {
+    throw new Error('Promotion has expired.')
+  }
+
+  if (data.usage_limit) {
+    const { count } = await supabase
+      .from('promotion_usage')
+      .select('*', { count: 'exact', head: true })
+      .eq('promotion_id', data.promotion_id)
+
+    if (count !== null && count >= data.usage_limit) {
+      throw new Error('Promotion usage limit reached.')
+    }
+  }
+
+  // We are bypassing customer usage limit for walk-ins per plan approval.
+  
+  return data
 }
 
 type SerializedShipmentDetails = {
@@ -755,6 +807,20 @@ export async function createPosTransaction(
       restaurantOrderId = resOrder.id
     }
 
+    // Insert promotion usage if promotionId is present
+    if (payload.promotionId) {
+      const { error: promoUsageError } = await supabase
+        .from('promotion_usage')
+        .insert({
+          promotion_id: payload.promotionId,
+          customer_id: payload.customerId || null,
+          res_order_id: restaurantOrderId || null,
+        })
+      if (promoUsageError) {
+        console.warn('Failed to record promotion usage', promoUsageError) // eslint-disable-line no-console
+      }
+    }
+
     // 4. Create Shipment if requested
     if (payload.isShipment && payload.shipment) {
       if (isRestaurant) {
@@ -792,6 +858,27 @@ export async function createPosTransaction(
 
         if (posSaleError)
           throw new Error(`POS sale creation failed: ${posSaleError.message}`)
+
+        // If not a restaurant, we link the promotion usage to the newly created pos_sales record
+        if (payload.promotionId && !isRestaurant) {
+          // Find the most recently inserted usage for this promo and link it to sale_id
+          const { data: recentUsage } = await supabase
+            .from('promotion_usage')
+            .select('usage_id')
+            .eq('promotion_id', payload.promotionId)
+            .is('sale_id', null)
+            .is('res_order_id', null)
+            .order('usage_id', { ascending: false })
+            .limit(1)
+            .single()
+            
+          if (recentUsage) {
+            await supabase
+              .from('promotion_usage')
+              .update({ sale_id: posSale.sale_id })
+              .eq('usage_id', recentUsage.usage_id)
+          }
+        }
 
         const serializedShipment = JSON.stringify({
           recipientName: payload.shipment.recipientName,

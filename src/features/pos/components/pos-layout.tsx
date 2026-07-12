@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import {
@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import {
   getPosProducts,
+  getInclusiveTaxRates,
   type PosProduct,
   type PosProductVariant,
 } from '../data/api'
@@ -59,8 +60,19 @@ export function PosLayout() {
 
   const { isLoaded: authLoaded, isSignedIn, has } = useAuth()
   const { user } = useUser()
-  const { addItem, items } = useBasket()
+  const { addItem, items, setTaxRates } = useBasket()
   const createReorderRequest = useCreatePosReorderRequest()
+
+  const { data: taxRates } = useQuery({
+    queryKey: ['pos-inclusive-tax-rates'],
+    queryFn: getInclusiveTaxRates,
+  })
+
+  useEffect(() => {
+    if (taxRates) {
+      setTaxRates(taxRates)
+    }
+  }, [taxRates, setTaxRates])
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['pos-products'],

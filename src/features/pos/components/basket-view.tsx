@@ -12,6 +12,7 @@ import { createPosTransaction } from '../data/api'
 import { useBasket } from '../store/use-basket'
 import { printReceipt } from '../utils/receipt-printer'
 import { DiscountToggle } from './discount-toggle'
+import { PromoCodeDialog } from './promo-code-dialog'
 import { RefundDialog } from './refund-dialog'
 import { ReorderDialog } from './reorder-dialog'
 import { CheckoutModal } from './checkout-modal'
@@ -27,6 +28,8 @@ export function BasketView() {
     getSubtotal,
     getTotalAmount,
     getTaxAmount,
+    getDiscountAmount,
+    appliedPromotion,
   } = useBasket()
   const { selectedBranchId } = useAuthStore((state) => state.auth)
   const queryClient = useQueryClient()
@@ -36,7 +39,7 @@ export function BasketView() {
   const subtotal = getSubtotal()
   const tax = getTaxAmount()
   const total = getTotalAmount()
-  const cartDiscount = subtotal + tax - total
+  const cartDiscount = getDiscountAmount()
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0)
   const hasMissingVariantItems = items.some((item) => !item.productVariantId)
 
@@ -76,6 +79,7 @@ export function BasketView() {
         discountTotal: cartDiscount > 0 ? cartDiscount : 0,
         taxTotal: tax,
         items: checkoutItems,
+        promotionId: appliedPromotion?.promotion_id,
       } as any)
     },
     onSuccess: (data: CheckoutResponse) => {
@@ -182,6 +186,7 @@ export function BasketView() {
         <div className='flex flex-wrap items-center gap-2'>
           <RefundDialog />
           <ReorderDialog />
+          <PromoCodeDialog />
           <DiscountToggle />
 
           <div className='ml-auto inline-flex items-center gap-1 rounded-md border bg-muted/40 p-1'>
@@ -375,10 +380,12 @@ export function BasketView() {
               <span className='tabular-nums'>-{formatCurrency(cartDiscount)}</span>
             </div>
           )}
-          <div className='flex justify-between text-sm text-muted-foreground'>
-            <span>Tax</span>
-            <span className='tabular-nums'>{formatCurrency(tax)}</span>
-          </div>
+          {tax > 0 && (
+            <div className='flex justify-between text-sm text-muted-foreground'>
+              <span>Tax (Included)</span>
+              <span className='tabular-nums'>{formatCurrency(tax)}</span>
+            </div>
+          )}
         </div>
         <Separator className='my-2' />
         <div className='flex items-center justify-between text-2xl font-bold'>
