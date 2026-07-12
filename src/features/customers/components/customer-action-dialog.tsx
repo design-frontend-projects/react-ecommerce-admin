@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -23,7 +24,18 @@ import {
   FormDescription,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { PhoneInput } from '@/components/custom-ui/phone-input'
+import { useCities } from '@/features/cities/hooks/use-cities'
+import { useCountries } from '@/features/countries/hooks/use-countries'
+import { useCustomerGroupsContext } from '@/features/customer-groups/components/customer-groups-provider'
+import { useCustomerGroups } from '@/features/customer-groups/hooks/use-customer-groups'
 import { useCreateCustomer, useUpdateCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
 
@@ -48,8 +60,12 @@ type CustomerFormValues = z.infer<typeof formSchema>
 
 export function CustomerActionDialog() {
   const { open, setOpen, currentRow } = useCustomersContext()
+  const { setOpen: setCustomerGroupOpen } = useCustomerGroupsContext()
   const createMutation = useCreateCustomer()
   const updateMutation = useUpdateCustomer()
+
+  const { data: countries } = useCountries()
+  const { data: customerGroups } = useCustomerGroups()
 
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
@@ -73,6 +89,10 @@ export function CustomerActionDialog() {
       group_id: undefined,
     },
   })
+
+  const selectedCountryName = form.watch('country')
+  const selectedCountry = countries?.find((c) => c.name === selectedCountryName)
+  const { data: cities } = useCities(selectedCountry?.id)
 
   useEffect(() => {
     if (currentRow) {
@@ -237,15 +257,61 @@ export function CustomerActionDialog() {
               />
             </div>
 
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-4 gap-4'>
+              <FormField
+                name='country'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value)
+                        form.setValue('city', '')
+                      }}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select Country' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countries?.map((country) => (
+                          <SelectItem key={country.id} value={country.name}>
+                            {country.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 name='city'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder='City' {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                      disabled={!selectedCountryName || cities?.length === 0}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select City' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {cities?.map((city) => (
+                          <SelectItem key={city.id} value={city.name}>
+                            {city.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -272,18 +338,6 @@ export function CustomerActionDialog() {
                     <FormLabel>Postal Code</FormLabel>
                     <FormControl>
                       <Input placeholder='Postal Code' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='country'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Country' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -331,10 +385,39 @@ export function CustomerActionDialog() {
                 name='group_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Group ID</FormLabel>
-                    <FormControl>
-                      <Input type='number' placeholder='Group ID' {...field} />
-                    </FormControl>
+                    <FormLabel>Customer Group</FormLabel>
+                    <div className='flex items-center gap-2'>
+                      <Select
+                        onValueChange={(value) =>
+                          field.onChange(value ? Number(value) : undefined)
+                        }
+                        value={field.value ? String(field.value) : undefined}
+                      >
+                        <FormControl>
+                          <SelectTrigger className='flex-1'>
+                            <SelectValue placeholder='Select Group' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {customerGroups?.map((group) => (
+                            <SelectItem
+                              key={group.group_id}
+                              value={String(group.group_id)}
+                            >
+                              {group.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        type='button'
+                        variant='outline'
+                        size='icon'
+                        onClick={() => setCustomerGroupOpen('create')}
+                      >
+                        <Plus className='h-4 w-4' />
+                      </Button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
