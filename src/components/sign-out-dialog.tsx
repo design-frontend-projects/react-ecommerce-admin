@@ -5,6 +5,7 @@ import { Trans } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { useResposStore } from '@/stores/respos-store'
+import { offlineOrderService } from '@/lib/offline-order-service'
 import { useAuth, useSupabase, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,9 +18,14 @@ import {
 } from '@/components/ui/dialog'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useActiveShift } from '@/features/respos/api/queries'
-import { RoleNames } from '@/features/respos/constants'
+import {
+  useShiftExpected,
+  useShiftSettings,
+} from '@/features/respos/api/shift-hooks'
 import { useShift } from '@/features/respos/hooks/use-shift'
+import { isShiftGatedUser } from '@/features/respos/lib/shift-enforcement'
 import { CloseShiftDialog } from '@/features/respos/pages/shifts'
+import { useRBACStore } from '@/features/users/data/store'
 
 interface SignOutDialogProps {
   open: boolean
@@ -46,12 +52,23 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const [closeShiftDialogOpen, setCloseShiftDialogOpen] = useState(false)
 
   const authUserId = user?.id || null
-  const isCashier = user?.role === RoleNames.cashier
+  const roleNames = useRBACStore((state) => state.currentRoleNames)
+  const permissionNames = useRBACStore((state) => state.currentPermissionNames)
+  const isShiftGated = isShiftGatedUser(roleNames, permissionNames)
   const { data: activeShift, isLoading: isShiftStatusLoading } =
     useActiveShift(authUserId)
 
   const { closeShift, isClosing } = useShift({ authUserId })
 
+  // Server-computed expected cash + threshold for the close dialog.
+  const { data: expected } = useShiftExpected(
+    closeShiftDialogOpen ? (activeShift?.id ?? null) : null
+  )
+  const { data: shiftSettings } = useShiftSettings(
+    activeShift?.restaurant_id ?? null,
+    activeShift?.branch_id ?? null,
+    { enabled: isShiftGated && !!activeShift }
+  )
 
   const signOutAndRedirect = async () => {
     setIsSigningOut(true)
@@ -86,6 +103,18 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   }) => {
     if (!user) return
 
+    // Closing reconciles cash against synced orders: any offline orders still
+    // pending would make the expected cash wrong, so they must sync first.
+    const pendingOrders = await offlineOrderService
+      .getPendingOrders()
+      .catch(() => [])
+    if (pendingOrders.length > 0) {
+      toast.error(
+        `You have ${pendingOrders.length} offline order(s) pending sync. Go online and let them sync before closing the shift.`
+      )
+      return
+    }
+
     try {
       if (activeShift && !useResposStore.getState().activeShift) {
         useResposStore.getState().setActiveShift(activeShift)
@@ -94,13 +123,17 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
       toast.success('Shift closed successfully')
       setCloseShiftDialogOpen(false)
       await signOutAndRedirect()
-    } catch {
-      toast.error('Failed to close shift')
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message
+          ? error.message
+          : 'Failed to close shift'
+      )
     }
   }
 
   const shouldCheckShiftForSignOut =
-    open && isLoaded && isSignedIn && isCashier && !!authUserId
+    open && isLoaded && isSignedIn && isShiftGated && !!authUserId
 
   const shouldShowShiftActionDialog =
     shouldCheckShiftForSignOut && !!activeShift
@@ -190,6 +223,16 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
         openingCash={activeShift?.opening_cash ?? 0}
         isPending={isClosing || isSigningOut}
         onSubmit={handleCloseShiftAndSignOut}
+        expectedCash={expected ? Number(expected.expected) : null}
+        cashSales={expected ? Number(expected.cashSales) : null}
+        movementsIn={expected ? Number(expected.movementsIn) : null}
+        movementsOut={expected ? Number(expected.movementsOut) : null}
+        varianceThreshold={
+          shiftSettings ? Number(shiftSettings.varianceThreshold) : undefined
+        }
+        requireCommentOverThreshold={
+          shiftSettings?.requireCommentOverThreshold ?? false
+        }
       />
     </>
   )

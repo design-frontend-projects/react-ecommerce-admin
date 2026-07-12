@@ -18,7 +18,7 @@ const mockResposState = {
 
 let mockActiveShift: { opening_cash: number } | null = { opening_cash: 120 }
 let mockIsShiftLoading = false
-let mockIsCashier = true
+let mockRoleNames: string[] = ['cashier']
 
 vi.mock('@tanstack/react-router', () => ({
   useNavigate: () => mockNavigate,
@@ -31,8 +31,31 @@ vi.mock('@/hooks/use-auth', () => ({
   useAuth: () => ({
     isLoaded: true,
     isSignedIn: true,
-    has: ({ role }: { role: string }) => role === 'cashier' && mockIsCashier,
   }),
+}))
+
+vi.mock('@/features/users/data/store', () => ({
+  useRBACStore: (
+    selector: (state: {
+      currentRoleNames: string[]
+      currentPermissionNames: string[]
+    }) => unknown
+  ) =>
+    selector({
+      currentRoleNames: mockRoleNames,
+      currentPermissionNames: [],
+    }),
+}))
+
+vi.mock('@/features/respos/api/shift-hooks', () => ({
+  useShiftExpected: () => ({ data: undefined }),
+  useShiftSettings: () => ({ data: undefined }),
+}))
+
+vi.mock('@/lib/offline-order-service', () => ({
+  offlineOrderService: {
+    getPendingOrders: vi.fn().mockResolvedValue([]),
+  },
 }))
 
 vi.mock('@/stores/auth-store', () => ({
@@ -88,7 +111,7 @@ describe('SignOutDialog', () => {
     Object.values(mockResposState).forEach((fn) => fn.mockClear())
     mockActiveShift = { opening_cash: 120 }
     mockIsShiftLoading = false
-    mockIsCashier = true
+    mockRoleNames = ['cashier']
   })
 
   it('shows shift-aware actions when cashier has active shift', () => {

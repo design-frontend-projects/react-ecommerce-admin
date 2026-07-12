@@ -383,7 +383,8 @@ exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
   read_by_auth_user_id: 'read_by_auth_user_id',
   read_at: 'read_at',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  requested_by_user_id: 'requested_by_user_id'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
@@ -733,7 +734,10 @@ exports.Prisma.Res_payment_methodsScalarFieldEnum = {
   icon: 'icon',
   is_enabled: 'is_enabled',
   sort_order: 'sort_order',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  is_default: 'is_default',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_promotion_usageScalarFieldEnum = {
@@ -782,7 +786,8 @@ exports.Prisma.Res_rolesScalarFieldEnum = {
   name: 'name',
   display_name: 'display_name',
   permissions: 'permissions',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Res_shiftsScalarFieldEnum = {
@@ -918,7 +923,8 @@ exports.Prisma.Sales_return_itemsScalarFieldEnum = {
   unit_price: 'unit_price',
   tax_amount: 'tax_amount',
   line_total: 'line_total',
-  reason: 'reason'
+  reason: 'reason',
+  auth_user_id: 'auth_user_id'
 };
 
 exports.Prisma.Sales_returnsScalarFieldEnum = {

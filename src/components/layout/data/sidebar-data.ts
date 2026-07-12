@@ -162,7 +162,8 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.shifts'),
             url: '/respos/shifts',
             icon: Timer,
-            roles: ['admin', 'super_admin'],
+            roles: ['admin', 'super_admin', 'manager'],
+            permissions: ['shifts.view', 'shifts.manage'],
           },
           {
             title: t('sidebar.cashierCheckout'),

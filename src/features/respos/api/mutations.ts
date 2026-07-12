@@ -1,8 +1,14 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useAuth } from '@/hooks/use-auth'
 import { offlineOrderService } from '@/lib/offline-order-service'
 import { supabase } from '@/lib/supabase'
+import {
+  closeShiftRequest,
+  openShiftRequest,
+} from '../data/shift-actions'
+import { shiftDtoToResShift, toMoneyString } from '../data/shift-schemas'
 import { mapPromoRpcError } from '../lib/promo-engine'
 // generateOrderNumber imported via ./api instead
 import type {
@@ -88,36 +94,38 @@ export function useUpdateTableStatus() {
 }
 
 // ============ Shift Mutations ============
+// Open/close now go through the server API (/api/respos/shifts) so expected
+// cash + variance are computed atomically in Postgres (specs/026). The hook
+// signatures are unchanged for existing callers; branchId is optional and
+// stamped when provided.
 
 export function useOpenShift() {
   const queryClient = useQueryClient()
+  const { getToken } = useAuth()
 
   return useMutation({
     mutationFn: async ({
       employeeId,
       openingCash,
-      authUserId,
       restaurantId,
+      branchId,
+      notes,
     }: {
       employeeId: string
       openingCash: number
       authUserId?: string
       restaurantId?: string
+      branchId?: string | null
+      notes?: string
     }) => {
-      const { data, error } = await supabase
-        .from('res_shifts')
-        .insert({
-          opened_by: employeeId,
-          opening_cash: openingCash,
-          status: 'open',
-          auth_user_id: authUserId,
-          restaurant_id: restaurantId,
-        })
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
+      const dto = await openShiftRequest(getToken, {
+        openedBy: employeeId,
+        openingCash: toMoneyString(openingCash),
+        restaurantId: restaurantId ?? null,
+        branchId: branchId ?? null,
+        notes: notes ?? null,
+      })
+      return shiftDtoToResShift(dto)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })
@@ -128,6 +136,7 @@ export function useOpenShift() {
 
 export function useCloseShift() {
   const queryClient = useQueryClient()
+  const { getToken } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -141,21 +150,13 @@ export function useCloseShift() {
       closingCash: number
       notes?: string
     }) => {
-      const { data, error } = await supabase
-        .from('res_shifts')
-        .update({
-          closed_by: employeeId,
-          closing_cash: closingCash,
-          status: 'closed',
-          closed_at: new Date().toISOString(),
-          notes,
-        })
-        .eq('id', shiftId)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
+      const dto = await closeShiftRequest(getToken, {
+        shiftId,
+        countedCash: toMoneyString(closingCash),
+        comment: notes ?? null,
+        closedBy: employeeId,
+      })
+      return shiftDtoToResShift(dto)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })

@@ -55,14 +55,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { hasAnyPermission } from '@/features/users/data/rbac'
+import { useRBACStore } from '@/features/users/data/store'
 import { useShifts } from '../api/queries'
+import { useShiftExpected, useShiftSettings } from '../api/shift-hooks'
+import { CashMovementDialog } from '../components/cash-movement-dialog'
 import { NotificationsDropdown } from '../components/notifications-dropdown'
+import { ShiftAnalyticsTab } from '../components/shift-analytics-tab'
+import { ShiftsAdminTable } from '../components/shifts-admin-table'
+import { WhosWorkingTab } from '../components/whos-working-tab'
 import { RoleNames } from '../constants'
 import { useShift } from '../hooks/use-shift'
 import { formatCurrency } from '../lib/formatters'
@@ -106,6 +114,7 @@ export type CloseShiftFormValues = z.infer<typeof closeShiftSchema>
 export function ShiftManagement() {
   const [openDialogOpen, setOpenDialogOpen] = useState(false)
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
+  const [movementDialogOpen, setMovementDialogOpen] = useState(false)
 
   const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
@@ -120,18 +129,39 @@ export function ShiftManagement() {
     isClosing,
   } = useShift({ authUserId })
 
-  const isAdmin =
+  const roleNames = useRBACStore((state) => state.currentRoleNames)
+  const permissionNames = useRBACStore((state) => state.currentPermissionNames)
+  const isAdminRole =
     user?.role === RoleNames.admin || user?.role === RoleNames.super_admin
-  const { data: allShifts = [], isLoading: historyLoading } = useShifts(
-    isAdmin ? null : authUserId
-  )
+  const canViewAll =
+    hasAnyPermission(permissionNames, ['shifts.view']) || isAdminRole
+  const canManage =
+    hasAnyPermission(permissionNames, ['shifts.manage']) || isAdminRole
+  const canOpen =
+    hasAnyPermission(permissionNames, ['shifts.use', 'shifts.manage']) ||
+    isAdminRole ||
+    roleNames.includes('cashier')
+
+  // Own history only; organization-wide history lives in the All Shifts tab.
+  const { data: allShifts = [], isLoading: historyLoading } =
+    useShifts(authUserId)
 
   const isLoading = !isLoaded || shiftLoading
 
   // Separate closed shifts for history
-  const closedShifts = allShifts.filter((s) => s.status === 'closed')
+  const closedShifts = allShifts.filter((s) => s.status !== 'open')
   const lastClosedShift = closedShifts[0]
   const previousClosingCash = lastClosedShift?.closing_cash ?? 0
+
+  // Server-computed expected cash + thresholds for the close dialog.
+  const { data: expected } = useShiftExpected(
+    closeDialogOpen ? (activeShift?.id ?? null) : null
+  )
+  const { data: shiftSettings } = useShiftSettings(
+    activeShift?.restaurant_id ?? null,
+    activeShift?.branch_id ?? null,
+    { enabled: canOpen && !!activeShift }
+  )
 
   if (!isSignedIn && !isLoaded) {
     // return redirect({ to: "/sign-in" })
@@ -191,92 +221,117 @@ export function ShiftManagement() {
           variants={container}
           initial='hidden'
           animate='show'
-          className='mx-auto max-w-5xl space-y-8 pb-12'
+          className='mx-auto max-w-6xl space-y-8 pb-12'
         >
-          {/* Active Shift Section */}
-          <motion.div variants={item}>
-            {isLoading ? (
-              <Card>
-                <CardContent className='flex items-center justify-center py-12'>
-                  <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
-                </CardContent>
-              </Card>
-            ) : isShiftOpen && activeShift ? (
-              <ActiveShiftCard
-                shift={activeShift}
-                onClose={() => setCloseDialogOpen(true)}
-                isClosing={isClosing}
-              />
-            ) : (
-              <NoActiveShiftCard
-                onOpen={() => setOpenDialogOpen(true)}
-                canOpen={
-                  isLoaded &&
-                  (user?.role === RoleNames.admin ||
-                    user?.role === RoleNames.super_admin)
-                }
-              />
-            )}
-          </motion.div>
+          {(() => {
+            const myShiftContent = (
+              <div className='space-y-8'>
+                {/* Active Shift Section */}
+                <motion.div variants={item}>
+                  {isLoading ? (
+                    <Card>
+                      <CardContent className='flex items-center justify-center py-12'>
+                        <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
+                      </CardContent>
+                    </Card>
+                  ) : isShiftOpen && activeShift ? (
+                    <ActiveShiftCard
+                      shift={activeShift}
+                      onClose={() => setCloseDialogOpen(true)}
+                      onAddMovement={() => setMovementDialogOpen(true)}
+                      isClosing={isClosing}
+                    />
+                  ) : (
+                    <NoActiveShiftCard
+                      onOpen={() => setOpenDialogOpen(true)}
+                      canOpen={isLoaded && canOpen}
+                    />
+                  )}
+                </motion.div>
 
-          {/* Shift History */}
-          <motion.div variants={item}>
-            <Card>
-              <CardHeader>
-                <CardTitle className='flex items-center gap-2'>
-                  <Clock className='h-5 w-5 text-muted-foreground' />
-                  {isAdmin ? 'All Shifts' : 'Shift History'}
-                </CardTitle>
-                <CardDescription>
-                  {isAdmin
-                    ? 'Organization-wide shift history'
-                    : 'Past shifts and their details'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {historyLoading ? (
-                  <div className='flex justify-center py-8'>
-                    <Loader2 className='h-6 w-6 animate-spin text-muted-foreground' />
-                  </div>
-                ) : closedShifts.length === 0 ? (
-                  <p className='py-8 text-center text-sm text-muted-foreground'>
-                    No shift history yet. Open and close your first shift to see
-                    it here.
-                  </p>
-                ) : (
-                  <div className='overflow-x-auto'>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Status</TableHead>
-                          {isAdmin && <TableHead>Employee</TableHead>}
-                          <TableHead>Opened At</TableHead>
-                          <TableHead>Closed At</TableHead>
-                          <TableHead className='text-right'>
-                            Opening Cash
-                          </TableHead>
-                          <TableHead className='text-right'>
-                            Closing Cash
-                          </TableHead>
-                          <TableHead className='text-right'>Variance</TableHead>
-                          <TableHead>Notes</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {closedShifts.map((s) => (
-                          <ShiftHistoryRow
-                            key={s.id}
-                            shift={s}
-                            isAdmin={isAdmin}
-                          />
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
+                {/* Shift History */}
+                <motion.div variants={item}>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className='flex items-center gap-2'>
+                        <Clock className='h-5 w-5 text-muted-foreground' />
+                        Shift History
+                      </CardTitle>
+                      <CardDescription>
+                        Past shifts and their details
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {historyLoading ? (
+                        <div className='flex justify-center py-8'>
+                          <Loader2 className='h-6 w-6 animate-spin text-muted-foreground' />
+                        </div>
+                      ) : closedShifts.length === 0 ? (
+                        <p className='py-8 text-center text-sm text-muted-foreground'>
+                          No shift history yet. Open and close your first shift
+                          to see it here.
+                        </p>
+                      ) : (
+                        <div className='overflow-x-auto'>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Opened At</TableHead>
+                                <TableHead>Closed At</TableHead>
+                                <TableHead className='text-right'>
+                                  Opening Cash
+                                </TableHead>
+                                <TableHead className='text-right'>
+                                  Closing Cash
+                                </TableHead>
+                                <TableHead className='text-right'>
+                                  Variance
+                                </TableHead>
+                                <TableHead>Notes</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {closedShifts.map((s) => (
+                                <ShiftHistoryRow key={s.id} shift={s} />
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </div>
+            )
+
+            if (!canViewAll) {
+              return myShiftContent
+            }
+
+            return (
+              <Tabs defaultValue='my-shift'>
+                <TabsList className='mb-6'>
+                  <TabsTrigger value='my-shift'>My Shift</TabsTrigger>
+                  <TabsTrigger value='all-shifts'>All Shifts</TabsTrigger>
+                  <TabsTrigger value='live'>Live</TabsTrigger>
+                  <TabsTrigger value='analytics'>Analytics</TabsTrigger>
+                </TabsList>
+                <TabsContent value='my-shift'>{myShiftContent}</TabsContent>
+                <TabsContent value='all-shifts'>
+                  <ShiftsAdminTable
+                    restaurantId={activeShift?.restaurant_id ?? null}
+                  />
+                </TabsContent>
+                <TabsContent value='live'>
+                  <WhosWorkingTab canManage={canManage} />
+                </TabsContent>
+                <TabsContent value='analytics'>
+                  <ShiftAnalyticsTab />
+                </TabsContent>
+              </Tabs>
+            )
+          })()}
         </motion.div>
       </Main>
 
@@ -305,16 +360,37 @@ export function ShiftManagement() {
         onOpenChange={setCloseDialogOpen}
         openingCash={activeShift?.opening_cash ?? 0}
         isPending={isClosing}
+        expectedCash={expected ? Number(expected.expected) : null}
+        cashSales={expected ? Number(expected.cashSales) : null}
+        movementsIn={expected ? Number(expected.movementsIn) : null}
+        movementsOut={expected ? Number(expected.movementsOut) : null}
+        varianceThreshold={
+          shiftSettings ? Number(shiftSettings.varianceThreshold) : undefined
+        }
+        requireCommentOverThreshold={
+          shiftSettings?.requireCommentOverThreshold ?? false
+        }
         onSubmit={async (values) => {
           if (!user) return
           try {
             await closeShift(user.id, values.closingCash, values.notes)
             toast.success('Shift closed successfully')
             setCloseDialogOpen(false)
-          } catch {
-            toast.error('Failed to close shift')
+          } catch (error) {
+            toast.error(
+              error instanceof Error && error.message
+                ? error.message
+                : 'Failed to close shift'
+            )
           }
         }}
+      />
+
+      {/* Cash Movement Dialog */}
+      <CashMovementDialog
+        shiftId={activeShift?.id ?? null}
+        open={movementDialogOpen}
+        onOpenChange={setMovementDialogOpen}
       />
     </>
   )
@@ -325,10 +401,12 @@ export function ShiftManagement() {
 function ActiveShiftCard({
   shift,
   onClose,
+  onAddMovement,
   isClosing,
 }: {
   shift: ResShift
   onClose: () => void
+  onAddMovement?: () => void
   isClosing: boolean
 }) {
   return (
@@ -346,20 +424,34 @@ function ActiveShiftCard({
             })}
           </CardDescription>
         </div>
-        <Button
-          variant='destructive'
-          size='sm'
-          onClick={onClose}
-          disabled={isClosing}
-          className='gap-2'
-        >
-          {isClosing ? (
-            <Loader2 className='h-4 w-4 animate-spin' />
-          ) : (
-            <X className='h-4 w-4' />
+        <div className='flex items-center gap-2'>
+          {onAddMovement && (
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={onAddMovement}
+              disabled={isClosing}
+              className='gap-2'
+            >
+              <DollarSign className='h-4 w-4' />
+              Cash Movement
+            </Button>
           )}
-          Close Shift
-        </Button>
+          <Button
+            variant='destructive'
+            size='sm'
+            onClick={onClose}
+            disabled={isClosing}
+            className='gap-2'
+          >
+            {isClosing ? (
+              <Loader2 className='h-4 w-4 animate-spin' />
+            ) : (
+              <X className='h-4 w-4' />
+            )}
+            Close Shift
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className='grid gap-4 sm:grid-cols-3'>
@@ -551,12 +643,26 @@ export function CloseShiftDialog({
   openingCash,
   isPending,
   onSubmit,
+  expectedCash = null,
+  cashSales = null,
+  movementsIn = null,
+  movementsOut = null,
+  varianceThreshold,
+  requireCommentOverThreshold = false,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   openingCash: number
   isPending: boolean
   onSubmit: (values: CloseShiftFormValues) => Promise<void>
+  /** Server-computed expected cash (opening + cash sales ± movements). When
+   * provided, the variance is measured against it instead of the opening. */
+  expectedCash?: number | null
+  cashSales?: number | null
+  movementsIn?: number | null
+  movementsOut?: number | null
+  varianceThreshold?: number
+  requireCommentOverThreshold?: boolean
 }) {
   const form = useForm<CloseShiftFormValues>({
     resolver: zodResolver(closeShiftSchema),
@@ -565,9 +671,23 @@ export function CloseShiftDialog({
 
   const closingCash =
     useWatch({ control: form.control, name: 'closingCash' }) ?? 0
-  const variance = closingCash - openingCash
+  const varianceBaseline = expectedCash ?? openingCash
+  const variance = closingCash - varianceBaseline
+  const isOverThreshold =
+    varianceThreshold !== undefined && Math.abs(variance) > varianceThreshold
 
   const handleSubmit = async (values: CloseShiftFormValues) => {
+    if (
+      requireCommentOverThreshold &&
+      isOverThreshold &&
+      !values.notes?.trim()
+    ) {
+      form.setError('notes', {
+        message:
+          'A comment is required because the variance exceeds the threshold.',
+      })
+      return
+    }
     await onSubmit(values)
     form.reset()
   }
@@ -591,12 +711,46 @@ export function CloseShiftDialog({
             onSubmit={form.handleSubmit(handleSubmit)}
             className='space-y-4'
           >
-            {/* Opening cash reference */}
-            <div className='rounded-lg bg-muted/50 p-3'>
-              <p className='text-sm text-muted-foreground'>Opening Cash</p>
-              <p className='text-lg font-semibold'>
-                {formatCurrency(openingCash)}
-              </p>
+            {/* Opening / expected cash reference */}
+            <div className='space-y-2 rounded-lg bg-muted/50 p-3'>
+              <div className='flex items-center justify-between'>
+                <p className='text-sm text-muted-foreground'>Opening Cash</p>
+                <p className='text-sm font-semibold'>
+                  {formatCurrency(openingCash)}
+                </p>
+              </div>
+              {cashSales !== null && (
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm text-muted-foreground'>Cash Sales</p>
+                  <p className='text-sm font-semibold'>
+                    {formatCurrency(cashSales)}
+                  </p>
+                </div>
+              )}
+              {movementsIn !== null && movementsIn !== 0 && (
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm text-muted-foreground'>Paid In</p>
+                  <p className='text-sm font-semibold'>
+                    {formatCurrency(movementsIn)}
+                  </p>
+                </div>
+              )}
+              {movementsOut !== null && movementsOut !== 0 && (
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm text-muted-foreground'>Paid Out</p>
+                  <p className='text-sm font-semibold'>
+                    -{formatCurrency(movementsOut)}
+                  </p>
+                </div>
+              )}
+              {expectedCash !== null && (
+                <div className='flex items-center justify-between border-t pt-2'>
+                  <p className='text-sm font-medium'>Expected Cash</p>
+                  <p className='text-lg font-semibold'>
+                    {formatCurrency(expectedCash)}
+                  </p>
+                </div>
+              )}
             </div>
 
             <FormField
@@ -651,7 +805,11 @@ export function CloseShiftDialog({
               name='notes'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notes (optional)</FormLabel>
+                  <FormLabel>
+                    {requireCommentOverThreshold && isOverThreshold
+                      ? 'Notes (required — variance exceeds threshold)'
+                      : 'Notes (optional)'}
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder='Any notes about this shift...'
@@ -704,10 +862,14 @@ function ShiftHistoryRow({
   shift: ShiftWithEmployee
   isAdmin?: boolean
 }) {
+  // Prefer the server-computed variance snapshot (counted − expected); fall
+  // back to the legacy closing − opening for shifts closed before specs/026.
   const variance =
-    typeof shift.closing_cash === 'number'
-      ? shift.closing_cash - shift.opening_cash
-      : null
+    shift.variance != null
+      ? Number(shift.variance)
+      : typeof shift.closing_cash === 'number'
+        ? shift.closing_cash - shift.opening_cash
+        : null
 
   return (
     <TableRow>

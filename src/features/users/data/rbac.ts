@@ -22,6 +22,9 @@ export const BASE_PERMISSION_DEFINITIONS = [
   { name: 'screens.view', description: 'View the application screen and module registry.' },
   { name: 'screens.manage', description: 'Register and edit application screens and their access.' },
   { name: 'buttons.manage', description: 'Manage the permission-button catalog and screen mappings.' },
+  { name: 'shifts.use', description: 'Open and close own shifts and record cash movements.' },
+  { name: 'shifts.view', description: 'View all shifts, live staffing, and shift analytics.' },
+  { name: 'shifts.manage', description: 'Force-close, correct, review shifts and manage shift settings.' },
 ] as const
 
 export type PermissionName = (typeof BASE_PERMISSION_DEFINITIONS)[number]['name'] | '*'
@@ -46,6 +49,9 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'screens.view',
     'screens.manage',
     'buttons.manage',
+    'shifts.use',
+    'shifts.view',
+    'shifts.manage',
   ],
   manager: [
     'dashboard.view',
@@ -58,10 +64,12 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'orders.manage',
     'reports.view',
     'pos.access',
+    'shifts.use',
+    'shifts.view',
   ],
-  staff: ['dashboard.view', 'products.view', 'inventory.view', 'orders.view', 'orders.create', 'pos.access'],
-  cashier: ['dashboard.view', 'orders.view', 'orders.create', 'pos.access'],
-  captain: ['dashboard.view', 'orders.view', 'orders.manage', 'pos.access'],
+  staff: ['dashboard.view', 'products.view', 'inventory.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
+  cashier: ['dashboard.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
+  captain: ['dashboard.view', 'orders.view', 'orders.manage', 'pos.access', 'shifts.use'],
   kitchen: ['dashboard.view', 'orders.view', 'pos.access'],
 }
 

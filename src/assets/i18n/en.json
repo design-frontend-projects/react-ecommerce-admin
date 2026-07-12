@@ -677,5 +677,152 @@
       "defaultSet": "Default payment method updated.",
       "error": "Something went wrong."
     }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "shifts": {
+    "status": {
+      "open": "Open",
+      "closed": "Closed",
+      "forceClosed": "Force-closed",
+      "autoClosed": "Auto-closed",
+      "stale": "Stale",
+      "needsReview": "Needs review",
+      "corrected": "Corrected"
+    },
+    "table": {
+      "status": "Status",
+      "employee": "Employee",
+      "branch": "Branch",
+      "openedAt": "Opened",
+      "closedAt": "Closed",
+      "opening": "Opening",
+      "expected": "Expected",
+      "counted": "Counted",
+      "variance": "Variance"
+    },
+    "filters": {
+      "allStatuses": "All statuses",
+      "needsReview": "Needs review only",
+      "noResults": "No shifts match the current filters."
+    },
+    "actions": {
+      "view": "View details",
+      "forceClose": "Force-close",
+      "correct": "Correct amounts",
+      "review": "Mark reviewed"
+    },
+    "pagination": "Page {{page}} of {{total}}",
+    "forceClose": {
+      "title": "Force-Close Shift",
+      "desc": "Close this shift on behalf of {{name}}. The employee will be notified and the shift will be flagged for review.",
+      "countedCash": "Counted cash (optional)",
+      "reason": "Reason (required)",
+      "reasonPlaceholder": "Why is this shift being force-closed?",
+      "reasonTooShort": "Reason must be at least 5 characters.",
+      "confirm": "Force-Close",
+      "success": "Shift force-closed",
+      "error": "Unable to force-close shift"
+    },
+    "correction": {
+      "title": "Correct Shift Amounts",
+      "desc": "Original values are preserved and every correction is recorded in the audit log.",
+      "original": "Originally recorded",
+      "originalClosing": "Closing",
+      "originalVariance": "Variance",
+      "openingCash": "Opening cash",
+      "closingCash": "Closing cash",
+      "reason": "Reason (required)",
+      "reasonPlaceholder": "Why is this correction needed?",
+      "reasonTooShort": "Reason must be at least 5 characters.",
+      "confirm": "Save Correction",
+      "success": "Shift corrected",
+      "error": "Unable to correct shift"
+    },
+    "movement": {
+      "title": "Record Cash Movement",
+      "desc": "Record cash paid into or out of the register during this shift.",
+      "type": "Direction",
+      "paidIn": "Paid In",
+      "paidOut": "Paid Out",
+      "reason": "Reason",
+      "reasons": {
+        "income": "Income",
+        "expense": "Expense",
+        "payout": "Payout",
+        "adjustment": "Adjustment",
+        "customer_payment": "Customer payment",
+        "supplier_payment": "Supplier payment"
+      },
+      "amount": "Amount",
+      "note": "Note (optional)",
+      "confirm": "Record Movement",
+      "success": "Cash movement recorded",
+      "error": "Unable to record cash movement"
+    },
+    "settings": {
+      "title": "Shift Settings",
+      "desc": "Cash variance and abandoned-shift thresholds for this restaurant.",
+      "varianceThreshold": "Variance threshold",
+      "varianceThresholdHint": "Closing with an absolute variance above this amount flags the shift for review.",
+      "requireComment": "Require comment",
+      "requireCommentHint": "Employees must explain variances above the threshold.",
+      "staleHours": "Flag as stale after (hours)",
+      "autoCloseHours": "Auto-close after (hours)",
+      "autoCloseInvalid": "Auto-close must be later than the stale threshold.",
+      "success": "Shift settings saved",
+      "error": "Unable to save shift settings"
+    },
+    "detail": {
+      "title": "Shift Details",
+      "openedAt": "Opened at",
+      "closedAt": "Closed at",
+      "openingCash": "Opening cash",
+      "cashSales": "Cash sales",
+      "movementsIn": "Paid in",
+      "movementsOut": "Paid out",
+      "expectedCash": "Expected cash",
+      "closingCash": "Counted cash",
+      "variance": "Variance",
+      "correctedNote": "This shift was corrected. Original counted cash: {{closing}} · original variance: {{variance}}.",
+      "comment": "Comment",
+      "closeReason": "Close reason",
+      "movements": "Cash Movements",
+      "noMovements": "No cash movements recorded.",
+      "audit": "Audit Trail",
+      "noAudit": "No audit entries."
+    },
+    "review": {
+      "success": "Shift marked as reviewed",
+      "error": "Unable to mark shift as reviewed"
+    },
+    "live": {
+      "title": "Who's Working Now",
+      "desc": "All currently open shifts, updated in real time.",
+      "empty": "No open shifts right now.",
+      "elapsed": "Elapsed"
+    },
+    "analytics": {
+      "title": "Shift Analytics",
+      "duration": "Shift Duration Trends",
+      "durationDesc": "Average and median shift length per day (hours). Auto-closed shifts excluded.",
+      "avgHours": "Avg hours",
+      "medianHours": "Median hours",
+      "variance": "Cash Variance Trend",
+      "varianceDesc": "Total daily cash variance across all closed shifts.",
+      "totalVariance": "Total variance",
+      "coverage": "Staffing Coverage",
+      "coverageDesc": "Average simultaneous open shifts by weekday and hour.",
+      "offenders": "Top Variance Offenders",
+      "offendersDesc": "Employees ranked by total absolute variance (threshold: {{threshold}}).",
+      "shiftCount": "Shifts",
+      "absVariance": "Σ |variance|",
+      "overThreshold": "Over threshold",
+      "noData": "No data for this range."
+    }
   }
 }

@@ -79,6 +79,8 @@ export function useRBAC(
   action: 'create' | 'read' | 'update' | 'delete' | 'manage'
 ) {
   const { permissionNames } = useResolvedRBACAccess()
+  console.log(`resourcce: ${resource}, and action is: ${action}`);
+  console.log('permission names: ',permissionNames);
   return hasPermission(permissionNames, toPermissionName(resource, action))
 }
 

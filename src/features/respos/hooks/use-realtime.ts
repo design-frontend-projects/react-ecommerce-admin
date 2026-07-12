@@ -13,6 +13,7 @@ type RealtimeTable =
   | 'res_notifications'
   | 'res_void_requests'
   | 'res_reservations'
+  | 'res_shifts'
 
 interface UseRealtimeOptions {
   tables?: RealtimeTable[]
@@ -37,6 +38,7 @@ export function useResposRealtime(options: UseRealtimeOptions = {}) {
       'res_order_items',
       'res_notifications',
       'res_void_requests',
+      'res_shifts',
     ],
     employeeId,
     onTableChange,
@@ -146,6 +148,23 @@ export function useResposRealtime(options: UseRealtimeOptions = {}) {
         () => {
           queryClient.invalidateQueries({
             queryKey: resposQueryKeys.voidRequests(),
+          })
+        }
+      )
+    }
+
+    // Subscribe to shift changes (live "who's working" + admin views, specs/026)
+    if (tables.includes('res_shifts')) {
+      channel.on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'res_shifts',
+        },
+        () => {
+          queryClient.invalidateQueries({
+            queryKey: ['respos', 'shifts'],
           })
         }
       )

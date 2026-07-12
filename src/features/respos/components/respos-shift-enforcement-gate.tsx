@@ -2,34 +2,39 @@ import { useMemo } from 'react'
 import { useLocation } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { useAuthStore } from '@/stores/auth-store'
 import { useResposStore } from '@/stores/respos-store'
 import { useAuth, useUser } from '@/hooks/use-auth'
 import { useOpenShift } from '@/features/respos/api/mutations'
 import { useActiveShift, useShifts } from '@/features/respos/api/queries'
-import { RoleNames } from '@/features/respos/constants'
 import {
   isResposPath,
+  isShiftGatedUser,
   shouldEnforceShiftGate,
 } from '@/features/respos/lib/shift-enforcement'
 import {
   OpenShiftDialog,
   type OpenShiftFormValues,
 } from '@/features/respos/pages/shifts'
+import { useRBACStore } from '@/features/users/data/store'
 
 export function ResposShiftEnforcementGate() {
   const { t } = useTranslation()
-  const { isLoaded, isSignedIn, has } = useAuth()
+  const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
   const { pathname } = useLocation()
   const setActiveShift = useResposStore((state) => state.setActiveShift)
+  const selectedBranchId = useAuthStore((state) => state.auth.selectedBranchId)
+  const roleNames = useRBACStore((state) => state.currentRoleNames)
+  const permissionNames = useRBACStore((state) => state.currentPermissionNames)
   const openShiftMutation = useOpenShift()
 
   const authUserId = user?.id ?? null
-  const isCashier = has?.({ role: RoleNames.cashier }) ?? false
+  const isGatedUser = isShiftGatedUser(roleNames, permissionNames)
   const shouldEvaluateShiftGate =
     isLoaded &&
     isSignedIn &&
-    isCashier &&
+    isGatedUser &&
     !!authUserId &&
     isResposPath(pathname)
 
@@ -44,7 +49,7 @@ export function ResposShiftEnforcementGate() {
   )
 
   const previousClosingCash = useMemo(() => {
-    const lastClosedShift = shifts.find((shift) => shift.status === 'closed')
+    const lastClosedShift = shifts.find((shift) => shift.status !== 'open')
     return lastClosedShift?.closing_cash ?? 0
   }, [shifts])
 
@@ -55,7 +60,8 @@ export function ResposShiftEnforcementGate() {
     !isCheckingShiftState &&
     shouldEnforceShiftGate({
       isSignedIn: !!isSignedIn,
-      isCashier,
+      roleNames,
+      permissionNames,
       pathname,
       hasActiveShift: !!activeShift,
     })
@@ -68,11 +74,21 @@ export function ResposShiftEnforcementGate() {
         employeeId: user.id,
         openingCash: values.openingCash,
         authUserId: authUserId ?? undefined,
+        branchId: selectedBranchId ?? null,
       })
       setActiveShift(openedShift)
       await refetchActiveShift()
       toast.success(t('respos.shift.success.opened'))
-    } catch {
+    } catch (error) {
+      // A concurrent open (double tab) means a shift already exists — refetch
+      // instead of surfacing an error.
+      if (
+        error instanceof Error &&
+        error.message.includes('active_shift_exists')
+      ) {
+        await refetchActiveShift()
+        return
+      }
       toast.error(t('respos.shift.error.open'))
     }
   }
@@ -87,7 +103,8 @@ export function ResposShiftEnforcementGate() {
       onOpenChange={() => {}}
       employeeName={
         user
-          ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || t('respos.shift.unknown')
+          ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() ||
+            t('respos.shift.unknown')
           : t('respos.shift.unknown')
       }
       isPending={openShiftMutation.isPending}

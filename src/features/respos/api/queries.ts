@@ -88,6 +88,25 @@ export const resposQueryKeys = {
   dashboardStats: ['respos', 'dashboard-stats'] as const,
   analyticsOrders: (days: number) =>
     ['respos', 'analytics', 'orders', days] as const,
+  // Shift management (specs/026) — server-backed admin/oversight reads.
+  allShifts: (filters?: unknown) =>
+    filters
+      ? (['respos', 'shifts', 'all', filters] as const)
+      : (['respos', 'shifts', 'all'] as const),
+  activeShiftsAll: (branchId?: string) =>
+    branchId
+      ? (['respos', 'shifts', 'active-all', branchId] as const)
+      : (['respos', 'shifts', 'active-all'] as const),
+  shiftAudit: (shiftId: string) =>
+    ['respos', 'shifts', 'audit', shiftId] as const,
+  shiftExpected: (shiftId: string) =>
+    ['respos', 'shifts', 'expected', shiftId] as const,
+  shiftMovements: (shiftId: string) =>
+    ['respos', 'shifts', 'movements', shiftId] as const,
+  shiftSettings: (restaurantId?: string | null, branchId?: string | null) =>
+    ['respos', 'shifts', 'settings', restaurantId ?? '', branchId ?? ''] as const,
+  shiftAnalytics: (metric: string, range: string, branchId?: string) =>
+    ['respos', 'shifts', 'analytics', metric, range, branchId ?? ''] as const,
 }
 
 // ============ Roles ============
