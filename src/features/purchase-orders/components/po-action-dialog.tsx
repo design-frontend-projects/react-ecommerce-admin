@@ -3,7 +3,8 @@ import { z } from 'zod'
 import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Check, ChevronsUpDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,6 +24,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
 import {
   Select,
   SelectContent,
@@ -85,6 +99,7 @@ export function POActionDialog() {
   const createMutation = useCreatePurchaseOrder()
   const updateMutation = useUpdatePurchaseOrder()
   const [showLineValidation, setShowLineValidation] = useState(false)
+  const [supplierOpen, setSupplierOpen] = useState(false)
 
   // Fetch full PO with items for edit mode
   const { data: fullPO } = usePurchaseOrder(
@@ -354,28 +369,66 @@ export function POActionDialog() {
                 control={form.control}
                 name='supplier_id'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='flex flex-col pt-2'>
                     <FormLabel>Supplier</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={String(field.value)}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Select supplier' />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {suppliers?.map((s) => (
-                          <SelectItem
-                            key={s.supplier_id}
-                            value={String(s.supplier_id)}
+                    <Popover open={supplierOpen} onOpenChange={setSupplierOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant='outline'
+                            role='combobox'
+                            className={cn(
+                              'w-full justify-between',
+                              (!field.value || field.value === '0') &&
+                                'text-muted-foreground'
+                            )}
                           >
-                            {s.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                            {field.value && field.value !== '0'
+                              ? suppliers?.find(
+                                  (s) => String(s.supplier_id) === field.value
+                                )?.name
+                              : 'Select supplier'}
+                            <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className='p-0 w-[--radix-popover-trigger-width]'
+                      >
+                        <Command>
+                          <CommandInput placeholder='Search supplier...' />
+                          <CommandList>
+                            <CommandEmpty>No supplier found.</CommandEmpty>
+                            <CommandGroup>
+                              {suppliers?.map((s) => (
+                                <CommandItem
+                                  value={s.name}
+                                  key={s.supplier_id}
+                                  onSelect={() => {
+                                    form.setValue(
+                                      'supplier_id',
+                                      String(s.supplier_id),
+                                      { shouldValidate: true }
+                                    )
+                                    setSupplierOpen(false)
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      'mr-2 h-4 w-4',
+                                      String(s.supplier_id) === field.value
+                                        ? 'opacity-100'
+                                        : 'opacity-0'
+                                    )}
+                                  />
+                                  {s.name}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}
