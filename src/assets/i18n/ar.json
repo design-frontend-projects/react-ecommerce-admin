@@ -420,7 +420,13 @@
       "received": "المبلغ المستلم",
       "change": "الباقي",
       "paymentSuccess": "تمت معالجة الدفع بنجاح",
-      "paymentFailed": "فشلت معالجة الدفع"
+      "paymentFailed": "فشلت معالجة الدفع",
+      "keepTip": "هل تريد الاحتفاظ بالإكرامية من الباقي؟",
+      "tipAmount": "مبلغ الإكرامية",
+      "errors": {
+        "tipAmountMin": "يجب أن يكون مبلغ الإكرامية أكبر من 0",
+        "tipAmountMax": "لا يمكن أن تتجاوز الإكرامية الباقي ({{amount}})"
+      }
     },
     "orderType": {
       "dineIn": "صالة",

@@ -420,7 +420,13 @@
       "received": "Amount received",
       "change": "Change",
       "paymentSuccess": "Payment processed successfully",
-      "paymentFailed": "Failed to process payment"
+      "paymentFailed": "Failed to process payment",
+      "keepTip": "Keep tip from change?",
+      "tipAmount": "Tip Amount",
+      "errors": {
+        "tipAmountMin": "Tip must be greater than 0",
+        "tipAmountMax": "Tip cannot exceed change amount ({{amount}})"
+      }
     },
     "orderType": {
       "dineIn": "Dine-in",

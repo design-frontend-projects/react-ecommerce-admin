@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { useResposStore } from '@/stores/respos-store'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import {
   Dialog,
   DialogContent,
@@ -52,7 +53,8 @@ const checkoutSchema = z
     discountValue: z.number().min(0),
     promoCode: z.string().optional(),
     receivedAmount: z.number().min(0, 'respos.checkout.errors.receivedAmountRequired'),
-    tipAmount: z.number().min(0),
+    keepTip: z.boolean(),
+    tipAmount: z.number().min(0).optional(),
     recipientName: z.string().optional(),
     recipientPhone: z.string().optional(),
     deliveryAddress: z.string().optional(),
@@ -134,6 +136,7 @@ export function CheckoutDialog({
       discountValue: 0,
       promoCode: '',
       receivedAmount: 0,
+      keepTip: false,
       tipAmount: 0,
       recipientName: '',
       recipientPhone: '',
@@ -166,6 +169,7 @@ export function CheckoutDialog({
         discountValue: cart.manualDiscountAmount || 0,
         promoCode: cart.promoCode || '',
         receivedAmount: cart.receivedAmount || 0,
+        keepTip: false,
         tipAmount: 0,
         recipientName: order.shipment?.recipient_name ?? '',
         recipientPhone: order.shipment?.recipient_phone ?? '',
@@ -313,6 +317,26 @@ export function CheckoutDialog({
       return
     }
 
+    if (values.keepTip) {
+      if (!values.tipAmount || values.tipAmount <= 0) {
+        form.setError('tipAmount', {
+          type: 'manual',
+          message: t('respos.checkout.errors.tipAmountMin'),
+        })
+        return
+      }
+      if (values.tipAmount > change) {
+        form.setError('tipAmount', {
+          type: 'manual',
+          message: t('respos.checkout.errors.tipAmountMax', { amount: formatCurrency(change) }),
+        })
+        return
+      }
+    }
+
+    const finalTipAmount = values.keepTip ? (values.tipAmount || 0) : 0
+    const finalChangeAmount = Math.max(0, change - finalTipAmount)
+
     updateOrder(
       {
         orderId: order.id,
@@ -339,8 +363,8 @@ export function CheckoutDialog({
           (promoRemoved ? null : order.applied_promotion_id),
         promoDiscountAmount: promoDiscount,
         receivedAmount: values.receivedAmount,
-        changeAmount: change,
-        tipAmount: change, // tip = change for cash scenarios
+        changeAmount: finalChangeAmount,
+        tipAmount: finalTipAmount,
       },
       {
         // Promo usage is recorded atomically inside the mutation, before the
@@ -794,6 +818,54 @@ export function CheckoutDialog({
                 </div>
               </div>
             </div>
+
+            {change > 0 && (
+              <div className='space-y-4 rounded-lg border bg-slate-50 p-4 dark:bg-slate-900'>
+                <FormField
+                  control={form.control}
+                  name='keepTip'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border bg-white p-3 shadow-sm dark:bg-slate-950'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-base font-semibold'>
+                          {t('respos.checkout.keepTip')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                {form.watch('keepTip') && (
+                  <FormField
+                    control={form.control}
+                    name='tipAmount'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('respos.checkout.tipAmount')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='number'
+                            min={0.01}
+                            max={change}
+                            step={0.01}
+                            {...field}
+                            value={field.value === 0 ? '' : field.value}
+                            onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : 0)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
+            )}
 
             <DialogFooter className='pt-2'>
               <Button
