@@ -71,9 +71,8 @@ export const useBasket = create<BasketState>((set, get) => ({
 
   addItem: (newItem) =>
     set((state) => {
-      const existingItem = state.items.find(
-        (i) =>
-          isSameBasketLine(i, newItem.productId, newItem.productVariantId)
+      const existingItem = state.items.find((i) =>
+        isSameBasketLine(i, newItem.productId, newItem.productVariantId)
       )
 
       if (existingItem) {
@@ -180,7 +179,8 @@ export const useBasket = create<BasketState>((set, get) => ({
       if (appliedPromotion.discount_type === 'fixed') {
         discountAmount = Number(appliedPromotion.discount_value)
       } else if (appliedPromotion.discount_type === 'percentage') {
-        discountAmount = subtotal * (Number(appliedPromotion.discount_value) / 100)
+        discountAmount =
+          subtotal * (Number(appliedPromotion.discount_value) / 100)
       }
     } else if (cartDiscount) {
       if (cartDiscount.type === 'fixed') {
@@ -204,7 +204,7 @@ export const useBasket = create<BasketState>((set, get) => ({
     taxRates.forEach((tax) => {
       const rate = Number(tax.rate)
       if (tax.is_inclusive) {
-        totalTax += afterDiscount - (afterDiscount / (1 + rate / 100))
+        totalTax += (afterDiscount * rate) / 100
       } else {
         totalTax += afterDiscount * (rate / 100)
       }
@@ -217,12 +217,11 @@ export const useBasket = create<BasketState>((set, get) => ({
     const subtotal = getSubtotal()
     const discountAmount = getDiscountAmount()
     const afterDiscount = Math.max(0, subtotal - discountAmount)
-
     let exclusiveTax = 0
     if (taxRates) {
       taxRates.forEach((tax) => {
         if (!tax.is_inclusive) {
-          exclusiveTax += afterDiscount * (Number(tax.rate) / 100)
+          exclusiveTax += (afterDiscount * Number(tax.rate)) / 100
         }
       })
     }

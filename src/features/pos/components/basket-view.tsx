@@ -9,15 +9,15 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { createPosTransaction } from '../data/api'
+import type { ShipmentType } from '../schemas/checkout'
 import { useBasket } from '../store/use-basket'
+import type { CheckoutResponse } from '../types'
 import { printReceipt } from '../utils/receipt-printer'
+import { CheckoutModal } from './checkout-modal'
 import { DiscountToggle } from './discount-toggle'
 import { PromoCodeDialog } from './promo-code-dialog'
 import { RefundDialog } from './refund-dialog'
 import { ReorderDialog } from './reorder-dialog'
-import { CheckoutModal } from './checkout-modal'
-import type { ShipmentType } from '../schemas/checkout'
-import type { CheckoutResponse } from '../types'
 
 export function BasketView() {
   const {
@@ -84,7 +84,9 @@ export function BasketView() {
     },
     onSuccess: (data: CheckoutResponse) => {
       if (!data.success) {
-        toast.error(`Checkout failed: ${data.error?.message || 'Unknown error'}`)
+        toast.error(
+          `Checkout failed: ${data.error?.message || 'Unknown error'}`
+        )
         return
       }
 
@@ -171,7 +173,9 @@ export function BasketView() {
       <div className='border-b bg-background p-4'>
         <div className='mb-3 flex items-start justify-between gap-2'>
           <div>
-            <h2 className='text-lg font-semibold tracking-tight'>Current Order</h2>
+            <h2 className='text-lg font-semibold tracking-tight'>
+              Current Order
+            </h2>
             <p className='text-xs text-muted-foreground'>
               {items.length === 0
                 ? 'Basket is empty'
@@ -356,7 +360,9 @@ export function BasketView() {
                     variant='ghost'
                     size='icon'
                     className='size-8 text-destructive hover:text-destructive'
-                    onClick={() => removeItem(item.productId, item.productVariantId)}
+                    onClick={() =>
+                      removeItem(item.productId, item.productVariantId)
+                    }
                     aria-label={`Remove ${item.name}`}
                   >
                     <Trash2 />
@@ -377,7 +383,9 @@ export function BasketView() {
           {cartDiscount > 0 && (
             <div className='flex justify-between text-sm text-orange-500'>
               <span>Discount</span>
-              <span className='tabular-nums'>-{formatCurrency(cartDiscount)}</span>
+              <span className='tabular-nums'>
+                -{formatCurrency(cartDiscount)}
+              </span>
             </div>
           )}
           {tax > 0 && (
