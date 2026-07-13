@@ -69,7 +69,6 @@ export async function fetchCurrentUserAccess(
         `
         auth_user_id,
         default_role,
-        user_profile_id,
         user_roles (
           role_id,
           roles (
@@ -95,8 +94,8 @@ export async function fetchCurrentUserAccess(
       .eq('auth_user_id', authUserId)
       .maybeSingle(),
   ])
-  console.log('fetched profile: ',profileResult)
-  console.log('fetched tenant user: ',tenantUserResult)
+  console.log('fetched profile: ', profileResult)
+  console.log('fetched tenant user: ', tenantUserResult)
   if (profileResult.error) throw profileResult.error
   if (tenantUserResult.error) throw tenantUserResult.error
 
