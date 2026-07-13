@@ -90,7 +90,11 @@ export function UserManagementPage() {
           </div>
           <RBACGuard resource='users' action='manage'>
             <div className='flex items-center gap-2'>
-              <Button type='button' variant='outline' onClick={() => setCreateOpen(true)}>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => setCreateOpen(true)}
+              >
                 <ShieldPlusIcon className='mr-2 size-4' />
                 Create user
               </Button>
