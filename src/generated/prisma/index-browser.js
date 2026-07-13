@@ -1110,7 +1110,6 @@ exports.Prisma.Tenant_usersScalarFieldEnum = {
   is_restuarant_user: 'is_restuarant_user',
   parent_tenant_id: 'parent_tenant_id',
   refund_pin_code: 'refund_pin_code',
-  user_profile_id: 'user_profile_id',
   id_number: 'id_number'
 };
 

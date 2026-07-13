@@ -434,25 +434,24 @@ model pos_reorder_requests {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model profiles {
-  id                                                  String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email                                               String?        @unique @db.VarChar(255)
-  first_name                                          String?        @db.VarChar(100)
-  last_name                                           String?        @db.VarChar(100)
-  phone                                               String?        @db.VarChar(20)
-  is_owner                                            Boolean        @default(true)
-  system_owner                                        Boolean        @default(false)
-  onboarding_complete                                 Boolean        @default(false)
-  created_at                                          DateTime?      @default(now()) @db.Timestamp(6)
-  updated_at                                          DateTime?      @default(now()) @db.Timestamp(6)
-  activity                                            String?        @db.VarChar(100)
-  auth_user_id                                        String         @db.Uuid
-  is_paid                                             Boolean        @default(false)
-  branch_id                                           String?        @db.Uuid
-  role                                                String?
-  audit_logs                                          audit_logs[]
-  branches                                            branches?      @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
-  tenant_users                                        tenant_users[]
-  tenant_users_tenant_users_user_profile_idToprofiles tenant_users[] @relation("tenant_users_user_profile_idToprofiles")
+  id                  String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email               String?        @unique @db.VarChar(255)
+  first_name          String?        @db.VarChar(100)
+  last_name           String?        @db.VarChar(100)
+  phone               String?        @db.VarChar(20)
+  is_owner            Boolean        @default(true)
+  system_owner        Boolean        @default(false)
+  onboarding_complete Boolean        @default(false)
+  created_at          DateTime?      @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?      @default(now()) @db.Timestamp(6)
+  activity            String?        @db.VarChar(100)
+  auth_user_id        String         @db.Uuid
+  is_paid             Boolean        @default(false)
+  branch_id           String?        @db.Uuid
+  role                String?
+  audit_logs          audit_logs[]
+  branches            branches?      @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
+  tenant_users        tenant_users[]
 
   @@index([email], map: "idx_profiles_email")
   @@index([branch_id], map: "idx_profiles_branch_id")
@@ -1424,29 +1423,27 @@ model tenant_subscriptions {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tenant_users {
-  id                                              String             @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id                                    String?            @default(dbgenerated("auth.uid()")) @db.Uuid
-  email                                           String?            @unique(map: "users_email_key") @db.VarChar(255)
-  phone                                           String?            @db.VarChar(20)
-  first_name                                      String?            @db.VarChar(100)
-  last_name                                       String?            @db.VarChar(100)
-  avatar_url                                      String?
-  primary_module                                  user_module?       @default(inventory)
-  modules                                         user_module[]      @default([inventory])
-  is_active                                       Boolean?           @default(true)
-  created_at                                      DateTime?          @default(now()) @db.Timestamptz(6)
-  updated_at                                      DateTime?          @default(now()) @db.Timestamptz(6)
-  default_role                                    String?
-  onboarding_complete                             Boolean            @default(false)
-  is_restuarant_user                              Boolean?           @default(false)
-  parent_tenant_id                                String?            @db.Uuid
-  refund_pin_code                                 Decimal?           @db.Decimal
-  user_profile_id                                 String?            @db.Uuid
-  id_number                                       String?
-  tenant_subscriptions                            profiles?          @relation(fields: [parent_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  profiles_tenant_users_user_profile_idToprofiles profiles?          @relation("tenant_users_user_profile_idToprofiles", fields: [user_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user_permissions                                user_permissions[]
-  user_roles                                      user_roles[]
+  id                   String             @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_user_id         String?            @default(dbgenerated("auth.uid()")) @db.Uuid
+  email                String?            @unique(map: "users_email_key") @db.VarChar(255)
+  phone                String?            @db.VarChar(20)
+  first_name           String?            @db.VarChar(100)
+  last_name            String?            @db.VarChar(100)
+  avatar_url           String?
+  primary_module       user_module?       @default(inventory)
+  modules              user_module[]      @default([inventory])
+  is_active            Boolean?           @default(true)
+  created_at           DateTime?          @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?          @default(now()) @db.Timestamptz(6)
+  default_role         String?
+  onboarding_complete  Boolean            @default(false)
+  is_restuarant_user   Boolean?           @default(false)
+  parent_tenant_id     String?            @db.Uuid
+  refund_pin_code      Decimal?           @db.Decimal
+  id_number            String?
+  tenant_subscriptions profiles?          @relation(fields: [parent_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_permissions     user_permissions[]
+  user_roles           user_roles[]
 
   @@index([primary_module], map: "idx_users_primary_module")
 }
