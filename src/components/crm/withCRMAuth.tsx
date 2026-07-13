@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { UserRole } from '@/types/user-role.enum'
 
 // Mock authentication check hook for frontend
 function useAuthRole() {
   // Hardcoded for demonstration, ideally from an auth provider (Clerk/Supabase)
-  return { role: 'admin', loading: false };
+  return { role: UserRole.Admin, loading: false };
 }
 
 export function withCRMAuth<P extends object>(WrappedComponent: React.ComponentType<P>) {
@@ -13,7 +14,7 @@ export function withCRMAuth<P extends object>(WrappedComponent: React.ComponentT
 
     useEffect(() => {
       if (!loading) {
-        if (role === 'admin' || role === 'manager') {
+        if (role === UserRole.Admin || role === UserRole.Manager) {
           setAuthorized(true);
         }
       }

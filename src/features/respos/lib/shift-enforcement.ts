@@ -1,4 +1,5 @@
 import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
+import { UserRole, ADMIN_ROLES } from '@/types/user-role.enum'
 
 export function isResposPath(pathname: string): boolean {
   return (
@@ -22,16 +23,13 @@ export function isShiftGatedUser(
   const normalizedRoles = roleNames.map(normalizeRoleName)
 
   if (hasAnyPermission(permissionNames, ['shifts.manage'])) return false
-  if (
-    normalizedRoles.includes('admin') ||
-    normalizedRoles.includes('super_admin')
-  ) {
+  if (ADMIN_ROLES.some((role) => normalizedRoles.includes(role))) {
     return false
   }
 
   return (
     hasAnyPermission(permissionNames, ['shifts.use']) ||
-    normalizedRoles.includes('cashier')
+    normalizedRoles.includes(UserRole.Cashier)
   )
 }
 

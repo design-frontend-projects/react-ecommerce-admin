@@ -1,7 +1,26 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAuth } from '@/hooks/use-auth'
+import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
 import { type Product } from '../data/schema'
 import type { VariantRowFormData } from '../data/product-wizard-schema'
+
+/**
+ * Initial quantities are never written to product_variants.stock_quantity
+ * (a denormalized cache owned by the SQL movement engine). They are posted as
+ * idempotent `opening_stock` movements instead, keyed per (variant, store).
+ */
+async function postOpeningStock(
+  getToken: () => Promise<string | null>,
+  storeId: string,
+  items: Array<{ productVariantId: string; qty: number; unitCost?: number }>
+) {
+  if (items.length === 0) return
+  await authorizedRequest(getToken, '/api/inventory/opening-stock', {
+    method: 'POST',
+    body: JSON.stringify({ storeId, items }),
+  })
+}
 
 export const useProducts = () => {
   return useQuery({
@@ -102,6 +121,7 @@ export const useDeleteProduct = () => {
 
 export const useCreateProductWithVariants = () => {
   const queryClient = useQueryClient()
+  const { getToken } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -122,13 +142,13 @@ export const useCreateProductWithVariants = () => {
 
       if (!product) throw new Error('Failed to create product')
 
-      // 2. Insert variants, assigning product_id
+      // 2. Insert variants with zero stock — quantities go through the engine
       const variantsWithProductId = variants.map((v) => ({
         sku: v.sku,
         barcode: v.barcode,
         price: v.price,
         cost_price: v.cost_price,
-        stock_quantity: v.stock_quantity,
+        stock_quantity: 0,
         min_stock: v.min_stock,
         weight: v.weight,
         dimensions: v.attributes_label ? JSON.stringify({ label: v.attributes_label }) : null,
@@ -146,16 +166,32 @@ export const useCreateProductWithVariants = () => {
         throw variantsError
       }
 
+      // 3. Post initial quantities as opening_stock movements (needs a store)
+      const storeId = (base as { store_id?: string | null }).store_id
+      if (storeId && createdVariants) {
+        const openingItems = createdVariants
+          .map((created, index) => ({
+            productVariantId: created.id as string,
+            qty: variants[index]?.stock_quantity ?? 0,
+            unitCost: variants[index]?.cost_price ?? undefined,
+          }))
+          .filter((item) => item.qty > 0)
+        await postOpeningStock(getToken, storeId, openingItems)
+      }
+
       return { product, variants: createdVariants }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
+      queryClient.invalidateQueries({ queryKey: ['inventory', 'movements'] })
     },
   })
 }
 
 export const useUpdateProductWithVariants = () => {
   const queryClient = useQueryClient()
+  const { getToken } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -200,14 +236,15 @@ export const useUpdateProductWithVariants = () => {
         if (deleteError) throw deleteError
       }
 
-      // 3. Separate new variants (INSERT) from existing variants (UPDATE)
+      // 3. Separate new variants (INSERT) from existing variants (UPDATE).
+      // stock_quantity is intentionally absent: the cache is engine-owned and
+      // existing stock is changed via Stock Adjustments, never here.
       const buildVariantPayload = (v: VariantRowFormData & { id?: string }) => ({
         product_id: id,
         sku: v.sku,
         barcode: v.barcode,
         price: v.price,
         cost_price: v.cost_price,
-        stock_quantity: v.stock_quantity,
         min_stock: v.min_stock,
         weight: v.weight,
         dimensions: v.attributes_label ? JSON.stringify({ label: v.attributes_label }) : v.dimensions,
@@ -232,17 +269,32 @@ export const useUpdateProductWithVariants = () => {
       if (newToInsert.length > 0) {
         const { data, error: insertErr } = await supabase
           .from('product_variants')
-          .insert(newToInsert.map(buildVariantPayload))
+          .insert(newToInsert.map((v) => ({ ...buildVariantPayload(v), stock_quantity: 0 })))
           .select()
 
         if (insertErr) throw insertErr
         insertedVariants = data
+
+        // Initial quantities for NEW variants go through the movement engine
+        const storeId = (product as { store_id?: string | null } | null)?.store_id
+        if (storeId && insertedVariants) {
+          const openingItems = insertedVariants
+            .map((created, index) => ({
+              productVariantId: created.id as string,
+              qty: newToInsert[index]?.stock_quantity ?? 0,
+              unitCost: newToInsert[index]?.cost_price ?? undefined,
+            }))
+            .filter((item) => item.qty > 0)
+          await postOpeningStock(getToken, storeId, openingItems)
+        }
       }
 
       return { product, variants: insertedVariants }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
+      queryClient.invalidateQueries({ queryKey: ['inventory', 'movements'] })
     },
   })
 }

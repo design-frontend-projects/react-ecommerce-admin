@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import { Bell, Loader2 } from 'lucide-react'
 import { useAuth, useUser } from '@/hooks/use-auth'
+import { UserRole } from '@/types/user-role.enum'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -32,10 +33,8 @@ export function ReorderNotificationsBell() {
   const canViewReorderInbox =
     isLoaded &&
     isSignedIn &&
-    (has({ role: 'admin' }) ||
-      has({ role: 'super_admin' }) ||
-      has({ role: 'org:admin' }) ||
-      has({ role: 'org:super_admin' }))
+    (has({ role: UserRole.Admin }) ||
+      has({ role: UserRole.SuperAdmin }))
 
   usePosReorderRealtime({ enabled: canViewReorderInbox })
 

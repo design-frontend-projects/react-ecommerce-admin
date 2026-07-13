@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, RefreshCw, ShieldAlert, UtensilsCrossed } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
+import { UserRole } from '@/types/user-role.enum'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { LanguageSwitch } from '@/components/language-switch'
@@ -48,7 +49,7 @@ export default function CaptainDashboard() {
   }
 
   if (isLoaded && isSignedIn) {
-    if (!has({ role: 'captain' }) && !has({ role: 'super_admin' })) {
+    if (!has({ role: UserRole.Captain }) && !has({ role: UserRole.SuperAdmin })) {
       return (
         <div className='flex h-full flex-col items-center justify-center gap-4 text-center'>
           <ShieldAlert className='h-16 w-16 text-destructive' />

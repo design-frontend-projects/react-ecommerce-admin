@@ -9,6 +9,7 @@ import {
   getPrimaryRoleName,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import { checkAdminAccess } from './rbac'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
@@ -119,7 +120,7 @@ export async function createUser(
 
   const modules = await deriveTenantModules(callerTenantUser.parent_tenant_id)
   const isOwner = roleNames.some((name) =>
-    ['admin', 'super_admin'].includes(normalizeRoleName(name))
+    ADMIN_ROLES.includes(normalizeRoleName(name) as any)
   )
 
   // Create the Supabase auth user first.

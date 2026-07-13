@@ -196,7 +196,20 @@
     "stockTransfers": "Stock Transfers",
     "stockAdjustments": "Stock Adjustments",
     "inventoryMovements": "Inventory Movements",
-    "paymentMethods": "Payment Methods"
+    "paymentMethods": "Payment Methods",
+    "warehouses": "Warehouses",
+    "stockByLocation": "Stock by Location",
+    "brands": "Brands",
+    "units": "Units of Measure",
+    "goodsReceipts": "Goods Receipts",
+    "purchaseRequisitions": "Purchase Requisitions",
+    "salesOrders": "Sales Orders",
+    "reservations": "Reservations",
+    "stockCounts": "Stock Counts",
+    "batches": "Batches",
+    "serials": "Serial Numbers",
+    "reorderRules": "Reorder Rules",
+    "replenishment": "Replenishment"
   },
   "dashboard": {
     "loading": "Loading dashboard...",

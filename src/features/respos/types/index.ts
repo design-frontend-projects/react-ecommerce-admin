@@ -3,12 +3,8 @@
 
 // ============ RBAC Types ============
 
-export type RoleName =
-  | 'super_admin'
-  | 'admin'
-  | 'cashier'
-  | 'captain'
-  | 'kitchen'
+export { UserRole as RoleName } from '@/types/user-role.enum'
+import { type UserRole as RoleName } from '@/types/user-role.enum'
 
 export type Permission =
   | 'dashboard'

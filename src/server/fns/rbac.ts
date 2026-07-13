@@ -10,6 +10,7 @@ import {
   getFallbackPermissionNamesForRoles,
   resolveEffectivePermissions,
 } from '@/features/users/data/rbac'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import type {
   CreateRoleInput,
   PermissionRecord,
@@ -195,7 +196,7 @@ export async function checkAdminAccess(callerAuthUserId?: string) {
     callerTenantUser.user_roles as Array<{ roles: { name: string } }>
   ).map((ur) => ur.roles.name.toLowerCase())
 
-  return callerRoleNames.includes('admin') || callerRoleNames.includes('super_admin')
+  return ADMIN_ROLES.some((role) => callerRoleNames.includes(role))
 }
 
 export async function createRole(

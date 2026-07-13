@@ -1,31 +1,29 @@
 // ResPOS Constants
 // Role and permission definitions
 import type { Permission, RoleName } from '../types'
+import { UserRole } from '@/types/user-role.enum'
+
+// Backward-compatible re-export — existing `import { RoleNames }` keeps working
+export { UserRole as RoleNames } from '@/types/user-role.enum'
 
 // Role hierarchy (higher index = more permissions)
 export const ROLE_HIERARCHY: RoleName[] = [
-  'kitchen',
-  'captain',
-  'cashier',
-  'admin',
-  'super_admin',
+  UserRole.Kitchen,
+  UserRole.Captain,
+  UserRole.Cashier,
+  UserRole.Admin,
+  UserRole.SuperAdmin,
 ]
 
-export enum RoleNames {
-  super_admin = 'super_admin',
-  admin = 'admin',
-  cashier = 'cashier',
-  captain = 'captain',
-  kitchen = 'kitchen',
-}
-
 // Role display names
-export const ROLE_DISPLAY_NAMES: Record<RoleName, string> = {
-  super_admin: 'Super Administrator',
-  admin: 'Administrator',
-  cashier: 'Cashier',
-  captain: 'Captain/Waiter',
-  kitchen: 'Kitchen Staff',
+export const ROLE_DISPLAY_NAMES: Partial<Record<RoleName, string>> = {
+  [UserRole.SuperAdmin]: 'Super Administrator',
+  [UserRole.Admin]: 'Administrator',
+  [UserRole.Manager]: 'Manager',
+  [UserRole.Cashier]: 'Cashier',
+  [UserRole.Captain]: 'Captain/Waiter',
+  [UserRole.Kitchen]: 'Kitchen Staff',
+  [UserRole.Staff]: 'Staff',
 }
 
 // Permission definitions
@@ -49,9 +47,9 @@ export const PERMISSIONS: Record<Permission, string> = {
 }
 
 // Role-to-permission mapping
-export const ROLE_PERMISSIONS: Record<RoleName, Permission[]> = {
-  super_admin: ['*'],
-  admin: [
+export const ROLE_PERMISSIONS: Partial<Record<RoleName, Permission[]>> = {
+  [UserRole.SuperAdmin]: ['*'],
+  [UserRole.Admin]: [
     'dashboard',
     'pos',
     'orders',
@@ -64,9 +62,9 @@ export const ROLE_PERMISSIONS: Record<RoleName, Permission[]> = {
     'payments',
     'void_approve',
   ],
-  cashier: ['dashboard', 'pos', 'orders', 'shifts', 'payments', 'void_approve'],
-  captain: ['dashboard', 'pos', 'orders', 'reservations_view', 'void_request'],
-  kitchen: ['dashboard', 'kitchen'],
+  [UserRole.Cashier]: ['dashboard', 'pos', 'orders', 'shifts', 'payments', 'void_approve'],
+  [UserRole.Captain]: ['dashboard', 'pos', 'orders', 'reservations_view', 'void_request'],
+  [UserRole.Kitchen]: ['dashboard', 'kitchen'],
 }
 
 // Route protection mapping

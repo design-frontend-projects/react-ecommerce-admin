@@ -146,8 +146,6 @@ async function getCurrentUserSubscription(authUserId: string) {
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
-  console.log('subscirpton object data')
-  console.log(data)
 
   if (error) {
     if (error.code === 'PGRST116') return null // No record found

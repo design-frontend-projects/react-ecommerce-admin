@@ -196,7 +196,20 @@
     "stockTransfers": "تحويلات المخزون",
     "stockAdjustments": "تعديلات المخزون",
     "inventoryMovements": "حركات المخزون",
-    "paymentMethods": "طرق الدفع"
+    "paymentMethods": "طرق الدفع",
+    "warehouses": "المستودعات",
+    "stockByLocation": "المخزون حسب الموقع",
+    "brands": "العلامات التجارية",
+    "units": "وحدات القياس",
+    "goodsReceipts": "استلام البضائع",
+    "purchaseRequisitions": "طلبات الشراء الداخلية",
+    "salesOrders": "أوامر البيع",
+    "reservations": "الحجوزات",
+    "stockCounts": "جرد المخزون",
+    "batches": "الدفعات",
+    "serials": "الأرقام التسلسلية",
+    "reorderRules": "قواعد إعادة الطلب",
+    "replenishment": "تجديد المخزون"
   },
   "dashboard": {
     "loading": "جاري تحميل لوحة التحكم...",

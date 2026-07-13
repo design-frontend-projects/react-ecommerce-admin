@@ -1,5 +1,6 @@
 // RBAC Utilities for ResPOS
 // Permission checking and role-based access control
+import { UserRole, ADMIN_ROLES } from '@/types/user-role.enum'
 import { ROLE_PERMISSIONS } from '../constants'
 import type { Permission, ResEmployeeWithRoles, RoleName } from '../types'
 
@@ -100,7 +101,7 @@ export function canOnlyRequestVoid(
  * Check if user is admin or super_admin
  */
 export function isAdmin(employee: ResEmployeeWithRoles | null): boolean {
-  return hasAnyRole(employee, ['admin', 'super_admin'])
+  return hasAnyRole(employee, [...ADMIN_ROLES] as RoleName[])
 }
 
 /**
@@ -114,7 +115,7 @@ export function canOpenShift(employee: ResEmployeeWithRoles | null): boolean {
  * Check if user is captain
  */
 export function isCaptain(employee: ResEmployeeWithRoles | null): boolean {
-  return hasRole(employee, 'captain')
+  return hasRole(employee, UserRole.Captain)
 }
 
 /**
@@ -135,11 +136,11 @@ export function getHighestRole(
   }
 
   const roleOrder: RoleName[] = [
-    'super_admin',
-    'admin',
-    'cashier',
-    'captain',
-    'kitchen',
+    UserRole.SuperAdmin,
+    UserRole.Admin,
+    UserRole.Cashier,
+    UserRole.Captain,
+    UserRole.Kitchen,
   ]
 
   for (const role of roleOrder) {

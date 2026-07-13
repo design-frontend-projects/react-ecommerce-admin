@@ -2,16 +2,16 @@ import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
 import { processCheckout } from '@/features/pos/services/CheckoutService'
+import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
 
-const POST = async ({ request, params }: any) => {
-  const req = request;
+const POST = async ({ request }: any) => {
   try {
-    const body = await req.json()
-    console.log(body)
+    const token = getBearerToken(request)
+    const { userId } = await requireAuth(token, 'inventory.view')
 
+    const body = await request.json()
     const parsed = checkoutRequestSchema.safeParse(body)
-    console.log('parsed body')
-    console.log(parsed)
 
     if (!parsed.success) {
       return Response.json(
@@ -27,7 +27,7 @@ const POST = async ({ request, params }: any) => {
       )
     }
 
-    const result = await processCheckout(parsed.data)
+    const result = await processCheckout(parsed.data, userId)
 
     if (!result.success) {
       return Response.json(result, { status: 400 })
@@ -35,16 +35,9 @@ const POST = async ({ request, params }: any) => {
 
     return Response.json(result, { status: 201 })
   } catch (error: unknown) {
-    return Response.json(
-      {
-        success: false,
-        error: { code: 'INTERNAL_ERROR', message: 'Internal server error' },
-      },
-      { status: 500 }
-    )
+    return handleRouteError(error, 'Checkout failed')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/pos/checkout')({
   POST,

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Loader2, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
+import { UserRole } from '@/types/user-role.enum'
 import { Button } from '@/components/ui/button'
 import { useUpdateTableStatus } from '../api/mutations'
 import {
@@ -113,10 +114,9 @@ export default function CashierCheckout() {
   // Auth check
   if (isLoaded && isSignedIn) {
     const hasAccess =
-      has({ role: 'cashier' }) ||
-      has({ role: 'admin' }) ||
-      has({ role: 'org:super_admin' }) ||
-      has({ role: 'super_admin' }) // Added super_admin as role too just in case
+      has({ role: UserRole.Cashier }) ||
+      has({ role: UserRole.Admin }) ||
+      has({ role: UserRole.SuperAdmin })
 
     if (!hasAccess) {
       return (

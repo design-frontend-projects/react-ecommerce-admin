@@ -342,7 +342,8 @@ exports.Prisma.Product_variantsScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  uom_id: 'uom_id'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -366,7 +367,12 @@ exports.Prisma.ProductsScalarFieldEnum = {
   base_price: 'base_price',
   has_expiration: 'has_expiration',
   expiration_date: 'expiration_date',
-  is_marketplace: 'is_marketplace'
+  is_marketplace: 'is_marketplace',
+  base_uom_id: 'base_uom_id',
+  brand_id: 'brand_id',
+  is_batch_tracked: 'is_batch_tracked',
+  is_serial_tracked: 'is_serial_tracked',
+  product_type: 'product_type'
 };
 
 exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
@@ -384,7 +390,8 @@ exports.Prisma.Pos_reorder_requestsScalarFieldEnum = {
   read_at: 'read_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  requested_by_user_id: 'requested_by_user_id'
+  requested_by_user_id: 'requested_by_user_id',
+  read_by_user_id: 'read_by_user_id'
 };
 
 exports.Prisma.ProfilesScalarFieldEnum = {
@@ -506,7 +513,8 @@ exports.Prisma.Purchase_order_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   auth_user_id: 'auth_user_id',
   subtotal: 'subtotal',
-  received_quantity: 'received_quantity'
+  received_quantity: 'received_quantity',
+  product_variant_id: 'product_variant_id'
 };
 
 exports.Prisma.Purchase_ordersScalarFieldEnum = {
@@ -523,7 +531,15 @@ exports.Prisma.Purchase_ordersScalarFieldEnum = {
   shipping_amount: 'shipping_amount',
   tax_amount: 'tax_amount',
   payment_status: 'payment_status',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  approved_at: 'approved_at',
+  approved_by: 'approved_by',
+  branch_id: 'branch_id',
+  closed_at: 'closed_at',
+  lifecycle_status: 'lifecycle_status',
+  sent_at: 'sent_at',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id'
 };
 
 exports.Prisma.Purchase_return_itemsScalarFieldEnum = {
@@ -536,7 +552,8 @@ exports.Prisma.Purchase_return_itemsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   line_total: 'line_total',
   reason: 'reason',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  batch_id: 'batch_id'
 };
 
 exports.Prisma.Purchase_returnsScalarFieldEnum = {
@@ -801,7 +818,23 @@ exports.Prisma.Res_shiftsScalarFieldEnum = {
   closed_at: 'closed_at',
   notes: 'notes',
   opened_by: 'opened_by',
-  restaurant_id: 'restaurant_id'
+  restaurant_id: 'restaurant_id',
+  branch_id: 'branch_id',
+  expected_cash: 'expected_cash',
+  variance: 'variance',
+  cash_sales_total: 'cash_sales_total',
+  movements_in_total: 'movements_in_total',
+  movements_out_total: 'movements_out_total',
+  original_closing_cash: 'original_closing_cash',
+  original_variance: 'original_variance',
+  variance_comment: 'variance_comment',
+  close_reason: 'close_reason',
+  closed_by_user_id: 'closed_by_user_id',
+  needs_review: 'needs_review',
+  reviewed_by: 'reviewed_by',
+  reviewed_at: 'reviewed_at',
+  is_corrected: 'is_corrected',
+  stale_notified_at: 'stale_notified_at'
 };
 
 exports.Prisma.Res_tablesScalarFieldEnum = {
@@ -881,7 +914,8 @@ exports.Prisma.Sales_invoice_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   created_at: 'created_at',
   returned_quantity: 'returned_quantity',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  batch_id: 'batch_id'
 };
 
 exports.Prisma.Sales_invoicesScalarFieldEnum = {
@@ -924,7 +958,8 @@ exports.Prisma.Sales_return_itemsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   line_total: 'line_total',
   reason: 'reason',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  batch_id: 'batch_id'
 };
 
 exports.Prisma.Sales_returnsScalarFieldEnum = {
@@ -1074,7 +1109,9 @@ exports.Prisma.Tenant_usersScalarFieldEnum = {
   onboarding_complete: 'onboarding_complete',
   is_restuarant_user: 'is_restuarant_user',
   parent_tenant_id: 'parent_tenant_id',
-  refund_pin_code: 'refund_pin_code'
+  refund_pin_code: 'refund_pin_code',
+  user_profile_id: 'user_profile_id',
+  id_number: 'id_number'
 };
 
 exports.Prisma.Transaction_detailsScalarFieldEnum = {
@@ -1227,7 +1264,19 @@ exports.Prisma.Inventory_movementsScalarFieldEnum = {
   movement_date: 'movement_date',
   remarks: 'remarks',
   created_by: 'created_by',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id',
+  dest_store_id: 'dest_store_id',
+  dest_warehouse_location_id: 'dest_warehouse_location_id',
+  idempotency_key: 'idempotency_key',
+  movement_group_id: 'movement_group_id',
+  qty_after: 'qty_after',
+  qty_before: 'qty_before',
+  reason_code: 'reason_code',
+  source_document_id: 'source_document_id',
+  source_document_type: 'source_document_type',
+  warehouse_id: 'warehouse_id',
+  warehouse_location_id: 'warehouse_location_id'
 };
 
 exports.Prisma.Stock_balancesScalarFieldEnum = {
@@ -1271,7 +1320,8 @@ exports.Prisma.Stock_transfer_itemsScalarFieldEnum = {
   product_variant_id: 'product_variant_id',
   qty: 'qty',
   unit_cost: 'unit_cost',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 };
 
 exports.Prisma.Stock_adjustmentsScalarFieldEnum = {
@@ -1298,7 +1348,8 @@ exports.Prisma.Stock_adjustment_itemsScalarFieldEnum = {
   qty_adjusted: 'qty_adjusted',
   unit_cost: 'unit_cost',
   reason: 'reason',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 };
 
 exports.Prisma.App_settingsScalarFieldEnum = {
@@ -1308,6 +1359,422 @@ exports.Prisma.App_settingsScalarFieldEnum = {
   group: 'group',
   is_public: 'is_public',
   auth_user_id: 'auth_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.WarehousesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  code: 'code',
+  name: 'name',
+  is_default: 'is_default',
+  is_active: 'is_active',
+  address: 'address',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Warehouse_locationsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  warehouse_id: 'warehouse_id',
+  parent_id: 'parent_id',
+  location_type: 'location_type',
+  code: 'code',
+  name: 'name',
+  path: 'path',
+  is_default: 'is_default',
+  is_active: 'is_active',
+  is_pickable: 'is_pickable',
+  is_receivable: 'is_receivable',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Stock_by_locationScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  warehouse_location_id: 'warehouse_location_id',
+  product_variant_id: 'product_variant_id',
+  batch_id: 'batch_id',
+  qty_on_hand: 'qty_on_hand',
+  qty_reserved: 'qty_reserved',
+  last_movement_at: 'last_movement_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.BrandsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  code: 'code',
+  logo_url: 'logo_url',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.UomsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  uom_category: 'uom_category',
+  is_base: 'is_base',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Unit_conversionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  from_uom_id: 'from_uom_id',
+  to_uom_id: 'to_uom_id',
+  factor: 'factor',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Product_barcodesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  barcode: 'barcode',
+  barcode_type: 'barcode_type',
+  uom_id: 'uom_id',
+  qty_per_scan: 'qty_per_scan',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Bundle_componentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  parent_product_id: 'parent_product_id',
+  component_variant_id: 'component_variant_id',
+  qty: 'qty',
+  uom_id: 'uom_id',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Product_batchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  batch_number: 'batch_number',
+  supplier_id: 'supplier_id',
+  manufacture_date: 'manufacture_date',
+  expiry_date: 'expiry_date',
+  unit_cost: 'unit_cost',
+  status: 'status',
+  received_reference_type: 'received_reference_type',
+  received_reference_id: 'received_reference_id',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Product_serialsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  batch_id: 'batch_id',
+  serial_number: 'serial_number',
+  status: 'status',
+  store_id: 'store_id',
+  warehouse_location_id: 'warehouse_location_id',
+  unit_cost: 'unit_cost',
+  received_at: 'received_at',
+  sold_at: 'sold_at',
+  received_reference_type: 'received_reference_type',
+  received_reference_id: 'received_reference_id',
+  last_reference_type: 'last_reference_type',
+  last_reference_id: 'last_reference_id',
+  warranty_until: 'warranty_until',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Inventory_movement_serialsScalarFieldEnum = {
+  id: 'id',
+  movement_id: 'movement_id',
+  serial_id: 'serial_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Goods_receiptsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  receipt_number: 'receipt_number',
+  purchase_order_id: 'purchase_order_id',
+  supplier_id: 'supplier_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  status: 'status',
+  received_date: 'received_date',
+  notes: 'notes',
+  created_by: 'created_by',
+  posted_by: 'posted_by',
+  posted_at: 'posted_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Goods_receipt_itemsScalarFieldEnum = {
+  id: 'id',
+  goods_receipt_id: 'goods_receipt_id',
+  purchase_order_item_id: 'purchase_order_item_id',
+  product_variant_id: 'product_variant_id',
+  qty_received: 'qty_received',
+  uom_id: 'uom_id',
+  unit_cost: 'unit_cost',
+  warehouse_location_id: 'warehouse_location_id',
+  batch_id: 'batch_id',
+  batch_number: 'batch_number',
+  expiry_date: 'expiry_date',
+  serial_numbers: 'serial_numbers',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Purchase_requisitionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  requisition_number: 'requisition_number',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  status: 'status',
+  source: 'source',
+  requested_by: 'requested_by',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  converted_purchase_order_id: 'converted_purchase_order_id',
+  needed_by: 'needed_by',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Purchase_requisition_itemsScalarFieldEnum = {
+  id: 'id',
+  requisition_id: 'requisition_id',
+  product_variant_id: 'product_variant_id',
+  qty_requested: 'qty_requested',
+  uom_id: 'uom_id',
+  preferred_supplier_id: 'preferred_supplier_id',
+  est_unit_cost: 'est_unit_cost',
+  reason: 'reason',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Sales_ordersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  order_number: 'order_number',
+  customer_id: 'customer_id',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  status: 'status',
+  order_date: 'order_date',
+  expected_date: 'expected_date',
+  subtotal: 'subtotal',
+  discount_amount: 'discount_amount',
+  tax_amount: 'tax_amount',
+  total_amount: 'total_amount',
+  sales_invoice_id: 'sales_invoice_id',
+  confirmed_by: 'confirmed_by',
+  confirmed_at: 'confirmed_at',
+  notes: 'notes',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Sales_order_itemsScalarFieldEnum = {
+  id: 'id',
+  sales_order_id: 'sales_order_id',
+  product_variant_id: 'product_variant_id',
+  line_no: 'line_no',
+  qty_ordered: 'qty_ordered',
+  qty_reserved: 'qty_reserved',
+  qty_fulfilled: 'qty_fulfilled',
+  uom_id: 'uom_id',
+  unit_price: 'unit_price',
+  discount_amount: 'discount_amount',
+  tax_amount: 'tax_amount',
+  line_total: 'line_total',
+  batch_id: 'batch_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Stock_reservationsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  product_variant_id: 'product_variant_id',
+  batch_id: 'batch_id',
+  warehouse_location_id: 'warehouse_location_id',
+  qty: 'qty',
+  qty_consumed: 'qty_consumed',
+  status: 'status',
+  reference_type: 'reference_type',
+  reference_id: 'reference_id',
+  reference_item_id: 'reference_item_id',
+  expires_at: 'expires_at',
+  released_at: 'released_at',
+  consumed_at: 'consumed_at',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Stock_countsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  count_number: 'count_number',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  warehouse_location_id: 'warehouse_location_id',
+  category_id: 'category_id',
+  status: 'status',
+  is_blind: 'is_blind',
+  snapshot_at: 'snapshot_at',
+  counted_by: 'counted_by',
+  reviewed_by: 'reviewed_by',
+  posted_by: 'posted_by',
+  posted_at: 'posted_at',
+  posted_adjustment_id: 'posted_adjustment_id',
+  notes: 'notes',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Stock_count_itemsScalarFieldEnum = {
+  id: 'id',
+  stock_count_id: 'stock_count_id',
+  product_variant_id: 'product_variant_id',
+  warehouse_location_id: 'warehouse_location_id',
+  batch_id: 'batch_id',
+  qty_snapshot: 'qty_snapshot',
+  qty_counted: 'qty_counted',
+  variance: 'variance',
+  unit_cost: 'unit_cost',
+  counted_at: 'counted_at',
+  counted_by: 'counted_by',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Reorder_rulesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  store_id: 'store_id',
+  min_qty: 'min_qty',
+  max_qty: 'max_qty',
+  safety_stock: 'safety_stock',
+  reorder_point: 'reorder_point',
+  reorder_qty: 'reorder_qty',
+  eoq: 'eoq',
+  lead_time_days: 'lead_time_days',
+  preferred_supplier_id: 'preferred_supplier_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Reorder_suggestionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  reorder_rule_id: 'reorder_rule_id',
+  product_variant_id: 'product_variant_id',
+  store_id: 'store_id',
+  qty_available_at_run: 'qty_available_at_run',
+  qty_on_order_at_run: 'qty_on_order_at_run',
+  suggested_qty: 'suggested_qty',
+  preferred_supplier_id: 'preferred_supplier_id',
+  status: 'status',
+  converted_requisition_id: 'converted_requisition_id',
+  run_at: 'run_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+};
+
+exports.Prisma.Rbac_auditScalarFieldEnum = {
+  id: 'id',
+  actor_auth_user_id: 'actor_auth_user_id',
+  action: 'action',
+  target_type: 'target_type',
+  target_id: 'target_id',
+  diff: 'diff',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Res_cash_movementsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  branch_id: 'branch_id',
+  movement_type: 'movement_type',
+  reason: 'reason',
+  amount: 'amount',
+  note: 'note',
+  order_id: 'order_id',
+  created_by: 'created_by',
+  auth_user_id: 'auth_user_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Res_shift_auditScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  actor_user_id: 'actor_user_id',
+  action: 'action',
+  old_values: 'old_values',
+  new_values: 'new_values',
+  reason: 'reason',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Res_shift_settingsScalarFieldEnum = {
+  id: 'id',
+  restaurant_id: 'restaurant_id',
+  branch_id: 'branch_id',
+  variance_threshold: 'variance_threshold',
+  require_comment_over_threshold: 'require_comment_over_threshold',
+  stale_shift_hours: 'stale_shift_hours',
+  auto_close_hours: 'auto_close_hours',
+  updated_by: 'updated_by',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -1358,6 +1825,14 @@ exports.price_list_types = exports.$Enums.price_list_types = {
   valintine_day: 'valintine_day'
 };
 
+exports.product_type_enum = exports.$Enums.product_type_enum = {
+  simple: 'simple',
+  variant: 'variant',
+  bundle: 'bundle',
+  service: 'service',
+  composite: 'composite'
+};
+
 exports.reorder_request_status = exports.$Enums.reorder_request_status = {
   pending: 'pending',
   read: 'read'
@@ -1377,6 +1852,16 @@ exports.invoice_status_enum = exports.$Enums.invoice_status_enum = {
   refunded: 'refunded',
   returned: 'returned',
   partially_returned: 'partially_returned'
+};
+
+exports.po_lifecycle_status_enum = exports.$Enums.po_lifecycle_status_enum = {
+  draft: 'draft',
+  approved: 'approved',
+  sent: 'sent',
+  partially_received: 'partially_received',
+  received: 'received',
+  closed: 'closed',
+  cancelled: 'cancelled'
 };
 
 exports.return_status_enum = exports.$Enums.return_status_enum = {
@@ -1448,7 +1933,14 @@ exports.movement_type_enum = exports.$Enums.movement_type_enum = {
   damage: 'damage',
   expired: 'expired',
   reserved: 'reserved',
-  released: 'released'
+  released: 'released',
+  production_output: 'production_output',
+  production_consumption: 'production_consumption',
+  lost: 'lost',
+  found: 'found',
+  cycle_count_in: 'cycle_count_in',
+  cycle_count_out: 'cycle_count_out',
+  reservation_conversion: 'reservation_conversion'
 };
 
 exports.transfer_status_enum = exports.$Enums.transfer_status_enum = {
@@ -1478,6 +1970,97 @@ exports.adjustment_reason_enum = exports.$Enums.adjustment_reason_enum = {
   data_entry_error: 'data_entry_error',
   stocktake_discrepancy: 'stocktake_discrepancy',
   other: 'other'
+};
+
+exports.location_type_enum = exports.$Enums.location_type_enum = {
+  zone: 'zone',
+  rack: 'rack',
+  shelf: 'shelf',
+  bin: 'bin'
+};
+
+exports.batch_status_enum = exports.$Enums.batch_status_enum = {
+  active: 'active',
+  depleted: 'depleted',
+  expired: 'expired',
+  blocked: 'blocked'
+};
+
+exports.serial_status_enum = exports.$Enums.serial_status_enum = {
+  in_stock: 'in_stock',
+  reserved: 'reserved',
+  sold: 'sold',
+  returned: 'returned',
+  damaged: 'damaged',
+  in_transit: 'in_transit',
+  written_off: 'written_off'
+};
+
+exports.receipt_status_enum = exports.$Enums.receipt_status_enum = {
+  draft: 'draft',
+  posted: 'posted',
+  cancelled: 'cancelled'
+};
+
+exports.requisition_status_enum = exports.$Enums.requisition_status_enum = {
+  draft: 'draft',
+  submitted: 'submitted',
+  approved: 'approved',
+  rejected: 'rejected',
+  converted: 'converted',
+  cancelled: 'cancelled'
+};
+
+exports.sales_order_status_enum = exports.$Enums.sales_order_status_enum = {
+  draft: 'draft',
+  confirmed: 'confirmed',
+  picking: 'picking',
+  packed: 'packed',
+  delivered: 'delivered',
+  invoiced: 'invoiced',
+  completed: 'completed',
+  cancelled: 'cancelled'
+};
+
+exports.stock_reservation_status_enum = exports.$Enums.stock_reservation_status_enum = {
+  active: 'active',
+  consumed: 'consumed',
+  released: 'released',
+  expired: 'expired'
+};
+
+exports.stock_count_status_enum = exports.$Enums.stock_count_status_enum = {
+  draft: 'draft',
+  counting: 'counting',
+  review: 'review',
+  posted: 'posted',
+  cancelled: 'cancelled'
+};
+
+exports.reorder_suggestion_status_enum = exports.$Enums.reorder_suggestion_status_enum = {
+  open: 'open',
+  converted: 'converted',
+  dismissed: 'dismissed',
+  expired: 'expired'
+};
+
+exports.cash_movement_type_enum = exports.$Enums.cash_movement_type_enum = {
+  in: 'in',
+  out: 'out'
+};
+
+exports.cash_movement_reason_enum = exports.$Enums.cash_movement_reason_enum = {
+  opening: 'opening',
+  closing: 'closing',
+  sale: 'sale',
+  purchase_refund: 'purchase_refund',
+  customer_refund: 'customer_refund',
+  supplier_payment: 'supplier_payment',
+  customer_payment: 'customer_payment',
+  expense: 'expense',
+  income: 'income',
+  payout: 'payout',
+  adjustment: 'adjustment'
 };
 
 exports.Prisma.ModelName = {
@@ -1566,7 +2149,33 @@ exports.Prisma.ModelName = {
   stock_transfer_items: 'stock_transfer_items',
   stock_adjustments: 'stock_adjustments',
   stock_adjustment_items: 'stock_adjustment_items',
-  app_settings: 'app_settings'
+  app_settings: 'app_settings',
+  warehouses: 'warehouses',
+  warehouse_locations: 'warehouse_locations',
+  stock_by_location: 'stock_by_location',
+  brands: 'brands',
+  uoms: 'uoms',
+  unit_conversions: 'unit_conversions',
+  product_barcodes: 'product_barcodes',
+  bundle_components: 'bundle_components',
+  product_batches: 'product_batches',
+  product_serials: 'product_serials',
+  inventory_movement_serials: 'inventory_movement_serials',
+  goods_receipts: 'goods_receipts',
+  goods_receipt_items: 'goods_receipt_items',
+  purchase_requisitions: 'purchase_requisitions',
+  purchase_requisition_items: 'purchase_requisition_items',
+  sales_orders: 'sales_orders',
+  sales_order_items: 'sales_order_items',
+  stock_reservations: 'stock_reservations',
+  stock_counts: 'stock_counts',
+  stock_count_items: 'stock_count_items',
+  reorder_rules: 'reorder_rules',
+  reorder_suggestions: 'reorder_suggestions',
+  rbac_audit: 'rbac_audit',
+  res_cash_movements: 'res_cash_movements',
+  res_shift_audit: 'res_shift_audit',
+  res_shift_settings: 'res_shift_settings'
 };
 
 /**

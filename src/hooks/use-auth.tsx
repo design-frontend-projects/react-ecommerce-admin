@@ -8,6 +8,10 @@ export function useAuth() {
   const { session, user, reset, isInitializing } = useAuthStore((state) => state.auth)
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
   const currentPermissionNames = useRBACStore((state) => state.currentPermissionNames)
+  console.log('useAuth session:', session)
+  console.log('current role names:', currentRoleNames)
+  console.log('current permission names:', currentPermissionNames)
+
 
   const has = (params: { role?: string; permission?: string }) => {
     if (!session) return false

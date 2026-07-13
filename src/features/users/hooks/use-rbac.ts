@@ -50,6 +50,7 @@ export function useRBACSession() {
       return
     }
 
+    console.log('current access query data:', currentAccessQuery.data)
     setCurrentAccess(
       {
         userId: currentAccessQuery.data.authUserId,

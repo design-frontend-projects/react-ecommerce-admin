@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { USER_ROLE_VALUES, UserRole } from '@/types/user-role.enum'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -31,7 +32,6 @@ import {
 } from '@/components/ui/select'
 import {
   PERMISSIONS,
-  ROLE_NAMES,
   roleFormSchema,
   type RoleFormValues,
 } from '../schemas/role.schema'
@@ -54,7 +54,7 @@ export function RoleDialog({
   const form = useForm<RoleFormValues>({
     resolver: zodResolver(roleFormSchema),
     defaultValues: {
-      name: 'cashier',
+      name: UserRole.Captain,
       display_name: '',
       permissions: [],
     },
@@ -69,7 +69,7 @@ export function RoleDialog({
       })
     } else {
       form.reset({
-        name: 'cashier',
+        name: UserRole.Cashier,
         display_name: '',
         permissions: [],
       })
@@ -103,11 +103,11 @@ export function RoleDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-lg'>
         <DialogHeader>
-          <DialogTitle>{role ? t('respos.role.edit') : t('respos.role.add')}</DialogTitle>
+          <DialogTitle>
+            {role ? t('respos.role.edit') : t('respos.role.add')}
+          </DialogTitle>
           <DialogDescription>
-            {role
-              ? t('respos.role.editDesc')
-              : t('respos.role.addDesc')}
+            {role ? t('respos.role.editDesc') : t('respos.role.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -129,11 +129,13 @@ export function RoleDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t('respos.role.selectRoleName')} />
+                        <SelectValue
+                          placeholder={t('respos.role.selectRoleName')}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {ROLE_NAMES.map((name) => (
+                      {USER_ROLE_VALUES.map((name) => (
                         <SelectItem key={name} value={name}>
                           {name.replace('_', ' ').toUpperCase()}
                         </SelectItem>
@@ -152,7 +154,10 @@ export function RoleDialog({
                 <FormItem>
                   <FormLabel>{t('respos.role.displayName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('respos.role.displayNamePlaceholder')} {...field} />
+                    <Input
+                      placeholder={t('respos.role.displayNamePlaceholder')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -210,7 +215,9 @@ export function RoleDialog({
               >
                 {t('respos.role.cancel')}
               </Button>
-              <Button type='submit'>{role ? t('respos.role.update') : t('respos.role.create')}</Button>
+              <Button type='submit'>
+                {role ? t('respos.role.update') : t('respos.role.create')}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

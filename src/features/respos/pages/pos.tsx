@@ -46,6 +46,7 @@ import { OrderHistoryPanel } from '../components/pos/order-history-panel'
 import { PromoInput } from '../components/pos/promo-input'
 import { PromoSelect } from '../components/pos/promo-select'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
+import { UserRole } from '@/types/user-role.enum'
 import { useResposRealtime } from '../hooks'
 import { useOrderCalc } from '../hooks/use-order-calc'
 import { useTaxSync } from '../hooks/use-tax-sync'
@@ -556,7 +557,7 @@ export function POSScreen() {
                 isProcessing={isCreating || isAdding}
                 onCheckout={() => setIsCheckoutOpen(true)}
                 canCheckout={
-                  has({ role: 'admin' }) || has({ role: 'super_admin' })
+                  has({ role: UserRole.Admin }) || has({ role: UserRole.SuperAdmin })
                 }
                 onClearCart={clearCart}
                 onUpdateQuantity={updateCartItemQuantity}

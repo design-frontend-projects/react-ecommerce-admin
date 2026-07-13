@@ -54,17 +54,30 @@ import { Route as AuthenticatedCitiesRouteRouteImport } from './routes/_authenti
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
+import { Route as AuthenticatedWarehousesIndexRouteImport } from './routes/_authenticated/warehouses/index'
+import { Route as AuthenticatedUnitsIndexRouteImport } from './routes/_authenticated/units/index'
 import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
 import { Route as AuthenticatedStockTransfersIndexRouteImport } from './routes/_authenticated/stock-transfers/index'
+import { Route as AuthenticatedStockCountsIndexRouteImport } from './routes/_authenticated/stock-counts/index'
+import { Route as AuthenticatedStockByLocationIndexRouteImport } from './routes/_authenticated/stock-by-location/index'
 import { Route as AuthenticatedStockBalancesIndexRouteImport } from './routes/_authenticated/stock-balances/index'
 import { Route as AuthenticatedStockAdjustmentsIndexRouteImport } from './routes/_authenticated/stock-adjustments/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSerialsIndexRouteImport } from './routes/_authenticated/serials/index'
+import { Route as AuthenticatedSalesOrdersIndexRouteImport } from './routes/_authenticated/sales-orders/index'
 import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
+import { Route as AuthenticatedReservationsIndexRouteImport } from './routes/_authenticated/reservations/index'
+import { Route as AuthenticatedReplenishmentIndexRouteImport } from './routes/_authenticated/replenishment/index'
+import { Route as AuthenticatedReorderRulesIndexRouteImport } from './routes/_authenticated/reorder-rules/index'
+import { Route as AuthenticatedPurchaseRequisitionsIndexRouteImport } from './routes/_authenticated/purchase-requisitions/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedInventoryMovementsIndexRouteImport } from './routes/_authenticated/inventory-movements/index'
+import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_authenticated/goods-receipts/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedBrandsIndexRouteImport } from './routes/_authenticated/brands/index'
+import { Route as AuthenticatedBatchesIndexRouteImport } from './routes/_authenticated/batches/index'
 import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
@@ -351,6 +364,17 @@ const AuthenticatedCitiesIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/_authenticated/cities/index.lazy').then((d) => d.Route),
   )
+const AuthenticatedWarehousesIndexRoute =
+  AuthenticatedWarehousesIndexRouteImport.update({
+    id: '/warehouses/',
+    path: '/warehouses/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedUnitsIndexRoute = AuthenticatedUnitsIndexRouteImport.update({
+  id: '/units/',
+  path: '/units/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTransactionsIndexRoute =
   AuthenticatedTransactionsIndexRouteImport.update({
     id: '/transactions/',
@@ -361,6 +385,18 @@ const AuthenticatedStockTransfersIndexRoute =
   AuthenticatedStockTransfersIndexRouteImport.update({
     id: '/stock-transfers/',
     path: '/stock-transfers/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStockCountsIndexRoute =
+  AuthenticatedStockCountsIndexRouteImport.update({
+    id: '/stock-counts/',
+    path: '/stock-counts/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStockByLocationIndexRoute =
+  AuthenticatedStockByLocationIndexRouteImport.update({
+    id: '/stock-by-location/',
+    path: '/stock-by-location/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedStockBalancesIndexRoute =
@@ -381,10 +417,46 @@ const AuthenticatedSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedSerialsIndexRoute =
+  AuthenticatedSerialsIndexRouteImport.update({
+    id: '/serials/',
+    path: '/serials/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSalesOrdersIndexRoute =
+  AuthenticatedSalesOrdersIndexRouteImport.update({
+    id: '/sales-orders/',
+    path: '/sales-orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposIndexRoute =
   AuthenticatedResposIndexRouteImport.update({
     id: '/respos/',
     path: '/respos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReservationsIndexRoute =
+  AuthenticatedReservationsIndexRouteImport.update({
+    id: '/reservations/',
+    path: '/reservations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReplenishmentIndexRoute =
+  AuthenticatedReplenishmentIndexRouteImport.update({
+    id: '/replenishment/',
+    path: '/replenishment/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReorderRulesIndexRoute =
+  AuthenticatedReorderRulesIndexRouteImport.update({
+    id: '/reorder-rules/',
+    path: '/reorder-rules/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPurchaseRequisitionsIndexRoute =
+  AuthenticatedPurchaseRequisitionsIndexRouteImport.update({
+    id: '/purchase-requisitions/',
+    path: '/purchase-requisitions/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedProductsIndexRoute =
@@ -410,11 +482,29 @@ const AuthenticatedInventoryMovementsIndexRoute =
     path: '/inventory-movements/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedGoodsReceiptsIndexRoute =
+  AuthenticatedGoodsReceiptsIndexRouteImport.update({
+    id: '/goods-receipts/',
+    path: '/goods-receipts/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   id: '/chats/',
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBrandsIndexRoute =
+  AuthenticatedBrandsIndexRouteImport.update({
+    id: '/brands/',
+    path: '/brands/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBatchesIndexRoute =
+  AuthenticatedBatchesIndexRouteImport.update({
+    id: '/batches/',
+    path: '/batches/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsSystemRoute =
   AuthenticatedSettingsSystemRouteImport.update({
     id: '/system',
@@ -625,17 +715,30 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/batches/': typeof AuthenticatedBatchesIndexRoute
+  '/brands/': typeof AuthenticatedBrandsIndexRoute
   '/chats/': typeof AuthenticatedChatsIndexRoute
+  '/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/pos/': typeof AuthenticatedPosIndexRoute
   '/products/': typeof AuthenticatedProductsIndexRoute
+  '/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
+  '/reorder-rules/': typeof AuthenticatedReorderRulesIndexRoute
+  '/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
+  '/reservations/': typeof AuthenticatedReservationsIndexRoute
   '/respos/': typeof AuthenticatedResposIndexRoute
+  '/sales-orders/': typeof AuthenticatedSalesOrdersIndexRoute
+  '/serials/': typeof AuthenticatedSerialsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/stock-adjustments/': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/stock-balances/': typeof AuthenticatedStockBalancesIndexRoute
+  '/stock-by-location/': typeof AuthenticatedStockByLocationIndexRoute
+  '/stock-counts/': typeof AuthenticatedStockCountsIndexRoute
   '/stock-transfers/': typeof AuthenticatedStockTransfersIndexRoute
   '/transactions/': typeof AuthenticatedTransactionsIndexRoute
+  '/units/': typeof AuthenticatedUnitsIndexRoute
+  '/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
@@ -705,17 +808,30 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/batches': typeof AuthenticatedBatchesIndexRoute
+  '/brands': typeof AuthenticatedBrandsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/goods-receipts': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
+  '/purchase-requisitions': typeof AuthenticatedPurchaseRequisitionsIndexRoute
+  '/reorder-rules': typeof AuthenticatedReorderRulesIndexRoute
+  '/replenishment': typeof AuthenticatedReplenishmentIndexRoute
+  '/reservations': typeof AuthenticatedReservationsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
+  '/sales-orders': typeof AuthenticatedSalesOrdersIndexRoute
+  '/serials': typeof AuthenticatedSerialsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/stock-adjustments': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/stock-balances': typeof AuthenticatedStockBalancesIndexRoute
+  '/stock-by-location': typeof AuthenticatedStockByLocationIndexRoute
+  '/stock-counts': typeof AuthenticatedStockCountsIndexRoute
   '/stock-transfers': typeof AuthenticatedStockTransfersIndexRoute
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
+  '/units': typeof AuthenticatedUnitsIndexRoute
+  '/warehouses': typeof AuthenticatedWarehousesIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
@@ -790,17 +906,30 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/_authenticated/batches/': typeof AuthenticatedBatchesIndexRoute
+  '/_authenticated/brands/': typeof AuthenticatedBrandsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/_authenticated/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
+  '/_authenticated/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
+  '/_authenticated/reorder-rules/': typeof AuthenticatedReorderRulesIndexRoute
+  '/_authenticated/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
+  '/_authenticated/reservations/': typeof AuthenticatedReservationsIndexRoute
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
+  '/_authenticated/sales-orders/': typeof AuthenticatedSalesOrdersIndexRoute
+  '/_authenticated/serials/': typeof AuthenticatedSerialsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/stock-adjustments/': typeof AuthenticatedStockAdjustmentsIndexRoute
   '/_authenticated/stock-balances/': typeof AuthenticatedStockBalancesIndexRoute
+  '/_authenticated/stock-by-location/': typeof AuthenticatedStockByLocationIndexRoute
+  '/_authenticated/stock-counts/': typeof AuthenticatedStockCountsIndexRoute
   '/_authenticated/stock-transfers/': typeof AuthenticatedStockTransfersIndexRoute
   '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
+  '/_authenticated/units/': typeof AuthenticatedUnitsIndexRoute
+  '/_authenticated/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/_authenticated/_system/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
@@ -874,17 +1003,30 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/batches/'
+    | '/brands/'
     | '/chats/'
+    | '/goods-receipts/'
     | '/inventory-movements/'
     | '/inventory/'
     | '/pos/'
     | '/products/'
+    | '/purchase-requisitions/'
+    | '/reorder-rules/'
+    | '/replenishment/'
+    | '/reservations/'
     | '/respos/'
+    | '/sales-orders/'
+    | '/serials/'
     | '/settings/'
     | '/stock-adjustments/'
     | '/stock-balances/'
+    | '/stock-by-location/'
+    | '/stock-counts/'
     | '/stock-transfers/'
     | '/transactions/'
+    | '/units/'
+    | '/warehouses/'
     | '/cities/'
     | '/respos/invoice/$orderId'
     | '/restaurants/'
@@ -954,17 +1096,30 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/batches'
+    | '/brands'
     | '/chats'
+    | '/goods-receipts'
     | '/inventory-movements'
     | '/inventory'
     | '/pos'
     | '/products'
+    | '/purchase-requisitions'
+    | '/reorder-rules'
+    | '/replenishment'
+    | '/reservations'
     | '/respos'
+    | '/sales-orders'
+    | '/serials'
     | '/settings'
     | '/stock-adjustments'
     | '/stock-balances'
+    | '/stock-by-location'
+    | '/stock-counts'
     | '/stock-transfers'
     | '/transactions'
+    | '/units'
+    | '/warehouses'
     | '/cities'
     | '/respos/invoice/$orderId'
     | '/restaurants'
@@ -1038,17 +1193,30 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/settings/system'
+    | '/_authenticated/batches/'
+    | '/_authenticated/brands/'
     | '/_authenticated/chats/'
+    | '/_authenticated/goods-receipts/'
     | '/_authenticated/inventory-movements/'
     | '/_authenticated/inventory/'
     | '/_authenticated/pos/'
     | '/_authenticated/products/'
+    | '/_authenticated/purchase-requisitions/'
+    | '/_authenticated/reorder-rules/'
+    | '/_authenticated/replenishment/'
+    | '/_authenticated/reservations/'
     | '/_authenticated/respos/'
+    | '/_authenticated/sales-orders/'
+    | '/_authenticated/serials/'
     | '/_authenticated/settings/'
     | '/_authenticated/stock-adjustments/'
     | '/_authenticated/stock-balances/'
+    | '/_authenticated/stock-by-location/'
+    | '/_authenticated/stock-counts/'
     | '/_authenticated/stock-transfers/'
     | '/_authenticated/transactions/'
+    | '/_authenticated/units/'
+    | '/_authenticated/warehouses/'
     | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
     | '/_authenticated/_system/restaurants/'
@@ -1410,6 +1578,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCitiesIndexLazyRouteImport
       parentRoute: typeof AuthenticatedCitiesRouteRoute
     }
+    '/_authenticated/warehouses/': {
+      id: '/_authenticated/warehouses/'
+      path: '/warehouses'
+      fullPath: '/warehouses/'
+      preLoaderRoute: typeof AuthenticatedWarehousesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/units/': {
+      id: '/_authenticated/units/'
+      path: '/units'
+      fullPath: '/units/'
+      preLoaderRoute: typeof AuthenticatedUnitsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/transactions/': {
       id: '/_authenticated/transactions/'
       path: '/transactions'
@@ -1422,6 +1604,20 @@ declare module '@tanstack/react-router' {
       path: '/stock-transfers'
       fullPath: '/stock-transfers/'
       preLoaderRoute: typeof AuthenticatedStockTransfersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stock-counts/': {
+      id: '/_authenticated/stock-counts/'
+      path: '/stock-counts'
+      fullPath: '/stock-counts/'
+      preLoaderRoute: typeof AuthenticatedStockCountsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stock-by-location/': {
+      id: '/_authenticated/stock-by-location/'
+      path: '/stock-by-location'
+      fullPath: '/stock-by-location/'
+      preLoaderRoute: typeof AuthenticatedStockByLocationIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/stock-balances/': {
@@ -1445,11 +1641,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/serials/': {
+      id: '/_authenticated/serials/'
+      path: '/serials'
+      fullPath: '/serials/'
+      preLoaderRoute: typeof AuthenticatedSerialsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sales-orders/': {
+      id: '/_authenticated/sales-orders/'
+      path: '/sales-orders'
+      fullPath: '/sales-orders/'
+      preLoaderRoute: typeof AuthenticatedSalesOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/': {
       id: '/_authenticated/respos/'
       path: '/respos'
       fullPath: '/respos/'
       preLoaderRoute: typeof AuthenticatedResposIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reservations/': {
+      id: '/_authenticated/reservations/'
+      path: '/reservations'
+      fullPath: '/reservations/'
+      preLoaderRoute: typeof AuthenticatedReservationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/replenishment/': {
+      id: '/_authenticated/replenishment/'
+      path: '/replenishment'
+      fullPath: '/replenishment/'
+      preLoaderRoute: typeof AuthenticatedReplenishmentIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reorder-rules/': {
+      id: '/_authenticated/reorder-rules/'
+      path: '/reorder-rules'
+      fullPath: '/reorder-rules/'
+      preLoaderRoute: typeof AuthenticatedReorderRulesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/purchase-requisitions/': {
+      id: '/_authenticated/purchase-requisitions/'
+      path: '/purchase-requisitions'
+      fullPath: '/purchase-requisitions/'
+      preLoaderRoute: typeof AuthenticatedPurchaseRequisitionsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/products/': {
@@ -1480,11 +1718,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInventoryMovementsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/goods-receipts/': {
+      id: '/_authenticated/goods-receipts/'
+      path: '/goods-receipts'
+      fullPath: '/goods-receipts/'
+      preLoaderRoute: typeof AuthenticatedGoodsReceiptsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/chats/': {
       id: '/_authenticated/chats/'
       path: '/chats'
       fullPath: '/chats/'
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/brands/': {
+      id: '/_authenticated/brands/'
+      path: '/brands'
+      fullPath: '/brands/'
+      preLoaderRoute: typeof AuthenticatedBrandsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/batches/': {
+      id: '/_authenticated/batches/'
+      path: '/batches'
+      fullPath: '/batches/'
+      preLoaderRoute: typeof AuthenticatedBatchesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/system': {
@@ -1756,16 +2015,29 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
+  AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
+  AuthenticatedBrandsIndexRoute: typeof AuthenticatedBrandsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedGoodsReceiptsIndexRoute: typeof AuthenticatedGoodsReceiptsIndexRoute
   AuthenticatedInventoryMovementsIndexRoute: typeof AuthenticatedInventoryMovementsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
+  AuthenticatedPurchaseRequisitionsIndexRoute: typeof AuthenticatedPurchaseRequisitionsIndexRoute
+  AuthenticatedReorderRulesIndexRoute: typeof AuthenticatedReorderRulesIndexRoute
+  AuthenticatedReplenishmentIndexRoute: typeof AuthenticatedReplenishmentIndexRoute
+  AuthenticatedReservationsIndexRoute: typeof AuthenticatedReservationsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedSalesOrdersIndexRoute: typeof AuthenticatedSalesOrdersIndexRoute
+  AuthenticatedSerialsIndexRoute: typeof AuthenticatedSerialsIndexRoute
   AuthenticatedStockAdjustmentsIndexRoute: typeof AuthenticatedStockAdjustmentsIndexRoute
   AuthenticatedStockBalancesIndexRoute: typeof AuthenticatedStockBalancesIndexRoute
+  AuthenticatedStockByLocationIndexRoute: typeof AuthenticatedStockByLocationIndexRoute
+  AuthenticatedStockCountsIndexRoute: typeof AuthenticatedStockCountsIndexRoute
   AuthenticatedStockTransfersIndexRoute: typeof AuthenticatedStockTransfersIndexRoute
   AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
+  AuthenticatedUnitsIndexRoute: typeof AuthenticatedUnitsIndexRoute
+  AuthenticatedWarehousesIndexRoute: typeof AuthenticatedWarehousesIndexRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
 }
 
@@ -1808,18 +2080,33 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
+  AuthenticatedBatchesIndexRoute: AuthenticatedBatchesIndexRoute,
+  AuthenticatedBrandsIndexRoute: AuthenticatedBrandsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedGoodsReceiptsIndexRoute: AuthenticatedGoodsReceiptsIndexRoute,
   AuthenticatedInventoryMovementsIndexRoute:
     AuthenticatedInventoryMovementsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
+  AuthenticatedPurchaseRequisitionsIndexRoute:
+    AuthenticatedPurchaseRequisitionsIndexRoute,
+  AuthenticatedReorderRulesIndexRoute: AuthenticatedReorderRulesIndexRoute,
+  AuthenticatedReplenishmentIndexRoute: AuthenticatedReplenishmentIndexRoute,
+  AuthenticatedReservationsIndexRoute: AuthenticatedReservationsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedSalesOrdersIndexRoute: AuthenticatedSalesOrdersIndexRoute,
+  AuthenticatedSerialsIndexRoute: AuthenticatedSerialsIndexRoute,
   AuthenticatedStockAdjustmentsIndexRoute:
     AuthenticatedStockAdjustmentsIndexRoute,
   AuthenticatedStockBalancesIndexRoute: AuthenticatedStockBalancesIndexRoute,
+  AuthenticatedStockByLocationIndexRoute:
+    AuthenticatedStockByLocationIndexRoute,
+  AuthenticatedStockCountsIndexRoute: AuthenticatedStockCountsIndexRoute,
   AuthenticatedStockTransfersIndexRoute: AuthenticatedStockTransfersIndexRoute,
   AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
+  AuthenticatedUnitsIndexRoute: AuthenticatedUnitsIndexRoute,
+  AuthenticatedWarehousesIndexRoute: AuthenticatedWarehousesIndexRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,
 }

@@ -1,4 +1,5 @@
 import type { Role } from './schema'
+import { UserRole } from '@/types/user-role.enum'
 
 export const BASE_PERMISSION_DEFINITIONS = [
   { name: 'dashboard.view', description: 'View the main dashboard surface.' },
@@ -25,13 +26,17 @@ export const BASE_PERMISSION_DEFINITIONS = [
   { name: 'shifts.use', description: 'Open and close own shifts and record cash movements.' },
   { name: 'shifts.view', description: 'View all shifts, live staffing, and shift analytics.' },
   { name: 'shifts.manage', description: 'Force-close, correct, review shifts and manage shift settings.' },
+  { name: 'purchasing.view', description: 'View purchase orders, requisitions, and goods receipts.' },
+  { name: 'purchasing.manage', description: 'Create and post purchasing documents and replenishment.' },
+  { name: 'sales.view', description: 'View sales orders and stock reservations.' },
+  { name: 'sales.manage', description: 'Create, fulfil, invoice, and cancel sales orders.' },
 ] as const
 
 export type PermissionName = (typeof BASE_PERMISSION_DEFINITIONS)[number]['name'] | '*'
 
 export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
-  super_admin: ['*'],
-  admin: [
+  [UserRole.SuperAdmin]: ['*'],
+  [UserRole.Admin]: [
     'dashboard.view',
     'users.view',
     'users.manage',
@@ -52,8 +57,12 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'shifts.use',
     'shifts.view',
     'shifts.manage',
+    'purchasing.view',
+    'purchasing.manage',
+    'sales.view',
+    'sales.manage',
   ],
-  manager: [
+  [UserRole.Manager]: [
     'dashboard.view',
     'users.view',
     'products.view',
@@ -66,21 +75,25 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'pos.access',
     'shifts.use',
     'shifts.view',
+    'purchasing.view',
+    'purchasing.manage',
+    'sales.view',
+    'sales.manage',
   ],
-  staff: ['dashboard.view', 'products.view', 'inventory.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
-  cashier: ['dashboard.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
-  captain: ['dashboard.view', 'orders.view', 'orders.manage', 'pos.access', 'shifts.use'],
-  kitchen: ['dashboard.view', 'orders.view', 'pos.access'],
+  [UserRole.Staff]: ['dashboard.view', 'products.view', 'inventory.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
+  [UserRole.Cashier]: ['dashboard.view', 'orders.view', 'orders.create', 'pos.access', 'shifts.use'],
+  [UserRole.Captain]: ['dashboard.view', 'orders.view', 'orders.manage', 'pos.access', 'shifts.use'],
+  [UserRole.Kitchen]: ['dashboard.view', 'orders.view', 'pos.access'],
 }
 
 export const ROLE_PRIORITY = [
-  'super_admin',
-  'admin',
-  'manager',
-  'cashier',
-  'captain',
-  'kitchen',
-  'staff',
+  UserRole.SuperAdmin,
+  UserRole.Admin,
+  UserRole.Manager,
+  UserRole.Cashier,
+  UserRole.Captain,
+  UserRole.Kitchen,
+  UserRole.Staff,
 ] as const
 
 export function normalizeRoleName(roleName: string | null | undefined) {

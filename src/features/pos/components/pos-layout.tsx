@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { UserRole } from '@/types/user-role.enum'
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import {
-  Search,
   Keyboard,
-  Loader2,
   LayoutDashboard,
-  ShoppingCart,
+  Loader2,
   Scan,
+  Search,
+  ShoppingCart,
   Truck,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn, formatCurrency } from '@/lib/utils'
-import { parseDimensionsLabel } from '../utils'
 import { useAuth, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -20,15 +20,15 @@ import { Input } from '@/components/ui/input'
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
   SheetHeader,
   SheetTitle,
+  SheetTrigger,
 } from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import {
-  getPosProducts,
   getInclusiveTaxRates,
+  getPosProducts,
   type PosProduct,
   type PosProductVariant,
 } from '../data/api'
@@ -37,6 +37,7 @@ import {
   usePosReorderRealtime,
 } from '../hooks/use-pos-reorder-requests'
 import { useBasket } from '../store/use-basket'
+import { parseDimensionsLabel } from '../utils'
 import { getProductStockFlags, isVariantSellable } from '../utils/stock'
 import { BarcodeScannerListener } from './barcode-scanner-listener'
 import { BasketView } from './basket-view'
@@ -99,10 +100,10 @@ export function PosLayout() {
     }
 
     if (!authLoaded || !isSignedIn) return 'employee'
-    if (has({ role: 'super_admin' }) || has({ role: 'org:super_admin' })) {
+    if (has({ role: UserRole.SuperAdmin })) {
       return 'super_admin'
     }
-    if (has({ role: 'admin' }) || has({ role: 'org:admin' })) return 'admin'
+    if (has({ role: UserRole.Admin })) return 'admin'
 
     return 'employee'
   }, [authLoaded, has, isSignedIn, user?.publicMetadata])

@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/hooks/use-auth'
+import { authorizedRequest } from '@/lib/authorized-request'
 
 // ─── Types ────────────────────────────────────────────────
 export interface PurchaseOrder {
@@ -219,7 +221,25 @@ export const useUpdatePurchaseOrder = () => {
 }
 
 // ─── Update PO status only ────────────────────────────────
+type PurchaseOrderLifecycleStatus =
+  | 'draft'
+  | 'approved'
+  | 'sent'
+  | 'partially_received'
+  | 'received'
+  | 'closed'
+  | 'cancelled'
+
+/** Translate legacy status labels to lifecycle statuses (pass-through otherwise). */
+const LEGACY_STATUS_MAP: Record<string, PurchaseOrderLifecycleStatus> = {
+  pending: 'approved',
+  partial: 'partially_received',
+  received: 'received',
+  cancelled: 'cancelled',
+}
+
 export const useUpdatePurchaseOrderStatus = () => {
+  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -228,17 +248,24 @@ export const useUpdatePurchaseOrderStatus = () => {
       status,
     }: {
       id: number
-      status: 'pending' | 'received' | 'partial' | 'cancelled'
+      status:
+        | 'pending'
+        | 'received'
+        | 'partial'
+        | 'cancelled'
+        | PurchaseOrderLifecycleStatus
     }) => {
-      const { data, error } = await supabase
-        .from('purchase_orders')
-        .update({ status })
-        .eq('po_id', id)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
+      const mapped =
+        LEGACY_STATUS_MAP[status] ?? (status as PurchaseOrderLifecycleStatus)
+      const payload = (await authorizedRequest(
+        getToken,
+        '/api/inventory/purchase-orders/status',
+        {
+          method: 'POST',
+          body: JSON.stringify({ poId: id, status: mapped }),
+        }
+      )) as { data?: unknown }
+      return payload.data ?? null
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] })

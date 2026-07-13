@@ -1,17 +1,79 @@
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '@/lib/prisma'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
+import { supabaseAdmin } from '@/server/supabase'
+import { requireTenantId } from '@/server/utils/tenant'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
 
-// TODO: Implement session verification using @clerk/backend or TanStack Start helpers
-// For now, we will use a fallback or expect auth_user_id in the request if needed.
+interface VariantInfo {
+  id: string
+  product_id: number
+  product_type: string
+  bundle_components: Array<{ component_variant_id: string; qty: number }>
+}
 
+/**
+ * Loads product typing for the basket variants so bundles explode into their
+ * component movements and service products post no movement at all.
+ */
+async function loadVariantInfo(
+  variantIds: string[]
+): Promise<Map<string, VariantInfo>> {
+  const variants = (await prisma.product_variants.findMany({
+    where: { id: { in: variantIds } },
+    select: {
+      id: true,
+      product_id: true,
+      products: {
+        select: {
+          product_type: true,
+          bundle_components: {
+            select: { component_variant_id: true, qty: true },
+          },
+        },
+      },
+    },
+  })) as Array<{
+    id: string
+    product_id: number
+    products: {
+      product_type: string
+      bundle_components: Array<{ component_variant_id: string; qty: unknown }>
+    } | null
+  }>
+
+  const map = new Map<string, VariantInfo>()
+  for (const variant of variants) {
+    map.set(variant.id, {
+      id: variant.id,
+      product_id: variant.product_id,
+      product_type: variant.products?.product_type ?? 'simple',
+      bundle_components: (variant.products?.bundle_components ?? []).map(
+        (component) => ({
+          component_variant_id: component.component_variant_id,
+          qty: Number(component.qty),
+        })
+      ),
+    })
+  }
+  return map
+}
+
+/**
+ * POS checkout. Writes the business documents (sales invoice + items,
+ * res_orders bridge row, transaction header + details) in one Prisma
+ * transaction, then posts the stock effect through the SQL movement engine
+ * (`apply_inventory_movements`) with per-line idempotency keys. If the engine
+ * rejects the movements (e.g. insufficient stock), the invoice and transaction
+ * are compensated to `cancelled`/`failed` and the checkout fails.
+ */
 export async function processCheckout(
-  data: CheckoutRequestType
+  data: CheckoutRequestType,
+  authUserId: string
 ): Promise<CheckoutResponse> {
   try {
-    const auth_user_id = 'system' // Placeholder until proper auth is integrated
+    const tenantId = await requireTenantId(authUserId)
 
     const {
       branchId,
@@ -27,14 +89,16 @@ export async function processCheckout(
     } = data
 
     const invoiceNo = generateInvoiceNumber()
+    const variantInfo = await loadVariantInfo(
+      items.map((item) => item.productVariantId)
+    )
 
-    // 1. Create Sales Invoice (which we'll treat as the Order for restaurant module)
     const result = await prisma.$transaction(async (tx: any) => {
-      const orderId = uuidv4() // Use UUID for res_orders compatible reference
+      const orderId = uuidv4()
 
       const invoice = await tx.sales_invoices.create({
         data: {
-          auth_user_id: auth_user_id || 'system',
+          auth_user_id: tenantId,
           branch_id: branchId,
           store_id: storeId,
           customer_id: customerId,
@@ -63,13 +127,13 @@ export async function processCheckout(
             })),
           },
         },
+        include: { sales_invoice_items: true },
       })
 
-      // Create res_order entry to satisfy foreign key if res_orders is used as primary order store
       const resOrder = await tx.res_orders.create({
         data: {
           id: orderId,
-          order_number: invoiceNo, // Linking by invoice number
+          order_number: invoiceNo,
           total_amount: totalAmount,
           subtotal: subtotal,
           tax_amount: taxTotal,
@@ -78,15 +142,15 @@ export async function processCheckout(
           payment_method: paymentMethod,
           paid_at: new Date(),
           notes,
+          auth_user_id: tenantId,
         },
       })
 
-      // 1.5 Create res_shipment if requested
       if (data.isShipment && data.shipment) {
         await tx.res_shipments.create({
           data: {
             order_id: resOrder.id,
-            auth_user_id: auth_user_id || 'system',
+            auth_user_id: tenantId,
             recipient_name: data.shipment.recipientName,
             recipient_phone: data.shipment.recipientPhone,
             delivery_address: data.shipment.deliveryAddress,
@@ -99,14 +163,11 @@ export async function processCheckout(
         })
       }
 
-      // 2. Create Transaction for payment record
-      // We will create the transaction
-      const transactionId = uuidv4()
       const transactionRec = await tx.transactions.create({
         data: {
-          id: transactionId,
-          tenant_id: auth_user_id || 'system',
-          auth_user_id: auth_user_id || 'system',
+          id: uuidv4(),
+          tenant_id: tenantId,
+          auth_user_id: tenantId,
           transaction_number: `TRN-${invoiceNo}`,
           transaction_type: 'sale',
           status: 'completed',
@@ -115,58 +176,93 @@ export async function processCheckout(
           tax_amount: taxTotal,
           discount_amount: discountTotal,
           notes: `Payment for invoice ${invoiceNo} via ${paymentMethod}`,
+          sales_invoice_id: invoice.id,
+          transaction_details: {
+            create: items.map((item, index) => ({
+              tenant_id: tenantId,
+              product_id:
+                variantInfo.get(item.productVariantId)?.product_id ?? 0,
+              quantity: item.quantity,
+              unit_price: item.unitPrice,
+              discount_amount: item.discountAmount || 0,
+              tax_amount: item.taxAmount || 0,
+              subtotal: item.quantity * item.unitPrice,
+              sales_invoice_item_id: invoice.sales_invoice_items[index]?.id,
+              auth_user_id: tenantId,
+            })),
+          },
         },
       })
 
-      // 3. Record Inventory Movements
-      const movementPromises = items.map((item) =>
-        tx.inventory_movements.create({
-          data: {
-            auth_user_id: auth_user_id || 'system',
-            branch_id: branchId,
-            store_id: storeId,
-            product_variant_id: item.productVariantId,
-            movement_type: 'sale',
-            reference_type: 'sales_invoice',
-            reference_id: invoice.id,
-            qty_out: item.quantity,
-            movement_date: new Date(),
-          },
-        })
-      )
+      return { invoice, transactionRec }
+    })
 
-      await Promise.all(movementPromises)
-
-      // 4. Update Stock Balances if necessary
-      // Here usually you would update stock_balances, deducting qty_available and qty_on_hand
+    // Stock effect via the movement engine — sales never touch balances
+    // directly. Bundles explode into component movements; services post none.
+    if (storeId) {
+      const movements: Array<Record<string, unknown>> = []
       for (const item of items) {
-        if (!storeId) continue
+        const info = variantInfo.get(item.productVariantId)
+        const productType = info?.product_type ?? 'simple'
+        if (productType === 'service') continue
 
-        // Find existing stock balance for this variant in this store
-        const existingStock = await tx.stock_balances.findUnique({
-          where: {
-            store_id_product_variant_id: {
-              store_id: storeId,
-              product_variant_id: item.productVariantId,
-            },
-          },
-        })
+        const baseMovement = {
+          tenant_id: tenantId,
+          branch_id: branchId,
+          store_id: storeId,
+          movement_type: 'sale',
+          reference_type: 'sales_invoice',
+          reference_id: result.invoice.id,
+          source_document_type: 'sales_invoice',
+          source_document_id: result.invoice.id,
+          remarks: `POS sale ${invoiceNo}`,
+          created_by: authUserId,
+        }
 
-        if (existingStock) {
-          await tx.stock_balances.update({
-            where: { id: existingStock.id },
-            data: {
-              qty_on_hand: {
-                decrement: item.quantity,
-              },
-              last_movement_at: new Date(),
-            },
+        if (productType === 'bundle' && info && info.bundle_components.length > 0) {
+          for (const component of info.bundle_components) {
+            movements.push({
+              ...baseMovement,
+              product_variant_id: component.component_variant_id,
+              qty: item.quantity * component.qty,
+              idempotency_key: `pos:${result.invoice.id}:${item.productVariantId}:${component.component_variant_id}`,
+            })
+          }
+        } else {
+          movements.push({
+            ...baseMovement,
+            product_variant_id: item.productVariantId,
+            qty: item.quantity,
+            idempotency_key: `pos:${result.invoice.id}:${item.productVariantId}`,
           })
         }
       }
 
-      return { invoice, transactionRec }
-    })
+      if (movements.length > 0) {
+        const { error: movementError } = await supabaseAdmin.rpc(
+          'apply_inventory_movements',
+          { p_movements: movements }
+        )
+        if (movementError) {
+          // Compensate the documents so no "paid" invoice exists without stock
+          await prisma.sales_invoices.update({
+            where: { id: result.invoice.id },
+            data: { status: 'cancelled' },
+          })
+          await prisma.transactions.update({
+            where: { id: result.transactionRec.id },
+            data: { status: 'failed' },
+          })
+          return {
+            success: false,
+            error: {
+              code: 'INSUFFICIENT_STOCK',
+              message: movementError.message,
+            },
+          }
+        }
+      }
+    }
 
     return {
       success: true,
@@ -176,8 +272,6 @@ export async function processCheckout(
       timestamp: new Date().toISOString(),
     }
   } catch (error: unknown) {
-    // eslint-disable-next-line no-console
-    console.error('POS Checkout service error:', error)
     return {
       success: false,
       error: {

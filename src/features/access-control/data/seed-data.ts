@@ -7,6 +7,8 @@
  * Default screen roles are derived from the current `sidebar-data.ts` literals.
  */
 
+import { UserRole, ADMIN_ROLES } from '@/types/user-role.enum'
+
 export interface ActivityTypeSeed {
   code: string
   name: string
@@ -73,7 +75,7 @@ export const BUTTON_SEEDS: ButtonSeed[] = [
   { code: 'pay', name: 'Pay', description: 'Take payment on the screen' },
 ]
 
-const ADMINS = ['admin', 'super_admin']
+const ADMINS = [...ADMIN_ROLES]
 
 export const SCREEN_SEEDS: ScreenSeed[] = [
   // general
@@ -88,15 +90,15 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
 
   // restaurant
   { code: 'respos_dashboard', name: 'POS Dashboard', route: '/respos', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
-  { code: 'respos_pos', name: 'POS Screen', route: '/respos/pos', moduleCode: 'restaurant', roles: ['captain', ...ADMINS], permissions: ['pos.access'] },
-  { code: 'respos_captain', name: 'Captain Station', route: '/respos/captain', moduleCode: 'restaurant', roles: ['captain', ...ADMINS], permissions: [] },
-  { code: 'respos_kitchen', name: 'Kitchen Display', route: '/respos/kitchen', moduleCode: 'restaurant', roles: ['kitchen', ...ADMINS], permissions: [] },
+  { code: 'respos_pos', name: 'POS Screen', route: '/respos/pos', moduleCode: 'restaurant', roles: [UserRole.Captain, ...ADMINS], permissions: ['pos.access'] },
+  { code: 'respos_captain', name: 'Captain Station', route: '/respos/captain', moduleCode: 'restaurant', roles: [UserRole.Captain, ...ADMINS], permissions: [] },
+  { code: 'respos_kitchen', name: 'Kitchen Display', route: '/respos/kitchen', moduleCode: 'restaurant', roles: [UserRole.Kitchen, ...ADMINS], permissions: [] },
   { code: 'respos_menu', name: 'Menu Management', route: '/respos/menu', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
   { code: 'respos_floors', name: 'Floors & Tables', route: '/respos/floors', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
-  { code: 'respos_reservations', name: 'Reservations', route: '/respos/reservations', moduleCode: 'restaurant', roles: [...ADMINS, 'captain'], permissions: [] },
+  { code: 'respos_reservations', name: 'Reservations', route: '/respos/reservations', moduleCode: 'restaurant', roles: [...ADMINS, UserRole.Captain], permissions: [] },
   { code: 'respos_analytics', name: 'Analytics', route: '/respos/analytics', moduleCode: 'restaurant', roles: ADMINS, permissions: ['reports.view'] },
   { code: 'respos_shifts', name: 'Shifts', route: '/respos/shifts', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
-  { code: 'respos_cashier', name: 'Cashier Checkout', route: '/respos/cashier', moduleCode: 'restaurant', roles: ['cashier', ...ADMINS], permissions: [] },
+  { code: 'respos_cashier', name: 'Cashier Checkout', route: '/respos/cashier', moduleCode: 'restaurant', roles: [UserRole.Cashier, ...ADMINS], permissions: [] },
   { code: 'respos_payments', name: 'Payments', route: '/respos/payments', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
   { code: 'respos_shipments', name: 'Shipments', route: '/respos/shipments', moduleCode: 'restaurant', roles: ADMINS, permissions: [] },
   { code: 'orders', name: 'Orders', route: '/orders', moduleCode: 'restaurant', roles: ['captain', 'cashier', ...ADMINS], permissions: ['orders.view'] },
@@ -136,7 +138,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
 ]
 
 export const SCREEN_BUTTON_SEEDS: ScreenButtonSeed[] = [
-  { screenCode: 'orders', buttonCode: 'pay', roles: ['cashier', 'admin'] },
+  { screenCode: 'orders', buttonCode: 'pay', roles: [UserRole.Cashier, ...ADMINS] },
   { screenCode: 'orders', buttonCode: 'create', roles: ['captain'] },
   { screenCode: 'orders', buttonCode: 'update', roles: ['captain'] },
   // Inventory movements: create drafts (manager+admin), approve/apply (admin)

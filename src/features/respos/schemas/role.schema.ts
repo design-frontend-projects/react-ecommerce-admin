@@ -1,12 +1,5 @@
 import { z } from 'zod'
-
-const ROLE_NAMES = [
-  'super_admin',
-  'admin',
-  'cashier',
-  'captain',
-  'kitchen',
-] as const
+import { UserRole } from '@/types/user-role.enum'
 
 const PERMISSIONS = [
   'dashboard',
@@ -28,7 +21,7 @@ const PERMISSIONS = [
 ] as const
 
 export const roleFormSchema = z.object({
-  name: z.enum(ROLE_NAMES, {
+  name: z.nativeEnum(UserRole, {
     message: 'Role name is required',
   }),
   display_name: z.string().min(2, 'Display name must be at least 2 characters'),
@@ -39,4 +32,5 @@ export const roleFormSchema = z.object({
 
 export type RoleFormValues = z.infer<typeof roleFormSchema>
 
-export { ROLE_NAMES, PERMISSIONS }
+export { PERMISSIONS }
+

@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/server/supabase-admin'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import type {
   InviteUserInput,
   InviteUserResult,
@@ -52,7 +53,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const roleIds = roles.map((role) => role.id)
     const primaryRole = getPrimaryRoleName(roleNames)
     const isOwnerRole = roleNames.some((name) =>
-      ['admin', 'super_admin'].includes(name.toLowerCase())
+      ADMIN_ROLES.includes(name.toLowerCase() as any)
     )
 
     const existingUser = await prisma.tenant_users.findUnique({
