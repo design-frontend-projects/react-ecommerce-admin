@@ -45,20 +45,10 @@ export function Overview({ data }: OverviewProps) {
           cursor={{ fill: 'transparent' }}
         />
         <Legend
-          formatter={(value) =>
-            value === 'sales' ? 'Sales' : 'Refunds'
-          }
+          formatter={(value) => (value === 'sales' ? 'Sales' : 'Refunds')}
         />
-        <Bar
-          dataKey='sales'
-          fill='hsl(var(--primary))'
-          radius={[4, 4, 0, 0]}
-        />
-        <Bar
-          dataKey='refunds'
-          fill='hsl(0 84% 60%)'
-          radius={[4, 4, 0, 0]}
-        />
+        <Bar dataKey='sales' fill='hsl(var(--primary))' radius={[4, 4, 0, 0]} />
+        <Bar dataKey='refunds' fill='hsl(0 84% 60%)' radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )

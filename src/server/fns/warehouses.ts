@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 export interface WarehouseInput {
   branchId?: string | null
@@ -38,7 +38,10 @@ export async function listWarehouses(authUserId: string) {
   })
 }
 
-export async function createWarehouse(authUserId: string, input: WarehouseInput) {
+export async function createWarehouse(
+  authUserId: string,
+  input: WarehouseInput
+) {
   const tenantId = await requireTenantId(authUserId)
   if (!input.code?.trim() || !input.name?.trim()) {
     throw new ApiError('Code and name are required.', 400)
@@ -99,7 +102,10 @@ export async function deleteWarehouse(authUserId: string, id: string) {
     where: { warehouse_id: id },
   })
   if (stockRows > 0) {
-    throw new ApiError('Warehouse still holds stock and cannot be deleted.', 409)
+    throw new ApiError(
+      'Warehouse still holds stock and cannot be deleted.',
+      409
+    )
   }
   return prisma.warehouses.delete({ where: { id } })
 }
@@ -177,7 +183,9 @@ export async function updateLocation(
       ...(input.locationType !== undefined
         ? { location_type: input.locationType }
         : {}),
-      ...(input.isPickable !== undefined ? { is_pickable: input.isPickable } : {}),
+      ...(input.isPickable !== undefined
+        ? { is_pickable: input.isPickable }
+        : {}),
       ...(input.isReceivable !== undefined
         ? { is_receivable: input.isReceivable }
         : {}),

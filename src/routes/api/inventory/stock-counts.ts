@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   cancelCount,
   createCount,
@@ -7,8 +5,9 @@ import {
   listCounts,
   type CreateCountInput,
 } from '@/server/fns/stock-counts'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -57,7 +56,6 @@ const DELETE = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to cancel stock count')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/stock-counts')({
   GET,

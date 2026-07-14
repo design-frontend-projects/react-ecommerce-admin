@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { BrandRowActions } from './row-actions'
 import type { BrandListItem } from '../data/schema'
+import { BrandRowActions } from './row-actions'
 
 export const columns: ColumnDef<BrandListItem>[] = [
   {
@@ -10,9 +10,7 @@ export const columns: ColumnDef<BrandListItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Name' />
     ),
-    cell: ({ row }) => (
-      <span className='font-medium'>{row.original.name}</span>
-    ),
+    cell: ({ row }) => <span className='font-medium'>{row.original.name}</span>,
   },
   {
     accessorKey: 'code',

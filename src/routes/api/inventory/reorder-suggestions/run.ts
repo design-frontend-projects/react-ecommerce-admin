@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { runCheck } from '@/server/fns/reorder-suggestions'
 import { handleRouteError } from '@/server/utils/api-error'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = async ({ request }: any) => {
   try {

@@ -1,8 +1,8 @@
-import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { type ColumnDef } from '@tanstack/react-table'
 import { type PurchaseOrder } from '../hooks/use-purchase-orders'
-import { POStatusBadge } from './po-status-badge'
 import { PORowActions } from './po-row-actions'
+import { POStatusBadge } from './po-status-badge'
 
 export const poColumns: ColumnDef<PurchaseOrder>[] = [
   {
@@ -32,7 +32,10 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
     header: 'Order Date',
     cell: ({ row }) => {
       try {
-        return format(new Date(row.original.order_date as string), 'MMM dd, yyyy')
+        return format(
+          new Date(row.original.order_date as string),
+          'MMM dd, yyyy'
+        )
       } catch {
         return row.original.order_date
       }

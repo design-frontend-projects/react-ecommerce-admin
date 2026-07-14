@@ -22,7 +22,10 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { type Country } from '../data/schema'
 import { useCreateCountry, useUpdateCountry } from '../hooks/use-countries'
-import { countryFormSchema, type CountryForm } from './countries-action-dialog.schema'
+import {
+  countryFormSchema,
+  type CountryForm,
+} from './countries-action-dialog.schema'
 
 type CountryActionDialogProps = {
   currentRow?: Country
@@ -105,9 +108,13 @@ export function CountriesActionDialog({
     >
       <DialogContent className='sm:max-w-md'>
         <DialogHeader className='text-start'>
-          <DialogTitle>{isEdit ? 'Edit Country' : 'Add New Country'}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? 'Edit Country' : 'Add New Country'}
+          </DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the country details here. ' : 'Create a new country here. '}
+            {isEdit
+              ? 'Update the country details here. '
+              : 'Create a new country here. '}
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>

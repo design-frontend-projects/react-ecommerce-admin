@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createUserDirect } from '@/server/fns/create-user'
+import { deactivateUser, changeUserPassword } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { fetchUsers, updateUserRoles } from '../data/actions'
 import type { UpdateUserRolesInput, CreateUserInput } from '../data/types'
-import { createUserDirect } from '@/server/fns/create-user'
-import { deactivateUser, changeUserPassword } from '@/server/fns/users'
 
 export const usersQueryKey = ['users'] as const
 
@@ -79,7 +79,13 @@ export function useDeactivateUser() {
 
 export function useResetUserPassword() {
   return useMutation({
-    mutationFn: async ({ userId, password }: { userId: string; password: string }) => {
+    mutationFn: async ({
+      userId,
+      password,
+    }: {
+      userId: string
+      password: string
+    }) => {
       return changeUserPassword({ data: { userId, password } })
     },
     onSuccess: (result) => {

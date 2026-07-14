@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { ReorderRulesProvider } from './components/provider'
-import { ReorderRulesPrimaryButtons } from './components/primary-buttons'
-import { ReorderRulesTable } from './components/table'
 import { ReorderRulesDialogs } from './components/dialogs'
+import { ReorderRulesPrimaryButtons } from './components/primary-buttons'
+import { ReorderRulesProvider } from './components/provider'
+import { ReorderRulesTable } from './components/table'
 import { useReorderRules } from './hooks/use-reorder-rules'
 
 export function ReorderRules() {

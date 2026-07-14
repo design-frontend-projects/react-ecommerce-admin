@@ -10,4 +10,3 @@ export const Route = createFileRoute('/(auth)/sign-up')({
   component: SignUp,
   validateSearch: searchSchema,
 })
-

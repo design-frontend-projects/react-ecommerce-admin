@@ -61,7 +61,8 @@ export function CountriesDeleteDialog({
             Are you sure you want to delete{' '}
             <span className='font-bold'>{currentRow.name}</span>?
             <br />
-            This action will permanently remove the country and potentially affect associated cities. This cannot be undone.
+            This action will permanently remove the country and potentially
+            affect associated cities. This cannot be undone.
           </p>
 
           <Label className='my-2'>

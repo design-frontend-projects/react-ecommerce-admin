@@ -1,10 +1,8 @@
+import type { User, Session } from '@supabase/supabase-js'
 import { create } from 'zustand'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
-import type { Profile } from '@/features/auth/services/profile-service'
-
-
-import type { User, Session } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
+import type { Profile } from '@/features/auth/services/profile-service'
 
 const SELECTED_BRANCH = 'respos_selected_branch'
 
@@ -47,7 +45,10 @@ export const useAuthStore = create<AuthState>()((set) => {
       setSelectedBranchId: (branchId) =>
         set((state) => {
           setCookie(SELECTED_BRANCH, JSON.stringify(branchId))
-          return { ...state, auth: { ...state.auth, selectedBranchId: branchId } }
+          return {
+            ...state,
+            auth: { ...state.auth, selectedBranchId: branchId },
+          }
         }),
       reset: () =>
         set((state) => {

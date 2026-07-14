@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react'
 import { useUser } from '@/hooks/use-auth'
-import {
-  hasAnyPermission,
-  normalizeRoleName,
-} from '@/features/users/data/rbac'
+import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 import { useRBACStore } from '@/features/users/data/store'
 
 interface CanProps {

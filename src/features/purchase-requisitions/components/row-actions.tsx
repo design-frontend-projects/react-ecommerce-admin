@@ -17,18 +17,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
+import type { RequisitionListItem } from '../data/schema'
 import {
   useCancelRequisition,
   useRequisitionAction,
 } from '../hooks/use-purchase-requisitions'
 import { useRequisitionsContext } from './provider'
-import type { RequisitionListItem } from '../data/schema'
 
-export function RequisitionRowActions({
-  row,
-}: {
-  row: RequisitionListItem
-}) {
+export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
   const { setCurrentRow, setOpen } = useRequisitionsContext()
   const requisitionAction = useRequisitionAction()
   const cancelRequisition = useCancelRequisition()

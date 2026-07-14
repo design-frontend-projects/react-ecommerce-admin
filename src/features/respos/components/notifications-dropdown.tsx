@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
@@ -14,6 +13,7 @@ import {
   Receipt,
   XCircle,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -189,7 +189,9 @@ export function NotificationsDropdown() {
             asChild
             onClick={() => setOpen(false)}
           >
-            <Link to='/respos/notifications'>{t('respos.notifications.viewAll')}</Link>
+            <Link to='/respos/notifications'>
+              {t('respos.notifications.viewAll')}
+            </Link>
           </Button>
         </div>
       </PopoverContent>

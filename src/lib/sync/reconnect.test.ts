@@ -1,6 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import 'fake-indexeddb/auto'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { db } from '@/lib/db/indexed-db'
+import { enqueue } from './outbox'
+import { runSyncThenWipe } from './reconnect'
 
 const mocks = vi.hoisted(() => ({
   handler: vi.fn(),
@@ -34,9 +36,6 @@ vi.mock('@/lib/db/collections/client', () => ({
 vi.mock('sonner', () => ({
   toast: { info: vi.fn(), success: vi.fn(), error: vi.fn() },
 }))
-
-import { enqueue } from './outbox'
-import { runSyncThenWipe } from './reconnect'
 
 async function seedCatalog() {
   await db.products.put({

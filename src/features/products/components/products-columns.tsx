@@ -68,8 +68,8 @@ export const columns: ColumnDef<Product>[] = [
   {
     id: 'price',
     accessorFn: (row) => {
-      if (!row.product_variants || row.product_variants.length === 0) return 0;
-      return row.product_variants[0].price;
+      if (!row.product_variants || row.product_variants.length === 0) return 0
+      return row.product_variants[0].price
     },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Price' />
@@ -79,20 +79,20 @@ export const columns: ColumnDef<Product>[] = [
       if (!variants || variants.length === 0) {
         return <div className='font-medium text-muted-foreground'>N/A</div>
       }
-      
-      const prices = variants.map(v => Number(v.price))
+
+      const prices = variants.map((v) => Number(v.price))
       const minPrice = Math.min(...prices)
       const maxPrice = Math.max(...prices)
-      
+
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       })
-      
+
       if (minPrice === maxPrice) {
         return <div className='font-medium'>{formatter.format(minPrice)}</div>
       }
-      
+
       return (
         <div className='font-medium'>
           {formatter.format(minPrice)} - {formatter.format(maxPrice)}

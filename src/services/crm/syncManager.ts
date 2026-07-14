@@ -1,14 +1,14 @@
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma'
 
 export interface SyncPayload {
-  orderId: number;
+  orderId: number
   customer: {
-    firstName: string;
-    lastName: string;
-    email?: string | null;
-    phone?: string | null;
-  };
-  transactionAmount: number;
+    firstName: string
+    lastName: string
+    email?: string | null
+    phone?: string | null
+  }
+  transactionAmount: number
 }
 
 /**
@@ -17,11 +17,11 @@ export interface SyncPayload {
  * Links the resulting customer to the POS sale record.
  */
 export async function syncTransactionToCRM(payload: SyncPayload) {
-  const { orderId, customer } = payload;
+  const { orderId, customer } = payload
 
   // Try to find an existing customer by email or phone
-  let existingCustomer = null;
-  
+  let existingCustomer = null
+
   if (customer.email || customer.phone) {
     existingCustomer = await prisma.customers.findFirst({
       where: {
@@ -30,10 +30,10 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
           ...(customer.phone ? [{ phone: customer.phone }] : []),
         ],
       },
-    });
+    })
   }
 
-  let customerRecord;
+  let customerRecord
 
   if (existingCustomer) {
     // Update existing customer
@@ -45,7 +45,7 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         phone: customer.phone || existingCustomer.phone,
         last_active_at: new Date(),
       },
-    });
+    })
   } else {
     // Create new customer
     customerRecord = await prisma.customers.create({
@@ -56,14 +56,14 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         phone: customer.phone,
         last_active_at: new Date(),
       },
-    });
+    })
   }
 
   // Link the POS sale to the customer
   await prisma.pos_sales.update({
     where: { sale_id: orderId },
     data: { customer_id: customerRecord.customer_id },
-  });
+  })
 
-  return customerRecord;
+  return customerRecord
 }

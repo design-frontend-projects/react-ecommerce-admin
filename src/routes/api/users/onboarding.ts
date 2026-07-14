@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { completeOnboarding } from '@/server/fns/auth'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = async ({ request, params }: any) => {
   try {
@@ -20,7 +19,10 @@ const POST = async ({ request, params }: any) => {
     }
 
     if (authorizedUser.userId !== body.authUserId) {
-      return jsonError('You can only complete onboarding for the signed-in user.', 403)
+      return jsonError(
+        'You can only complete onboarding for the signed-in user.',
+        403
+      )
     }
 
     const result = await completeOnboarding({
@@ -41,7 +43,6 @@ const POST = async ({ request, params }: any) => {
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/users/onboarding')({
   POST,

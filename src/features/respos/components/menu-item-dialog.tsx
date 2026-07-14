@@ -321,7 +321,9 @@ export function MenuItemDialog({
     } catch (error) {
       toast.error(t('respos.menuItem.error.title'), {
         description:
-          error instanceof Error ? error.message : t('respos.menuItem.error.unknown'),
+          error instanceof Error
+            ? error.message
+            : t('respos.menuItem.error.unknown'),
       })
     }
   }
@@ -344,9 +346,15 @@ export function MenuItemDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
             <Tabs defaultValue='basic' className='w-full'>
               <TabsList className='grid w-full grid-cols-3'>
-                <TabsTrigger value='basic'>{t('respos.menuItem.tabs.basic')}</TabsTrigger>
-                <TabsTrigger value='variants'>{t('respos.menuItem.tabs.variants')}</TabsTrigger>
-                <TabsTrigger value='properties'>{t('respos.menuItem.tabs.properties')}</TabsTrigger>
+                <TabsTrigger value='basic'>
+                  {t('respos.menuItem.tabs.basic')}
+                </TabsTrigger>
+                <TabsTrigger value='variants'>
+                  {t('respos.menuItem.tabs.variants')}
+                </TabsTrigger>
+                <TabsTrigger value='properties'>
+                  {t('respos.menuItem.tabs.properties')}
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value='basic' className='space-y-4 pt-4'>
@@ -400,7 +408,11 @@ export function MenuItemDialog({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={t('respos.menuItem.categoryPlaceholder')} />
+                            <SelectValue
+                              placeholder={t(
+                                'respos.menuItem.categoryPlaceholder'
+                              )}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -470,7 +482,9 @@ export function MenuItemDialog({
                       <FormLabel>{t('respos.menuItem.description')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder={t('respos.menuItem.descriptionPlaceholder')}
+                          placeholder={t(
+                            'respos.menuItem.descriptionPlaceholder'
+                          )}
                           className='resize-none'
                           {...field}
                           value={field.value || ''}
@@ -650,9 +664,16 @@ export function MenuItemDialog({
                         name={`variants.${index}.name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t('respos.menuItem.variantName')}</FormLabel>
+                            <FormLabel>
+                              {t('respos.menuItem.variantName')}
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder={t('respos.menuItem.variantNamePlaceholder')} {...field} />
+                              <Input
+                                placeholder={t(
+                                  'respos.menuItem.variantNamePlaceholder'
+                                )}
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -664,7 +685,9 @@ export function MenuItemDialog({
                           name={`variants.${index}.price_adjustment`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t('respos.menuItem.priceAdjustment')}</FormLabel>
+                              <FormLabel>
+                                {t('respos.menuItem.priceAdjustment')}
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   type='number'
@@ -691,7 +714,9 @@ export function MenuItemDialog({
                                   onCheckedChange={field.onChange}
                                 />
                               </FormControl>
-                              <FormLabel className='!mt-0'>{t('respos.menuItem.defaultVariant')}</FormLabel>
+                              <FormLabel className='!mt-0'>
+                                {t('respos.menuItem.defaultVariant')}
+                              </FormLabel>
                             </FormItem>
                           )}
                         />
@@ -751,7 +776,9 @@ export function MenuItemDialog({
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? t('respos.menuItem.update') : t('respos.menuItem.create')}
+                {isEditing
+                  ? t('respos.menuItem.update')
+                  : t('respos.menuItem.create')}
               </Button>
             </DialogFooter>
           </form>
@@ -785,7 +812,9 @@ function PropertyFieldCard({
     <Card>
       <CardHeader className='pb-2'>
         <div className='flex items-center justify-between'>
-          <CardTitle className='text-sm'>{t('respos.menuItem.property')} {index + 1}</CardTitle>
+          <CardTitle className='text-sm'>
+            {t('respos.menuItem.property')} {index + 1}
+          </CardTitle>
           <Button type='button' variant='ghost' size='sm' onClick={onRemove}>
             <Trash2 className='h-4 w-4 text-destructive' />
           </Button>
@@ -799,7 +828,10 @@ function PropertyFieldCard({
             <FormItem>
               <FormLabel>{t('respos.menuItem.propertyName')}</FormLabel>
               <FormControl>
-                <Input placeholder={t('respos.menuItem.propertyNamePlaceholder')} {...field} />
+                <Input
+                  placeholder={t('respos.menuItem.propertyNamePlaceholder')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -836,7 +868,9 @@ function PropertyFieldCard({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className='!mt-0'>{t('respos.menuItem.required')}</FormLabel>
+                <FormLabel className='!mt-0'>
+                  {t('respos.menuItem.required')}
+                </FormLabel>
               </FormItem>
             )}
           />
@@ -864,7 +898,10 @@ function PropertyFieldCard({
                 render={({ field }) => (
                   <FormItem className='flex-1'>
                     <FormControl>
-                      <Input placeholder={t('respos.menuItem.optionNamePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('respos.menuItem.optionNamePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}

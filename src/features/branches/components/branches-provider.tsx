@@ -48,9 +48,7 @@ export const useBranchesContext = () => {
   const context = React.useContext(BranchesContext)
 
   if (!context) {
-    throw new Error(
-      'useBranchesContext must be used within <BranchesProvider>'
-    )
+    throw new Error('useBranchesContext must be used within <BranchesProvider>')
   }
 
   return context

@@ -1,13 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import 'fake-indexeddb/auto'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { db } from '@/lib/db/indexed-db'
-
-const handler = vi.fn()
-vi.mock('./handlers', () => ({
-  getOutboxHandler: () => handler,
-  isOutboxType: () => true,
-}))
-
 import {
   enqueue,
   drainOutbox,
@@ -17,6 +10,12 @@ import {
   computeBackoffMs,
   MAX_RETRIES,
 } from './outbox'
+
+const handler = vi.fn()
+vi.mock('./handlers', () => ({
+  getOutboxHandler: () => handler,
+  isOutboxType: () => true,
+}))
 
 describe('durable outbox', () => {
   beforeEach(async () => {

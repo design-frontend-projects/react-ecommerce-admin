@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 import { emailSchema, type EmailFormData } from '@/lib/validation/auth'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Loader2 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface LoginEmailFormProps {
   onSubmit: (data: EmailFormData) => void
@@ -28,20 +28,20 @@ export function LoginEmailForm({ onSubmit, isLoading }: LoginEmailFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
         <FormField
           control={form.control}
-          name="email"
+          name='email'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email Address</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="you@example.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
+                  placeholder='you@example.com'
+                  type='email'
+                  autoCapitalize='none'
+                  autoComplete='email'
+                  autoCorrect='off'
                   disabled={isLoading}
                   {...field}
                 />
@@ -50,8 +50,8 @@ export function LoginEmailForm({ onSubmit, isLoading }: LoginEmailFormProps) {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button className='w-full' type='submit' disabled={isLoading}>
+          {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
           Continue with Email
         </Button>
       </form>

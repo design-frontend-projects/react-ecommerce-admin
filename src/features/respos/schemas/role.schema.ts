@@ -33,4 +33,3 @@ export const roleFormSchema = z.object({
 export type RoleFormValues = z.infer<typeof roleFormSchema>
 
 export { PERMISSIONS }
-

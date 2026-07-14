@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { useAuth, UserButton } from '@/hooks/use-auth'
+import { useTranslation, Trans } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
+import { useAuth, UserButton } from '@/hooks/use-auth'
 import {
   Card,
   CardContent,
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/card'
 import { AuthLayout } from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
-import { useTranslation, Trans } from 'react-i18next'
 
 export function SignIn() {
   const { redirect } = useSearch({ from: '/(auth)/sign-in' })
@@ -22,7 +22,13 @@ export function SignIn() {
   const userMetadata = useAuthStore((state) => state.auth.user?.user_metadata)
   const profile = useAuthStore((state) => state.auth.profile)
   const roleNames = userMetadata?.roles || userMetadata?.role || []
-  const isRestaurantRole = Array.isArray(roleNames) ? roleNames.some((r: string) => ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())) : ['cashier', 'captain', 'kitchen'].includes(String(roleNames).toLowerCase())
+  const isRestaurantRole = Array.isArray(roleNames)
+    ? roleNames.some((r: string) =>
+        ['cashier', 'captain', 'kitchen'].includes(r.toLowerCase())
+      )
+    : ['cashier', 'captain', 'kitchen'].includes(
+        String(roleNames).toLowerCase()
+      )
 
   useEffect(() => {
     if (isSignedIn && isLoaded) {
@@ -36,7 +42,7 @@ export function SignIn() {
           defaultPath = '/respos'
         }
       }
-      
+
       navigate({ to: (redirect || defaultPath) as never, search: true })
     }
   }, [isSignedIn, isLoaded, navigate, redirect, isRestaurantRole, profile])
@@ -65,7 +71,10 @@ export function SignIn() {
             to='/sign-up'
             className='text-sm font-medium transition-colors hover:text-primary'
           >
-            {t('auth.dontHaveAccount')} <span className='text-primary underline underline-offset-4'>{t('auth.signUp')}</span>
+            {t('auth.dontHaveAccount')}{' '}
+            <span className='text-primary underline underline-offset-4'>
+              {t('auth.signUp')}
+            </span>
           </Link>
           <p className='px-4 text-center text-xs text-muted-foreground sm:px-8'>
             <Trans

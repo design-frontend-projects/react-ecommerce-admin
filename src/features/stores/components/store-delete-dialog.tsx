@@ -26,7 +26,8 @@ export function StoreDeleteDialog() {
         setOpen(null)
       } catch (error: any) {
         toast.error('Error', {
-          description: error.message || 'Something went wrong. Please try again.',
+          description:
+            error.message || 'Something went wrong. Please try again.',
         })
       }
     }

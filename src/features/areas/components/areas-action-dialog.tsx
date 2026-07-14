@@ -22,8 +22,8 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { useCities } from '@/features/cities/hooks/use-cities'
-import { useCreateArea, useUpdateArea } from '../hooks/use-areas'
 import { type Area } from '../data/schema'
+import { useCreateArea, useUpdateArea } from '../hooks/use-areas'
 import { areaFormSchema, type AreaForm } from './areas-action-dialog.schema'
 
 type AreaActionDialogProps = {

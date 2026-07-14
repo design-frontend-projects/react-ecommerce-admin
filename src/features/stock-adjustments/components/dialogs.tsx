@@ -1,6 +1,6 @@
 import { AdjustmentCreateDialog } from './create-dialog'
-import { AdjustmentViewDialog } from './view-dialog'
 import { useAdjustmentsContext } from './provider'
+import { AdjustmentViewDialog } from './view-dialog'
 
 export function AdjustmentsDialogs() {
   const { open, setOpen, currentRow } = useAdjustmentsContext()

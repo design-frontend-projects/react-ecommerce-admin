@@ -1,11 +1,11 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
+import { supabase } from '@/lib/supabase'
+import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
 import { LoginEmailForm } from '@/components/auth/LoginEmailForm'
 import { LoginOtpForm } from '@/components/auth/LoginOtpForm'
-import { supabase } from '@/lib/supabase'
-import { toast } from 'sonner'
-import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 
 export const Route = createFileRoute('/login')({
@@ -32,13 +32,14 @@ function LoginPage() {
           shouldCreateUser: true,
         },
       })
-      
+
       if (error) throw error
-      
+
       setEmail(data.email)
       toast.success('Check your email for the login code')
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to send login code'
+      const message =
+        error instanceof Error ? error.message : 'Failed to send login code'
       toast.error(message)
     } finally {
       setIsLoading(false)
@@ -53,14 +54,16 @@ function LoginPage() {
         token: data.token,
         type: 'email',
       })
-      
+
       if (error) throw error
-      
+
       if (authData.session && authData.user) {
         useAuthStore.getState().auth.setSession(authData.session)
         const access = await fetchCurrentUserAccess(authData.user.id)
         const roles = access?.roleNames || []
-        const isRestaurantRole = roles.some((r) => ['cashier', 'captain', 'kitchen'].includes(r))
+        const isRestaurantRole = roles.some((r) =>
+          ['cashier', 'captain', 'kitchen'].includes(r)
+        )
         const profile = useAuthStore.getState().auth.profile
         let targetPath = '/products'
         if (profile?.activity === 'restaurant' || isRestaurantRole) {
@@ -71,7 +74,8 @@ function LoginPage() {
         navigate({ to: targetPath as any })
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Invalid login code'
+      const message =
+        error instanceof Error ? error.message : 'Invalid login code'
       toast.error(message)
     } finally {
       setIsLoading(false)
@@ -88,7 +92,8 @@ function LoginPage() {
       if (error) throw error
       toast.success('A new code has been sent to your email')
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to resend code'
+      const message =
+        error instanceof Error ? error.message : 'Failed to resend code'
       toast.error(message)
     } finally {
       setIsLoading(false)
@@ -96,14 +101,16 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-card p-8 shadow-sm">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+    <div className='flex min-h-screen items-center justify-center bg-muted/30 px-4 py-12 sm:px-6 lg:px-8'>
+      <div className='w-full max-w-md space-y-8 rounded-xl bg-card p-8 shadow-sm'>
+        <div className='text-center'>
+          <h2 className='text-2xl font-bold tracking-tight text-foreground'>
             Welcome to Bluewave POS
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {email ? 'Enter the code sent to your email' : 'Sign in or create an account to continue'}
+          <p className='mt-2 text-sm text-muted-foreground'>
+            {email
+              ? 'Enter the code sent to your email'
+              : 'Sign in or create an account to continue'}
           </p>
         </div>
 

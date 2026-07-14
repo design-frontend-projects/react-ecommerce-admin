@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { useTranslation, Trans } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -9,7 +10,6 @@ import {
 } from '@/components/ui/card'
 import { AuthLayout } from '../auth-layout'
 import { SignUpForm } from './components/sign-up-form'
-import { useTranslation, Trans } from 'react-i18next'
 
 export function SignUp() {
   const { t } = useTranslation()

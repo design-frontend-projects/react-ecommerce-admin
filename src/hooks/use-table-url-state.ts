@@ -210,7 +210,9 @@ export function useTableUrlState(
   const onSortingChange: OnChangeFn<SortingState> = (updater) => {
     if (!sortingEnabled) return
     const next = typeof updater === 'function' ? updater(sorting) : updater
-    const value = next[0] ? `${next[0].id}:${next[0].desc ? 'desc' : 'asc'}` : undefined
+    const value = next[0]
+      ? `${next[0].id}:${next[0].desc ? 'desc' : 'asc'}`
+      : undefined
 
     navigate({
       search: (prev: any) => ({

@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
@@ -40,7 +40,11 @@ export async function postOpeningStock(
     if (!item.productVariantId) {
       throw new ApiError('Each item requires a product variant.', 400)
     }
-    if (typeof item.qty !== 'number' || Number.isNaN(item.qty) || item.qty <= 0) {
+    if (
+      typeof item.qty !== 'number' ||
+      Number.isNaN(item.qty) ||
+      item.qty <= 0
+    ) {
       throw new ApiError('Each item requires a positive quantity.', 400)
     }
   }

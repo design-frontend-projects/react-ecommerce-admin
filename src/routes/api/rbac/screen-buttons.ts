@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { setScreenButtons } from '@/server/fns/buttons'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const PUT = async ({ request, params }: any) => {
   try {
@@ -23,12 +22,13 @@ const PUT = async ({ request, params }: any) => {
     return Response.json({ success: true })
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : 'Unable to update screen buttons',
+      error instanceof Error
+        ? error.message
+        : 'Unable to update screen buttons',
       403
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/rbac/screen-buttons')({
   PUT,

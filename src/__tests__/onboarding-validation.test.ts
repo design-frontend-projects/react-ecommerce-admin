@@ -21,7 +21,9 @@ describe('Onboarding Validation Schema', () => {
     })
     expect(result.success).toBe(false)
     if (!result.success) {
-      expect(result.error.issues[0].message).toBe('Company name must be at least 2 characters')
+      expect(result.error.issues[0].message).toBe(
+        'Company name must be at least 2 characters'
+      )
     }
   })
 

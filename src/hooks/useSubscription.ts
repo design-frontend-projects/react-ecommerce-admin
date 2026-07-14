@@ -20,11 +20,11 @@ export function useSubscription() {
           Authorization: `Bearer ${session?.access_token}`,
         },
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch subscription status')
       }
-      
+
       return response.json()
     },
     enabled: !!session?.access_token,

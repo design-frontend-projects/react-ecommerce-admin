@@ -53,15 +53,25 @@ function toAppAuthUser(user: User | null): AppAuthUser | null {
 
   const metadata = user.user_metadata ?? {}
   const appMetadata = user.app_metadata ?? {}
-  const firstName = getMetadataValue(metadata, ['first_name', 'firstName', 'given_name'])
-  const lastName = getMetadataValue(metadata, ['last_name', 'lastName', 'family_name'])
+  const firstName = getMetadataValue(metadata, [
+    'first_name',
+    'firstName',
+    'given_name',
+  ])
+  const lastName = getMetadataValue(metadata, [
+    'last_name',
+    'lastName',
+    'family_name',
+  ])
   const fullName =
     getMetadataValue(metadata, ['full_name', 'fullName', 'name']) ??
     ([firstName, lastName].filter(Boolean).join(' ') || null)
-  const avatarUrl = getMetadataValue(metadata, ['avatar_url', 'avatarUrl', 'picture']) ?? ''
+  const avatarUrl =
+    getMetadataValue(metadata, ['avatar_url', 'avatarUrl', 'picture']) ?? ''
   const publicMetadata = { ...appMetadata, ...metadata }
   const email = user.email ?? getMetadataValue(metadata, ['email'])
-  const phone = user.phone ?? getMetadataValue(metadata, ['phone', 'phone_number'])
+  const phone =
+    user.phone ?? getMetadataValue(metadata, ['phone', 'phone_number'])
 
   return Object.assign(user, {
     firstName,
@@ -131,14 +141,21 @@ export function SupabaseAuthProvider({ children }: PropsWithChildren) {
       const metadataRoles = [
         user?.publicMetadata?.role,
         user?.publicMetadata?.roles,
-      ].flatMap((value) => (Array.isArray(value) ? value : value ? [value] : []))
+      ].flatMap((value) =>
+        Array.isArray(value) ? value : value ? [value] : []
+      )
 
       return [...roleNames, ...metadataRoles]
         .filter((value): value is string => typeof value === 'string')
         .map((value) => value.trim().toLowerCase())
         .includes(expected)
     },
-    [permissionNames, roleNames, user?.publicMetadata?.role, user?.publicMetadata?.roles]
+    [
+      permissionNames,
+      roleNames,
+      user?.publicMetadata?.role,
+      user?.publicMetadata?.roles,
+    ]
   )
 
   const value = useMemo<SupabaseAuthContextValue>(

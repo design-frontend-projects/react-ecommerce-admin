@@ -1,5 +1,5 @@
-import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 import { UserRole, ADMIN_ROLES } from '@/types/user-role.enum'
+import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 
 export function isResposPath(pathname: string): boolean {
   return (

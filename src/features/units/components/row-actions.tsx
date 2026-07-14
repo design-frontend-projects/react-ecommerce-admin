@@ -6,8 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useUnitsContext } from './provider'
 import type { UomListItem } from '../data/schema'
+import { useUnitsContext } from './provider'
 
 export function UomRowActions({ row }: { row: UomListItem }) {
   const { setCurrentRow, setOpen } = useUnitsContext()

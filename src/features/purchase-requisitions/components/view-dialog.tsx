@@ -1,3 +1,5 @@
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -14,10 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { useRequisition } from '../hooks/use-purchase-requisitions'
 import type { RequisitionListItem } from '../data/schema'
+import { useRequisition } from '../hooks/use-purchase-requisitions'
 
 export function RequisitionViewDialog({
   requisition,

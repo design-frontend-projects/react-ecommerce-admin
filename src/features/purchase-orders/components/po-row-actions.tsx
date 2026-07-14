@@ -1,4 +1,10 @@
-import { MoreHorizontal, Pencil, Trash2, PackageCheck, XCircle } from 'lucide-react'
+import {
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  PackageCheck,
+  XCircle,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,

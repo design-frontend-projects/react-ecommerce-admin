@@ -1,11 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
-import {
-  listReservations,
-  releaseReservation,
-} from '@/server/fns/reservations'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { listReservations, releaseReservation } from '@/server/fns/reservations'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -37,7 +33,6 @@ const POST = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to release reservation')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/reservations')({
   GET,

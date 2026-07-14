@@ -1,10 +1,11 @@
+import { type UserRole as RoleName } from '@/types/user-role.enum'
+
 // ResPOS TypeScript Types
 // All entities for the restaurant POS module
 
 // ============ RBAC Types ============
 
 export { UserRole as RoleName } from '@/types/user-role.enum'
-import { type UserRole as RoleName } from '@/types/user-role.enum'
 
 export type Permission =
   | 'dashboard'

@@ -1,11 +1,10 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   dismissSuggestion,
   listSuggestions,
 } from '@/server/fns/reorder-suggestions'
 import { handleRouteError } from '@/server/utils/api-error'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request }: any) => {
   try {
@@ -37,9 +36,9 @@ const DELETE = async ({ request }: any) => {
   }
 }
 
-export const APIRoute = createAPIFileRoute('/api/inventory/reorder-suggestions')(
-  {
-    GET,
-    DELETE,
-  }
-)
+export const APIRoute = createAPIFileRoute(
+  '/api/inventory/reorder-suggestions'
+)({
+  GET,
+  DELETE,
+})

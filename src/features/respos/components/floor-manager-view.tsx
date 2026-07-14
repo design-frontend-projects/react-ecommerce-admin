@@ -80,10 +80,22 @@ export function FloorManagerView({
       {/* Legend */}
       <div className='border-t bg-background/50 p-4 backdrop-blur-sm'>
         <div className='flex flex-wrap items-center justify-center gap-6 text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
-          <LegendItem color='bg-emerald-500' label={t('respos.floor.status.free')} />
-          <LegendItem color='bg-orange-500' label={t('respos.floor.status.occupied')} />
-          <LegendItem color='bg-indigo-500' label={t('respos.floor.status.reserved')} />
-          <LegendItem color='bg-amber-500' label={t('respos.floor.status.dirty')} />
+          <LegendItem
+            color='bg-emerald-500'
+            label={t('respos.floor.status.free')}
+          />
+          <LegendItem
+            color='bg-orange-500'
+            label={t('respos.floor.status.occupied')}
+          />
+          <LegendItem
+            color='bg-indigo-500'
+            label={t('respos.floor.status.reserved')}
+          />
+          <LegendItem
+            color='bg-amber-500'
+            label={t('respos.floor.status.dirty')}
+          />
         </div>
       </div>
     </div>
@@ -139,7 +151,9 @@ function TableCard({
       <div className='relative z-10 mt-1 flex flex-col items-center gap-0.5 leading-none'>
         <div className='flex items-center gap-1 opacity-70'>
           <Users className='h-3 w-3' />
-          <span className='text-[10px] font-bold'>{table.seats} {t('respos.floor.seats')}</span>
+          <span className='text-[10px] font-bold'>
+            {table.seats} {t('respos.floor.seats')}
+          </span>
         </div>
 
         {isOccupied && (

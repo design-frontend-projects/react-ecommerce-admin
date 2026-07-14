@@ -25,7 +25,10 @@ export async function authorizedRequest(
   const response = await fetch(input, { ...init, headers })
   const payload = (await response
     .json()
-    .catch(() => ({ success: false, message: 'Unexpected server response.' }))) as {
+    .catch(() => ({
+      success: false,
+      message: 'Unexpected server response.',
+    }))) as {
     message?: string
     error?: { message?: string } | string
     details?: string

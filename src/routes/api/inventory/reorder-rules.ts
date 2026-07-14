@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   createRule,
   deleteRule,
@@ -10,6 +8,7 @@ import {
 } from '@/server/fns/reorder-rules'
 import { handleRouteError } from '@/server/utils/api-error'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request }: any) => {
   try {

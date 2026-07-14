@@ -30,7 +30,9 @@ export function PaymentMethodRowActions<TData>({
   const handleSetDefault = async () => {
     try {
       await setDefaultMutation.mutateAsync(paymentMethod.id)
-      toast.success(`"${paymentMethod.name}" is now the default payment method.`)
+      toast.success(
+        `"${paymentMethod.name}" is now the default payment method.`
+      )
     } catch (error: any) {
       toast.error(error.message || 'Failed to set default payment method.')
     }

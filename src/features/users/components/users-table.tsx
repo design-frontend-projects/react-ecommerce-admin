@@ -22,9 +22,9 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type User } from '../data/schema'
+import { useRoles } from '../hooks/use-invitations'
 import { DataTableBulkActions } from './data-table-bulk-actions'
 import { usersColumns as columns } from './users-columns'
-import { useRoles } from '../hooks/use-invitations'
 
 type DataTableProps = {
   data: User[]

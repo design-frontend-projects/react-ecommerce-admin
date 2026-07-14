@@ -9,10 +9,7 @@ export const adjustmentSchema = z.object({
   quantity: z.coerce.number({
     message: 'Quantity must be a number',
   }),
-  reason: z
-    .string()
-    .min(3, 'Reason must be at least 3 characters')
-    .max(500),
+  reason: z.string().min(3, 'Reason must be at least 3 characters').max(500),
 })
 
 export type AdjustmentFormData = z.infer<typeof adjustmentSchema>

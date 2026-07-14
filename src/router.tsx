@@ -1,6 +1,6 @@
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
-import { queryClient } from '@/lib/query-client'
 import { setupQueryPersistence } from '@/lib/db/persister'
+import { queryClient } from '@/lib/query-client'
 import { routeTree } from './routeTree.gen'
 
 export function createRouter() {

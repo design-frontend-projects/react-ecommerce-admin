@@ -82,5 +82,6 @@ export type TransferDetail = z.infer<typeof transferDetailSchema>
 export const transferListResponseSchema = successEnvelope(
   z.array(transferListItemSchema)
 )
-export const transferDetailResponseSchema = successEnvelope(transferDetailSchema)
+export const transferDetailResponseSchema =
+  successEnvelope(transferDetailSchema)
 export const transferMutationResponseSchema = successEnvelope(z.unknown())

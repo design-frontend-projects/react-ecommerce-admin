@@ -1,9 +1,9 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
 import { rpcError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 export async function listStockByLocation(
   authUserId: string,
@@ -27,7 +27,9 @@ export async function listStockByLocation(
         select: { id: true, code: true, path: true, location_type: true },
       },
       stores: { select: { store_id: true, name: true } },
-      product_batches: { select: { id: true, batch_number: true, expiry_date: true } },
+      product_batches: {
+        select: { id: true, batch_number: true, expiry_date: true },
+      },
     },
   })
 }

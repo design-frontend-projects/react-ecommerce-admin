@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -9,6 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -16,18 +24,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  useStoreOptions,
-  useVariantOptions,
-} from '@/hooks/use-inventory-lookups'
-import { useSupplierOptions } from '../hooks/use-supplier-options'
-import { useCreateReceipt } from '../hooks/use-goods-receipts'
 import { createReceiptInputSchema } from '../data/schema'
+import { useCreateReceipt } from '../hooks/use-goods-receipts'
+import { useSupplierOptions } from '../hooks/use-supplier-options'
 
 interface LineItem {
   productVariantId: string
@@ -87,8 +87,7 @@ export function ReceiptCreateDialog({
     const parsed = createReceiptInputSchema.safeParse({
       storeId,
       purchaseOrderId: poNumber === '' ? undefined : Number(poNumber),
-      supplierId:
-        supplierId === NO_SUPPLIER ? undefined : Number(supplierId),
+      supplierId: supplierId === NO_SUPPLIER ? undefined : Number(supplierId),
       notes: notes || undefined,
       items: items
         .filter((item) => item.productVariantId && item.qtyReceived !== '')
@@ -103,8 +102,7 @@ export function ReceiptCreateDialog({
             unitCost: item.unitCost === '' ? undefined : Number(item.unitCost),
             batchNumber: item.batchNumber || undefined,
             expiryDate: item.expiryDate || undefined,
-            serialNumbers:
-              serialNumbers.length > 0 ? serialNumbers : undefined,
+            serialNumbers: serialNumbers.length > 0 ? serialNumbers : undefined,
           }
         }),
     })

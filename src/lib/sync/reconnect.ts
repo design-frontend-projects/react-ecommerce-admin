@@ -1,5 +1,8 @@
 import { toast } from 'sonner'
-import { cleanupAllCatalog, refetchAllCatalog } from '@/lib/db/collections/client'
+import {
+  cleanupAllCatalog,
+  refetchAllCatalog,
+} from '@/lib/db/collections/client'
 import { db } from '@/lib/db/indexed-db'
 import { clearPersistedQueryCache } from '@/lib/db/persister'
 import { queryClient } from '@/lib/query-client'

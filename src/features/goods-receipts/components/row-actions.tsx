@@ -1,7 +1,7 @@
 import { Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useReceiptsContext } from './provider'
 import type { ReceiptListItem } from '../data/schema'
+import { useReceiptsContext } from './provider'
 
 export function ReceiptRowActions({ row }: { row: ReceiptListItem }) {
   const { setCurrentRow, setOpen } = useReceiptsContext()

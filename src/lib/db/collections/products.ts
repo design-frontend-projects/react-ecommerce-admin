@@ -1,7 +1,7 @@
 import { createCollection } from '@tanstack/db'
 import { queryCollectionOptions } from '@tanstack/query-db-collection'
-import { getPosProducts, type PosProduct } from '@/features/pos/data/api'
 import { queryClient } from '@/lib/query-client'
+import { getPosProducts, type PosProduct } from '@/features/pos/data/api'
 import { registerCatalogCollection } from './client'
 
 /**

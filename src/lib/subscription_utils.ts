@@ -1,5 +1,5 @@
-import { addMonths } from 'date-fns';
-import { Temporal } from '@js-temporal/polyfill';
+import { addMonths } from 'date-fns'
+import { Temporal } from '@js-temporal/polyfill'
 
 /**
  * Calculates the end date for a subscription plan based on the duration in months.
@@ -7,8 +7,11 @@ import { Temporal } from '@js-temporal/polyfill';
  * @param durationMonths The duration of the plan in months (e.g., 1, 3, 6, 12).
  * @returns The calculated end date.
  */
-export function calculateEndDate(startDate: Date, durationMonths: number): Date {
-  return addMonths(startDate, durationMonths);
+export function calculateEndDate(
+  startDate: Date,
+  durationMonths: number
+): Date {
+  return addMonths(startDate, durationMonths)
 }
 
 /**
@@ -17,24 +20,29 @@ export function calculateEndDate(startDate: Date, durationMonths: number): Date 
  * @param endDate The date the subscription expires.
  * @returns True if the subscription is active.
  */
-export function isSubscriptionActive(status: string, endDate: Date | null): boolean {
-  if (status !== 'paid') return false;
-  if (!endDate) return false;
-  return new Date() <= endDate;
+export function isSubscriptionActive(
+  status: string,
+  endDate: Date | null
+): boolean {
+  if (status !== 'paid') return false
+  if (!endDate) return false
+  return new Date() <= endDate
 }
 
 /**
  * Converts a Date, ISO string, or Temporal.PlainDate to Temporal.PlainDate.
  */
-export function toPlainDate(date: string | Date | Temporal.PlainDate): Temporal.PlainDate {
+export function toPlainDate(
+  date: string | Date | Temporal.PlainDate
+): Temporal.PlainDate {
   if (date instanceof Temporal.PlainDate) {
-    return date;
+    return date
   }
   if (date instanceof Date) {
-    return Temporal.PlainDate.from(date.toISOString().split('T')[0]);
+    return Temporal.PlainDate.from(date.toISOString().split('T')[0])
   }
-  const str = date.includes('T') ? date.split('T')[0] : date;
-  return Temporal.PlainDate.from(str);
+  const str = date.includes('T') ? date.split('T')[0] : date
+  return Temporal.PlainDate.from(str)
 }
 
 /**
@@ -42,9 +50,11 @@ export function toPlainDate(date: string | Date | Temporal.PlainDate): Temporal.
  * @param durationMonths Duration in months.
  * @returns Calculated end date as a Temporal.PlainDate.
  */
-export function calculateEndDateFromTodayTemporal(durationMonths: number): Temporal.PlainDate {
-  const today = Temporal.Now.plainDateISO();
-  return today.add({ months: durationMonths });
+export function calculateEndDateFromTodayTemporal(
+  durationMonths: number
+): Temporal.PlainDate {
+  const today = Temporal.Now.plainDateISO()
+  return today.add({ months: durationMonths })
 }
 
 /**
@@ -60,15 +70,17 @@ export function isSubscriptionActiveTemporal(
   startDate: string | Date | null | undefined,
   endDate: string | Date | null | undefined
 ): boolean {
-  if (status !== 'paid') return false;
-  if (!startDate || !endDate) return false;
+  if (status !== 'paid') return false
+  if (!startDate || !endDate) return false
 
-  const today = Temporal.Now.plainDateISO();
-  const start = toPlainDate(startDate);
-  const end = toPlainDate(endDate);
+  const today = Temporal.Now.plainDateISO()
+  const start = toPlainDate(startDate)
+  const end = toPlainDate(endDate)
 
-  return Temporal.PlainDate.compare(today, start) >= 0 &&
-         Temporal.PlainDate.compare(today, end) <= 0;
+  return (
+    Temporal.PlainDate.compare(today, start) >= 0 &&
+    Temporal.PlainDate.compare(today, end) <= 0
+  )
 }
 
 /**
@@ -78,19 +90,22 @@ export function isSubscriptionActiveTemporal(
  * @returns True if active and not expired.
  */
 export function checkUserSubscriptionTemporal(
-  tenantSubscription: {
-    status: string;
-    start_date: Date | string | null;
-    end_date: Date | string | null;
-    subscriptions?: {
-      duration_months: number;
-    } | null;
-  } | null | undefined
+  tenantSubscription:
+    | {
+        status: string
+        start_date: Date | string | null
+        end_date: Date | string | null
+        subscriptions?: {
+          duration_months: number
+        } | null
+      }
+    | null
+    | undefined
 ): boolean {
-  if (!tenantSubscription) return false;
+  if (!tenantSubscription) return false
   return isSubscriptionActiveTemporal(
     tenantSubscription.status,
     tenantSubscription.start_date,
     tenantSubscription.end_date
-  );
+  )
 }

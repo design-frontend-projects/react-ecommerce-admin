@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,12 +11,11 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
+import { useSubscriptionPlans, useAssignSubscription } from '../queries'
 import {
   SubscriptionPlanCard,
   type SubscriptionPlan,
 } from './subscription-plan-card'
-import { useSubscriptionPlans, useAssignSubscription } from '../queries'
-import { useAuthStore } from '@/stores/auth-store'
 
 interface SubscriptionModalProps {
   isOpen: boolean
@@ -64,15 +64,22 @@ export function SubscriptionModal({
   const { data: dbPlans, isLoading: isLoadingPlans } = useSubscriptionPlans()
   const { mutateAsync: assignSubscription } = useAssignSubscription()
 
-  const plans: SubscriptionPlan[] = dbPlans?.map(p => ({
-    id: p.id,
-    name: p.name,
-    description: p.duration_months === 1 ? 'Dành cho quán ăn vừa và nhỏ' : 'Giải pháp toàn diện cho chuỗi nhà hàng',
-    price: Number(p.price),
-    interval: p.duration_months === 1 ? 'month' : 'year',
-    features: MOCK_PLANS.find(m => m.interval === (p.duration_months === 1 ? 'month' : 'year'))?.features || [],
-    isPopular: p.duration_months > 1,
-  })) || MOCK_PLANS // Fallback to MOCK_PLANS if db fetch fails or is empty
+  const plans: SubscriptionPlan[] =
+    dbPlans?.map((p) => ({
+      id: p.id,
+      name: p.name,
+      description:
+        p.duration_months === 1
+          ? 'Dành cho quán ăn vừa và nhỏ'
+          : 'Giải pháp toàn diện cho chuỗi nhà hàng',
+      price: Number(p.price),
+      interval: p.duration_months === 1 ? 'month' : 'year',
+      features:
+        MOCK_PLANS.find(
+          (m) => m.interval === (p.duration_months === 1 ? 'month' : 'year')
+        )?.features || [],
+      isPopular: p.duration_months > 1,
+    })) || MOCK_PLANS // Fallback to MOCK_PLANS if db fetch fails or is empty
 
   const [step, setStep] = useState<'choose' | 'pay' | 'success'>('choose')
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
@@ -105,7 +112,7 @@ export function SubscriptionModal({
     try {
       // Giả lập payment process
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      
+
       // After mock payment, record the subscription in the database
       if (user && selectedPlan) {
         const startDate = new Date()
@@ -115,17 +122,19 @@ export function SubscriptionModal({
         } else {
           endDate.setMonth(endDate.getMonth() + 1)
         }
-        
+
         await assignSubscription({
           auth_user_id: user.id,
           email: user.email ?? profile?.email ?? '',
-          first_name: profile?.first_name ?? user.user_metadata?.first_name ?? '',
+          first_name:
+            profile?.first_name ?? user.user_metadata?.first_name ?? '',
           last_name: profile?.last_name ?? user.user_metadata?.last_name ?? '',
           is_owner: true,
-          subscription_id: typeof selectedPlan.id === 'number' ? selectedPlan.id : 1, // Fallback if still using mock string id
+          subscription_id:
+            typeof selectedPlan.id === 'number' ? selectedPlan.id : 1, // Fallback if still using mock string id
           status: 'paid',
           start_date: startDate,
-          end_date: endDate
+          end_date: endDate,
         })
       }
 
@@ -171,17 +180,19 @@ export function SubscriptionModal({
             </DialogHeader>
             <div className='my-6 grid grid-cols-1 gap-6 md:grid-cols-2'>
               {isLoadingPlans ? (
-                <div className='col-span-1 md:col-span-2 flex justify-center py-12'>
+                <div className='col-span-1 flex justify-center py-12 md:col-span-2'>
                   <Loader2 className='h-8 w-8 animate-spin text-primary' />
                 </div>
-              ) : plans.map((plan) => (
-                <SubscriptionPlanCard
-                  key={plan.id}
-                  plan={plan}
-                  isSelected={selectedPlan?.id === plan.id}
-                  onSelect={handlePlanSelect}
-                />
-              ))}
+              ) : (
+                plans.map((plan) => (
+                  <SubscriptionPlanCard
+                    key={plan.id}
+                    plan={plan}
+                    isSelected={selectedPlan?.id === plan.id}
+                    onSelect={handlePlanSelect}
+                  />
+                ))
+              )}
             </div>
             <DialogFooter className='flex items-center justify-between sm:justify-between'>
               <p className='mr-auto text-left text-sm text-muted-foreground'>

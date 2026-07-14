@@ -25,12 +25,7 @@ export type RequisitionAction = z.infer<typeof requisitionActionSchema>
 export const requisitionItemInputSchema = z.object({
   productVariantId: z.string().uuid('Select a variant.'),
   qtyRequested: z.coerce.number().positive('Quantity must be > 0.'),
-  preferredSupplierId: z.coerce
-    .number()
-    .int()
-    .positive()
-    .optional()
-    .nullable(),
+  preferredSupplierId: z.coerce.number().int().positive().optional().nullable(),
   estUnitCost: z.coerce
     .number()
     .min(0, 'Estimated cost cannot be negative.')

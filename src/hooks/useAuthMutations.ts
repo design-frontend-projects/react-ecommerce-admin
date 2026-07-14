@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/auth-store'
+import { supabase } from '@/lib/supabase'
 import type { EmailFormData, OtpFormData } from '@/lib/validation/auth'
 
 export function useSendOtpMutation() {
@@ -12,7 +12,7 @@ export function useSendOtpMutation() {
           shouldCreateUser: true,
         },
       })
-      
+
       if (error) throw error
       return { success: true, email: data.email }
     },
@@ -27,13 +27,13 @@ export function useVerifyOtpMutation() {
         token: data.token,
         type: 'email',
       })
-      
+
       if (error) throw error
-      
+
       if (authData.session) {
         useAuthStore.getState().auth.setSession(authData.session)
       }
-      
+
       return authData
     },
   })

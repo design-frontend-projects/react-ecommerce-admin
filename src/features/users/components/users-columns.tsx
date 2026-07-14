@@ -109,7 +109,9 @@ export const usersColumns: ColumnDef<User>[] = [
     ),
     cell: ({ row }) => {
       const { role } = row.original
-      const userType = roles.find(({ value }) => value === String(role).toLowerCase())
+      const userType = roles.find(
+        ({ value }) => value === String(role).toLowerCase()
+      )
 
       return (
         <div className='flex items-center gap-x-2'>

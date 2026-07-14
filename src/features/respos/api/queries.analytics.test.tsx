@@ -1,9 +1,9 @@
 import React from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useAnalyticsOrders } from './queries'
+import { renderHook, waitFor } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { supabase } from '@/lib/supabase'
+import { useAnalyticsOrders } from './queries'
 
 vi.mock('@/lib/supabase', () => ({
   supabase: {

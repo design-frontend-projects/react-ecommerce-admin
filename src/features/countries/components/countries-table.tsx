@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -5,7 +6,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
 import { DataTable } from '@/components/data-table/data-table'
 import { useCountries } from '../hooks/use-countries'
 import { countriesColumns } from './countries-columns'
@@ -32,7 +32,7 @@ export function CountriesTable() {
   }
 
   return (
-    <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
+    <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
       <DataTable
         table={table}
         columns={columns}

@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { BatchRowActions } from './row-actions'
 import type { BatchListItem, BatchStatus } from '../data/schema'
+import { BatchRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   BatchStatus,

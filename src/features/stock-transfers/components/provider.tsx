@@ -28,7 +28,9 @@ export function TransfersProvider({ children }: { children: ReactNode }) {
 export function useTransfersContext(): TransfersContextValue {
   const context = useContext(TransfersContext)
   if (!context) {
-    throw new Error('useTransfersContext must be used within a TransfersProvider')
+    throw new Error(
+      'useTransfersContext must be used within a TransfersProvider'
+    )
   }
   return context
 }

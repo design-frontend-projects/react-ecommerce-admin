@@ -8,7 +8,11 @@ import {
   fetchCounts,
   runCountAction,
 } from '../data/actions'
-import type { CountAction, CountEntryInput, CreateCountInput } from '../data/schema'
+import type {
+  CountAction,
+  CountEntryInput,
+  CreateCountInput,
+} from '../data/schema'
 
 const countsKey = ['inventory', 'stock-counts'] as const
 const countKey = (id: string) => ['inventory', 'stock-counts', id] as const

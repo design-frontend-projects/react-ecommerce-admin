@@ -2,8 +2,8 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { SuggestionRowActions } from './row-actions'
 import type { SuggestionListItem, SuggestionStatus } from '../data/schema'
+import { SuggestionRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   SuggestionStatus,

@@ -71,20 +71,25 @@ export function UsersInviteDialog({
   })
 
   const onSubmit = (values: UserInviteForm) => {
-    const selectedRole = dynamicRoles.find(r => r.id === values.role) || { name: values.role }
-    
-    inviteMutation.mutate({
-      email: values.email,
-      roleId: values.role,
-      roleName: selectedRole.name,
-      branchId: values.branchId,
-      desc: values.desc
-    }, {
-      onSuccess: () => {
-        form.reset()
-        onOpenChange(false)
+    const selectedRole = dynamicRoles.find((r) => r.id === values.role) || {
+      name: values.role,
+    }
+
+    inviteMutation.mutate(
+      {
+        email: values.email,
+        roleId: values.role,
+        roleName: selectedRole.name,
+        branchId: values.branchId,
+        desc: values.desc,
+      },
+      {
+        onSuccess: () => {
+          form.reset()
+          onOpenChange(false)
+        },
       }
-    })
+    )
   }
 
   return (
@@ -135,7 +140,9 @@ export function UsersInviteDialog({
                 <FormItem>
                   <FormLabel className='flex items-center gap-2'>
                     Role
-                    {isLoadingRoles && <Loader2 className='h-3 w-3 animate-spin' />}
+                    {isLoadingRoles && (
+                      <Loader2 className='h-3 w-3 animate-spin' />
+                    )}
                   </FormLabel>
                   <SelectDropdown
                     defaultValue={field.value}
@@ -157,7 +164,9 @@ export function UsersInviteDialog({
                 <FormItem>
                   <FormLabel className='flex items-center gap-2'>
                     Branch
-                    {isBranchesLoading && <Loader2 className='h-3 w-3 animate-spin' />}
+                    {isBranchesLoading && (
+                      <Loader2 className='h-3 w-3 animate-spin' />
+                    )}
                   </FormLabel>
                   <SelectDropdown
                     defaultValue={field.value ?? ''}

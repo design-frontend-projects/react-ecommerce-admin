@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { updateUserRoles } from '@/server/fns/rbac'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = async ({ request, params }: any) => {
   try {
@@ -29,7 +28,6 @@ const POST = async ({ request, params }: any) => {
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/users/roles')({
   POST,

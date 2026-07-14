@@ -1,7 +1,7 @@
 import { Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useTransfersContext } from './provider'
 import type { TransferListItem } from '../data/schema'
+import { useTransfersContext } from './provider'
 
 export function TransferRowActions({ row }: { row: TransferListItem }) {
   const { setCurrentRow, setOpen } = useTransfersContext()

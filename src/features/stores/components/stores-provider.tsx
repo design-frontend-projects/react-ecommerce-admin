@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 export type StoreDialogType = 'create' | 'edit' | 'delete'
 
 interface StoresContextType {

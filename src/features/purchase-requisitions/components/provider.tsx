@@ -10,15 +10,11 @@ interface RequisitionsContextValue {
   setCurrentRow: (row: RequisitionListItem | null) => void
 }
 
-const RequisitionsContext = createContext<RequisitionsContextValue | null>(
-  null
-)
+const RequisitionsContext = createContext<RequisitionsContextValue | null>(null)
 
 export function RequisitionsProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState<RequisitionDialogType | null>(null)
-  const [currentRow, setCurrentRow] = useState<RequisitionListItem | null>(
-    null
-  )
+  const [currentRow, setCurrentRow] = useState<RequisitionListItem | null>(null)
 
   return (
     <RequisitionsContext.Provider

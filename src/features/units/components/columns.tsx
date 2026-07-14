@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { UomRowActions } from './row-actions'
 import type { UomListItem } from '../data/schema'
+import { UomRowActions } from './row-actions'
 
 export const columns: ColumnDef<UomListItem>[] = [
   {
@@ -10,9 +10,7 @@ export const columns: ColumnDef<UomListItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Code' />
     ),
-    cell: ({ row }) => (
-      <span className='font-medium'>{row.original.code}</span>
-    ),
+    cell: ({ row }) => <span className='font-medium'>{row.original.code}</span>,
   },
   {
     accessorKey: 'name',
@@ -41,9 +39,7 @@ export const columns: ColumnDef<UomListItem>[] = [
     header: 'Status',
     cell: ({ row }) => (
       <div className='flex gap-1'>
-        {row.original.is_base ? (
-          <Badge variant='secondary'>Base</Badge>
-        ) : null}
+        {row.original.is_base ? <Badge variant='secondary'>Base</Badge> : null}
         <Badge variant={row.original.is_active ? 'default' : 'destructive'}>
           {row.original.is_active ? 'Active' : 'Inactive'}
         </Badge>

@@ -1,20 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 
 export function SystemDashboard() {
   return (
     <div className='flex flex-col'>
       {/* Header */}
-      <header className='flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6'>
+      <header className='flex h-14 items-center gap-4 border-b bg-muted/40 px-6 lg:h-[60px]'>
         <div className='w-full flex-1'>
           <Search />
         </div>
         <LanguageSwitch />
-          <ThemeSwitch />
+        <ThemeSwitch />
         <ProfileDropdown />
       </header>
 

@@ -1,5 +1,5 @@
-import Barcode from 'react-barcode'
 import { QRCodeSVG } from 'qrcode.react'
+import Barcode from 'react-barcode'
 
 interface BarcodeDisplayProps {
   value: string
@@ -51,11 +51,10 @@ export function BarcodeDisplay({
         <span className='rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase'>
           {type} Preview
         </span>
-        <span className='max-w-[180px] break-all text-[10px] text-muted-foreground'>
+        <span className='max-w-[180px] text-[10px] break-all text-muted-foreground'>
           {value}
         </span>
       </div>
     </div>
   )
 }
-

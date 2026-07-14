@@ -1,6 +1,6 @@
-import { useAreasDialog } from './areas-provider'
 import { AreasActionDialog } from './areas-action-dialog'
 import { AreasDeleteDialog } from './areas-delete-dialog'
+import { useAreasDialog } from './areas-provider'
 
 export function AreasDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useAreasDialog()

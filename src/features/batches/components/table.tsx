@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './columns'
 import type { BatchListItem } from '../data/schema'
+import { columns } from './columns'
 
 export function BatchesTable({ data }: { data: BatchListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -82,7 +82,10 @@ export function BatchesTable({ data }: { data: BatchListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No batches yet. Batches are created automatically when
                   batch-tracked stock is received.
                 </TableCell>

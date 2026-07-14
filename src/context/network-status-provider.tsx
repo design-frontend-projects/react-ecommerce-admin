@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import { useNetworkStatus } from '@/hooks/use-network-status'
-import { runSyncThenWipe } from '@/lib/sync/reconnect'
 import { rehydratePendingOrders } from '@/lib/sync/outbox'
+import { runSyncThenWipe } from '@/lib/sync/reconnect'
+import { useNetworkStatus } from '@/hooks/use-network-status'
 
 interface NetworkContextType {
   isOnline: boolean

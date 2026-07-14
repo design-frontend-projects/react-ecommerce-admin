@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   createScreen,
   deleteScreen,
@@ -8,6 +6,7 @@ import {
 } from '@/server/fns/screens'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -17,7 +16,10 @@ const GET = async ({ request, params }: any) => {
     const data = await getScreensWithAccess()
     return Response.json({ success: true, data })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to fetch screens', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to fetch screens',
+      403
+    )
   }
 }
 
@@ -52,7 +54,10 @@ const POST = async ({ request, params }: any) => {
 
     return Response.json({ success: true, data: screen })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to create screen', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to create screen',
+      403
+    )
   }
 }
 
@@ -90,7 +95,10 @@ const PATCH = async ({ request, params }: any) => {
 
     return Response.json({ success: true, data: screen })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to update screen', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to update screen',
+      403
+    )
   }
 }
 
@@ -108,10 +116,12 @@ const DELETE = async ({ request, params }: any) => {
     await deleteScreen(id)
     return Response.json({ success: true })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to delete screen', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to delete screen',
+      403
+    )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/rbac/screens')({
   GET,

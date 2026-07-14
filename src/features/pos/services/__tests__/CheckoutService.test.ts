@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { processCheckout } from '../CheckoutService'
-import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import prisma from '@/lib/prisma'
+import { processCheckout } from '../CheckoutService'
 
 vi.mock('@/lib/prisma', () => ({
   default: {
@@ -25,7 +25,9 @@ vi.mock('@/server/utils/tenant', () => ({
 describe('CheckoutService', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(prisma.product_variants.findMany as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(
+      prisma.product_variants.findMany as ReturnType<typeof vi.fn>
+    ).mockResolvedValue([])
     ;(supabaseAdmin.rpc as ReturnType<typeof vi.fn>).mockResolvedValue({
       data: {},
       error: null,

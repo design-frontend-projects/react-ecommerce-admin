@@ -1,9 +1,8 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
-import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
-import { processCheckout } from '@/features/pos/services/CheckoutService'
 import { handleRouteError } from '@/server/utils/api-error'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
+import { processCheckout } from '@/features/pos/services/CheckoutService'
 
 const POST = async ({ request }: any) => {
   try {

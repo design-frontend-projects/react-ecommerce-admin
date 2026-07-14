@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useAuthStore } from '@/stores/auth-store'
-import { enqueue } from '@/lib/sync/outbox'
 import { supabase } from '@/lib/supabase'
+import { enqueue } from '@/lib/sync/outbox'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
@@ -176,7 +176,7 @@ export async function validatePosPromotion(code: string) {
   }
 
   // We are bypassing customer usage limit for walk-ins per plan approval.
-  
+
   return data
 }
 
@@ -784,7 +784,7 @@ export async function createPosTransaction(
             .order('usage_id', { ascending: false })
             .limit(1)
             .single()
-            
+
           if (recentUsage) {
             await supabase
               .from('promotion_usage')

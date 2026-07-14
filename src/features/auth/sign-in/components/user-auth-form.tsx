@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, LogIn } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
@@ -20,7 +21,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
-import { useTranslation } from 'react-i18next'
 import { MODULE_TABS } from './module-tabs'
 import {
   userAuthFormSchema,
@@ -91,7 +91,8 @@ export function UserAuthForm({
       }
     } catch (err: unknown) {
       const errorMsg =
-        (err as { message?: string })?.message || t('authForm.invalidCredentials')
+        (err as { message?: string })?.message ||
+        t('authForm.invalidCredentials')
       toast.error(errorMsg)
     } finally {
       setIsLoading(false)
@@ -209,7 +210,9 @@ export function UserAuthForm({
                                   : 'text-muted-foreground hover:text-foreground'
                               )}
                             >
-                              {type === 'email' ? t('authForm.email') : t('authForm.phone')}
+                              {type === 'email'
+                                ? t('authForm.email')
+                                : t('authForm.phone')}
                             </button>
                           ))}
                         </div>

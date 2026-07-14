@@ -1,6 +1,10 @@
+import { fonts } from '@/config/fonts'
 import { Settings2, Sun, Moon, Monitor, Type, Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
+import { useDirection } from '@/context/direction-provider'
+import { useFont } from '@/context/font-provider'
+import { useLayout } from '@/context/layout-provider'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,10 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { useDirection } from '@/context/direction-provider'
-import { useFont } from '@/context/font-provider'
-import { useLayout } from '@/context/layout-provider'
-import { fonts } from '@/config/fonts'
 
 export function ConfigDrawer() {
   const { t, i18n } = useTranslation()
@@ -72,7 +72,9 @@ export function ConfigDrawer() {
                   onClick={() => setTheme(item.name as any)}
                 >
                   <item.icon className='h-4 w-4' />
-                  <span className='text-[10px] capitalize'>{t(`theme.${item.name}`)}</span>
+                  <span className='text-[10px] capitalize'>
+                    {t(`theme.${item.name}`)}
+                  </span>
                 </Button>
               ))}
             </div>

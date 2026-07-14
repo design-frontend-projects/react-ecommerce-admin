@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'

@@ -4,6 +4,11 @@ import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import {
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,6 +16,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -18,14 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useStoreOptions, useVariantOptions } from '@/hooks/use-inventory-lookups'
-import { useCreateOrder } from '../hooks/use-sales-orders'
 import { createOrderInputSchema } from '../data/schema'
+import { useCreateOrder } from '../hooks/use-sales-orders'
 
 interface CustomerOption {
   customer_id: number
@@ -297,14 +300,16 @@ export function OrderCreateDialog({
                   variant='outline'
                   size='sm'
                   className='w-fit'
-                  onClick={() => setItems((prev) => [...prev, { ...emptyItem }])}
+                  onClick={() =>
+                    setItems((prev) => [...prev, { ...emptyItem }])
+                  }
                 >
                   <Plus className='me-1 h-4 w-4' />
                   Add item
                 </Button>
                 <span className='text-sm text-muted-foreground'>
                   Total:{' '}
-                  <span className='font-medium tabular-nums text-foreground'>
+                  <span className='font-medium text-foreground tabular-nums'>
                     {total.toFixed(2)}
                   </span>
                 </span>

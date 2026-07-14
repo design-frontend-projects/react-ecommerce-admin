@@ -1,11 +1,10 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   postOpeningStock,
   type PostOpeningStockInput,
 } from '@/server/fns/opening-stock'
 import { handleRouteError } from '@/server/utils/api-error'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = async ({ request }: any) => {
   try {

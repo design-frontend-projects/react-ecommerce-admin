@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { getOutboxHandler, isOutboxType } from './handlers'
 
 const createPosTransaction = vi.fn()
 const createResOrder = vi.fn()
 
 vi.mock('@/features/pos/data/api', () => ({ createPosTransaction }))
 vi.mock('@/features/respos/api/api', () => ({ createResOrder }))
-
-import { getOutboxHandler, isOutboxType } from './handlers'
 
 describe('outbox handlers', () => {
   beforeEach(() => {

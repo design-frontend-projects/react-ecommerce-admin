@@ -1,11 +1,10 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   getTenantActivityTypes,
   setTenantActivityTypes,
 } from '@/server/fns/activity-types'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -39,12 +38,13 @@ const PUT = async ({ request, params }: any) => {
     return Response.json({ success: true, data })
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : 'Unable to update activity types',
+      error instanceof Error
+        ? error.message
+        : 'Unable to update activity types',
       403
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/tenant/activity-types')({
   GET,

@@ -42,9 +42,8 @@ export function useStoreOnHand(storeId?: string) {
       if (error) throw error
       const map: Record<string, number> = {}
       for (const row of data ?? []) {
-        map[(row as { product_variant_id: string }).product_variant_id] = Number(
-          (row as { qty_on_hand: number | string }).qty_on_hand
-        )
+        map[(row as { product_variant_id: string }).product_variant_id] =
+          Number((row as { qty_on_hand: number | string }).qty_on_hand)
       }
       return map
     },

@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -9,6 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -16,18 +24,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  useStoreOptions,
-  useVariantOptions,
-} from '@/hooks/use-inventory-lookups'
-import { useSupplierOptions } from '../hooks/use-supplier-options'
-import { useCreateRequisition } from '../hooks/use-purchase-requisitions'
 import { createRequisitionInputSchema } from '../data/schema'
+import { useCreateRequisition } from '../hooks/use-purchase-requisitions'
+import { useSupplierOptions } from '../hooks/use-supplier-options'
 
 interface LineItem {
   productVariantId: string
@@ -281,10 +281,7 @@ export function RequisitionCreateDialog({
           <Button variant='outline' onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={createRequisition.isPending}
-          >
+          <Button onClick={handleSubmit} disabled={createRequisition.isPending}>
             {createRequisition.isPending ? 'Saving...' : 'Create draft'}
           </Button>
         </DialogFooter>

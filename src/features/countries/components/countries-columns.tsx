@@ -45,7 +45,9 @@ export const countriesColumns: ColumnDef<Country>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Code' />
     ),
-    cell: ({ row }) => <div className='w-[100px] uppercase'>{row.getValue('code')}</div>,
+    cell: ({ row }) => (
+      <div className='w-[100px] uppercase'>{row.getValue('code')}</div>
+    ),
   },
   {
     accessorKey: 'phone_code',

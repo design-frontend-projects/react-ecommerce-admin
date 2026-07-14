@@ -10,7 +10,10 @@ export type ReceiptStatus = z.infer<typeof receiptStatusSchema>
 export const receiptItemInputSchema = z.object({
   productVariantId: z.string().uuid('Select a variant.'),
   qtyReceived: z.coerce.number().positive('Quantity must be > 0.'),
-  unitCost: z.coerce.number().min(0, 'Unit cost cannot be negative.').optional(),
+  unitCost: z.coerce
+    .number()
+    .min(0, 'Unit cost cannot be negative.')
+    .optional(),
   warehouseLocationId: z.string().uuid().optional(),
   batchNumber: z.string().optional(),
   expiryDate: z.string().optional(),

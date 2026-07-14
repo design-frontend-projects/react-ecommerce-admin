@@ -2,8 +2,8 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { TransferRowActions } from './row-actions'
 import type { TransferListItem, TransferStatus } from '../data/schema'
+import { TransferRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   TransferStatus,
@@ -49,7 +49,10 @@ export const columns: ColumnDef<TransferListItem>[] = [
       <DataTableColumnHeader column={column} title='Status' />
     ),
     cell: ({ row }) => (
-      <Badge variant={STATUS_VARIANT[row.original.status]} className='capitalize'>
+      <Badge
+        variant={STATUS_VARIANT[row.original.status]}
+        className='capitalize'
+      >
         {row.original.status.replace('_', ' ')}
       </Badge>
     ),

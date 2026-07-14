@@ -1,6 +1,7 @@
 // ResPOS POS Screen - Main Point of Sale Interface
 // Floor/table selection + order management
 import { useState } from 'react'
+import { UserRole } from '@/types/user-role.enum'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronRight,
@@ -46,7 +47,6 @@ import { OrderHistoryPanel } from '../components/pos/order-history-panel'
 import { PromoInput } from '../components/pos/promo-input'
 import { PromoSelect } from '../components/pos/promo-select'
 import { TABLE_STATUS_COLORS, TABLE_STATUS_TEXT_COLORS } from '../constants'
-import { UserRole } from '@/types/user-role.enum'
 import { useResposRealtime } from '../hooks'
 import { useOrderCalc } from '../hooks/use-order-calc'
 import { useTaxSync } from '../hooks/use-tax-sync'
@@ -180,7 +180,9 @@ export function POSScreen() {
     // If we have items in cart for a different table, prevent switching
     if (cart.items.length > 0 && selectedTable?.id !== table.id) {
       toast.error(t('respos.pos.completeOrderFirst'), {
-        description: t('respos.pos.unsavedItems', { table: selectedTable?.table_number }),
+        description: t('respos.pos.unsavedItems', {
+          table: selectedTable?.table_number,
+        }),
       })
       return
     }
@@ -231,7 +233,11 @@ export function POSScreen() {
 
     const callbacks = {
       onSuccess: () => {
-        toast.success(activeOrder ? t('respos.pos.orderUpdated') : t('respos.pos.orderPlaced'))
+        toast.success(
+          activeOrder
+            ? t('respos.pos.orderUpdated')
+            : t('respos.pos.orderPlaced')
+        )
         clearCart()
       },
       onError: () => toast.error(t('respos.pos.processOrderFailed')),
@@ -268,7 +274,9 @@ export function POSScreen() {
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
           <Shield className='mx-auto h-12 w-12 text-red-500' />
-          <h2 className='mt-4 text-xl font-bold'>{t('respos.pos.accessDenied')}</h2>
+          <h2 className='mt-4 text-xl font-bold'>
+            {t('respos.pos.accessDenied')}
+          </h2>
         </div>
       </div>
     )
@@ -279,7 +287,9 @@ export function POSScreen() {
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
           <Shield className='mx-auto h-12 w-12 text-red-500' />
-          <h2 className='mt-4 text-xl font-bold'>{t('respos.pos.accessDenied')}</h2>
+          <h2 className='mt-4 text-xl font-bold'>
+            {t('respos.pos.accessDenied')}
+          </h2>
         </div>
       </div>
     )
@@ -383,7 +393,9 @@ export function POSScreen() {
               onClick={() => setShowHistory(!showHistory)}
             >
               <History className='mr-2 h-4 w-4' />
-              {showHistory ? t('respos.actions.backToPos') : t('respos.actions.orderHistory')}
+              {showHistory
+                ? t('respos.actions.backToPos')
+                : t('respos.actions.orderHistory')}
             </Button>
             <div className='hidden flex-col items-end sm:flex'>
               <span className='text-sm font-bold'>{employee?.fullName}</span>
@@ -504,7 +516,9 @@ export function POSScreen() {
                                 {selectedTable.status}
                               </span>
                               <span className='mx-1 opacity-20'>|</span>
-                              <span>{selectedTable.seats} {t('respos.pos.seats')}</span>
+                              <span>
+                                {selectedTable.seats} {t('respos.pos.seats')}
+                              </span>
                             </div>
                           ) : (
                             <div className='text-xs font-bold tracking-wider text-orange-600 uppercase'>
@@ -557,7 +571,8 @@ export function POSScreen() {
                 isProcessing={isCreating || isAdding}
                 onCheckout={() => setIsCheckoutOpen(true)}
                 canCheckout={
-                  has({ role: UserRole.Admin }) || has({ role: UserRole.SuperAdmin })
+                  has({ role: UserRole.Admin }) ||
+                  has({ role: UserRole.SuperAdmin })
                 }
                 onClearCart={clearCart}
                 onUpdateQuantity={updateCartItemQuantity}

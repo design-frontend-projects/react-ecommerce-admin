@@ -1,7 +1,7 @@
 import { supabaseAdmin } from '@/server/supabase'
-import { supabase } from '@/lib/supabase'
 import { ADMIN_ROLES, UserRole } from '@/types/user-role.enum'
 import prisma from '@/lib/prisma'
+import { supabase } from '@/lib/supabase'
 import {
   DEFAULT_ROLE_PERMISSION_NAMES,
   hasAnyPermission,
@@ -187,7 +187,9 @@ export function hasAdminAccess(roleNames: string[]) {
 export async function isSuperAdmin(userId?: string): Promise<boolean> {
   let id = userId
   if (!id) {
-    const { data: { user } } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
     id = user?.id
   }
 
@@ -204,7 +206,9 @@ export async function isSuperAdmin(userId?: string): Promise<boolean> {
 export async function isAdmin(userId?: string): Promise<boolean> {
   let id = userId
   if (!id) {
-    const { data: { user } } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
     id = user?.id
   }
 
@@ -215,5 +219,7 @@ export async function isAdmin(userId?: string): Promise<boolean> {
     select: { role: true },
   })
 
-  return profile?.role === UserRole.Admin || profile?.role === UserRole.SuperAdmin
+  return (
+    profile?.role === UserRole.Admin || profile?.role === UserRole.SuperAdmin
+  )
 }

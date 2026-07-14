@@ -1,12 +1,12 @@
-import { CountriesProvider } from './components/countries-provider'
-import { CountriesTable } from './components/countries-table'
-import { CountriesDialogs } from './components/countries-dialogs'
-import { CountriesPrimaryButtons } from './components/countries-primary-buttons'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { CountriesDialogs } from './components/countries-dialogs'
+import { CountriesPrimaryButtons } from './components/countries-primary-buttons'
+import { CountriesProvider } from './components/countries-provider'
+import { CountriesTable } from './components/countries-table'
 
 export function Countries() {
   return (

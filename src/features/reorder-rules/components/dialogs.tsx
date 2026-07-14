@@ -9,8 +9,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useDeleteRule } from '../hooks/use-reorder-rules'
-import { RuleFormDialog } from './rule-form-dialog'
 import { useReorderRulesContext } from './provider'
+import { RuleFormDialog } from './rule-form-dialog'
 
 export function ReorderRulesDialogs() {
   const { open, setOpen, currentRow } = useReorderRulesContext()

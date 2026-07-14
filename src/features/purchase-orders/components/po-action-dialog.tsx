@@ -4,9 +4,17 @@ import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2, Check, ChevronsUpDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
 import {
   Dialog,
   DialogContent,
@@ -29,14 +37,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
 import {
   Select,
   SelectContent,
@@ -170,7 +170,8 @@ export function POActionDialog() {
         product_variant_id: (() => {
           const variants = variantsByProductId.get(item.product_id) ?? []
           return (
-            item.product_variant_id ?? (variants.length === 1 ? variants[0].id : null)
+            item.product_variant_id ??
+            (variants.length === 1 ? variants[0].id : null)
           )
         })(),
         quantity_ordered: item.quantity_ordered,
@@ -298,7 +299,9 @@ export function POActionDialog() {
 
       if (!item.product_variant_id) {
         setShowLineValidation(true)
-        toast.error(`Variant is required for ${getProductName(item.product_id)}.`)
+        toast.error(
+          `Variant is required for ${getProductName(item.product_id)}.`
+        )
         return
       }
     }
@@ -392,9 +395,7 @@ export function POActionDialog() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent
-                        className='p-0 w-[--radix-popover-trigger-width]'
-                      >
+                      <PopoverContent className='w-[--radix-popover-trigger-width] p-0'>
                         <Command>
                           <CommandInput placeholder='Search supplier...' />
                           <CommandList>
@@ -542,64 +543,68 @@ export function POActionDialog() {
                                 </SelectContent>
                               </Select>
 
-                              {item.product_id > 0 && (() => {
-                                const variants = getVariantsForProduct(
-                                  item.product_id
-                                )
-
-                                if (variants.length === 0) {
-                                  return (
-                                    <p className='text-xs text-destructive'>
-                                      This product has no variants and cannot be
-                                      added to a purchase order.
-                                    </p>
+                              {item.product_id > 0 &&
+                                (() => {
+                                  const variants = getVariantsForProduct(
+                                    item.product_id
                                   )
-                                }
 
-                                if (variants.length === 1) {
+                                  if (variants.length === 0) {
+                                    return (
+                                      <p className='text-xs text-destructive'>
+                                        This product has no variants and cannot
+                                        be added to a purchase order.
+                                      </p>
+                                    )
+                                  }
+
+                                  if (variants.length === 1) {
+                                    return (
+                                      <p className='text-xs text-muted-foreground'>
+                                        Variant: {variants[0].sku}{' '}
+                                        (auto-selected)
+                                      </p>
+                                    )
+                                  }
+
                                   return (
-                                    <p className='text-xs text-muted-foreground'>
-                                      Variant: {variants[0].sku} (auto-selected)
-                                    </p>
+                                    <div className='space-y-1'>
+                                      <Select
+                                        value={
+                                          item.product_variant_id ?? undefined
+                                        }
+                                        onValueChange={(v) =>
+                                          updateLineItem(
+                                            index,
+                                            'product_variant_id',
+                                            v
+                                          )
+                                        }
+                                      >
+                                        <SelectTrigger className='h-8 text-xs'>
+                                          <SelectValue placeholder='Select variant...' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {variants.map((variant) => (
+                                            <SelectItem
+                                              key={variant.id}
+                                              value={variant.id}
+                                              className='text-xs'
+                                            >
+                                              {variant.sku}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                      {showLineValidation &&
+                                        !item.product_variant_id && (
+                                          <p className='text-xs text-destructive'>
+                                            Variant is required.
+                                          </p>
+                                        )}
+                                    </div>
                                   )
-                                }
-
-                                return (
-                                  <div className='space-y-1'>
-                                    <Select
-                                      value={item.product_variant_id ?? undefined}
-                                      onValueChange={(v) =>
-                                        updateLineItem(
-                                          index,
-                                          'product_variant_id',
-                                          v
-                                        )
-                                      }
-                                    >
-                                      <SelectTrigger className='h-8 text-xs'>
-                                        <SelectValue placeholder='Select variant...' />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {variants.map((variant) => (
-                                          <SelectItem
-                                            key={variant.id}
-                                            value={variant.id}
-                                            className='text-xs'
-                                          >
-                                            {variant.sku}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                    {showLineValidation &&
-                                      !item.product_variant_id && (
-                                        <p className='text-xs text-destructive'>
-                                          Variant is required.
-                                        </p>
-                                      )}
-                                  </div>
-                                )
-                              })()}
+                                })()}
                             </div>
                           </TableCell>
                           <TableCell>

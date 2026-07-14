@@ -36,9 +36,10 @@ function parseSettingValue<T>(
   if (!setting) return defaults
 
   try {
-    const value = typeof setting.value === 'string'
-      ? JSON.parse(setting.value)
-      : setting.value
+    const value =
+      typeof setting.value === 'string'
+        ? JSON.parse(setting.value)
+        : setting.value
 
     return { ...defaults, ...value } as T
   } catch {
@@ -61,7 +62,11 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
   hydrateFromSettings: (settings) => {
     set({
       branding: parseSettingValue(settings, 'branding', BRANDING_DEFAULTS),
-      localization: parseSettingValue(settings, 'localization', LOCALIZATION_DEFAULTS),
+      localization: parseSettingValue(
+        settings,
+        'localization',
+        LOCALIZATION_DEFAULTS
+      ),
       business: parseSettingValue(settings, 'business', BUSINESS_DEFAULTS),
       isLoaded: true,
     })

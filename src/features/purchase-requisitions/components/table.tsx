@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './columns'
 import type { RequisitionListItem } from '../data/schema'
+import { columns } from './columns'
 
 export function RequisitionsTable({ data }: { data: RequisitionListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -82,7 +82,10 @@ export function RequisitionsTable({ data }: { data: RequisitionListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No requisitions yet.
                 </TableCell>
               </TableRow>

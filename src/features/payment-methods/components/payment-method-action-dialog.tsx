@@ -33,7 +33,10 @@ const formSchema = z.object({
   icon: z.string().optional().or(z.literal('')),
   is_enabled: z.boolean(),
   is_default: z.boolean(),
-  sort_order: z.coerce.number().int().min(0, { message: 'Sort order must be 0 or greater.' }),
+  sort_order: z.coerce
+    .number()
+    .int()
+    .min(0, { message: 'Sort order must be 0 or greater.' }),
 })
 
 type PaymentMethodFormSchema = z.infer<typeof formSchema>

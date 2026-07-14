@@ -56,7 +56,7 @@ export function AreasDeleteDialog({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onDelete}
-            className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteArea.isPending}
           >
             {deleteArea.isPending ? 'Deleting...' : 'Delete'}

@@ -5,24 +5,23 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { formatCurrency } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-
-import { useInvoices } from '../hooks/use-invoices'
-import { InvoicesTable } from '../components/InvoicesTable'
 import { InvoiceDetailView } from '../components/InvoiceDetailView'
 import { InvoicesFilter } from '../components/InvoicesFilter'
+import { InvoicesTable } from '../components/InvoicesTable'
+import { useInvoices } from '../hooks/use-invoices'
 
 export function InvoicesPage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<string | undefined>()
-  
+
   const [selectedInvoice, setSelectedInvoice] = useState<any | null>(null)
-  
+
   const { data, isLoading, isError, error } = useInvoices({
     page,
     limit: 10,
     search,
-    status
+    status,
   })
 
   // Columns definition could be decoupled, but placed here for context binding
@@ -46,15 +45,20 @@ export function InvoicesPage() {
       header: 'Status',
       cell: ({ row }) => {
         const val = row.original.status
-        const variant = val === 'paid' ? 'default' : val === 'draft' ? 'secondary' : 'outline'
-        return <Badge variant={variant} className="capitalize">{val}</Badge>
-      }
+        const variant =
+          val === 'paid' ? 'default' : val === 'draft' ? 'secondary' : 'outline'
+        return (
+          <Badge variant={variant} className='capitalize'>
+            {val}
+          </Badge>
+        )
+      },
     },
     {
       accessorKey: 'total_amount',
-      header: () => <div className="text-right">Total</div>,
+      header: () => <div className='text-right'>Total</div>,
       cell: ({ row }) => (
-        <div className="text-right font-medium">
+        <div className='text-right font-medium'>
           {formatCurrency(Number(row.original.total_amount))}
         </div>
       ),
@@ -62,50 +66,63 @@ export function InvoicesPage() {
   ]
 
   return (
-    <div className="p-6 space-y-6 max-w-[1400px] mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className='mx-auto max-w-[1400px] space-y-6 p-6'>
+      <div className='flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center'>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Sales Invoices</h1>
-          <p className="text-muted-foreground">Manage and view your sales transactions.</p>
+          <h1 className='text-2xl font-bold tracking-tight'>Sales Invoices</h1>
+          <p className='text-muted-foreground'>
+            Manage and view your sales transactions.
+          </p>
         </div>
       </div>
 
-      <InvoicesFilter 
-        search={search} onSearchChange={(v: string) => { setSearch(v); setPage(1) }}
-        status={status} onStatusChange={(v: string | undefined) => { setStatus(v); setPage(1) }}
+      <InvoicesFilter
+        search={search}
+        onSearchChange={(v: string) => {
+          setSearch(v)
+          setPage(1)
+        }}
+        status={status}
+        onStatusChange={(v: string | undefined) => {
+          setStatus(v)
+          setPage(1)
+        }}
       />
 
       {isError ? (
-        <div className="p-4 bg-red-50 text-red-500 rounded-md border border-red-200">
+        <div className='rounded-md border border-red-200 bg-red-50 p-4 text-red-500'>
           Error loading invoices: {error?.message}
         </div>
       ) : (
         <>
-          <InvoicesTable 
-            data={data?.invoices || []} 
-            columns={columns} 
-            isLoading={isLoading} 
+          <InvoicesTable
+            data={data?.invoices || []}
+            columns={columns}
+            isLoading={isLoading}
             onRowClick={(row) => setSelectedInvoice(row)}
           />
-          
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-muted-foreground">
-              Showing page {data?.meta?.page || 1} of {data?.meta?.totalPages || 1}
+
+          <div className='flex items-center justify-between text-sm'>
+            <span className='text-muted-foreground'>
+              Showing page {data?.meta?.page || 1} of{' '}
+              {data?.meta?.totalPages || 1}
             </span>
-            <div className="space-x-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => setPage(p => Math.max(1, p - 1))}
+            <div className='space-x-2'>
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1 || isLoading}
               >
                 Previous
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => setPage(p => p + 1)}
-                disabled={!data?.meta || page >= data.meta.totalPages || isLoading}
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => setPage((p) => p + 1)}
+                disabled={
+                  !data?.meta || page >= data.meta.totalPages || isLoading
+                }
               >
                 Next
               </Button>
@@ -115,12 +132,12 @@ export function InvoicesPage() {
       )}
 
       {selectedInvoice && (
-        <InvoiceDetailView 
-          invoice={selectedInvoice} 
-          open={!!selectedInvoice} 
+        <InvoiceDetailView
+          invoice={selectedInvoice}
+          open={!!selectedInvoice}
           onOpenChange={(open) => {
             if (!open) setSelectedInvoice(null)
-          }} 
+          }}
         />
       )}
     </div>

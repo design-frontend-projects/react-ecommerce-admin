@@ -39,7 +39,6 @@ import {
   useProductVariants,
 } from '../hooks/use-stock-balances'
 
-
 interface Props {
   currentRow: StockBalanceRow | null
   open: boolean
@@ -47,12 +46,16 @@ interface Props {
 }
 
 export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
-  
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null
+  )
+
   const adjustMutation = useAdjustStock()
   const { data: stores = [] } = useStores()
   const { data: products = [] } = useProducts()
-  const { data: variants = [] } = useProductVariants(selectedProductId ?? undefined)
+  const { data: variants = [] } = useProductVariants(
+    selectedProductId ?? undefined
+  )
 
   const form = useForm<AdjustmentFormData>({
     resolver: zodResolver(adjustmentSchema) as Resolver<AdjustmentFormData>,
@@ -72,7 +75,6 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
       setSelectedProductId(pid || null)
 
       form.reset({
-
         store_id: currentRow.store_id,
         product_variant_id: currentRow.product_variant_id,
         adjustment_type: 'set',
@@ -80,7 +82,6 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
         reason: '',
       })
     } else if (!currentRow && open) {
-
       setSelectedProductId(null)
       form.reset({
         store_id: '',
@@ -91,7 +92,6 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
       })
     }
   }, [currentRow, open, form])
-
 
   const onSubmit = (values: AdjustmentFormData) => {
     adjustMutation.mutate(values, {
@@ -129,27 +129,32 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
           <div className='rounded-md border bg-muted/50 p-3 text-sm'>
             <div className='grid grid-cols-3 gap-2 text-center'>
               <div>
-                <span className='text-xs text-muted-foreground uppercase font-bold'>On Hand</span>
-                <p className='font-mono font-semibold text-lg'>
+                <span className='text-xs font-bold text-muted-foreground uppercase'>
+                  On Hand
+                </span>
+                <p className='font-mono text-lg font-semibold'>
                   {Number(currentRow?.qty_on_hand ?? 0).toLocaleString()}
                 </p>
               </div>
               <div>
-                <span className='text-xs text-muted-foreground uppercase font-bold'>Reserved</span>
-                <p className='font-mono font-semibold text-lg'>
+                <span className='text-xs font-bold text-muted-foreground uppercase'>
+                  Reserved
+                </span>
+                <p className='font-mono text-lg font-semibold'>
                   {Number(currentRow?.qty_reserved ?? 0).toLocaleString()}
                 </p>
               </div>
               <div>
-                <span className='text-xs text-muted-foreground uppercase font-bold'>Available</span>
-                <p className='font-mono font-semibold text-lg'>
+                <span className='text-xs font-bold text-muted-foreground uppercase'>
+                  Available
+                </span>
+                <p className='font-mono text-lg font-semibold'>
                   {Number(currentRow?.qty_available ?? 0).toLocaleString()}
                 </p>
               </div>
             </div>
           </div>
         )}
-
 
         <Form {...form}>
           <form
@@ -213,8 +218,6 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       )
                     })}
                   </SelectContent>
-
-
                 </Select>
                 <FormMessage />
               </FormItem>
@@ -261,19 +264,14 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Adjustment Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder='Select type' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='set'>
-                        Set absolute quantity
-                      </SelectItem>
+                      <SelectItem value='set'>Set absolute quantity</SelectItem>
                       <SelectItem value='offset'>
                         Add / subtract offset
                       </SelectItem>
@@ -292,9 +290,7 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 return (
                   <FormItem>
                     <FormLabel>
-                      {adjType === 'set'
-                        ? 'New Quantity'
-                        : 'Offset (+ or -)'}
+                      {adjType === 'set' ? 'New Quantity' : 'Offset (+ or -)'}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -311,7 +307,6 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 )
               }}
             />
-
 
             <FormField
               control={form.control}

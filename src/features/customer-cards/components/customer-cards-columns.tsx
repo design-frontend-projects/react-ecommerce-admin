@@ -1,5 +1,5 @@
-import { type TFunction } from 'i18next'
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type CustomerCard } from '../hooks/use-customer-cards'

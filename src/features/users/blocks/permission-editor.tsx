@@ -11,14 +11,17 @@ interface PermissionEditorProps {
 }
 
 function groupPermissions(permissions: PermissionRecord[]) {
-  return permissions.reduce<Record<string, PermissionRecord[]>>((groups, permission) => {
-    const [resource] = permission.name.split('.')
-    if (!groups[resource]) {
-      groups[resource] = []
-    }
-    groups[resource].push(permission)
-    return groups
-  }, {})
+  return permissions.reduce<Record<string, PermissionRecord[]>>(
+    (groups, permission) => {
+      const [resource] = permission.name.split('.')
+      if (!groups[resource]) {
+        groups[resource] = []
+      }
+      groups[resource].push(permission)
+      return groups
+    },
+    {}
+  )
 }
 
 export function PermissionEditor({
@@ -36,7 +39,9 @@ export function PermissionEditor({
   )
 
   useEffect(() => {
-    setSelectedPermissionIds(role.permissions.map((permission) => permission.id))
+    setSelectedPermissionIds(
+      role.permissions.map((permission) => permission.id)
+    )
   }, [role.id, role.permissions])
 
   return (
@@ -68,7 +73,9 @@ export function PermissionEditor({
                   .slice()
                   .sort((left, right) => left.name.localeCompare(right.name))
                   .map((permission) => {
-                    const checked = selectedPermissionIds.includes(permission.id)
+                    const checked = selectedPermissionIds.includes(
+                      permission.id
+                    )
 
                     return (
                       <label
@@ -87,7 +94,9 @@ export function PermissionEditor({
                           disabled={isSaving}
                         />
                         <span className='flex flex-col gap-1'>
-                          <span className='text-sm font-medium'>{permission.name}</span>
+                          <span className='text-sm font-medium'>
+                            {permission.name}
+                          </span>
                           {permission.description ? (
                             <span className='text-xs text-muted-foreground'>
                               {permission.description}

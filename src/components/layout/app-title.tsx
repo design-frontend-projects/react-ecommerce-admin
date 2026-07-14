@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Menu, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import {
   SidebarMenu,
@@ -8,7 +9,6 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { Button } from '../ui/button'
-import { useTranslation } from 'react-i18next'
 
 export function AppTitle() {
   const { setOpenMobile } = useSidebar()
@@ -28,11 +28,17 @@ export function AppTitle() {
               className='flex items-center gap-2'
             >
               <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-transform duration-300 hover:scale-110'>
-                <img src='/images/logo.png' alt='ResPOS' className='size-6 rounded-sm' />
+                <img
+                  src='/images/logo.png'
+                  alt='ResPOS'
+                  className='size-6 rounded-sm'
+                />
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-bold text-gradient'>ResPOS</span>
-                <span className='truncate text-[10px] uppercase tracking-wider text-muted-foreground/70'>{t('appTitle.premiumEdition')}</span>
+                <span className='truncate text-gradient font-bold'>ResPOS</span>
+                <span className='truncate text-[10px] tracking-wider text-muted-foreground/70 uppercase'>
+                  {t('appTitle.premiumEdition')}
+                </span>
               </div>
             </Link>
             <ToggleSidebar />

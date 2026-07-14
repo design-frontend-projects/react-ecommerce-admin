@@ -38,7 +38,10 @@ interface RolesManagementProps {
 }
 
 function isSystemRole(roleName: string) {
-  return Object.prototype.hasOwnProperty.call(DEFAULT_ROLE_PERMISSION_NAMES, roleName)
+  return Object.prototype.hasOwnProperty.call(
+    DEFAULT_ROLE_PERMISSION_NAMES,
+    roleName
+  )
 }
 
 export function RolesManagement({
@@ -50,7 +53,9 @@ export function RolesManagement({
   isMutating = false,
 }: RolesManagementProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [editingRole, setEditingRole] = useState<RoleWithPermissions | null>(null)
+  const [editingRole, setEditingRole] = useState<RoleWithPermissions | null>(
+    null
+  )
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(true)
@@ -182,10 +187,12 @@ export function RolesManagement({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editingRole ? 'Edit role' : 'Create role'}</DialogTitle>
+            <DialogTitle>
+              {editingRole ? 'Edit role' : 'Create role'}
+            </DialogTitle>
             <DialogDescription>
-              Role permissions are edited separately so the catalog stays easy to
-              scan.
+              Role permissions are edited separately so the catalog stays easy
+              to scan.
             </DialogDescription>
           </DialogHeader>
           <div className='flex flex-col gap-5'>

@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './columns'
 import type { OrderListItem } from '../data/schema'
+import { columns } from './columns'
 
 export function OrdersTable({ data }: { data: OrderListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -82,7 +82,10 @@ export function OrdersTable({ data }: { data: OrderListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No sales orders yet.
                 </TableCell>
               </TableRow>

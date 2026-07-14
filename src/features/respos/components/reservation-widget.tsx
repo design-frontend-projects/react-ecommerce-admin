@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
 import { CalendarClock, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useReservations } from '../api/queries'
@@ -43,7 +43,8 @@ export function ReservationWidget() {
                     {res.customer_name}
                   </p>
                   <p className='text-xs text-muted-foreground'>
-                    {res.reservation_time} • {res.duration_minutes} {t('respos.reservation.min')}
+                    {res.reservation_time} • {res.duration_minutes}{' '}
+                    {t('respos.reservation.min')}
                   </p>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -69,7 +70,9 @@ export function ReservationWidget() {
         )}
         <div className='mt-4'>
           <Button asChild variant='outline' className='w-full'>
-            <Link to='/respos/reservations'>{t('respos.reservation.viewCalendar')}</Link>
+            <Link to='/respos/reservations'>
+              {t('respos.reservation.viewCalendar')}
+            </Link>
           </Button>
         </div>
       </CardContent>

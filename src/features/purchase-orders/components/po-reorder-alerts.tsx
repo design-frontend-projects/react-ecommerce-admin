@@ -8,7 +8,10 @@ export function POReorderAlerts() {
   if (isLoading || !alerts || alerts.length === 0) return null
 
   return (
-    <Alert variant='destructive' className='border-amber-500/40 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200 [&>svg]:text-amber-600'>
+    <Alert
+      variant='destructive'
+      className='border-amber-500/40 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200 [&>svg]:text-amber-600'
+    >
       <AlertTriangle className='h-4 w-4' />
       <AlertTitle>Reorder Alert</AlertTitle>
       <AlertDescription>

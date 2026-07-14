@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
-import { useTranslation } from 'react-i18next'
 import { type TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -45,7 +45,9 @@ const formSchema = (t: TFunction) =>
     customer_id: z.coerce
       .number()
       .min(1, t('customerCards.validation.customerRequired')),
-    cardholder_name: z.string().min(1, t('customerCards.validation.cardholderRequired')),
+    cardholder_name: z
+      .string()
+      .min(1, t('customerCards.validation.cardholderRequired')),
     card_type: z.string().optional(),
     last_four_digits: z
       .string()
@@ -137,7 +139,9 @@ export function CustomerCardsActionDialog() {
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? t('customerCards.editCard') : t('customerCards.addNewCard')}
+            {isEdit
+              ? t('customerCards.editCard')
+              : t('customerCards.addNewCard')}
           </DialogTitle>
           <DialogDescription>
             {isEdit
@@ -187,7 +191,9 @@ export function CustomerCardsActionDialog() {
               name='cardholder_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('customerCards.form.cardholderName')}</FormLabel>
+                  <FormLabel>
+                    {t('customerCards.form.cardholderName')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t('customerCards.form.placeholderName')}
@@ -240,7 +246,9 @@ export function CustomerCardsActionDialog() {
                 name='last_four_digits'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('customerCards.form.lastFourDigits')}</FormLabel>
+                    <FormLabel>
+                      {t('customerCards.form.lastFourDigits')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t('customerCards.form.placeholderDigits')}
@@ -285,7 +293,9 @@ export function CustomerCardsActionDialog() {
               name='billing_address'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('customerCards.form.billingAddress')}</FormLabel>
+                  <FormLabel>
+                    {t('customerCards.form.billingAddress')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t('customerCards.form.placeholderAddress')}

@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { RuleRowActions } from './row-actions'
 import type { RuleListItem } from '../data/schema'
+import { RuleRowActions } from './row-actions'
 
 function formatQty(value: number | null): string {
   return value === null ? '—' : String(value)
@@ -52,8 +52,7 @@ export const columns: ColumnDef<RuleListItem>[] = [
   {
     id: 'qty',
     header: 'Qty',
-    cell: ({ row }) =>
-      formatQty(row.original.reorder_qty ?? row.original.eoq),
+    cell: ({ row }) => formatQty(row.original.reorder_qty ?? row.original.eoq),
   },
   {
     accessorKey: 'lead_time_days',

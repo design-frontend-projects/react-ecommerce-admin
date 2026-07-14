@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -21,7 +22,6 @@ import {
   updatePasswordFormSchema,
   type UpdatePasswordFormValues,
 } from './update-password.schema'
-import { useTranslation } from 'react-i18next'
 
 export function UpdatePasswordForm({
   className,

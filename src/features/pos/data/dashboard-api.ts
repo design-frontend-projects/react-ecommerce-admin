@@ -317,23 +317,25 @@ export async function getShiftDashboardAnalytics(
   const now = new Date()
   const startAt = buildRangeStart(range, now)
 
-  const [{ data: salesRows, error: salesError }, { data: refundRows, error: refundError }] =
-    await Promise.all([
-      supabase
-        .from('transactions')
-        .select(
-          'id, transaction_number, transaction_type, status, total_amount, created_at'
-        )
-        .eq('transaction_type', 'sale')
-        .eq('status', 'completed')
-        .gte('created_at', startAt.toISOString())
-        .order('created_at', { ascending: false }),
-      supabase
-        .from('refunds')
-        .select('refund_id, order_id, refund_date, refund_amount, reason')
-        .gte('refund_date', startAt.toISOString())
-        .order('refund_date', { ascending: false }),
-    ])
+  const [
+    { data: salesRows, error: salesError },
+    { data: refundRows, error: refundError },
+  ] = await Promise.all([
+    supabase
+      .from('transactions')
+      .select(
+        'id, transaction_number, transaction_type, status, total_amount, created_at'
+      )
+      .eq('transaction_type', 'sale')
+      .eq('status', 'completed')
+      .gte('created_at', startAt.toISOString())
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('refunds')
+      .select('refund_id, order_id, refund_date, refund_amount, reason')
+      .gte('refund_date', startAt.toISOString())
+      .order('refund_date', { ascending: false }),
+  ])
 
   if (salesError) throw salesError
   if (refundError) throw refundError
@@ -413,9 +415,7 @@ export async function getLowStock() {
  */
 export async function getRecentTransactions() {
   // 1. Fetch refunded order IDs
-  const { data: refunds } = await supabase
-    .from('refunds')
-    .select('order_id')
+  const { data: refunds } = await supabase.from('refunds').select('order_id')
 
   const refundedOrderIds = new Set(
     (refunds ?? []).map((r) => r.order_id).filter(Boolean)
@@ -437,4 +437,3 @@ export async function getRecentTransactions() {
     .filter((tx) => !refundedOrderIds.has(tx.transaction_number))
     .slice(0, 10)
 }
-

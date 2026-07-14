@@ -16,8 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useSerialTrail } from '../hooks/use-serials'
 import type { SerialListItem } from '../data/schema'
+import { useSerialTrail } from '../hooks/use-serials'
 
 function formatDateTime(value: string): string {
   return new Date(value).toLocaleString(undefined, {
@@ -38,9 +38,11 @@ export function SerialTrailDialog({
   onOpenChange: (open: boolean) => void
   serial: SerialListItem | null
 }) {
-  const { data: entries, isLoading, error } = useSerialTrail(
-    open && serial ? serial.id : null
-  )
+  const {
+    data: entries,
+    isLoading,
+    error,
+  } = useSerialTrail(open && serial ? serial.id : null)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

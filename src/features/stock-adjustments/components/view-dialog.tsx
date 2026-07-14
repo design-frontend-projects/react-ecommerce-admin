@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,16 +17,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
+import type { AdjustmentListItem } from '../data/schema'
 import {
   useAdjustment,
   useApplyAdjustment,
   useCancelAdjustment,
 } from '../hooks/use-stock-adjustments'
-import type { AdjustmentListItem } from '../data/schema'
 
 export function AdjustmentViewDialog({
   adjustment,
@@ -120,7 +120,7 @@ export function AdjustmentViewDialog({
                         {item.qty_adjusted > 0 ? '+' : ''}
                         {item.qty_adjusted}
                       </TableCell>
-                      <TableCell className='capitalize text-muted-foreground'>
+                      <TableCell className='text-muted-foreground capitalize'>
                         {item.reason ?? '—'}
                       </TableCell>
                     </TableRow>

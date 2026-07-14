@@ -1,9 +1,8 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
-import { getUsers } from '@/server/fns/users'
 import { createUser } from '@/server/fns/create-user'
+import { getUsers } from '@/server/fns/users'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -16,7 +15,10 @@ const GET = async ({ request, params }: any) => {
       data: users,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to fetch users', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to fetch users',
+      403
+    )
   }
 }
 
@@ -60,10 +62,12 @@ const POST = async ({ request, params }: any) => {
       data: result,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to create user', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to create user',
+      403
+    )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/users')({
   GET,

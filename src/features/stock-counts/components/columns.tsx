@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { CountRowActions } from './row-actions'
 import type { CountListItem, CountStatus } from '../data/schema'
+import { CountRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   CountStatus,
@@ -49,9 +49,7 @@ export const columns: ColumnDef<CountListItem>[] = [
         >
           {row.original.status}
         </Badge>
-        {row.original.is_blind ? (
-          <Badge variant='outline'>Blind</Badge>
-        ) : null}
+        {row.original.is_blind ? <Badge variant='outline'>Blind</Badge> : null}
       </div>
     ),
     filterFn: (row, id, value) => value.includes(row.getValue(id)),

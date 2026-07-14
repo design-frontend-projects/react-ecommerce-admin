@@ -56,9 +56,7 @@ export const conversionListItemSchema = z.object({
 })
 export type ConversionListItem = z.infer<typeof conversionListItemSchema>
 
-export const uomListResponseSchema = successEnvelope(
-  z.array(uomListItemSchema)
-)
+export const uomListResponseSchema = successEnvelope(z.array(uomListItemSchema))
 export const conversionListResponseSchema = successEnvelope(
   z.array(conversionListItemSchema)
 )

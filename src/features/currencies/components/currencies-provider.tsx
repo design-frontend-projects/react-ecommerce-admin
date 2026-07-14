@@ -10,7 +10,11 @@ interface CurrenciesContextType {
 
 const CurrenciesContext = createContext<CurrenciesContextType | null>(null)
 
-export function CurrenciesProvider({ children }: { children: React.ReactNode }) {
+export function CurrenciesProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [open, setOpen] = useState<'create' | 'update' | 'delete' | null>(null)
   const [currentRow, setCurrentRow] = useState<Currency | null>(null)
 
@@ -26,7 +30,9 @@ export function CurrenciesProvider({ children }: { children: React.ReactNode }) 
 export const useCurrenciesContext = () => {
   const context = useContext(CurrenciesContext)
   if (!context) {
-    throw new Error('useCurrenciesContext must be used within <CurrenciesProvider>')
+    throw new Error(
+      'useCurrenciesContext must be used within <CurrenciesProvider>'
+    )
   }
   return context
 }

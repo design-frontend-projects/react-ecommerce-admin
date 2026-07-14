@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import prisma from '@/lib/prisma'
 import { ensureAccessControlSeeded } from './access-control-seed'
@@ -123,7 +123,11 @@ export async function setScreenButtons(screenId: string, buttonIds: string[]) {
       const permissionName = `${screen.code}.${button.code}`
       const permission = await tx.permissions.upsert({
         where: { name: permissionName },
-        update: { resource: screen.code, action: button.code, updated_at: new Date() },
+        update: {
+          resource: screen.code,
+          action: button.code,
+          updated_at: new Date(),
+        },
         create: {
           name: permissionName,
           description: `${button.code} on the ${screen.code} screen`,
@@ -132,9 +136,19 @@ export async function setScreenButtons(screenId: string, buttonIds: string[]) {
         },
       })
       await tx.screen_buttons.upsert({
-        where: { screen_id_button_id: { screen_id: screenId, button_id: button.id } },
-        update: { permission_id: permission.id, is_active: true, updated_at: new Date() },
-        create: { screen_id: screenId, button_id: button.id, permission_id: permission.id },
+        where: {
+          screen_id_button_id: { screen_id: screenId, button_id: button.id },
+        },
+        update: {
+          permission_id: permission.id,
+          is_active: true,
+          updated_at: new Date(),
+        },
+        create: {
+          screen_id: screenId,
+          button_id: button.id,
+          permission_id: permission.id,
+        },
       })
     }
 

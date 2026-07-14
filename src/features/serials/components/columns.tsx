@@ -93,11 +93,7 @@ export function createColumns(
     {
       id: 'actions',
       cell: ({ row }) => (
-        <Button
-          variant='ghost'
-          size='sm'
-          onClick={() => onTrail(row.original)}
-        >
+        <Button variant='ghost' size='sm' onClick={() => onTrail(row.original)}>
           <History className='me-1 h-4 w-4' />
           Trail
         </Button>

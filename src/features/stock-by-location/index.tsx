@@ -1,11 +1,6 @@
 import { useState } from 'react'
 import { CheckCircle2, Loader2, TriangleAlert } from 'lucide-react'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
+import { useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Badge } from '@/components/ui/badge'
 import {
   Select,
@@ -14,7 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { LanguageSwitch } from '@/components/language-switch'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import { StockByLocationTable } from './components/table'
 import {
   useReconcileReport,
@@ -26,7 +26,11 @@ const ALL = '__all__'
 export function StockByLocation() {
   const [storeId, setStoreId] = useState(ALL)
   const { data: stores = [] } = useStoreOptions()
-  const { data: rows, isLoading, error } = useStockByLocation({
+  const {
+    data: rows,
+    isLoading,
+    error,
+  } = useStockByLocation({
     storeId: storeId === ALL ? undefined : storeId,
   })
   const { data: report } = useReconcileReport()

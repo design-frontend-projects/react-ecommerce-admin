@@ -11,9 +11,13 @@ import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
 
 const AuthenticatedRoute = () => {
-  const { session, user, selectedBranchId, setSelectedBranchId, isInitializing } = useAuthStore(
-    (state) => state.auth
-  )
+  const {
+    session,
+    user,
+    selectedBranchId,
+    setSelectedBranchId,
+    isInitializing,
+  } = useAuthStore((state) => state.auth)
   const userId = user?.id
   const navigate = useNavigate()
   useRBACSession()

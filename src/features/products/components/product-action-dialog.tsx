@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { z } from 'zod'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -7,7 +8,6 @@ import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
 import {
   Dialog,
   DialogContent,
@@ -32,12 +32,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
-import { z } from 'zod'
-import { type Product } from '../data/schema'
 import { variantRowSchema } from '../data/product-wizard-schema'
-import { useCreateProductWithVariants, useUpdateProductWithVariants } from '../hooks/use-products'
+import { type Product } from '../data/schema'
+import {
+  useCreateProductWithVariants,
+  useUpdateProductWithVariants,
+} from '../hooks/use-products'
 import { BarcodeDisplay } from './barcode-display'
 
 interface Props {
@@ -50,8 +53,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isEdit = !!currentRow
   const [isScannerOpen, setIsScannerOpen] = useState(false)
 
-  const { mutateAsync: createProduct, isPending: isCreating } = useCreateProductWithVariants()
-  const { mutateAsync: updateProduct, isPending: isUpdating } = useUpdateProductWithVariants()
+  const { mutateAsync: createProduct, isPending: isCreating } =
+    useCreateProductWithVariants()
+  const { mutateAsync: updateProduct, isPending: isUpdating } =
+    useUpdateProductWithVariants()
   const isPending = isCreating || isUpdating
 
   const { data: categories } = useQuery({
@@ -109,7 +114,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     if (!currentRow) return null
     if (currentRow.weight) return Number(currentRow.weight)
     if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      return currentRow.product_variants[0].weight ? Number(currentRow.product_variants[0].weight) : null
+      return currentRow.product_variants[0].weight
+        ? Number(currentRow.product_variants[0].weight)
+        : null
     }
     return null
   }
@@ -118,19 +125,24 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     if (!currentRow) return ''
     if (currentRow.dimensions) return currentRow.dimensions
     if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-       const dims = currentRow.product_variants[0].dimensions
-       if (typeof dims === 'string') return dims
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-       if (dims && typeof dims === 'object' && 'label' in (dims as any)) return (dims as any).label as string
+      const dims = currentRow.product_variants[0].dimensions
+      if (typeof dims === 'string') return dims
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (dims && typeof dims === 'object' && 'label' in (dims as any))
+        return (dims as any).label as string
     }
     return ''
   }
 
   const getInitialVariants = () => {
-    if (!currentRow || !currentRow.product_variants || currentRow.product_variants.length === 0) {
+    if (
+      !currentRow ||
+      !currentRow.product_variants ||
+      currentRow.product_variants.length === 0
+    ) {
       return []
     }
-    return currentRow.product_variants.map(v => ({
+    return currentRow.product_variants.map((v) => ({
       id: v.id,
       sku: v.sku,
       barcode: v.barcode || '',
@@ -140,10 +152,19 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       min_stock: v.min_stock || 0,
       weight: v.weight ? Number(v.weight) : null,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dimensions: v.dimensions ? (typeof v.dimensions === 'string' ? v.dimensions : (v.dimensions as any).label || '') : '',
+      dimensions: v.dimensions
+        ? typeof v.dimensions === 'string'
+          ? v.dimensions
+          : (v.dimensions as any).label || ''
+        : '',
       is_active: v.is_active ?? true,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      attributes_label: v.dimensions && typeof v.dimensions === 'object' && 'label' in (v.dimensions as any) ? (v.dimensions as any).label : '',
+      attributes_label:
+        v.dimensions &&
+        typeof v.dimensions === 'object' &&
+        'label' in (v.dimensions as any)
+          ? (v.dimensions as any).label
+          : '',
     }))
   }
 
@@ -181,9 +202,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-       
       const { base_price, cost_price, variants, ...productData } = values
-      
+
       const defaultVariant = {
         sku: values.sku,
         barcode: values.barcode,
@@ -196,10 +216,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         min_stock: 0,
         attributes_label: 'Default',
       }
-      
+
       // Keep only variants UI fields if there are multiple, otherwise fall back to base fields for the single variant.
       // If editing and we already have a loaded variant array, use it. But if it's empty, use default variant.
-      const finalVariants = (variants && variants.length > 0) ? variants : [defaultVariant]
+      const finalVariants =
+        variants && variants.length > 0 ? variants : [defaultVariant]
 
       if (isEdit && currentRow) {
         await updateProduct({
@@ -217,7 +238,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         })
       }
 
-      toast.success(isEdit ? 'Product updated successfully' : 'Product created successfully')
+      toast.success(
+        isEdit ? 'Product updated successfully' : 'Product created successfully'
+      )
       onOpenChange(false)
       form.reset()
     } catch (error) {
@@ -472,59 +495,67 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
             </div>
 
             {/* VARIANTS SECTION */}
-            <div className="mt-8 space-y-4">
-              <div className="flex justify-between items-center pb-2 border-b">
-                <h3 className="text-lg font-medium">Product Variants</h3>
+            <div className='mt-8 space-y-4'>
+              <div className='flex items-center justify-between border-b pb-2'>
+                <h3 className='text-lg font-medium'>Product Variants</h3>
                 <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => append({
-                    sku: form.getValues('sku') ? `${form.getValues('sku')}-V${fields.length + 1}` : '',
-                    barcode: '',
-                    price: form.getValues('base_price') || 0,
-                    cost_price: form.getValues('cost_price') || 0,
-                    stock_quantity: 0,
-                    min_stock: 0,
-                    weight: form.getValues('weight') || 0,
-                    dimensions: form.getValues('dimensions') || '',
-                    is_active: true,
-                    attributes_label: `Variant ${fields.length + 1}`,
-                  })}
+                  type='button'
+                  variant='outline'
+                  size='sm'
+                  onClick={() =>
+                    append({
+                      sku: form.getValues('sku')
+                        ? `${form.getValues('sku')}-V${fields.length + 1}`
+                        : '',
+                      barcode: '',
+                      price: form.getValues('base_price') || 0,
+                      cost_price: form.getValues('cost_price') || 0,
+                      stock_quantity: 0,
+                      min_stock: 0,
+                      weight: form.getValues('weight') || 0,
+                      dimensions: form.getValues('dimensions') || '',
+                      is_active: true,
+                      attributes_label: `Variant ${fields.length + 1}`,
+                    })
+                  }
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className='mr-2 h-4 w-4' />
                   Add Variant
                 </Button>
               </div>
 
               {form.formState.errors.variants && (
-                <div className="text-sm font-medium text-destructive">
+                <div className='text-sm font-medium text-destructive'>
                   {form.formState.errors.variants.root?.message}
                 </div>
               )}
 
-              <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2">
+              <div className='max-h-[40vh] space-y-4 overflow-y-auto pr-2'>
                 {fields.map((field, index) => (
-                  <Card key={field.id} className="relative">
-                    <CardContent className="pt-6 flex flex-col gap-4">
+                  <Card key={field.id} className='relative'>
+                    <CardContent className='flex flex-col gap-4 pt-6'>
                       {fields.length > 1 && (
                         <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive"
+                          type='button'
+                          variant='ghost'
+                          size='icon'
+                          className='absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive'
                           onClick={() => {
-                            if (window.confirm('Are you sure you want to remove this variant? This action will take effect when you save changes.')) {
+                            if (
+                              window.confirm(
+                                'Are you sure you want to remove this variant? This action will take effect when you save changes.'
+                              )
+                            ) {
                               remove(index)
                             }
                           }}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className='h-4 w-4' />
                         </Button>
                       )}
 
                       {/* --- Identity Row --- */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
                         <FormField
                           control={form.control}
                           name={`variants.${index}.attributes_label`}
@@ -532,7 +563,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Label / Size</FormLabel>
                               <FormControl>
-                                <Input placeholder="e.g. Large, Red" {...field} value={field.value || ''} />
+                                <Input
+                                  placeholder='e.g. Large, Red'
+                                  {...field}
+                                  value={field.value || ''}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -546,7 +581,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>SKU *</FormLabel>
                               <FormControl>
-                                <Input placeholder="Variant SKU" {...field} />
+                                <Input placeholder='Variant SKU' {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -560,7 +595,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Barcode</FormLabel>
                               <FormControl>
-                                <Input placeholder="UPC/EAN" {...field} value={field.value || ''} />
+                                <Input
+                                  placeholder='UPC/EAN'
+                                  {...field}
+                                  value={field.value || ''}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -571,9 +610,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           control={form.control}
                           name={`variants.${index}.is_active`}
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm md:mt-[22px] h-[40px]">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-xs">Active</FormLabel>
+                            <FormItem className='flex h-[40px] flex-row items-center justify-between rounded-lg border p-3 shadow-sm md:mt-[22px]'>
+                              <div className='space-y-0.5'>
+                                <FormLabel className='text-xs'>
+                                  Active
+                                </FormLabel>
                               </div>
                               <FormControl>
                                 <Switch
@@ -587,7 +628,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       </div>
 
                       {/* --- Finance & Stock Row --- */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
                         <FormField
                           control={form.control}
                           name={`variants.${index}.price`}
@@ -595,7 +636,17 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Price *</FormLabel>
                               <FormControl>
-                                <Input type="number" step="any" min="0" placeholder="0.00" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
+                                <Input
+                                  type='number'
+                                  step='any'
+                                  min='0'
+                                  placeholder='0.00'
+                                  {...field}
+                                  value={(field.value as number) ?? ''}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber || 0)
+                                  }
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -609,14 +660,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Cost Price</FormLabel>
                               <FormControl>
-                                <Input 
-                                  type="number" 
-                                  step="any" 
-                                  min="0" 
-                                  placeholder="0.00" 
-                                  {...field} 
-                                  value={(field.value as number) ?? ''} 
-                                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                                <Input
+                                  type='number'
+                                  step='any'
+                                  min='0'
+                                  placeholder='0.00'
+                                  {...field}
+                                  value={(field.value as number) ?? ''}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber || 0)
+                                  }
                                 />
                               </FormControl>
                               <FormMessage />
@@ -631,7 +684,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Initial Stock</FormLabel>
                               <FormControl>
-                                <Input type="number" min="0" placeholder="0" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
+                                <Input
+                                  type='number'
+                                  min='0'
+                                  placeholder='0'
+                                  {...field}
+                                  value={(field.value as number) ?? ''}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber || 0)
+                                  }
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -645,7 +707,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Min Stock Alert</FormLabel>
                               <FormControl>
-                                <Input type="number" min="0" placeholder="0" {...field} value={(field.value as number) ?? ''} onChange={(e) => field.onChange(e.target.valueAsNumber || 0)} />
+                                <Input
+                                  type='number'
+                                  min='0'
+                                  placeholder='0'
+                                  {...field}
+                                  value={(field.value as number) ?? ''}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber || 0)
+                                  }
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -654,7 +725,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       </div>
 
                       {/* --- Physical Row --- */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
                         <FormField
                           control={form.control}
                           name={`variants.${index}.weight`}
@@ -662,14 +733,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             <FormItem>
                               <FormLabel>Weight (kg)</FormLabel>
                               <FormControl>
-                                <Input 
-                                  type="number" 
-                                  step="any" 
-                                  min="0" 
-                                  placeholder="0.00" 
-                                  {...field} 
-                                  value={(field.value as number) ?? ''} 
-                                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                                <Input
+                                  type='number'
+                                  step='any'
+                                  min='0'
+                                  placeholder='0.00'
+                                  {...field}
+                                  value={(field.value as number) ?? ''}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber || 0)
+                                  }
                                 />
                               </FormControl>
                               <FormMessage />
@@ -681,10 +754,14 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           control={form.control}
                           name={`variants.${index}.dimensions`}
                           render={({ field }) => (
-                            <FormItem className="md:col-span-2">
+                            <FormItem className='md:col-span-2'>
                               <FormLabel>Dimensions (L x W x H)</FormLabel>
                               <FormControl>
-                                <Input placeholder="e.g., 10x20x5 cm" {...field} value={field.value || ''} />
+                                <Input
+                                  placeholder='e.g., 10x20x5 cm'
+                                  {...field}
+                                  value={field.value || ''}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -694,15 +771,17 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     </CardContent>
                   </Card>
                 ))}
-                
+
                 {fields.length === 0 && (
-                  <div className="text-center p-8 border rounded-lg border-dashed bg-muted/20">
-                    <p className="text-muted-foreground text-sm">No variants configured. The base product details will be used.</p>
+                  <div className='rounded-lg border border-dashed bg-muted/20 p-8 text-center'>
+                    <p className='text-sm text-muted-foreground'>
+                      No variants configured. The base product details will be
+                      used.
+                    </p>
                   </div>
                 )}
               </div>
             </div>
-
           </form>
         </Form>
 
@@ -711,7 +790,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
             Cancel
           </Button>
           <Button type='submit' form='product-form' disabled={isPending}>
-            {isPending ? 'Saving...' : (isEdit ? 'Save Changes' : 'Create Product')}
+            {isPending
+              ? 'Saving...'
+              : isEdit
+                ? 'Save Changes'
+                : 'Create Product'}
           </Button>
         </DialogFooter>
       </DialogContent>

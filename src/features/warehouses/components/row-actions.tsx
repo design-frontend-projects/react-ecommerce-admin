@@ -6,8 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useWarehousesContext } from './provider'
 import type { WarehouseListItem } from '../data/schema'
+import { useWarehousesContext } from './provider'
 
 export function WarehouseRowActions({ row }: { row: WarehouseListItem }) {
   const { setCurrentRow, setOpen } = useWarehousesContext()

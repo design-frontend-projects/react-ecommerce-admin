@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import prisma from '@/lib/prisma'
 import {
@@ -70,8 +70,16 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     ACTIVITY_TYPE_SEEDS.map((activity) =>
       prisma.business_activity_types.upsert({
         where: { code: activity.code },
-        update: { name: activity.name, description: activity.description, updated_at: new Date() },
-        create: { code: activity.code, name: activity.name, description: activity.description },
+        update: {
+          name: activity.name,
+          description: activity.description,
+          updated_at: new Date(),
+        },
+        create: {
+          code: activity.code,
+          name: activity.name,
+          description: activity.description,
+        },
       })
     )
   )
@@ -101,8 +109,16 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     )
   )
   const modules = (await prisma.app_modules.findMany({
-    select: { id: true, code: true, module_activity_types: { select: { activity_type_id: true } } },
-  })) as Array<{ id: string; code: string; module_activity_types: Array<{ activity_type_id: string }> }>
+    select: {
+      id: true,
+      code: true,
+      module_activity_types: { select: { activity_type_id: true } },
+    },
+  })) as Array<{
+    id: string
+    code: string
+    module_activity_types: Array<{ activity_type_id: string }>
+  }>
   const moduleIdByCode = new Map(modules.map((m) => [m.code, m.id]))
 
   for (const module of modules) {
@@ -112,9 +128,15 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     const data = seed.activityTypeCodes
       .map((code) => activityIdByCode.get(code))
       .filter((id): id is string => Boolean(id))
-      .map((activityTypeId) => ({ module_id: module.id, activity_type_id: activityTypeId }))
+      .map((activityTypeId) => ({
+        module_id: module.id,
+        activity_type_id: activityTypeId,
+      }))
     if (data.length > 0) {
-      await prisma.module_activity_types.createMany({ data, skipDuplicates: true })
+      await prisma.module_activity_types.createMany({
+        data,
+        skipDuplicates: true,
+      })
     }
   }
 
@@ -123,8 +145,17 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     BUTTON_SEEDS.map((button) =>
       prisma.permission_buttons.upsert({
         where: { code: button.code },
-        update: { name: button.name, description: button.description, updated_at: new Date() },
-        create: { code: button.code, name: button.name, description: button.description, is_system: true },
+        update: {
+          name: button.name,
+          description: button.description,
+          updated_at: new Date(),
+        },
+        create: {
+          code: button.code,
+          name: button.name,
+          description: button.description,
+          is_system: true,
+        },
       })
     )
   )
@@ -186,7 +217,9 @@ export async function ensureAccessControlSeeded(): Promise<void> {
       screen_buttons: { select: { button_id: true } },
     },
   })) as ScreenRecord[]
-  const screenByCode = new Map<string, ScreenRecord>(screens.map((s) => [s.code, s]))
+  const screenByCode = new Map<string, ScreenRecord>(
+    screens.map((s) => [s.code, s])
+  )
 
   // 5. Default screen_roles + screen_permissions (only when the screen has none).
   for (const screen of SCREEN_SEEDS) {
@@ -199,17 +232,29 @@ export async function ensureAccessControlSeeded(): Promise<void> {
         .filter((id): id is string => Boolean(id))
         .map((roleId) => ({ screen_id: record.id, role_id: roleId }))
       if (roleData.length > 0) {
-        await prisma.screen_roles.createMany({ data: roleData, skipDuplicates: true })
+        await prisma.screen_roles.createMany({
+          data: roleData,
+          skipDuplicates: true,
+        })
       }
     }
 
-    if (record.screen_permissions.length === 0 && screen.permissions.length > 0) {
+    if (
+      record.screen_permissions.length === 0 &&
+      screen.permissions.length > 0
+    ) {
       const permData = screen.permissions
         .map((name) => permissionIdByName.get(name))
         .filter((id): id is string => Boolean(id))
-        .map((permissionId) => ({ screen_id: record.id, permission_id: permissionId }))
+        .map((permissionId) => ({
+          screen_id: record.id,
+          permission_id: permissionId,
+        }))
       if (permData.length > 0) {
-        await prisma.screen_permissions.createMany({ data: permData, skipDuplicates: true })
+        await prisma.screen_permissions.createMany({
+          data: permData,
+          skipDuplicates: true,
+        })
       }
     }
   }
@@ -222,10 +267,17 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     if (!record || !buttonId) continue
     if (record.screen_buttons.length > 0) continue // mappings only when empty
 
-    const permissionName = generatedButtonPermissionName(seed.screenCode, seed.buttonCode)
+    const permissionName = generatedButtonPermissionName(
+      seed.screenCode,
+      seed.buttonCode
+    )
     const permission = await prisma.permissions.upsert({
       where: { name: permissionName },
-      update: { resource: seed.screenCode, action: seed.buttonCode, updated_at: new Date() },
+      update: {
+        resource: seed.screenCode,
+        action: seed.buttonCode,
+        updated_at: new Date(),
+      },
       create: {
         name: permissionName,
         description: `${seed.buttonCode} on the ${seed.screenCode} screen`,
@@ -235,9 +287,19 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     })
 
     await prisma.screen_buttons.upsert({
-      where: { screen_id_button_id: { screen_id: record.id, button_id: buttonId } },
-      update: { permission_id: permission.id, is_active: true, updated_at: new Date() },
-      create: { screen_id: record.id, button_id: buttonId, permission_id: permission.id },
+      where: {
+        screen_id_button_id: { screen_id: record.id, button_id: buttonId },
+      },
+      update: {
+        permission_id: permission.id,
+        is_active: true,
+        updated_at: new Date(),
+      },
+      create: {
+        screen_id: record.id,
+        button_id: buttonId,
+        permission_id: permission.id,
+      },
     })
 
     const grantData = seed.roles
@@ -245,7 +307,10 @@ export async function ensureAccessControlSeeded(): Promise<void> {
       .filter((id): id is string => Boolean(id))
       .map((roleId) => ({ role_id: roleId, permission_id: permission.id }))
     if (grantData.length > 0) {
-      await prisma.role_permissions.createMany({ data: grantData, skipDuplicates: true })
+      await prisma.role_permissions.createMany({
+        data: grantData,
+        skipDuplicates: true,
+      })
     }
   }
 

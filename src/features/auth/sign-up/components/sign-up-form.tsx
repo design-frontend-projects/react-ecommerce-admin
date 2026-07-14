@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type HTMLMotionProps, motion } from 'framer-motion'
 import { Loader2, LogIn, MailCheck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -18,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { signUpFormSchema, type SignUpFormValues } from './sign-up.schema'
-import { useTranslation } from 'react-i18next'
 
 export function SignUpForm({
   className,

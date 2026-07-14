@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import {
   Table,
@@ -8,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useTranslation } from 'react-i18next'
 import type { PendingPurchaseOrder } from '../use-dashboard-data'
 
 interface PendingPurchaseOrdersProps {
@@ -34,7 +34,9 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
             <TableHead>{t('dashboard.poNumber')}</TableHead>
             <TableHead>{t('dashboard.supplier')}</TableHead>
             <TableHead>{t('dashboard.date')}</TableHead>
-            <TableHead className='text-right'>{t('dashboard.amount')}</TableHead>
+            <TableHead className='text-right'>
+              {t('dashboard.amount')}
+            </TableHead>
             <TableHead>{t('dashboard.status')}</TableHead>
           </TableRow>
         </TableHeader>
@@ -47,8 +49,8 @@ export function PendingPurchaseOrders({ data }: PendingPurchaseOrdersProps) {
               <TableCell>{po.suppliers?.name || '—'}</TableCell>
               <TableCell>
                 {po.order_date
-                   ? format(new Date(po.order_date), 'MMM dd, yyyy')
-                   : t('dashboard.na')}
+                  ? format(new Date(po.order_date), 'MMM dd, yyyy')
+                  : t('dashboard.na')}
               </TableCell>
               <TableCell className='text-right'>
                 ${Number(po.total_amount).toFixed(2)}

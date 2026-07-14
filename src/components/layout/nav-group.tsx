@@ -63,7 +63,11 @@ export function NavGroup({ title, items }: NavGroupProps) {
           }
 
           return (
-            <SidebarMenuCollapsible key={key} item={item as any} href={pathname} />
+            <SidebarMenuCollapsible
+              key={key}
+              item={item as any}
+              href={pathname}
+            />
           )
         })}
       </SidebarMenu>

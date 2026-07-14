@@ -1,6 +1,6 @@
 import { RequisitionCreateDialog } from './create-dialog'
-import { RequisitionViewDialog } from './view-dialog'
 import { useRequisitionsContext } from './provider'
+import { RequisitionViewDialog } from './view-dialog'
 
 export function RequisitionsDialogs() {
   const { open, setOpen, currentRow } = useRequisitionsContext()

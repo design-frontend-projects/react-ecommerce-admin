@@ -1,13 +1,12 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   approveRequisition,
   convertRequisition,
   rejectRequisition,
   submitRequisition,
 } from '@/server/fns/purchase-requisitions'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const ACTIONS = {
   submit: submitRequisition,
@@ -38,8 +37,7 @@ const POST = async ({ request }: any) => {
         {
           success: false,
           error: {
-            message:
-              'Action must be one of: submit, approve, reject, convert.',
+            message: 'Action must be one of: submit, approve, reject, convert.',
           },
         },
         { status: 400 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,6 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -15,14 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
-import { useCreateWarehouse, useUpdateWarehouse } from '../hooks/use-warehouses'
 import { warehouseInputSchema, type WarehouseListItem } from '../data/schema'
+import { useCreateWarehouse, useUpdateWarehouse } from '../hooks/use-warehouses'
 
 const NONE = '__none__'
 
@@ -78,7 +78,10 @@ export function WarehouseFormDialog({
     }
     try {
       if (isEdit && warehouse) {
-        await updateWarehouse.mutateAsync({ id: warehouse.id, input: parsed.data })
+        await updateWarehouse.mutateAsync({
+          id: warehouse.id,
+          input: parsed.data,
+        })
       } else {
         await createWarehouse.mutateAsync(parsed.data)
       }
@@ -94,7 +97,9 @@ export function WarehouseFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-lg'>
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Warehouse' : 'New Warehouse'}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? 'Edit Warehouse' : 'New Warehouse'}
+          </DialogTitle>
           <DialogDescription>
             A warehouse holds zones, racks, shelves, and bins. Linking a store
             makes it that store&apos;s stock facility.
@@ -130,7 +135,10 @@ export function WarehouseFormDialog({
           </div>
           <div className='grid gap-2'>
             <Label>Address (optional)</Label>
-            <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+            <Input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
           </div>
           <div className='grid gap-2'>
             <Label>Notes (optional)</Label>
@@ -159,7 +167,11 @@ export function WarehouseFormDialog({
             Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={pending}>
-            {pending ? 'Saving...' : isEdit ? 'Save changes' : 'Create warehouse'}
+            {pending
+              ? 'Saving...'
+              : isEdit
+                ? 'Save changes'
+                : 'Create warehouse'}
           </Button>
         </DialogFooter>
       </DialogContent>

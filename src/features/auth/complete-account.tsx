@@ -14,10 +14,10 @@ import {
   Shirt,
   Laptop,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Logo } from '@/assets/logo'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/use-auth'
-import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -191,7 +191,9 @@ export function CompleteAccountFeature() {
                         name='firstName'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t('completeAccount.firstName')}</FormLabel>
+                            <FormLabel>
+                              {t('completeAccount.firstName')}
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -208,7 +210,9 @@ export function CompleteAccountFeature() {
                         name='lastName'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t('completeAccount.lastName')}</FormLabel>
+                            <FormLabel>
+                              {t('completeAccount.lastName')}
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -225,7 +229,9 @@ export function CompleteAccountFeature() {
                         name='phone'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t('completeAccount.phoneOptional')}</FormLabel>
+                            <FormLabel>
+                              {t('completeAccount.phoneOptional')}
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -317,7 +323,9 @@ export function CompleteAccountFeature() {
                                             : ''
                                         )}
                                       >
-                                        {t(`completeAccount.activities.${act.id}`)}
+                                        {t(
+                                          `completeAccount.activities.${act.id}`
+                                        )}
                                       </span>
                                     </button>
                                   )

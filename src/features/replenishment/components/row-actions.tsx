@@ -7,8 +7,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Can } from '@/components/rbac/Can'
-import { useDismissSuggestion } from '../hooks/use-replenishment'
 import type { SuggestionListItem } from '../data/schema'
+import { useDismissSuggestion } from '../hooks/use-replenishment'
 
 export function SuggestionRowActions({ row }: { row: SuggestionListItem }) {
   const dismissSuggestion = useDismissSuggestion()

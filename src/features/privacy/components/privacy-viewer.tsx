@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { type PrivacyPolicy } from '../data/queries'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { type PrivacyPolicy } from '../data/queries'
 
 interface PrivacyViewerProps {
   privacy: PrivacyPolicy | null
@@ -12,8 +12,10 @@ export function PrivacyViewer({ privacy }: PrivacyViewerProps) {
 
   if (!privacy) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-lg border border-dashed">
-        <p className="text-muted-foreground">{t('privacy.noPrivacyAvailable')}</p>
+      <div className='flex h-64 items-center justify-center rounded-lg border border-dashed'>
+        <p className='text-muted-foreground'>
+          {t('privacy.noPrivacyAvailable')}
+        </p>
       </div>
     )
   }
@@ -24,8 +26,10 @@ export function PrivacyViewer({ privacy }: PrivacyViewerProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">{title || t('privacy.title')}</CardTitle>
-        <div className="text-sm text-muted-foreground">
+        <CardTitle className='text-2xl'>
+          {title || t('privacy.title')}
+        </CardTitle>
+        <div className='text-sm text-muted-foreground'>
           {t('privacy.lastUpdated')}{' '}
           {new Intl.DateTimeFormat(isRtl ? 'ar-EG' : 'en-US', {
             dateStyle: 'medium',
@@ -34,7 +38,7 @@ export function PrivacyViewer({ privacy }: PrivacyViewerProps) {
       </CardHeader>
       <CardContent>
         <div
-          className="whitespace-pre-wrap text-sm leading-relaxed"
+          className='text-sm leading-relaxed whitespace-pre-wrap'
           style={{ direction: isRtl ? 'rtl' : 'ltr' }}
         >
           {content}

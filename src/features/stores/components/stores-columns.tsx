@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { StoreStatusBadge } from './store-status-badge'
 import { StoreRowActions } from './store-row-actions'
+import { StoreStatusBadge } from './store-status-badge'
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -57,11 +57,7 @@ export const columns: ColumnDef<any>[] = [
     header: 'City',
     cell: ({ row }) => {
       const store = row.original
-      return (
-        <span className='truncate'>
-          {store.cities?.name || '—'}
-        </span>
-      )
+      return <span className='truncate'>{store.cities?.name || '—'}</span>
     },
   },
   {

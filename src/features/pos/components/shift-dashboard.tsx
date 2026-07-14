@@ -1,6 +1,14 @@
 import { useState, type ReactNode } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
+  DollarSign,
+  Package,
+  ReceiptText,
+  RefreshCcw,
+  ShoppingCart,
+  Undo2,
+} from 'lucide-react'
+import {
   Area,
   AreaChart,
   CartesianGrid,
@@ -9,14 +17,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import {
-  DollarSign,
-  Package,
-  ReceiptText,
-  RefreshCcw,
-  ShoppingCart,
-  Undo2,
-} from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -81,7 +81,9 @@ export function ShiftDashboard() {
         <div className='flex items-center gap-3'>
           <Tabs
             value={String(rangeDays)}
-            onValueChange={(value) => setRangeDays(Number(value) as ShiftRangeDays)}
+            onValueChange={(value) =>
+              setRangeDays(Number(value) as ShiftRangeDays)
+            }
           >
             <TabsList>
               {RANGE_OPTIONS.map((option) => (
@@ -104,7 +106,9 @@ export function ShiftDashboard() {
       {!isLoading && !isError && (
         <div className='text-xs text-muted-foreground'>
           Last updated:{' '}
-          {dataUpdatedAt ? formatTimestamp(new Date(dataUpdatedAt).toISOString()) : '—'}
+          {dataUpdatedAt
+            ? formatTimestamp(new Date(dataUpdatedAt).toISOString())
+            : '—'}
         </div>
       )}
 
@@ -193,14 +197,16 @@ export function ShiftDashboard() {
                           tick={{ fontSize: 12 }}
                         />
                         <Tooltip
-                          formatter={(value: any, name: any) => [
-                            formatCurrency(Number(value)),
-                            name === 'sales'
-                              ? 'Sales'
-                              : name === 'refunds'
-                                ? 'Refunds'
-                                : 'Net',
-                          ] as any}
+                          formatter={(value: any, name: any) =>
+                            [
+                              formatCurrency(Number(value)),
+                              name === 'sales'
+                                ? 'Sales'
+                                : name === 'refunds'
+                                  ? 'Refunds'
+                                  : 'Net',
+                            ] as any
+                          }
                           labelFormatter={(label) => `Bucket: ${label}`}
                         />
                         <Area
@@ -372,7 +378,9 @@ function MetricCard({
         {icon}
       </CardHeader>
       <CardContent>
-        <div className={`text-2xl font-bold ${valueClassName || ''}`}>{value}</div>
+        <div className={`text-2xl font-bold ${valueClassName || ''}`}>
+          {value}
+        </div>
       </CardContent>
     </Card>
   )

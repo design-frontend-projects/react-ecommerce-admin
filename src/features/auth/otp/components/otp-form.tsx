@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
@@ -25,7 +26,6 @@ import {
 import { profileService } from '@/features/auth/services/profile-service'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 import { getPendingOtpRequest, clearPendingOtpRequest } from '../pending-otp'
-import { useTranslation } from 'react-i18next'
 
 const formSchema = z.object({
   otp: z
@@ -181,7 +181,9 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
           name='otp'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='sr-only'>{t('otp.oneTimePassword')}</FormLabel>
+              <FormLabel className='sr-only'>
+                {t('otp.oneTimePassword')}
+              </FormLabel>
               <FormControl>
                 <InputOTP
                   maxLength={6}

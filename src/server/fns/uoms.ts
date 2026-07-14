@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 const UOM_CATEGORIES = ['count', 'weight', 'volume', 'length', 'time'] as const
 export type UomCategory = (typeof UOM_CATEGORIES)[number]
@@ -23,7 +23,10 @@ export interface CreateConversionInput {
   productVariantId?: string | null
 }
 
-function assertRequiredText(value: unknown, message: string): asserts value is string {
+function assertRequiredText(
+  value: unknown,
+  message: string
+): asserts value is string {
   if (typeof value !== 'string' || value.trim().length === 0) {
     throw new ApiError(message, 400)
   }

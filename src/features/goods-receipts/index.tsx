@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { ReceiptsProvider } from './components/provider'
-import { ReceiptsPrimaryButtons } from './components/primary-buttons'
-import { ReceiptsTable } from './components/table'
 import { ReceiptsDialogs } from './components/dialogs'
+import { ReceiptsPrimaryButtons } from './components/primary-buttons'
+import { ReceiptsProvider } from './components/provider'
+import { ReceiptsTable } from './components/table'
 import { useReceipts } from './hooks/use-goods-receipts'
 
 export function GoodsReceipts() {

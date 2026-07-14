@@ -1,9 +1,8 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
+import { setTenantActivityTypes } from '@/server/fns/activity-types'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 import prisma from '@/lib/prisma'
-import { setTenantActivityTypes } from '@/server/fns/activity-types'
 
 const POST = async ({ request, params }: any) => {
   try {
@@ -53,8 +52,14 @@ const POST = async ({ request, params }: any) => {
     })
 
     // Seed the tenant's initial activity types from the module(s) chosen at onboarding.
-    if (Array.isArray(body.activityTypeCodes) && body.activityTypeCodes.length > 0) {
-      await setTenantActivityTypes(authorizedUser.userId, body.activityTypeCodes)
+    if (
+      Array.isArray(body.activityTypeCodes) &&
+      body.activityTypeCodes.length > 0
+    ) {
+      await setTenantActivityTypes(
+        authorizedUser.userId,
+        body.activityTypeCodes
+      )
     }
 
     return Response.json({
@@ -73,7 +78,6 @@ const POST = async ({ request, params }: any) => {
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/tenant/onboard')({
   POST,

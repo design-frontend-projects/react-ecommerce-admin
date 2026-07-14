@@ -1,7 +1,7 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 export interface MovementFilters {
   movementType?: string

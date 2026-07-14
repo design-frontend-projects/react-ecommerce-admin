@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { SerialsToolbar } from './components/toolbar'
 import { SerialsTable } from './components/table'
+import { SerialsToolbar } from './components/toolbar'
 import { SerialTrailDialog } from './components/trail-dialog'
-import { useSerials } from './hooks/use-serials'
 import type { SerialListItem, SerialStatus } from './data/schema'
+import { useSerials } from './hooks/use-serials'
 
 const ALL = 'all'
 
@@ -20,7 +20,11 @@ export function Serials() {
   const [trailSerial, setTrailSerial] = useState<SerialListItem | null>(null)
   const [trailOpen, setTrailOpen] = useState(false)
 
-  const { data: serials, isLoading, error } = useSerials({
+  const {
+    data: serials,
+    isLoading,
+    error,
+  } = useSerials({
     search: search || undefined,
     status: status === ALL ? undefined : (status as SerialStatus),
   })

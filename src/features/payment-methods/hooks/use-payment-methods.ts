@@ -76,7 +76,10 @@ export const useUpdatePaymentMethod = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: PaymentMethodInput & { id: string }) => {
+    mutationFn: async ({
+      id,
+      ...updates
+    }: PaymentMethodInput & { id: string }) => {
       const { data, error } = await supabase
         .from('res_payment_methods')
         .update({ ...updates, updated_at: new Date().toISOString() })

@@ -1,6 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { UpdatePasswordForm } from '@/features/auth/update-password/components/update-password-form'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/(auth)/update-password')({
   component: UpdatePasswordRoute,

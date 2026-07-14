@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './columns'
 import type { ReceiptListItem } from '../data/schema'
+import { columns } from './columns'
 
 export function ReceiptsTable({ data }: { data: ReceiptListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -82,7 +82,10 @@ export function ReceiptsTable({ data }: { data: ReceiptListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No goods receipts yet.
                 </TableCell>
               </TableRow>

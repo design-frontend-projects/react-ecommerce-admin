@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { ReservationRowActions } from './row-actions'
 import type { ReservationListItem, ReservationStatus } from '../data/schema'
+import { ReservationRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   ReservationStatus,
@@ -42,10 +42,10 @@ export const columns: ColumnDef<ReservationListItem>[] = [
   },
   {
     accessorKey: 'qty',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Qty' />,
-    cell: ({ row }) => (
-      <span className='tabular-nums'>{row.original.qty}</span>
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Qty' />
     ),
+    cell: ({ row }) => <span className='tabular-nums'>{row.original.qty}</span>,
   },
   {
     accessorKey: 'qty_consumed',

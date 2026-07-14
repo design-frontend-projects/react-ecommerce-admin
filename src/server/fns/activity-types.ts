@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import prisma from '@/lib/prisma'
 import { ensureAccessControlSeeded } from './access-control-seed'
@@ -64,7 +64,9 @@ export async function getTenantActivityTypes(
 
   const tenantId = await resolveTenantId(authUserId)
   const moduleActivityMap = await getModuleActivityMap()
-  const activityTypeCodes = tenantId ? await getActiveActivityCodes(tenantId) : []
+  const activityTypeCodes = tenantId
+    ? await getActiveActivityCodes(tenantId)
+    : []
 
   return { activityTypeCodes, moduleActivityMap }
 }
@@ -84,14 +86,18 @@ export async function setTenantActivityTypes(
     throw new Error('Unable to resolve the caller tenant.')
   }
 
-  const requestedCodes = [...new Set(activityTypeCodes.map((code) => code.trim()).filter(Boolean))]
+  const requestedCodes = [
+    ...new Set(activityTypeCodes.map((code) => code.trim()).filter(Boolean)),
+  ]
   const activityTypes = (await prisma.business_activity_types.findMany({
     where: { code: { in: requestedCodes } },
     select: { id: true, code: true },
   })) as Array<{ id: string; code: string }>
 
   // Replace tenant_activity_types (delete-then-createMany).
-  await prisma.tenant_activity_types.deleteMany({ where: { tenant_id: tenantId } })
+  await prisma.tenant_activity_types.deleteMany({
+    where: { tenant_id: tenantId },
+  })
   if (activityTypes.length > 0) {
     await prisma.tenant_activity_types.createMany({
       data: activityTypes.map((activity) => ({

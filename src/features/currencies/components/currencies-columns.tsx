@@ -47,9 +47,7 @@ export const columns: ColumnDef<Currency>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Code' />
     ),
-    cell: ({ row }) => (
-      <Badge variant='outline'>{row.getValue('code')}</Badge>
-    ),
+    cell: ({ row }) => <Badge variant='outline'>{row.getValue('code')}</Badge>,
   },
   {
     accessorKey: 'symbol',

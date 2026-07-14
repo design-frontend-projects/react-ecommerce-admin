@@ -35,9 +35,8 @@ export interface EnqueueInput {
 
 async function mirrorInsert(entry: OutboxEntry): Promise<void> {
   try {
-    const { pendingOrdersCollection } = await import(
-      '@/lib/db/collections/pending-orders'
-    )
+    const { pendingOrdersCollection } =
+      await import('@/lib/db/collections/pending-orders')
     if (!pendingOrdersCollection.has(entry.idempotencyKey)) {
       pendingOrdersCollection.insert({
         idempotencyKey: entry.idempotencyKey,
@@ -53,9 +52,8 @@ async function mirrorInsert(entry: OutboxEntry): Promise<void> {
 
 async function mirrorRemove(idempotencyKey: string): Promise<void> {
   try {
-    const { pendingOrdersCollection } = await import(
-      '@/lib/db/collections/pending-orders'
-    )
+    const { pendingOrdersCollection } =
+      await import('@/lib/db/collections/pending-orders')
     if (pendingOrdersCollection.has(idempotencyKey)) {
       pendingOrdersCollection.delete(idempotencyKey)
     }
@@ -126,9 +124,8 @@ export async function resetOutboxBackoff(): Promise<void> {
 export async function clearOutbox(): Promise<void> {
   await db.outbox.clear()
   try {
-    const { pendingOrdersCollection } = await import(
-      '@/lib/db/collections/pending-orders'
-    )
+    const { pendingOrdersCollection } =
+      await import('@/lib/db/collections/pending-orders')
     const keys = Array.from(pendingOrdersCollection.keys())
     for (const key of keys) {
       pendingOrdersCollection.delete(key)

@@ -1,16 +1,20 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FileClock, Search, AlertCircle, RefreshCw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useOrders } from '../../api/queries'
 import { formatCurrency } from '../../lib/formatters'
 import { RefundDialog } from './refund-dialog'
 
-export function OrderHistoryPanel({ onClose: _onClose }: { onClose?: () => void }) {
+export function OrderHistoryPanel({
+  onClose: _onClose,
+}: {
+  onClose?: () => void
+}) {
   const { t } = useTranslation()
   const { data: orders, isLoading, isError } = useOrders()
   const [searchTerm, setSearchTerm] = useState('')
@@ -29,7 +33,9 @@ export function OrderHistoryPanel({ onClose: _onClose }: { onClose?: () => void 
       {/* Header */}
       <div className='flex items-center justify-between border-b p-4'>
         <div>
-          <h2 className='text-lg font-black tracking-tighter'>{t('respos.history.title')}</h2>
+          <h2 className='text-lg font-black tracking-tighter'>
+            {t('respos.history.title')}
+          </h2>
           <p className='text-xs font-medium text-muted-foreground'>
             {t('respos.history.subtitle')}
           </p>
@@ -39,7 +45,7 @@ export function OrderHistoryPanel({ onClose: _onClose }: { onClose?: () => void 
       {/* Search */}
       <div className='p-4 pb-2'>
         <div className='relative'>
-          <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+          <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
           <Input
             placeholder={t('respos.history.search')}
             value={searchTerm}
@@ -122,13 +128,25 @@ function OrderBadge({ status }: { status: string }) {
   switch (status) {
     case 'open':
     case 'in_progress':
-      return <Badge variant='secondary'>{t('respos.history.status.active')}</Badge>
+      return (
+        <Badge variant='secondary'>{t('respos.history.status.active')}</Badge>
+      )
     case 'ready':
-      return <Badge className='bg-blue-500'>{t('respos.history.status.ready')}</Badge>
+      return (
+        <Badge className='bg-blue-500'>
+          {t('respos.history.status.ready')}
+        </Badge>
+      )
     case 'paid':
-      return <Badge className='bg-emerald-500'>{t('respos.history.status.paid')}</Badge>
+      return (
+        <Badge className='bg-emerald-500'>
+          {t('respos.history.status.paid')}
+        </Badge>
+      )
     case 'void':
-      return <Badge variant='destructive'>{t('respos.history.status.void')}</Badge>
+      return (
+        <Badge variant='destructive'>{t('respos.history.status.void')}</Badge>
+      )
     case 'refunded':
       return (
         <Badge variant='destructive' className='bg-orange-500'>

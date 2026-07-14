@@ -11,14 +11,22 @@ type CitiesDialogContextType = {
   setCurrentRow: React.Dispatch<React.SetStateAction<City | null>>
 }
 
-const CitiesDialogContext = React.createContext<CitiesDialogContextType | null>(null)
+const CitiesDialogContext = React.createContext<CitiesDialogContextType | null>(
+  null
+)
 
-export function CitiesDialogProvider({ children }: { children: React.ReactNode }) {
+export function CitiesDialogProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [open, setOpen] = useDialogState<CitiesDialogType>(null)
   const [currentRow, setCurrentRow] = useState<City | null>(null)
 
   return (
-    <CitiesDialogContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <CitiesDialogContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </CitiesDialogContext.Provider>
   )
@@ -28,7 +36,9 @@ export function CitiesDialogProvider({ children }: { children: React.ReactNode }
 export const useCitiesDialog = () => {
   const context = React.useContext(CitiesDialogContext)
   if (!context) {
-    throw new Error('useCitiesDialog must be used within <CitiesDialogProvider>')
+    throw new Error(
+      'useCitiesDialog must be used within <CitiesDialogProvider>'
+    )
   }
   return context
 }

@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
 import { MoreHorizontal, SquarePen, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,8 +7,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { type Area } from '../data/schema'
 import { useAreasContext } from '../context/areas-context'
+import { type Area } from '../data/schema'
 
 interface AreasTableActionsProps {
   row: Area

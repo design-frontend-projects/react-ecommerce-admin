@@ -1,10 +1,10 @@
-"use server"
+'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
 import type {
   InviteUserInput,
   InviteUserResult,

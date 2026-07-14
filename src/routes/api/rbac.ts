@@ -1,8 +1,12 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
-import { createRole, deleteRole, getRolesPermissions, updateRole } from '@/server/fns/rbac'
+import {
+  createRole,
+  deleteRole,
+  getRolesPermissions,
+  updateRole,
+} from '@/server/fns/rbac'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -15,7 +19,10 @@ const GET = async ({ request, params }: any) => {
       data: payload,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to fetch RBAC data', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to fetch RBAC data',
+      403
+    )
   }
 }
 
@@ -45,7 +52,10 @@ const POST = async ({ request, params }: any) => {
       data: role,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to create role', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to create role',
+      403
+    )
   }
 }
 
@@ -77,7 +87,10 @@ const PATCH = async ({ request, params }: any) => {
       data: role,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to update role', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to update role',
+      403
+    )
   }
 }
 
@@ -98,10 +111,12 @@ const DELETE = async ({ request, params }: any) => {
       success: true,
     })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to delete role', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to delete role',
+      403
+    )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/rbac')({
   GET,

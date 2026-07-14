@@ -1,5 +1,21 @@
+import { useState } from 'react'
+import { MoreHorizontal, KeyRound, UserX } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
@@ -9,25 +25,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, KeyRound, UserX } from 'lucide-react'
-import { useState } from 'react'
 import type { RoleWithPermissions, User } from '../data/types'
-import { ResetPasswordDialog } from './reset-password-dialog'
 import { DeactivateUserDialog } from './deactivate-user-dialog'
+import { ResetPasswordDialog } from './reset-password-dialog'
 
 interface UserListProps {
   users: User[]
@@ -57,7 +57,9 @@ export function UserList({
   pendingUserId,
   onUpdateUserRole,
 }: UserListProps) {
-  const [resetPasswordUserId, setResetPasswordUserId] = useState<string | null>(null)
+  const [resetPasswordUserId, setResetPasswordUserId] = useState<string | null>(
+    null
+  )
   const [userToDeactivate, setUserToDeactivate] = useState<User | null>(null)
 
   if (isLoading) {
@@ -87,7 +89,10 @@ export function UserList({
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className='py-12 text-center text-sm text-muted-foreground'>
+              <TableCell
+                colSpan={6}
+                className='py-12 text-center text-sm text-muted-foreground'
+              >
                 No users found for this tenant yet.
               </TableCell>
             </TableRow>
@@ -115,13 +120,17 @@ export function UserList({
                     {user.phoneNumber || '-'}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={statusVariant(user.status)}>{user.status}</Badge>
+                    <Badge variant={statusVariant(user.status)}>
+                      {user.status}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     {canManageUsers ? (
                       <Select
                         value={selectedRoleId}
-                        onValueChange={(roleId) => onUpdateUserRole(user.id, roleId)}
+                        onValueChange={(roleId) =>
+                          onUpdateUserRole(user.id, roleId)
+                        }
                         disabled={pendingUserId === user.id}
                       >
                         <SelectTrigger className='w-44'>
@@ -136,7 +145,9 @@ export function UserList({
                         </SelectContent>
                       </Select>
                     ) : (
-                      <Badge variant='outline'>{user.roleNames.join(', ') || 'None'}</Badge>
+                      <Badge variant='outline'>
+                        {user.roleNames.join(', ') || 'None'}
+                      </Badge>
                     )}
                   </TableCell>
                   <TableCell className='text-sm text-muted-foreground'>
@@ -145,7 +156,11 @@ export function UserList({
                   <TableCell className='text-right'>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant='ghost' size='icon' className='size-8 p-0'>
+                        <Button
+                          variant='ghost'
+                          size='icon'
+                          className='size-8 p-0'
+                        >
                           <span className='sr-only'>Open menu</span>
                           <MoreHorizontal className='size-4' />
                         </Button>

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   getCoreRowModel,
   getFacetedRowModel,
@@ -7,9 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
 import { type NavigateFn, useTableUrlState } from '@/hooks/use-table-url-state'
-
 import { DataTable } from '@/components/data-table'
 import { type City } from '../data/schema'
 import { citiesColumns } from './cities-columns'
@@ -21,11 +20,7 @@ type CitiesTableProps = {
   navigate: NavigateFn
 }
 
-export function CitiesTable({
-  data,
-  search,
-  navigate,
-}: CitiesTableProps) {
+export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
   const columns = useMemo(() => citiesColumns, [])
 
   const {

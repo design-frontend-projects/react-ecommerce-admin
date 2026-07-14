@@ -59,9 +59,7 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
       <DataTableColumnHeader column={column} title='Store' />
     ),
     cell: ({ row }) => (
-      <div className='text-sm'>
-        {row.original.stores?.name || 'N/A'}
-      </div>
+      <div className='text-sm'>{row.original.stores?.name || 'N/A'}</div>
     ),
     filterFn: (row, _id, filterValue: string) => {
       const name = row.original.stores?.name?.toLowerCase() ?? ''
@@ -75,7 +73,9 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
     ),
     cell: ({ row }) => {
       const qty = Number(row.getValue('qty_on_hand'))
-      return <div className='font-mono font-semibold'>{qty.toLocaleString()}</div>
+      return (
+        <div className='font-mono font-semibold'>{qty.toLocaleString()}</div>
+      )
     },
   },
   {
@@ -85,7 +85,11 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
     ),
     cell: ({ row }) => {
       const qty = Number(row.getValue('qty_reserved'))
-      return <div className='font-mono text-muted-foreground'>{qty.toLocaleString()}</div>
+      return (
+        <div className='font-mono text-muted-foreground'>
+          {qty.toLocaleString()}
+        </div>
+      )
     },
   },
   {
@@ -95,7 +99,9 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
     ),
     cell: ({ row }) => {
       const qty = Number(row.getValue('qty_available') ?? 0)
-      return <div className='font-mono font-semibold'>{qty.toLocaleString()}</div>
+      return (
+        <div className='font-mono font-semibold'>{qty.toLocaleString()}</div>
+      )
     },
   },
   {

@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
-import { createOrder, fetchOrder, fetchOrders, runOrderAction } from '../data/actions'
+import {
+  createOrder,
+  fetchOrder,
+  fetchOrders,
+  runOrderAction,
+} from '../data/actions'
 import type { CreateOrderInput, OrderAction } from '../data/schema'
 
 const ordersKey = ['inventory', 'sales-orders'] as const

@@ -1,10 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { BrandingSection } from '../blocks/branding-section'
+import { BusinessSection } from '../blocks/business-section'
+import { RegionalSection } from '../blocks/regional-section'
 import { ContentSection } from '../components/content-section'
 import { SettingsErrorBoundary } from '../components/settings-error-boundary'
 import { SettingsTabsSkeleton } from '../components/settings-skeleton'
-import { BrandingSection } from '../blocks/branding-section'
-import { RegionalSection } from '../blocks/regional-section'
-import { BusinessSection } from '../blocks/business-section'
 import { useSettingsStore } from '../data/store'
 
 export function SettingsSystem() {

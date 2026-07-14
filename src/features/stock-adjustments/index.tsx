@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { AdjustmentsProvider } from './components/provider'
-import { AdjustmentsPrimaryButtons } from './components/primary-buttons'
-import { AdjustmentsTable } from './components/table'
 import { AdjustmentsDialogs } from './components/dialogs'
+import { AdjustmentsPrimaryButtons } from './components/primary-buttons'
+import { AdjustmentsProvider } from './components/provider'
+import { AdjustmentsTable } from './components/table'
 import { useAdjustments } from './hooks/use-stock-adjustments'
 
 export function StockAdjustments() {

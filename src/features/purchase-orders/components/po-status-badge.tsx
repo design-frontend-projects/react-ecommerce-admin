@@ -1,12 +1,9 @@
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 
 type POStatus = 'pending' | 'received' | 'partial' | 'cancelled'
 
-const statusConfig: Record<
-  POStatus,
-  { label: string; className: string }
-> = {
+const statusConfig: Record<POStatus, { label: string; className: string }> = {
   pending: {
     label: 'Pending',
     className:

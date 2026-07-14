@@ -3,8 +3,8 @@ import { Unlock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
-import { useReleaseReservation } from '../hooks/use-reservations'
 import type { ReservationListItem } from '../data/schema'
+import { useReleaseReservation } from '../hooks/use-reservations'
 
 export function ReservationRowActions({ row }: { row: ReservationListItem }) {
   const [confirmOpen, setConfirmOpen] = useState(false)

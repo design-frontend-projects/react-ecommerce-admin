@@ -2,6 +2,12 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
+  useStoreOnHand,
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -9,6 +15,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -16,22 +25,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  useStoreOnHand,
-  useStoreOptions,
-  useVariantOptions,
-} from '@/hooks/use-inventory-lookups'
-import { useCreateAdjustment } from '../hooks/use-stock-adjustments'
 import {
   createAdjustmentInputSchema,
   type AdjustmentReason,
   type AdjustmentType,
 } from '../data/schema'
+import { useCreateAdjustment } from '../hooks/use-stock-adjustments'
 
 interface LineItem {
   productVariantId: string

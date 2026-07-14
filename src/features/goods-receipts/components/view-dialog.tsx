@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,16 +17,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
+import type { ReceiptListItem } from '../data/schema'
 import {
   useCancelReceipt,
   usePostReceipt,
   useReceipt,
 } from '../hooks/use-goods-receipts'
-import type { ReceiptListItem } from '../data/schema'
 
 export function ReceiptViewDialog({
   receipt,
@@ -74,9 +74,7 @@ export function ReceiptViewDialog({
                 {receipt.status}
               </Badge>
             </DialogTitle>
-            <DialogDescription>
-              {receipt.stores?.name ?? '—'}
-            </DialogDescription>
+            <DialogDescription>{receipt.stores?.name ?? '—'}</DialogDescription>
           </DialogHeader>
 
           <div className='grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4'>

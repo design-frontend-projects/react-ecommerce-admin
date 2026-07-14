@@ -7,8 +7,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Can } from '@/components/rbac/Can'
-import { useReorderRulesContext } from './provider'
 import type { RuleListItem } from '../data/schema'
+import { useReorderRulesContext } from './provider'
 
 export function RuleRowActions({ row }: { row: RuleListItem }) {
   const { setCurrentRow, setOpen } = useReorderRulesContext()

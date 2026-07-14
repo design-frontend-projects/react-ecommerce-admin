@@ -1,11 +1,11 @@
 import { Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { RBACGuard } from '@/features/users/components/rbac-guard'
 import { PaymentMethodsDialogs } from './components/payment-methods-dialogs'
 import { PaymentMethodsPrimaryButtons } from './components/payment-methods-primary-buttons'
@@ -54,10 +54,7 @@ export function PaymentMethods() {
                 {t('paymentMethods.title', 'Payment Methods')}
               </h2>
               <p className='text-muted-foreground'>
-                {t(
-                  'paymentMethods.subtitle',
-                  'Manage your payment methods.'
-                )}
+                {t('paymentMethods.subtitle', 'Manage your payment methods.')}
               </p>
             </div>
             <PaymentMethodsPrimaryButtons />

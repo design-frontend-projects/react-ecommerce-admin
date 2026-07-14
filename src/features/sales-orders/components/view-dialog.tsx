@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,13 +18,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
-import { cn } from '@/lib/utils'
+import {
+  customerName,
+  type OrderAction,
+  type OrderListItem,
+  type OrderStatus,
+} from '../data/schema'
 import { useOrder, useOrderAction } from '../hooks/use-sales-orders'
-import { customerName, type OrderAction, type OrderListItem, type OrderStatus } from '../data/schema'
 import { OrderStatusBadge } from './columns'
 
 const STEPS: OrderStatus[] = [
@@ -45,10 +50,7 @@ function StatusStepper({ status }: { status: OrderStatus }) {
           <div key={step} className='flex items-center gap-1'>
             {index > 0 ? (
               <div
-                className={cn(
-                  'h-px w-4',
-                  reached ? 'bg-primary' : 'bg-border'
-                )}
+                className={cn('h-px w-4', reached ? 'bg-primary' : 'bg-border')}
               />
             ) : null}
             <div className='flex flex-col items-center gap-1'>
@@ -64,7 +66,7 @@ function StatusStepper({ status }: { status: OrderStatus }) {
               />
               <span
                 className={cn(
-                  'text-[10px] capitalize leading-none',
+                  'text-[10px] leading-none capitalize',
                   current
                     ? 'font-semibold text-primary'
                     : reached
@@ -240,7 +242,9 @@ export function OrderViewDialog({
             </div>
             <div>
               <span className='text-muted-foreground'>Subtotal: </span>
-              <span className='tabular-nums'>{current.subtotal.toFixed(2)}</span>
+              <span className='tabular-nums'>
+                {current.subtotal.toFixed(2)}
+              </span>
             </div>
             <div>
               <span className='text-muted-foreground'>Discount: </span>

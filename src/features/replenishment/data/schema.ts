@@ -29,9 +29,7 @@ export const suggestionListItemSchema = z.object({
   stores: z
     .object({ store_id: z.string(), name: z.string().nullable() })
     .nullable(),
-  suppliers: z
-    .object({ supplier_id: z.number(), name: z.string() })
-    .nullable(),
+  suppliers: z.object({ supplier_id: z.number(), name: z.string() }).nullable(),
 })
 export type SuggestionListItem = z.infer<typeof suggestionListItemSchema>
 

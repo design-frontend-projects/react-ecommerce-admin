@@ -7,8 +7,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Can } from '@/components/rbac/Can'
-import { useSetBatchStatus } from '../hooks/use-batches'
 import type { BatchListItem } from '../data/schema'
+import { useSetBatchStatus } from '../hooks/use-batches'
 
 export function BatchRowActions({ row }: { row: BatchListItem }) {
   const setBatchStatus = useSetBatchStatus()

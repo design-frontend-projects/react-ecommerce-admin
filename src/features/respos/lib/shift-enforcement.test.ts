@@ -1,6 +1,6 @@
+import { UserRole } from '@/types/user-role.enum'
 import { describe, expect, it } from 'vitest'
 import { isShiftGatedUser, shouldEnforceShiftGate } from './shift-enforcement'
-import { UserRole } from '@/types/user-role.enum'
 
 const cashier = {
   roleNames: [UserRole.Cashier],
@@ -15,7 +15,10 @@ const admin = {
   permissionNames: ['pos.access', 'shifts.use', 'shifts.view', 'shifts.manage'],
 }
 const superAdmin = { roleNames: [UserRole.SuperAdmin], permissionNames: ['*'] }
-const kitchen = { roleNames: [UserRole.Kitchen], permissionNames: ['pos.access'] }
+const kitchen = {
+  roleNames: [UserRole.Kitchen],
+  permissionNames: ['pos.access'],
+}
 
 describe('isShiftGatedUser', () => {
   it('gates cash-handling roles with shifts.use', () => {

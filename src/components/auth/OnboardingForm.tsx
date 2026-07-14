@@ -1,8 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { onboardingSchema, type OnboardingFormData } from '@/lib/validation/onboarding'
+import { Loader2 } from 'lucide-react'
+import {
+  onboardingSchema,
+  type OnboardingFormData,
+} from '@/lib/validation/onboarding'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -11,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -18,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Loader2 } from 'lucide-react'
 
 interface OnboardingFormProps {
   onSubmit: (data: OnboardingFormData) => void
@@ -45,7 +48,11 @@ const INDUSTRIES = [
   'Other',
 ]
 
-export function OnboardingForm({ onSubmit, isLoading, defaultEmail = '' }: OnboardingFormProps) {
+export function OnboardingForm({
+  onSubmit,
+  isLoading,
+  defaultEmail = '',
+}: OnboardingFormProps) {
   const form = useForm<OnboardingFormData>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
@@ -58,15 +65,19 @@ export function OnboardingForm({ onSubmit, isLoading, defaultEmail = '' }: Onboa
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
         <FormField
           control={form.control}
-          name="company_name"
+          name='company_name'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company Name</FormLabel>
               <FormControl>
-                <Input placeholder="Acme Restaurant Group" disabled={isLoading} {...field} />
+                <Input
+                  placeholder='Acme Restaurant Group'
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,29 +86,38 @@ export function OnboardingForm({ onSubmit, isLoading, defaultEmail = '' }: Onboa
 
         <FormField
           control={form.control}
-          name="billing_contact"
+          name='billing_contact'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Billing Contact Email</FormLabel>
               <FormControl>
-                <Input placeholder="billing@example.com" type="email" disabled={isLoading} {...field} />
+                <Input
+                  placeholder='billing@example.com'
+                  type='email'
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className='grid grid-cols-2 gap-4'>
           <FormField
             control={form.control}
-            name="industry"
+            name='industry'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Industry</FormLabel>
-                <Select disabled={isLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  disabled={isLoading}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select industry" />
+                      <SelectValue placeholder='Select industry' />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -115,14 +135,18 @@ export function OnboardingForm({ onSubmit, isLoading, defaultEmail = '' }: Onboa
 
           <FormField
             control={form.control}
-            name="timezone"
+            name='timezone'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Timezone</FormLabel>
-                <Select disabled={isLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  disabled={isLoading}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select timezone" />
+                      <SelectValue placeholder='Select timezone' />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -139,8 +163,8 @@ export function OnboardingForm({ onSubmit, isLoading, defaultEmail = '' }: Onboa
           />
         </div>
 
-        <Button className="w-full mt-6" type="submit" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button className='mt-6 w-full' type='submit' disabled={isLoading}>
+          {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
           Complete Setup
         </Button>
       </form>

@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   cancelOrder,
   confirmOrder,
@@ -7,8 +5,9 @@ import {
   invoiceOrder,
   setOrderStatus,
 } from '@/server/fns/sales-orders'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 type OrderAction =
   | 'confirm'
@@ -67,7 +66,8 @@ const POST = async ({ request, params }: any) => {
   }
 }
 
-
-export const APIRoute = createAPIFileRoute('/api/inventory/sales-orders/actions')({
+export const APIRoute = createAPIFileRoute(
+  '/api/inventory/sales-orders/actions'
+)({
   POST,
 })

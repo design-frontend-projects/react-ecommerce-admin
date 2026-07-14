@@ -89,7 +89,9 @@ describe('buildShiftDashboardAnalytics', () => {
           transaction_type: 'sale',
           status: 'completed',
           total_amount: 200,
-          created_at: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+          created_at: new Date(
+            now.getTime() - 2 * 60 * 60 * 1000
+          ).toISOString(),
         },
         {
           id: 'tx-refund-row',

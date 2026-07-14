@@ -16,9 +16,7 @@ interface BranchRowActionsProps<TData> {
   row: Row<TData>
 }
 
-export function BranchRowActions<TData>({
-  row,
-}: BranchRowActionsProps<TData>) {
+export function BranchRowActions<TData>({ row }: BranchRowActionsProps<TData>) {
   const branch = row.original as Branch
   const { setOpen, setCurrentRow } = useBranchesContext()
 

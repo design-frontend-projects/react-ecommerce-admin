@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import viteReact from '@vitejs/plugin-react-swc'
 import path from 'path'
+import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({

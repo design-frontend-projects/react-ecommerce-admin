@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 export interface CreateRuleInput {
   productVariantId: string

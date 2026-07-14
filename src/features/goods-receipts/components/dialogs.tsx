@@ -1,6 +1,6 @@
 import { ReceiptCreateDialog } from './create-dialog'
-import { ReceiptViewDialog } from './view-dialog'
 import { useReceiptsContext } from './provider'
+import { ReceiptViewDialog } from './view-dialog'
 
 export function ReceiptsDialogs() {
   const { open, setOpen, currentRow } = useReceiptsContext()

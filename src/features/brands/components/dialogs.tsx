@@ -38,8 +38,8 @@ export function BrandsDialogs() {
               <AlertDialogHeader>
                 <AlertDialogTitle>Delete brand?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  {currentRow.name} will be permanently deleted. Brands that
-                  are still assigned to products cannot be deleted.
+                  {currentRow.name} will be permanently deleted. Brands that are
+                  still assigned to products cannot be deleted.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

@@ -1,6 +1,6 @@
 // A simple telemetry service to track key application events
 
-export type TelemetryEvent = 
+export type TelemetryEvent =
   | 'otp_requested'
   | 'otp_verified'
   | 'onboarding_completed'
@@ -15,10 +15,10 @@ export const telemetry = {
       console.log(`[Telemetry] ${event}`, properties || '')
     }
   },
-  
+
   identify: (userId: string, traits?: Record<string, any>) => {
     if (import.meta.env.DEV) {
       console.log(`[Telemetry] Identify: ${userId}`, traits || '')
     }
-  }
+  },
 }

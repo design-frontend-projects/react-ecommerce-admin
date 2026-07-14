@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   cancelAdjustment,
   createAdjustment,
@@ -7,8 +5,9 @@ import {
   listAdjustments,
   type CreateAdjustmentInput,
 } from '@/server/fns/stock-adjustments'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -59,7 +58,6 @@ const DELETE = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to cancel adjustment')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/adjustments')({
   GET,

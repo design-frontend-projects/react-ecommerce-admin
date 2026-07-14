@@ -9,9 +9,11 @@ export const areaSchema = z.object({
   cities: z
     .object({
       name: z.string(),
-      countries: z.object({
-        name: z.string(),
-      }).optional(),
+      countries: z
+        .object({
+          name: z.string(),
+        })
+        .optional(),
     })
     .optional(),
 })

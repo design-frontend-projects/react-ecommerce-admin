@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 /**
  * Pure adjustment-item math — no DB/Supabase imports so it is unit-testable in

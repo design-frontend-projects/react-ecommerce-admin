@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AlertCircle, Loader2, Undo2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,12 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { ResOrder } from '../../types'
 import { useRefundOrder } from '../../api/mutations'
 import { formatCurrency } from '../../lib/formatters'
+import type { ResOrder } from '../../types'
 
 export function RefundDialog({ order }: { order: ResOrder }) {
   const { t } = useTranslation()
@@ -36,7 +36,9 @@ export function RefundDialog({ order }: { order: ResOrder }) {
         reason: reason.trim(),
       })
       toast.success(t('respos.history.refund.success.title'), {
-        description: t('respos.history.refund.success.desc', { orderNumber: order.order_number }),
+        description: t('respos.history.refund.success.desc', {
+          orderNumber: order.order_number,
+        }),
       })
       setOpen(false)
     } catch (e: unknown) {
@@ -81,7 +83,9 @@ export function RefundDialog({ order }: { order: ResOrder }) {
             <span className='font-mono font-bold'>{order.order_number}</span>
           </div>
           <div className='mt-2 flex justify-between text-sm'>
-            <span className='font-medium text-muted-foreground'>{t('respos.history.refund.amount')}</span>
+            <span className='font-medium text-muted-foreground'>
+              {t('respos.history.refund.amount')}
+            </span>
             <span className='font-black tracking-tight text-destructive'>
               {formatCurrency(order.total_amount)}
             </span>
@@ -90,7 +94,8 @@ export function RefundDialog({ order }: { order: ResOrder }) {
 
         <div className='grid gap-2'>
           <Label htmlFor='reason' className='font-semibold'>
-            {t('respos.history.refund.reasonLabel')} <span className='text-destructive'>*</span>
+            {t('respos.history.refund.reasonLabel')}{' '}
+            <span className='text-destructive'>*</span>
           </Label>
           <Input
             id='reason'

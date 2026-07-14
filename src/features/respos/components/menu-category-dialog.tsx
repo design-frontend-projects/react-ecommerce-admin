@@ -112,7 +112,9 @@ export function MenuCategoryDialog({
     } catch (error) {
       toast.error(t('respos.menuCategory.error.title'), {
         description:
-          error instanceof Error ? error.message : t('respos.menuCategory.error.unknown'),
+          error instanceof Error
+            ? error.message
+            : t('respos.menuCategory.error.unknown'),
       })
     }
   }
@@ -122,7 +124,9 @@ export function MenuCategoryDialog({
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? t('respos.menuCategory.edit') : t('respos.menuCategory.add')}
+            {isEditing
+              ? t('respos.menuCategory.edit')
+              : t('respos.menuCategory.add')}
           </DialogTitle>
           <DialogDescription>
             {isEditing
@@ -140,7 +144,10 @@ export function MenuCategoryDialog({
                 <FormItem>
                   <FormLabel>{t('respos.menuCategory.nameEn')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('respos.menuCategory.nameEnPlaceholder')} {...field} />
+                    <Input
+                      placeholder={t('respos.menuCategory.nameEnPlaceholder')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -234,7 +241,9 @@ export function MenuCategoryDialog({
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? t('respos.menuCategory.update') : t('respos.menuCategory.create')}
+                {isEditing
+                  ? t('respos.menuCategory.update')
+                  : t('respos.menuCategory.create')}
               </Button>
             </DialogFooter>
           </form>

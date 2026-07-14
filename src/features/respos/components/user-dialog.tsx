@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,18 +26,16 @@ import { Input } from '@/components/ui/input'
 import { useRoles } from '../api/queries'
 import type { ResEmployeeWithRoles } from '../types'
 
-const createUserFormSchema = (t: TFunction) => z.object({
-  firstName: z.string().min(2, t('respos.users.error.firstName')),
-  lastName: z.string().min(2, t('respos.users.error.lastName')),
-  email: z.string().email(t('respos.users.error.email')),
-  password: z
-    .string()
-    .min(8, t('respos.users.error.password'))
-    .optional(),
-  phone: z.string().optional(),
-  pinCode: z.string().length(6, t('respos.users.error.pin')).optional(),
-  roles: z.array(z.string()).min(1, t('respos.users.error.roles')),
-})
+const createUserFormSchema = (t: TFunction) =>
+  z.object({
+    firstName: z.string().min(2, t('respos.users.error.firstName')),
+    lastName: z.string().min(2, t('respos.users.error.lastName')),
+    email: z.string().email(t('respos.users.error.email')),
+    password: z.string().min(8, t('respos.users.error.password')).optional(),
+    phone: z.string().optional(),
+    pinCode: z.string().length(6, t('respos.users.error.pin')).optional(),
+    roles: z.array(z.string()).min(1, t('respos.users.error.roles')),
+  })
 
 type UserFormValues = z.infer<ReturnType<typeof createUserFormSchema>>
 
@@ -104,7 +102,11 @@ export function UserDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? t('respos.users.editUser') : t('respos.users.createUser')}</DialogTitle>
+          <DialogTitle>
+            {isEditing
+              ? t('respos.users.editUser')
+              : t('respos.users.createUser')}
+          </DialogTitle>
           <DialogDescription>
             {isEditing
               ? t('respos.users.editDesc')
@@ -125,7 +127,10 @@ export function UserDialog({
                   <FormItem>
                     <FormLabel>{t('respos.users.firstName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('respos.users.firstNamePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('respos.users.firstNamePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -138,7 +143,10 @@ export function UserDialog({
                   <FormItem>
                     <FormLabel>{t('respos.users.lastName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('respos.users.lastNamePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('respos.users.lastNamePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -193,7 +201,10 @@ export function UserDialog({
                   <FormItem>
                     <FormLabel>{t('respos.users.phone')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('respos.users.phonePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('respos.users.phonePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -271,7 +282,9 @@ export function UserDialog({
                 {form.formState.isSubmitting && (
                   <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 )}
-                {isEditing ? t('respos.users.saveChanges') : t('respos.users.createUser')}
+                {isEditing
+                  ? t('respos.users.saveChanges')
+                  : t('respos.users.createUser')}
               </Button>
             </DialogFooter>
           </form>

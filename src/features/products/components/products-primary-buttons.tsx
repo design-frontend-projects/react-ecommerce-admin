@@ -1,6 +1,5 @@
 import { PackagePlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
 import { useProductWizardStore } from '../context/product-wizard-store'
 
 export function ProductsPrimaryButtons() {

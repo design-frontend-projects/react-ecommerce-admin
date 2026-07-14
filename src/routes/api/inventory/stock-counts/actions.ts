@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   postCount,
   reviewCount,
@@ -7,8 +5,9 @@ import {
   snapshotCount,
   type CountEntryInput,
 } from '@/server/fns/stock-counts'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 type CountAction = 'snapshot' | 'review' | 'post' | 'save'
 
@@ -55,7 +54,8 @@ const POST = async ({ request, params }: any) => {
   }
 }
 
-
-export const APIRoute = createAPIFileRoute('/api/inventory/stock-counts/actions')({
+export const APIRoute = createAPIFileRoute(
+  '/api/inventory/stock-counts/actions'
+)({
   POST,
 })

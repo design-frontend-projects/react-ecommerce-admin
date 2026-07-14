@@ -1,13 +1,13 @@
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { AreasProvider, useAreasContext } from './context/areas-context'
-import { AreasTable } from './components/areas-table'
 import { AreasActionDialog } from './components/areas-action-dialog'
 import { AreasDeleteDialog } from './components/areas-delete-dialog'
 import { AreasPrimaryButtons } from './components/areas-primary-buttons'
+import { AreasTable } from './components/areas-table'
+import { AreasProvider, useAreasContext } from './context/areas-context'
 
 export default function Areas() {
   return (

@@ -274,14 +274,16 @@ export function useDashboardData() {
       // ─── 10. Low stock products ───
       const { data: variantsData, error: variantsError } = await supabase
         .from('product_variants')
-        .select(`
+        .select(
+          `
           id,
           product_id,
           sku,
           stock_quantity,
           min_stock,
           products ( name )
-        `)
+        `
+        )
         .order('stock_quantity', { ascending: true })
         .limit(200)
 
@@ -296,7 +298,9 @@ export function useDashboardData() {
         products: { name: string } | null
       }
 
-      const lowStockProducts = (variantsData as unknown as VariantResponse[] || [])
+      const lowStockProducts = (
+        (variantsData as unknown as VariantResponse[]) || []
+      )
         .filter((v) => v.stock_quantity <= (v.min_stock || 0))
         .map((v) => ({
           id: String(v.id),

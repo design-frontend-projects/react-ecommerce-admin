@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import { supabase } from '@/lib/supabase'
 import {
   Card,
   CardContent,
@@ -6,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { supabase } from '@/lib/supabase'
-import { useTranslation } from 'react-i18next'
 import { AnalyticsChart } from './analytics-chart'
 
 interface AnalyticsData {
@@ -98,7 +98,9 @@ export function Analytics() {
       <Card>
         <CardHeader>
           <CardTitle>{t('dashboard.salesTrend')}</CardTitle>
-          <CardDescription>{t('dashboard.dailyTransactionVolume')}</CardDescription>
+          <CardDescription>
+            {t('dashboard.dailyTransactionVolume')}
+          </CardDescription>
         </CardHeader>
         <CardContent className='px-6'>
           <AnalyticsChart />
@@ -258,7 +260,9 @@ export function Analytics() {
         <Card className='col-span-1 lg:col-span-3'>
           <CardHeader>
             <CardTitle>{t('dashboard.transactionStatus')}</CardTitle>
-            <CardDescription>{t('dashboard.breakdownByStatus')}</CardDescription>
+            <CardDescription>
+              {t('dashboard.breakdownByStatus')}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <SimpleBarList
@@ -285,7 +289,9 @@ function SimpleBarList({
   const { t } = useTranslation()
   if (!items.length) {
     return (
-      <div className='text-sm text-muted-foreground'>{t('dashboard.noDataAvailable')}</div>
+      <div className='text-sm text-muted-foreground'>
+        {t('dashboard.noDataAvailable')}
+      </div>
     )
   }
 

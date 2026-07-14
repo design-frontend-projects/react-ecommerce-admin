@@ -1,7 +1,8 @@
-"use server"
+'use server'
 
 import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import {
@@ -9,7 +10,6 @@ import {
   getPrimaryRoleName,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
 import { checkAdminAccess } from './rbac'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
@@ -37,7 +37,9 @@ export interface CreateUserResult {
   primaryRole: string | null
 }
 
-async function deriveTenantModules(parentTenantId: string | null): Promise<string[]> {
+async function deriveTenantModules(
+  parentTenantId: string | null
+): Promise<string[]> {
   if (!parentTenantId) return [...MODULE_ACTIVITY_CODES]
 
   const rows = (await prisma.tenant_activity_types.findMany({
@@ -47,7 +49,9 @@ async function deriveTenantModules(parentTenantId: string | null): Promise<strin
 
   const derived = rows
     .map((row) => row.business_activity_types.code)
-    .filter((code) => (MODULE_ACTIVITY_CODES as readonly string[]).includes(code))
+    .filter((code) =>
+      (MODULE_ACTIVITY_CODES as readonly string[]).includes(code)
+    )
 
   // No configured activity types → preserve the all-visible default.
   return derived.length > 0 ? derived : [...MODULE_ACTIVITY_CODES]
@@ -113,7 +117,9 @@ export async function createUser(
   const primaryRole = getPrimaryRoleName(roleNames)
 
   const email = input.email.trim().toLowerCase()
-  const existingTenantUser = await prisma.tenant_users.findUnique({ where: { email } })
+  const existingTenantUser = await prisma.tenant_users.findUnique({
+    where: { email },
+  })
   if (existingTenantUser) {
     throw new Error('A user with this email already exists.')
   }
@@ -140,7 +146,9 @@ export async function createUser(
     })
 
   if (authError || !authData.user) {
-    throw new Error(authError?.message ?? 'Failed to create user in Supabase Auth.')
+    throw new Error(
+      authError?.message ?? 'Failed to create user in Supabase Auth.'
+    )
   }
 
   const authUserId = authData.user.id
@@ -198,7 +206,9 @@ export async function createUser(
   }
 
   // Display-only metadata sync — non-fatal.
-  await syncNewUserMetadata(authUserId, roleNames, primaryRole).catch(() => undefined)
+  await syncNewUserMetadata(authUserId, roleNames, primaryRole).catch(
+    () => undefined
+  )
 
   return { tenantUserId, authUserId, roleNames, primaryRole }
 }

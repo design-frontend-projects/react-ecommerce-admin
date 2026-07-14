@@ -1,7 +1,7 @@
 // ResPOS Constants
 // Role and permission definitions
-import type { Permission, RoleName } from '../types'
 import { UserRole } from '@/types/user-role.enum'
+import type { Permission, RoleName } from '../types'
 
 // Backward-compatible re-export — existing `import { RoleNames }` keeps working
 export { UserRole as RoleNames } from '@/types/user-role.enum'
@@ -62,8 +62,21 @@ export const ROLE_PERMISSIONS: Partial<Record<RoleName, Permission[]>> = {
     'payments',
     'void_approve',
   ],
-  [UserRole.Cashier]: ['dashboard', 'pos', 'orders', 'shifts', 'payments', 'void_approve'],
-  [UserRole.Captain]: ['dashboard', 'pos', 'orders', 'reservations_view', 'void_request'],
+  [UserRole.Cashier]: [
+    'dashboard',
+    'pos',
+    'orders',
+    'shifts',
+    'payments',
+    'void_approve',
+  ],
+  [UserRole.Captain]: [
+    'dashboard',
+    'pos',
+    'orders',
+    'reservations_view',
+    'void_request',
+  ],
   [UserRole.Kitchen]: ['dashboard', 'kitchen'],
 }
 

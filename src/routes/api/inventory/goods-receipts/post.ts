@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { postReceipt } from '@/server/fns/goods-receipts'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = async ({ request }: any) => {
   try {
@@ -23,8 +22,8 @@ const POST = async ({ request }: any) => {
   }
 }
 
-export const APIRoute = createAPIFileRoute('/api/inventory/goods-receipts/post')(
-  {
-    POST,
-  }
-)
+export const APIRoute = createAPIFileRoute(
+  '/api/inventory/goods-receipts/post'
+)({
+  POST,
+})

@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { OrdersProvider } from './components/provider'
-import { OrdersPrimaryButtons } from './components/primary-buttons'
-import { OrdersTable } from './components/table'
 import { OrdersDialogs } from './components/dialogs'
+import { OrdersPrimaryButtons } from './components/primary-buttons'
+import { OrdersProvider } from './components/provider'
+import { OrdersTable } from './components/table'
 import { useOrders } from './hooks/use-sales-orders'
 
 export function SalesOrders() {

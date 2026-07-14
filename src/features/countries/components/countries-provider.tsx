@@ -17,7 +17,9 @@ export function CountriesProvider({ children }: { children: React.ReactNode }) {
   const [currentRow, setCurrentRow] = useState<Country | null>(null)
 
   return (
-    <CountriesContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <CountriesContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </CountriesContext.Provider>
   )
@@ -27,7 +29,9 @@ export function CountriesProvider({ children }: { children: React.ReactNode }) {
 export const useCountriesDialog = () => {
   const context = useContext(CountriesContext)
   if (!context) {
-    throw new Error('useCountriesDialog must be used within a CountriesProvider')
+    throw new Error(
+      'useCountriesDialog must be used within a CountriesProvider'
+    )
   }
   return context
 }

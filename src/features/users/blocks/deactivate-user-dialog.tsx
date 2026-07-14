@@ -4,8 +4,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { useDeactivateUser } from '../hooks/use-users'
 import type { User } from '../data/types'
+import { useDeactivateUser } from '../hooks/use-users'
 
 type DeactivateUserDialogProps = {
   open: boolean
@@ -59,7 +59,8 @@ export function DeactivateUserDialog({
             Are you sure you want to deactivate{' '}
             <span className='font-bold'>{user.email}</span>?
             <br />
-            This will immediately revoke their access to the system. You can reactivate them later if needed.
+            This will immediately revoke their access to the system. You can
+            reactivate them later if needed.
           </p>
 
           <Label className='my-2 block'>
@@ -68,14 +69,15 @@ export function DeactivateUserDialog({
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder='Enter email address to confirm.'
-              className="mt-1"
+              className='mt-1'
             />
           </Label>
 
           <Alert variant='destructive'>
             <AlertTitle>Warning!</AlertTitle>
             <AlertDescription>
-              This user will be logged out of all active sessions and will not be able to log back in.
+              This user will be logged out of all active sessions and will not
+              be able to log back in.
             </AlertDescription>
           </Alert>
         </div>

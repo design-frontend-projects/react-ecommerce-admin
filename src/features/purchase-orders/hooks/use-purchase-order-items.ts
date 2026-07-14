@@ -70,11 +70,14 @@ export const useBatchReceiveItems = () => {
         unit_cost: number
       }>
     }) => {
-      const { data, error } = await supabase.rpc('receive_purchase_order_items', {
-        p_po_id: po_id,
-        p_store_id: store_id,
-        p_received_items: items,
-      })
+      const { data, error } = await supabase.rpc(
+        'receive_purchase_order_items',
+        {
+          p_po_id: po_id,
+          p_store_id: store_id,
+          p_received_items: items,
+        }
+      )
 
       if (error) throw error
       return data

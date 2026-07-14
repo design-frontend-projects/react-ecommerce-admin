@@ -135,7 +135,9 @@ export function TableDialog({
     } catch (error) {
       toast.error(t('respos.floor.table.error.title'), {
         description:
-          error instanceof Error ? error.message : t('respos.floor.table.error.generic'),
+          error instanceof Error
+            ? error.message
+            : t('respos.floor.table.error.generic'),
       })
     }
   }
@@ -144,9 +146,15 @@ export function TableDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? t('respos.floor.table.edit') : t('respos.floor.table.add')}</DialogTitle>
+          <DialogTitle>
+            {isEditing
+              ? t('respos.floor.table.edit')
+              : t('respos.floor.table.add')}
+          </DialogTitle>
           <DialogDescription>
-            {isEditing ? t('respos.floor.table.editDesc') : t('respos.floor.table.addDesc')}
+            {isEditing
+              ? t('respos.floor.table.editDesc')
+              : t('respos.floor.table.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -165,7 +173,9 @@ export function TableDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t('respos.floor.table.selectFloor')} />
+                        <SelectValue
+                          placeholder={t('respos.floor.table.selectFloor')}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -188,7 +198,13 @@ export function TableDialog({
                 <FormItem>
                   <FormLabel>{t('respos.floor.table.tableNumber')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('respos.floor.table.tableNumberPlaceholder')} {...field} disabled={isFieldsDisabled} />
+                    <Input
+                      placeholder={t(
+                        'respos.floor.table.tableNumberPlaceholder'
+                      )}
+                      {...field}
+                      disabled={isFieldsDisabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -224,8 +240,16 @@ export function TableDialog({
                   <FormLabel>{t('respos.floor.table.shape')}</FormLabel>
                   <div className='flex gap-2'>
                     {[
-                      { value: 'square', icon: Square, label: t('respos.floor.table.shapes.square') },
-                      { value: 'round', icon: Circle, label: t('respos.floor.table.shapes.round') },
+                      {
+                        value: 'square',
+                        icon: Square,
+                        label: t('respos.floor.table.shapes.square'),
+                      },
+                      {
+                        value: 'round',
+                        icon: Circle,
+                        label: t('respos.floor.table.shapes.round'),
+                      },
                       {
                         value: 'rectangle',
                         icon: Square,
@@ -326,7 +350,9 @@ export function TableDialog({
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? t('respos.floor.table.update') : t('respos.floor.table.create')}
+                {isEditing
+                  ? t('respos.floor.table.update')
+                  : t('respos.floor.table.create')}
               </Button>
             </DialogFooter>
           </form>

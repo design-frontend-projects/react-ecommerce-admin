@@ -38,7 +38,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreateReservation, useUpdateReservation, useDeleteReservation } from '../api/mutations'
+import {
+  useCreateReservation,
+  useUpdateReservation,
+  useDeleteReservation,
+} from '../api/mutations'
 import { useTables } from '../api/queries'
 import {
   reservationSchema,
@@ -159,7 +163,9 @@ export function ReservationDialog({
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? t('respos.reservation.edit') : t('respos.reservation.add')}
+            {isEditing
+              ? t('respos.reservation.edit')
+              : t('respos.reservation.add')}
           </DialogTitle>
           <DialogDescription>
             {isEditing
@@ -176,9 +182,16 @@ export function ReservationDialog({
                 name='customer_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('respos.reservation.customerName')}</FormLabel>
+                    <FormLabel>
+                      {t('respos.reservation.customerName')}
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder={t('respos.reservation.customerNamePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t(
+                          'respos.reservation.customerNamePlaceholder'
+                        )}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -192,7 +205,10 @@ export function ReservationDialog({
                   <FormItem>
                     <FormLabel>{t('respos.reservation.phone')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('respos.reservation.phonePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('respos.reservation.phonePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -326,7 +342,11 @@ export function ReservationDialog({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t('respos.reservation.tablePlaceholder')} />
+                          <SelectValue
+                            placeholder={t(
+                              'respos.reservation.tablePlaceholder'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -335,7 +355,10 @@ export function ReservationDialog({
                         </SelectItem>
                         {tables?.map((table) => (
                           <SelectItem key={table.id} value={table.id}>
-                            {t('respos.reservation.tableNumber', { number: table.table_number })} ({table.seats} {t('respos.reservation.seats')})
+                            {t('respos.reservation.tableNumber', {
+                              number: table.table_number,
+                            })}{' '}
+                            ({table.seats} {t('respos.reservation.seats')})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -357,14 +380,26 @@ export function ReservationDialog({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t('respos.reservation.statusPlaceholder')} />
+                          <SelectValue
+                            placeholder={t(
+                              'respos.reservation.statusPlaceholder'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='pending'>{t('respos.reservation.statusOptions.pending')}</SelectItem>
-                        <SelectItem value='confirmed'>{t('respos.reservation.statusOptions.confirmed')}</SelectItem>
-                        <SelectItem value='completed'>{t('respos.reservation.statusOptions.completed')}</SelectItem>
-                        <SelectItem value='cancelled'>{t('respos.reservation.statusOptions.cancelled')}</SelectItem>
+                        <SelectItem value='pending'>
+                          {t('respos.reservation.statusOptions.pending')}
+                        </SelectItem>
+                        <SelectItem value='confirmed'>
+                          {t('respos.reservation.statusOptions.confirmed')}
+                        </SelectItem>
+                        <SelectItem value='completed'>
+                          {t('respos.reservation.statusOptions.completed')}
+                        </SelectItem>
+                        <SelectItem value='cancelled'>
+                          {t('respos.reservation.statusOptions.cancelled')}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -403,7 +438,9 @@ export function ReservationDialog({
                     )
                     if (!isConfirmed) return
                     try {
-                      await deleteReservationMutation.mutateAsync(reservation!.id)
+                      await deleteReservationMutation.mutateAsync(
+                        reservation!.id
+                      )
                       toast.success(t('respos.reservation.success.deleted'))
                       onOpenChange(false)
                     } catch {
@@ -411,7 +448,9 @@ export function ReservationDialog({
                     }
                   }}
                 >
-                  {deleteReservationMutation.isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                  {deleteReservationMutation.isPending && (
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                  )}
                   {t('respos.reservation.delete')}
                 </Button>
               ) : (
@@ -425,9 +464,16 @@ export function ReservationDialog({
                 >
                   {t('respos.reservation.cancel')}
                 </Button>
-                <Button type='submit' disabled={isPending || deleteReservationMutation.isPending}>
-                  {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                  {isEditing ? t('respos.reservation.update') : t('respos.reservation.create')}
+                <Button
+                  type='submit'
+                  disabled={isPending || deleteReservationMutation.isPending}
+                >
+                  {isPending && (
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                  )}
+                  {isEditing
+                    ? t('respos.reservation.update')
+                    : t('respos.reservation.create')}
                 </Button>
               </div>
             </DialogFooter>

@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { BrandsProvider } from './components/provider'
-import { BrandsPrimaryButtons } from './components/primary-buttons'
-import { BrandsTable } from './components/table'
 import { BrandsDialogs } from './components/dialogs'
+import { BrandsPrimaryButtons } from './components/primary-buttons'
+import { BrandsProvider } from './components/provider'
+import { BrandsTable } from './components/table'
 import { useBrands } from './hooks/use-brands'
 
 export function Brands() {

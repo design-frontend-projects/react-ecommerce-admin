@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { useTranslation } from 'react-i18next'
 import type { RecentRefund } from '../use-dashboard-data'
 
 interface RecentRefundsProps {
@@ -36,12 +36,9 @@ export function RecentRefunds({ data }: RecentRefundsProps) {
   return (
     <div className='space-y-8'>
       {data.map((refund) => (
-        <div
-          key={String(refund.refund_id)}
-          className='flex items-center gap-4'
-        >
+        <div key={String(refund.refund_id)} className='flex items-center gap-4'>
           <Avatar className='h-9 w-9'>
-            <AvatarFallback className='bg-red-100 text-red-600 text-xs dark:bg-red-900/30 dark:text-red-400'>
+            <AvatarFallback className='bg-red-100 text-xs text-red-600 dark:bg-red-900/30 dark:text-red-400'>
               RF
             </AvatarFallback>
           </Avatar>
@@ -59,14 +56,14 @@ export function RecentRefunds({ data }: RecentRefundsProps) {
                 {refund.refund_status && (
                   <Badge
                     variant={statusVariant(refund.refund_status)}
-                    className='text-[10px] px-1.5 py-0'
+                    className='px-1.5 py-0 text-[10px]'
                   >
                     {refund.refund_status.replace('_', ' ')}
                   </Badge>
                 )}
               </div>
               {refund.reason && (
-                <p className='text-xs text-muted-foreground truncate max-w-[200px]'>
+                <p className='max-w-[200px] truncate text-xs text-muted-foreground'>
                   {refund.reason}
                 </p>
               )}

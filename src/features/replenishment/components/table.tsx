@@ -20,9 +20,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
+import type { SuggestionListItem } from '../data/schema'
 import { columns } from './columns'
 import { useReplenishmentContext } from './provider'
-import type { SuggestionListItem } from '../data/schema'
 
 export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -85,7 +85,10 @@ export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No suggestions yet. Run the reorder check to evaluate your
                   reorder rules.
                 </TableCell>

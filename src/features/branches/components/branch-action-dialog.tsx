@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Textarea } from '@/components/ui/textarea'
 import { useCities } from '@/features/cities/hooks/use-cities'
 import { useCreateBranch, useUpdateBranch } from '../hooks/use-branches'
 import { useBranchesContext } from './branches-provider'
@@ -109,16 +109,14 @@ export function BranchActionDialog() {
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? 'Edit Branch' : 'Create Branch'}
-          </DialogTitle>
+          <DialogTitle>{isEdit ? 'Edit Branch' : 'Create Branch'}</DialogTitle>
           <DialogDescription>
             {isEdit
               ? 'Edit the branch details below.'
               : 'Add a new branch to your system.'}
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className='pr-4 -mr-4 h-[380px]'>
+        <ScrollArea className='-mr-4 h-[380px] pr-4'>
           <Form {...form}>
             <form
               id='branch-form'
@@ -144,10 +142,7 @@ export function BranchActionDialog() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>City</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='Select a city' />
@@ -155,10 +150,7 @@ export function BranchActionDialog() {
                       </FormControl>
                       <SelectContent>
                         {cities?.map((city) => (
-                          <SelectItem
-                            key={city.id}
-                            value={String(city.id)}
-                          >
+                          <SelectItem key={city.id} value={String(city.id)}>
                             {city.name}
                             {city.countries?.name
                               ? ` (${city.countries.name})`

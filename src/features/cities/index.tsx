@@ -1,13 +1,13 @@
 import { getRouteApi } from '@tanstack/react-router'
-import { CitiesDialogProvider } from './components/cities-provider'
-import { CitiesTable } from './components/cities-table'
-import { CitiesDialogs } from './components/cities-dialogs'
-import { CitiesPrimaryButtons } from './components/cities-primary-buttons'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { CitiesDialogs } from './components/cities-dialogs'
+import { CitiesPrimaryButtons } from './components/cities-primary-buttons'
+import { CitiesDialogProvider } from './components/cities-provider'
+import { CitiesTable } from './components/cities-table'
 import { useCities } from './hooks/use-cities'
 
 const route = getRouteApi('/_authenticated/cities')
@@ -39,9 +39,7 @@ export function Cities() {
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Cities</h2>
-            <p className='text-muted-foreground'>
-              Manage your cities here.
-            </p>
+            <p className='text-muted-foreground'>Manage your cities here.</p>
           </div>
           <CitiesPrimaryButtons />
         </div>

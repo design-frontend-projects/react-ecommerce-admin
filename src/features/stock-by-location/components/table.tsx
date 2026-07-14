@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './columns'
 import type { StockByLocationRow } from '../data/schema'
+import { columns } from './columns'
 
 export function StockByLocationTable({ data }: { data: StockByLocationRow[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -82,7 +82,10 @@ export function StockByLocationTable({ data }: { data: StockByLocationRow[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No location stock yet. Stock appears here after receipts,
                   transfers, or adjustments run through the movement engine.
                 </TableCell>

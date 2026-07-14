@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { Loader2, MailCheck, ArrowRight, ArrowLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -21,7 +22,6 @@ import {
   forgotPasswordFormSchema,
   type ForgotPasswordFormValues,
 } from './forgot-password.schema'
-import { useTranslation } from 'react-i18next'
 
 export function ForgotPasswordForm({
   className,
@@ -80,9 +80,13 @@ export function ForgotPasswordForm({
         <div className='rounded-full bg-primary/10 p-4'>
           <MailCheck className='h-8 w-8 text-primary' />
         </div>
-        <h3 className='text-lg font-medium'>{t('forgotPassword.checkEmailTitle')}</h3>
+        <h3 className='text-lg font-medium'>
+          {t('forgotPassword.checkEmailTitle')}
+        </h3>
         <p className='text-sm text-muted-foreground'>
-          {t('forgotPassword.checkEmailDesc', { email: form.getValues('email') })}
+          {t('forgotPassword.checkEmailDesc', {
+            email: form.getValues('email'),
+          })}
         </p>
         <Button variant='outline' className='mt-4 w-full' asChild>
           <Link to='/sign-in'>

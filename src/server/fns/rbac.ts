@@ -1,6 +1,7 @@
-"use server"
+'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
+import { ADMIN_ROLES } from '@/types/user-role.enum'
 import prisma from '@/lib/prisma'
 import {
   BASE_PERMISSION_DEFINITIONS,
@@ -10,7 +11,6 @@ import {
   getFallbackPermissionNamesForRoles,
   resolveEffectivePermissions,
 } from '@/features/users/data/rbac'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
 import type {
   CreateRoleInput,
   PermissionRecord,
@@ -204,7 +204,8 @@ export async function createRole(
 ): Promise<RoleWithPermissions> {
   if (input.callerAuthUserId) {
     const isAdmin = await checkAdminAccess(input.callerAuthUserId)
-    if (!isAdmin) throw new Error('Only admin or super_admin users can manage roles')
+    if (!isAdmin)
+      throw new Error('Only admin or super_admin users can manage roles')
   }
   const role = await prisma.roles.create({
     data: {
@@ -234,7 +235,8 @@ export async function updateRole(
 ): Promise<RoleWithPermissions> {
   if (input.callerAuthUserId) {
     const isAdmin = await checkAdminAccess(input.callerAuthUserId)
-    if (!isAdmin) throw new Error('Only admin or super_admin users can manage roles')
+    if (!isAdmin)
+      throw new Error('Only admin or super_admin users can manage roles')
   }
   const role = await prisma.roles.update({
     where: { id: input.id },
@@ -257,7 +259,8 @@ export async function updateRole(
 export async function deleteRole(roleId: string, callerAuthUserId?: string) {
   if (callerAuthUserId) {
     const isAdmin = await checkAdminAccess(callerAuthUserId)
-    if (!isAdmin) throw new Error('Only admin or super_admin users can manage roles')
+    if (!isAdmin)
+      throw new Error('Only admin or super_admin users can manage roles')
   }
 
   const role = (await prisma.roles.findUnique({
@@ -279,7 +282,8 @@ export async function setRolePermissions(
 ) {
   if (callerAuthUserId) {
     const isAdmin = await checkAdminAccess(callerAuthUserId)
-    if (!isAdmin) throw new Error('Only admin or super_admin users can manage roles')
+    if (!isAdmin)
+      throw new Error('Only admin or super_admin users can manage roles')
   }
   await prisma.role_permissions.deleteMany({
     where: { role_id: roleId },
@@ -541,7 +545,10 @@ export async function setUserPermissionOverrides(
     })),
   ]
   if (rows.length > 0) {
-    await prisma.user_permissions.createMany({ data: rows, skipDuplicates: true })
+    await prisma.user_permissions.createMany({
+      data: rows,
+      skipDuplicates: true,
+    })
   }
 
   const tenantUser = (await prisma.tenant_users.findUnique({
@@ -549,7 +556,9 @@ export async function setUserPermissionOverrides(
     include: {
       user_roles: {
         include: {
-          roles: { include: { role_permissions: { include: { permissions: true } } } },
+          roles: {
+            include: { role_permissions: { include: { permissions: true } } },
+          },
         },
       },
       user_permissions: { include: { permissions: true } },
@@ -561,7 +570,10 @@ export async function setUserPermissionOverrides(
         role_permissions: Array<{ permissions: { name: string } }>
       }
     }>
-    user_permissions: Array<{ is_granted: boolean; permissions: { name: string } }>
+    user_permissions: Array<{
+      is_granted: boolean
+      permissions: { name: string }
+    }>
   } | null
 
   if (!tenantUser) return { effectivePermissionNames: [] }
@@ -572,7 +584,9 @@ export async function setUserPermissionOverrides(
   const roleDerived = tenantUser.user_roles.flatMap((assignment) =>
     assignment.roles.role_permissions.map((rp) => rp.permissions.name)
   )
-  if (roleNames.some((name) => DEFAULT_ROLE_PERMISSION_NAMES[name]?.includes('*'))) {
+  if (
+    roleNames.some((name) => DEFAULT_ROLE_PERMISSION_NAMES[name]?.includes('*'))
+  ) {
     roleDerived.push('*')
   }
 

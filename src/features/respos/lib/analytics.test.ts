@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { buildRestaurantAnalytics, filterOrdersByDays } from './analytics'
 import type { ResFloor, ResTable } from '../types'
+import { buildRestaurantAnalytics, filterOrdersByDays } from './analytics'
 
 const NOW = new Date('2026-04-18T12:00:00.000Z')
 
@@ -58,7 +58,9 @@ const orders = [
     created_at: '2026-04-18T08:00:00.000Z',
     paid_at: '2026-04-18T08:10:00.000Z',
     table: { id: 't1', table_number: 'T1', floor_id: 'f1' },
-    order_items: [{ quantity: 2, unit_price: 50, menu_item: { name: 'Burger' } }],
+    order_items: [
+      { quantity: 2, unit_price: 50, menu_item: { name: 'Burger' } },
+    ],
   },
   {
     status: 'open',
@@ -66,7 +68,9 @@ const orders = [
     total_amount: 80,
     created_at: '2026-04-15T10:00:00.000Z',
     table: { id: 't1', table_number: 'T1', floor_id: 'f1' },
-    order_items: [{ quantity: 1, unit_price: 80, menu_item: { name: 'Pizza' } }],
+    order_items: [
+      { quantity: 1, unit_price: 80, menu_item: { name: 'Pizza' } },
+    ],
   },
   {
     status: 'ready',
@@ -74,7 +78,9 @@ const orders = [
     total_amount: 40,
     created_at: '2026-04-10T09:00:00.000Z',
     table: { id: 't2', table_number: 'T2', floor_id: 'f2' },
-    order_items: [{ quantity: 1, unit_price: 40, menu_item: { name: 'Burger' } }],
+    order_items: [
+      { quantity: 1, unit_price: 40, menu_item: { name: 'Burger' } },
+    ],
   },
   {
     status: 'paid',
@@ -83,7 +89,9 @@ const orders = [
     created_at: '2026-03-25T16:00:00.000Z',
     paid_at: '2026-03-25T16:15:00.000Z',
     table: { id: 't2', table_number: 'T2', floor_id: 'f2' },
-    order_items: [{ quantity: 3, unit_price: 20, menu_item: { name: 'Salad' } }],
+    order_items: [
+      { quantity: 3, unit_price: 20, menu_item: { name: 'Salad' } },
+    ],
   },
   {
     status: 'void',
@@ -91,7 +99,9 @@ const orders = [
     total_amount: 999,
     created_at: '2026-04-16T10:00:00.000Z',
     table: { id: 't1', table_number: 'T1', floor_id: 'f1' },
-    order_items: [{ quantity: 1, unit_price: 999, menu_item: { name: 'Void Item' } }],
+    order_items: [
+      { quantity: 1, unit_price: 999, menu_item: { name: 'Void Item' } },
+    ],
   },
   {
     status: 'paid',
@@ -108,7 +118,9 @@ const orders = [
     created_at: '2026-03-10T11:00:00.000Z',
     paid_at: '2026-03-10T11:10:00.000Z',
     table: { id: 't1', table_number: 'T1', floor_id: 'f1' },
-    order_items: [{ quantity: 5, unit_price: 100, menu_item: { name: 'Steak' } }],
+    order_items: [
+      { quantity: 5, unit_price: 100, menu_item: { name: 'Steak' } },
+    ],
   },
 ]
 

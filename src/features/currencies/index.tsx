@@ -1,10 +1,10 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 import { CurrenciesDialogs } from './components/currencies-dialogs'
 import { CurrenciesPrimaryButtons } from './components/currencies-primary-buttons'
 import { CurrenciesProvider } from './components/currencies-provider'
@@ -29,9 +29,7 @@ export function Currencies() {
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Currencies</h2>
-            <p className='text-muted-foreground'>
-              Manage your currencies.
-            </p>
+            <p className='text-muted-foreground'>Manage your currencies.</p>
           </div>
           <CurrenciesPrimaryButtons />
         </div>

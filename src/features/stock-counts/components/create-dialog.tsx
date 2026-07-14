@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
+import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -17,13 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
-import { useCreateCount } from '../hooks/use-stock-counts'
 import { createCountInputSchema } from '../data/schema'
+import { useCreateCount } from '../hooks/use-stock-counts'
 
 interface CategoryOption {
   category_id: number
@@ -107,8 +107,8 @@ export function CountCreateDialog({
         <DialogHeader>
           <DialogTitle>New Stock Count</DialogTitle>
           <DialogDescription>
-            Create a draft count. Starting the count freezes expected
-            quantities for the selected scope.
+            Create a draft count. Starting the count freezes expected quantities
+            for the selected scope.
           </DialogDescription>
         </DialogHeader>
 

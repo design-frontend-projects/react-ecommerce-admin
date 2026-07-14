@@ -16,8 +16,8 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { formatCurrency } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
+import { formatCurrency } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -288,7 +288,9 @@ export function NonRestaurantShipmentsBoard({
         },
         () => {
           queryClient.invalidateQueries({ queryKey: QUERY_KEY })
-          queryClient.invalidateQueries({ queryKey: SHIPMENT_DETAILS_QUERY_KEY })
+          queryClient.invalidateQueries({
+            queryKey: SHIPMENT_DETAILS_QUERY_KEY,
+          })
         }
       )
       .subscribe()
@@ -349,24 +351,27 @@ export function NonRestaurantShipmentsBoard({
     )
   }, [shipmentRows])
 
-  const filterTabs: Array<{ value: ShipmentFilter; label: string; count: number }> =
-    isInventoryMode
-      ? [
-          { value: 'all', label: 'All', count: counts.total },
-          { value: 'pending', label: 'Pending', count: counts.pending },
-          { value: 'in_transit', label: 'In Transit', count: counts.in_transit },
-          { value: 'delayed', label: 'Delayed', count: counts.delayed },
-          { value: 'refundable', label: 'Refundable', count: counts.refundable },
-          { value: 'delivered', label: 'Delivered', count: counts.delivered },
-          { value: 'cancelled', label: 'Cancelled', count: counts.cancelled },
-        ]
-      : [
-          { value: 'all', label: 'All', count: counts.total },
-          { value: 'pending', label: 'Pending', count: counts.pending },
-          { value: 'in_transit', label: 'In Transit', count: counts.in_transit },
-          { value: 'delivered', label: 'Delivered', count: counts.delivered },
-          { value: 'cancelled', label: 'Cancelled', count: counts.cancelled },
-        ]
+  const filterTabs: Array<{
+    value: ShipmentFilter
+    label: string
+    count: number
+  }> = isInventoryMode
+    ? [
+        { value: 'all', label: 'All', count: counts.total },
+        { value: 'pending', label: 'Pending', count: counts.pending },
+        { value: 'in_transit', label: 'In Transit', count: counts.in_transit },
+        { value: 'delayed', label: 'Delayed', count: counts.delayed },
+        { value: 'refundable', label: 'Refundable', count: counts.refundable },
+        { value: 'delivered', label: 'Delivered', count: counts.delivered },
+        { value: 'cancelled', label: 'Cancelled', count: counts.cancelled },
+      ]
+    : [
+        { value: 'all', label: 'All', count: counts.total },
+        { value: 'pending', label: 'Pending', count: counts.pending },
+        { value: 'in_transit', label: 'In Transit', count: counts.in_transit },
+        { value: 'delivered', label: 'Delivered', count: counts.delivered },
+        { value: 'cancelled', label: 'Cancelled', count: counts.cancelled },
+      ]
 
   const filteredShipments = useMemo(() => {
     if (statusFilter === 'all') return shipmentRows
@@ -441,7 +446,11 @@ export function NonRestaurantShipmentsBoard({
                 : 'Please try again in a few moments.'}
             </AlertDescription>
           </Alert>
-          <Button type='button' variant='outline' onClick={() => void refetch()}>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={() => void refetch()}
+          >
             <RefreshCw data-icon='inline-start' />
             Retry
           </Button>
@@ -464,8 +473,8 @@ export function NonRestaurantShipmentsBoard({
               Shipments
             </h2>
             <p className='text-sm text-muted-foreground'>
-              Track non-restaurant order shipments in realtime and update status,
-              carrier, and tracking details.
+              Track non-restaurant order shipments in realtime and update
+              status, carrier, and tracking details.
             </p>
           </div>
         ) : (
@@ -493,7 +502,9 @@ export function NonRestaurantShipmentsBoard({
 
         <div
           className={`grid gap-3 ${
-            isInventoryMode ? 'sm:grid-cols-3 xl:grid-cols-6' : 'sm:grid-cols-2 xl:grid-cols-4'
+            isInventoryMode
+              ? 'sm:grid-cols-3 xl:grid-cols-6'
+              : 'sm:grid-cols-2 xl:grid-cols-4'
           }`}
         >
           <Card>
@@ -545,14 +556,16 @@ export function NonRestaurantShipmentsBoard({
               Shipment Queue
             </CardTitle>
             <CardDescription>
-              Schema-first tracking fields with recipient fallback from serialized
-              notes.
+              Schema-first tracking fields with recipient fallback from
+              serialized notes.
             </CardDescription>
           </CardHeader>
           <CardContent className='flex flex-col gap-4 p-0'>
             <Tabs
               value={statusFilter}
-              onValueChange={(value) => setStatusFilter(value as ShipmentFilter)}
+              onValueChange={(value) =>
+                setStatusFilter(value as ShipmentFilter)
+              }
               className='px-4 pt-4 sm:px-6'
             >
               <ScrollArea orientation='horizontal' className='w-full pb-1'>
@@ -580,7 +593,9 @@ export function NonRestaurantShipmentsBoard({
                     <TableHead className='w-[220px]'>Destination</TableHead>
                     <TableHead className='w-[150px]'>Shipped</TableHead>
                     <TableHead className='w-[150px]'>Delivered</TableHead>
-                    <TableHead className='w-[120px] text-right'>Actions</TableHead>
+                    <TableHead className='w-[120px] text-right'>
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -598,7 +613,8 @@ export function NonRestaurantShipmentsBoard({
                       const statusLabel = toTitleCase(statusValue)
                       const isUpdatingCurrentShipment =
                         isSaving &&
-                        Number(pendingUpdate?.shipmentId) === shipment.shipment_id
+                        Number(pendingUpdate?.shipmentId) ===
+                          shipment.shipment_id
 
                       return (
                         <TableRow key={shipment.shipment_id}>
@@ -609,7 +625,9 @@ export function NonRestaurantShipmentsBoard({
                             {shipment.order_id}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={getStatusBadgeVariant(shipment.status)}>
+                            <Badge
+                              variant={getStatusBadgeVariant(shipment.status)}
+                            >
                               {statusLabel}
                             </Badge>
                           </TableCell>
@@ -633,12 +651,15 @@ export function NonRestaurantShipmentsBoard({
                             <div className='flex flex-col gap-0.5'>
                               <span>{shipment.delivery_address || '--'}</span>
                               <span className='text-xs text-muted-foreground'>
-                                {shipment.city || '--'}, {shipment.state || '--'}{' '}
+                                {shipment.city || '--'},{' '}
+                                {shipment.state || '--'}{' '}
                                 {shipment.postal_code || '--'}
                               </span>
                             </div>
                           </TableCell>
-                          <TableCell>{formatShipmentDate(shipment.shipped_date)}</TableCell>
+                          <TableCell>
+                            {formatShipmentDate(shipment.shipped_date)}
+                          </TableCell>
                           <TableCell>
                             {formatShipmentDate(shipment.delivered_date)}
                           </TableCell>
@@ -660,7 +681,10 @@ export function NonRestaurantShipmentsBoard({
                                     )}
                                   </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align='end' className='w-56'>
+                                <DropdownMenuContent
+                                  align='end'
+                                  className='w-56'
+                                >
                                   <DropdownMenuGroup>
                                     <DropdownMenuItem
                                       onClick={() =>
@@ -900,13 +924,17 @@ export function NonRestaurantShipmentsBoard({
                       </CardHeader>
                       <CardContent className='space-y-2 text-sm'>
                         <div className='flex items-center justify-between'>
-                          <span className='text-muted-foreground'>Shipment ID</span>
+                          <span className='text-muted-foreground'>
+                            Shipment ID
+                          </span>
                           <span className='font-mono text-xs'>
                             {shipmentDetails.shipment.shipment_id}
                           </span>
                         </div>
                         <div className='flex items-center justify-between'>
-                          <span className='text-muted-foreground'>Order ID</span>
+                          <span className='text-muted-foreground'>
+                            Order ID
+                          </span>
                           <span className='font-mono text-xs'>
                             {shipmentDetails.shipment.order_id}
                           </span>
@@ -926,14 +954,20 @@ export function NonRestaurantShipmentsBoard({
                             <p className='text-xs text-muted-foreground'>
                               Tracking
                             </p>
-                            <p>{shipmentDetails.shipment.tracking_number || '--'}</p>
+                            <p>
+                              {shipmentDetails.shipment.tracking_number || '--'}
+                            </p>
                           </div>
                           <div>
-                            <p className='text-xs text-muted-foreground'>Carrier</p>
+                            <p className='text-xs text-muted-foreground'>
+                              Carrier
+                            </p>
                             <p>{shipmentDetails.shipment.carrier || '--'}</p>
                           </div>
                           <div>
-                            <p className='text-xs text-muted-foreground'>Shipped</p>
+                            <p className='text-xs text-muted-foreground'>
+                              Shipped
+                            </p>
                             <p>
                               {formatShipmentDate(
                                 shipmentDetails.shipment.shipped_date
@@ -966,7 +1000,9 @@ export function NonRestaurantShipmentsBoard({
                           <p className='text-xs text-muted-foreground'>
                             Destination
                           </p>
-                          <p>{shipmentDetails.shipment.delivery_address || '--'}</p>
+                          <p>
+                            {shipmentDetails.shipment.delivery_address || '--'}
+                          </p>
                           <p className='text-muted-foreground'>
                             {shipmentDetails.shipment.city || '--'},{' '}
                             {shipmentDetails.shipment.state || '--'}{' '}
@@ -982,13 +1018,17 @@ export function NonRestaurantShipmentsBoard({
 
                     <Card>
                       <CardHeader className='pb-2'>
-                        <CardTitle className='text-base'>Order Summary</CardTitle>
+                        <CardTitle className='text-base'>
+                          Order Summary
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className='space-y-2 text-sm'>
                         {shipmentDetails.order ? (
                           <>
                             <div className='flex items-center justify-between'>
-                              <span className='text-muted-foreground'>Sale ID</span>
+                              <span className='text-muted-foreground'>
+                                Sale ID
+                              </span>
                               <span className='font-mono text-xs'>
                                 {shipmentDetails.order.sale_id}
                               </span>
@@ -998,7 +1038,9 @@ export function NonRestaurantShipmentsBoard({
                                 Sale Date
                               </span>
                               <span>
-                                {formatShipmentDate(shipmentDetails.order.sale_date)}
+                                {formatShipmentDate(
+                                  shipmentDetails.order.sale_date
+                                )}
                               </span>
                             </div>
                             <div className='flex items-center justify-between'>
@@ -1022,7 +1064,11 @@ export function NonRestaurantShipmentsBoard({
                                 <p className='text-xs text-muted-foreground'>
                                   Subtotal
                                 </p>
-                                <p>{formatCurrency(shipmentDetails.order.subtotal)}</p>
+                                <p>
+                                  {formatCurrency(
+                                    shipmentDetails.order.subtotal
+                                  )}
+                                </p>
                               </div>
                               <div>
                                 <p className='text-xs text-muted-foreground'>
@@ -1035,13 +1081,23 @@ export function NonRestaurantShipmentsBoard({
                                 </p>
                               </div>
                               <div>
-                                <p className='text-xs text-muted-foreground'>Tax</p>
-                                <p>{formatCurrency(shipmentDetails.order.tax_amount)}</p>
+                                <p className='text-xs text-muted-foreground'>
+                                  Tax
+                                </p>
+                                <p>
+                                  {formatCurrency(
+                                    shipmentDetails.order.tax_amount
+                                  )}
+                                </p>
                               </div>
                               <div>
-                                <p className='text-xs text-muted-foreground'>Total</p>
+                                <p className='text-xs text-muted-foreground'>
+                                  Total
+                                </p>
                                 <p className='font-semibold'>
-                                  {formatCurrency(shipmentDetails.order.total_amount)}
+                                  {formatCurrency(
+                                    shipmentDetails.order.total_amount
+                                  )}
                                 </p>
                               </div>
                             </div>

@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   createButton,
   deleteButton,
@@ -8,6 +6,7 @@ import {
 } from '@/server/fns/buttons'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -17,7 +16,10 @@ const GET = async ({ request, params }: any) => {
     const data = await getButtons()
     return Response.json({ success: true, data })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to fetch buttons', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to fetch buttons',
+      403
+    )
   }
 }
 
@@ -44,7 +46,10 @@ const POST = async ({ request, params }: any) => {
 
     return Response.json({ success: true, data: button })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to create button', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to create button',
+      403
+    )
   }
 }
 
@@ -72,7 +77,10 @@ const PATCH = async ({ request, params }: any) => {
 
     return Response.json({ success: true, data: button })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to update button', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to update button',
+      403
+    )
   }
 }
 
@@ -90,10 +98,12 @@ const DELETE = async ({ request, params }: any) => {
     await deleteButton(id)
     return Response.json({ success: true })
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : 'Unable to delete button', 403)
+    return jsonError(
+      error instanceof Error ? error.message : 'Unable to delete button',
+      403
+    )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/rbac/buttons')({
   GET,

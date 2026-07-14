@@ -12,7 +12,12 @@ interface UseShiftOptions {
 export function useShift(options: UseShiftOptions = {}) {
   const { authUserId, restaurantId } = options
   const { activeShift, setActiveShift } = useResposStore()
-  const { data: fetchedShift, isLoading, error, refetch } = useActiveShift(authUserId)
+  const {
+    data: fetchedShift,
+    isLoading,
+    error,
+    refetch,
+  } = useActiveShift(authUserId)
 
   const openShiftMutation = useOpenShift()
   const closeShiftMutation = useCloseShift()

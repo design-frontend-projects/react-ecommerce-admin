@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   createPermission,
   deletePermission,
@@ -7,6 +5,7 @@ import {
 } from '@/server/fns/rbac'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const PUT = async ({ request, params }: any) => {
   try {
@@ -30,7 +29,9 @@ const PUT = async ({ request, params }: any) => {
     })
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : 'Unable to update role permissions',
+      error instanceof Error
+        ? error.message
+        : 'Unable to update role permissions',
       403
     )
   }
@@ -88,7 +89,6 @@ const DELETE = async ({ request, params }: any) => {
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/rbac/permissions')({
   POST,

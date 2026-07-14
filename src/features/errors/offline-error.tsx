@@ -1,9 +1,11 @@
 import { useNavigate } from '@tanstack/react-router'
 import { WifiOff } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
-export function OfflineError({ className }: React.HTMLAttributes<HTMLDivElement>) {
+export function OfflineError({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate()
 
   return (
@@ -14,15 +16,14 @@ export function OfflineError({ className }: React.HTMLAttributes<HTMLDivElement>
         </div>
         <h1 className='text-3xl font-bold tracking-tight'>You're offline</h1>
         <p className='max-w-md text-center text-muted-foreground'>
-          It looks like you've lost your internet connection. Please check your network settings and try again.
+          It looks like you've lost your internet connection. Please check your
+          network settings and try again.
         </p>
         <div className='mt-6 flex gap-4'>
           <Button variant='outline' onClick={() => window.location.reload()}>
             Retry Connection
           </Button>
-          <Button onClick={() => navigate({ to: '/' })}>
-            Back to Home
-          </Button>
+          <Button onClick={() => navigate({ to: '/' })}>Back to Home</Button>
         </div>
       </div>
     </div>

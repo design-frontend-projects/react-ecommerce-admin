@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,6 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -15,21 +19,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  useCreateLocation,
-  useDeleteLocation,
-  useWarehouseLocations,
-} from '../hooks/use-warehouses'
 import {
   locationInputSchema,
   type LocationType,
   type WarehouseListItem,
   type WarehouseLocation,
 } from '../data/schema'
+import {
+  useCreateLocation,
+  useDeleteLocation,
+  useWarehouseLocations,
+} from '../hooks/use-warehouses'
 
 const TYPE_ORDER: LocationType[] = ['zone', 'rack', 'shelf', 'bin']
 

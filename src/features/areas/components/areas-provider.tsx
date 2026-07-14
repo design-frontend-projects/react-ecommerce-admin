@@ -11,14 +11,22 @@ type AreasDialogContextType = {
   setCurrentRow: React.Dispatch<React.SetStateAction<Area | null>>
 }
 
-const AreasDialogContext = React.createContext<AreasDialogContextType | null>(null)
+const AreasDialogContext = React.createContext<AreasDialogContextType | null>(
+  null
+)
 
-export function AreasDialogProvider({ children }: { children: React.ReactNode }) {
+export function AreasDialogProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [open, setOpen] = useDialogState<AreasDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Area | null>(null)
 
   return (
-    <AreasDialogContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <AreasDialogContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </AreasDialogContext.Provider>
   )

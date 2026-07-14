@@ -70,4 +70,3 @@ describe('getProductStockFlags', () => {
     expect(flags.hasSellableVariants).toBe(false)
   })
 })
-

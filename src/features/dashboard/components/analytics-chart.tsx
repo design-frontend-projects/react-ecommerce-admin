@@ -1,5 +1,6 @@
 import { subDays, format, startOfDay } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import {
   Area,
   AreaChart,
@@ -9,7 +10,6 @@ import {
   Tooltip,
 } from 'recharts'
 import { supabase } from '@/lib/supabase'
-import { useTranslation } from 'react-i18next'
 
 interface DailyData {
   name: string
@@ -22,10 +22,7 @@ export function AnalyticsChart() {
   const { data: chartData } = useQuery({
     queryKey: ['analytics_chart_7days'],
     queryFn: async (): Promise<DailyData[]> => {
-      const sevenDaysAgo = subDays(
-        startOfDay(new Date()),
-        6
-      ).toISOString()
+      const sevenDaysAgo = subDays(startOfDay(new Date()), 6).toISOString()
 
       const { data: transactions, error } = await supabase
         .from('transactions')
@@ -80,7 +77,10 @@ export function AnalyticsChart() {
           tickFormatter={(value) => `$${value}`}
         />
         <Tooltip
-          formatter={(value: number | string | undefined, name: string | undefined) => [
+          formatter={(
+            value: number | string | undefined,
+            name: string | undefined
+          ) => [
             `$${Number(value || 0).toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

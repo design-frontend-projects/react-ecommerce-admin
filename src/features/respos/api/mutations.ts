@@ -1,13 +1,10 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
-import { enqueue } from '@/lib/sync/outbox'
 import { supabase } from '@/lib/supabase'
-import {
-  closeShiftRequest,
-  openShiftRequest,
-} from '../data/shift-actions'
+import { enqueue } from '@/lib/sync/outbox'
+import { useAuth } from '@/hooks/use-auth'
+import { closeShiftRequest, openShiftRequest } from '../data/shift-actions'
 import { shiftDtoToResShift, toMoneyString } from '../data/shift-schemas'
 import { mapPromoRpcError } from '../lib/promo-engine'
 // generateOrderNumber imported via ./api instead

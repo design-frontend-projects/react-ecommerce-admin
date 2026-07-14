@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
+import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import type { User } from '@/features/users/data/types'
 
@@ -74,7 +74,8 @@ export async function getUsers(): Promise<User[]> {
       role: primaryRole,
       roleNames,
       roleIds,
-      branchId: (profileMap.get(user.auth_user_id) as any)?.branch_id ?? undefined,
+      branchId:
+        (profileMap.get(user.auth_user_id) as any)?.branch_id ?? undefined,
       status: buildUserStatus(user),
       createdAt: user.created_at?.toISOString() ?? new Date().toISOString(),
       updatedAt: user.updated_at?.toISOString() ?? new Date().toISOString(),
@@ -119,7 +120,7 @@ export const getUserProfile = createServerFn({ method: 'GET' })
     const profile = await prisma.profiles.findFirst({
       where: { auth_user_id: userId },
     })
-    
+
     return {
       success: true,
       profile,
@@ -145,7 +146,7 @@ export const updateUserProfile = createServerFn({ method: 'POST' })
         updated_at: new Date(),
       },
     })
-    
+
     await prisma.tenant_users.updateMany({
       where: { auth_user_id: userId },
       data: {

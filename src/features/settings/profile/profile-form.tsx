@@ -1,6 +1,10 @@
+import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -12,11 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { toast } from 'sonner'
-import { useUser } from '@/hooks/use-auth'
 import { useProfile, useUpdateProfile } from './profile-queries'
-import { useEffect } from 'react'
-import { Loader2 } from 'lucide-react'
 
 const profileFormSchema = z.object({
   firstName: z
@@ -61,8 +61,8 @@ export function ProfileForm() {
 
   if (isLoading || !userId) {
     return (
-      <div className="flex h-[200px] items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      <div className='flex h-[200px] items-center justify-center'>
+        <Loader2 className='h-6 w-6 animate-spin text-muted-foreground' />
       </div>
     )
   }
@@ -92,16 +92,19 @@ export function ProfileForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl">
-        <div className="grid gap-6 md:grid-cols-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='max-w-2xl space-y-8'
+      >
+        <div className='grid gap-6 md:grid-cols-2'>
           <FormField
             control={form.control}
-            name="firstName"
+            name='firstName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="John" {...field} />
+                  <Input placeholder='John' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,12 +112,12 @@ export function ProfileForm() {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name='lastName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Doe" {...field} />
+                  <Input placeholder='Doe' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -124,12 +127,12 @@ export function ProfileForm() {
 
         <FormField
           control={form.control}
-          name="phone"
+          name='phone'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <Input placeholder="+1 (555) 000-0000" {...field} />
+                <Input placeholder='+1 (555) 000-0000' {...field} />
               </FormControl>
               <FormDescription>
                 We will use this to contact you about your account.
@@ -139,9 +142,9 @@ export function ProfileForm() {
           )}
         />
 
-        <Button type="submit" disabled={updateProfile.isPending}>
+        <Button type='submit' disabled={updateProfile.isPending}>
           {updateProfile.isPending && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
           )}
           Update profile
         </Button>

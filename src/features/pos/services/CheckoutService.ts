@@ -1,8 +1,8 @@
+import { supabaseAdmin } from '@/server/supabase'
+import { requireTenantId } from '@/server/utils/tenant'
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '@/lib/prisma'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
-import { supabaseAdmin } from '@/server/supabase'
-import { requireTenantId } from '@/server/utils/tenant'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
 
@@ -219,7 +219,11 @@ export async function processCheckout(
           created_by: authUserId,
         }
 
-        if (productType === 'bundle' && info && info.bundle_components.length > 0) {
+        if (
+          productType === 'bundle' &&
+          info &&
+          info.bundle_components.length > 0
+        ) {
           for (const component of info.bundle_components) {
             movements.push({
               ...baseMovement,

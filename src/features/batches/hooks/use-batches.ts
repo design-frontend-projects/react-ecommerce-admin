@@ -20,13 +20,8 @@ export function useSetBatchStatus() {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      status,
-    }: {
-      id: string
-      status: BatchToggleStatus
-    }) => setBatchStatus(getToken, id, status),
+    mutationFn: ({ id, status }: { id: string; status: BatchToggleStatus }) =>
+      setBatchStatus(getToken, id, status),
     onSuccess: (_data, variables) => {
       toast.success(
         variables.status === 'blocked' ? 'Batch blocked.' : 'Batch unblocked.'

@@ -27,8 +27,7 @@ export const USER_ROLE_VALUES = Object.values(UserRole) as [
 /** Type guard: narrows an unknown string to UserRole */
 export function isUserRole(value: unknown): value is UserRole {
   return (
-    typeof value === 'string' &&
-    USER_ROLE_VALUES.includes(value as UserRole)
+    typeof value === 'string' && USER_ROLE_VALUES.includes(value as UserRole)
   )
 }
 

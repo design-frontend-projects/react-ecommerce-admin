@@ -1,6 +1,6 @@
+import { z } from 'zod'
 import { createFileRoute } from '@tanstack/react-router'
 import { Countries } from '@/features/countries'
-import { z } from 'zod'
 
 const countriesSearchSchema = z.object({
   page: z.coerce.number().min(1).catch(1),

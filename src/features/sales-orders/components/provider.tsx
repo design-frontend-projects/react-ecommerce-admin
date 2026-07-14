@@ -17,7 +17,9 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
   const [currentRow, setCurrentRow] = useState<OrderListItem | null>(null)
 
   return (
-    <OrdersContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <OrdersContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </OrdersContext.Provider>
   )

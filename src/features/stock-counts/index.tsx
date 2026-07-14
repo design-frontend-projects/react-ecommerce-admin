@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { CountsProvider } from './components/provider'
-import { CountsPrimaryButtons } from './components/primary-buttons'
-import { CountsTable } from './components/table'
 import { CountsDialogs } from './components/dialogs'
+import { CountsPrimaryButtons } from './components/primary-buttons'
+import { CountsProvider } from './components/provider'
+import { CountsTable } from './components/table'
 import { useCounts } from './hooks/use-stock-counts'
 
 export function StockCounts() {
@@ -32,8 +32,8 @@ export function StockCounts() {
               Stock Counts
             </h2>
             <p className='text-muted-foreground'>
-              Full and cycle counts: freeze a snapshot, count, review
-              variances, and post the result as an adjustment.
+              Full and cycle counts: freeze a snapshot, count, review variances,
+              and post the result as an adjustment.
             </p>
           </div>
           <CountsPrimaryButtons />

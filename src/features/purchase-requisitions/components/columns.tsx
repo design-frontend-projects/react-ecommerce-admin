@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { RequisitionRowActions } from './row-actions'
 import type { RequisitionListItem, RequisitionStatus } from '../data/schema'
+import { RequisitionRowActions } from './row-actions'
 
 const STATUS_BADGE: Record<
   RequisitionStatus,
@@ -60,7 +60,9 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
     header: 'Source',
     cell: ({ row }) => (
       <Badge
-        variant={row.original.source === 'reorder_engine' ? 'secondary' : 'outline'}
+        variant={
+          row.original.source === 'reorder_engine' ? 'secondary' : 'outline'
+        }
       >
         {row.original.source === 'reorder_engine' ? 'Reorder engine' : 'Manual'}
       </Badge>

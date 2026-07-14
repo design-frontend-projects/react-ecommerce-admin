@@ -1,11 +1,10 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   listMovements,
   type MovementFilters,
 } from '@/server/fns/inventory-movements'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -31,7 +30,6 @@ const GET = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to fetch movements')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/movements')({
   GET,

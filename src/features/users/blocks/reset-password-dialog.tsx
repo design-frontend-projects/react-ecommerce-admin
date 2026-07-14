@@ -1,7 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -74,7 +74,8 @@ export function ResetPasswordDialog({
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
           <DialogDescription>
-            Enter a new password for this user. They can change it later in their profile settings.
+            Enter a new password for this user. They can change it later in
+            their profile settings.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -90,7 +91,7 @@ export function ResetPasswordDialog({
                   <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
+                      type='password'
                       placeholder='••••••••'
                       disabled={resetMutation.isPending}
                       {...field}

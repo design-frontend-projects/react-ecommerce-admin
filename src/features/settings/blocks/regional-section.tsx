@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -22,13 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSettingsStore } from '@/features/settings/data/store'
 import { useUpsertSetting } from '@/features/settings/data/queries'
 import {
   LocalizationSettingsSchema,
   type LocalizationSettings,
   LOCALIZATION_DEFAULTS,
 } from '@/features/settings/data/schema'
+import { useSettingsStore } from '@/features/settings/data/store'
 
 const CURRENCIES = [
   { value: 'USD', label: 'USD — US Dollar ($)' },

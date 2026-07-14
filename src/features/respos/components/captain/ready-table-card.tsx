@@ -31,7 +31,9 @@ export function ReadyTableCard({
   return (
     <Card className='overflow-hidden border-l-4 border-l-green-500 shadow-md transition-all hover:shadow-lg'>
       <CardHeader className='flex flex-row items-center justify-between bg-muted/40 pb-2'>
-        <CardTitle className='text-lg font-bold'>{t('respos.captain.table', { number: tableNumber })}</CardTitle>
+        <CardTitle className='text-lg font-bold'>
+          {t('respos.captain.table', { number: tableNumber })}
+        </CardTitle>
         <Badge
           variant='outline'
           className='bg-green-100 text-green-800 hover:bg-green-100'
@@ -49,7 +51,8 @@ export function ReadyTableCard({
               >
                 <div className='flex flex-col'>
                   <span className='font-medium text-foreground'>
-                    {item.quantity}x {item.menu_item?.name || t('respos.captain.unknownItem')}
+                    {item.quantity}x{' '}
+                    {item.menu_item?.name || t('respos.captain.unknownItem')}
                   </span>
                   {item.notes && (
                     <span className='text-xs text-muted-foreground italic'>

@@ -11,11 +11,11 @@ if (typeof window === 'undefined') {
   const { PrismaClient } = await import('../generated/prisma/index.js')
   const { Pool } = await import('pg')
   const { PrismaPg } = await import('@prisma/adapter-pg')
-  
+
   const connectionString = process.env.DATABASE_URL!
   const pool = new Pool({ connectionString })
   const adapter = new PrismaPg(pool)
-  
+
   if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient({ adapter })
   } else {
@@ -27,11 +27,16 @@ if (typeof window === 'undefined') {
   }
 } else {
   // Browser fallback
-  prisma = new Proxy({}, {
-    get() {
-      throw new Error('PrismaClient cannot be used in the browser. Please use an API route or server function.')
+  prisma = new Proxy(
+    {},
+    {
+      get() {
+        throw new Error(
+          'PrismaClient cannot be used in the browser. Please use an API route or server function.'
+        )
+      },
     }
-  })
+  )
 }
 
 export default prisma

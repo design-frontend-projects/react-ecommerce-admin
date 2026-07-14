@@ -17,7 +17,9 @@ export function CountsProvider({ children }: { children: ReactNode }) {
   const [currentRow, setCurrentRow] = useState<CountListItem | null>(null)
 
   return (
-    <CountsContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <CountsContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </CountsContext.Provider>
   )

@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import prisma from '@/lib/prisma'
 import { ensureAccessControlSeeded } from './access-control-seed'
@@ -86,7 +86,9 @@ type ModuleRow = {
   }>
 }
 
-export async function getScreensWithAccess(): Promise<{ modules: ModuleWithScreensDto[] }> {
+export async function getScreensWithAccess(): Promise<{
+  modules: ModuleWithScreensDto[]
+}> {
   await ensureAccessControlSeeded()
 
   const modules = (await prisma.app_modules.findMany({
@@ -131,7 +133,9 @@ export async function getScreensWithAccess(): Promise<{ modules: ModuleWithScree
         isActive: screen.is_active,
         sortOrder: screen.sort_order,
         roleIds: screen.screen_roles.map((link) => link.role_id),
-        permissionIds: screen.screen_permissions.map((link) => link.permission_id),
+        permissionIds: screen.screen_permissions.map(
+          (link) => link.permission_id
+        ),
         buttons: screen.screen_buttons.map((link) => ({
           buttonId: link.button_id,
           code: link.permission_buttons.code,
@@ -147,7 +151,9 @@ export async function getScreensWithAccess(): Promise<{ modules: ModuleWithScree
 export async function createScreen(input: CreateScreenInput) {
   const code = input.code.trim().toLowerCase()
   if (!SCREEN_CODE_PATTERN.test(code)) {
-    throw new Error('Screen code must be snake_case with no dots (matches the permission resource segment).')
+    throw new Error(
+      'Screen code must be snake_case with no dots (matches the permission resource segment).'
+    )
   }
 
   const route = input.route.trim()
@@ -156,7 +162,8 @@ export async function createScreen(input: CreateScreenInput) {
     prisma.app_screens.findUnique({ where: { route } }),
   ])
   if (codeClash) throw new Error(`A screen with code "${code}" already exists.`)
-  if (routeClash) throw new Error(`A screen with route "${route}" already exists.`)
+  if (routeClash)
+    throw new Error(`A screen with route "${route}" already exists.`)
 
   return prisma.app_screens.create({
     data: {
@@ -223,7 +230,10 @@ export async function setScreenRoles(screenId: string, roleIds: string[]) {
   return { success: true }
 }
 
-export async function setScreenPermissions(screenId: string, permissionIds: string[]) {
+export async function setScreenPermissions(
+  screenId: string,
+  permissionIds: string[]
+) {
   await prisma.screen_permissions.deleteMany({ where: { screen_id: screenId } })
   if (permissionIds.length > 0) {
     await prisma.screen_permissions.createMany({

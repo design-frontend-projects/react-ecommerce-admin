@@ -9,10 +9,7 @@ import {
   fetchTransfers,
   updateTransfer,
 } from '../data/actions'
-import type {
-  CreateTransferInput,
-  UpdateTransferInput,
-} from '../data/schema'
+import type { CreateTransferInput, UpdateTransferInput } from '../data/schema'
 
 const transfersKey = ['inventory', 'stock-transfers'] as const
 const transferKey = (id: string) =>

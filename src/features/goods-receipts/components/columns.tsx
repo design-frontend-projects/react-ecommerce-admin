@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
-import { ReceiptRowActions } from './row-actions'
 import type { ReceiptListItem, ReceiptStatus } from '../data/schema'
+import { ReceiptRowActions } from './row-actions'
 
 const STATUS_VARIANT: Record<
   ReceiptStatus,

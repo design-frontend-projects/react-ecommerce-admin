@@ -41,7 +41,9 @@ export function CustomerGroupsDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('customerGroups.delete.title')}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t('customerGroups.delete.title')}
+          </AlertDialogTitle>
           <AlertDialogDescription>
             {t('customerGroups.delete.description')}{' '}
             <span className='font-medium text-foreground'>
@@ -59,7 +61,7 @@ export function CustomerGroupsDeleteDialog() {
               e.preventDefault()
               onDelete()
             }}
-            className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
             {deleteMutation.isPending

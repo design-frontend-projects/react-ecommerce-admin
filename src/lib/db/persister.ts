@@ -1,9 +1,9 @@
+import type { Query, QueryClient, QueryKey } from '@tanstack/react-query'
 import {
   persistQueryClient,
   type PersistedClient,
   type Persister,
 } from '@tanstack/query-persist-client-core'
-import type { Query, QueryClient, QueryKey } from '@tanstack/react-query'
 import { db } from './indexed-db'
 
 /**

@@ -1,20 +1,26 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
 
 export function RestaurantList() {
   return (
     <div className='flex flex-col'>
       {/* Header */}
-      <header className='flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6'>
+      <header className='flex h-14 items-center gap-4 border-b bg-muted/40 px-6 lg:h-[60px]'>
         <div className='w-full flex-1'>
           <Search />
         </div>
         <LanguageSwitch />
-          <ThemeSwitch />
+        <ThemeSwitch />
         <ProfileDropdown />
       </header>
 
@@ -28,7 +34,7 @@ export function RestaurantList() {
             </p>
           </div>
         </div>
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
+        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <Card>
             <CardHeader>
               <CardTitle>Restaurants List</CardTitle>
@@ -37,8 +43,10 @@ export function RestaurantList() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className='text-center py-10'>
-                <p className='text-muted-foreground'>Restaurant data will be queried and displayed here.</p>
+              <div className='py-10 text-center'>
+                <p className='text-muted-foreground'>
+                  Restaurant data will be queried and displayed here.
+                </p>
               </div>
             </CardContent>
           </Card>

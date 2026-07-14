@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CreditCard, Banknote, Loader2, Truck } from 'lucide-react'
+import { formatCurrency } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,11 +11,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Form,
   FormControl,
@@ -21,8 +19,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { formatCurrency } from '@/lib/utils'
-import { CreditCard, Banknote, Loader2, Truck } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
 import {
   type CheckoutRequestType,
   shipmentSchema,
@@ -90,62 +90,62 @@ export function CheckoutModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-xl'>
         <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold">
+          <DialogTitle className='text-center text-2xl font-bold'>
             Checkout
           </DialogTitle>
         </DialogHeader>
 
-        <div className="py-4 flex flex-col items-center gap-6">
-          <div className="text-4xl font-bold text-primary">
+        <div className='flex flex-col items-center gap-6 py-4'>
+          <div className='text-4xl font-bold text-primary'>
             {formatCurrency(total)}
           </div>
 
-          <div className="w-full space-y-4">
-            <div className="text-sm text-muted-foreground uppercase tracking-wider font-semibold text-center">
+          <div className='w-full space-y-4'>
+            <div className='text-center text-sm font-semibold tracking-wider text-muted-foreground uppercase'>
               Select Payment Method
             </div>
 
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className='grid w-full grid-cols-2 gap-4'>
               <Button
-                type="button"
+                type='button'
                 variant={selectedMethod === 'cash' ? 'default' : 'outline'}
-                className="h-20 flex flex-col gap-2 relative overflow-hidden transition-all hover:border-primary border-2"
+                className='relative flex h-20 flex-col gap-2 overflow-hidden border-2 transition-all hover:border-primary'
                 onClick={() => setSelectedMethod('cash')}
               >
-                <Banknote className="w-6 h-6" />
-                <span className="font-semibold">Cash</span>
+                <Banknote className='h-6 w-6' />
+                <span className='font-semibold'>Cash</span>
                 {selectedMethod === 'cash' && (
-                  <div className="absolute inset-0 bg-primary/10 rounded pointer-events-none" />
+                  <div className='pointer-events-none absolute inset-0 rounded bg-primary/10' />
                 )}
               </Button>
 
               <Button
-                type="button"
+                type='button'
                 variant={selectedMethod === 'card' ? 'default' : 'outline'}
-                className="h-20 flex flex-col gap-2 relative overflow-hidden transition-all hover:border-primary border-2"
+                className='relative flex h-20 flex-col gap-2 overflow-hidden border-2 transition-all hover:border-primary'
                 onClick={() => setSelectedMethod('card')}
               >
-                <CreditCard className="w-6 h-6" />
-                <span className="font-semibold">Card</span>
+                <CreditCard className='h-6 w-6' />
+                <span className='font-semibold'>Card</span>
                 {selectedMethod === 'card' && (
-                  <div className="absolute inset-0 bg-primary/10 rounded pointer-events-none" />
+                  <div className='pointer-events-none absolute inset-0 rounded bg-primary/10' />
                 )}
               </Button>
             </div>
           </div>
 
-          <div className="w-full space-y-4 border-t pt-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Truck className="w-5 h-5 text-primary" />
-                <Label htmlFor="shipment-toggle" className="font-semibold">
+          <div className='w-full space-y-4 border-t pt-4'>
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center gap-2'>
+                <Truck className='h-5 w-5 text-primary' />
+                <Label htmlFor='shipment-toggle' className='font-semibold'>
                   Shipment / Delivery
                 </Label>
               </div>
               <Switch
-                id="shipment-toggle"
+                id='shipment-toggle'
                 checked={isShipment}
                 onCheckedChange={setIsShipment}
               />
@@ -153,15 +153,15 @@ export function CheckoutModal({
 
             {isShipment && (
               <Form {...form}>
-                <form className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <form className='grid animate-in grid-cols-2 gap-4 duration-300 fade-in slide-in-from-top-2'>
                   <FormField
                     control={form.control}
-                    name="recipientName"
+                    name='recipientName'
                     render={({ field }) => (
-                      <FormItem className="col-span-2">
+                      <FormItem className='col-span-2'>
                         <FormLabel>Recipient Name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} />
+                          <Input placeholder='John Doe' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -169,12 +169,12 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="recipientPhone"
+                    name='recipientPhone'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Phone Number *</FormLabel>
                         <FormControl>
-                          <Input placeholder="+1234567890" {...field} />
+                          <Input placeholder='+1234567890' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -182,12 +182,12 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="postalCode"
+                    name='postalCode'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Postal Code</FormLabel>
                         <FormControl>
-                          <Input placeholder="12345" {...field} />
+                          <Input placeholder='12345' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -195,14 +195,14 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="deliveryAddress"
+                    name='deliveryAddress'
                     render={({ field }) => (
-                      <FormItem className="col-span-2">
+                      <FormItem className='col-span-2'>
                         <FormLabel>Delivery Address *</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Street, Building, Apartment..."
-                            className="min-h-[80px]"
+                            placeholder='Street, Building, Apartment...'
+                            className='min-h-[80px]'
                             {...field}
                           />
                         </FormControl>
@@ -212,12 +212,12 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="city"
+                    name='city'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>City</FormLabel>
                         <FormControl>
-                          <Input placeholder="New York" {...field} />
+                          <Input placeholder='New York' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -225,12 +225,12 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="state"
+                    name='state'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>State / Province</FormLabel>
                         <FormControl>
-                          <Input placeholder="NY" {...field} />
+                          <Input placeholder='NY' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -238,13 +238,13 @@ export function CheckoutModal({
                   />
                   <FormField
                     control={form.control}
-                    name="notes"
+                    name='notes'
                     render={({ field }) => (
-                      <FormItem className="col-span-2">
+                      <FormItem className='col-span-2'>
                         <FormLabel>Delivery Notes</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Gate code, landmark, etc."
+                            placeholder='Gate code, landmark, etc.'
                             {...field}
                           />
                         </FormControl>
@@ -258,23 +258,23 @@ export function CheckoutModal({
           </div>
         </div>
 
-        <DialogFooter className="sm:justify-between w-full">
+        <DialogFooter className='w-full sm:justify-between'>
           <Button
-            variant="ghost"
+            variant='ghost'
             onClick={() => handleOpenChange(false)}
             disabled={isProcessing}
           >
             Cancel
           </Button>
           <Button
-            size="lg"
-            className="w-full sm:w-auto min-w-[150px]"
+            size='lg'
+            className='w-full min-w-[150px] sm:w-auto'
             onClick={isShipment ? onSubmit : () => handleCheckout()}
             disabled={!selectedMethod || isProcessing}
           >
             {isProcessing ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 Processing...
               </>
             ) : (

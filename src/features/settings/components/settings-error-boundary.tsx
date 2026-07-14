@@ -59,7 +59,9 @@ export class SettingsErrorBoundary extends Component<Props, State> {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => this.setState({ hasError: false, error: undefined })}
+              onClick={() =>
+                this.setState({ hasError: false, error: undefined })
+              }
             >
               <RefreshCw className='mr-2 h-4 w-4' />
               Try Again

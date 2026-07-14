@@ -540,7 +540,9 @@ export function ShipmentsList() {
           <CardContent className='flex flex-col gap-4 p-0'>
             <Tabs
               value={statusFilter}
-              onValueChange={(value) => setStatusFilter(value as ShipmentFilter)}
+              onValueChange={(value) =>
+                setStatusFilter(value as ShipmentFilter)
+              }
               className='px-4 pt-4 sm:px-6'
             >
               <ScrollArea orientation='horizontal' className='w-full pb-1'>
@@ -564,7 +566,9 @@ export function ShipmentsList() {
                     <TableHead className='w-[320px]'>Address</TableHead>
                     <TableHead className='w-[150px]'>Status</TableHead>
                     <TableHead className='w-[160px]'>Created At</TableHead>
-                    <TableHead className='w-[80px] text-right'>Actions</TableHead>
+                    <TableHead className='w-[80px] text-right'>
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -619,7 +623,8 @@ export function ShipmentsList() {
                                 </span>
                               </span>
                               <span className='text-xs text-muted-foreground'>
-                                {shipment.city || '--'}, {shipment.state || '--'}{' '}
+                                {shipment.city || '--'},{' '}
+                                {shipment.state || '--'}{' '}
                                 {shipment.postal_code || '--'}
                               </span>
                             </div>
@@ -651,7 +656,9 @@ export function ShipmentsList() {
                               <DropdownMenuContent align='end' className='w-52'>
                                 <DropdownMenuGroup>
                                   <DropdownMenuItem
-                                    onClick={() => openShipmentDetails(shipment.id)}
+                                    onClick={() =>
+                                      openShipmentDetails(shipment.id)
+                                    }
                                   >
                                     <Eye />
                                     View
@@ -766,7 +773,9 @@ export function ShipmentsList() {
                     </CardHeader>
                     <CardContent className='space-y-2 text-sm'>
                       <div className='flex items-center justify-between'>
-                        <span className='text-muted-foreground'>Shipment ID</span>
+                        <span className='text-muted-foreground'>
+                          Shipment ID
+                        </span>
                         <span className='font-mono text-xs'>
                           {shipmentDetail.shipment.id}
                         </span>
@@ -775,10 +784,14 @@ export function ShipmentsList() {
                         <span className='text-muted-foreground'>Status</span>
                         <Badge
                           variant={
-                            getStatusConfig(shipmentDetail.shipment.status).variant
+                            getStatusConfig(shipmentDetail.shipment.status)
+                              .variant
                           }
                         >
-                          {getStatusConfig(shipmentDetail.shipment.status).label}
+                          {
+                            getStatusConfig(shipmentDetail.shipment.status)
+                              .label
+                          }
                         </Badge>
                       </div>
                       <div className='flex items-center justify-between'>
@@ -805,33 +818,49 @@ export function ShipmentsList() {
                       <Separator />
                       <div className='grid gap-2 sm:grid-cols-2'>
                         <div>
-                          <p className='text-xs text-muted-foreground'>Tracking</p>
+                          <p className='text-xs text-muted-foreground'>
+                            Tracking
+                          </p>
                           <p className='text-sm'>
                             {shipmentDetail.shipment.tracking_number || '--'}
                           </p>
                         </div>
                         <div>
-                          <p className='text-xs text-muted-foreground'>Carrier</p>
+                          <p className='text-xs text-muted-foreground'>
+                            Carrier
+                          </p>
                           <p className='text-sm'>
                             {shipmentDetail.shipment.carrier || '--'}
                           </p>
                         </div>
                         <div>
-                          <p className='text-xs text-muted-foreground'>Created</p>
+                          <p className='text-xs text-muted-foreground'>
+                            Created
+                          </p>
                           <p className='text-sm'>
-                            {formatShipmentDate(shipmentDetail.shipment.created_at)}
+                            {formatShipmentDate(
+                              shipmentDetail.shipment.created_at
+                            )}
                           </p>
                         </div>
                         <div>
-                          <p className='text-xs text-muted-foreground'>Shipped</p>
+                          <p className='text-xs text-muted-foreground'>
+                            Shipped
+                          </p>
                           <p className='text-sm'>
-                            {formatShipmentDate(shipmentDetail.shipment.shipped_at)}
+                            {formatShipmentDate(
+                              shipmentDetail.shipment.shipped_at
+                            )}
                           </p>
                         </div>
                         <div>
-                          <p className='text-xs text-muted-foreground'>Delivered</p>
+                          <p className='text-xs text-muted-foreground'>
+                            Delivered
+                          </p>
                           <p className='text-sm'>
-                            {formatShipmentDate(shipmentDetail.shipment.delivered_at)}
+                            {formatShipmentDate(
+                              shipmentDetail.shipment.delivered_at
+                            )}
                           </p>
                         </div>
                       </div>
@@ -852,7 +881,9 @@ export function ShipmentsList() {
                       {shipmentDetail.order ? (
                         <>
                           <div className='flex items-center justify-between'>
-                            <span className='text-muted-foreground'>Order ID</span>
+                            <span className='text-muted-foreground'>
+                              Order ID
+                            </span>
                             <span className='font-mono text-xs'>
                               {shipmentDetail.order.id}
                             </span>
@@ -879,7 +910,9 @@ export function ShipmentsList() {
                             </Badge>
                           </div>
                           <div className='flex items-center justify-between'>
-                            <span className='text-muted-foreground'>Context</span>
+                            <span className='text-muted-foreground'>
+                              Context
+                            </span>
                             <span>
                               {shipmentDetail.order.table?.table_number
                                 ? `Table ${shipmentDetail.order.table.table_number}`
@@ -887,7 +920,9 @@ export function ShipmentsList() {
                             </span>
                           </div>
                           <div className='flex items-center justify-between'>
-                            <span className='text-muted-foreground'>Payment</span>
+                            <span className='text-muted-foreground'>
+                              Payment
+                            </span>
                             <span className='capitalize'>
                               {shipmentDetail.order.payment_method || '--'}
                             </span>
@@ -898,7 +933,9 @@ export function ShipmentsList() {
                               <p className='text-xs text-muted-foreground'>
                                 Subtotal
                               </p>
-                              <p>{formatCurrency(shipmentDetail.order.subtotal)}</p>
+                              <p>
+                                {formatCurrency(shipmentDetail.order.subtotal)}
+                              </p>
                             </div>
                             <div>
                               <p className='text-xs text-muted-foreground'>
@@ -911,18 +948,30 @@ export function ShipmentsList() {
                               </p>
                             </div>
                             <div>
-                              <p className='text-xs text-muted-foreground'>Tax</p>
-                              <p>{formatCurrency(shipmentDetail.order.tax_amount)}</p>
+                              <p className='text-xs text-muted-foreground'>
+                                Tax
+                              </p>
+                              <p>
+                                {formatCurrency(
+                                  shipmentDetail.order.tax_amount
+                                )}
+                              </p>
                             </div>
                             <div>
-                              <p className='text-xs text-muted-foreground'>Total</p>
+                              <p className='text-xs text-muted-foreground'>
+                                Total
+                              </p>
                               <p className='font-semibold'>
-                                {formatCurrency(shipmentDetail.order.total_amount)}
+                                {formatCurrency(
+                                  shipmentDetail.order.total_amount
+                                )}
                               </p>
                             </div>
                           </div>
                           <div>
-                            <p className='text-xs text-muted-foreground'>Notes</p>
+                            <p className='text-xs text-muted-foreground'>
+                              Notes
+                            </p>
                             <p>{shipmentDetail.order.notes || '--'}</p>
                           </div>
                         </>
@@ -984,7 +1033,8 @@ export function ShipmentsList() {
                                 </div>
                                 <div className='mt-2 text-xs'>
                                   <p className='text-muted-foreground'>
-                                    Properties: {parsePropertiesLabel(item.properties)}
+                                    Properties:{' '}
+                                    {parsePropertiesLabel(item.properties)}
                                   </p>
                                   <p className='text-muted-foreground'>
                                     Notes: {item.notes || '--'}

@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import prisma from '@/lib/prisma'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 
 export interface CreateBrandInput {
   name: string
@@ -29,10 +29,7 @@ export async function listBrands(authUserId: string) {
   })
 }
 
-export async function createBrand(
-  authUserId: string,
-  input: CreateBrandInput
-) {
+export async function createBrand(authUserId: string, input: CreateBrandInput) {
   const tenantId = await requireTenantId(authUserId)
   assertName(input.name)
 

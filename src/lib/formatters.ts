@@ -71,7 +71,8 @@ function formatCurrencyWith(
   currency: string,
   locale: string
 ): string {
-  if (amount === null || amount === undefined) return formatZero(currency, locale)
+  if (amount === null || amount === undefined)
+    return formatZero(currency, locale)
   const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount
   if (isNaN(numericAmount)) return formatZero(currency, locale)
 

@@ -5,8 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Form,
   FormControl,
@@ -16,13 +14,15 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { useSettingsStore } from '@/features/settings/data/store'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useUpsertSetting } from '@/features/settings/data/queries'
 import {
   BrandingSettingsSchema,
   type BrandingSettings,
   BRANDING_DEFAULTS,
 } from '@/features/settings/data/schema'
+import { useSettingsStore } from '@/features/settings/data/store'
 
 export function BrandingSection() {
   const branding = useSettingsStore((s) => s.branding)

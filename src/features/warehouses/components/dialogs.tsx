@@ -9,9 +9,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useDeleteWarehouse } from '../hooks/use-warehouses'
-import { WarehouseFormDialog } from './warehouse-form-dialog'
 import { WarehouseLocationsDialog } from './locations-dialog'
 import { useWarehousesContext } from './provider'
+import { WarehouseFormDialog } from './warehouse-form-dialog'
 
 export function WarehousesDialogs() {
   const { open, setOpen, currentRow } = useWarehousesContext()

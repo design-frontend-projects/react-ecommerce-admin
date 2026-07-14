@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   cancelReceipt,
   createReceipt,
@@ -7,8 +5,9 @@ import {
   listReceipts,
   type CreateReceiptInput,
 } from '@/server/fns/goods-receipts'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request }: any) => {
   try {
@@ -18,9 +17,7 @@ const GET = async ({ request }: any) => {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
-    const data = id
-      ? await getReceipt(userId, id)
-      : await listReceipts(userId)
+    const data = id ? await getReceipt(userId, id) : await listReceipts(userId)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch goods receipts')

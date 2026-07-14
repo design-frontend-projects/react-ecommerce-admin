@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Tag } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +13,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { validatePosPromotion } from '../data/api'
 import { useBasket } from '../store/use-basket'
-import { toast } from 'sonner'
 
 export function PromoCodeDialog() {
   const { applyPromotion, removePromotion, appliedPromotion } = useBasket()
@@ -81,11 +81,19 @@ export function PromoCodeDialog() {
         </div>
         <div className='flex justify-end gap-2'>
           {appliedPromotion && (
-            <Button variant='destructive' onClick={handleRemove} disabled={loading}>
+            <Button
+              variant='destructive'
+              onClick={handleRemove}
+              disabled={loading}
+            >
               Remove
             </Button>
           )}
-          <Button variant='outline' onClick={() => setOpen(false)} disabled={loading}>
+          <Button
+            variant='outline'
+            onClick={() => setOpen(false)}
+            disabled={loading}
+          >
             Cancel
           </Button>
           <Button onClick={handleApply} disabled={loading || !code.trim()}>

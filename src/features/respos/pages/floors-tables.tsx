@@ -247,7 +247,7 @@ function TableItem({
   onContextMenu: (e: React.MouseEvent) => void
 }) {
   const statusColor = table.is_active
-    ? (TABLE_STATUS_COLORS[table.status] || 'bg-muted border-muted')
+    ? TABLE_STATUS_COLORS[table.status] || 'bg-muted border-muted'
     : 'bg-green-100 border-green-300 text-green-800 dark:bg-green-950/20 dark:border-green-800/30 dark:text-green-400'
 
   return (

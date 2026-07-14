@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@/hooks/use-auth'
 import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
-import { type Product } from '../data/schema'
+import { useAuth } from '@/hooks/use-auth'
 import type { VariantRowFormData } from '../data/product-wizard-schema'
+import { type Product } from '../data/schema'
 
 /**
  * Initial quantities are never written to product_variants.stock_quantity
@@ -128,7 +128,14 @@ export const useCreateProductWithVariants = () => {
       base,
       variants,
     }: {
-      base: Omit<Product, 'product_id' | 'created_at' | 'updated_at' | 'product_variants' | 'categories'>
+      base: Omit<
+        Product,
+        | 'product_id'
+        | 'created_at'
+        | 'updated_at'
+        | 'product_variants'
+        | 'categories'
+      >
       variants: Array<VariantRowFormData>
     }) => {
       // 1. Insert product
@@ -151,7 +158,9 @@ export const useCreateProductWithVariants = () => {
         stock_quantity: 0,
         min_stock: v.min_stock,
         weight: v.weight,
-        dimensions: v.attributes_label ? JSON.stringify({ label: v.attributes_label }) : null,
+        dimensions: v.attributes_label
+          ? JSON.stringify({ label: v.attributes_label })
+          : null,
         product_id: product.product_id,
       }))
 
@@ -162,7 +171,10 @@ export const useCreateProductWithVariants = () => {
 
       if (variantsError) {
         // Rollback
-        await supabase.from('products').delete().eq('product_id', product.product_id)
+        await supabase
+          .from('products')
+          .delete()
+          .eq('product_id', product.product_id)
         throw variantsError
       }
 
@@ -218,28 +230,32 @@ export const useUpdateProductWithVariants = () => {
         .from('product_variants')
         .select('id')
         .eq('product_id', id)
-      
+
       if (fetchError) throw fetchError
 
-      const existingVariantIds = existingVariants?.map(v => v.id) || []
-      const incomingVariantIds = variants.filter(v => v.id).map(v => v.id)
-      
+      const existingVariantIds = existingVariants?.map((v) => v.id) || []
+      const incomingVariantIds = variants.filter((v) => v.id).map((v) => v.id)
+
       // Variants to delete (were in DB but not in incoming variants)
-      const variantsToDelete = existingVariantIds.filter(vId => !incomingVariantIds.includes(vId))
-      
+      const variantsToDelete = existingVariantIds.filter(
+        (vId) => !incomingVariantIds.includes(vId)
+      )
+
       if (variantsToDelete.length > 0) {
         const { error: deleteError } = await supabase
           .from('product_variants')
           .delete()
           .in('id', variantsToDelete)
-        
+
         if (deleteError) throw deleteError
       }
 
       // 3. Separate new variants (INSERT) from existing variants (UPDATE).
       // stock_quantity is intentionally absent: the cache is engine-owned and
       // existing stock is changed via Stock Adjustments, never here.
-      const buildVariantPayload = (v: VariantRowFormData & { id?: string }) => ({
+      const buildVariantPayload = (
+        v: VariantRowFormData & { id?: string }
+      ) => ({
         product_id: id,
         sku: v.sku,
         barcode: v.barcode,
@@ -247,12 +263,14 @@ export const useUpdateProductWithVariants = () => {
         cost_price: v.cost_price,
         min_stock: v.min_stock,
         weight: v.weight,
-        dimensions: v.attributes_label ? JSON.stringify({ label: v.attributes_label }) : v.dimensions,
+        dimensions: v.attributes_label
+          ? JSON.stringify({ label: v.attributes_label })
+          : v.dimensions,
         is_active: v.is_active,
       })
 
-      const existingToUpdate = variants.filter(v => v.id)
-      const newToInsert = variants.filter(v => !v.id)
+      const existingToUpdate = variants.filter((v) => v.id)
+      const newToInsert = variants.filter((v) => !v.id)
 
       // Update existing variants one by one
       for (const v of existingToUpdate) {
@@ -269,14 +287,20 @@ export const useUpdateProductWithVariants = () => {
       if (newToInsert.length > 0) {
         const { data, error: insertErr } = await supabase
           .from('product_variants')
-          .insert(newToInsert.map((v) => ({ ...buildVariantPayload(v), stock_quantity: 0 })))
+          .insert(
+            newToInsert.map((v) => ({
+              ...buildVariantPayload(v),
+              stock_quantity: 0,
+            }))
+          )
           .select()
 
         if (insertErr) throw insertErr
         insertedVariants = data
 
         // Initial quantities for NEW variants go through the movement engine
-        const storeId = (product as { store_id?: string | null } | null)?.store_id
+        const storeId = (product as { store_id?: string | null } | null)
+          ?.store_id
         if (storeId && insertedVariants) {
           const openingItems = insertedVariants
             .map((created, index) => ({

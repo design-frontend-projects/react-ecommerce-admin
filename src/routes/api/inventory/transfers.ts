@@ -1,5 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   cancelTransfer,
   createTransfer,
@@ -9,8 +7,9 @@ import {
   type CreateTransferInput,
   type UpdateTransferInput,
 } from '@/server/fns/stock-transfers'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -80,7 +79,6 @@ const DELETE = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to cancel transfer')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/transfers')({
   GET,

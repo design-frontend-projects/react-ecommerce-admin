@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { updateUserBranch } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import {
@@ -142,8 +143,6 @@ export function useUpdateUserRole() {
   })
 }
 
-import { updateUserBranch } from '@/server/fns/users'
-
 export function useUpdateUserBranch() {
   const queryClient = useQueryClient()
 
@@ -160,4 +159,3 @@ export function useUpdateUserBranch() {
     },
   })
 }
-

@@ -94,7 +94,7 @@ export function ProductBaseForm({
 
   return (
     <Form {...form}>
-      { }
+      {}
       <form
         id='product-base-form'
         onSubmit={form.handleSubmit(onSubmit as any)}

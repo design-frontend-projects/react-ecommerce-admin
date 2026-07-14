@@ -81,9 +81,7 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
     null
   )
   const [isProcessing, setIsProcessing] = useState(false)
-  const [orderCode] = useState(() =>
-    Math.floor(Math.random() * 100000)
-  )
+  const [orderCode] = useState(() => Math.floor(Math.random() * 100000))
 
   const handlePlanSelect = (plan: SubscriptionPlan) => {
     setSelectedPlan(plan)
@@ -105,17 +103,22 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
           const result = await assignSubscription({
             auth_user_id: user.id,
             email: user.email ?? profile?.email ?? '',
-            first_name: profile?.first_name ?? user.user_metadata?.first_name ?? '',
-            last_name: profile?.last_name ?? user.user_metadata?.last_name ?? '',
+            first_name:
+              profile?.first_name ?? user.user_metadata?.first_name ?? '',
+            last_name:
+              profile?.last_name ?? user.user_metadata?.last_name ?? '',
             is_owner: true,
-            subscription_id: typeof selectedPlan.id === 'number' ? selectedPlan.id : 1,
+            subscription_id:
+              typeof selectedPlan.id === 'number' ? selectedPlan.id : 1,
             status: 'paid',
             start_date: startDate,
             end_date: endDate,
           })
 
           if (result?.isExtension) {
-            toast.success(`Active subscription extended! Total duration is now ${result.totalMonths} months.`)
+            toast.success(
+              `Active subscription extended! Total duration is now ${result.totalMonths} months.`
+            )
           } else {
             toast.success('Subscription activated successfully!')
           }

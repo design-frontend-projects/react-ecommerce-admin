@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { WarehousesProvider } from './components/provider'
-import { WarehousesPrimaryButtons } from './components/primary-buttons'
-import { WarehousesTable } from './components/table'
 import { WarehousesDialogs } from './components/dialogs'
+import { WarehousesPrimaryButtons } from './components/primary-buttons'
+import { WarehousesProvider } from './components/provider'
+import { WarehousesTable } from './components/table'
 import { useWarehouses } from './hooks/use-warehouses'
 
 export function Warehouses() {

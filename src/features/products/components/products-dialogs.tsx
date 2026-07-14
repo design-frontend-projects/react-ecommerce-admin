@@ -1,18 +1,17 @@
 'use client'
 
 import { ProductActionDialog } from './product-action-dialog'
-import { ProductViewDialog } from './product-view-dialog'
 import { ProductDeleteDialog } from './product-delete-dialog'
-import { useProductsContext } from './products-provider'
+import { ProductViewDialog } from './product-view-dialog'
 import { ProductWizardDialog } from './product-wizard-dialog'
+import { useProductsContext } from './products-provider'
 
 export function ProductsDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useProductsContext()
 
   return (
     <>
-      <ProductWizardDialog key="product-wizard" />
-
+      <ProductWizardDialog key='product-wizard' />
 
       {currentRow && (
         <>

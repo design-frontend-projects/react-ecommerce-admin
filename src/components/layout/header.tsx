@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -16,7 +17,6 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ReorderNotificationsBell } from '@/features/pos/components/reorder-notifications-bell'
 import { ConfigDrawer } from './config-drawer'
-import { useTranslation } from 'react-i18next'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -85,10 +85,15 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
               value={selectedBranchId}
               onValueChange={setSelectedBranchId}
             >
-              <SelectTrigger className='h-9 w-44' aria-label={t('header.selectBranch')}>
+              <SelectTrigger
+                className='h-9 w-44'
+                aria-label={t('header.selectBranch')}
+              >
                 <SelectValue
                   placeholder={
-                    isBranchesLoading ? t('header.loadingBranches') : t('header.selectBranch')
+                    isBranchesLoading
+                      ? t('header.loadingBranches')
+                      : t('header.selectBranch')
                   }
                 />
               </SelectTrigger>

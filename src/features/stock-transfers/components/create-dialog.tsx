@@ -1,5 +1,11 @@
 import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
+import {
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,6 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -15,18 +24,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  useStoreOptions,
-  useVariantOptions,
-} from '@/hooks/use-inventory-lookups'
-import { useCreateTransfer } from '../hooks/use-stock-transfers'
 import { createTransferInputSchema } from '../data/schema'
-import { toast } from 'sonner'
+import { useCreateTransfer } from '../hooks/use-stock-transfers'
 
 interface LineItem {
   productVariantId: string

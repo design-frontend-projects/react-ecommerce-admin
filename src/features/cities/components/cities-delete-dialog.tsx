@@ -7,8 +7,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { useDeleteCity } from '../hooks/use-cities'
 import { type City } from '../data/schema'
+import { useDeleteCity } from '../hooks/use-cities'
 
 type CityDeleteDialogProps = {
   open: boolean
@@ -61,7 +61,8 @@ export function CitiesDeleteDialog({
             Are you sure you want to delete{' '}
             <span className='font-bold'>{currentRow.name}</span>?
             <br />
-            This action will permanently remove the city from the system. This cannot be undone.
+            This action will permanently remove the city from the system. This
+            cannot be undone.
           </p>
 
           <Label className='my-2'>

@@ -11,7 +11,12 @@ interface CartItemProps {
   onRemoveItem: (index: number) => void
 }
 
-export function CartItem({ item, index, onUpdateQuantity, onRemoveItem }: CartItemProps) {
+export function CartItem({
+  item,
+  index,
+  onUpdateQuantity,
+  onRemoveItem,
+}: CartItemProps) {
   return (
     <motion.div
       layout

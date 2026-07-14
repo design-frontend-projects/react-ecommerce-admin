@@ -31,9 +31,7 @@ export const batchListItemSchema = z.object({
       products: z.object({ name: z.string() }).nullable(),
     })
     .nullable(),
-  suppliers: z
-    .object({ supplier_id: z.number(), name: z.string() })
-    .nullable(),
+  suppliers: z.object({ supplier_id: z.number(), name: z.string() }).nullable(),
 })
 export type BatchListItem = z.infer<typeof batchListItemSchema>
 

@@ -101,7 +101,9 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
     } catch (error) {
       toast.error(t('respos.floor.error.title'), {
         description:
-          error instanceof Error ? error.message : t('respos.floor.error.unknown'),
+          error instanceof Error
+            ? error.message
+            : t('respos.floor.error.unknown'),
       })
     }
   }
@@ -110,11 +112,11 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>{isEditing ? t('respos.floor.edit') : t('respos.floor.add')}</DialogTitle>
+          <DialogTitle>
+            {isEditing ? t('respos.floor.edit') : t('respos.floor.add')}
+          </DialogTitle>
           <DialogDescription>
-            {isEditing
-              ? t('respos.floor.editDesc')
-              : t('respos.floor.addDesc')}
+            {isEditing ? t('respos.floor.editDesc') : t('respos.floor.addDesc')}
           </DialogDescription>
         </DialogHeader>
 
@@ -127,7 +129,10 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
                 <FormItem>
                   <FormLabel>{t('respos.floor.name')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('respos.floor.namePlaceholder')} {...field} />
+                    <Input
+                      placeholder={t('respos.floor.namePlaceholder')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -202,7 +207,9 @@ export function FloorDialog({ open, onOpenChange, floor }: FloorDialogProps) {
               </Button>
               <Button type='submit' disabled={isLoading}>
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEditing ? t('respos.floor.update') : t('respos.floor.create')}
+                {isEditing
+                  ? t('respos.floor.update')
+                  : t('respos.floor.create')}
               </Button>
             </DialogFooter>
           </form>

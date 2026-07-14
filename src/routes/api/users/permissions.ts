@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import { setUserPermissionOverrides } from '@/server/fns/rbac'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const PUT = async ({ request, params }: any) => {
   try {
@@ -31,12 +30,13 @@ const PUT = async ({ request, params }: any) => {
     })
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : 'Unable to update user permissions',
+      error instanceof Error
+        ? error.message
+        : 'Unable to update user permissions',
       403
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/users/permissions')({
   PUT,

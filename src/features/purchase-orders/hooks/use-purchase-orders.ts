@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/use-auth'
-import { authorizedRequest } from '@/lib/authorized-request'
 
 // ─── Types ────────────────────────────────────────────────
 export interface PurchaseOrder {
@@ -23,7 +23,7 @@ export interface PurchaseOrder {
     unit_cost: number
     subtotal: number
     received_quantity: number | null
-    products?: { 
+    products?: {
       name: string
       product_variants?: Array<{
         id: string
@@ -48,7 +48,7 @@ export interface PurchaseOrderItem {
   unit_cost: number
   subtotal: number
   received_quantity: number
-  products?: { 
+  products?: {
     name: string
     product_variants?: Array<{
       id: string
@@ -97,7 +97,8 @@ export const usePurchaseOrder = (id: number) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('purchase_orders')
-        .select(`*, suppliers(name), 
+        .select(
+          `*, suppliers(name), 
                 purchase_order_items(
                   *,
                   products(
@@ -105,7 +106,8 @@ export const usePurchaseOrder = (id: number) => {
                     product_variants(id, sku, price, cost_price)
                   )
                 )
-              `)
+              `
+        )
         .eq('po_id', id)
         .maybeSingle()
 

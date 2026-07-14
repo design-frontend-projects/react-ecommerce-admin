@@ -8,9 +8,15 @@ interface PaymentMethodsContextType {
   setCurrentRow: (row: PaymentMethod | null) => void
 }
 
-const PaymentMethodsContext = createContext<PaymentMethodsContextType | null>(null)
+const PaymentMethodsContext = createContext<PaymentMethodsContextType | null>(
+  null
+)
 
-export function PaymentMethodsProvider({ children }: { children: React.ReactNode }) {
+export function PaymentMethodsProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [open, setOpen] = useState<'create' | 'update' | 'delete' | null>(null)
   const [currentRow, setCurrentRow] = useState<PaymentMethod | null>(null)
 
@@ -26,7 +32,9 @@ export function PaymentMethodsProvider({ children }: { children: React.ReactNode
 export const usePaymentMethodsContext = () => {
   const context = useContext(PaymentMethodsContext)
   if (!context) {
-    throw new Error('usePaymentMethodsContext must be used within <PaymentMethodsProvider>')
+    throw new Error(
+      'usePaymentMethodsContext must be used within <PaymentMethodsProvider>'
+    )
   }
   return context
 }

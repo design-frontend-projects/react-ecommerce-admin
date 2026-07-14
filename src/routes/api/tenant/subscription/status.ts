@@ -1,8 +1,7 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
-import prisma from '@/lib/prisma'
 import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
+import prisma from '@/lib/prisma'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -15,12 +14,16 @@ const GET = async ({ request, params }: any) => {
     })
 
     if (!subscription) {
-      return jsonError('No tenant subscription record found for authenticated user', 404)
+      return jsonError(
+        'No tenant subscription record found for authenticated user',
+        404
+      )
     }
 
     const now = new Date()
-    const is_active = subscription.status === 'paid' && 
-                      (!subscription.end_date || subscription.end_date > now)
+    const is_active =
+      subscription.status === 'paid' &&
+      (!subscription.end_date || subscription.end_date > now)
 
     return Response.json({
       tenant_id: subscription.id,
@@ -31,12 +34,13 @@ const GET = async ({ request, params }: any) => {
     })
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : 'Unable to check subscription status',
+      error instanceof Error
+        ? error.message
+        : 'Unable to check subscription status',
       401
     )
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/tenant/subscription/status')({
   GET,

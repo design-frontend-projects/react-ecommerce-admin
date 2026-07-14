@@ -1,11 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
+import type { AdjustmentListItem, AdjustmentStatus } from '../data/schema'
 import { AdjustmentRowActions } from './row-actions'
-import type {
-  AdjustmentListItem,
-  AdjustmentStatus,
-} from '../data/schema'
 
 const STATUS_VARIANT: Record<
   AdjustmentStatus,

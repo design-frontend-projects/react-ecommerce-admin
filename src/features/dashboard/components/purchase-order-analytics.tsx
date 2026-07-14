@@ -1,5 +1,6 @@
 import { startOfMonth, subMonths, format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import {
   Bar,
   BarChart,
@@ -9,7 +10,6 @@ import {
   Tooltip,
 } from 'recharts'
 import { supabase } from '@/lib/supabase'
-import { useTranslation } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -81,7 +81,9 @@ export function PurchaseOrderAnalytics() {
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>{t('dashboard.totalSpend')}</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              {t('dashboard.totalSpend')}
+            </CardTitle>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'

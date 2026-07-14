@@ -1,6 +1,6 @@
-import { useCitiesDialog } from './cities-provider'
 import { CitiesActionDialog } from './cities-action-dialog'
 import { CitiesDeleteDialog } from './cities-delete-dialog'
+import { useCitiesDialog } from './cities-provider'
 
 export function CitiesDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useCitiesDialog()

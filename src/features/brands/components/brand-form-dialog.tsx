@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,13 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreateBrand, useUpdateBrand } from '../hooks/use-brands'
 import { brandInputSchema, type BrandListItem } from '../data/schema'
+import { useCreateBrand, useUpdateBrand } from '../hooks/use-brands'
 
 export function BrandFormDialog({
   open,

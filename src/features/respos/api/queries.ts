@@ -104,7 +104,13 @@ export const resposQueryKeys = {
   shiftMovements: (shiftId: string) =>
     ['respos', 'shifts', 'movements', shiftId] as const,
   shiftSettings: (restaurantId?: string | null, branchId?: string | null) =>
-    ['respos', 'shifts', 'settings', restaurantId ?? '', branchId ?? ''] as const,
+    [
+      'respos',
+      'shifts',
+      'settings',
+      restaurantId ?? '',
+      branchId ?? '',
+    ] as const,
   shiftAnalytics: (metric: string, range: string, branchId?: string) =>
     ['respos', 'shifts', 'analytics', metric, range, branchId ?? ''] as const,
 }

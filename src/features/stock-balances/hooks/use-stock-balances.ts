@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
-import type { StockBalanceRow } from '../data/schema'
+import { supabase } from '@/lib/supabase'
 import type { AdjustmentFormData } from '../data/adjustment-schema'
+import type { StockBalanceRow } from '../data/schema'
 
 // ── Query: paginated stock balances with joins ──
 export const stockBalancesQueryKey = ['stock-balances'] as const
@@ -102,4 +102,3 @@ export function useProductVariants(productId?: number) {
     enabled: !!productId,
   })
 }
-

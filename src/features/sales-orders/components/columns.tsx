@@ -1,8 +1,12 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
+import {
+  customerName,
+  type OrderListItem,
+  type OrderStatus,
+} from '../data/schema'
 import { OrderRowActions } from './row-actions'
-import { customerName, type OrderListItem, type OrderStatus } from '../data/schema'
 
 export const STATUS_CLASSES: Record<OrderStatus, string> = {
   draft: 'border-muted-foreground/40 text-muted-foreground',

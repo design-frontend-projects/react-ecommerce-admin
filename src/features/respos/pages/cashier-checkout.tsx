@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
+import { UserRole } from '@/types/user-role.enum'
 import { Loader2, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
-import { UserRole } from '@/types/user-role.enum'
 import { Button } from '@/components/ui/button'
 import { useUpdateTableStatus } from '../api/mutations'
 import {

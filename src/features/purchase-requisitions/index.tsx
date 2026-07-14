@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { LanguageSwitch } from '@/components/language-switch'
-import { RequisitionsProvider } from './components/provider'
-import { RequisitionsPrimaryButtons } from './components/primary-buttons'
-import { RequisitionsTable } from './components/table'
 import { RequisitionsDialogs } from './components/dialogs'
+import { RequisitionsPrimaryButtons } from './components/primary-buttons'
+import { RequisitionsProvider } from './components/provider'
+import { RequisitionsTable } from './components/table'
 import { useRequisitions } from './hooks/use-purchase-requisitions'
 
 export function PurchaseRequisitions() {

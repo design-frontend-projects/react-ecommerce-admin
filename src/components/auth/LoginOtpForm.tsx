@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 import { otpSchema, type OtpFormData } from '@/lib/validation/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,7 +17,6 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { Loader2 } from 'lucide-react'
 
 interface LoginOtpFormProps {
   email: string
@@ -26,7 +26,13 @@ interface LoginOtpFormProps {
   isLoading?: boolean
 }
 
-export function LoginOtpForm({ email, onSubmit, onResend, onBack, isLoading }: LoginOtpFormProps) {
+export function LoginOtpForm({
+  email,
+  onSubmit,
+  onResend,
+  onBack,
+  isLoading,
+}: LoginOtpFormProps) {
   const [countdown, setCountdown] = useState(30)
 
   useEffect(() => {
@@ -50,21 +56,22 @@ export function LoginOtpForm({ email, onSubmit, onResend, onBack, isLoading }: L
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">
-          We sent a 6-digit code to <span className="font-medium text-foreground">{email}</span>
+    <div className='space-y-6'>
+      <div className='text-center'>
+        <p className='text-sm text-muted-foreground'>
+          We sent a 6-digit code to{' '}
+          <span className='font-medium text-foreground'>{email}</span>
         </p>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
             control={form.control}
-            name="token"
+            name='token'
             render={({ field }) => (
-              <FormItem className="flex flex-col items-center justify-center">
-                <FormLabel className="sr-only">One-Time Password</FormLabel>
+              <FormItem className='flex flex-col items-center justify-center'>
+                <FormLabel className='sr-only'>One-Time Password</FormLabel>
                 <FormControl>
                   <InputOTP maxLength={6} {...field}>
                     <InputOTPGroup>
@@ -82,32 +89,30 @@ export function LoginOtpForm({ email, onSubmit, onResend, onBack, isLoading }: L
             )}
           />
 
-          <Button className="w-full" type="submit" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button className='w-full' type='submit' disabled={isLoading}>
+            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Verify Code
           </Button>
         </form>
       </Form>
 
-      <div className="flex flex-col space-y-2 text-center text-sm">
+      <div className='flex flex-col space-y-2 text-center text-sm'>
         {countdown > 0 ? (
-          <p className="text-muted-foreground">
-            Resend code in {countdown}s
-          </p>
+          <p className='text-muted-foreground'>Resend code in {countdown}s</p>
         ) : (
           <button
-            type="button"
+            type='button'
             onClick={handleResend}
-            className="text-primary hover:underline focus:outline-none"
+            className='text-primary hover:underline focus:outline-none'
             disabled={isLoading}
           >
             Resend Code
           </button>
         )}
         <button
-          type="button"
+          type='button'
           onClick={onBack}
-          className="text-muted-foreground hover:text-foreground hover:underline focus:outline-none"
+          className='text-muted-foreground hover:text-foreground hover:underline focus:outline-none'
           disabled={isLoading}
         >
           Use a different email

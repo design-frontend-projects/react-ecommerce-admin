@@ -43,7 +43,7 @@ export function MenuItemDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='flex max-h-[90vh] flex-col overflow-hidden rounded-[2.5rem] border-0 p-0 outline-none sm:max-w-[425px]'>
+      <DialogContent className='flex max-h-[90dvh] flex-col overflow-hidden rounded-[2.5rem] border-0 p-0 outline-none sm:max-w-[425px]'>
         {isLoading || !itemDetails ? (
           <div className='flex h-40 items-center justify-center'>
             <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
@@ -124,8 +124,8 @@ function MenuItemDetailsContent({
   }
 
   return (
-    <div className='flex h-full flex-col bg-background'>
-      <div className='px-6 pt-6 pb-2'>
+    <div className='flex h-full max-h-[inherit] min-h-0 flex-col bg-background'>
+      <div className='px-6 pt-6 pr-12 pb-2'>
         <DialogHeader>
           <DialogTitle className='text-2xl font-black tracking-tight'>
             {itemDetails.name}
@@ -134,7 +134,7 @@ function MenuItemDetailsContent({
       </div>
 
       <ScrollArea className='flex-1 px-6'>
-        <div className='space-y-8 py-4'>
+        <div className='space-y-6 py-4 sm:space-y-8'>
           {/* Image */}
           {itemDetails.image_url && (
             <motion.div
@@ -267,7 +267,9 @@ function MenuItemDetailsContent({
             </Label>
             <Textarea
               id='notes'
-              placeholder={t('respos.menuItemDetails.specialInstructionsPlaceholder')}
+              placeholder={t(
+                'respos.menuItemDetails.specialInstructionsPlaceholder'
+              )}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className='min-h-[100px] rounded-3xl border-0 bg-muted/50 p-4 transition-all focus-visible:ring-2 focus-visible:ring-orange-500/30'

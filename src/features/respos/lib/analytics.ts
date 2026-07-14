@@ -155,7 +155,9 @@ export function buildRestaurantAnalytics(
   const operationalOrders = filteredOrders.filter(isOperationalOrder)
   const paidOrders = filteredOrders.filter(isPaidOrder)
 
-  const occupiedTables = input.tables.filter((table) => table.status === 'occupied').length
+  const occupiedTables = input.tables.filter(
+    (table) => table.status === 'occupied'
+  ).length
   const totalTables = input.tables.length
   const paidRevenue = paidOrders.reduce(
     (sum, order) => sum + toNumber(order.total_amount),
@@ -180,7 +182,9 @@ export function buildRestaurantAnalytics(
     occupancyRate: totalTables > 0 ? (occupiedTables / totalTables) * 100 : 0,
   }
 
-  const floorNameById = new Map(input.floors.map((floor) => [floor.id, floor.name]))
+  const floorNameById = new Map(
+    input.floors.map((floor) => [floor.id, floor.name])
+  )
   const tableById = new Map(input.tables.map((table) => [table.id, table]))
 
   const floorMap = new Map<string, FloorAnalyticsRow>()
@@ -358,7 +362,9 @@ export function buildRestaurantAnalytics(
     )
   })
 
-  const dailyRevenue: DailyRevenuePoint[] = Array.from(dailyRevenueMap.entries())
+  const dailyRevenue: DailyRevenuePoint[] = Array.from(
+    dailyRevenueMap.entries()
+  )
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([date, revenue]) => ({
       date,

@@ -49,9 +49,7 @@ export const columns: ColumnDef<Branch>[] = [
       const branch = row.original
       return (
         <div className='flex space-x-2'>
-          <span className='truncate'>
-            {branch.cities?.name || '—'}
-          </span>
+          <span className='truncate'>{branch.cities?.name || '—'}</span>
         </div>
       )
     },

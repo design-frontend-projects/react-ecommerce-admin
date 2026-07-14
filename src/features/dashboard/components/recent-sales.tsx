@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useTranslation } from 'react-i18next'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import type { RecentSale } from '../use-dashboard-data'
 
 interface RecentSalesProps {
@@ -29,7 +29,7 @@ export function RecentSales({ data }: RecentSalesProps) {
         return (
           <div key={sale.id} className='flex items-center gap-4'>
             <Avatar className='h-9 w-9'>
-              <AvatarFallback className='bg-primary/10 text-primary text-xs'>
+              <AvatarFallback className='bg-primary/10 text-xs text-primary'>
                 {sale.transaction_number?.slice(-2) || 'TX'}
               </AvatarFallback>
             </Avatar>

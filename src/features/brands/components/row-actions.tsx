@@ -6,8 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useBrandsContext } from './provider'
 import type { BrandListItem } from '../data/schema'
+import { useBrandsContext } from './provider'
 
 export function BrandRowActions({ row }: { row: BrandListItem }) {
   const { setCurrentRow, setOpen } = useBrandsContext()

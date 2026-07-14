@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import {
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -8,6 +13,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -15,15 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Switch } from '@/components/ui/switch'
-import { useStoreOptions, useVariantOptions } from '@/hooks/use-inventory-lookups'
-import { useSupplierOptions } from '../hooks/use-supplier-options'
-import { useCreateRule, useUpdateRule } from '../hooks/use-reorder-rules'
 import { ruleInputSchema, type RuleListItem } from '../data/schema'
+import { useCreateRule, useUpdateRule } from '../hooks/use-reorder-rules'
+import { useSupplierOptions } from '../hooks/use-supplier-options'
 
 const NONE = '__none__'
 
@@ -75,9 +78,7 @@ export function RuleFormDialog({
       setLeadTimeDays(
         rule?.lead_time_days !== null && rule ? String(rule.lead_time_days) : ''
       )
-      setSupplierId(
-        rule?.suppliers ? String(rule.suppliers.supplier_id) : NONE
-      )
+      setSupplierId(rule?.suppliers ? String(rule.suppliers.supplier_id) : NONE)
       setIsActive(rule?.is_active ?? true)
     }
   }, [open, rule])

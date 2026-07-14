@@ -2,8 +2,7 @@ import { AdjustmentDialog } from './adjustment-dialog'
 import { useStockBalancesContext } from './stock-balances-provider'
 
 export function StockBalancesDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } =
-    useStockBalancesContext()
+  const { open, setOpen, currentRow, setCurrentRow } = useStockBalancesContext()
 
   return (
     <>

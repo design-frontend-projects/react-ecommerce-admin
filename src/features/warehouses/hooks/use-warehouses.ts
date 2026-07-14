@@ -54,8 +54,13 @@ export function useUpdateWarehouse() {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: Partial<WarehouseInput> }) =>
-      updateWarehouse(getToken, id, input),
+    mutationFn: ({
+      id,
+      input,
+    }: {
+      id: string
+      input: Partial<WarehouseInput>
+    }) => updateWarehouse(getToken, id, input),
     onSuccess: () => {
       toast.success('Warehouse updated.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })

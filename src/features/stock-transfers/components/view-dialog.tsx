@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,16 +17,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
+import type { TransferListItem } from '../data/schema'
 import {
   useApplyTransfer,
   useCancelTransfer,
   useTransfer,
 } from '../hooks/use-stock-transfers'
-import type { TransferListItem } from '../data/schema'
 
 export function TransferViewDialog({
   transfer,
@@ -35,7 +35,9 @@ export function TransferViewDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const { data: detail, isLoading } = useTransfer(open ? transfer.id : undefined)
+  const { data: detail, isLoading } = useTransfer(
+    open ? transfer.id : undefined
+  )
   const applyTransfer = useApplyTransfer()
   const cancelTransfer = useCancelTransfer()
   const [confirmApply, setConfirmApply] = useState(false)

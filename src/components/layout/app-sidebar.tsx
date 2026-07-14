@@ -36,12 +36,22 @@ function canAccessItem(
   if (!isSignedIn) return false
 
   // Check if any of the user's roles match the route's allowed roles
-  if (hasRoles && item.roles!.some((role) => normalizedRoleNames.includes(normalizeRoleName(role)))) {
+  if (
+    hasRoles &&
+    item.roles!.some((role) =>
+      normalizedRoleNames.includes(normalizeRoleName(role))
+    )
+  ) {
     return true
   }
 
   // Check if any of the user's permissions match the route's allowed permissions
-  if (hasPermissions && item.permissions!.some((permission) => normalizedPermissionNames.includes(normalizeRoleName(permission)))) {
+  if (
+    hasPermissions &&
+    item.permissions!.some((permission) =>
+      normalizedPermissionNames.includes(normalizeRoleName(permission))
+    )
+  ) {
     return true
   }
 
@@ -53,11 +63,14 @@ export function AppSidebar() {
   const { isSignedIn } = useAuth()
   const { isSystemOwner } = useSystemOwner()
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
-  const currentPermissionNames = useRBACStore((state) => state.currentPermissionNames)
+  const currentPermissionNames = useRBACStore(
+    (state) => state.currentPermissionNames
+  )
   const sidebarData = useSidebarData()
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
-  const normalizedPermissionNames = currentPermissionNames.map(normalizeRoleName)
+  const normalizedPermissionNames =
+    currentPermissionNames.map(normalizeRoleName)
 
   // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sidebarData.navGroups
@@ -65,7 +78,13 @@ export function AppSidebar() {
       ...group,
       items: group.items
         .filter((item) =>
-          canAccessItem(item, normalizedRoleNames, normalizedPermissionNames, isSystemOwner, !!isSignedIn)
+          canAccessItem(
+            item,
+            normalizedRoleNames,
+            normalizedPermissionNames,
+            isSystemOwner,
+            !!isSignedIn
+          )
         )
         .map((item): NavItem => {
           // Filter nested sub-items for collapsible menus

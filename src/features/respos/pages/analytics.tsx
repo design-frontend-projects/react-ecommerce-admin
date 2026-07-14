@@ -47,9 +47,10 @@ const RANGE_OPTIONS = [
 export function Analytics() {
   const [days, setDays] = useState(30)
 
-  const { data: analyticsOrders, isLoading: loadingOrders } = useAnalyticsOrders({
-    days,
-  })
+  const { data: analyticsOrders, isLoading: loadingOrders } =
+    useAnalyticsOrders({
+      days,
+    })
   const { data: floors, isLoading: loadingFloors } = useFloors()
   const { data: tables, isLoading: loadingTables } = useTables()
 
@@ -101,7 +102,10 @@ export function Analytics() {
                   </SelectTrigger>
                   <SelectContent>
                     {RANGE_OPTIONS.map((option) => (
-                      <SelectItem key={option.value} value={String(option.value)}>
+                      <SelectItem
+                        key={option.value}
+                        value={String(option.value)}
+                      >
                         {option.label}
                       </SelectItem>
                     ))}
@@ -121,7 +125,9 @@ export function Analytics() {
                 <StatCard
                   title='Paid Revenue'
                   value={formatCurrency(analytics.kpis.paidRevenue)}
-                  icon={<TrendingUp className='h-4 w-4 text-muted-foreground' />}
+                  icon={
+                    <TrendingUp className='h-4 w-4 text-muted-foreground' />
+                  }
                 />
                 <StatCard
                   title='Order Volume'
@@ -136,7 +142,9 @@ export function Analytics() {
                 <StatCard
                   title='Avg Paid Order Value'
                   value={formatCurrency(analytics.kpis.avgPaidOrderValue)}
-                  icon={<TrendingUp className='h-4 w-4 text-muted-foreground' />}
+                  icon={
+                    <TrendingUp className='h-4 w-4 text-muted-foreground' />
+                  }
                 />
                 <StatCard
                   title='Occupied Tables'
@@ -159,12 +167,21 @@ export function Analytics() {
                     {analytics.dailyRevenue.length > 0 ? (
                       <ResponsiveContainer width='100%' height='100%'>
                         <LineChart data={analytics.dailyRevenue}>
-                          <CartesianGrid strokeDasharray='3 3' vertical={false} />
-                          <XAxis dataKey='label' tickLine={false} axisLine={false} />
+                          <CartesianGrid
+                            strokeDasharray='3 3'
+                            vertical={false}
+                          />
+                          <XAxis
+                            dataKey='label'
+                            tickLine={false}
+                            axisLine={false}
+                          />
                           <YAxis
                             tickLine={false}
                             axisLine={false}
-                            tickFormatter={(value) => `${Number(value).toFixed(0)}`}
+                            tickFormatter={(value) =>
+                              `${Number(value).toFixed(0)}`
+                            }
                             width={55}
                           />
                           <Tooltip
@@ -196,7 +213,10 @@ export function Analytics() {
                     {analytics.floorAnalytics.length > 0 ? (
                       <ResponsiveContainer width='100%' height='100%'>
                         <BarChart data={analytics.floorAnalytics}>
-                          <CartesianGrid strokeDasharray='3 3' vertical={false} />
+                          <CartesianGrid
+                            strokeDasharray='3 3'
+                            vertical={false}
+                          />
                           <XAxis
                             dataKey='floorName'
                             tickLine={false}
@@ -205,7 +225,9 @@ export function Analytics() {
                           <YAxis
                             tickLine={false}
                             axisLine={false}
-                            tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
+                            tickFormatter={(value) =>
+                              `${Number(value).toFixed(0)}%`
+                            }
                             width={45}
                           />
                           <Tooltip
@@ -237,8 +259,13 @@ export function Analytics() {
                   <CardContent className='h-[320px]'>
                     {analytics.topItemsByQuantity.length > 0 ? (
                       <ResponsiveContainer width='100%' height='100%'>
-                        <BarChart data={analytics.topItemsByQuantity.slice(0, 8)}>
-                          <CartesianGrid strokeDasharray='3 3' vertical={false} />
+                        <BarChart
+                          data={analytics.topItemsByQuantity.slice(0, 8)}
+                        >
+                          <CartesianGrid
+                            strokeDasharray='3 3'
+                            vertical={false}
+                          />
                           <XAxis
                             dataKey='itemName'
                             tickLine={false}
@@ -272,8 +299,13 @@ export function Analytics() {
                   <CardContent className='h-[320px]'>
                     {analytics.topItemsByRevenue.length > 0 ? (
                       <ResponsiveContainer width='100%' height='100%'>
-                        <BarChart data={analytics.topItemsByRevenue.slice(0, 8)}>
-                          <CartesianGrid strokeDasharray='3 3' vertical={false} />
+                        <BarChart
+                          data={analytics.topItemsByRevenue.slice(0, 8)}
+                        >
+                          <CartesianGrid
+                            strokeDasharray='3 3'
+                            vertical={false}
+                          />
                           <XAxis
                             dataKey='itemName'
                             tickLine={false}
@@ -313,7 +345,9 @@ export function Analytics() {
                           <TableHead>Floor</TableHead>
                           <TableHead className='text-right'>Tables</TableHead>
                           <TableHead className='text-right'>Occupied</TableHead>
-                          <TableHead className='text-right'>Occupancy</TableHead>
+                          <TableHead className='text-right'>
+                            Occupancy
+                          </TableHead>
                           <TableHead className='text-right'>Orders</TableHead>
                           <TableHead className='text-right'>Revenue</TableHead>
                         </TableRow>
@@ -321,15 +355,21 @@ export function Analytics() {
                       <TableBody>
                         {analytics.floorAnalytics.map((row) => (
                           <TableRow key={row.floorId}>
-                            <TableCell className='font-medium'>{row.floorName}</TableCell>
-                            <TableCell className='text-right'>{row.totalTables}</TableCell>
+                            <TableCell className='font-medium'>
+                              {row.floorName}
+                            </TableCell>
+                            <TableCell className='text-right'>
+                              {row.totalTables}
+                            </TableCell>
                             <TableCell className='text-right'>
                               {row.occupiedTables}
                             </TableCell>
                             <TableCell className='text-right'>
                               {row.occupancyRate.toFixed(1)}%
                             </TableCell>
-                            <TableCell className='text-right'>{row.ordersCount}</TableCell>
+                            <TableCell className='text-right'>
+                              {row.ordersCount}
+                            </TableCell>
                             <TableCell className='text-right'>
                               {formatCurrency(row.paidRevenue)}
                             </TableCell>
@@ -364,9 +404,13 @@ export function Analytics() {
                       <TableBody>
                         {analytics.tableLeaderboard.slice(0, 10).map((row) => (
                           <TableRow key={row.tableId}>
-                            <TableCell className='font-medium'>{row.tableName}</TableCell>
+                            <TableCell className='font-medium'>
+                              {row.tableName}
+                            </TableCell>
                             <TableCell>{row.floorName}</TableCell>
-                            <TableCell className='text-right'>{row.ordersCount}</TableCell>
+                            <TableCell className='text-right'>
+                              {row.ordersCount}
+                            </TableCell>
                             <TableCell className='text-right'>
                               {formatCurrency(row.paidRevenue)}
                             </TableCell>

@@ -1,4 +1,5 @@
 import { Link, useSearch } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -9,7 +10,6 @@ import {
 } from '@/components/ui/card'
 import { AuthLayout } from '../auth-layout'
 import { OtpForm } from './components/otp-form'
-import { useTranslation } from 'react-i18next'
 
 export function Otp() {
   const { flow } = useSearch({ from: '/(auth)/otp' })
@@ -24,9 +24,7 @@ export function Otp() {
               ? t('otp.emailVerification')
               : t('otp.twoFactorAuth')}
           </CardTitle>
-          <CardDescription>
-            {t('otp.subtitle')}
-          </CardDescription>
+          <CardDescription>{t('otp.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <OtpForm flow={flow ?? 'sign-up'} />

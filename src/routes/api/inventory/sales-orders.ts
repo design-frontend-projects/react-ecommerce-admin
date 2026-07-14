@@ -1,13 +1,12 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-
 import {
   createOrder,
   getOrder,
   listOrders,
   type CreateOrderInput,
 } from '@/server/fns/sales-orders'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { handleRouteError } from '@/server/utils/api-error'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = async ({ request, params }: any) => {
   try {
@@ -36,7 +35,6 @@ const POST = async ({ request, params }: any) => {
     return handleRouteError(error, 'Unable to create sales order')
   }
 }
-
 
 export const APIRoute = createAPIFileRoute('/api/inventory/sales-orders')({
   GET,

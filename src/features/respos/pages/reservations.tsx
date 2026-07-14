@@ -42,7 +42,10 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useDeleteReservation, useUpdateReservationStatus } from '../api/mutations'
+import {
+  useDeleteReservation,
+  useUpdateReservationStatus,
+} from '../api/mutations'
 import { useReservations } from '../api/queries'
 import { ReservationCalendar } from '../components/reservation-calendar'
 import { ReservationDialog } from '../components/reservation-dialog'
@@ -359,14 +362,21 @@ export function Reservations() {
                       <div className='h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent' />
                     </div>
                   ) : reservations.length === 0 ? (
-                    <div className='flex h-full flex-col items-center justify-center text-center p-6 bg-muted/20 rounded-md border border-dashed'>
-                      <CalendarClock className='h-12 w-12 text-muted-foreground/50 mb-4' />
-                      <h3 className='text-lg font-medium'>No reservations today</h3>
-                      <p className='text-sm text-muted-foreground mt-1'>
+                    <div className='flex h-full flex-col items-center justify-center rounded-md border border-dashed bg-muted/20 p-6 text-center'>
+                      <CalendarClock className='mb-4 h-12 w-12 text-muted-foreground/50' />
+                      <h3 className='text-lg font-medium'>
+                        No reservations today
+                      </h3>
+                      <p className='mt-1 text-sm text-muted-foreground'>
                         Be ready for walk-ins or create a new reservation.
                       </p>
-                      <Button variant='outline' size='sm' className='mt-4' onClick={handleCreateNew}>
-                        <Plus className='h-4 w-4 mr-2' />
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        className='mt-4'
+                        onClick={handleCreateNew}
+                      >
+                        <Plus className='mr-2 h-4 w-4' />
                         New Reservation
                       </Button>
                     </div>
@@ -415,12 +425,13 @@ export function Reservations() {
 
                           const isDeletingCurrent =
                             deleteReservationMutation.isPending &&
-                            deleteReservationMutation.variables === reservation.id
+                            deleteReservationMutation.variables ===
+                              reservation.id
 
                           return (
-                            <TableRow 
-                              key={reservation.id} 
-                              className="cursor-pointer"
+                            <TableRow
+                              key={reservation.id}
+                              className='cursor-pointer'
                               onClick={() => handleEventClick(reservation)}
                             >
                               <TableCell>

@@ -20,8 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
-import { columns } from './columns'
 import type { RuleListItem } from '../data/schema'
+import { columns } from './columns'
 
 export function ReorderRulesTable({ data }: { data: RuleListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -77,7 +77,10 @@ export function ReorderRulesTable({ data }: { data: RuleListItem[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No reorder rules yet.
                 </TableCell>
               </TableRow>

@@ -1,7 +1,7 @@
 import { Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useAdjustmentsContext } from './provider'
 import type { AdjustmentListItem } from '../data/schema'
+import { useAdjustmentsContext } from './provider'
 
 export function AdjustmentRowActions({ row }: { row: AdjustmentListItem }) {
   const { setCurrentRow, setOpen } = useAdjustmentsContext()

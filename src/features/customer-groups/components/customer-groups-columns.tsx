@@ -1,5 +1,5 @@
-import { type TFunction } from 'i18next'
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type CustomerGroup } from '../hooks/use-customer-groups'
 import { CustomerGroupRowActions } from './customer-groups-row-actions'

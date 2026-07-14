@@ -61,7 +61,7 @@ export function PriceListDeleteDialog() {
               e.preventDefault()
               onDelete()
             }}
-            className='text-destructive-foreground bg-destructive hover:bg-destructive/90'
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
             {deleteMutation.isPending ? 'Deleting...' : 'Delete'}

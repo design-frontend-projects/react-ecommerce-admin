@@ -17,7 +17,9 @@ export function BrandsProvider({ children }: { children: ReactNode }) {
   const [currentRow, setCurrentRow] = useState<BrandListItem | null>(null)
 
   return (
-    <BrandsContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <BrandsContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
     </BrandsContext.Provider>
   )

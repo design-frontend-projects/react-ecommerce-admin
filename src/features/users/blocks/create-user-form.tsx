@@ -1,7 +1,8 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -28,7 +29,6 @@ import {
 } from '@/components/ui/select'
 import type { RoleWithPermissions } from '../data/types'
 import { useCreateUser } from '../hooks/use-users'
-import { useAuth } from '@/hooks/use-auth'
 
 const createUserFormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -97,7 +97,7 @@ export function CreateUserForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className='max-w-md'>
         <DialogHeader>
           <DialogTitle>Create new user</DialogTitle>
           <DialogDescription>
@@ -117,7 +117,11 @@ export function CreateUserForm({
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder='John' disabled={createMutation.isPending} {...field} />
+                      <Input
+                        placeholder='John'
+                        disabled={createMutation.isPending}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -130,7 +134,11 @@ export function CreateUserForm({
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input placeholder='Doe' disabled={createMutation.isPending} {...field} />
+                      <Input
+                        placeholder='Doe'
+                        disabled={createMutation.isPending}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +187,7 @@ export function CreateUserForm({
                   <FormLabel>Temporary Password</FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
+                      type='password'
                       placeholder='••••••••'
                       disabled={createMutation.isPending}
                       {...field}
@@ -217,7 +225,7 @@ export function CreateUserForm({
                 </FormItem>
               )}
             />
-            <div className='flex items-center justify-end gap-3 mt-4'>
+            <div className='mt-4 flex items-center justify-end gap-3'>
               <Button
                 type='button'
                 variant='outline'

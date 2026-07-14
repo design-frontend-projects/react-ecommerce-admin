@@ -1,6 +1,6 @@
 import { TransferCreateDialog } from './create-dialog'
-import { TransferViewDialog } from './view-dialog'
 import { useTransfersContext } from './provider'
+import { TransferViewDialog } from './view-dialog'
 
 export function TransfersDialogs() {
   const { open, setOpen, currentRow } = useTransfersContext()

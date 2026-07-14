@@ -17,8 +17,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
-import { createColumns } from './columns'
 import type { SerialListItem } from '../data/schema'
+import { createColumns } from './columns'
 
 export function SerialsTable({
   data,
@@ -79,7 +79,10 @@ export function SerialsTable({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
                   No serial numbers found. Serials are registered when
                   serial-tracked stock is received.
                 </TableCell>

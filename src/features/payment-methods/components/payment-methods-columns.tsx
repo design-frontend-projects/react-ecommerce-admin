@@ -49,11 +49,7 @@ export const columns: ColumnDef<PaymentMethod>[] = [
     ),
     cell: ({ row }) => {
       const icon = row.getValue('icon') as string | null
-      return (
-        <div className='text-muted-foreground'>
-          {icon || '—'}
-        </div>
-      )
+      return <div className='text-muted-foreground'>{icon || '—'}</div>
     },
   },
   {

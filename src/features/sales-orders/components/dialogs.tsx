@@ -1,6 +1,6 @@
 import { OrderCreateDialog } from './create-dialog'
-import { OrderViewDialog } from './view-dialog'
 import { useOrdersContext } from './provider'
+import { OrderViewDialog } from './view-dialog'
 
 export function OrdersDialogs() {
   const { open, setOpen, currentRow } = useOrdersContext()
