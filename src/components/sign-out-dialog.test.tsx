@@ -52,10 +52,8 @@ vi.mock('@/features/respos/api/shift-hooks', () => ({
   useShiftSettings: () => ({ data: undefined }),
 }))
 
-vi.mock('@/lib/offline-order-service', () => ({
-  offlineOrderService: {
-    getPendingOrders: vi.fn().mockResolvedValue([]),
-  },
+vi.mock('@/lib/sync/outbox', () => ({
+  outboxPendingCount: vi.fn().mockResolvedValue(0),
 }))
 
 vi.mock('@/stores/auth-store', () => ({

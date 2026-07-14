@@ -204,7 +204,6 @@
     "goodsReceipts": "استلام البضائع",
     "purchaseRequisitions": "طلبات الشراء الداخلية",
     "salesOrders": "أوامر البيع",
-    "reservations": "الحجوزات",
     "stockCounts": "جرد المخزون",
     "batches": "الدفعات",
     "serials": "الأرقام التسلسلية",
@@ -438,8 +437,41 @@
       "tipAmount": "مبلغ الإكرامية",
       "errors": {
         "tipAmountMin": "يجب أن يكون مبلغ الإكرامية أكبر من 0",
-        "tipAmountMax": "لا يمكن أن تتجاوز الإكرامية الباقي ({{amount}})"
-      }
+        "tipAmountMax": "لا يمكن أن تتجاوز الإكرامية الباقي ({{amount}})",
+        "maxDiscount": "لا يمكن أن يتجاوز الخصم 10% من المجموع الفرعي ({{amount}})",
+        "recipientNameRequired": "اسم المستلم مطلوب",
+        "recipientPhoneRequired": "رقم هاتف المستلم مطلوب",
+        "deliveryAddressRequired": "عنوان التوصيل مطلوب",
+        "amountAtLeast": "يجب أن يكون المبلغ المستلم على الأقل {{amount}}"
+      },
+      "title": "الدفع",
+      "orderNumber": "الطلب رقم {{orderNumber}}",
+      "tableNumber": "طاولة {{number}}",
+      "takeaway": "سفري",
+      "items": "أصناف",
+      "customerName": "اسم العميل",
+      "optional": "اختياري",
+      "mobileNumber": "رقم الجوال",
+      "deliveryDetails": "تفاصيل التوصيل",
+      "recipientName": "اسم المستلم",
+      "fullName": "الاسم الكامل",
+      "recipientPhone": "هاتف المستلم",
+      "phoneNumber": "رقم الهاتف",
+      "deliveryAddress": "عنوان التوصيل",
+      "deliveryAddressPlaceholder": "أدخل عنوان التوصيل",
+      "city": "المدينة",
+      "state": "المنطقة / الولاية",
+      "postalCode": "الرمز البريدي",
+      "deliveryNotes": "ملاحظات التوصيل",
+      "deliveryNotesPlaceholder": "أي ملاحظات لسائق التوصيل...",
+      "manualDiscount": "خصم يدوي",
+      "amount": "المبلغ",
+      "discountValue": "قيمة الخصم",
+      "shortfall": "العجز",
+      "paymentMethod": "طريقة الدفع",
+      "amountReceived": "المبلغ المستلم",
+      "cancel": "إلغاء",
+      "processPayment": "معالجة الدفع"
     },
     "orderType": {
       "dineIn": "صالة",
@@ -480,7 +512,39 @@
           "title": "خطأ",
           "generic": "حدث خطأ ما"
         }
-      }
+      },
+      "success": {
+        "updated": "تم تحديث الطابق بنجاح",
+        "updatedDesc": "تم تحديث تفاصيل الطابق.",
+        "created": "تم إنشاء الطابق بنجاح",
+        "createdDesc": "تم إنشاء الطابق."
+      },
+      "error": {
+        "title": "خطأ",
+        "unknown": "حدث خطأ غير معروف"
+      },
+      "edit": "تعديل الطابق",
+      "add": "إضافة طابق",
+      "editDesc": "تحديث تفاصيل الطابق أدناه.",
+      "addDesc": "املأ التفاصيل لإنشاء طابق جديد.",
+      "name": "اسم الطابق",
+      "namePlaceholder": "مثال: الطابق الأول",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري",
+      "sortOrder": "ترتيب الفرز",
+      "active": "نشط",
+      "activeDesc": "تحديد ما إذا كان هذا الطابق نشطاً",
+      "cancel": "إلغاء",
+      "update": "تحديث",
+      "create": "إنشاء",
+      "noTables": "لا توجد طاولات مجهزة لهذا الطابق.",
+      "status": {
+        "free": "شاغرة",
+        "occupied": "مشغولة",
+        "reserved": "محجوزة",
+        "dirty": "غير نظيفة"
+      },
+      "seats": "مقاعد"
     },
     "users": {
       "createUser": "إنشاء مستخدم",
@@ -551,6 +615,248 @@
       "ready": "جاهز",
       "markServed": "تحديد كمقدم",
       "markAllServed": "تحديد الكل كمقدم"
+    },
+    "menuItemDetails": {
+      "sizeOption": "خيارات الحجم",
+      "addOns": "الإضافات",
+      "specialInstructions": "تعليمات خاصة",
+      "specialInstructionsPlaceholder": "أي طلبات خاصة...",
+      "quantity": "الكمية",
+      "addToOrder": "إضافة للطلب"
+    },
+    "actions": {
+      "backToPos": "العودة لنقطة البيع",
+      "orderHistory": "سجل الطلبات",
+      "allItems": "كل الأصناف",
+      "menuSelection": "اختيار القائمة",
+      "searchMenu": "ابحث في القائمة..."
+    },
+    "pos": {
+      "noTableSelected": "لم يتم تحديد طاولة",
+      "noTableDesc": "الرجاء تحديد طاولة من المخطط لبدء طلب جديد أو إدارة طلب حالي.",
+      "activeOrder": "الطلب الحالي",
+      "sentToKitchen": "أُرسل للمطبخ",
+      "seats": "مقاعد",
+      "floor": "الطابق",
+      "itemAdded": "تم إضافة الصنف للسلة",
+      "orderUpdated": "تم تحديث الطلب",
+      "orderPlaced": "تم تقديم الطلب",
+      "processOrderFailed": "فشلت معالجة الطلب",
+      "completeOrderFirst": "أكمل الطلب الحالي أولاً!",
+      "placeOrderOrClear": "قم بتأكيد الطلب أو إفراغ السلة قبل تغيير الوضع.",
+      "unsavedItems": "لديك أصناف غير محفوظة للطاولة {{table}}. قم بتأكيد الطلب أو إفراغ السلة.",
+      "accessDenied": "تم رفض الوصول"
+    },
+    "menuCategory": {
+      "success": {
+        "updated": "تم تحديث الفئة بنجاح",
+        "updatedDesc": "تم تحديث تفاصيل الفئة.",
+        "created": "تم إنشاء الفئة بنجاح",
+        "createdDesc": "تم إنشاء فئة القائمة بنجاح."
+      },
+      "error": {
+        "title": "خطأ",
+        "unknown": "حدث خطأ غير معروف"
+      },
+      "edit": "تعديل الفئة",
+      "add": "إضافة فئة",
+      "editDesc": "تحديث تفاصيل الفئة أدناه.",
+      "addDesc": "املأ التفاصيل لإنشاء فئة قائمة جديدة.",
+      "nameEn": "الاسم بالإنجليزية",
+      "nameEnPlaceholder": "مثال: مقبلات",
+      "nameAr": "الاسم بالعربية",
+      "nameArPlaceholder": "مثال: مقبلات",
+      "icon": "رمز تعبيري",
+      "iconPlaceholder": "مثال: 🍔",
+      "sortOrder": "ترتيب الفرز",
+      "active": "نشط",
+      "activeDesc": "تحديد ما إذا كانت هذه الفئة مرئية في القائمة",
+      "cancel": "إلغاء",
+      "update": "تحديث",
+      "create": "إنشاء"
+    },
+    "menuItem": {
+      "success": {
+        "updated": "تم تحديث صنف القائمة بنجاح",
+        "updatedDesc": "تم تحديث تفاصيل صنف القائمة.",
+        "created": "تم إنشاء صنف القائمة بنجاح",
+        "createdDesc": "تم إنشاء صنف القائمة."
+      },
+      "error": {
+        "title": "خطأ",
+        "unknown": "حدث خطأ غير معروف"
+      },
+      "edit": "تعديل صنف القائمة",
+      "add": "إضافة صنف للقائمة",
+      "editDesc": "تحديث تفاصيل صنف القائمة أدناه.",
+      "addDesc": "املأ التفاصيل لإنشاء صنف جديد بالقائمة.",
+      "tabs": {
+        "basic": "معلومات أساسية",
+        "variants": "الخيارات المتعددة",
+        "properties": "الخصائص"
+      },
+      "nameEn": "الاسم بالإنجليزية",
+      "nameEnPlaceholder": "مثال: بيتزا مارغريتا",
+      "nameAr": "الاسم بالعربية",
+      "nameArPlaceholder": "مثال: بيتزا مارغريتا",
+      "category": "الفئة",
+      "categoryPlaceholder": "اختر الفئة",
+      "basePrice": "السعر الأساسي",
+      "prepTime": "وقت التحضير (بالدقائق)",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري للصنف",
+      "imageUrl": "رابط الصورة",
+      "imageUrlPlaceholder": "https://example.com/image.jpg",
+      "allergens": "مسببات الحساسية",
+      "allergensPlaceholder": "اختر مسببات الحساسية",
+      "addBtn": "إضافة",
+      "tags": "الوسوم",
+      "tagsPlaceholder": "اختر الوسوم",
+      "available": "متوفر",
+      "availableDesc": "تفعيل إمكانية طلب هذا الصنف",
+      "variantsDesc": "تكوين خيارات مختلفة للحجم أو الحصة لهذا الصنف (مثال: صغير، متوسط، كبير).",
+      "addVariantBtn": "إضافة خيار",
+      "noVariants": "لم يتم تحديد خيارات. سيستخدم هذا الصنف السعر الأساسي.",
+      "variant": "الخيار",
+      "variantName": "اسم الخيار",
+      "variantNamePlaceholder": "مثال: كبير",
+      "priceAdjustment": "تعديل السعر",
+      "defaultVariant": "الخيار الافتراضي",
+      "propertiesDesc": "تكوين خيارات التخصيص أو الإضافات (مثال: جبن إضافي، درجة الطهي).",
+      "addPropertyBtn": "إضافة مجموعة تخصيص",
+      "noProperties": "لم يتم تحديد مجموعات تخصيص.",
+      "cancel": "إلغاء",
+      "update": "تحديث الصنف",
+      "create": "إنشاء الصنف",
+      "property": "مجموعة التخصيص",
+      "propertyName": "اسم المجموعة",
+      "propertyNamePlaceholder": "مثال: الإضافات أو درجة الطهي",
+      "maxSelections": "الحد الأقصى للاختيارات",
+      "required": "اختيار إلزامي",
+      "options": "الخيارات",
+      "optionNamePlaceholder": "اسم الخيار"
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "markAllRead": "تحديد الكل كمقروء",
+      "empty": "لا توجد إشعارات جديدة",
+      "viewAll": "عرض جميع الإشعارات"
+    },
+    "reservation": {
+      "success": {
+        "updated": "تم تحديث الحجز بنجاح",
+        "created": "تم إنشاء الحجز بنجاح",
+        "deleted": "تم حذف الحجز بنجاح"
+      },
+      "error": {
+        "save": "فشل في حفظ الحجز",
+        "delete": "فشل في حذف الحجز"
+      },
+      "edit": "تعديل الحجز",
+      "add": "إضافة حجز",
+      "editDesc": "تحديث تفاصيل الحجز أدناه.",
+      "addDesc": "املأ التفاصيل لإنشاء حجز جديد.",
+      "customerName": "اسم العميل",
+      "customerNamePlaceholder": "أدخل اسم العميل",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "أدخل رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل البريد الإلكتروني",
+      "partySize": "عدد الضيوف",
+      "date": "التاريخ",
+      "pickDate": "اختر تاريخاً",
+      "time": "الوقت",
+      "duration": "المدة (بالدقائق)",
+      "table": "الطاولة",
+      "tablePlaceholder": "اختر الطاولة",
+      "noTable": "لم يتم تعيين طاولة",
+      "tableNumber": "طاولة {{number}}",
+      "seats": "مقاعد",
+      "status": "الحالة",
+      "statusPlaceholder": "اختر الحالة",
+      "statusOptions": {
+        "pending": "معلق",
+        "confirmed": "مؤكد",
+        "completed": "مكتمل",
+        "cancelled": "ملغي"
+      },
+      "notes": "ملاحظات",
+      "notesPlaceholder": "أي طلبات خاصة أو ملاحظات...",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا الحجز؟",
+      "delete": "حذف الحجز",
+      "cancel": "إلغاء",
+      "update": "تحديث الحجز",
+      "create": "إنشاء الحجز",
+      "todaysReservations": "حجوزات اليوم",
+      "min": "دقيقة",
+      "noUpcomingToday": "لا توجد حجوزات قادمة اليوم.",
+      "viewCalendar": "عرض التقويم"
+    },
+    "shift": {
+      "success": {
+        "opened": "تم فتح الوردية بنجاح"
+      },
+      "error": {
+        "open": "فشل في فتح الوردية"
+      },
+      "unknown": "موظف غير معروف"
+    },
+    "role": {
+      "permissions": {
+        "dashboard": "لوحة القيادة",
+        "pos": "شاشة نقطة البيع",
+        "orders": "إدارة الطلبات",
+        "menu": "إدارة القائمة",
+        "floors": "الطوابق والطاولات",
+        "reservations": "إدارة الحجوزات",
+        "reservationsView": "عرض الحجوزات",
+        "analytics": "التحليلات",
+        "shifts": "إدارة الورديات",
+        "settings": "الإعدادات",
+        "payments": "المدفوعات",
+        "voidApprove": "إلغاء الطلب (موافقة)",
+        "voidRequest": "إلغاء الطلب (طلب)",
+        "kitchen": "شاشة المطبخ",
+        "notifications": "الإشعارات",
+        "all": "وصول كامل",
+        "more": "+{{count}} إضافية"
+      },
+      "edit": "تعديل الدور",
+      "add": "إضافة دور",
+      "editDesc": "تحديث صلاحيات الدور وتكوينه.",
+      "addDesc": "تعريف دور جديد وصلاحياته.",
+      "roleName": "معرف الدور",
+      "selectRoleName": "اختر معرف الدور",
+      "displayName": "الاسم المعروض",
+      "displayNamePlaceholder": "مثال: نادل",
+      "permissionsLabel": "الصلاحيات",
+      "cancel": "إلغاء",
+      "update": "تحديث الدور",
+      "create": "إنشاء دور",
+      "success": {
+        "created": "تم إنشاء الدور بنجاح",
+        "updated": "تم تحديث الدور بنجاح",
+        "deleted": "تم حذف الدور بنجاح"
+      },
+      "error": {
+        "create": "فشل في إنشاء الدور",
+        "update": "فشل في تحديث الدور",
+        "delete": "فشل في حذف الدور"
+      },
+      "deleteRole": "حذف الدور",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا الدور؟ لا يمكن التراجع عن هذا الإجراء.",
+      "delete": "حذف",
+      "addRole": "إضافة دور",
+      "roles": "الأدوار",
+      "rolesDesc": "إدارة أدوار الموظفين وصلاحيات النظام.",
+      "table": {
+        "roleName": "معرف الدور",
+        "displayName": "الاسم المعروض",
+        "permissions": "الصلاحيات",
+        "actions": "الإجراءات",
+        "loading": "جاري تحميل الأدوار...",
+        "empty": "لم يتم العثور على أدوار."
+      }
     }
   },
   "customerCards": {

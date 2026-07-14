@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
-import { offlineOrderService } from '@/lib/offline-order-service'
+import { enqueue } from '@/lib/sync/outbox'
 import { supabase } from '@/lib/supabase'
 import {
   closeShiftRequest,
@@ -175,8 +175,11 @@ export function useCreateOrder() {
       const { tableId, orderType, shiftId, createdBy, customerName, items } =
         payload
 
-      // If offline, save locally. Promotions require being online (usage
-      // limits are global counters), so offline orders are saved without one.
+      // If offline, enqueue the order in the durable outbox. Promotions require
+      // being online (usage limits are global counters), so offline orders are
+      // saved without one. The `resOrder` handler replays the SAME
+      // `createResOrder` on reconnect — fixing the legacy bug where offline
+      // restaurant orders were marked synced but never actually pushed.
       if (typeof window !== 'undefined' && !window.navigator.onLine) {
         const orderNumber = generateOrderNumber()
         const subtotal = items.reduce(
@@ -184,18 +187,15 @@ export function useCreateOrder() {
           0
         )
 
-        const offlineOrder = await offlineOrderService.saveOfflineOrder({
-          store_id: 'default', // TODO: Get store_id from context
-          total_amount: subtotal,
-          items,
-          id: orderNumber, // Use order number as ID for reference
-          customer_id: createdBy,
-          payment_method: 'PENDING',
+        await enqueue({
+          type: 'resOrder',
+          idempotencyKey: orderNumber,
+          payload,
         })
 
         toast.info('Đơn hàng đã được lưu offline')
         return {
-          id: offlineOrder.id,
+          id: orderNumber,
           order_number: orderNumber,
           status: 'open',
           order_type: orderType ?? 'dine_in',

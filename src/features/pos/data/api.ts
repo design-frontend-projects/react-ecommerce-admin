@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useAuthStore } from '@/stores/auth-store'
-import { db } from '@/lib/db/indexed-db'
-import { offlineOrderService } from '@/lib/offline-order-service'
+import { enqueue } from '@/lib/sync/outbox'
 import { supabase } from '@/lib/supabase'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
@@ -37,30 +36,8 @@ export type PosCategory = {
 }
 
 export async function getPosProducts(): Promise<PosProduct[]> {
-  // If offline, serve from Dexie
-  if (typeof window !== 'undefined' && !window.navigator.onLine) {
-    try {
-      const cached = await db.products
-        .filter((p) => p.is_active === 1)
-        .toArray()
-      if (cached.length > 0) {
-        return cached.map((p) => ({
-          product_id: parseInt(p.id, 10),
-          name: p.name,
-          sku: p.sku || '',
-          barcode: p.barcode || null,
-          base_price: p.price,
-          category_id: p.category_id || null,
-          category_name: p.category_name || null,
-          has_variants: !!p.has_variants,
-          product_variants: (p.product_variants as PosProductVariant[]) || [],
-        }))
-      }
-    } catch (e) {
-      console.warn('Failed to fetch from IndexedDB', e) // eslint-disable-line no-console
-    }
-  }
-
+  // Offline reads are served by the persisted query cache + the service-worker
+  // Supabase cache (NetworkFirst), so no per-call IndexedDB fallback is needed.
   const { data, error } = await supabase
     .from('products')
     .select(
@@ -117,33 +94,6 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     }
   })
 
-  // Save to Dexie
-  if (typeof window !== 'undefined') {
-    try {
-      const dexieProducts = mapped.map((p) => ({
-        id: String(p.product_id),
-        name: p.name,
-        slug: p.name.toLowerCase().replace(/\s+/g, '-'),
-        description: p.description,
-        price: p.base_price,
-        sku: p.sku,
-        barcode: p.barcode,
-        track_inventory: true,
-        category_id: String(p.category_id),
-        category_name: p.category_name || undefined,
-        has_variants: p.has_variants,
-        product_variants: p.product_variants,
-        store_id: String(p.store_id),
-        is_active: p.is_active,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }))
-      await db.products.bulkPut(dexieProducts)
-    } catch (e) {
-      console.warn('Failed to cache POS products in IndexedDB', e) // eslint-disable-line no-console
-    }
-  }
-
   return mapped.map((p) => ({
     product_id: p.product_id,
     name: p.name,
@@ -158,21 +108,8 @@ export async function getPosProducts(): Promise<PosProduct[]> {
 }
 
 export async function getPosCategories(): Promise<PosCategory[]> {
-  if (typeof window !== 'undefined' && !window.navigator.onLine) {
-    try {
-      const cached = await db.categories.toArray()
-      if (cached.length > 0) {
-        return cached.map((c) => ({
-          category_id: c.id,
-          name: c.name,
-          slug: c.slug,
-        }))
-      }
-    } catch (e) {
-      console.warn('Failed to fetch categories from IndexedDB', e) // eslint-disable-line no-console
-    }
-  }
-
+  // Offline reads are served by the persisted query cache + the service-worker
+  // Supabase cache; no per-call IndexedDB fallback is needed.
   const { data, error } = await supabase
     .from('categories')
     .select('category_id, name, slug')
@@ -183,30 +120,11 @@ export async function getPosCategories(): Promise<PosCategory[]> {
     return []
   }
 
-  const categories = data.map((c) => ({
+  return data.map((c) => ({
     category_id: c.category_id,
     name: c.name,
     slug: c.slug,
   }))
-
-  if (typeof window !== 'undefined') {
-    try {
-      await db.categories.bulkPut(
-        categories.map((c) => ({
-          id: c.category_id,
-          name: c.name,
-          slug: c.slug,
-          store_id: 'default',
-          is_active: 1,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }))
-      )
-    } catch (e) {
-      console.warn('Failed to cache categories', e) // eslint-disable-line no-console
-    }
-  }
-  return categories
 }
 
 export async function getInclusiveTaxRates() {
@@ -712,22 +630,17 @@ export async function createPosTransaction(
     productVariantId: item.productVariantId as string,
   }))
 
-  // If offline, save locally
+  // If offline, enqueue the full checkout payload in the durable outbox. The
+  // SAME `createPosTransaction` runs on replay via the `posTransaction`
+  // handler, so there is one code path for online and offline writes.
   if (typeof window !== 'undefined' && !window.navigator.onLine) {
-    const offlineOrder = await offlineOrderService.saveOfflineOrder({
-      store_id: payload.storeId || selectedBranchId,
-      total_amount: payload.totalAmount,
-      items: normalizedItems.map((item) => ({
-        product_id: item.productId,
-        product_variant_id: item.productVariantId,
-        quantity: item.quantity,
-        unit_price: item.unitPrice,
-        discount_amount: item.discountAmount || 0,
-        tax_amount: item.taxAmount || 0,
-      })),
-      customer_id: String(payload.customerId || ''),
+    const idempotencyKey = uuidv4()
+    await enqueue({
+      type: 'posTransaction',
+      idempotencyKey,
+      payload: { ...payload, items: normalizedItems },
     })
-    return { success: true, invoiceId: offlineOrder.id }
+    return { success: true, invoiceId: idempotencyKey }
   }
 
   try {

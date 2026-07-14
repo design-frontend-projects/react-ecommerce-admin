@@ -158,8 +158,8 @@ export function POSScreen() {
   const switchOrderMode = (mode: OrderMode) => {
     if (mode === orderMode) return
     if (cart.items.length > 0) {
-      toast.error('Complete the current order first!', {
-        description: 'Place the order or clear the cart before switching mode.',
+      toast.error(t('respos.pos.completeOrderFirst'), {
+        description: t('respos.pos.placeOrderOrClear'),
       })
       return
     }
@@ -179,8 +179,8 @@ export function POSScreen() {
     }
     // If we have items in cart for a different table, prevent switching
     if (cart.items.length > 0 && selectedTable?.id !== table.id) {
-      toast.error('Complete the current order first!', {
-        description: `You have unsaved items for Table ${selectedTable?.table_number}. Place order or clear cart.`,
+      toast.error(t('respos.pos.completeOrderFirst'), {
+        description: t('respos.pos.unsavedItems', { table: selectedTable?.table_number }),
       })
       return
     }
@@ -212,7 +212,7 @@ export function POSScreen() {
       addToCart(item, variant, properties, notes)
     }
 
-    toast.success('Item added to cart')
+    toast.success(t('respos.pos.itemAdded'))
   }
 
   // Order Placement Logic
@@ -231,10 +231,10 @@ export function POSScreen() {
 
     const callbacks = {
       onSuccess: () => {
-        toast.success(activeOrder ? 'Order updated' : 'Order placed')
+        toast.success(activeOrder ? t('respos.pos.orderUpdated') : t('respos.pos.orderPlaced'))
         clearCart()
       },
-      onError: () => toast.error('Failed to process order'),
+      onError: () => toast.error(t('respos.pos.processOrderFailed')),
     }
 
     if (activeOrder) {
@@ -268,7 +268,7 @@ export function POSScreen() {
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
           <Shield className='mx-auto h-12 w-12 text-red-500' />
-          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+          <h2 className='mt-4 text-xl font-bold'>{t('respos.pos.accessDenied')}</h2>
         </div>
       </div>
     )
@@ -279,7 +279,7 @@ export function POSScreen() {
       <div className='flex h-screen items-center justify-center'>
         <div className='text-center'>
           <Shield className='mx-auto h-12 w-12 text-red-500' />
-          <h2 className='mt-4 text-xl font-bold'>Access Denied</h2>
+          <h2 className='mt-4 text-xl font-bold'>{t('respos.pos.accessDenied')}</h2>
         </div>
       </div>
     )
@@ -348,7 +348,7 @@ export function POSScreen() {
                 }
               }}
               icon={<Home className='h-4 w-4' />}
-              label='Floor'
+              label={t('respos.pos.floor')}
             />
             <NavButton
               active={orderMode === 'takeaway'}
@@ -383,7 +383,7 @@ export function POSScreen() {
               onClick={() => setShowHistory(!showHistory)}
             >
               <History className='mr-2 h-4 w-4' />
-              {showHistory ? 'Back to POS' : 'Order History'}
+              {showHistory ? t('respos.actions.backToPos') : t('respos.actions.orderHistory')}
             </Button>
             <div className='hidden flex-col items-end sm:flex'>
               <span className='text-sm font-bold'>{employee?.fullName}</span>
@@ -446,7 +446,7 @@ export function POSScreen() {
                               'bg-orange-600 text-white shadow-lg shadow-orange-600/20'
                           )}
                         >
-                          All Items
+                          {t('respos.actions.allItems')}
                         </Button>
                         {categories?.map((cat) => (
                           <Button
@@ -490,7 +490,7 @@ export function POSScreen() {
                         )}
                         <div>
                           <h2 className='text-xl font-black tracking-tight uppercase'>
-                            Menu Selection
+                            {t('respos.actions.menuSelection')}
                           </h2>
                           {orderMode === 'dine_in' && selectedTable ? (
                             <div className='flex items-center gap-2 text-xs text-muted-foreground'>
@@ -504,7 +504,7 @@ export function POSScreen() {
                                 {selectedTable.status}
                               </span>
                               <span className='mx-1 opacity-20'>|</span>
-                              <span>{selectedTable.seats} Seats</span>
+                              <span>{selectedTable.seats} {t('respos.pos.seats')}</span>
                             </div>
                           ) : (
                             <div className='text-xs font-bold tracking-wider text-orange-600 uppercase'>
@@ -519,7 +519,7 @@ export function POSScreen() {
                       <div className='relative w-64'>
                         <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground/50' />
                         <Input
-                          placeholder='Search menu items...'
+                          placeholder={t('respos.actions.searchMenu')}
                           className='rounded-2xl border-none bg-background/50 pl-10 ring-1 ring-border focus-visible:ring-2 focus-visible:ring-orange-500'
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
@@ -666,11 +666,10 @@ function OrderPanel({
           <Receipt className='h-10 w-10 opacity-20' />
         </div>
         <h3 className='text-lg font-black tracking-tight uppercase'>
-          No Table Selected
+          {t('respos.pos.noTableSelected')}
         </h3>
         <p className='mt-2 max-w-[240px] text-xs leading-relaxed font-medium opacity-60'>
-          Please select a table from the floor plan to start a new order or
-          manage an existing one.
+          {t('respos.pos.noTableDesc')}
         </p>
       </div>
     )
@@ -697,7 +696,7 @@ function OrderPanel({
               <div>
                 <h2 className='text-lg font-black tracking-tight uppercase'>
                   {orderMode === 'dine_in'
-                    ? 'Active Order'
+                    ? t('respos.pos.activeOrder')
                     : orderMode === 'delivery'
                       ? t('respos.orderType.delivery')
                       : t('respos.orderType.takeaway')}
@@ -751,7 +750,7 @@ function OrderPanel({
           <div className='mb-8'>
             <div className='mb-4 flex items-center justify-between px-1'>
               <span className='text-[10px] font-black tracking-widest text-muted-foreground uppercase opacity-60'>
-                Sent to Kitchen
+                {t('respos.pos.sentToKitchen')}
               </span>
               <div className='flex h-6 items-center rounded-full bg-emerald-500/10 px-3 text-[10px] font-black text-emerald-600 uppercase dark:text-emerald-400'>
                 {activeOrder.status.replace('_', ' ')}

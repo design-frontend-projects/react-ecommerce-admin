@@ -1,10 +1,12 @@
 /// <reference lib="webworker" />
-import { clientsClaim, type RouteMatchCallbackOptions } from 'workbox-core'
-import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+import { clientsClaim, setCatchHandler, type RouteMatchCallbackOptions } from 'workbox-core'
+import { cleanupOutdatedCaches, matchPrecache, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 import { CacheFirst, StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
+
+const OFFLINE_FALLBACK_URL = '/offline.html'
 
 declare let self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: Array<{ revision: string | null; url: string }>;
@@ -76,7 +78,7 @@ registerRoute(
     plugins: [
       new CacheableResponsePlugin({ statuses: [0, 200] }),
       new ExpirationPlugin({
-        maxAgeSeconds: 60 * 60 * 24, // 24 hours
+        maxAgeSeconds: 60 * 60, // 1 hour — refresh API data more aggressively
         maxEntries: 200,
       }),
     ],
@@ -101,6 +103,16 @@ if (Array.isArray(manifest) && manifest.length > 0) {
   )
   registerRoute(navigationRoute)
 }
+
+// Offline fallback — when a navigation cannot be served from network or cache
+// (cold start with nothing cached), return the precached offline page.
+setCatchHandler(async ({ request }) => {
+  if (request.destination === 'document' || request.mode === 'navigate') {
+    const cached = await matchPrecache(OFFLINE_FALLBACK_URL)
+    if (cached) return cached
+  }
+  return Response.error()
+})
 
 // Message listener for skipWaiting
 self.addEventListener('message', (event) => {

@@ -28,10 +28,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import {
   getInclusiveTaxRates,
-  getPosProducts,
   type PosProduct,
   type PosProductVariant,
 } from '../data/api'
+import { usePosProducts } from '../hooks/use-pos-products'
 import {
   useCreatePosReorderRequest,
   usePosReorderRealtime,
@@ -75,10 +75,7 @@ export function PosLayout() {
     }
   }, [taxRates, setTaxRates])
 
-  const { data: products, isLoading } = useQuery({
-    queryKey: ['pos-products'],
-    queryFn: getPosProducts,
-  })
+  const { products, isLoading } = usePosProducts()
 
   const filteredProducts = useMemo(() => {
     if (!products) return []

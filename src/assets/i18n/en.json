@@ -204,7 +204,6 @@
     "goodsReceipts": "Goods Receipts",
     "purchaseRequisitions": "Purchase Requisitions",
     "salesOrders": "Sales Orders",
-    "reservations": "Reservations",
     "stockCounts": "Stock Counts",
     "batches": "Batches",
     "serials": "Serial Numbers",
@@ -438,8 +437,41 @@
       "tipAmount": "Tip Amount",
       "errors": {
         "tipAmountMin": "Tip must be greater than 0",
-        "tipAmountMax": "Tip cannot exceed change amount ({{amount}})"
-      }
+        "tipAmountMax": "Tip cannot exceed change amount ({{amount}})",
+        "maxDiscount": "Discount cannot exceed 10% of subtotal ({{amount}})",
+        "recipientNameRequired": "Recipient name is required",
+        "recipientPhoneRequired": "Recipient phone number is required",
+        "deliveryAddressRequired": "Delivery address is required",
+        "amountAtLeast": "Received amount must be at least {{amount}}"
+      },
+      "title": "Checkout",
+      "orderNumber": "Order #{{orderNumber}}",
+      "tableNumber": "Table {{number}}",
+      "takeaway": "Takeaway",
+      "items": "items",
+      "customerName": "Customer Name",
+      "optional": "Optional",
+      "mobileNumber": "Mobile Number",
+      "deliveryDetails": "Delivery Details",
+      "recipientName": "Recipient Name",
+      "fullName": "Full Name",
+      "recipientPhone": "Recipient Phone",
+      "phoneNumber": "Phone Number",
+      "deliveryAddress": "Delivery Address",
+      "deliveryAddressPlaceholder": "Enter delivery address",
+      "city": "City",
+      "state": "State",
+      "postalCode": "Postal Code",
+      "deliveryNotes": "Delivery Notes",
+      "deliveryNotesPlaceholder": "Any notes for delivery driver...",
+      "manualDiscount": "Manual Discount",
+      "amount": "Amount",
+      "discountValue": "Discount Value",
+      "shortfall": "Shortfall",
+      "paymentMethod": "Payment Method",
+      "amountReceived": "Amount Received",
+      "cancel": "Cancel",
+      "processPayment": "Process Payment"
     },
     "orderType": {
       "dineIn": "Dine-in",
@@ -480,7 +512,39 @@
           "title": "Error",
           "generic": "An error occurred"
         }
-      }
+      },
+      "success": {
+        "updated": "Floor updated successfully",
+        "updatedDesc": "The floor details have been updated.",
+        "created": "Floor created successfully",
+        "createdDesc": "The floor has been created."
+      },
+      "error": {
+        "title": "Error",
+        "unknown": "An unknown error occurred"
+      },
+      "edit": "Edit Floor",
+      "add": "Add Floor",
+      "editDesc": "Update floor details below.",
+      "addDesc": "Fill in the details to create a new floor.",
+      "name": "Floor Name",
+      "namePlaceholder": "e.g., First Floor",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description",
+      "sortOrder": "Sort Order",
+      "active": "Active",
+      "activeDesc": "Determine if this floor is active",
+      "cancel": "Cancel",
+      "update": "Update",
+      "create": "Create",
+      "noTables": "No tables set up for this floor.",
+      "status": {
+        "free": "Free",
+        "occupied": "Occupied",
+        "reserved": "Reserved",
+        "dirty": "Dirty"
+      },
+      "seats": "Seats"
     },
     "users": {
       "createUser": "Create User",
@@ -551,6 +615,248 @@
       "ready": "Ready",
       "markServed": "Mark as Served",
       "markAllServed": "Mark All Served"
+    },
+    "menuItemDetails": {
+      "sizeOption": "Size Option",
+      "addOns": "Add-ons",
+      "specialInstructions": "Special Instructions",
+      "specialInstructionsPlaceholder": "Any special requests...",
+      "quantity": "Quantity",
+      "addToOrder": "Add to Order"
+    },
+    "actions": {
+      "backToPos": "Back to POS",
+      "orderHistory": "Order History",
+      "allItems": "All Items",
+      "menuSelection": "Menu Selection",
+      "searchMenu": "Search menu items..."
+    },
+    "pos": {
+      "noTableSelected": "No Table Selected",
+      "noTableDesc": "Please select a table from the floor plan to start a new order or manage an existing one.",
+      "activeOrder": "Active Order",
+      "sentToKitchen": "Sent to Kitchen",
+      "seats": "Seats",
+      "floor": "Floor",
+      "itemAdded": "Item added to cart",
+      "orderUpdated": "Order updated",
+      "orderPlaced": "Order placed",
+      "processOrderFailed": "Failed to process order",
+      "completeOrderFirst": "Complete the current order first!",
+      "placeOrderOrClear": "Place the order or clear the cart before switching mode.",
+      "unsavedItems": "You have unsaved items for Table {{table}}. Place order or clear cart.",
+      "accessDenied": "Access Denied"
+    },
+    "menuCategory": {
+      "success": {
+        "updated": "Category updated successfully",
+        "updatedDesc": "Category details have been updated.",
+        "created": "Category created successfully",
+        "createdDesc": "The menu category has been created."
+      },
+      "error": {
+        "title": "Error",
+        "unknown": "An unknown error occurred"
+      },
+      "edit": "Edit Category",
+      "add": "Add Category",
+      "editDesc": "Update category details below.",
+      "addDesc": "Fill in the details to create a new menu category.",
+      "nameEn": "English Name",
+      "nameEnPlaceholder": "e.g., Appetizers",
+      "nameAr": "Arabic Name",
+      "nameArPlaceholder": "e.g., مقبلات",
+      "icon": "Icon Emoji",
+      "iconPlaceholder": "e.g., 🍔",
+      "sortOrder": "Sort Order",
+      "active": "Active",
+      "activeDesc": "Determine if this category is visible in menu",
+      "cancel": "Cancel",
+      "update": "Update",
+      "create": "Create"
+    },
+    "menuItem": {
+      "success": {
+        "updated": "Menu item updated successfully",
+        "updatedDesc": "Menu item details have been updated.",
+        "created": "Menu item created successfully",
+        "createdDesc": "The menu item has been created."
+      },
+      "error": {
+        "title": "Error",
+        "unknown": "An unknown error occurred"
+      },
+      "edit": "Edit Menu Item",
+      "add": "Add Menu Item",
+      "editDesc": "Update menu item details below.",
+      "addDesc": "Fill in the details to create a new menu item.",
+      "tabs": {
+        "basic": "Basic Info",
+        "variants": "Variants",
+        "properties": "Properties"
+      },
+      "nameEn": "English Name",
+      "nameEnPlaceholder": "e.g., Margherita Pizza",
+      "nameAr": "Arabic Name",
+      "nameArPlaceholder": "e.g., بيتزا مارغريتا",
+      "category": "Category",
+      "categoryPlaceholder": "Select category",
+      "basePrice": "Base Price",
+      "prepTime": "Preparation Time (minutes)",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description of the item",
+      "imageUrl": "Image URL",
+      "imageUrlPlaceholder": "https://example.com/image.jpg",
+      "allergens": "Allergens",
+      "allergensPlaceholder": "Select allergens",
+      "addBtn": "Add",
+      "tags": "Tags",
+      "tagsPlaceholder": "Select tags",
+      "available": "Available",
+      "availableDesc": "Enable ordering of this item",
+      "variantsDesc": "Configure different size or portion variants of this item (e.g., Small, Medium, Large).",
+      "addVariantBtn": "Add Variant",
+      "noVariants": "No variants defined. This item will use the base price.",
+      "variant": "Variant",
+      "variantName": "Variant Name",
+      "variantNamePlaceholder": "e.g., Large",
+      "priceAdjustment": "Price Adjustment",
+      "defaultVariant": "Default Variant",
+      "propertiesDesc": "Configure customization options or add-ons (e.g., Extra Cheese, Cooking Level).",
+      "addPropertyBtn": "Add Customization Group",
+      "noProperties": "No customization groups defined.",
+      "cancel": "Cancel",
+      "update": "Update Item",
+      "create": "Create Item",
+      "property": "Customization Group",
+      "propertyName": "Group Name",
+      "propertyNamePlaceholder": "e.g., Extras or Cooking Level",
+      "maxSelections": "Max Selections",
+      "required": "Required selection",
+      "options": "Options",
+      "optionNamePlaceholder": "Option name"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "empty": "No new notifications",
+      "viewAll": "View all notifications"
+    },
+    "reservation": {
+      "success": {
+        "updated": "Reservation updated successfully",
+        "created": "Reservation created successfully",
+        "deleted": "Reservation deleted successfully"
+      },
+      "error": {
+        "save": "Failed to save reservation",
+        "delete": "Failed to delete reservation"
+      },
+      "edit": "Edit Reservation",
+      "add": "Add Reservation",
+      "editDesc": "Update reservation details below.",
+      "addDesc": "Fill in the details to create a new reservation.",
+      "customerName": "Customer Name",
+      "customerNamePlaceholder": "Enter customer name",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter email address",
+      "partySize": "Number of Guests",
+      "date": "Date",
+      "pickDate": "Pick a date",
+      "time": "Time",
+      "duration": "Duration (minutes)",
+      "table": "Table",
+      "tablePlaceholder": "Select Table",
+      "noTable": "No table assigned",
+      "tableNumber": "Table {{number}}",
+      "seats": "seats",
+      "status": "Status",
+      "statusPlaceholder": "Select Status",
+      "statusOptions": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "notes": "Notes",
+      "notesPlaceholder": "Any special requests or notes...",
+      "deleteConfirm": "Are you sure you want to delete this reservation?",
+      "delete": "Delete Reservation",
+      "cancel": "Cancel",
+      "update": "Update Reservation",
+      "create": "Create Reservation",
+      "todaysReservations": "Today's Reservations",
+      "min": "min",
+      "noUpcomingToday": "No upcoming reservations today.",
+      "viewCalendar": "View Calendar"
+    },
+    "shift": {
+      "success": {
+        "opened": "Shift opened successfully"
+      },
+      "error": {
+        "open": "Failed to open shift"
+      },
+      "unknown": "Unknown Employee"
+    },
+    "role": {
+      "permissions": {
+        "dashboard": "Dashboard",
+        "pos": "POS Screen",
+        "orders": "Orders Management",
+        "menu": "Menu Management",
+        "floors": "Floors & Tables",
+        "reservations": "Reservations Management",
+        "reservationsView": "View Reservations",
+        "analytics": "Analytics",
+        "shifts": "Shifts Management",
+        "settings": "Settings",
+        "payments": "Payments",
+        "voidApprove": "Void Order (Approve)",
+        "voidRequest": "Void Order (Request)",
+        "kitchen": "Kitchen Display",
+        "notifications": "Notifications",
+        "all": "Full Access",
+        "more": "+{{count}} more"
+      },
+      "edit": "Edit Role",
+      "add": "Add Role",
+      "editDesc": "Update role permissions and configuration.",
+      "addDesc": "Define a new role and its permissions.",
+      "roleName": "Role ID",
+      "selectRoleName": "Select Role ID",
+      "displayName": "Display Name",
+      "displayNamePlaceholder": "e.g., Waiter",
+      "permissionsLabel": "Permissions",
+      "cancel": "Cancel",
+      "update": "Update Role",
+      "create": "Create Role",
+      "success": {
+        "created": "Role created successfully",
+        "updated": "Role updated successfully",
+        "deleted": "Role deleted successfully"
+      },
+      "error": {
+        "create": "Failed to create role",
+        "update": "Failed to update role",
+        "delete": "Failed to delete role"
+      },
+      "deleteRole": "Delete Role",
+      "deleteConfirm": "Are you sure you want to delete this role? This action cannot be undone.",
+      "delete": "Delete",
+      "addRole": "Add Role",
+      "roles": "Roles",
+      "rolesDesc": "Manage employee roles and system permissions.",
+      "table": {
+        "roleName": "Role ID",
+        "displayName": "Display Name",
+        "permissions": "Permissions",
+        "actions": "Actions",
+        "loading": "Loading roles...",
+        "empty": "No roles found."
+      }
     }
   },
   "customerCards": {

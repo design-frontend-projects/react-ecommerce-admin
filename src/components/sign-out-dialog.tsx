@@ -5,7 +5,7 @@ import { Trans } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { useResposStore } from '@/stores/respos-store'
-import { offlineOrderService } from '@/lib/offline-order-service'
+import { outboxPendingCount } from '@/lib/sync/outbox'
 import { useAuth, useSupabase, useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -105,12 +105,10 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
 
     // Closing reconciles cash against synced orders: any offline orders still
     // pending would make the expected cash wrong, so they must sync first.
-    const pendingOrders = await offlineOrderService
-      .getPendingOrders()
-      .catch(() => [])
-    if (pendingOrders.length > 0) {
+    const pendingCount = await outboxPendingCount().catch(() => 0)
+    if (pendingCount > 0) {
       toast.error(
-        `You have ${pendingOrders.length} offline order(s) pending sync. Go online and let them sync before closing the shift.`
+        `You have ${pendingCount} offline order(s) pending sync. Go online and let them sync before closing the shift.`
       )
       return
     }

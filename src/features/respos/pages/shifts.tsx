@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { UserRole } from '@/types/user-role.enum'
 import { motion } from 'framer-motion'
 import {
   AlertCircle,
@@ -71,7 +72,6 @@ import { NotificationsDropdown } from '../components/notifications-dropdown'
 import { ShiftAnalyticsTab } from '../components/shift-analytics-tab'
 import { ShiftsAdminTable } from '../components/shifts-admin-table'
 import { WhosWorkingTab } from '../components/whos-working-tab'
-import { RoleNames } from '../constants'
 import { useShift } from '../hooks/use-shift'
 import { formatCurrency } from '../lib/formatters'
 import type { ResShift } from '../types'
@@ -132,7 +132,7 @@ export function ShiftManagement() {
   const roleNames = useRBACStore((state) => state.currentRoleNames)
   const permissionNames = useRBACStore((state) => state.currentPermissionNames)
   const isAdminRole =
-    user?.role === RoleNames.admin || user?.role === RoleNames.super_admin
+    user?.role === UserRole.Admin || user?.role === UserRole.SuperAdmin
   const canViewAll =
     hasAnyPermission(permissionNames, ['shifts.view']) || isAdminRole
   const canManage =

@@ -21,6 +21,7 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: [
         'favicon.ico',
+        'offline.html',
         'images/pwa-192x192.png',
         'images/pwa-512x512.png',
         'images/maskable-icon.png',
