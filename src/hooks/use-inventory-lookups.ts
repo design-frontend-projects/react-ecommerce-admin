@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
 
 export interface StoreOption {
   store_id: string
@@ -16,6 +17,7 @@ export interface VariantOption {
 
 /** All stores for select inputs. */
 export function useStoreOptions() {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery<StoreOption[]>({
     queryKey: ['stores', 'options'],
     queryFn: async () => {
@@ -26,14 +28,16 @@ export function useStoreOptions() {
       if (error) throw error
       return (data ?? []) as StoreOption[]
     },
+    enabled: authEnabled,
   })
 }
 
 /** On-hand quantity per variant for a store (for stocktake discrepancy display). */
 export function useStoreOnHand(storeId?: string) {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery<Record<string, number>>({
     queryKey: ['stock-balances', 'on-hand', storeId ?? ''],
-    enabled: Boolean(storeId),
+    enabled: Boolean(storeId) && authEnabled,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('stock_balances')
@@ -52,6 +56,7 @@ export function useStoreOnHand(storeId?: string) {
 
 /** Product variants searchable by SKU or product name (for line-item pickers). */
 export function useVariantOptions(search?: string) {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery<VariantOption[]>({
     queryKey: ['product-variants', 'options', search ?? ''],
     queryFn: async () => {
@@ -67,5 +72,6 @@ export function useVariantOptions(search?: string) {
       if (error) throw error
       return (data ?? []) as unknown as VariantOption[]
     },
+    enabled: authEnabled,
   })
 }

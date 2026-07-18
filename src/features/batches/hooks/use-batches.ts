@@ -1,27 +1,26 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { fetchBatches, runExpirySweep, setBatchStatus } from '../data/actions'
 import type { BatchToggleStatus } from '../data/schema'
 
 const batchesKey = ['inventory', 'batches'] as const
 
 export function useBatches() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: batchesKey,
-    queryFn: () => fetchBatches(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchBatches(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useSetBatchStatus() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ id, status }: { id: string; status: BatchToggleStatus }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, { id, status }: { id: string; status: BatchToggleStatus }) =>
       setBatchStatus(getToken, id, status),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: (_data, variables) => {
       toast.success(
         variables.status === 'blocked' ? 'Batch blocked.' : 'Batch unblocked.'
@@ -34,10 +33,10 @@ export function useSetBatchStatus() {
 }
 
 export function useExpireBatches() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => runExpirySweep(getToken),
+  return useAuthMutation({
+    mutationFn: (getToken) => runExpirySweep(getToken),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: (data) => {
       toast.success('Expiry sweep complete.', {
         description: `${data.expired} batch(es) marked as expired.`,

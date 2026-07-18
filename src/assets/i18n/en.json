@@ -79,7 +79,15 @@
       "restuarant": "Restaurant",
       "clothes": "Clothes Shop",
       "electronic": "Electronics"
-    }
+    },
+    "selectPayment": "Select Payment Method",
+    "paymentMethods": {
+      "cash": "Cash",
+      "visa": "Visa",
+      "mobile_transfer": "Mobile Transfer"
+    },
+    "transferRef": "Transfer Reference Number",
+    "transferRefPlaceholder": "Enter transfer reference (e.g. 123456789)"
   },
   "otp": {
     "emailVerification": "Email Verification",

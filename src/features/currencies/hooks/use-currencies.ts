@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuth } from '@/hooks/use-auth'
 
 export interface Currency {
   id: string
@@ -19,6 +21,7 @@ export interface CurrencyInput {
 }
 
 export const useCurrencies = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['currencies'],
     queryFn: async () => {
@@ -30,10 +33,12 @@ export const useCurrencies = () => {
       if (error) throw error
       return data as Currency[]
     },
+    enabled: authEnabled,
   })
 }
 
 export const useCurrency = (id: string) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['currencies', id],
     queryFn: async () => {
@@ -46,15 +51,19 @@ export const useCurrency = (id: string) => {
       if (error) throw error
       return data as Currency
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 export const useCreateCurrency = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (newCurrency: CurrencyInput) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('currencies')
         .insert(newCurrency)
@@ -71,10 +80,14 @@ export const useCreateCurrency = () => {
 }
 
 export const useUpdateCurrency = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: CurrencyInput & { id: string }) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('currencies')
         .update(updates)
@@ -92,10 +105,14 @@ export const useUpdateCurrency = () => {
 }
 
 export const useDeleteCurrency = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { error } = await supabase.from('currencies').delete().eq('id', id)
 
       if (error) throw error

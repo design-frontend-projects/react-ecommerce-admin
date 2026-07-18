@@ -12,6 +12,8 @@ export interface CompleteOnboardingData {
   lastName: string
   phone?: string
   activity: string
+  paymentMethod: string
+  transferRef?: string
 }
 
 export function useCompleteOnboarding() {
@@ -30,6 +32,8 @@ export function useCompleteOnboarding() {
         last_name: input.lastName,
         phone: input.phone || null,
         activity: input.activity,
+        payment_method: input.paymentMethod,
+        transfer_ref: input.transferRef || null,
         onboarding_complete: true,
       })
 
@@ -38,6 +42,8 @@ export function useCompleteOnboarding() {
         data: {
           firstName: input.firstName,
           lastName: input.lastName,
+          paymentMethod: input.paymentMethod,
+          transferRef: input.transferRef || null,
           onboardingComplete: true,
         },
       })

@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { type City } from '../data/schema'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuth } from '@/hooks/use-auth'
 
 // Re-export City type for backward compatibility
 export type { City }
@@ -12,6 +14,7 @@ export interface CityInput {
 }
 
 export const useCities = (countryId?: string, search?: string) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['cities', { countryId, search }],
     queryFn: async () => {
@@ -38,10 +41,12 @@ export const useCities = (countryId?: string, search?: string) => {
       if (error) throw error
       return data as City[]
     },
+    enabled: authEnabled,
   })
 }
 
 export const useCity = (id: string) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['cities', id],
     queryFn: async () => {
@@ -54,15 +59,19 @@ export const useCity = (id: string) => {
       if (error) throw error
       return data as City
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 export const useCreateCity = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (newCity: CityInput) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('cities')
         .insert(newCity)
@@ -79,10 +88,14 @@ export const useCreateCity = () => {
 }
 
 export const useUpdateCity = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: CityInput & { id: string }) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('cities')
         .update(updates)
@@ -100,10 +113,14 @@ export const useUpdateCity = () => {
 }
 
 export const useDeleteCity = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { error } = await supabase.from('cities').delete().eq('id', id)
 
       if (error) throw error

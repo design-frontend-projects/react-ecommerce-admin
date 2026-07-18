@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   cancelReceipt,
   createReceipt,
@@ -14,30 +15,27 @@ const receiptsKey = ['inventory', 'goods-receipts'] as const
 const receiptKey = (id: string) => ['inventory', 'goods-receipts', id] as const
 
 export function useReceipts() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: receiptsKey,
-    queryFn: () => fetchReceipts(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchReceipts(getToken),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
 export function useReceipt(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: receiptKey(id ?? ''),
-    queryFn: () => fetchReceipt(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchReceipt(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
 export function useCreateReceipt() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateReceiptInput) => createReceipt(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateReceiptInput) => createReceipt(getToken, input),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Goods receipt created as draft.')
       void queryClient.invalidateQueries({ queryKey: receiptsKey })
@@ -50,10 +48,10 @@ export function useCreateReceipt() {
 }
 
 export function useCancelReceipt() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => cancelReceipt(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => cancelReceipt(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Goods receipt cancelled.')
       void queryClient.invalidateQueries({ queryKey: receiptsKey })
@@ -66,10 +64,10 @@ export function useCancelReceipt() {
 }
 
 export function usePostReceipt() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => postReceipt(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => postReceipt(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Receipt posted. Stock balances updated.')
       void queryClient.invalidateQueries({ queryKey: receiptsKey })

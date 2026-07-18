@@ -10,10 +10,9 @@ import { CreateUserForm } from '../blocks/create-user-form'
 import { InviteForm } from '../blocks/invite-form'
 import { UserList } from '../blocks/user-list'
 import { PermissionsManagement } from '../components/permissions-management'
-import { RBACGuard } from '../components/rbac-guard'
 import { RolesManagement } from '../components/roles-management'
 import { useRBACStore } from '../data/store'
-import { useRBAC } from '../hooks/use-rbac'
+import { useHasRole, useRBAC } from '../hooks/use-rbac'
 import {
   useCreateRole,
   useDeleteRole,
@@ -26,10 +25,15 @@ import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
 export function UserManagementPage() {
   const [inviteOpen, setInviteOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
-  const canViewUsers = useRBAC('users', 'read')
-  const canManageUsers = useRBAC('users', 'manage')
-  const canManageRoles = useRBAC('roles', 'manage')
-  const canManagePermissions = useRBAC('permissions', 'manage')
+  
+  const isSuperAdmin = useHasRole('super_admin')
+  const isNormalAdmin = useHasRole('admin')
+  const isAdmin = isSuperAdmin || isNormalAdmin
+
+  const canViewUsers = useRBAC('users', 'read') || isAdmin
+  const canManageUsers = useRBAC('users', 'manage') || isAdmin
+  const canManageRoles = useRBAC('roles', 'manage') || isAdmin
+  const canManagePermissions = useRBAC('permissions', 'manage') || isAdmin
 
   const usersQuery = useUsersList(canViewUsers)
   const rbacCatalogQuery = useRBACCatalog(canViewUsers)
@@ -88,7 +92,7 @@ export function UserManagementPage() {
             </p>
             <h1 className='truncate text-lg font-semibold'>Users and access</h1>
           </div>
-          <RBACGuard resource='users' action='manage'>
+          {(canManageUsers || isAdmin) && (
             <div className='flex items-center gap-2'>
               <Button
                 type='button'
@@ -103,7 +107,7 @@ export function UserManagementPage() {
                 Invite user
               </Button>
             </div>
-          </RBACGuard>
+          )}
         </div>
       </Header>
       <Main className='flex flex-1 flex-col gap-6'>

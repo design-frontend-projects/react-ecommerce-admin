@@ -1,5 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
 import { fetchSerials, fetchSerialTrail } from '../data/actions'
 import type { SerialFilters } from '../data/schema'
 
@@ -10,21 +9,18 @@ const trailKey = (serialId: string) =>
   ['inventory', 'serials', serialId, 'trail'] as const
 
 export function useSerials(filters: SerialFilters = {}) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: serialsKey(filters),
-    queryFn: () => fetchSerials(getToken, filters),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchSerials(getToken, filters),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useSerialTrail(serialId: string | null) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: trailKey(serialId ?? ''),
-    queryFn: () => fetchSerialTrail(getToken, serialId as string),
-    enabled: Boolean(serialId) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchSerialTrail(getToken, serialId as string),
+    enabled: Boolean(serialId),
+    rbac: { permission: 'inventory.view' },
   })
 }

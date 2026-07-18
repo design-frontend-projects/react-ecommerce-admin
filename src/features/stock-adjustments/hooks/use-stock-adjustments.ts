@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   applyAdjustment,
   cancelAdjustment,
@@ -15,31 +16,28 @@ const adjustmentKey = (id: string) =>
   ['inventory', 'stock-adjustments', id] as const
 
 export function useAdjustments() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: adjustmentsKey,
-    queryFn: () => fetchAdjustments(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchAdjustments(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useAdjustment(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: adjustmentKey(id ?? ''),
-    queryFn: () => fetchAdjustment(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchAdjustment(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCreateAdjustment() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateAdjustmentInput) =>
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateAdjustmentInput) =>
       createAdjustment(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Adjustment created.')
       void queryClient.invalidateQueries({ queryKey: adjustmentsKey })
@@ -52,10 +50,10 @@ export function useCreateAdjustment() {
 }
 
 export function useCancelAdjustment() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => cancelAdjustment(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => cancelAdjustment(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Adjustment cancelled.')
       void queryClient.invalidateQueries({ queryKey: adjustmentsKey })
@@ -68,10 +66,10 @@ export function useCancelAdjustment() {
 }
 
 export function useApplyAdjustment() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => applyAdjustment(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => applyAdjustment(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Adjustment applied. Stock balances updated.')
       void queryClient.invalidateQueries({ queryKey: adjustmentsKey })

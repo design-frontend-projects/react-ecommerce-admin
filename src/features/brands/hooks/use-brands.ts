@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createBrand,
   deleteBrand,
@@ -12,20 +13,18 @@ import type { BrandInput } from '../data/schema'
 const brandsKey = ['inventory', 'brands'] as const
 
 export function useBrands() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: brandsKey,
-    queryFn: () => fetchBrands(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchBrands(getToken),
+    rbac: { permission: 'products.view' },
   })
 }
 
 export function useCreateBrand() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: BrandInput) => createBrand(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: BrandInput) => createBrand(getToken, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       toast.success('Brand created.')
       void queryClient.invalidateQueries({ queryKey: brandsKey })
@@ -36,11 +35,11 @@ export function useCreateBrand() {
 }
 
 export function useUpdateBrand() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: Partial<BrandInput> }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, { id, input }: { id: string; input: Partial<BrandInput> }) =>
       updateBrand(getToken, id, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       toast.success('Brand updated.')
       void queryClient.invalidateQueries({ queryKey: brandsKey })
@@ -51,10 +50,10 @@ export function useUpdateBrand() {
 }
 
 export function useDeleteBrand() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => deleteBrand(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteBrand(getToken, id),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       toast.success('Brand deleted.')
       void queryClient.invalidateQueries({ queryKey: brandsKey })

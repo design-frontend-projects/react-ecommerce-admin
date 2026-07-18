@@ -1,25 +1,24 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { fetchReservations, releaseReservation } from '../data/actions'
 
 const reservationsKey = ['inventory', 'stock-reservations'] as const
 
 export function useReservations() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: reservationsKey,
-    queryFn: () => fetchReservations(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchReservations(getToken),
+    rbac: { permission: 'orders.view' },
   })
 }
 
 export function useReleaseReservation() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => releaseReservation(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => releaseReservation(getToken, id),
+    rbac: { permission: 'orders.manage' },
     onSuccess: () => {
       toast.success('Reservation released. Stock is available again.')
       void queryClient.invalidateQueries({ queryKey: reservationsKey })

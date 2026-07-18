@@ -79,7 +79,15 @@
       "restuarant": "مطعم",
       "clothes": "متجر ملابس",
       "electronic": "إلكترونيات"
-    }
+    },
+    "selectPayment": "حدد طريقة الدفع",
+    "paymentMethods": {
+      "cash": "نقداً",
+      "visa": "فيزا",
+      "mobile_transfer": "تحويل عبر الموبايل"
+    },
+    "transferRef": "رقم مرجع التحويل",
+    "transferRefPlaceholder": "أدخل رقم المرجع (مثل: 123456789)"
   },
   "otp": {
     "emailVerification": "تأكيد البريد الإلكتروني",

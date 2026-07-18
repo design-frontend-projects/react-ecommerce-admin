@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   cancelCount,
   createCount,
@@ -25,30 +26,27 @@ const ACTION_SUCCESS: Record<CountAction, string> = {
 }
 
 export function useCounts() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: countsKey,
-    queryFn: () => fetchCounts(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchCounts(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCount(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: countKey(id ?? ''),
-    queryFn: () => fetchCount(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchCount(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCreateCount() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateCountInput) => createCount(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateCountInput) => createCount(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Stock count created.')
       void queryClient.invalidateQueries({ queryKey: countsKey })
@@ -61,10 +59,10 @@ export function useCreateCount() {
 }
 
 export function useCancelCount() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => cancelCount(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => cancelCount(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Stock count cancelled.')
       void queryClient.invalidateQueries({ queryKey: countsKey })
@@ -77,18 +75,21 @@ export function useCancelCount() {
 }
 
 export function useCountAction() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({
-      id,
-      action,
-      entries,
-    }: {
-      id: string
-      action: CountAction
-      entries?: CountEntryInput[]
-    }) => runCountAction(getToken, id, action, entries),
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      {
+        id,
+        action,
+        entries,
+      }: {
+        id: string
+        action: CountAction
+        entries?: CountEntryInput[]
+      }
+    ) => runCountAction(getToken, id, action, entries),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: (_data, variables) => {
       toast.success(ACTION_SUCCESS[variables.action])
       void queryClient.invalidateQueries({ queryKey: countsKey })

@@ -409,7 +409,9 @@ exports.Prisma.ProfilesScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   is_paid: 'is_paid',
   branch_id: 'branch_id',
-  role: 'role'
+  role: 'role',
+  payment_method: 'payment_method',
+  transfer_ref: 'transfer_ref'
 };
 
 exports.Prisma.Promotion_usageScalarFieldEnum = {

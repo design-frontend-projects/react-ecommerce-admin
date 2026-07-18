@@ -1,7 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { updateUserBranch } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
+import { useMutation } from '@tanstack/react-query'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createRole,
   deleteRole,
@@ -15,35 +18,31 @@ import type { CreateRoleInput, UpdateRoleInput } from '../data/types'
 export const rbacCatalogQueryKey = ['rbac-catalog'] as const
 
 export function useRBACCatalog(enabled = true) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: rbacCatalogQueryKey,
-    queryFn: () => fetchRBACCatalog(getToken),
-    enabled: enabled && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchRBACCatalog(getToken),
+    enabled,
+    rbac: { permission: 'roles.manage' },
     staleTime: 60_000,
   })
 }
 
 export function usePermissions(enabled = true) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: rbacCatalogQueryKey,
-    queryFn: () => fetchRBACCatalog(getToken),
-    enabled: enabled && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchRBACCatalog(getToken),
+    enabled,
+    rbac: { permission: 'permissions.manage' },
     select: (catalog) => catalog.allPermissions,
   })
 }
 
 export function useCreateRole() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (input: CreateRoleInput) => createRole(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateRoleInput) => createRole(getToken, input),
+    rbac: { permission: 'roles.manage' },
     onSuccess: () => {
       toast.success('Role created.')
       void queryClient.invalidateQueries({ queryKey: rbacCatalogQueryKey })
@@ -55,11 +54,11 @@ export function useCreateRole() {
 }
 
 export function useUpdateRole() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (input: UpdateRoleInput) => updateRole(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: UpdateRoleInput) => updateRole(getToken, input),
+    rbac: { permission: 'roles.manage' },
     onSuccess: () => {
       toast.success('Role updated.')
       void queryClient.invalidateQueries({ queryKey: rbacCatalogQueryKey })
@@ -71,11 +70,11 @@ export function useUpdateRole() {
 }
 
 export function useDeleteRole() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (roleId: string) => deleteRole(getToken, roleId),
+  return useAuthMutation({
+    mutationFn: (getToken, roleId: string) => deleteRole(getToken, roleId),
+    rbac: { permission: 'roles.manage' },
     onSuccess: () => {
       toast.success('Role deleted.')
       void queryClient.invalidateQueries({ queryKey: rbacCatalogQueryKey })
@@ -88,12 +87,12 @@ export function useDeleteRole() {
 }
 
 export function useSetRolePermissions() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (input: { roleId: string; permissionIds: string[] }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, input: { roleId: string; permissionIds: string[] }) =>
       setRolePermissions(getToken, input),
+    rbac: { permission: 'permissions.manage' },
     onSuccess: () => {
       toast.success('Role permissions saved.')
       void queryClient.invalidateQueries({ queryKey: rbacCatalogQueryKey })
@@ -105,7 +104,7 @@ export function useSetRolePermissions() {
 }
 
 export function useUpdateUserRole() {
-  const { getToken } = useAuth()
+  const { getToken, has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -114,6 +113,10 @@ export function useUpdateUserRole() {
         | { userId: string; role: string }
         | { userId: string; roleIds: string[] }
     ) => {
+      if (!has({ permission: 'users.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       if ('roleIds' in input) {
         return updateUserRoles(getToken, input)
       }

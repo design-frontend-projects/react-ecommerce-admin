@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createConversion,
   createUom,
@@ -16,30 +17,26 @@ const uomsKey = ['inventory', 'uoms'] as const
 const conversionsKey = ['inventory', 'unit-conversions'] as const
 
 export function useUoms() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: uomsKey,
-    queryFn: () => fetchUoms(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchUoms(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useConversions() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: conversionsKey,
-    queryFn: () => fetchConversions(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchConversions(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCreateUom() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: UomInput) => createUom(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: UomInput) => createUom(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Unit created.')
       void queryClient.invalidateQueries({ queryKey: uomsKey })
@@ -50,11 +47,11 @@ export function useCreateUom() {
 }
 
 export function useUpdateUom() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: Partial<UomInput> }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, { id, input }: { id: string; input: Partial<UomInput> }) =>
       updateUom(getToken, id, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Unit updated.')
       void queryClient.invalidateQueries({ queryKey: uomsKey })
@@ -66,10 +63,10 @@ export function useUpdateUom() {
 }
 
 export function useDeleteUom() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => deleteUom(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteUom(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Unit deleted.')
       void queryClient.invalidateQueries({ queryKey: uomsKey })
@@ -80,10 +77,10 @@ export function useDeleteUom() {
 }
 
 export function useCreateConversion() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: ConversionInput) => createConversion(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: ConversionInput) => createConversion(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Conversion added.')
       void queryClient.invalidateQueries({ queryKey: conversionsKey })
@@ -95,10 +92,10 @@ export function useCreateConversion() {
 }
 
 export function useDeleteConversion() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => deleteConversion(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteConversion(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Conversion deleted.')
       void queryClient.invalidateQueries({ queryKey: conversionsKey })

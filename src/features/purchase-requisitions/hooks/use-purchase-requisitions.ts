@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   actionRequisition,
   cancelRequisition,
@@ -22,31 +23,28 @@ const ACTION_SUCCESS: Record<RequisitionAction, string> = {
 }
 
 export function useRequisitions() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: requisitionsKey,
-    queryFn: () => fetchRequisitions(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchRequisitions(getToken),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
 export function useRequisition(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: requisitionKey(id ?? ''),
-    queryFn: () => fetchRequisition(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchRequisition(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
 export function useCreateRequisition() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateRequisitionInput) =>
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateRequisitionInput) =>
       createRequisition(getToken, input),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Requisition created as draft.')
       void queryClient.invalidateQueries({ queryKey: requisitionsKey })
@@ -59,10 +57,10 @@ export function useCreateRequisition() {
 }
 
 export function useCancelRequisition() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => cancelRequisition(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => cancelRequisition(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Requisition cancelled.')
       void queryClient.invalidateQueries({ queryKey: requisitionsKey })
@@ -75,11 +73,11 @@ export function useCancelRequisition() {
 }
 
 export function useRequisitionAction() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ id, action }: { id: string; action: RequisitionAction }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, { id, action }: { id: string; action: RequisitionAction }) =>
       actionRequisition(getToken, id, action),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: (_data, variables) => {
       toast.success(ACTION_SUCCESS[variables.action])
       void queryClient.invalidateQueries({ queryKey: requisitionsKey })

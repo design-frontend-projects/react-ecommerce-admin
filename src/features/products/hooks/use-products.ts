@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
 import { useAuth } from '@/hooks/use-auth'
 import type { VariantRowFormData } from '../data/product-wizard-schema'
 import { type Product } from '../data/schema'
@@ -23,6 +24,7 @@ async function postOpeningStock(
 }
 
 export const useProducts = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
   return useQuery({
     queryKey: ['products'],
     queryFn: async () => {
@@ -35,10 +37,12 @@ export const useProducts = () => {
       if (error) throw error
       return data as Product[]
     },
+    enabled: authEnabled,
   })
 }
 
 export const useProduct = (id: number) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
   return useQuery({
     queryKey: ['products', id],
     queryFn: async () => {
@@ -51,17 +55,22 @@ export const useProduct = (id: number) => {
       if (error) throw error
       return data as Product
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 export const useCreateProduct = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (
       newProduct: Omit<Product, 'product_id' | 'created_at' | 'updated_at'>
     ) => {
+      if (!has({ permission: 'products.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       const { data, error } = await supabase
         .from('products')
         .insert(newProduct)
@@ -78,6 +87,7 @@ export const useCreateProduct = () => {
 }
 
 export const useUpdateProduct = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -85,6 +95,10 @@ export const useUpdateProduct = () => {
       id,
       ...updates
     }: Partial<Product> & { id: number }) => {
+      if (!has({ permission: 'products.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       const { data, error } = await supabase
         .from('products')
         .update(updates)
@@ -102,10 +116,15 @@ export const useUpdateProduct = () => {
 }
 
 export const useDeleteProduct = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: number) => {
+      if (!has({ permission: 'products.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       const { error } = await supabase
         .from('products')
         .update({ is_deleted: true })
@@ -121,7 +140,7 @@ export const useDeleteProduct = () => {
 
 export const useCreateProductWithVariants = () => {
   const queryClient = useQueryClient()
-  const { getToken } = useAuth()
+  const { getToken, has } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -138,6 +157,10 @@ export const useCreateProductWithVariants = () => {
       >
       variants: Array<VariantRowFormData>
     }) => {
+      if (!has({ permission: 'products.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       // 1. Insert product
       const { data: product, error: productError } = await supabase
         .from('products')
@@ -203,7 +226,7 @@ export const useCreateProductWithVariants = () => {
 
 export const useUpdateProductWithVariants = () => {
   const queryClient = useQueryClient()
-  const { getToken } = useAuth()
+  const { getToken, has } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -215,6 +238,10 @@ export const useUpdateProductWithVariants = () => {
       base: Partial<Product>
       variants: Array<VariantRowFormData & { id?: string }>
     }) => {
+      if (!has({ permission: 'products.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       // 1. Update product
       const { data: product, error: productError } = await supabase
         .from('products')

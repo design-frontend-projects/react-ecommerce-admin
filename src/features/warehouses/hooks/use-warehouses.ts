@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createLocation,
   createWarehouse,
@@ -17,30 +18,27 @@ const locationsKey = (warehouseId: string) =>
   ['inventory', 'warehouses', warehouseId, 'locations'] as const
 
 export function useWarehouses() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: warehousesKey,
-    queryFn: () => fetchWarehouses(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchWarehouses(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useWarehouseLocations(warehouseId: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: locationsKey(warehouseId ?? ''),
-    queryFn: () => fetchLocations(getToken, warehouseId as string),
-    enabled: Boolean(warehouseId) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchLocations(getToken, warehouseId as string),
+    enabled: Boolean(warehouseId),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCreateWarehouse() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: WarehouseInput) => createWarehouse(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: WarehouseInput) => createWarehouse(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Warehouse created.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
@@ -51,16 +49,19 @@ export function useCreateWarehouse() {
 }
 
 export function useUpdateWarehouse() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({
-      id,
-      input,
-    }: {
-      id: string
-      input: Partial<WarehouseInput>
-    }) => updateWarehouse(getToken, id, input),
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      {
+        id,
+        input,
+      }: {
+        id: string
+        input: Partial<WarehouseInput>
+      }
+    ) => updateWarehouse(getToken, id, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Warehouse updated.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
@@ -71,10 +72,10 @@ export function useUpdateWarehouse() {
 }
 
 export function useDeleteWarehouse() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => deleteWarehouse(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteWarehouse(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Warehouse deleted.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
@@ -85,11 +86,11 @@ export function useDeleteWarehouse() {
 }
 
 export function useCreateLocation(warehouseId: string | undefined) {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: LocationInput) =>
+  return useAuthMutation({
+    mutationFn: (getToken, input: LocationInput) =>
       createLocation(getToken, warehouseId as string, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Location added.')
       void queryClient.invalidateQueries({
@@ -103,10 +104,10 @@ export function useCreateLocation(warehouseId: string | undefined) {
 }
 
 export function useDeleteLocation(warehouseId: string | undefined) {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => deleteLocation(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteLocation(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Location deleted.')
       void queryClient.invalidateQueries({

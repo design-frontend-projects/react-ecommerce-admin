@@ -449,6 +449,8 @@ model profiles {
   is_paid             Boolean        @default(false)
   branch_id           String?        @db.Uuid
   role                String?
+  payment_method      String?        @db.VarChar(50)
+  transfer_ref        String?        @db.VarChar(100)
   audit_logs          audit_logs[]
   branches            branches?      @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
   tenant_users        tenant_users[]

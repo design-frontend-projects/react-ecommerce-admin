@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
+import { useAuthQuery, useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { useAuth } from '@/hooks/use-auth'
 
 // ─── Types ────────────────────────────────────────────────
@@ -76,6 +78,7 @@ export interface PurchaseOrderItemInput {
 
 // ─── List all POs ─────────────────────────────────────────
 export const usePurchaseOrders = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'purchasing.view' })
   return useQuery({
     queryKey: ['purchase-orders'],
     queryFn: async () => {
@@ -87,11 +90,13 @@ export const usePurchaseOrders = () => {
       if (error) throw error
       return data as PurchaseOrder[]
     },
+    enabled: authEnabled,
   })
 }
 
 // ─── Single PO with items ─────────────────────────────────
 export const usePurchaseOrder = (id: number) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'purchasing.view' })
   return useQuery({
     queryKey: ['purchase-orders', id],
     queryFn: async () => {
@@ -114,12 +119,13 @@ export const usePurchaseOrder = (id: number) => {
       if (error) throw error
       return data as PurchaseOrderWithItems
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 // ─── Create PO with items ─────────────────────────────────
 export const useCreatePurchaseOrder = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -130,6 +136,10 @@ export const useCreatePurchaseOrder = () => {
       order: PurchaseOrderInput
       items: PurchaseOrderItemInput[]
     }) => {
+      if (!has({ permission: 'purchasing.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       // Calculate total
       const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
 
@@ -166,6 +176,7 @@ export const useCreatePurchaseOrder = () => {
 
 // ─── Update PO header + upsert items ─────────────────────
 export const useUpdatePurchaseOrder = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -178,6 +189,10 @@ export const useUpdatePurchaseOrder = () => {
       order: PurchaseOrderInput
       items: PurchaseOrderItemInput[]
     }) => {
+      if (!has({ permission: 'purchasing.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
 
       // Update PO header
@@ -241,22 +256,24 @@ const LEGACY_STATUS_MAP: Record<string, PurchaseOrderLifecycleStatus> = {
 }
 
 export const useUpdatePurchaseOrderStatus = () => {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async ({
-      id,
-      status,
-    }: {
-      id: number
-      status:
-        | 'pending'
-        | 'received'
-        | 'partial'
-        | 'cancelled'
-        | PurchaseOrderLifecycleStatus
-    }) => {
+  return useAuthMutation({
+    mutationFn: async (
+      getToken,
+      {
+        id,
+        status,
+      }: {
+        id: number
+        status:
+          | 'pending'
+          | 'received'
+          | 'partial'
+          | 'cancelled'
+          | PurchaseOrderLifecycleStatus
+      }
+    ) => {
       const mapped =
         LEGACY_STATUS_MAP[status] ?? (status as PurchaseOrderLifecycleStatus)
       const payload = (await authorizedRequest(
@@ -269,6 +286,7 @@ export const useUpdatePurchaseOrderStatus = () => {
       )) as { data?: unknown }
       return payload.data ?? null
     },
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] })
       queryClient.invalidateQueries({
@@ -280,10 +298,15 @@ export const useUpdatePurchaseOrderStatus = () => {
 
 // ─── Delete PO ────────────────────────────────────────────
 export const useDeletePurchaseOrder = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: number) => {
+      if (!has({ permission: 'purchasing.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       // Items cascade-delete via FK
       const { error } = await supabase
         .from('purchase_orders')

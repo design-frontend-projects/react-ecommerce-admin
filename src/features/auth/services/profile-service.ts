@@ -11,6 +11,8 @@ export interface Profile {
   system_owner: boolean
   onboarding_complete: boolean
   activity: string | null
+  payment_method: string | null
+  transfer_ref: string | null
   branch_id: string | null
   created_at: string
   updated_at: string

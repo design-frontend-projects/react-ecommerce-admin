@@ -3,11 +3,14 @@ import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import type { AdjustmentFormData } from '../data/adjustment-schema'
 import type { StockBalanceRow } from '../data/schema'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuth } from '@/hooks/use-auth'
 
 // ── Query: paginated stock balances with joins ──
 export const stockBalancesQueryKey = ['stock-balances'] as const
 
 export function useStockBalances() {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery<StockBalanceRow[]>({
     queryKey: stockBalancesQueryKey,
     queryFn: async () => {
@@ -37,15 +40,21 @@ export function useStockBalances() {
       if (error) throw error
       return (data ?? []) as StockBalanceRow[]
     },
+    enabled: authEnabled,
   })
 }
 
 // ── Mutation: manual stock adjustment ──
 export function useAdjustStock() {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (values: AdjustmentFormData) => {
+      if (!has({ permission: 'inventory.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
+
       // Call the database function we created
       const { data, error } = await supabase.rpc('adjust_stock_balance', {
         p_store_id: values.store_id,
@@ -70,6 +79,7 @@ export function useAdjustStock() {
 
 // ── Query: all units/stores ──
 export function useStores() {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery({
     queryKey: ['stores'],
     queryFn: async () => {
@@ -81,11 +91,13 @@ export function useStores() {
       if (error) throw error
       return data ?? []
     },
+    enabled: authEnabled,
   })
 }
 
 // ── Query: product variants filtered by product ──
 export function useProductVariants(productId?: number) {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
   return useQuery({
     queryKey: ['product-variants', productId],
     queryFn: async () => {
@@ -99,6 +111,6 @@ export function useProductVariants(productId?: number) {
       if (error) throw error
       return data ?? []
     },
-    enabled: !!productId,
+    enabled: !!productId && authEnabled,
   })
 }

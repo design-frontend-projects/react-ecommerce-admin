@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import type { Country } from '../data/schema'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuth } from '@/hooks/use-auth'
 
 export interface CountryInput {
   name: string
@@ -10,6 +12,7 @@ export interface CountryInput {
 }
 
 export const useCountries = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['countries'],
     queryFn: async () => {
@@ -21,10 +24,12 @@ export const useCountries = () => {
       if (error) throw error
       return data as Country[]
     },
+    enabled: authEnabled,
   })
 }
 
 export const useCountry = (id: number) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['countries', id],
     queryFn: async () => {
@@ -37,15 +42,19 @@ export const useCountry = (id: number) => {
       if (error) throw error
       return data as Country
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 export const useCreateCountry = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (newCountry: CountryInput) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('countries')
         .insert(newCountry)
@@ -62,10 +71,14 @@ export const useCreateCountry = () => {
 }
 
 export const useUpdateCountry = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: CountryInput & { id: number }) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('countries')
         .update(updates)
@@ -83,10 +96,14 @@ export const useUpdateCountry = () => {
 }
 
 export const useDeleteCountry = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: number) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { error } = await supabase.from('countries').delete().eq('id', id)
 
       if (error) throw error

@@ -1,32 +1,27 @@
-import { useQuery } from '@tanstack/react-query'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
 import { fetchReconcileReport, fetchStockByLocation } from '../data/actions'
 
 export function useStockByLocation(filters: {
   storeId?: string
   warehouseId?: string
 }) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: [
       'inventory',
       'stock-by-location',
       filters.storeId ?? '',
       filters.warehouseId ?? '',
     ],
-    queryFn: () => fetchStockByLocation(getToken, filters),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchStockByLocation(getToken, filters),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useReconcileReport() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: ['inventory', 'stock-by-location', 'reconcile'],
-    queryFn: () => fetchReconcileReport(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchReconcileReport(getToken),
+    rbac: { permission: 'inventory.view' },
     staleTime: 60_000,
   })
 }

@@ -1,31 +1,31 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createUserDirect } from '@/server/fns/create-user'
 import { deactivateUser, changeUserPassword } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { fetchUsers, updateUserRoles } from '../data/actions'
 import type { UpdateUserRolesInput, CreateUserInput } from '../data/types'
 
 export const usersQueryKey = ['users'] as const
 
 export function useUsersList(enabled = true) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: usersQueryKey,
-    queryFn: () => fetchUsers(getToken),
-    enabled: enabled && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchUsers(getToken),
+    enabled,
+    rbac: { permission: 'users.view' },
   })
 }
 
 export function useUpdateUserRole() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (input: UpdateUserRolesInput) =>
+  return useAuthMutation({
+    mutationFn: (getToken, input: UpdateUserRolesInput) =>
       updateUserRoles(getToken, input),
+    rbac: { permission: 'users.manage' },
     onSuccess: () => {
       toast.success('User role updated.')
       void queryClient.invalidateQueries({ queryKey: usersQueryKey })
@@ -38,10 +38,14 @@ export function useUpdateUserRole() {
 }
 
 export function useCreateUser() {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (input: CreateUserInput) => {
+      if (!has({ permission: 'users.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       return createUserDirect({ data: input })
     },
     onSuccess: (result) => {
@@ -57,10 +61,14 @@ export function useCreateUser() {
 }
 
 export function useDeactivateUser() {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (userId: string) => {
+      if (!has({ permission: 'users.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       return deactivateUser({ data: { userId } })
     },
     onSuccess: (result) => {
@@ -78,6 +86,8 @@ export function useDeactivateUser() {
 }
 
 export function useResetUserPassword() {
+  const { has } = useAuth()
+
   return useMutation({
     mutationFn: async ({
       userId,
@@ -86,6 +96,9 @@ export function useResetUserPassword() {
       userId: string
       password: string
     }) => {
+      if (!has({ permission: 'users.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       return changeUserPassword({ data: { userId, password } })
     },
     onSuccess: (result) => {

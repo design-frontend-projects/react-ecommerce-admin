@@ -13,6 +13,9 @@ import {
   Utensils,
   Shirt,
   Laptop,
+  Banknote,
+  CreditCard,
+  Smartphone,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Logo } from '@/assets/logo'
@@ -40,6 +43,18 @@ const onboardingSchema = z.object({
       message: 'Please select a business activity',
     }
   ),
+  paymentMethod: z.enum(['cash', 'visa', 'mobile_transfer'], {
+    message: 'Please select a payment method',
+  }),
+  transferRef: z.string().trim().optional(),
+}).superRefine((data, ctx) => {
+  if (data.paymentMethod === 'mobile_transfer' && !data.transferRef) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Transfer reference is required for mobile transfers',
+      path: ['transferRef'],
+    })
+  }
 })
 
 type OnboardingFormValues = z.infer<typeof onboardingSchema>
@@ -77,6 +92,24 @@ const ACTIVITIES = [
   },
 ] as const
 
+const PAYMENT_METHODS = [
+  {
+    id: 'cash',
+    icon: Banknote,
+    color: 'from-emerald-500 to-green-500',
+  },
+  {
+    id: 'visa',
+    icon: CreditCard,
+    color: 'from-blue-500 to-indigo-500',
+  },
+  {
+    id: 'mobile_transfer',
+    icon: Smartphone,
+    color: 'from-purple-500 to-pink-500',
+  },
+] as const
+
 export function CompleteAccountFeature() {
   const { user } = useUser()
   const completeOnboardingMutation = useCompleteOnboarding()
@@ -90,6 +123,8 @@ export function CompleteAccountFeature() {
       lastName: user?.user_metadata?.lastName || user?.lastName || '',
       phone: user?.phone || '',
       activity: undefined,
+      paymentMethod: undefined,
+      transferRef: '',
     },
     mode: 'onChange',
   })
@@ -103,15 +138,22 @@ export function CompleteAccountFeature() {
       lastName: values.lastName,
       phone: values.phone,
       activity: values.activity,
+      paymentMethod: values.paymentMethod,
+      transferRef: values.transferRef,
     })
   }
 
   const nextStep = async () => {
-    const isValid = await form.trigger(['firstName', 'lastName', 'phone'])
-    if (isValid) setStep(2)
+    if (step === 1) {
+      const isValid = await form.trigger(['firstName', 'lastName', 'phone'])
+      if (isValid) setStep(2)
+    } else if (step === 2) {
+      const isValid = await form.trigger(['activity'])
+      if (isValid) setStep(3)
+    }
   }
 
-  const prevStep = () => setStep(1)
+  const prevStep = () => setStep((s) => Math.max(1, s - 1))
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm'>
@@ -161,6 +203,9 @@ export function CompleteAccountFeature() {
               />
               <div
                 className={`h-2 w-12 rounded-full transition-colors duration-500 ${step >= 2 ? 'bg-primary' : 'bg-primary/20'}`}
+              />
+              <div
+                className={`h-2 w-12 rounded-full transition-colors duration-500 ${step >= 3 ? 'bg-primary' : 'bg-primary/20'}`}
               />
             </div>
           </div>
@@ -346,13 +391,153 @@ export function CompleteAccountFeature() {
                         >
                           {t('completeAccount.back')}
                         </Button>
+                          <Button
+                          type='button'
+                          size='lg'
+                          className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
+                          onClick={nextStep}
+                          disabled={!form.watch('activity')}
+                        >
+                          {t('completeAccount.continue')}
+                          <ChevronRight className='ml-2 h-5 w-5' />
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {step === 3 && (
+                    <motion.div
+                      key='step3'
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className='space-y-4'
+                    >
+                      <FormField
+                        control={form.control}
+                        name='paymentMethod'
+                        render={({ field }) => (
+                          <FormItem className='space-y-4'>
+                            <FormLabel className='flex items-center gap-2 text-lg font-medium'>
+                              <CreditCard className='h-5 w-5 text-primary' />
+                              {t('completeAccount.selectPayment')}
+                            </FormLabel>
+                            <FormControl>
+                              <div className='grid grid-cols-3 gap-3'>
+                                {PAYMENT_METHODS.map((method) => {
+                                  const Icon = method.icon
+                                  const isSelected = field.value === method.id
+                                  return (
+                                    <button
+                                      key={method.id}
+                                      type='button'
+                                      onClick={() => {
+                                        field.onChange(method.id)
+                                        if (method.id !== 'mobile_transfer') {
+                                          form.setValue('transferRef', '')
+                                          form.clearErrors('transferRef')
+                                        }
+                                      }}
+                                      className={cn(
+                                        'relative flex flex-col items-center justify-center gap-2 rounded-xl border p-4 text-center transition-all duration-300 hover:border-primary/50',
+                                        isSelected
+                                          ? 'border-primary bg-primary/5 text-foreground shadow-md ring-1 ring-primary'
+                                          : 'border-border/50 bg-background/30 text-muted-foreground hover:bg-background/50'
+                                      )}
+                                    >
+                                      {isSelected && (
+                                        <motion.div
+                                          layoutId='activePayment'
+                                          className={cn(
+                                            'absolute inset-0 rounded-xl bg-linear-to-r opacity-5',
+                                            method.color
+                                          )}
+                                          transition={{
+                                            type: 'spring',
+                                            bounce: 0.2,
+                                            duration: 0.6,
+                                          }}
+                                        />
+                                      )}
+                                      <Icon
+                                        className={cn(
+                                          'h-8 w-8 transition-transform duration-300',
+                                          isSelected
+                                            ? 'scale-110 text-primary'
+                                            : 'scale-100'
+                                        )}
+                                      />
+                                      <span
+                                        className={cn(
+                                          'text-sm font-semibold',
+                                          isSelected
+                                            ? 'font-bold text-foreground'
+                                            : ''
+                                        )}
+                                      >
+                                        {t(
+                                          `completeAccount.paymentMethods.${method.id}`
+                                        )}
+                                      </span>
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {form.watch('paymentMethod') === 'mobile_transfer' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className='overflow-hidden pt-2'
+                        >
+                          <FormField
+                            control={form.control}
+                            name='transferRef'
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>
+                                  {t('completeAccount.transferRef')}
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    placeholder={t(
+                                      'completeAccount.transferRefPlaceholder'
+                                    )}
+                                    className='h-12 bg-background/50 text-lg'
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </motion.div>
+                      )}
+
+                      <div className='flex gap-3 pt-4'>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='lg'
+                          className='w-1/3 text-base'
+                          onClick={prevStep}
+                        >
+                          {t('completeAccount.back')}
+                        </Button>
                         <Button
                           type='submit'
                           size='lg'
                           className='w-2/3 bg-linear-to-r from-blue-500 to-cyan-500 text-base shadow-blue-500/20 transition-all hover:from-blue-600 hover:to-cyan-600 hover:shadow-blue-500/30'
                           disabled={
                             completeOnboardingMutation.isPending ||
-                            !form.watch('activity')
+                            !form.watch('paymentMethod')
                           }
                         >
                           {completeOnboardingMutation.isPending ? (

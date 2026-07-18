@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   applyTransfer,
   cancelTransfer,
@@ -16,30 +17,27 @@ const transferKey = (id: string) =>
   ['inventory', 'stock-transfers', id] as const
 
 export function useTransfers() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: transfersKey,
-    queryFn: () => fetchTransfers(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchTransfers(getToken),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useTransfer(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: transferKey(id ?? ''),
-    queryFn: () => fetchTransfer(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchTransfer(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'inventory.view' },
   })
 }
 
 export function useCreateTransfer() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateTransferInput) => createTransfer(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateTransferInput) => createTransfer(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Transfer created.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -50,10 +48,10 @@ export function useCreateTransfer() {
 }
 
 export function useUpdateTransfer() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: UpdateTransferInput) => updateTransfer(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: UpdateTransferInput) => updateTransfer(getToken, input),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Transfer updated.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -64,10 +62,10 @@ export function useUpdateTransfer() {
 }
 
 export function useCancelTransfer() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => cancelTransfer(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => cancelTransfer(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Transfer cancelled.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -78,10 +76,10 @@ export function useCancelTransfer() {
 }
 
 export function useApplyTransfer() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => applyTransfer(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => applyTransfer(getToken, id),
+    rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
       toast.success('Transfer applied. Stock balances updated.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })

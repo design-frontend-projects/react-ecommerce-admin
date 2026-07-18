@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   convertSuggestions,
   dismissSuggestion,
@@ -11,20 +12,18 @@ import {
 const suggestionsKey = ['inventory', 'reorder-suggestions'] as const
 
 export function useSuggestions() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: suggestionsKey,
-    queryFn: () => fetchSuggestions(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchSuggestions(getToken),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
 export function useRunReorderCheck() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (storeId?: string) => runReorderCheck(getToken, storeId),
+  return useAuthMutation({
+    mutationFn: (getToken, storeId?: string) => runReorderCheck(getToken, storeId),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: (data) => {
       toast.success('Reorder check complete.', {
         description: `${data.suggestions_open} suggestion(s) currently open.`,
@@ -39,10 +38,10 @@ export function useRunReorderCheck() {
 }
 
 export function useConvertSuggestions() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (ids: string[]) => convertSuggestions(getToken, ids),
+  return useAuthMutation({
+    mutationFn: (getToken, ids: string[]) => convertSuggestions(getToken, ids),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: (data) => {
       toast.success('Requisition created.', {
         description: `${data.suggestions_converted} suggestion(s) converted into a purchase requisition.`,
@@ -57,10 +56,10 @@ export function useConvertSuggestions() {
 }
 
 export function useDismissSuggestion() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (id: string) => dismissSuggestion(getToken, id),
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => dismissSuggestion(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
       toast.success('Suggestion dismissed.')
       void queryClient.invalidateQueries({ queryKey: suggestionsKey })

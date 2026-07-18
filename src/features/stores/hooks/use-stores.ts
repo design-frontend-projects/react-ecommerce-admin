@@ -1,8 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { type Store } from '../data/schema'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuth } from '@/hooks/use-auth'
 
 export const useStores = (search?: string) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['stores', search],
     queryFn: async () => {
@@ -20,10 +23,12 @@ export const useStores = (search?: string) => {
       if (error) throw error
       return data as any[] // Using any for local join results mapping
     },
+    enabled: authEnabled,
   })
 }
 
 export const useStore = (id: string) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
   return useQuery({
     queryKey: ['stores', id],
     queryFn: async () => {
@@ -37,15 +42,19 @@ export const useStore = (id: string) => {
       if (error) throw error
       return data
     },
-    enabled: !!id,
+    enabled: !!id && authEnabled,
   })
 }
 
 export const useCreateStore = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (newStore: Partial<Store>) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase.from('stores').insert(newStore)
 
       if (error) throw error
@@ -58,6 +67,7 @@ export const useCreateStore = () => {
 }
 
 export const useUpdateStore = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -65,6 +75,9 @@ export const useUpdateStore = () => {
       store_id,
       ...updates
     }: Partial<Store> & { store_id: string }) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { data, error } = await supabase
         .from('stores')
         .update(updates)
@@ -82,10 +95,14 @@ export const useUpdateStore = () => {
 }
 
 export const useDeleteStore = () => {
+  const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (id: string) => {
+      if (!has({ permission: 'settings.manage' })) {
+        throw new Error('You do not have permission to perform this action.')
+      }
       const { error } = await supabase
         .from('stores')
         .delete()

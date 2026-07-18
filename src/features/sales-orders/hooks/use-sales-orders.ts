@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createOrder,
   fetchOrder,
@@ -23,30 +24,27 @@ const ACTION_SUCCESS: Record<OrderAction, string> = {
 }
 
 export function useOrders() {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: ordersKey,
-    queryFn: () => fetchOrders(getToken),
-    enabled: isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchOrders(getToken),
+    rbac: { permission: 'sales.view' },
   })
 }
 
 export function useOrder(id: string | undefined) {
-  const { getToken, isLoaded, isSignedIn } = useAuth()
-  return useQuery({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+  return useAuthQuery({
     queryKey: orderKey(id ?? ''),
-    queryFn: () => fetchOrder(getToken, id as string),
-    enabled: Boolean(id) && isLoaded && isSignedIn,
+    queryFn: (getToken) => fetchOrder(getToken, id as string),
+    enabled: Boolean(id),
+    rbac: { permission: 'sales.view' },
   })
 }
 
 export function useCreateOrder() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateOrderInput) => createOrder(getToken, input),
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateOrderInput) => createOrder(getToken, input),
+    rbac: { permission: 'sales.manage' },
     onSuccess: () => {
       toast.success('Sales order created.')
       void queryClient.invalidateQueries({ queryKey: ordersKey })
@@ -59,11 +57,11 @@ export function useCreateOrder() {
 }
 
 export function useOrderAction() {
-  const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ id, action }: { id: string; action: OrderAction }) =>
+  return useAuthMutation({
+    mutationFn: (getToken, { id, action }: { id: string; action: OrderAction }) =>
       runOrderAction(getToken, id, action),
+    rbac: { permission: 'sales.manage' },
     onSuccess: (_data, variables) => {
       toast.success(ACTION_SUCCESS[variables.action])
       void queryClient.invalidateQueries({ queryKey: ordersKey })
