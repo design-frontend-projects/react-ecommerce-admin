@@ -10,6 +10,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type Inventory } from '../data/schema'
 import { useInventoryContext } from './inventory-provider'
 
@@ -34,30 +35,32 @@ export function InventoryRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(row.original as Inventory)
-            setOpen('edit')
-          }}
-        >
-          Edit
-          <DropdownMenuShortcut>
-            <Edit size={16} />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(row.original as Inventory)
-            setOpen('delete')
-          }}
-          className='text-red-500!'
-        >
-          Delete
-          <DropdownMenuShortcut>
-            <Trash2 size={16} />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Can permission='inventory.manage'>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(row.original as Inventory)
+              setOpen('edit')
+            }}
+          >
+            Edit
+            <DropdownMenuShortcut>
+              <Edit size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(row.original as Inventory)
+              setOpen('delete')
+            }}
+            className='text-red-500!'
+          >
+            Delete
+            <DropdownMenuShortcut>
+              <Trash2 size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Can>
       </DropdownMenuContent>
     </DropdownMenu>
   )

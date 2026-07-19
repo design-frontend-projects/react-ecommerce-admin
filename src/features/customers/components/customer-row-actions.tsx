@@ -9,6 +9,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type Customer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
 
@@ -34,26 +35,28 @@ export function CustomerRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(customer)
-            setOpen('edit')
-          }}
-        >
-          <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(customer)
-            setOpen('delete')
-          }}
-        >
-          <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Can permission='sales.manage'>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(customer)
+              setOpen('edit')
+            }}
+          >
+            <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(customer)
+              setOpen('delete')
+            }}
+          >
+            <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Delete
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Can>
       </DropdownMenuContent>
     </DropdownMenu>
   )

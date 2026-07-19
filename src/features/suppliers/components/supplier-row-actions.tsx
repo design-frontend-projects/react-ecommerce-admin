@@ -9,6 +9,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type Supplier } from '../hooks/use-suppliers'
 import { useSuppliersContext } from './suppliers-provider'
 
@@ -34,26 +35,28 @@ export function SupplierRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(supplier)
-            setOpen('edit')
-          }}
-        >
-          <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(supplier)
-            setOpen('delete')
-          }}
-        >
-          <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Can permission='purchasing.manage'>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(supplier)
+              setOpen('edit')
+            }}
+          >
+            <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(supplier)
+              setOpen('delete')
+            }}
+          >
+            <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Delete
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Can>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 import { usePOContext } from './po-provider'
 
@@ -38,15 +39,17 @@ export function PORowActions({ row }: PORowActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         {canEdit && (
-          <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row)
-              setOpen('edit')
-            }}
-          >
-            <Pencil className='mr-2 h-4 w-4' />
-            Edit
-          </DropdownMenuItem>
+          <Can permission='purchasing.manage'>
+            <DropdownMenuItem
+              onClick={() => {
+                setCurrentRow(row)
+                setOpen('edit')
+              }}
+            >
+              <Pencil className='mr-2 h-4 w-4' />
+              Edit
+            </DropdownMenuItem>
+          </Can>
         )}
 
         {canReceive && (
@@ -74,21 +77,20 @@ export function PORowActions({ row }: PORowActionsProps) {
           </DropdownMenuItem>
         )}
 
-        {(canEdit || canReceive || canCancel) && canDelete && (
-          <DropdownMenuSeparator />
-        )}
-
         {canDelete && (
-          <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row)
-              setOpen('delete')
-            }}
-            className='text-destructive focus:text-destructive'
-          >
-            <Trash2 className='mr-2 h-4 w-4' />
-            Delete
-          </DropdownMenuItem>
+          <Can permission='purchasing.manage'>
+            {(canEdit || canReceive || canCancel) && <DropdownMenuSeparator />}
+            <DropdownMenuItem
+              onClick={() => {
+                setCurrentRow(row)
+                setOpen('delete')
+              }}
+              className='text-destructive focus:text-destructive'
+            >
+              <Trash2 className='mr-2 h-4 w-4' />
+              Delete
+            </DropdownMenuItem>
+          </Can>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

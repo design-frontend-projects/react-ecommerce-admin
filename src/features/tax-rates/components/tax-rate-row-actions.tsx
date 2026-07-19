@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type TaxRate } from '../hooks/use-tax-rates'
 import { useTaxContext } from './tax-rates-provider'
 
@@ -31,25 +32,27 @@ export function TaxRowActions<TData>({ row }: TaxRowActionsProps<TData>) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(rate)
-            setOpen('edit')
-          }}
-        >
-          <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(rate)
-            setOpen('delete')
-          }}
-        >
-          <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          Delete
-        </DropdownMenuItem>
+        <Can permission='settings.manage'>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(rate)
+              setOpen('edit')
+            }}
+          >
+            <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(rate)
+              setOpen('delete')
+            }}
+          >
+            <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            Delete
+          </DropdownMenuItem>
+        </Can>
       </DropdownMenuContent>
     </DropdownMenu>
   )

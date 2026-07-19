@@ -10,6 +10,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Can } from '@/components/rbac/Can'
 import { type Product } from '../data/schema'
 import { useProductsContext } from './products-provider'
 
@@ -34,18 +35,20 @@ export function ProductRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(row.original as Product)
-            setOpen('edit')
-          }}
-        >
-          Edit
-          <DropdownMenuShortcut>
-            <Edit size={16} />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <Can permission='products.manage'>
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(row.original as Product)
+              setOpen('edit')
+            }}
+          >
+            Edit
+            <DropdownMenuShortcut>
+              <Edit size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+        </Can>
         <DropdownMenuItem
           onClick={() => {
             setCurrentRow(row.original as Product)
@@ -57,19 +60,21 @@ export function ProductRowActions<TData>({
             <Eye size={16} />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            setCurrentRow(row.original as Product)
-            setOpen('delete')
-          }}
-          className='text-red-500!'
-        >
-          Delete
-          <DropdownMenuShortcut>
-            <Trash2 size={16} />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Can permission='products.manage'>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(row.original as Product)
+              setOpen('delete')
+            }}
+            className='text-red-500!'
+          >
+            Delete
+            <DropdownMenuShortcut>
+              <Trash2 size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Can>
       </DropdownMenuContent>
     </DropdownMenu>
   )
