@@ -16,6 +16,10 @@ interface ScreenRow {
   sort_order: number
   screen_roles: Array<{ roles: { name: string } }>
   screen_permissions: Array<{ permissions: { name: string } }>
+  screen_buttons: Array<{
+    permission_buttons: { code: string }
+    permissions: { name: string }
+  }>
 }
 
 interface ModuleRow {
@@ -61,6 +65,13 @@ const GET = withAuth(null, async ({ auth }) => {
             screen_permissions: {
               select: { permissions: { select: { name: true } } },
             },
+            screen_buttons: {
+              where: { is_active: true },
+              select: {
+                permission_buttons: { select: { code: true } },
+                permissions: { select: { name: true } },
+              },
+            },
           },
         },
       },
@@ -92,11 +103,22 @@ const GET = withAuth(null, async ({ auth }) => {
   }
 
   const screensByRoute: Record<string, boolean> = {}
+  // screen code -> button code -> required permission name (from the
+  // screen_buttons catalog), consumed by the CanAction component.
+  const buttonsByScreen: Record<string, Record<string, string>> = {}
   const visibleModules = modules
     .map((module) => {
       const screens = module.app_screens.map((screen) => {
         const allowed = isScreenAllowed(module.code, screen)
         screensByRoute[screen.route] = allowed
+        if (screen.screen_buttons.length > 0) {
+          buttonsByScreen[screen.code] = Object.fromEntries(
+            screen.screen_buttons.map((link) => [
+              link.permission_buttons.code,
+              link.permissions.name,
+            ])
+          )
+        }
         return { screen, allowed }
       })
 
@@ -122,6 +144,7 @@ const GET = withAuth(null, async ({ auth }) => {
     data: {
       modules: visibleModules,
       screens: screensByRoute,
+      buttons: buttonsByScreen,
     },
   })
 })

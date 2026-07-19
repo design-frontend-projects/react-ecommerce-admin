@@ -23,6 +23,10 @@ export const navigationPayloadSchema = z.object({
   modules: z.array(navigationModuleSchema),
   /** route -> allowed, for EVERY active screen (including denied ones). */
   screens: z.record(z.string(), z.boolean()),
+  /** screen code -> button code -> required permission name. */
+  buttons: z
+    .record(z.string(), z.record(z.string(), z.string()))
+    .default({}),
 })
 
 export type NavigationScreen = z.infer<typeof navigationScreenSchema>
