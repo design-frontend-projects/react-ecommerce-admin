@@ -152,6 +152,9 @@ export function useCurrentUserAccess(
       void queryClient.invalidateQueries({
         queryKey: currentAccessQueryKey(authUserId),
       })
+      // DB-driven navigation shares the same inputs (roles/permissions);
+      // reshape the sidebar and route guard on the same events.
+      void queryClient.invalidateQueries({ queryKey: ['access-navigation'] })
     }
 
     const channels = [

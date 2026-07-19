@@ -7,14 +7,18 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { useNavigation } from '@/features/access-control/hooks/use-navigation'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 import { useRBACStore } from '@/features/users/data/store'
 import { AppTitle } from './app-title'
+import { buildNavGroupsFromNavigation } from './data/db-sidebar'
 import { useSidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
 import { NavUser } from './nav-user'
 import type { NavItem } from './types'
+
+const DB_NAV_ENABLED = import.meta.env.VITE_DB_NAV === 'true'
 
 function canAccessItem(
   item: { roles?: string[]; permissions?: string[]; isSystemOwner?: boolean },
@@ -63,10 +67,23 @@ export function AppSidebar() {
   )
   const sidebarData = useSidebarData()
 
+  // DB-driven navigation (feature-flagged). Falls back to the hardcoded
+  // sidebar while loading, on error, or when the catalog is empty.
+  const navigationQuery = useNavigation(DB_NAV_ENABLED)
+  const dbNavGroups =
+    DB_NAV_ENABLED && navigationQuery.data
+      ? buildNavGroupsFromNavigation(navigationQuery.data)
+      : null
+
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
 
+  const sourceNavGroups =
+    dbNavGroups && dbNavGroups.length > 0
+      ? dbNavGroups
+      : sidebarData.navGroups
+
   // Filter navigation items based on user roles and system ownership
-  const filteredNavGroups = sidebarData.navGroups
+  const filteredNavGroups = sourceNavGroups
     .map((group) => ({
       ...group,
       items: group.items

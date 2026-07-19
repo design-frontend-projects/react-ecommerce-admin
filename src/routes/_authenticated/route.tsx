@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { isSubscriptionActive } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
+import { RequireScreen } from '@/components/rbac/require-screen'
 import { profileService } from '@/features/auth/services/profile-service'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
 import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
@@ -124,7 +125,9 @@ const AuthenticatedRoute = () => {
   return (
     <>
       <RoleSyncToast />
-      <AuthenticatedLayout />
+      <RequireScreen>
+        <AuthenticatedLayout />
+      </RequireScreen>
     </>
   )
 }
