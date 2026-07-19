@@ -1,37 +1,37 @@
-// @ts-ignore
 import {
   syncTransactionToCRM,
   type SyncPayload,
 } from '@/services/crm/syncManager'
+// @ts-expect-error untyped virtual module (same pattern across api routes)
 import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { jsonError } from '@/server/utils/http'
 
 export const APIRoute = createAPIFileRoute('/api/crm/sync-transaction')({
   POST: async ({ request }: { request: Request }) => {
+    try {
+      const token = getBearerToken(request)
+      await requireAuth(token, 'pos.access')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unauthorized'
+      return jsonError(message, message.startsWith('Forbidden') ? 403 : 401)
+    }
+
     try {
       const payload: SyncPayload = await request.json()
 
       // Basic validation
       if (!payload.orderId || !payload.customer || !payload.transactionAmount) {
-        return new Response(JSON.stringify({ error: 'Invalid payload' }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' },
-        })
+        return jsonError('Invalid payload', 400)
       }
 
       const result = await syncTransactionToCRM(payload)
 
-      return new Response(JSON.stringify({ success: true, data: result }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    } catch (error: any) {
-      console.error('CRM Sync Error:', error)
-      return new Response(
-        JSON.stringify({ error: error.message || 'Internal Server Error' }),
-        {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-        }
+      return Response.json({ success: true, data: result })
+    } catch (error) {
+      return jsonError(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        500
       )
     }
   },
