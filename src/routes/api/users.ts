@@ -7,9 +7,9 @@ import { createAPIFileRoute } from '@tanstack/react-start/api'
 const GET = async ({ request, params }: any) => {
   try {
     const token = getBearerToken(request)
-    await requireAuth(token, 'users.view')
+    const authorizedUser = await requireAuth(token, 'users.view')
 
-    const users = await getUsers()
+    const users = await getUsers(authorizedUser.userId)
     return Response.json({
       success: true,
       data: users,

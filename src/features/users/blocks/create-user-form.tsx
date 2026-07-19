@@ -52,7 +52,7 @@ export function CreateUserForm({
   onOpenChange,
   roles,
 }: CreateUserFormProps) {
-  const { userId: callerAuthUserId } = useAuth()
+  const { isSignedIn } = useAuth()
   const createMutation = useCreateUser()
   const form = useForm<CreateUserFormValues>({
     resolver: zodResolver(createUserFormSchema),
@@ -80,12 +80,11 @@ export function CreateUserForm({
   }, [form, open])
 
   const onSubmit = (values: CreateUserFormValues) => {
-    if (!callerAuthUserId) return
+    if (!isSignedIn) return
 
     createMutation.mutate(
       {
         ...values,
-        callerAuthUserId,
       },
       {
         onSuccess: () => {

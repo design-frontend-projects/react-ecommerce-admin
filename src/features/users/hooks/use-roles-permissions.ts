@@ -1,8 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateUserBranch } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
-import { useMutation } from '@tanstack/react-query'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
@@ -147,11 +146,16 @@ export function useUpdateUserRole() {
 }
 
 export function useUpdateUserBranch() {
+  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (input: { userId: string; branchId: string | null }) => {
-      return updateUserBranch({ data: input })
+      const sessionToken = await getToken()
+      if (!sessionToken) {
+        throw new Error('Your session is not available. Please sign in again.')
+      }
+      return updateUserBranch({ data: { ...input, sessionToken } })
     },
     onSuccess: () => {
       toast.success('User branch updated.')

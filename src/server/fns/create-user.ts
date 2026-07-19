@@ -10,7 +10,7 @@ import {
   getPrimaryRoleName,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
-import { checkAdminAccess } from './rbac'
+import { requireAuth } from '@/server/utils/auth'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
 
@@ -227,7 +227,8 @@ const createUserInputSchema = z.object({
   phone: z.string().optional(),
   roleId: z.string().min(1),
   branchId: z.string().optional(),
-  callerAuthUserId: z.string().min(1),
+  /** Supabase access token of the caller; the acting admin is derived from it. */
+  sessionToken: z.string().min(1),
 })
 
 export type CreateUserServerInput = z.infer<typeof createUserInputSchema>
@@ -240,10 +241,9 @@ export type CreateUserServerInput = z.infer<typeof createUserInputSchema>
 export const createUserDirect = createServerFn({ method: 'POST' })
   .validator((data: CreateUserServerInput) => createUserInputSchema.parse(data))
   .handler(async ({ data: input }) => {
-    const isAdmin = await checkAdminAccess(input.callerAuthUserId)
-    if (!isAdmin) {
-      throw new Error('Only admin or super_admin users can create new users')
-    }
+    // The acting admin is always derived from the verified session token —
+    // never trusted from the payload.
+    const caller = await requireAuth(input.sessionToken, 'users.manage')
 
     const result = await createUser(
       {
@@ -255,7 +255,7 @@ export const createUserDirect = createServerFn({ method: 'POST' })
         roleIds: [input.roleId],
         branchId: input.branchId,
       },
-      { authUserId: input.callerAuthUserId }
+      { authUserId: caller.userId }
     )
 
     return {

@@ -4,7 +4,41 @@ import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
+import { requireAuth, type AuthorizedUser } from '@/server/utils/auth'
+import { getTenantAuthUserIds, resolveTenantId } from '@/server/utils/tenant'
+import { hasAnyPermission } from '@/features/users/data/rbac'
 import type { User } from '@/features/users/data/types'
+
+/**
+ * Authorize an action targeting another user's account. The caller must either
+ * be the target user (when `allowSelf` is set) or hold one of the admin
+ * permissions AND share a tenant with the target user.
+ * Exported for unit testing.
+ */
+export async function requireUserAccess(
+  sessionToken: string,
+  targetAuthUserId: string,
+  options: { allowSelf?: boolean; permissions: string[] }
+): Promise<AuthorizedUser> {
+  const caller = await requireAuth(sessionToken)
+
+  if (options.allowSelf && caller.userId === targetAuthUserId) {
+    return caller
+  }
+
+  if (!hasAnyPermission(caller.permissionNames, options.permissions)) {
+    throw new Error('Forbidden: Insufficient permissions')
+  }
+
+  if (caller.userId !== targetAuthUserId) {
+    const tenantAuthUserIds = await getTenantAuthUserIds(caller.userId)
+    if (!tenantAuthUserIds.includes(targetAuthUserId)) {
+      throw new Error('Forbidden: The requested user is outside your tenant')
+    }
+  }
+
+  return caller
+}
 
 function buildUserStatus(user: {
   auth_user_id: string
@@ -21,8 +55,20 @@ function buildUserStatus(user: {
   return 'active'
 }
 
-export async function getUsers(): Promise<User[]> {
+export async function getUsers(callerAuthUserId: string): Promise<User[]> {
+  // Scope the listing to the caller's tenant. Users without a resolvable
+  // tenant only ever see themselves.
+  const tenantId = await resolveTenantId(callerAuthUserId)
+
   const dbUsers = (await prisma.tenant_users.findMany({
+    where: tenantId
+      ? {
+          OR: [
+            { parent_tenant_id: tenantId },
+            { auth_user_id: callerAuthUserId },
+          ],
+        }
+      : { auth_user_id: callerAuthUserId },
     orderBy: { created_at: 'desc' },
     include: {
       user_roles: {
@@ -84,8 +130,18 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export const updateUserBranch = createServerFn({ method: 'POST' })
-  .validator((data: { userId: string; branchId: string | null }) => data)
-  .handler(async ({ data: { userId, branchId } }) => {
+  .validator(
+    z.object({
+      userId: z.string(),
+      branchId: z.string().nullable(),
+      sessionToken: z.string(),
+    })
+  )
+  .handler(async ({ data: { userId, branchId, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      permissions: ['users.manage'],
+    })
+
     // Try to update existing profile
     const updated = await prisma.profiles.updateMany({
       where: { auth_user_id: userId },
@@ -115,8 +171,13 @@ export const updateUserBranch = createServerFn({ method: 'POST' })
   })
 
 export const getUserProfile = createServerFn({ method: 'GET' })
-  .validator((data: { userId: string }) => data)
-  .handler(async ({ data: { userId } }) => {
+  .validator(z.object({ userId: z.string(), sessionToken: z.string() }))
+  .handler(async ({ data: { userId, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      allowSelf: true,
+      permissions: ['users.view', 'users.manage'],
+    })
+
     const profile = await prisma.profiles.findFirst({
       where: { auth_user_id: userId },
     })
@@ -134,9 +195,15 @@ export const updateUserProfile = createServerFn({ method: 'POST' })
       firstName: z.string(),
       lastName: z.string(),
       phone: z.string().optional(),
+      sessionToken: z.string(),
     })
   )
-  .handler(async ({ data: { userId, firstName, lastName, phone } }) => {
+  .handler(async ({ data: { userId, firstName, lastName, phone, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      allowSelf: true,
+      permissions: ['users.manage'],
+    })
+
     await prisma.profiles.updateMany({
       where: { auth_user_id: userId },
       data: {
@@ -165,9 +232,15 @@ export const changeUserPassword = createServerFn({ method: 'POST' })
     z.object({
       userId: z.string(),
       password: z.string().min(6),
+      sessionToken: z.string(),
     })
   )
-  .handler(async ({ data: { userId, password } }) => {
+  .handler(async ({ data: { userId, password, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      allowSelf: true,
+      permissions: ['users.manage'],
+    })
+
     const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
       password,
     })
@@ -180,8 +253,12 @@ export const changeUserPassword = createServerFn({ method: 'POST' })
   })
 
 export const deactivateUser = createServerFn({ method: 'POST' })
-  .validator(z.object({ userId: z.string() }))
-  .handler(async ({ data: { userId } }) => {
+  .validator(z.object({ userId: z.string(), sessionToken: z.string() }))
+  .handler(async ({ data: { userId, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      permissions: ['users.manage'],
+    })
+
     await prisma.tenant_users.updateMany({
       where: { auth_user_id: userId },
       data: {

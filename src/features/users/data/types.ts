@@ -26,6 +26,9 @@ export interface InviteUserInput {
   branchId?: string
   redirectUrl?: string
   desc?: string
+  /** Supabase access token of the caller; the server derives the inviter from it. */
+  sessionToken?: string
+  /** @deprecated Derived server-side from `sessionToken`; ignored if provided. */
   inviterAuthUserId?: string
 }
 
@@ -37,7 +40,6 @@ export interface CreateUserInput {
   phone?: string
   roleId: string
   branchId?: string
-  callerAuthUserId: string
 }
 
 export interface InviteUserResult {

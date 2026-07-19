@@ -38,7 +38,7 @@ export function useUpdateUserRole() {
 }
 
 export function useCreateUser() {
-  const { has } = useAuth()
+  const { has, getToken } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -46,7 +46,11 @@ export function useCreateUser() {
       if (!has({ permission: 'users.manage' })) {
         throw new Error('You do not have permission to perform this action.')
       }
-      return createUserDirect({ data: input })
+      const sessionToken = await getToken()
+      if (!sessionToken) {
+        throw new Error('Your session is not available. Please sign in again.')
+      }
+      return createUserDirect({ data: { ...input, sessionToken } })
     },
     onSuccess: (result) => {
       if (result.success) {
@@ -61,7 +65,7 @@ export function useCreateUser() {
 }
 
 export function useDeactivateUser() {
-  const { has } = useAuth()
+  const { has, getToken } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -69,7 +73,11 @@ export function useDeactivateUser() {
       if (!has({ permission: 'users.manage' })) {
         throw new Error('You do not have permission to perform this action.')
       }
-      return deactivateUser({ data: { userId } })
+      const sessionToken = await getToken()
+      if (!sessionToken) {
+        throw new Error('Your session is not available. Please sign in again.')
+      }
+      return deactivateUser({ data: { userId, sessionToken } })
     },
     onSuccess: (result) => {
       if (result.success) {
@@ -86,7 +94,7 @@ export function useDeactivateUser() {
 }
 
 export function useResetUserPassword() {
-  const { has } = useAuth()
+  const { has, getToken } = useAuth()
 
   return useMutation({
     mutationFn: async ({
@@ -99,7 +107,11 @@ export function useResetUserPassword() {
       if (!has({ permission: 'users.manage' })) {
         throw new Error('You do not have permission to perform this action.')
       }
-      return changeUserPassword({ data: { userId, password } })
+      const sessionToken = await getToken()
+      if (!sessionToken) {
+        throw new Error('Your session is not available. Please sign in again.')
+      }
+      return changeUserPassword({ data: { userId, password, sessionToken } })
     },
     onSuccess: (result) => {
       if (result.success) {

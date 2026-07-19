@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
-import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import {
@@ -51,7 +50,6 @@ export function UsersActionDialog({
   const updateUserRole = useUpdateUserRole()
   const updateUserBranch = useUpdateUserBranch()
   const createUser = useCreateUser()
-  const { user } = useAuthStore((state) => state.auth)
 
   const { data: branches, isLoading: isBranchesLoading } = useQuery({
     queryKey: ['branches', 'active', 'user-dialog'],
@@ -118,7 +116,6 @@ export function UsersActionDialog({
           rolesData.find((r) => r.name.toLowerCase() === values.role)?.id ||
           values.role,
         branchId: values.branchId,
-        callerAuthUserId: user?.id || '',
       })
     }
 
