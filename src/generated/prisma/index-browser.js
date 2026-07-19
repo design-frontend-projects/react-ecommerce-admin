@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.8.0
- * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.8.0",
-  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -867,7 +867,9 @@ exports.Prisma.Res_void_requestsScalarFieldEnum = {
 
 exports.Prisma.Role_permissionsScalarFieldEnum = {
   role_id: 'role_id',
-  permission_id: 'permission_id'
+  permission_id: 'permission_id',
+  granted_by: 'granted_by',
+  created_at: 'created_at'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
@@ -877,7 +879,8 @@ exports.Prisma.RolesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_active: 'is_active',
-  is_system: 'is_system'
+  is_system: 'is_system',
+  tenant_id: 'tenant_id'
 };
 
 exports.Prisma.Employee_rolesScalarFieldEnum = {
@@ -1155,7 +1158,9 @@ exports.Prisma.TransactionsScalarFieldEnum = {
 
 exports.Prisma.User_rolesScalarFieldEnum = {
   role_id: 'role_id',
-  tenant_user_id: 'tenant_user_id'
+  tenant_user_id: 'tenant_user_id',
+  assigned_by: 'assigned_by',
+  assigned_at: 'assigned_at'
 };
 
 exports.Prisma.Business_activity_typesScalarFieldEnum = {
@@ -1245,6 +1250,7 @@ exports.Prisma.User_permissionsScalarFieldEnum = {
   tenant_user_id: 'tenant_user_id',
   permission_id: 'permission_id',
   is_granted: 'is_granted',
+  granted_by: 'granted_by',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -1735,6 +1741,7 @@ exports.Prisma.Reorder_suggestionsScalarFieldEnum = {
 exports.Prisma.Rbac_auditScalarFieldEnum = {
   id: 'id',
   actor_auth_user_id: 'actor_auth_user_id',
+  tenant_id: 'tenant_id',
   action: 'action',
   target_type: 'target_type',
   target_id: 'target_id',

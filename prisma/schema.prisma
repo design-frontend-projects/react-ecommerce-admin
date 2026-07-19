@@ -1086,26 +1086,37 @@ model res_void_requests {
 model role_permissions {
   role_id       String      @db.Uuid
   permission_id String      @db.Uuid
+  /// Auth uid of the admin who granted this link (nullable for legacy rows).
+  granted_by    String?     @db.Uuid
+  created_at    DateTime?   @default(now()) @db.Timestamptz(6)
   permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade)
   roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
   @@id([role_id, permission_id])
+  @@index([permission_id], map: "idx_role_permissions_permission_id")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model roles {
-  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String             @unique @db.VarChar(100)
-  description      String?            @db.VarChar(255)
-  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime?          @default(now()) @db.Timestamptz(6)
-  is_active        Boolean            @default(true)
+  id               String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String                @unique @db.VarChar(100)
+  description      String?               @db.VarChar(255)
+  created_at       DateTime?             @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?             @default(now()) @db.Timestamptz(6)
+  is_active        Boolean               @default(true)
   /// Protects the 7 seeded roles from deletion (backfilled by migration).
-  is_system        Boolean            @default(false)
+  is_system        Boolean               @default(false)
+  /// NULL = platform/system role; set = tenant-scoped custom role. Global name
+  /// uniqueness is retained until tenant-role creation ships (seeding and
+  /// invitations still upsert/find roles by name).
+  tenant_id        String?               @db.Uuid
+  tenant           tenant_subscriptions? @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   employee_roles   employee_roles[]
   role_permissions role_permissions[]
   screen_roles     screen_roles[]
   user_roles       user_roles[]
+
+  @@index([tenant_id], map: "idx_roles_tenant_id")
 }
 
 /// DEPRECATED — unused, superseded by the active RBAC set (roles/permissions/role_permissions/user_roles).
@@ -1418,6 +1429,7 @@ model tenant_subscriptions {
   last_name             String?
   is_owner              Boolean?
   tenant_activity_types tenant_activity_types[]
+  roles                 roles[]
   subscriptions         subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([status], map: "idx_tenant_subscriptions_status")
@@ -1443,11 +1455,14 @@ model tenant_users {
   parent_tenant_id     String?            @db.Uuid
   refund_pin_code      Decimal?           @db.Decimal
   id_number            String?
-  tenant_subscriptions profiles?          @relation(fields: [parent_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// Owning account profile (renamed from the misleading `tenant_subscriptions`
+  /// — the FK has always pointed at `profiles`).
+  owner_profile        profiles?          @relation(fields: [parent_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_permissions     user_permissions[]
   user_roles           user_roles[]
 
   @@index([primary_module], map: "idx_users_primary_module")
+  @@index([parent_tenant_id], map: "idx_tenant_users_parent_tenant_id")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1516,10 +1531,14 @@ model user_roles {
   /// FKs tenant_users.id (the row PK), NOT the Supabase auth uid. Physical column stays `auth_user_id`
   /// (renamed at the Prisma level only to fix the code-level misnomer — no DB migration).
   tenant_user_id String       @map("auth_user_id") @db.Uuid
+  /// Auth uid of the admin who assigned this role (nullable for legacy rows).
+  assigned_by    String?      @db.Uuid
+  assigned_at    DateTime?    @default(now()) @db.Timestamptz(6)
   tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
   roles          roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
   @@id([tenant_user_id, role_id])
+  @@index([role_id], map: "idx_user_roles_role_id")
 }
 
 model business_activity_types {
@@ -1647,6 +1666,8 @@ model user_permissions {
   tenant_user_id String       @db.Uuid
   permission_id  String       @db.Uuid
   is_granted     Boolean      @default(true)
+  /// Auth uid of the admin who set this override (nullable for legacy rows).
+  granted_by     String?      @db.Uuid
   created_at     DateTime?    @default(now()) @db.Timestamptz(6)
   updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
   permissions    permissions  @relation(fields: [permission_id], references: [id], onDelete: Cascade)
@@ -2382,6 +2403,8 @@ model reorder_suggestions {
 model rbac_audit {
   id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   actor_auth_user_id String?  @db.Uuid
+  /// Tenant the change happened in (nullable for legacy/platform-level rows).
+  tenant_id          String?  @db.Uuid
   action             String   @db.VarChar(100)
   target_type        String   @db.VarChar(100)
   target_id          String   @db.VarChar(255)
@@ -2390,6 +2413,7 @@ model rbac_audit {
 
   @@index([created_at(sort: Desc)], map: "idx_rbac_audit_created_at")
   @@index([target_type, target_id], map: "idx_rbac_audit_target")
+  @@index([tenant_id, created_at(sort: Desc)], map: "idx_rbac_audit_tenant_created")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
