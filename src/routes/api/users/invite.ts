@@ -6,7 +6,7 @@ import { createAPIFileRoute } from '@tanstack/react-start/api'
 const POST = async ({ request, params }: any) => {
   try {
     const token = getBearerToken(request)
-    const authorizedUser = await requireAuth(token, 'users.manage')
+    await requireAuth(token, 'users.manage')
     const body = (await request.json()) as {
       email?: string
       roleId?: string
@@ -30,7 +30,7 @@ const POST = async ({ request, params }: any) => {
         roleName: body.roleName,
         branchId: body.branchId,
         redirectUrl: new URL('/auth/callback', request.url).toString(),
-        inviterAuthUserId: authorizedUser.userId,
+        sessionToken: token,
       },
     })
 

@@ -1,10 +1,13 @@
 'use server'
 
+import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
 import { ADMIN_ROLES } from '@/types/user-role.enum'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
+import { requireAuth } from '@/server/utils/auth'
+import { resolveTenantId } from '@/server/utils/tenant'
 import type {
   InviteUserInput,
   InviteUserResult,
@@ -14,12 +17,17 @@ import { updateUserRoles } from './rbac'
 export const inviteUser = createServerFn({ method: 'POST' })
   .validator((data: InviteUserInput) => data)
   .handler(async ({ data: input }): Promise<InviteUserResult> => {
-    if (!input.inviterAuthUserId) {
-      throw new Error('Inviter context is required')
+    if (!input.sessionToken) {
+      throw new Error('Unauthorized: Missing session token')
     }
 
+    // The inviter is always the authenticated caller — never trusted from the
+    // payload.
+    const caller = await requireAuth(input.sessionToken, 'users.manage')
+    const inviterAuthUserId = caller.userId
+
     const inviter = await prisma.tenant_users.findUnique({
-      where: { auth_user_id: input.inviterAuthUserId },
+      where: { auth_user_id: inviterAuthUserId },
     })
 
     if (!inviter) {
@@ -80,7 +88,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
         },
       })
 
-      await updateUserRoles(existingUser.id, roleIds, input.inviterAuthUserId)
+      await updateUserRoles(existingUser.id, roleIds, inviterAuthUserId)
 
       return {
         success: true,
@@ -166,8 +174,15 @@ export const inviteUser = createServerFn({ method: 'POST' })
     }
   })
 
-export const listPendingInvitations = createServerFn({ method: 'GET' }).handler(
-  async () => {
+export const listPendingInvitations = createServerFn({ method: 'GET' })
+  .validator(z.object({ sessionToken: z.string() }))
+  .handler(async ({ data: { sessionToken } }) => {
+    const caller = await requireAuth(sessionToken, [
+      'users.view',
+      'users.manage',
+    ])
+    const tenantId = await resolveTenantId(caller.userId)
+
     // For Supabase we could list users and find those with no last_sign_in_at.
     const {
       data: { users },
@@ -178,19 +193,47 @@ export const listPendingInvitations = createServerFn({ method: 'GET' }).handler(
 
     const pendingUsers = users.filter((u) => !u.last_sign_in_at && u.invited_at)
 
-    return pendingUsers.map((invitation) => ({
-      id: invitation.id,
-      emailAddress: invitation.email ?? 'unknown',
-      status: 'pending',
-      role: (invitation.user_metadata as { role?: string })?.role ?? 'unknown',
-      createdAt: new Date(invitation.created_at).toISOString(),
-    }))
-  }
-)
+    // Only surface invitations that belong to the caller's tenant.
+    const tenantMembers = (await prisma.tenant_users.findMany({
+      where: tenantId
+        ? { parent_tenant_id: tenantId }
+        : { auth_user_id: caller.userId },
+      select: { auth_user_id: true },
+    })) as Array<{ auth_user_id: string }>
+    const tenantAuthUserIds = new Set(
+      tenantMembers.map((member) => member.auth_user_id)
+    )
+
+    return pendingUsers
+      .filter((invitation) => tenantAuthUserIds.has(invitation.id))
+      .map((invitation) => ({
+        id: invitation.id,
+        emailAddress: invitation.email ?? 'unknown',
+        status: 'pending',
+        role:
+          (invitation.user_metadata as { role?: string })?.role ?? 'unknown',
+        createdAt: new Date(invitation.created_at).toISOString(),
+      }))
+  })
 
 export const revokeInvitation = createServerFn({ method: 'POST' })
-  .validator((invitationId: string) => invitationId)
-  .handler(async ({ data: invitationId }) => {
+  .validator(
+    z.object({ invitationId: z.string(), sessionToken: z.string() })
+  )
+  .handler(async ({ data: { invitationId, sessionToken } }) => {
+    const caller = await requireAuth(sessionToken, 'users.manage')
+    const tenantId = await resolveTenantId(caller.userId)
+
+    // The invitation must belong to a pending user inside the caller's tenant.
+    const pendingUser = (await prisma.tenant_users.findUnique({
+      where: { auth_user_id: invitationId },
+      select: { parent_tenant_id: true },
+    })) as { parent_tenant_id: string | null } | null
+
+    if (!pendingUser || !tenantId || pendingUser.parent_tenant_id !== tenantId) {
+      throw new Error('Forbidden: Invitation not found in your tenant')
+    }
+
     // Delete the unconfirmed user
     await supabaseAdmin.auth.admin.deleteUser(invitationId)
 
