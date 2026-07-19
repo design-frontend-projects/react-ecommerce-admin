@@ -6,6 +6,7 @@ import {
   getDatabasePermissionNames,
   invalidatePermissionCache,
 } from '@/server/utils/auth'
+import { resolveTenantId } from '@/server/utils/tenant'
 import {
   BASE_PERMISSION_DEFINITIONS,
   DEFAULT_ROLE_PERMISSION_NAMES,
@@ -291,6 +292,34 @@ export async function getRolesPermissions() {
 // `checkAdminAccess(callerAuthUserId)` role-name gate was dead in the HTTP
 // path (routes never passed the caller) and has been removed.
 
+/**
+ * Append an entry to the rbac_audit trail. Best-effort: an audit failure
+ * must never break the mutation it records.
+ */
+async function recordRbacAudit(entry: {
+  actor?: string | null
+  action: string
+  targetType: string
+  targetId: string
+  diff?: unknown
+}): Promise<void> {
+  try {
+    const tenantId = entry.actor ? await resolveTenantId(entry.actor) : null
+    await prisma.rbac_audit.create({
+      data: {
+        actor_auth_user_id: entry.actor ?? null,
+        tenant_id: tenantId,
+        action: entry.action,
+        target_type: entry.targetType,
+        target_id: entry.targetId,
+        diff: entry.diff === undefined ? undefined : (entry.diff as object),
+      },
+    })
+  } catch {
+    // swallow — audit is advisory, the mutation already succeeded
+  }
+}
+
 export async function createRole(
   input: CreateRoleInput
 ): Promise<RoleWithPermissions> {
@@ -314,6 +343,13 @@ export async function createRole(
     },
   })
 
+  await recordRbacAudit({
+    actor: input.callerAuthUserId,
+    action: 'role.created',
+    targetType: 'role',
+    targetId: role.id,
+    diff: { name: role.name, permissionIds: input.permissionIds },
+  })
   return serializeRole(role)
 }
 
@@ -336,14 +372,25 @@ export async function updateRole(
   })
 
   invalidatePermissionCache()
+  await recordRbacAudit({
+    actor: input.callerAuthUserId,
+    action: 'role.updated',
+    targetType: 'role',
+    targetId: input.id,
+    diff: {
+      name: input.name,
+      description: input.description,
+      is_active: input.is_active,
+    },
+  })
   return serializeRole(role)
 }
 
-export async function deleteRole(roleId: string) {
+export async function deleteRole(roleId: string, actorAuthUserId?: string) {
   const role = (await prisma.roles.findUnique({
     where: { id: roleId },
-    select: { is_system: true },
-  })) as { is_system: boolean } | null
+    select: { is_system: true, name: true },
+  })) as { is_system: boolean; name: string } | null
   if (!role) throw new Error('Role not found.')
   if (role.is_system) throw new Error('System roles cannot be deleted.')
 
@@ -351,11 +398,19 @@ export async function deleteRole(roleId: string) {
     where: { id: roleId },
   })
   invalidatePermissionCache()
+  await recordRbacAudit({
+    actor: actorAuthUserId,
+    action: 'role.deleted',
+    targetType: 'role',
+    targetId: roleId,
+    diff: { name: role.name },
+  })
 }
 
 export async function setRolePermissions(
   roleId: string,
-  permissionIds: string[]
+  permissionIds: string[],
+  actorAuthUserId?: string
 ) {
   await prisma.role_permissions.deleteMany({
     where: { role_id: roleId },
@@ -383,10 +438,20 @@ export async function setRolePermissions(
   })
 
   invalidatePermissionCache()
+  await recordRbacAudit({
+    actor: actorAuthUserId,
+    action: 'role.permissions_set',
+    targetType: 'role',
+    targetId: roleId,
+    diff: { permissionIds },
+  })
   return serializeRole(role)
 }
 
-export async function toggleRolePermission(input: ToggleRolePermissionInput) {
+export async function toggleRolePermission(
+  input: ToggleRolePermissionInput,
+  actorAuthUserId?: string
+) {
   const existing = await prisma.role_permissions.findFirst({
     where: {
       role_id: input.roleId,
@@ -405,6 +470,13 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
     })
 
     invalidatePermissionCache()
+    await recordRbacAudit({
+      actor: actorAuthUserId,
+      action: 'role.permission_revoked',
+      targetType: 'role',
+      targetId: input.roleId,
+      diff: { permissionId: input.permissionId },
+    })
     return { added: false }
   }
 
@@ -412,10 +484,18 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
     data: {
       role_id: input.roleId,
       permission_id: input.permissionId,
+      granted_by: actorAuthUserId ?? null,
     },
   })
 
   invalidatePermissionCache()
+  await recordRbacAudit({
+    actor: actorAuthUserId,
+    action: 'role.permission_granted',
+    targetType: 'role',
+    targetId: input.roleId,
+    diff: { permissionId: input.permissionId },
+  })
   return { added: true }
 }
 
@@ -489,6 +569,13 @@ export async function updateUserRoles(
   }
 
   invalidatePermissionCache()
+  await recordRbacAudit({
+    actor: assignedBy,
+    action: 'user.roles_set',
+    targetType: 'tenant_user',
+    targetId: userId,
+    diff: { roleIds },
+  })
 }
 
 export async function getUserRoles(
@@ -604,7 +691,8 @@ export async function deletePermission(permissionId: string) {
 export async function setUserPermissionOverrides(
   tenantUserId: string,
   grantPermissionIds: string[],
-  denyPermissionIds: string[]
+  denyPermissionIds: string[],
+  actorAuthUserId?: string
 ): Promise<{ effectivePermissionNames: string[] }> {
   const denySet = new Set(denyPermissionIds)
   const grants = grantPermissionIds.filter((id) => !denySet.has(id))
@@ -618,11 +706,13 @@ export async function setUserPermissionOverrides(
       tenant_user_id: tenantUserId,
       permission_id,
       is_granted: true,
+      granted_by: actorAuthUserId ?? null,
     })),
     ...denyPermissionIds.map((permission_id) => ({
       tenant_user_id: tenantUserId,
       permission_id,
       is_granted: false,
+      granted_by: actorAuthUserId ?? null,
     })),
   ]
   if (rows.length > 0) {
@@ -642,6 +732,13 @@ export async function setUserPermissionOverrides(
   if (!tenantUser?.auth_user_id) return { effectivePermissionNames: [] }
 
   invalidatePermissionCache(tenantUser.auth_user_id)
+  await recordRbacAudit({
+    actor: actorAuthUserId,
+    action: 'user.overrides_set',
+    targetType: 'tenant_user',
+    targetId: tenantUserId,
+    diff: { grantPermissionIds: grants, denyPermissionIds },
+  })
   const { permissionNames } = await getDatabasePermissionNames(
     tenantUser.auth_user_id
   )

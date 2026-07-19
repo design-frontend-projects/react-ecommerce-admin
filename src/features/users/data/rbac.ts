@@ -112,6 +112,10 @@ export const BASE_PERMISSION_DEFINITIONS = [
     name: 'inventory.sales.manage',
     description: 'Create, fulfil, invoice, and cancel sales orders.',
   },
+  {
+    name: 'access_control.audit.view',
+    description: 'View the RBAC change audit trail for the tenant.',
+  },
 ] as const
 
 export type PermissionName =
@@ -151,6 +155,7 @@ export const LEGACY_PERMISSION_ALIASES: Record<string, string> = {
   'purchasing.manage': 'inventory.purchasing.manage',
   'sales.view': 'inventory.sales.view',
   'sales.manage': 'inventory.sales.manage',
+  'audit.view': 'access_control.audit.view',
   // Seed-generated screen-button permissions (`<screen>.<button>` →
   // `<module>.<screen>.<button>`, module from the screen catalog).
   'orders.pay': 'restaurant.orders.pay',
@@ -202,6 +207,7 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'inventory.purchasing.manage',
     'inventory.sales.view',
     'inventory.sales.manage',
+    'access_control.audit.view',
   ],
   [UserRole.Manager]: [
     'general.dashboard.view',

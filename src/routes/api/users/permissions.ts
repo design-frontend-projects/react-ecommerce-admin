@@ -4,7 +4,7 @@ import { jsonError } from '@/server/utils/http'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const PUT = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
+const PUT = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   const body = (await request.json()) as {
     tenantUserId?: string
     grants?: string[]
@@ -18,7 +18,8 @@ const PUT = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
   const result = await setUserPermissionOverrides(
     body.tenantUserId,
     Array.isArray(body.grants) ? body.grants : [],
-    Array.isArray(body.denies) ? body.denies : []
+    Array.isArray(body.denies) ? body.denies : [],
+    auth.userId
   )
 
   return Response.json({

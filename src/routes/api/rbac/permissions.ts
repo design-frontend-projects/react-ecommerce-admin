@@ -8,23 +8,30 @@ import { jsonError } from '@/server/utils/http'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const PUT = withAuth(PERMISSIONS.PERMISSIONS_MANAGE, async ({ request }) => {
-  const body = (await request.json()) as {
-    roleId?: string
-    permissionIds?: string[]
+const PUT = withAuth(
+  PERMISSIONS.PERMISSIONS_MANAGE,
+  async ({ request, auth }) => {
+    const body = (await request.json()) as {
+      roleId?: string
+      permissionIds?: string[]
+    }
+
+    if (!body.roleId || !Array.isArray(body.permissionIds)) {
+      return jsonError('roleId and permissionIds are required.', 400)
+    }
+
+    const role = await setRolePermissions(
+      body.roleId,
+      body.permissionIds,
+      auth.userId
+    )
+
+    return Response.json({
+      success: true,
+      data: role,
+    })
   }
-
-  if (!body.roleId || !Array.isArray(body.permissionIds)) {
-    return jsonError('roleId and permissionIds are required.', 400)
-  }
-
-  const role = await setRolePermissions(body.roleId, body.permissionIds)
-
-  return Response.json({
-    success: true,
-    data: role,
-  })
-})
+)
 
 const POST = withAuth(PERMISSIONS.PERMISSIONS_MANAGE, async ({ request }) => {
   const body = (await request.json()) as {

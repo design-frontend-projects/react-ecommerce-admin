@@ -17,7 +17,7 @@ const GET = withAuth(PERMISSIONS.USERS_VIEW, async () => {
   })
 })
 
-const POST = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
+const POST = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request, auth }) => {
   const body = (await request.json()) as {
     name?: string
     description?: string
@@ -32,6 +32,7 @@ const POST = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
     name: body.name,
     description: body.description,
     permissionIds: body.permissionIds,
+    callerAuthUserId: auth.userId,
   })
 
   return Response.json({
@@ -40,7 +41,7 @@ const POST = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
   })
 })
 
-const PATCH = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
+const PATCH = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request, auth }) => {
   const body = (await request.json()) as {
     id?: string
     name?: string
@@ -57,6 +58,7 @@ const PATCH = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
     name: body.name,
     description: body.description ?? undefined,
     is_active: body.is_active,
+    callerAuthUserId: auth.userId,
   })
 
   return Response.json({
@@ -65,7 +67,7 @@ const PATCH = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
   })
 })
 
-const DELETE = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
+const DELETE = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request, auth }) => {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
 
@@ -73,7 +75,7 @@ const DELETE = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request }) => {
     return jsonError('Role id is required.', 400)
   }
 
-  await deleteRole(id)
+  await deleteRole(id, auth.userId)
 
   return Response.json({
     success: true,

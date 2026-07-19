@@ -58,13 +58,13 @@ describe('permission catalog parity', () => {
   })
 
   it('the rename migration covers every legacy alias pair', () => {
-    const sql = readFileSync(
-      join(
-        process.cwd(),
-        'prisma/migrations/20260719130000_rename_permissions_three_part/migration.sql'
-      ),
-      'utf-8'
-    )
+    // Base rename migration plus later additive permission migrations.
+    const sql = [
+      'prisma/migrations/20260719130000_rename_permissions_three_part/migration.sql',
+      'prisma/migrations/20260719140000_add_audit_view_permission/migration.sql',
+    ]
+      .map((path) => readFileSync(join(process.cwd(), path), 'utf-8'))
+      .join('\n')
     for (const [legacy, canonical] of Object.entries(
       LEGACY_PERMISSION_ALIASES
     )) {
