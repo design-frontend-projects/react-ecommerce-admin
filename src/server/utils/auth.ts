@@ -1,7 +1,5 @@
 import { supabaseAdmin } from '@/server/supabase'
-import { ADMIN_ROLES, UserRole } from '@/types/user-role.enum'
 import prisma from '@/lib/prisma'
-import { supabase } from '@/lib/supabase'
 import {
   DEFAULT_ROLE_PERMISSION_NAMES,
   hasAnyPermission,
@@ -64,7 +62,7 @@ export function getBearerToken(request: Request) {
   return token
 }
 
-async function getDatabasePermissionNames(userId: string) {
+export async function getDatabasePermissionNames(userId: string) {
   const tenantUser = (await prisma.tenant_users.findUnique({
     where: { auth_user_id: userId },
     include: {
@@ -233,47 +231,8 @@ export async function requireAuth(
   }
 }
 
-export function hasAdminAccess(roleNames: string[]) {
-  const normalizedRoleNames = roleNames.map(normalizeRoleName)
-  return ADMIN_ROLES.some((role) => normalizedRoleNames.includes(role))
-}
-
-export async function isSuperAdmin(userId?: string): Promise<boolean> {
-  let id = userId
-  if (!id) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    id = user?.id
-  }
-
-  if (!id) return false
-
-  const profile = await prisma.profiles.findFirst({
-    where: { auth_user_id: id },
-    select: { role: true },
-  })
-
-  return profile?.role === UserRole.SuperAdmin
-}
-
-export async function isAdmin(userId?: string): Promise<boolean> {
-  let id = userId
-  if (!id) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    id = user?.id
-  }
-
-  if (!id) return false
-
-  const profile = await prisma.profiles.findFirst({
-    where: { auth_user_id: id },
-    select: { role: true },
-  })
-
-  return (
-    profile?.role === UserRole.Admin || profile?.role === UserRole.SuperAdmin
-  )
-}
+// The legacy role-name helpers (hasAdminAccess / isSuperAdmin / isAdmin,
+// which read the deprecated `profiles.role` column) were removed:
+// authorization is permission-based through `requireAuth`/`withAuth` only.
+// Platform-owner gating lives in the client `_system` route guard and the
+// `profiles.system_owner` flag.

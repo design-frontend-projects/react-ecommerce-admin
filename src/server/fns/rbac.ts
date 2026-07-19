@@ -1,8 +1,11 @@
 'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
 import prisma from '@/lib/prisma'
+import {
+  getDatabasePermissionNames,
+  invalidatePermissionCache,
+} from '@/server/utils/auth'
 import {
   BASE_PERMISSION_DEFINITIONS,
   DEFAULT_ROLE_PERMISSION_NAMES,
@@ -10,7 +13,6 @@ import {
   getPrimaryRoleName,
   normalizeRoleName,
   getFallbackPermissionNamesForRoles,
-  resolveEffectivePermissions,
 } from '@/features/users/data/rbac'
 import type {
   CreateRoleInput,
@@ -333,6 +335,7 @@ export async function updateRole(
     },
   })
 
+  invalidatePermissionCache()
   return serializeRole(role)
 }
 
@@ -379,6 +382,7 @@ export async function setRolePermissions(
     },
   })
 
+  invalidatePermissionCache()
   return serializeRole(role)
 }
 
@@ -400,6 +404,7 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
       },
     })
 
+    invalidatePermissionCache()
     return { added: false }
   }
 
@@ -410,6 +415,7 @@ export async function toggleRolePermission(input: ToggleRolePermissionInput) {
     },
   })
 
+  invalidatePermissionCache()
   return { added: true }
 }
 
@@ -440,7 +446,7 @@ async function syncClerkUserRoleMetadata(userId: string, roleNames: string[]) {
 export async function updateUserRoles(
   userId: string,
   roleIds: string[],
-  _assignedBy?: string
+  assignedBy?: string
 ) {
   await prisma.user_roles.deleteMany({
     where: { tenant_user_id: userId },
@@ -455,6 +461,7 @@ export async function updateUserRoles(
       data: roleIds.map((roleId) => ({
         tenant_user_id: userId,
         role_id: roleId,
+        assigned_by: assignedBy ?? null,
       })),
       skipDuplicates: true,
     })
@@ -480,6 +487,8 @@ export async function updateUserRoles(
       roles.map((role) => role.name)
     )
   }
+
+  invalidatePermissionCache()
 }
 
 export async function getUserRoles(
@@ -583,6 +592,7 @@ export async function deletePermission(permissionId: string) {
   }
 
   await prisma.permissions.delete({ where: { id: permissionId } })
+  invalidatePermissionCache()
   return { success: true }
 }
 
@@ -622,66 +632,18 @@ export async function setUserPermissionOverrides(
     })
   }
 
+  // Re-resolve through the same code path the auth gate uses (single source
+  // of truth — the former duplicated resolution logic was removed).
   const tenantUser = (await prisma.tenant_users.findUnique({
     where: { id: tenantUserId },
-    include: {
-      user_roles: {
-        include: {
-          roles: {
-            include: { role_permissions: { include: { permissions: true } } },
-          },
-        },
-      },
-      user_permissions: { include: { permissions: true } },
-    },
-  })) as {
-    user_roles: Array<{
-      roles: {
-        name: string
-        role_permissions: Array<{ permissions: { name: string } }>
-      }
-    }>
-    user_permissions: Array<{
-      is_granted: boolean
-      permissions: { name: string }
-    }>
-  } | null
+    select: { auth_user_id: true },
+  })) as { auth_user_id: string | null } | null
 
-  if (!tenantUser) return { effectivePermissionNames: [] }
+  if (!tenantUser?.auth_user_id) return { effectivePermissionNames: [] }
 
-  const roleNames = tenantUser.user_roles.map((assignment) =>
-    normalizeRoleName(assignment.roles.name)
+  invalidatePermissionCache(tenantUser.auth_user_id)
+  const { permissionNames } = await getDatabasePermissionNames(
+    tenantUser.auth_user_id
   )
-  const roleDerived = tenantUser.user_roles.flatMap((assignment) =>
-    assignment.roles.role_permissions.map((rp) => rp.permissions.name)
-  )
-  if (
-    roleNames.some((name) => DEFAULT_ROLE_PERMISSION_NAMES[name]?.includes('*'))
-  ) {
-    roleDerived.push('*')
-  }
-
-  const userGrants = tenantUser.user_permissions
-    .filter((override) => override.is_granted)
-    .map((override) => override.permissions.name)
-  const userDenies = tenantUser.user_permissions
-    .filter((override) => !override.is_granted)
-    .map((override) => override.permissions.name)
-
-  let allPermissionNames: string[] | undefined
-  if (roleDerived.includes('*') && userDenies.length > 0) {
-    const all = (await prisma.permissions.findMany({
-      select: { name: true },
-    })) as Array<{ name: string }>
-    allPermissionNames = all.map((permission) => permission.name)
-  }
-
-  return {
-    effectivePermissionNames: resolveEffectivePermissions(
-      roleDerived,
-      userGrants,
-      userDenies,
-      allPermissionNames
-    ),
-  }
+  return { effectivePermissionNames: permissionNames }
 }
