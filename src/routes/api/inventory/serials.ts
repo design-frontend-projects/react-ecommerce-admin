@@ -4,13 +4,13 @@ import {
   type SerialStatus,
 } from '@/server/fns/serials'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const GET = async ({ request }: any) => {
+const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.view')
+    const { userId } = auth
 
     const { searchParams } = new URL(request.url)
     const trailId = searchParams.get('trail')
@@ -28,7 +28,7 @@ const GET = async ({ request }: any) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch serial numbers')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/inventory/serials')({
   GET,

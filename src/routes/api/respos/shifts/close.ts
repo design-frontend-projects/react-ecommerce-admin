@@ -1,21 +1,19 @@
 import { closeShift } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { closeShiftInputSchema } from '@/features/respos/data/shift-schemas'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const POST = async ({ request }: { request: Request }) => {
+const POST = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const actor = await requireAuth(token, 'shifts.use')
-
     const input = closeShiftInputSchema.parse(await request.json())
-    const data = await closeShift(input, actor)
+    const data = await closeShift(input, auth)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to close shift')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/respos/shifts/close')({
   POST,

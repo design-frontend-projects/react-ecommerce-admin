@@ -2,49 +2,31 @@ import {
   getTenantActivityTypes,
   setTenantActivityTypes,
 } from '@/server/fns/activity-types'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const GET = async ({ request, params }: any) => {
-  try {
-    const token = getBearerToken(request)
-    const authorizedUser = await requireAuth(token)
+const GET = withAuth(null, async ({ auth }) => {
+  const data = await getTenantActivityTypes(auth.userId)
+  return Response.json({ success: true, data })
+})
 
-    const data = await getTenantActivityTypes(authorizedUser.userId)
-    return Response.json({ success: true, data })
-  } catch (error) {
-    return jsonError(
-      error instanceof Error ? error.message : 'Unable to fetch activity types',
-      403
-    )
-  }
-}
-
-const PUT = async ({ request, params }: any) => {
-  try {
-    const token = getBearerToken(request)
-    const authorizedUser = await requireAuth(token, 'settings.manage')
-
+const PUT = withAuth(
+  PERMISSIONS.SETTINGS_MANAGE,
+  async ({ request, auth }) => {
     const body = (await request.json()) as { activityTypeCodes?: string[] }
     if (!Array.isArray(body.activityTypeCodes)) {
       return jsonError('activityTypeCodes must be an array.', 400)
     }
 
     const data = await setTenantActivityTypes(
-      authorizedUser.userId,
+      auth.userId,
       body.activityTypeCodes
     )
     return Response.json({ success: true, data })
-  } catch (error) {
-    return jsonError(
-      error instanceof Error
-        ? error.message
-        : 'Unable to update activity types',
-      403
-    )
   }
-}
+)
 
 export const APIRoute = createAPIFileRoute('/api/tenant/activity-types')({
   GET,

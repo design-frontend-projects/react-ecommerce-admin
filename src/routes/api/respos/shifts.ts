@@ -1,17 +1,15 @@
 import { listShifts, openShift, runShiftMaintenance } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 import {
   listShiftsQuerySchema,
   openShiftInputSchema,
 } from '@/features/respos/data/shift-schemas'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const GET = async ({ request }: { request: Request }) => {
+const GET = withAuth(PERMISSIONS.SHIFTS_VIEW, async ({ request }) => {
   try {
-    const token = getBearerToken(request)
-    await requireAuth(token, 'shifts.view')
-
     // Lazy fallback for stale-flag/auto-close when pg_cron is unavailable.
     await runShiftMaintenance()
 
@@ -38,20 +36,17 @@ const GET = async ({ request }: { request: Request }) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch shifts')
   }
-}
+})
 
-const POST = async ({ request }: { request: Request }) => {
+const POST = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const actor = await requireAuth(token, 'shifts.use')
-
     const input = openShiftInputSchema.parse(await request.json())
-    const data = await openShift(input, actor)
+    const data = await openShift(input, auth)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to open shift')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/respos/shifts')({
   GET,

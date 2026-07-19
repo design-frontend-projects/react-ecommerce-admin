@@ -7,70 +7,76 @@ import {
   type UpdateRuleInput,
 } from '@/server/fns/reorder-rules'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const GET = async ({ request }: any) => {
+const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.view')
+    const { userId } = auth
     const data = await listRules(userId)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch reorder rules')
   }
-}
+})
 
-const POST = async ({ request }: any) => {
-  try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.manage')
-    const body = (await request.json()) as CreateRuleInput
-    const data = await createRule(userId, body)
-    return Response.json({ success: true, data })
-  } catch (error) {
-    return handleRouteError(error, 'Unable to create reorder rule')
-  }
-}
-
-const PATCH = async ({ request }: any) => {
-  try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.manage')
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get('id')
-    if (!id) {
-      return Response.json(
-        { success: false, error: { message: 'Rule id is required.' } },
-        { status: 400 }
-      )
+const POST = withAuth(
+  PERMISSIONS.INVENTORY_MANAGE,
+  async ({ request, auth }) => {
+    try {
+      const { userId } = auth
+      const body = (await request.json()) as CreateRuleInput
+      const data = await createRule(userId, body)
+      return Response.json({ success: true, data })
+    } catch (error) {
+      return handleRouteError(error, 'Unable to create reorder rule')
     }
-    const body = (await request.json()) as UpdateRuleInput
-    const data = await updateRule(userId, id, body)
-    return Response.json({ success: true, data })
-  } catch (error) {
-    return handleRouteError(error, 'Unable to update reorder rule')
   }
-}
+)
 
-const DELETE = async ({ request }: any) => {
-  try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.manage')
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get('id')
-    if (!id) {
-      return Response.json(
-        { success: false, error: { message: 'Rule id is required.' } },
-        { status: 400 }
-      )
+const PATCH = withAuth(
+  PERMISSIONS.INVENTORY_MANAGE,
+  async ({ request, auth }) => {
+    try {
+      const { userId } = auth
+      const { searchParams } = new URL(request.url)
+      const id = searchParams.get('id')
+      if (!id) {
+        return Response.json(
+          { success: false, error: { message: 'Rule id is required.' } },
+          { status: 400 }
+        )
+      }
+      const body = (await request.json()) as UpdateRuleInput
+      const data = await updateRule(userId, id, body)
+      return Response.json({ success: true, data })
+    } catch (error) {
+      return handleRouteError(error, 'Unable to update reorder rule')
     }
-    const data = await deleteRule(userId, id)
-    return Response.json({ success: true, data })
-  } catch (error) {
-    return handleRouteError(error, 'Unable to delete reorder rule')
   }
-}
+)
+
+const DELETE = withAuth(
+  PERMISSIONS.INVENTORY_MANAGE,
+  async ({ request, auth }) => {
+    try {
+      const { userId } = auth
+      const { searchParams } = new URL(request.url)
+      const id = searchParams.get('id')
+      if (!id) {
+        return Response.json(
+          { success: false, error: { message: 'Rule id is required.' } },
+          { status: 400 }
+        )
+      }
+      const data = await deleteRule(userId, id)
+      return Response.json({ success: true, data })
+    } catch (error) {
+      return handleRouteError(error, 'Unable to delete reorder rule')
+    }
+  }
+)
 
 export const APIRoute = createAPIFileRoute('/api/inventory/reorder-rules')({
   GET,

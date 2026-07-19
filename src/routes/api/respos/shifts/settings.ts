@@ -1,14 +1,12 @@
 import { getShiftSettings, updateShiftSettings } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { updateShiftSettingsInputSchema } from '@/features/respos/data/shift-schemas'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const GET = async ({ request }: { request: Request }) => {
+const GET = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request }) => {
   try {
-    const token = getBearerToken(request)
-    await requireAuth(token, 'shifts.use')
-
     const url = new URL(request.url)
     const data = await getShiftSettings(
       url.searchParams.get('restaurantId'),
@@ -18,20 +16,17 @@ const GET = async ({ request }: { request: Request }) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch shift settings')
   }
-}
+})
 
-const PUT = async ({ request }: { request: Request }) => {
+const PUT = withAuth(PERMISSIONS.SHIFTS_MANAGE, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const actor = await requireAuth(token, 'shifts.manage')
-
     const input = updateShiftSettingsInputSchema.parse(await request.json())
-    const data = await updateShiftSettings(input, actor)
+    const data = await updateShiftSettings(input, auth)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to update shift settings')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/respos/shifts/settings')({
   GET,

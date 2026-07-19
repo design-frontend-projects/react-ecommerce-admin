@@ -3,13 +3,13 @@ import {
   listStockByLocation,
 } from '@/server/fns/stock-by-location'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const GET = async ({ request }: any) => {
+const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.view')
+    const { userId } = auth
     const { searchParams } = new URL(request.url)
 
     if (searchParams.get('reconcile')) {
@@ -25,7 +25,7 @@ const GET = async ({ request }: any) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch location stock')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/inventory/stock-by-location')({
   GET,

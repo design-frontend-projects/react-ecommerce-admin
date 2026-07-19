@@ -4,18 +4,16 @@ import {
   type ShiftAnalyticsRange,
 } from '@/server/fns/shift-analytics'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
 const METRICS = ['duration', 'variance', 'coverage', 'offenders'] as const
 const RANGES = ['1d', '7d', '15d', '30d', '90d'] as const
 
-const GET = async ({ request }: { request: Request }) => {
+const GET = withAuth(PERMISSIONS.SHIFTS_VIEW, async ({ request }) => {
   try {
-    const token = getBearerToken(request)
-    await requireAuth(token, 'shifts.view')
-
     const url = new URL(request.url)
     const metric = url.searchParams.get('metric') as ShiftAnalyticsMetric
     const range = (url.searchParams.get('range') ?? '7d') as ShiftAnalyticsRange
@@ -33,7 +31,7 @@ const GET = async ({ request }: { request: Request }) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch shift analytics')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/respos/shifts/analytics')({
   GET,

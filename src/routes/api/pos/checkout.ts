@@ -1,14 +1,12 @@
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
 import { processCheckout } from '@/features/pos/services/CheckoutService'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const POST = async ({ request }: any) => {
+const POST = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.view')
-
     const body = await request.json()
     const parsed = checkoutRequestSchema.safeParse(body)
 
@@ -26,7 +24,7 @@ const POST = async ({ request }: any) => {
       )
     }
 
-    const result = await processCheckout(parsed.data, userId)
+    const result = await processCheckout(parsed.data, auth.userId)
 
     if (!result.success) {
       return Response.json(result, { status: 400 })
@@ -36,7 +34,7 @@ const POST = async ({ request }: any) => {
   } catch (error: unknown) {
     return handleRouteError(error, 'Checkout failed')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/pos/checkout')({
   POST,

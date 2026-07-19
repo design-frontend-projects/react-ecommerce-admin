@@ -3,13 +3,13 @@ import {
   type MovementFilters,
 } from '@/server/fns/inventory-movements'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const GET = async ({ request, params }: any) => {
+const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'inventory.view')
+    const { userId } = auth
 
     const { searchParams } = new URL(request.url)
     const filters: MovementFilters = {
@@ -29,7 +29,7 @@ const GET = async ({ request, params }: any) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch movements')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/inventory/movements')({
   GET,

@@ -284,40 +284,14 @@ export async function getRolesPermissions() {
   return { roles, allPermissions }
 }
 
-export async function checkAdminAccess(callerAuthUserId?: string) {
-  if (!callerAuthUserId) return false
-
-  const callerTenantUser = await prisma.tenant_users.findFirst({
-    where: { auth_user_id: callerAuthUserId },
-    include: {
-      user_roles: {
-        include: {
-          roles: true,
-        },
-      },
-    },
-  })
-
-  if (!callerTenantUser) {
-    // Authorization reads role assignments only — the legacy profiles.role fallback is removed.
-    return false
-  }
-
-  const callerRoleNames = (
-    callerTenantUser.user_roles as Array<{ roles: { name: string } }>
-  ).map((ur) => ur.roles.name.toLowerCase())
-
-  return ADMIN_ROLES.some((role) => callerRoleNames.includes(role))
-}
+// Authorization consolidated: routes gate these fns via
+// `withAuth(PERMISSIONS.ROLES_MANAGE, ...)`. The old fn-level
+// `checkAdminAccess(callerAuthUserId)` role-name gate was dead in the HTTP
+// path (routes never passed the caller) and has been removed.
 
 export async function createRole(
   input: CreateRoleInput
 ): Promise<RoleWithPermissions> {
-  if (input.callerAuthUserId) {
-    const isAdmin = await checkAdminAccess(input.callerAuthUserId)
-    if (!isAdmin)
-      throw new Error('Only admin or super_admin users can manage roles')
-  }
   const role = await prisma.roles.create({
     data: {
       name: normalizeRoleName(input.name),
@@ -344,11 +318,6 @@ export async function createRole(
 export async function updateRole(
   input: UpdateRoleInput
 ): Promise<RoleWithPermissions> {
-  if (input.callerAuthUserId) {
-    const isAdmin = await checkAdminAccess(input.callerAuthUserId)
-    if (!isAdmin)
-      throw new Error('Only admin or super_admin users can manage roles')
-  }
   const role = await prisma.roles.update({
     where: { id: input.id },
     data: {
@@ -367,13 +336,7 @@ export async function updateRole(
   return serializeRole(role)
 }
 
-export async function deleteRole(roleId: string, callerAuthUserId?: string) {
-  if (callerAuthUserId) {
-    const isAdmin = await checkAdminAccess(callerAuthUserId)
-    if (!isAdmin)
-      throw new Error('Only admin or super_admin users can manage roles')
-  }
-
+export async function deleteRole(roleId: string) {
   const role = (await prisma.roles.findUnique({
     where: { id: roleId },
     select: { is_system: true },
@@ -384,18 +347,13 @@ export async function deleteRole(roleId: string, callerAuthUserId?: string) {
   await prisma.roles.delete({
     where: { id: roleId },
   })
+  invalidatePermissionCache()
 }
 
 export async function setRolePermissions(
   roleId: string,
-  permissionIds: string[],
-  callerAuthUserId?: string
+  permissionIds: string[]
 ) {
-  if (callerAuthUserId) {
-    const isAdmin = await checkAdminAccess(callerAuthUserId)
-    if (!isAdmin)
-      throw new Error('Only admin or super_admin users can manage roles')
-  }
   await prisma.role_permissions.deleteMany({
     where: { role_id: roleId },
   })

@@ -4,19 +4,12 @@ import {
 } from '@/services/crm/syncManager'
 // @ts-expect-error untyped virtual module (same pattern across api routes)
 import { createAPIFileRoute } from '@tanstack/react-start/api'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
 export const APIRoute = createAPIFileRoute('/api/crm/sync-transaction')({
-  POST: async ({ request }: { request: Request }) => {
-    try {
-      const token = getBearerToken(request)
-      await requireAuth(token, 'pos.access')
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unauthorized'
-      return jsonError(message, message.startsWith('Forbidden') ? 403 : 401)
-    }
-
+  POST: withAuth(PERMISSIONS.POS_ACCESS, async ({ request }) => {
     try {
       const payload: SyncPayload = await request.json()
 
@@ -34,5 +27,5 @@ export const APIRoute = createAPIFileRoute('/api/crm/sync-transaction')({
         500
       )
     }
-  },
+  }),
 })

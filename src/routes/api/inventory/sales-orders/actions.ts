@@ -6,7 +6,8 @@ import {
   setOrderStatus,
 } from '@/server/fns/sales-orders'
 import { handleRouteError } from '@/server/utils/api-error'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 type OrderAction =
@@ -18,10 +19,9 @@ type OrderAction =
   | 'cancel'
   | 'complete'
 
-const POST = async ({ request, params }: any) => {
+const POST = withAuth(PERMISSIONS.SALES_MANAGE, async ({ request, auth }) => {
   try {
-    const token = getBearerToken(request)
-    const { userId } = await requireAuth(token, 'sales.manage')
+    const { userId } = auth
 
     const body = (await request.json()) as { id?: string; action?: OrderAction }
     if (!body.id) {
@@ -64,7 +64,7 @@ const POST = async ({ request, params }: any) => {
   } catch (error) {
     return handleRouteError(error, 'Unable to update sales order')
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute(
   '/api/inventory/sales-orders/actions'

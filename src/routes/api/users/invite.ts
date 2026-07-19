@@ -1,27 +1,28 @@
 import { inviteUser } from '@/server/fns/invitations'
-import { getBearerToken, requireAuth } from '@/server/utils/auth'
+import { withAuth } from '@/server/utils/with-auth'
+import { getBearerToken } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 
-const POST = async ({ request, params }: any) => {
+const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
+  const token = getBearerToken(request)
+  const body = (await request.json()) as {
+    email?: string
+    roleId?: string
+    roleIds?: string[]
+    roleName?: string
+    branchId?: string
+  }
+
+  const roleIds = Array.isArray(body.roleIds) ? body.roleIds : undefined
+  const primaryRoleId = body.roleId ?? roleIds?.[0]
+
+  if (!body.email || !primaryRoleId) {
+    return jsonError('Email and at least one role are required.', 400)
+  }
+
   try {
-    const token = getBearerToken(request)
-    await requireAuth(token, 'users.manage')
-    const body = (await request.json()) as {
-      email?: string
-      roleId?: string
-      roleIds?: string[]
-      roleName?: string
-      branchId?: string
-    }
-
-    const roleIds = Array.isArray(body.roleIds) ? body.roleIds : undefined
-    const primaryRoleId = body.roleId ?? roleIds?.[0]
-
-    if (!body.email || !primaryRoleId) {
-      return jsonError('Email and at least one role are required.', 400)
-    }
-
     const result = await inviteUser({
       data: {
         email: body.email,
@@ -44,7 +45,7 @@ const POST = async ({ request, params }: any) => {
       403
     )
   }
-}
+})
 
 export const APIRoute = createAPIFileRoute('/api/users/invite')({
   POST,
