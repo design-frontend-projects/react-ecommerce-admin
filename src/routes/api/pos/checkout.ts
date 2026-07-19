@@ -5,7 +5,9 @@ import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
 import { processCheckout } from '@/features/pos/services/CheckoutService'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const POST = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
+// Checkout is a POS write action — gated on POS access, not the unrelated
+// inventory read permission it historically used.
+const POST = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
   try {
     const body = await request.json()
     const parsed = checkoutRequestSchema.safeParse(body)
