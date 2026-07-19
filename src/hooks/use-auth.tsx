@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
-import { normalizeRoleName } from '@/features/users/data/rbac'
+import { hasPermission, normalizeRoleName } from '@/features/users/data/rbac'
 import { useRBACStore } from '@/features/users/data/store'
 
 export function useAuth() {
@@ -23,27 +23,18 @@ export function useAuth() {
         .includes(normalizedCheck)
       if (hasRole) return true
 
-      const hasPerm = currentPermissionNames.some(
-        (p) => normalizeRoleName(p) === normalizedCheck
-      )
-      if (hasPerm) return true
-
-      return false
+      // Legacy conflation: some call sites pass a permission via `role`.
+      // Kept for compatibility; scheduled for removal in refactor phase 6.
+      return hasPermission(currentPermissionNames, params.role)
     }
 
     if (params.permission) {
+      // Alias- and wildcard-aware check shared with the server gate.
+      if (hasPermission(currentPermissionNames, params.permission)) return true
+
+      // Legacy conflation: some call sites pass a role via `permission`.
       const normalizedCheck = normalizeRoleName(params.permission)
-      const hasPerm = currentPermissionNames.some(
-        (p) => normalizeRoleName(p) === normalizedCheck
-      )
-      if (hasPerm) return true
-
-      const hasRole = currentRoleNames
-        .map(normalizeRoleName)
-        .includes(normalizedCheck)
-      if (hasRole) return true
-
-      return false
+      return currentRoleNames.map(normalizeRoleName).includes(normalizedCheck)
     }
 
     return false

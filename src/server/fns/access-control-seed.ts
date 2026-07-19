@@ -46,8 +46,16 @@ async function markSeedVersion(): Promise<void> {
   })
 }
 
-function generatedButtonPermissionName(screenCode: string, buttonCode: string) {
-  return `${screenCode}.${buttonCode}`
+/**
+ * Canonical 3-part name for a screen-button permission:
+ * `<module>.<screen>.<button>` (module from the screen's catalog entry).
+ */
+function generatedButtonPermissionName(
+  moduleCode: string,
+  screenCode: string,
+  buttonCode: string
+) {
+  return `${moduleCode}.${screenCode}.${buttonCode}`
 }
 
 /**
@@ -267,21 +275,24 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     if (!record || !buttonId) continue
     if (record.screen_buttons.length > 0) continue // mappings only when empty
 
+    const screenSeed = SCREEN_SEEDS.find((s) => s.code === seed.screenCode)
+    if (!screenSeed) continue
     const permissionName = generatedButtonPermissionName(
+      screenSeed.moduleCode,
       seed.screenCode,
       seed.buttonCode
     )
     const permission = await prisma.permissions.upsert({
       where: { name: permissionName },
       update: {
-        resource: seed.screenCode,
+        resource: `${screenSeed.moduleCode}.${seed.screenCode}`,
         action: seed.buttonCode,
         updated_at: new Date(),
       },
       create: {
         name: permissionName,
         description: `${seed.buttonCode} on the ${seed.screenCode} screen`,
-        resource: seed.screenCode,
+        resource: `${screenSeed.moduleCode}.${seed.screenCode}`,
         action: seed.buttonCode,
       },
     })

@@ -94,8 +94,6 @@ export async function fetchCurrentUserAccess(
       .eq('auth_user_id', authUserId)
       .maybeSingle(),
   ])
-  console.log('fetched profile: ', profileResult)
-  console.log('fetched tenant user: ', tenantUserResult)
   if (profileResult.error) throw profileResult.error
   if (tenantUserResult.error) throw tenantUserResult.error
 

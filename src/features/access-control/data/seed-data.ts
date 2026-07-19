@@ -49,7 +49,7 @@ export interface ScreenButtonSeed {
   roles: string[]
 }
 
-export const SEED_VERSION = '1'
+export const SEED_VERSION = '2'
 
 export const ACTIVITY_TYPE_SEEDS: ActivityTypeSeed[] = [
   {
@@ -144,7 +144,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/',
     moduleCode: 'general',
     roles: [],
-    permissions: ['dashboard.view'],
+    permissions: ['general.dashboard.view'],
   },
   {
     code: 'pos',
@@ -152,7 +152,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/pos',
     moduleCode: 'general',
     roles: ADMINS,
-    permissions: ['pos.access'],
+    permissions: ['general.pos.access'],
   },
   {
     code: 'products',
@@ -160,7 +160,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/products',
     moduleCode: 'general',
     roles: ADMINS,
-    permissions: ['products.view'],
+    permissions: ['general.products.view'],
   },
   {
     code: 'subscriptions',
@@ -200,7 +200,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/settings',
     moduleCode: 'general',
     roles: ADMINS,
-    permissions: ['settings.manage'],
+    permissions: ['general.settings.manage'],
   },
 
   // restaurant
@@ -218,7 +218,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/respos/pos',
     moduleCode: 'restaurant',
     roles: [UserRole.Captain, ...ADMINS],
-    permissions: ['pos.access'],
+    permissions: ['general.pos.access'],
   },
   {
     code: 'respos_captain',
@@ -266,7 +266,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/respos/analytics',
     moduleCode: 'restaurant',
     roles: ADMINS,
-    permissions: ['reports.view'],
+    permissions: ['general.reports.view'],
   },
   {
     code: 'respos_shifts',
@@ -306,7 +306,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/orders',
     moduleCode: 'restaurant',
     roles: ['captain', 'cashier', ...ADMINS],
-    permissions: ['orders.view'],
+    permissions: ['restaurant.orders.view'],
   },
 
   // inventory
@@ -316,7 +316,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/inventory',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: ['inventory.view'],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'inventory_shipments',
@@ -332,7 +332,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/stock-balances',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: ['inventory.view'],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'purchase_orders',
@@ -372,7 +372,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/stock-transfers',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: ['inventory.view'],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'stock_adjustments',
@@ -380,7 +380,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/stock-adjustments',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: ['inventory.view'],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'inventory_movements',
@@ -388,7 +388,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/inventory-movements',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: ['inventory.view'],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'suppliers',
@@ -464,7 +464,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/users',
     moduleCode: 'access_control',
     roles: ADMINS,
-    permissions: ['users.view'],
+    permissions: ['access_control.users.view'],
   },
   {
     code: 'roles',
@@ -472,7 +472,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/access-control/roles',
     moduleCode: 'access_control',
     roles: ADMINS,
-    permissions: ['roles.manage'],
+    permissions: ['access_control.roles.manage'],
   },
   {
     code: 'permissions',
@@ -480,7 +480,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/access-control/permissions',
     moduleCode: 'access_control',
     roles: ADMINS,
-    permissions: ['permissions.manage'],
+    permissions: ['access_control.permissions.manage'],
   },
   {
     code: 'screens',
@@ -488,7 +488,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/access-control/screens',
     moduleCode: 'access_control',
     roles: ADMINS,
-    permissions: ['screens.view'],
+    permissions: ['access_control.screens.view'],
   },
   {
     code: 'buttons',
@@ -496,7 +496,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/access-control/buttons',
     moduleCode: 'access_control',
     roles: ADMINS,
-    permissions: ['buttons.manage'],
+    permissions: ['access_control.buttons.manage'],
   },
 
   // system (system-owner gated separately in code)

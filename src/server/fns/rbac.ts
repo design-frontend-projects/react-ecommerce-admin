@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma'
 import {
   BASE_PERMISSION_DEFINITIONS,
   DEFAULT_ROLE_PERMISSION_NAMES,
+  LEGACY_PERMISSION_ALIASES,
   getPrimaryRoleName,
   normalizeRoleName,
   getFallbackPermissionNamesForRoles,
@@ -65,21 +66,131 @@ function serializeRole(role: {
   }
 }
 
+function splitPermissionName(name: string) {
+  const lastDot = name.lastIndexOf('.')
+  if (lastDot === -1) return { resource: name, action: null }
+  return {
+    resource: name.slice(0, lastDot),
+    action: name.slice(lastDot + 1),
+  }
+}
+
+/**
+ * Self-healing rename of legacy 2-part permission rows to the canonical
+ * 3-part names (mirrors migration 20260719130000 for environments where the
+ * app boots before the migration is deployed). Id-preserving when only the
+ * legacy row exists; when BOTH spellings exist, references are merged into
+ * the canonical row and the legacy row is deleted.
+ */
+async function renameLegacyPermissions() {
+  const allNames = [
+    ...Object.keys(LEGACY_PERMISSION_ALIASES),
+    ...Object.values(LEGACY_PERMISSION_ALIASES),
+  ]
+  const rows = (await prisma.permissions.findMany({
+    where: { name: { in: allNames } },
+    select: { id: true, name: true },
+  })) as Array<{ id: string; name: string }>
+  const idByName = new Map(rows.map((row) => [row.name, row.id]))
+
+  for (const [legacy, canonical] of Object.entries(
+    LEGACY_PERMISSION_ALIASES
+  )) {
+    const legacyId = idByName.get(legacy)
+    if (!legacyId) continue
+
+    const { resource, action } = splitPermissionName(canonical)
+    const canonicalId = idByName.get(canonical)
+
+    if (!canonicalId) {
+      await prisma.permissions.update({
+        where: { id: legacyId },
+        data: { name: canonical, resource, action, updated_at: new Date() },
+      })
+      continue
+    }
+
+    // Both spellings exist (seed raced the migration): merge assignments into
+    // the canonical row, then drop the legacy row.
+    await prisma.$transaction(async (tx: typeof prisma) => {
+      const roleLinks = await tx.role_permissions.findMany({
+        where: { permission_id: legacyId },
+        select: { role_id: true },
+      })
+      if (roleLinks.length > 0) {
+        await tx.role_permissions.createMany({
+          data: roleLinks.map((link: { role_id: string }) => ({
+            role_id: link.role_id,
+            permission_id: canonicalId,
+          })),
+          skipDuplicates: true,
+        })
+      }
+
+      const userLinks = await tx.user_permissions.findMany({
+        where: { permission_id: legacyId },
+        select: { tenant_user_id: true, is_granted: true },
+      })
+      if (userLinks.length > 0) {
+        await tx.user_permissions.createMany({
+          data: userLinks.map(
+            (link: { tenant_user_id: string; is_granted: boolean }) => ({
+              tenant_user_id: link.tenant_user_id,
+              permission_id: canonicalId,
+              is_granted: link.is_granted,
+            })
+          ),
+          skipDuplicates: true,
+        })
+      }
+
+      const screenLinks = await tx.screen_permissions.findMany({
+        where: { permission_id: legacyId },
+        select: { screen_id: true },
+      })
+      if (screenLinks.length > 0) {
+        await tx.screen_permissions.createMany({
+          data: screenLinks.map((link: { screen_id: string }) => ({
+            screen_id: link.screen_id,
+            permission_id: canonicalId,
+          })),
+          skipDuplicates: true,
+        })
+      }
+
+      await tx.screen_buttons.updateMany({
+        where: { permission_id: legacyId },
+        data: { permission_id: canonicalId },
+      })
+
+      // Cascades clear the remaining legacy role/user/screen links.
+      await tx.permissions.delete({ where: { id: legacyId } })
+    })
+  }
+}
+
 export async function ensureBasePermissionsSeeded() {
+  await renameLegacyPermissions()
+
   await Promise.all(
-    BASE_PERMISSION_DEFINITIONS.map((permission) =>
-      prisma.permissions.upsert({
+    BASE_PERMISSION_DEFINITIONS.map((permission) => {
+      const { resource, action } = splitPermissionName(permission.name)
+      return prisma.permissions.upsert({
         where: { name: permission.name },
         update: {
           description: permission.description,
+          resource,
+          action,
           updated_at: new Date(),
         },
         create: {
           name: permission.name,
           description: permission.description,
+          resource,
+          action,
         },
       })
-    )
+    })
   )
 
   const permissions = (await prisma.permissions.findMany()) as Array<{
@@ -464,28 +575,30 @@ export async function getUserRoles(
   )
 }
 
-const PERMISSION_NAME_PATTERN = /^[a-z0-9_]+\.[a-z0-9_]+$/
+// Canonical 3-part `module.resource.action`; 2-part accepted during the
+// legacy transition (rejected in refactor phase 6).
+const PERMISSION_NAME_PATTERN = /^[a-z0-9_]+\.[a-z0-9_]+(\.[a-z0-9_]+)?$/
 
 export interface CreatePermissionInput {
   name: string
   description?: string | null
 }
 
-/** Create a standalone permission (`resource.action`); derives resource/action columns. */
+/** Create a standalone permission (`module.resource.action`); derives resource/action columns. */
 export async function createPermission(
   input: CreatePermissionInput
 ): Promise<PermissionRecord> {
   const name = input.name.trim().toLowerCase()
   if (!PERMISSION_NAME_PATTERN.test(name)) {
     throw new Error(
-      'Permission name must be "resource.action" with lowercase snake_case segments.'
+      'Permission name must be "module.resource.action" with lowercase snake_case segments.'
     )
   }
 
   const existing = await prisma.permissions.findUnique({ where: { name } })
   if (existing) throw new Error(`Permission "${name}" already exists.`)
 
-  const [resource, action] = name.split('.')
+  const { resource, action } = splitPermissionName(name)
   const permission = await prisma.permissions.create({
     data: {
       name,

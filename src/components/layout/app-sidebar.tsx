@@ -8,7 +8,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
-import { normalizeRoleName } from '@/features/users/data/rbac'
+import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 import { useRBACStore } from '@/features/users/data/store'
 import { AppTitle } from './app-title'
 import { useSidebarData } from './data/sidebar-data'
@@ -19,7 +19,7 @@ import type { NavItem } from './types'
 function canAccessItem(
   item: { roles?: string[]; permissions?: string[]; isSystemOwner?: boolean },
   normalizedRoleNames: string[],
-  normalizedPermissionNames: string[],
+  permissionNames: string[],
   isSystemOwner: boolean,
   isSignedIn: boolean
 ): boolean {
@@ -45,13 +45,8 @@ function canAccessItem(
     return true
   }
 
-  // Check if any of the user's permissions match the route's allowed permissions
-  if (
-    hasPermissions &&
-    item.permissions!.some((permission) =>
-      normalizedPermissionNames.includes(normalizeRoleName(permission))
-    )
-  ) {
+  // Alias/wildcard-aware permission match (shared with the server gate).
+  if (hasPermissions && hasAnyPermission(permissionNames, item.permissions!)) {
     return true
   }
 
@@ -69,8 +64,6 @@ export function AppSidebar() {
   const sidebarData = useSidebarData()
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
-  const normalizedPermissionNames =
-    currentPermissionNames.map(normalizeRoleName)
 
   // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sidebarData.navGroups
@@ -81,7 +74,7 @@ export function AppSidebar() {
           canAccessItem(
             item,
             normalizedRoleNames,
-            normalizedPermissionNames,
+            currentPermissionNames,
             isSystemOwner,
             !!isSignedIn
           )
@@ -95,7 +88,7 @@ export function AppSidebar() {
                 canAccessItem(
                   subItem,
                   normalizedRoleNames,
-                  normalizedPermissionNames,
+                  currentPermissionNames,
                   isSystemOwner,
                   !!isSignedIn
                 )
