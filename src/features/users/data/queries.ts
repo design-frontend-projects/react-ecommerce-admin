@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createRealtimeChannel, supabase } from '@/lib/supabase-service'
-import { expandPermissionNames, permissionNamesFromRoles } from './rbac'
+import {
+  DEFAULT_ROLE_PERMISSION_NAMES,
+  normalizeRoleName,
+  permissionNamesFromRoles,
+  resolveEffectivePermissions,
+} from './rbac'
 import type { CurrentUserAccess, RoleWithPermissions } from './types'
 
 type TenantUserAccessRow = {
@@ -25,6 +30,10 @@ type TenantUserAccessRow = {
         }
       }>
     } | null
+  }>
+  user_permissions?: Array<{
+    is_granted: boolean
+    permissions: { name: string } | null
   }>
 } | null
 
@@ -88,6 +97,12 @@ export async function fetchCurrentUserAccess(
               )
             )
           )
+        ),
+        user_permissions (
+          is_granted,
+          permissions (
+            name
+          )
         )
       `
       )
@@ -120,11 +135,35 @@ export async function fetchCurrentUserAccess(
     roleNames = roles.map((role) => role.name)
   }
 
+  // Mirror the server gate: role-derived permissions (wildcard for roles
+  // whose defaults include '*') combined with per-user grant/deny overrides
+  // through the shared resolveEffectivePermissions (parity fix SC-005).
+  const roleDerivedNames = permissionNamesFromRoles(roles)
+  if (
+    roleNames.some((name) =>
+      DEFAULT_ROLE_PERMISSION_NAMES[normalizeRoleName(name)]?.includes('*')
+    )
+  ) {
+    roleDerivedNames.push('*')
+  }
+
+  const overrides = row?.user_permissions ?? []
+  const userGrants = overrides
+    .filter((override) => override.is_granted && override.permissions)
+    .map((override) => override.permissions!.name)
+  const userDenies = overrides
+    .filter((override) => !override.is_granted && override.permissions)
+    .map((override) => override.permissions!.name)
+
   return {
     authUserId: row?.auth_user_id ?? authUserId,
     roleIds: row?.user_roles.map((assignment) => assignment.role_id) ?? [],
     roleNames,
-    permissionNames: expandPermissionNames(permissionNamesFromRoles(roles)),
+    permissionNames: resolveEffectivePermissions(
+      roleDerivedNames,
+      userGrants,
+      userDenies
+    ),
   }
 }
 
