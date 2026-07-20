@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { PlusIcon, Trash2Icon } from 'lucide-react'
+import { useState } from 'react'
+import { PlusIcon, Trash2Icon, WandSparklesIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -21,7 +21,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DEFAULT_ROLE_PERMISSION_NAMES } from '../data/rbac'
+import type { Permission } from '../data/schema'
 import type { RoleWithPermissions } from '../data/types'
+import { RoleWizardDialog } from './role-wizard-dialog'
 
 interface RolesManagementProps {
   roles: RoleWithPermissions[]
@@ -35,6 +37,17 @@ interface RolesManagementProps {
   }) => void
   onDeleteRole: (roleId: string) => void
   isMutating?: boolean
+  /** Full permission catalog for the guided wizard. */
+  permissions?: Permission[]
+  /**
+   * Creates a role and assigns permissions in one flow. When omitted the
+   * wizard entry point is hidden (e.g. the caller lacks permissions.manage).
+   */
+  onCreateRoleWithPermissions?: (input: {
+    name: string
+    description?: string
+    permissionIds: string[]
+  }) => Promise<void>
 }
 
 function isSystemRole(roleName: string) {
@@ -51,8 +64,11 @@ export function RolesManagement({
   onUpdateRole,
   onDeleteRole,
   isMutating = false,
+  permissions = [],
+  onCreateRoleWithPermissions,
 }: RolesManagementProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [wizardOpen, setWizardOpen] = useState(false)
   const [editingRole, setEditingRole] = useState<RoleWithPermissions | null>(
     null
   )
@@ -60,21 +76,24 @@ export function RolesManagement({
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(true)
 
-  useEffect(() => {
+  // Sync the form to whichever role the dialog targets, during render rather
+  // than in an effect — a background catalog refetch must not wipe edits in
+  // progress.
+  const formKey = dialogOpen ? (editingRole?.id ?? 'new') : null
+  const [syncedFormKey, setSyncedFormKey] = useState<string | null>(null)
+  if (formKey !== syncedFormKey) {
+    setSyncedFormKey(formKey)
     if (!dialogOpen) {
       setEditingRole(null)
       setName('')
       setDescription('')
       setIsActive(true)
-      return
-    }
-
-    if (editingRole) {
+    } else if (editingRole) {
       setName(editingRole.name)
       setDescription(editingRole.description ?? '')
       setIsActive(editingRole.is_active ?? true)
     }
-  }, [dialogOpen, editingRole])
+  }
 
   const submit = () => {
     if (!name.trim()) {
@@ -117,16 +136,28 @@ export function RolesManagement({
             Create tenant-specific roles or edit the default operational roles.
           </p>
         </div>
-        <Button
-          type='button'
-          onClick={() => {
-            setEditingRole(null)
-            setDialogOpen(true)
-          }}
-        >
-          <PlusIcon data-icon='inline-start' />
-          New role
-        </Button>
+        <div className='flex gap-2'>
+          {onCreateRoleWithPermissions ? (
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => setWizardOpen(true)}
+            >
+              <WandSparklesIcon data-icon='inline-start' />
+              Role wizard
+            </Button>
+          ) : null}
+          <Button
+            type='button'
+            onClick={() => {
+              setEditingRole(null)
+              setDialogOpen(true)
+            }}
+          >
+            <PlusIcon data-icon='inline-start' />
+            New role
+          </Button>
+        </div>
       </div>
       <div className='overflow-hidden rounded-xl border border-border/70'>
         <Table>
@@ -243,6 +274,15 @@ export function RolesManagement({
           </div>
         </DialogContent>
       </Dialog>
+      {onCreateRoleWithPermissions ? (
+        <RoleWizardDialog
+          open={wizardOpen}
+          onOpenChange={setWizardOpen}
+          permissions={permissions}
+          isSubmitting={isMutating}
+          onSubmit={onCreateRoleWithPermissions}
+        />
+      ) : null}
     </div>
   )
 }

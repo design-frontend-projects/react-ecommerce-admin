@@ -163,7 +163,24 @@ export function UserManagementPage() {
                 updateRoleMutation.isPending ||
                 deleteRoleMutation.isPending
               }
+              permissions={permissions}
               onCreateRole={(input) => createRoleMutation.mutate(input)}
+              onCreateRoleWithPermissions={
+                canManagePermissions
+                  ? async ({ name, description, permissionIds }) => {
+                      const role = await createRoleMutation.mutateAsync({
+                        name,
+                        description,
+                      })
+                      if (permissionIds.length > 0) {
+                        await setRolePermissionsMutation.mutateAsync({
+                          roleId: role.id,
+                          permissionIds,
+                        })
+                      }
+                    }
+                  : undefined
+              }
               onUpdateRole={(input) => updateRoleMutation.mutate(input)}
               onDeleteRole={(roleId) => deleteRoleMutation.mutate(roleId)}
             />

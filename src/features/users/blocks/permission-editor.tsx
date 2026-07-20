@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { PermissionRecord, RoleWithPermissions } from '../data/types'
@@ -38,11 +38,16 @@ export function PermissionEditor({
     role.permissions.map((permission) => permission.id)
   )
 
-  useEffect(() => {
+  // Re-seed the selection when the editor switches roles, during render
+  // instead of in an effect so a refetch of the same role does not discard
+  // unsaved checkbox changes.
+  const [syncedRoleId, setSyncedRoleId] = useState(role.id)
+  if (role.id !== syncedRoleId) {
+    setSyncedRoleId(role.id)
     setSelectedPermissionIds(
       role.permissions.map((permission) => permission.id)
     )
-  }, [role.id, role.permissions])
+  }
 
   return (
     <div className='flex flex-col gap-5 rounded-xl border border-border/70 bg-background p-5'>
