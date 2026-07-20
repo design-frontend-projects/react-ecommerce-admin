@@ -33,6 +33,7 @@ import {
   Repeat,
   Ruler,
   Settings,
+  ShieldCheck,
   ShoppingCart,
   Tags,
   Timer,
@@ -47,14 +48,17 @@ import {
   MonitorDot,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
 import { type SidebarData } from '../types'
+import { buildCatalogNavGroups } from './catalog-nav'
 
 const ADMINS = [...ADMIN_ROLES]
 
 export function useSidebarData(): SidebarData {
   const { t } = useTranslation()
+  const navCatalog = useNavCatalog()
 
-  return {
+  const staticData: SidebarData = {
     user: {
       name: 'satnaing',
       email: 'satnaingdev@gmail.com',
@@ -211,6 +215,13 @@ export function useSidebarData(): SidebarData {
             url: '/users',
             icon: Users,
             roles: ADMINS,
+          },
+          {
+            title: t('sidebar.accessControl'),
+            url: '/access-control',
+            icon: ShieldCheck,
+            roles: ['admin', 'super_admin'],
+            permissions: ['screens.view', 'roles.manage'],
           },
         ],
       },
@@ -484,4 +495,15 @@ export function useSidebarData(): SidebarData {
       },
     ],
   }
+
+  // Catalog-driven migration path: once screens are enriched in the DB (icons set via the
+  // Access Control > Screens admin), drive nav from the catalog. Until then this returns null
+  // and the curated static array above is used, so nav never regresses. Visibility filtering
+  // stays in `app-sidebar.tsx` (`canAccessItem`), which now reads the converged RBAC store.
+  const catalogGroups = buildCatalogNavGroups(navCatalog.data)
+  if (catalogGroups) {
+    return { ...staticData, navGroups: catalogGroups }
+  }
+
+  return staticData
 }

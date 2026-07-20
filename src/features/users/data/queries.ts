@@ -1,171 +1,42 @@
 import { useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createRealtimeChannel, supabase } from '@/lib/supabase-service'
-import {
-  DEFAULT_ROLE_PERMISSION_NAMES,
-  normalizeRoleName,
-  permissionNamesFromRoles,
-  resolveEffectivePermissions,
-} from './rbac'
-import type { CurrentUserAccess, RoleWithPermissions } from './types'
-
-type TenantUserAccessRow = {
-  auth_user_id: string
-  user_roles: Array<{
-    role_id: string
-    roles: {
-      id: string
-      name: string
-      description?: string | null
-      is_active?: boolean
-      created_at?: string | null
-      updated_at?: string | null
-      role_permissions: Array<{
-        permissions: {
-          id: string
-          name: string
-          description?: string | null
-          created_at?: string | null
-          updated_at?: string | null
-        }
-      }>
-    } | null
-  }>
-  user_permissions?: Array<{
-    is_granted: boolean
-    permissions: { name: string } | null
-  }>
-} | null
+import { supabase as authClient } from '@/lib/supabase'
+import { authorizedRequest } from '@/lib/api-client'
+import type { CurrentUserAccess } from './types'
 
 export const currentAccessQueryKey = (authUserId: string | null | undefined) =>
   ['rbac', 'current-access', authUserId] as const
 
-function normalizeRoles(
-  row: NonNullable<TenantUserAccessRow>
-): RoleWithPermissions[] {
-  return row.user_roles
-    .map((assignment) => assignment.roles)
-    .filter((role): role is NonNullable<typeof role> => Boolean(role))
-    .map((role) => ({
-      id: role.id,
-      name: role.name,
-      description: role.description ?? null,
-      is_active: role.is_active ?? true,
-      created_at: role.created_at ?? null,
-      updated_at: role.updated_at ?? null,
-      permissions: role.role_permissions.map((rolePermission) => ({
-        id: rolePermission.permissions.id,
-        name: rolePermission.permissions.name,
-        description: rolePermission.permissions.description ?? null,
-        created_at: rolePermission.permissions.created_at ?? null,
-        updated_at: rolePermission.permissions.updated_at ?? null,
-      })),
-    }))
-}
-
+/**
+ * Resolve the current user's effective access from the authoritative server resolver
+ * (`GET /api/rbac/me/access`), which applies `user_permissions` grant/deny overrides exactly
+ * like `requireAuth`. This replaces the former direct-Supabase, role-only path so the sidebar
+ * and route guards never diverge from the server (spec Q5).
+ */
 export async function fetchCurrentUserAccess(
   authUserId: string
 ): Promise<CurrentUserAccess | null> {
-  const [profileResult, tenantUserResult] = await Promise.all([
-    supabase
-      .from('profiles')
-      .select('is_owner, onboarding_complete, role')
-      .eq('auth_user_id', authUserId)
-      .maybeSingle(),
-    supabase
-      .from('tenant_users')
-      .select(
-        `
-        auth_user_id,
-        default_role,
-        user_roles (
-          role_id,
-          roles (
-            id,
-            name,
-            description,
-            is_active,
-            created_at,
-            updated_at,
-            role_permissions (
-              permissions (
-                id,
-                name,
-                description,
-                created_at,
-                updated_at
-              )
-            )
-          )
-        ),
-        user_permissions (
-          is_granted,
-          permissions (
-            name
-          )
-        )
-      `
-      )
-      .eq('auth_user_id', authUserId)
-      .maybeSingle(),
-  ])
-  if (profileResult.error) throw profileResult.error
-  if (tenantUserResult.error) throw tenantUserResult.error
+  const { data } = await authClient.auth.getSession()
+  const token = data.session?.access_token
+  if (!token) return null
 
-  const profile = profileResult.data
-  const row = tenantUserResult.data as unknown as TenantUserAccessRow & {
-    default_role?: string | null
-  }
-
-  let roleNames: string[] = []
-
-  // Apply requested role check logic
-  if (profile?.is_owner && profile.onboarding_complete) {
-    if (profile.role) {
-      roleNames = [profile.role]
-    }
-  } else if (row?.default_role) {
-    roleNames = [row.default_role]
-  }
-
-  const roles = row ? normalizeRoles(row) : []
-
-  // Fallback to relations if no explicit role found
-  if (roleNames.length === 0 && roles.length > 0) {
-    roleNames = roles.map((role) => role.name)
-  }
-
-  // Mirror the server gate: role-derived permissions (wildcard for roles
-  // whose defaults include '*') combined with per-user grant/deny overrides
-  // through the shared resolveEffectivePermissions (parity fix SC-005).
-  const roleDerivedNames = permissionNamesFromRoles(roles)
-  if (
-    roleNames.some((name) =>
-      DEFAULT_ROLE_PERMISSION_NAMES[normalizeRoleName(name)]?.includes('*')
-    )
-  ) {
-    roleDerivedNames.push('*')
-  }
-
-  const overrides = row?.user_permissions ?? []
-  const userGrants = overrides
-    .filter((override) => override.is_granted && override.permissions)
-    .map((override) => override.permissions!.name)
-  const userDenies = overrides
-    .filter((override) => !override.is_granted && override.permissions)
-    .map((override) => override.permissions!.name)
+  const payload = (await authorizedRequest(
+    async () => token,
+    '/api/rbac/me/access'
+  )) as { data?: CurrentUserAccess } | undefined
+  const access = payload?.data
+  if (!access) return null
 
   return {
-    authUserId: row?.auth_user_id ?? authUserId,
-    roleIds: row?.user_roles.map((assignment) => assignment.role_id) ?? [],
-    roleNames,
-    permissionNames: resolveEffectivePermissions(
-      roleDerivedNames,
-      userGrants,
-      userDenies
-    ),
+    authUserId: access.authUserId ?? authUserId,
+    tenantUserId: access.tenantUserId ?? null,
+    roleIds: access.roleIds ?? [],
+    roleNames: access.roleNames ?? [],
+    permissionNames: access.permissionNames ?? [],
   }
 }
+
 
 export function useCurrentUserAccess(
   authUserId: string | null | undefined,
@@ -180,6 +51,7 @@ export function useCurrentUserAccess(
     staleTime: 60_000,
   })
   const roleIdsKey = (query.data?.roleIds ?? []).join(',')
+  const tenantUserId = query.data?.tenantUserId ?? null
 
   useEffect(() => {
     if (!authUserId) {
@@ -252,12 +124,31 @@ export function useCurrentUserAccess(
       )
     }
 
+    // Per-user overrides: keep effective access live when an admin grants/denies a
+    // permission directly on this user (spec Q5 convergence).
+    if (tenantUserId) {
+      channels.push(
+        createRealtimeChannel(`rbac-user-permissions-${tenantUserId}`)
+          .on(
+            'postgres_changes',
+            {
+              event: '*',
+              schema: 'public',
+              table: 'user_permissions',
+              filter: `tenant_user_id=eq.${tenantUserId}`,
+            },
+            invalidate
+          )
+          .subscribe()
+      )
+    }
+
     return () => {
       for (const channel of channels) {
         void supabase.removeChannel(channel)
       }
     }
-  }, [authUserId, onRealtimeEvent, queryClient, roleIdsKey])
+  }, [authUserId, onRealtimeEvent, queryClient, roleIdsKey, tenantUserId])
 
   return query
 }

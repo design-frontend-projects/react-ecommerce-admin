@@ -199,6 +199,7 @@
     "display": "Display",
     "signOut": "Sign Out",
     "usersRoles": "Users & Roles",
+    "accessControl": "Access Control",
     "upgradeToPro": "Upgrade to Pro",
     "shipments": "Shipments",
     "stockTransfers": "Stock Transfers",
@@ -1157,5 +1158,36 @@
       "overThreshold": "Over threshold",
       "noData": "No data for this range."
     }
-  }
+  },
+  "pwa": {
+    "offlineReady": "App ready to work offline",
+    "newVersion": "New version available",
+    "newVersionDesc": "Update now to get the latest features.",
+    "reload": "Reload",
+    "ignore": "Ignore"
+  },
+  "network": {
+    "offline": "Offline Mode",
+    "storageFull": "Device storage is almost full!",
+    "offlineStatus": "You are offline",
+    "offlineStatusDesc": "The app is running in offline mode.",
+    "onlineStatus": "Internet restored",
+    "onlineStatusDesc": "Starting data sync..."
+  },
+  "id": "Id",
+  "table_id": "Table id",
+  "notes": "Notes",
+  "status": "Status",
+  "T": "T",
+  "total_amount": "Total amount",
+  "Authorization": "Authorization",
+  "userId": "User Id",
+  "branchId": "Branch Id",
+  "from": "From",
+  "to": "To",
+  "needsReview": "Needs Review",
+  "page": "Page",
+  "pageSize": "Page Size",
+  "restaurantId": "Restaurant Id",
+  "pending": "Pending"
 }

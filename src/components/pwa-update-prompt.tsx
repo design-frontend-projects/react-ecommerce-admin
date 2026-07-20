@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { Button } from '@/components/ui/button'
 
 export function PwaUpdatePrompt() {
+  const { t } = useTranslation('common')
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     offlineReady: [offlineReady, setOfflineReady],
@@ -21,17 +23,20 @@ export function PwaUpdatePrompt() {
 
   useEffect(() => {
     if (offlineReady) {
-      toast.success('Ứng dụng sẵn sàng hoạt động ngoại tuyến', {
+      toast.success(t('pwa.offlineReady', 'Offline mode is ready to use.'), {
         duration: 5000,
       })
       setOfflineReady(false)
     }
-  }, [offlineReady, setOfflineReady])
+  }, [offlineReady, setOfflineReady, t])
 
   useEffect(() => {
     if (needRefresh) {
-      toast('Có phiên bản mới', {
-        description: 'Cập nhật ngay để nhận các tính năng mới nhất.',
+      toast(t('pwa.newVersion', 'New version available'), {
+        description: t(
+          'pwa.newVersionDesc',
+          'Update now to get the latest features.'
+        ),
         duration: Infinity,
         action: (
           <Button
@@ -39,16 +44,16 @@ export function PwaUpdatePrompt() {
             size='sm'
             onClick={() => updateServiceWorker(true)}
           >
-            Tải lại
+            {t('pwa.reload', 'Reload')}
           </Button>
         ),
         cancel: {
-          label: 'Bỏ qua',
+          label: t('pwa.ignore', 'Ignore'),
           onClick: () => setNeedRefresh(false),
         },
       })
     }
-  }, [needRefresh, setNeedRefresh, updateServiceWorker])
+  }, [needRefresh, setNeedRefresh, updateServiceWorker, t])
 
   return null
 }

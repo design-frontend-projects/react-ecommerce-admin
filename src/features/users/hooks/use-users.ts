@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createUserDirect } from '@/server/fns/create-user'
 import { deactivateUser, changeUserPassword } from '@/server/fns/users'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
-import { fetchUsers, updateUserRoles } from '../data/actions'
-import type { UpdateUserRolesInput, CreateUserInput } from '../data/types'
+import { createUser, fetchUsers, updateUserRoles } from '../data/actions'
+import type { CreateUserApiInput } from '../data/schema'
+import type { UpdateUserRolesInput } from '../data/types'
 
 export const usersQueryKey = ['users'] as const
 
@@ -38,25 +38,16 @@ export function useUpdateUserRole() {
 }
 
 export function useCreateUser() {
-  const { has, getToken } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async (input: CreateUserInput) => {
-      if (!has({ permission: 'users.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-      const sessionToken = await getToken()
-      if (!sessionToken) {
-        throw new Error('Your session is not available. Please sign in again.')
-      }
-      return createUserDirect({ data: { ...input, sessionToken } })
-    },
-    onSuccess: (result) => {
-      if (result.success) {
-        toast.success(result.message)
-        void queryClient.invalidateQueries({ queryKey: usersQueryKey })
-      }
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateUserApiInput) =>
+      createUser(getToken, input),
+    rbac: { permission: 'users.manage' },
+    onSuccess: () => {
+      toast.success('User created successfully.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+      void queryClient.invalidateQueries({ queryKey: ['rbac-catalog'] })
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Unable to create user.')

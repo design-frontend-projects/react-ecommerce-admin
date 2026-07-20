@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { CreateUserForm } from '../blocks/create-user-form'
 import { InviteForm } from '../blocks/invite-form'
 import { UserList } from '../blocks/user-list'
 import { PermissionsManagement } from '../components/permissions-management'
+import { UsersActionDialog } from '../components/users-action-dialog'
 import { RolesManagement } from '../components/roles-management'
 import { useRBACStore } from '../data/store'
 import { useHasRole, useRBAC } from '../hooks/use-rbac'
@@ -219,11 +219,7 @@ export function UserManagementPage() {
         onOpenChange={setInviteOpen}
         roles={roles}
       />
-      <CreateUserForm
-        open={createOpen}
-        onOpenChange={setCreateOpen}
-        roles={roles}
-      />
+      <UsersActionDialog open={createOpen} onOpenChange={setCreateOpen} />
     </>
   )
 }

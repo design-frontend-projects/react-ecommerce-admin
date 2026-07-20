@@ -684,6 +684,28 @@ export async function deletePermission(permissionId: string) {
 }
 
 /**
+ * Read a user's per-permission grant/deny overrides so an editor can hydrate a tri-state
+ * (grant / inherit / deny) control before saving a replacement set.
+ */
+export async function getUserPermissionOverrides(
+  tenantUserId: string
+): Promise<{ grantPermissionIds: string[]; denyPermissionIds: string[] }> {
+  const overrides = (await prisma.user_permissions.findMany({
+    where: { tenant_user_id: tenantUserId },
+    select: { permission_id: true, is_granted: true },
+  })) as Array<{ permission_id: string; is_granted: boolean }>
+
+  return {
+    grantPermissionIds: overrides
+      .filter((row) => row.is_granted)
+      .map((row) => row.permission_id),
+    denyPermissionIds: overrides
+      .filter((row) => !row.is_granted)
+      .map((row) => row.permission_id),
+  }
+}
+
+/**
  * Replace a user's per-permission grant/deny overrides (delete-then-createMany within
  * the user's rows). Deny wins over grant, so a permission requested in both is stored
  * only as a deny. Returns the user's resolved effective permission names.

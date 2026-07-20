@@ -1,5 +1,7 @@
 import {
   completeOnboardingInputSchema,
+  createUserApiInputSchema,
+  createUserResponseSchema,
   inviteUserInputSchema,
   inviteUserResponseSchema,
   rbacCatalogResponseSchema,
@@ -14,6 +16,8 @@ import {
   userPermissionOverridesResponseSchema,
   effectivePermissionsResponseSchema,
   type UserPermissionOverrides,
+  type CreateUserApiInput,
+  type CreateUserResult,
 } from './schema'
 import type {
   CompleteOnboardingInput,
@@ -27,46 +31,9 @@ import type {
   User,
 } from './types'
 
-export type TokenGetter = () => Promise<string | null>
+import { authorizedRequest, type TokenGetter } from '@/lib/api-client'
 
-async function authorizedRequest(
-  getToken: TokenGetter,
-  input: RequestInfo | URL,
-  init?: RequestInit
-) {
-  const token = await getToken()
-  if (!token) {
-    throw new Error('Your session is not available. Please sign in again.')
-  }
-
-  const headers = new Headers(init?.headers)
-  headers.set('Authorization', `Bearer ${token}`)
-
-  if (init?.body && !headers.has('Content-Type')) {
-    headers.set('Content-Type', 'application/json')
-  }
-
-  const response = await fetch(input, {
-    ...init,
-    headers,
-  })
-
-  const payload = await response
-    .json()
-    .catch(() => ({ success: false, message: 'Unexpected server response.' }))
-
-  if (!response.ok) {
-    throw new Error(
-      payload?.message ??
-        payload?.error?.message ??
-        payload?.error ??
-        payload?.details ??
-        'Request failed.'
-    )
-  }
-
-  return payload
-}
+export type { TokenGetter }
 
 export async function fetchUsers(getToken: TokenGetter): Promise<User[]> {
   const payload = await authorizedRequest(getToken, '/api/users')
@@ -78,6 +45,18 @@ export async function fetchRBACCatalog(
 ): Promise<RBACCatalog> {
   const payload = await authorizedRequest(getToken, '/api/rbac')
   return rbacCatalogResponseSchema.parse(payload).data
+}
+
+export async function createUser(
+  getToken: TokenGetter,
+  input: CreateUserApiInput
+): Promise<CreateUserResult> {
+  const body = createUserApiInputSchema.parse(input)
+  const payload = await authorizedRequest(getToken, '/api/users', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  return createUserResponseSchema.parse(payload).data
 }
 
 export async function inviteUser(

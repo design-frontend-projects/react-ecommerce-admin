@@ -106,7 +106,7 @@ export async function getUsers(callerAuthUserId: string): Promise<User[]> {
   return dbUsers.map((user) => {
     const roleNames = user.user_roles.map((assignment) => assignment.roles.name)
     const roleIds = user.user_roles.map((assignment) => assignment.roles.id)
-    const primaryRole = roleNames[0] ?? user.default_role ?? 'staff'
+    const primaryRole = roleNames[0] ?? user.default_role ?? 'admin'
     const username = user.email.split('@')[0] ?? user.auth_user_id
 
     return {

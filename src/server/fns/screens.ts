@@ -148,6 +148,90 @@ export async function getScreensWithAccess(): Promise<{
   }
 }
 
+export interface NavScreenDto {
+  code: string
+  name: string
+  route: string
+  icon: string | null
+  sortOrder: number
+  roleNames: string[]
+  permissionNames: string[]
+}
+
+export interface NavModuleDto {
+  code: string
+  name: string
+  sortOrder: number
+  activityTypeCodes: string[]
+  screens: NavScreenDto[]
+}
+
+/**
+ * Current-user navigation catalog: active modules → active screens with their required
+ * role/permission **names** (resolved from the join tables). Readable by any authenticated
+ * user (it describes their own nav); visibility filtering happens client-side against the
+ * user's resolved access, mirroring the static sidebar's `canAccessItem`.
+ */
+export async function getNavCatalog(): Promise<{ modules: NavModuleDto[] }> {
+  await ensureAccessControlSeeded()
+
+  const modules = (await prisma.app_modules.findMany({
+    where: { is_active: true },
+    orderBy: { sort_order: 'asc' },
+    include: {
+      module_activity_types: {
+        include: { business_activity_types: { select: { code: true } } },
+      },
+      app_screens: {
+        where: { is_active: true },
+        orderBy: { sort_order: 'asc' },
+        include: {
+          screen_roles: { include: { roles: { select: { name: true } } } },
+          screen_permissions: {
+            include: { permissions: { select: { name: true } } },
+          },
+        },
+      },
+    },
+  })) as Array<{
+    code: string
+    name: string
+    sort_order: number
+    module_activity_types: Array<{ business_activity_types: { code: string } }>
+    app_screens: Array<{
+      code: string
+      name: string
+      route: string
+      icon: string | null
+      sort_order: number
+      screen_roles: Array<{ roles: { name: string } }>
+      screen_permissions: Array<{ permissions: { name: string } }>
+    }>
+  }>
+
+  return {
+    modules: modules.map((module) => ({
+      code: module.code,
+      name: module.name,
+      sortOrder: module.sort_order,
+      activityTypeCodes: module.module_activity_types.map(
+        (link) => link.business_activity_types.code
+      ),
+      screens: module.app_screens.map((screen) => ({
+        code: screen.code,
+        name: screen.name,
+        route: screen.route,
+        icon: screen.icon,
+        sortOrder: screen.sort_order,
+        roleNames: screen.screen_roles.map((link) => link.roles.name),
+        permissionNames: screen.screen_permissions.map(
+          (link) => link.permissions.name
+        ),
+      })),
+    })),
+  }
+}
+
 export async function createScreen(input: CreateScreenInput) {
   const code = input.code.trim().toLowerCase()
   if (!SCREEN_CODE_PATTERN.test(code)) {

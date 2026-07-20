@@ -55,6 +55,21 @@ const AuthenticatedRoute = () => {
 
     const currentPath = window.location.pathname
 
+    // Highest-priority gate: admin-provisioned users with a temporary password must set a
+    // new one before anything else (including onboarding) renders.
+    const forcePasswordChange =
+      user?.user_metadata?.force_password_change === true
+    if (
+      isLoaded &&
+      isSignedIn &&
+      user &&
+      forcePasswordChange &&
+      currentPath !== '/force-password-change'
+    ) {
+      navigate({ to: '/force-password-change' })
+      return
+    }
+
     if (
       isLoaded &&
       isSignedIn &&

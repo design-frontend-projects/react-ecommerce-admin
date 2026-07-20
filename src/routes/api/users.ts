@@ -16,31 +16,41 @@ const GET = withAuth(PERMISSIONS.USERS_VIEW, async ({ auth }) => {
 const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   const body = (await request.json()) as {
     email?: string
-    password?: string
     firstName?: string
     lastName?: string
     phone?: string
     roleIds?: string[]
     branchId?: string
+    overrides?: Array<{ permissionId?: string; isGranted?: boolean }>
   }
 
-  if (!body.email || !body.password) {
-    return jsonError('Email and password are required.', 400)
+  // No password field — the server generates a temporary one and returns it once.
+  if (!body.email) {
+    return jsonError('Email is required.', 400)
   }
   if (!Array.isArray(body.roleIds) || body.roleIds.length === 0) {
     return jsonError('At least one role is required.', 400)
   }
 
+  const overrides = Array.isArray(body.overrides)
+    ? body.overrides
+        .filter((entry) => typeof entry?.permissionId === 'string')
+        .map((entry) => ({
+          permissionId: entry.permissionId as string,
+          isGranted: entry.isGranted === true,
+        }))
+    : undefined
+
   try {
     const result = await createUser(
       {
         email: body.email,
-        password: body.password,
         firstName: body.firstName,
         lastName: body.lastName,
         phone: body.phone,
         roleIds: body.roleIds,
         branchId: body.branchId,
+        overrides,
       },
       { authUserId: auth.userId }
     )

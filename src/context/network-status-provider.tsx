@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { rehydratePendingOrders } from '@/lib/sync/outbox'
 import { runSyncThenWipe } from '@/lib/sync/reconnect'
@@ -15,6 +16,7 @@ export function NetworkStatusProvider({
 }: {
   children: React.ReactNode
 }) {
+  const { t } = useTranslation('common')
   const { isOnline } = useNetworkStatus()
   const previousStatus = useRef(isOnline)
 
@@ -45,13 +47,16 @@ export function NetworkStatusProvider({
   useEffect(() => {
     if (previousStatus.current !== isOnline) {
       if (!isOnline) {
-        toast.error('Bạn đang offline', {
-          description: 'Ứng dụng đang hoạt động ở chế độ ngoại tuyến.',
+        toast.error(t('network.offlineStatus', 'Bạn đang offline'), {
+          description: t(
+            'network.offlineStatusDesc',
+            'The app is running in offline mode.'
+          ),
           duration: 5000,
         })
       } else {
-        toast.success('Đã có internet', {
-          description: 'Đang bắt đầu đồng bộ dữ liệu...',
+        toast.success(t('network.onlineStatus', 'Internet restored'), {
+          description: t('network.onlineStatusDesc', 'Starting data sync...'),
           duration: 3000,
         })
         // Single reconnect entrypoint: drain the outbox, then (if clean) wipe
@@ -60,7 +65,7 @@ export function NetworkStatusProvider({
       }
       previousStatus.current = isOnline
     }
-  }, [isOnline])
+  }, [isOnline, t])
 
   return (
     <NetworkContext.Provider value={{ isOnline }}>

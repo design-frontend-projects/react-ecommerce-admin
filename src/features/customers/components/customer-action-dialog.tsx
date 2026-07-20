@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -31,13 +30,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { PhoneInput } from '@/components/custom-ui/phone-input'
 import { useCities } from '@/features/cities/hooks/use-cities'
 import { useCountries } from '@/features/countries/hooks/use-countries'
-import { useCustomerGroupsContext } from '@/features/customer-groups/components/customer-groups-provider'
 import { useCustomerGroups } from '@/features/customer-groups/hooks/use-customer-groups'
 import { useCreateCustomer, useUpdateCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
+import { CreateCustomerGroupDialog } from './create-customer-group-dialog'
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'First name is required'),
@@ -60,12 +60,10 @@ type CustomerFormValues = z.infer<typeof formSchema>
 
 export function CustomerActionDialog() {
   const { open, setOpen, currentRow } = useCustomersContext()
-  const { setOpen: setCustomerGroupOpen } = useCustomerGroupsContext()
   const createMutation = useCreateCustomer()
   const updateMutation = useUpdateCustomer()
 
   const { data: countries } = useCountries()
-  const { data: customerGroups } = useCustomerGroups()
 
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
@@ -381,48 +379,9 @@ export function CustomerActionDialog() {
                   </FormItem>
                 )}
               />
-              <FormField
-                name='group_id'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Customer Group</FormLabel>
-                    <div className='flex items-center gap-2'>
-                      <Select
-                        onValueChange={(value) =>
-                          field.onChange(value ? Number(value) : undefined)
-                        }
-                        value={field.value ? String(field.value) : undefined}
-                      >
-                        <FormControl>
-                          <SelectTrigger className='flex-1'>
-                            <SelectValue placeholder='Select Group' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {customerGroups?.map((group) => (
-                            <SelectItem
-                              key={group.group_id}
-                              value={String(group.group_id)}
-                            >
-                              {group.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        type='button'
-                        variant='outline'
-                        size='icon'
-                        onClick={() => setCustomerGroupOpen('create')}
-                      >
-                        <Plus className='h-4 w-4' />
-                      </Button>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
+
+            <CustomerGroupField form={form} />
 
             <FormField
               name='is_active'
@@ -467,5 +426,83 @@ export function CustomerActionDialog() {
         </Form>
       </DialogContent>
     </Dialog>
+  )
+}
+
+// --- Customer Group Select Field ---
+
+interface CustomerGroupFieldProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any
+}
+
+function CustomerGroupField({ form }: CustomerGroupFieldProps) {
+  const { data: groups, isLoading, isError } = useCustomerGroups()
+
+  const handleGroupCreated = (groupId: number) => {
+    form.setValue('group_id', groupId, { shouldValidate: true })
+  }
+
+  return (
+    <FormField
+      control={form.control}
+      name='group_id'
+      render={({ field }) => (
+        <FormItem>
+          <div className='flex items-center justify-between'>
+            <FormLabel>Customer Group</FormLabel>
+            <CreateCustomerGroupDialog onGroupCreated={handleGroupCreated} />
+          </div>
+          <FormControl>
+            {isLoading ? (
+              <Skeleton className='h-9 w-full rounded-md' />
+            ) : (
+              <Select
+                value={field.value?.toString() ?? ''}
+                onValueChange={(val) => {
+                  field.onChange(val === '__none__' ? undefined : Number(val))
+                }}
+              >
+                <SelectTrigger className='w-full'>
+                  <SelectValue placeholder='Select a customer group' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='__none__'>
+                    <span className='text-muted-foreground'>No group</span>
+                  </SelectItem>
+                  {groups?.map((group) => (
+                    <SelectItem
+                      key={group.group_id}
+                      value={group.group_id.toString()}
+                    >
+                      <div className='flex items-center gap-2'>
+                        <span>{group.name}</span>
+                        {group.discount_percentage != null &&
+                          Number(group.discount_percentage) > 0 && (
+                            <span className='text-xs text-muted-foreground'>
+                              ({Number(group.discount_percentage)}% off)
+                            </span>
+                          )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </FormControl>
+          {isError && (
+            <p className='text-xs text-destructive'>
+              Failed to load groups. Try again.
+            </p>
+          )}
+          {!isLoading && groups?.length === 0 && (
+            <FormDescription>
+              No groups defined yet. Click "New Group" to create one.
+            </FormDescription>
+          )}
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   )
 }

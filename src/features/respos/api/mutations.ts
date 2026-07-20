@@ -2,6 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
+import i18n from '@/config/i18n'
 import { enqueue } from '@/lib/sync/outbox'
 import { useAuth } from '@/hooks/use-auth'
 import { closeShiftRequest, openShiftRequest } from '../data/shift-actions'
@@ -190,7 +191,7 @@ export function useCreateOrder() {
           payload,
         })
 
-        toast.info('Đơn hàng đã được lưu offline')
+        toast.info(i18n.t('respos.offlineOrderSaved', 'Đơn hàng đã được lưu offline'))
         return {
           id: orderNumber,
           order_number: orderNumber,
@@ -205,6 +206,7 @@ export function useCreateOrder() {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         } as ResOrder
+
       }
 
       return createResOrder(payload)

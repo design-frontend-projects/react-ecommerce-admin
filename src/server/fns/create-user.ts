@@ -1,28 +1,38 @@
 'use server'
 
-import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
 import { ADMIN_ROLES } from '@/types/user-role.enum'
-import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import {
   getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
   normalizeRoleName,
 } from '@/features/users/data/rbac'
-import { requireAuth } from '@/server/utils/auth'
+import { generateTempPassword } from '@/server/utils/temp-password'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
 
+export interface CreateUserPermissionOverride {
+  permissionId: string
+  isGranted: boolean
+}
+
 export interface CreateUserInput {
   email: string
-  password: string
+  /**
+   * Plaintext password. When omitted, the server generates a strong temporary password
+   * (returned once in {@link CreateUserResult.temporaryPassword}) and flags the account for a
+   * forced reset at first sign-in.
+   */
+  password?: string
   firstName?: string
   lastName?: string
   phone?: string
   /** One or more role ids (min 1). */
   roleIds: string[]
   branchId?: string
+  /** Optional per-user permission grant/deny overrides written to `user_permissions`. */
+  overrides?: CreateUserPermissionOverride[]
 }
 
 export interface CreateUserCaller {
@@ -35,6 +45,11 @@ export interface CreateUserResult {
   authUserId: string
   roleNames: string[]
   primaryRole: string | null
+  /**
+   * Present only when the server generated a temporary password (no `password` supplied).
+   * Returned exactly once; never persisted or retrievable again.
+   */
+  temporaryPassword?: string
 }
 
 async function deriveTenantModules(
@@ -129,17 +144,25 @@ export async function createUser(
     ADMIN_ROLES.includes(normalizeRoleName(name) as any)
   )
 
+  // Use the caller-supplied password, or generate a strong temporary one server-side and
+  // require a reset at first sign-in. The plaintext is echoed once in the result and never
+  // persisted.
+  const suppliedPassword = input.password?.trim()
+  const generated = !suppliedPassword
+  const password = suppliedPassword || generateTempPassword()
+
   // Create the Supabase auth user first.
   const { data: authData, error: authError } =
     await supabaseAdmin.auth.admin.createUser({
       email,
-      password: input.password,
+      password,
       email_confirm: true,
       user_metadata: {
         role: primaryRole,
         roles: roleNames,
         onboardingComplete: false,
         invitedViaRbac: true,
+        force_password_change: generated,
         firstName: input.firstName ?? '',
         lastName: input.lastName ?? '',
       },
@@ -181,6 +204,17 @@ export async function createUser(
         skipDuplicates: true,
       })
 
+      if (input.overrides && input.overrides.length > 0) {
+        await tx.user_permissions.createMany({
+          data: input.overrides.map((override) => ({
+            tenant_user_id: created.id,
+            permission_id: override.permissionId,
+            is_granted: override.isGranted,
+          })),
+          skipDuplicates: true,
+        })
+      }
+
       await tx.profiles.create({
         data: {
           auth_user_id: authUserId,
@@ -210,58 +244,11 @@ export async function createUser(
     () => undefined
   )
 
-  return { tenantUserId, authUserId, roleNames, primaryRole }
+  return {
+    tenantUserId,
+    authUserId,
+    roleNames,
+    primaryRole,
+    ...(generated ? { temporaryPassword: password } : {}),
+  }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DEPRECATED client-invoked path — kept one release so the existing `useCreateUser`
-// hook keeps compiling. New callers use `POST /api/users` → `createUser`. Remove once
-// the client is migrated (Phase 4).
-// ─────────────────────────────────────────────────────────────────────────────
-
-const createUserInputSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  firstName: z.string().trim().min(1).optional(),
-  lastName: z.string().trim().min(1).optional(),
-  phone: z.string().optional(),
-  roleId: z.string().min(1),
-  branchId: z.string().optional(),
-  /** Supabase access token of the caller; the acting admin is derived from it. */
-  sessionToken: z.string().min(1),
-})
-
-export type CreateUserServerInput = z.infer<typeof createUserInputSchema>
-
-/**
- * @deprecated Bypasses the API authorization layer. Use `POST /api/users` (→ `createUser`).
- * Retained one release for the legacy client hook; performs its own admin check because it
- * is invoked directly from the client without `requireAuth`.
- */
-export const createUserDirect = createServerFn({ method: 'POST' })
-  .validator((data: CreateUserServerInput) => createUserInputSchema.parse(data))
-  .handler(async ({ data: input }) => {
-    // The acting admin is always derived from the verified session token —
-    // never trusted from the payload.
-    const caller = await requireAuth(input.sessionToken, 'users.manage')
-
-    const result = await createUser(
-      {
-        email: input.email,
-        password: input.password,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        phone: input.phone,
-        roleIds: [input.roleId],
-        branchId: input.branchId,
-      },
-      { authUserId: caller.userId }
-    )
-
-    return {
-      success: true,
-      tenantUserId: result.tenantUserId,
-      authUserId: result.authUserId,
-      message: 'User created successfully.',
-    }
-  })

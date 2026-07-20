@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -23,7 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/password-input'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { type User } from '../data/schema'
 import { useRoles } from '../hooks/use-invitations'
@@ -33,6 +33,10 @@ import {
 } from '../hooks/use-roles-permissions'
 import { useCreateUser } from '../hooks/use-users'
 import { userFormSchema, type UserForm } from './users-action-dialog.schema'
+import {
+  TempPasswordDialog,
+  type TempPasswordDetails,
+} from './temp-password-dialog'
 
 type UserActionDialogProps = {
   currentRow?: User
@@ -50,6 +54,7 @@ export function UsersActionDialog({
   const updateUserRole = useUpdateUserRole()
   const updateUserBranch = useUpdateUserBranch()
   const createUser = useCreateUser()
+  const [revealed, setRevealed] = useState<TempPasswordDetails | null>(null)
 
   const { data: branches, isLoading: isBranchesLoading } = useQuery({
     queryKey: ['branches', 'active', 'user-dialog'],
@@ -72,8 +77,6 @@ export function UsersActionDialog({
           ...currentRow,
           branchId:
             (currentRow as User & { branchId?: string })?.branchId ?? '',
-          password: '',
-          confirmPassword: '',
           isEdit,
         }
       : {
@@ -84,8 +87,6 @@ export function UsersActionDialog({
           role: '',
           branchId: '',
           phoneNumber: '',
-          password: '',
-          confirmPassword: '',
           isEdit,
         },
   })
@@ -106,26 +107,47 @@ export function UsersActionDialog({
           branchId: values.branchId || null,
         })
       }
-    } else {
-      createUser.mutate({
-        email: values.email,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        roleId:
-          rolesData.find((r) => r.name.toLowerCase() === values.role)?.id ||
-          values.role,
-        branchId: values.branchId,
-      })
+
+      form.reset()
+      onOpenChange(false)
+      return
     }
 
-    form.reset()
-    onOpenChange(false)
+    const roleId =
+      rolesData.find((r) => r.name.toLowerCase() === values.role)?.id ||
+      values.role
+
+    createUser.mutate(
+      {
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phone: values.phoneNumber,
+        roleIds: [roleId],
+        branchId: values.branchId,
+      },
+      {
+        onSuccess: (result) => {
+          form.reset()
+          onOpenChange(false)
+          // Reveal the server-generated temp password once, if present.
+          if (result.temporaryPassword) {
+            setRevealed({
+              email: values.email,
+              password: result.temporaryPassword,
+            })
+          }
+        },
+      }
+    )
   }
 
-  const isPasswordTouched = !!form.formState.dirtyFields.password
-
   return (
+    <>
+      <TempPasswordDialog
+        details={revealed}
+        onClose={() => setRevealed(null)}
+      />
     <Dialog
       open={open}
       onOpenChange={(state) => {
@@ -288,54 +310,29 @@ export function UsersActionDialog({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        placeholder='e.g., S3cur3P@ssw0rd'
-                        className='col-span-4'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='confirmPassword'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-end'>
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        disabled={!isPasswordTouched}
-                        placeholder='e.g., S3cur3P@ssw0rd'
-                        className='col-span-4'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
+              {!isEdit && (
+                <p className='px-1 text-xs text-muted-foreground'>
+                  A temporary password is generated automatically and shown once
+                  after the user is created.
+                </p>
+              )}
             </form>
           </Form>
         </div>
         <DialogFooter>
-          <Button type='submit' form='user-form'>
+          <Button
+            type='submit'
+            form='user-form'
+            disabled={createUser.isPending}
+          >
+            {createUser.isPending && (
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            )}
             Save changes
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    </>
   )
 }

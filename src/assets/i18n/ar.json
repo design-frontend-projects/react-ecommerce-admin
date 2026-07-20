@@ -199,6 +199,7 @@
     "display": "العرض",
     "signOut": "تسجيل الخروج",
     "usersRoles": "المستخدمين والأدوار",
+    "accessControl": "التحكم في الوصول",
     "upgradeToPro": "ترقية للنسخة المدفوعة",
     "shipments": "الشحنات",
     "stockTransfers": "تحويلات المخزون",
@@ -1157,5 +1158,36 @@
       "overThreshold": "تجاوز الحد",
       "noData": "لا توجد بيانات لهذا النطاق."
     }
-  }
+  },
+  "pwa": {
+    "offlineReady": "التطبيق جاهز للعمل دون اتصال",
+    "newVersion": "إصدار جديد متاح",
+    "newVersionDesc": "قم بالتحديث الآن للحصول على أحدث الميزات.",
+    "reload": "إعادة تحميل",
+    "ignore": "تجاهل"
+  },
+  "network": {
+    "offline": "وضع عدم الاتصال",
+    "storageFull": "مساحة تخزين الجهاز ممتلئة تقريباً!",
+    "offlineStatus": "أنت غير متصل بالإنترنت",
+    "offlineStatusDesc": "التطبيق يعمل في وضع عدم الاتصال.",
+    "onlineStatus": "تم استعادة الاتصال بالإنترنت",
+    "onlineStatusDesc": "جاري بدء مزامنة البيانات..."
+  },
+  "id": "Id",
+  "table_id": "Table id",
+  "notes": "Notes",
+  "status": "Status",
+  "T": "T",
+  "total_amount": "Total amount",
+  "Authorization": "Authorization",
+  "userId": "User Id",
+  "branchId": "Branch Id",
+  "from": "From",
+  "to": "To",
+  "needsReview": "Needs Review",
+  "page": "Page",
+  "pageSize": "Page Size",
+  "restaurantId": "Restaurant Id",
+  "pending": "Pending"
 }

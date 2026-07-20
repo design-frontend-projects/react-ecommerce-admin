@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { createFileRoute } from '@tanstack/react-router'
+import { RequirePermission } from '@/components/rbac/require-permission'
 import { Users } from '@/features/users'
 
 const userSearchSchema = z.object({
@@ -11,7 +12,18 @@ const userSearchSchema = z.object({
   status: z.string().optional(),
 })
 
+function GuardedUsers() {
+  return (
+    <RequirePermission
+      role={['admin', 'super_admin']}
+      permission={['users.view', 'users.manage']}
+    >
+      <Users />
+    </RequirePermission>
+  )
+}
+
 export const Route = createFileRoute('/_authenticated/users')({
-  component: Users,
+  component: GuardedUsers,
   validateSearch: userSearchSchema,
 })

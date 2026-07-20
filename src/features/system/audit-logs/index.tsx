@@ -1,6 +1,7 @@
 'use client'
 
-import { AuditLogsTable } from './components/audit-logs-table'
+import { RbacAuditTable } from '@/features/access-control/components/rbac-audit-table';
+import { AuditLogsTable } from './components/audit-logs-table';
 
 export default function AuditLogsPage() {
   return (
@@ -14,6 +15,16 @@ export default function AuditLogsPage() {
 
       <div className='rounded-lg border bg-card p-6'>
         <AuditLogsTable />
+      </div>
+
+      <div className="bg-card rounded-lg border p-6 space-y-4">
+        <div>
+          <h2 className="text-xl font-semibold tracking-tight">Access control changes</h2>
+          <p className="text-muted-foreground text-sm">
+            Role, permission, screen, and per-user override changes.
+          </p>
+        </div>
+        <RbacAuditTable />
       </div>
     </div>
   )

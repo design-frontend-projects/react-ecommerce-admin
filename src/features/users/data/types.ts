@@ -32,16 +32,6 @@ export interface InviteUserInput {
   inviterAuthUserId?: string
 }
 
-export interface CreateUserInput {
-  email: string
-  password: string
-  firstName?: string
-  lastName?: string
-  phone?: string
-  roleId: string
-  branchId?: string
-}
-
 export interface InviteUserResult {
   success: boolean
   invitationId: string | null
@@ -107,6 +97,8 @@ export interface CompleteOnboardingInput {
 
 export interface CurrentUserAccess {
   authUserId: string
+  /** tenant_users row id (used to scope per-user realtime override subscriptions). */
+  tenantUserId?: string | null
   roleIds: string[]
   roleNames: string[]
   permissionNames: string[]

@@ -21,6 +21,7 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_authenticated/force-password-change'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
 import { Route as AuthenticatedSystemRouteImport } from './routes/_authenticated/_system'
@@ -176,6 +177,12 @@ const AuthenticatedSubscriptionsRoute =
   AuthenticatedSubscriptionsRouteImport.update({
     id: '/subscriptions',
     path: '/subscriptions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedForcePasswordChangeRoute =
+  AuthenticatedForcePasswordChangeRouteImport.update({
+    id: '/force-password-change',
+    path: '/force-password-change',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCompleteAccountRoute =
@@ -707,6 +714,7 @@ export interface FileRoutesByFullPath {
   '/offline': typeof errorsOfflineRoute
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
+  '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
@@ -803,6 +811,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
+  '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
@@ -903,6 +912,7 @@ export interface FileRoutesById {
   '/_authenticated/_system': typeof AuthenticatedSystemRouteWithChildren
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
+  '/_authenticated/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/crm/_layout': typeof CrmLayoutRoute
@@ -1004,6 +1014,7 @@ export interface FileRouteTypes {
     | '/offline'
     | '/areas'
     | '/complete-account'
+    | '/force-password-change'
     | '/subscriptions'
     | '/auth/callback'
     | '/crm'
@@ -1100,6 +1111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/areas'
     | '/complete-account'
+    | '/force-password-change'
     | '/subscriptions'
     | '/auth/callback'
     | '/crm'
@@ -1199,6 +1211,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_system'
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
+    | '/_authenticated/force-password-change'
     | '/_authenticated/subscriptions'
     | '/auth/callback'
     | '/crm/_layout'
@@ -1377,6 +1390,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/force-password-change': {
+      id: '/_authenticated/force-password-change'
+      path: '/force-password-change'
+      fullPath: '/force-password-change'
+      preLoaderRoute: typeof AuthenticatedForcePasswordChangeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/complete-account': {
@@ -2059,6 +2079,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSystemRoute: typeof AuthenticatedSystemRouteWithChildren
   AuthenticatedAreasRoute: typeof AuthenticatedAreasRoute
   AuthenticatedCompleteAccountRoute: typeof AuthenticatedCompleteAccountRoute
+  AuthenticatedForcePasswordChangeRoute: typeof AuthenticatedForcePasswordChangeRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessControlAuditRoute: typeof AuthenticatedAccessControlAuditRoute
@@ -2127,6 +2148,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSystemRoute: AuthenticatedSystemRouteWithChildren,
   AuthenticatedAreasRoute: AuthenticatedAreasRoute,
   AuthenticatedCompleteAccountRoute: AuthenticatedCompleteAccountRoute,
+  AuthenticatedForcePasswordChangeRoute: AuthenticatedForcePasswordChangeRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessControlAuditRoute: AuthenticatedAccessControlAuditRoute,

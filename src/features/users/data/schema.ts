@@ -64,6 +64,36 @@ export const createUserInputSchema = z.object({
   branchId: z.string().optional(),
 })
 
+export const permissionOverrideInputSchema = z.object({
+  permissionId: z.string().min(1),
+  isGranted: z.boolean(),
+})
+export type PermissionOverrideInput = z.infer<typeof permissionOverrideInputSchema>
+
+/**
+ * Request body for `POST /api/users`. No password field — the server generates a temporary
+ * one and returns it once. Supports multiple roles and optional per-user overrides.
+ */
+export const createUserApiInputSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  firstName: z.string().trim().min(1).optional(),
+  lastName: z.string().trim().min(1).optional(),
+  phone: z.string().trim().optional(),
+  roleIds: z.array(z.string().min(1)).min(1, 'At least one role is required'),
+  branchId: z.string().optional(),
+  overrides: z.array(permissionOverrideInputSchema).optional(),
+})
+export type CreateUserApiInput = z.infer<typeof createUserApiInputSchema>
+
+export const createUserResultSchema = z.object({
+  tenantUserId: z.string(),
+  authUserId: z.string(),
+  roleNames: z.array(z.string()),
+  primaryRole: z.string().nullable(),
+  temporaryPassword: z.string().optional(),
+})
+export type CreateUserResult = z.infer<typeof createUserResultSchema>
+
 export const inviteUserResultSchema = z.object({
   success: z.boolean(),
   invitationId: z.string().nullable(),
@@ -129,6 +159,7 @@ const successEnvelope = <T extends z.ZodTypeAny>(schema: T) =>
   })
 
 export const usersResponseSchema = successEnvelope(userListSchema)
+export const createUserResponseSchema = successEnvelope(createUserResultSchema)
 export const inviteUserResponseSchema = successEnvelope(inviteUserResultSchema)
 export const rbacCatalogResponseSchema = successEnvelope(rbacCatalogSchema)
 export const roleResponseSchema = successEnvelope(roleSchema)
