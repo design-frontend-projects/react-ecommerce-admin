@@ -49,7 +49,7 @@ export interface ScreenButtonSeed {
   roles: string[]
 }
 
-export const SEED_VERSION = '2'
+export const SEED_VERSION = '3'
 
 export const ACTIVITY_TYPE_SEEDS: ActivityTypeSeed[] = [
   {
@@ -497,6 +497,15 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     moduleCode: 'access_control',
     roles: ADMINS,
     permissions: ['access_control.buttons.manage'],
+  },
+  {
+    code: 'rbac_audit',
+    name: 'Audit Trail',
+    route: '/access-control/audit',
+    icon: 'audit',
+    moduleCode: 'access_control',
+    roles: ADMINS,
+    permissions: ['access_control.audit.view'],
   },
 
   // system (system-owner gated separately in code)

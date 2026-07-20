@@ -99,6 +99,7 @@ import { Route as AuthenticatedInventoryShipmentsRouteImport } from './routes/_a
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedAccessControlScreensRouteImport } from './routes/_authenticated/access-control/screens'
 import { Route as AuthenticatedAccessControlButtonsRouteImport } from './routes/_authenticated/access-control/buttons'
+import { Route as AuthenticatedAccessControlAuditRouteImport } from './routes/_authenticated/access-control/audit'
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
 import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
@@ -631,6 +632,12 @@ const AuthenticatedAccessControlButtonsRoute =
     path: '/access-control/buttons',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAccessControlAuditRoute =
+  AuthenticatedAccessControlAuditRouteImport.update({
+    id: '/access-control/audit',
+    path: '/access-control/audit',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSystemSystemManagementRoute =
   AuthenticatedSystemSystemManagementRouteImport.update({
     id: '/system-management',
@@ -710,6 +717,7 @@ export interface FileRoutesByFullPath {
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
+  '/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -805,6 +813,7 @@ export interface FileRoutesByTo {
   '/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
+  '/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -905,6 +914,7 @@ export interface FileRoutesById {
   '/_authenticated/_system/audit-logs': typeof AuthenticatedSystemAuditLogsRoute
   '/_authenticated/_system/system-dashboard': typeof AuthenticatedSystemSystemDashboardRoute
   '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
+  '/_authenticated/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/_authenticated/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/_authenticated/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
@@ -1004,6 +1014,7 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/system-dashboard'
     | '/system-management'
+    | '/access-control/audit'
     | '/access-control/buttons'
     | '/access-control/screens'
     | '/errors/$error'
@@ -1099,6 +1110,7 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/system-dashboard'
     | '/system-management'
+    | '/access-control/audit'
     | '/access-control/buttons'
     | '/access-control/screens'
     | '/errors/$error'
@@ -1198,6 +1210,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_system/audit-logs'
     | '/_authenticated/_system/system-dashboard'
     | '/_authenticated/_system/system-management'
+    | '/_authenticated/access-control/audit'
     | '/_authenticated/access-control/buttons'
     | '/_authenticated/access-control/screens'
     | '/_authenticated/errors/$error'
@@ -1919,6 +1932,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccessControlButtonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/access-control/audit': {
+      id: '/_authenticated/access-control/audit'
+      path: '/access-control/audit'
+      fullPath: '/access-control/audit'
+      preLoaderRoute: typeof AuthenticatedAccessControlAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/_system/system-management': {
       id: '/_authenticated/_system/system-management'
       path: '/system-management'
@@ -2041,6 +2061,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCompleteAccountRoute: typeof AuthenticatedCompleteAccountRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAccessControlAuditRoute: typeof AuthenticatedAccessControlAuditRoute
   AuthenticatedAccessControlButtonsRoute: typeof AuthenticatedAccessControlButtonsRoute
   AuthenticatedAccessControlScreensRoute: typeof AuthenticatedAccessControlScreensRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
@@ -2108,6 +2129,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCompleteAccountRoute: AuthenticatedCompleteAccountRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAccessControlAuditRoute: AuthenticatedAccessControlAuditRoute,
   AuthenticatedAccessControlButtonsRoute:
     AuthenticatedAccessControlButtonsRoute,
   AuthenticatedAccessControlScreensRoute:

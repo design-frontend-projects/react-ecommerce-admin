@@ -5,6 +5,7 @@ import {
 import {
   buttonsResponseSchema,
   createButtonInputSchema,
+  rbacAuditResponseSchema,
   createScreenInputSchema,
   screensResponseSchema,
   setScreenAccessInputSchema,
@@ -15,6 +16,7 @@ import {
   type CreateButtonInput,
   type CreateScreenInput,
   type PermissionButton,
+  type RbacAuditPayload,
   type ScreensPayload,
   type SetScreenAccessInput,
   type SetScreenButtonsInput,
@@ -146,4 +148,21 @@ export async function deleteButton(getToken: TokenGetter, buttonId: string) {
     { method: 'DELETE' }
   )
   return successResponseSchema.parse(payload)
+}
+
+export async function fetchRbacAudit(
+  getToken: TokenGetter,
+  params: { limit?: number; offset?: number; targetType?: string } = {}
+): Promise<RbacAuditPayload> {
+  const search = new URLSearchParams()
+  if (params.limit != null) search.set('limit', String(params.limit))
+  if (params.offset != null) search.set('offset', String(params.offset))
+  if (params.targetType) search.set('targetType', params.targetType)
+
+  const query = search.toString()
+  const payload = await authorizedRequest(
+    getToken,
+    `/api/rbac/audit${query ? `?${query}` : ''}`
+  )
+  return rbacAuditResponseSchema.parse(payload).data
 }

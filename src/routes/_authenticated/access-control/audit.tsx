@@ -1,0 +1,6 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { AuditPage } from '@/features/access-control/pages/audit-page'
+
+export const Route = createFileRoute('/_authenticated/access-control/audit')({
+  component: AuditPage,
+})

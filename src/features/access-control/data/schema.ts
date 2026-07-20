@@ -129,6 +129,30 @@ export const updateButtonInputSchema = z.object({
 export type UpdateButtonInput = z.infer<typeof updateButtonInputSchema>
 
 // ---------------------------------------------------------------------------
+// RBAC audit trail (GET /api/rbac/audit)
+// ---------------------------------------------------------------------------
+
+export const rbacAuditEntrySchema = z.object({
+  id: z.string(),
+  actor_auth_user_id: z.string().nullable(),
+  tenant_id: z.string().nullable(),
+  action: z.string(),
+  target_type: z.string(),
+  target_id: z.string(),
+  diff: z.unknown().nullable(),
+  created_at: z.union([z.string(), z.date()]),
+})
+export type RbacAuditEntry = z.infer<typeof rbacAuditEntrySchema>
+
+export const rbacAuditPayloadSchema = z.object({
+  entries: z.array(rbacAuditEntrySchema),
+  total: z.number(),
+  limit: z.number(),
+  offset: z.number(),
+})
+export type RbacAuditPayload = z.infer<typeof rbacAuditPayloadSchema>
+
+// ---------------------------------------------------------------------------
 // Response envelopes ({ success, data })
 // ---------------------------------------------------------------------------
 
@@ -145,3 +169,4 @@ export const buttonsResponseSchema = successEnvelope(
 export const successResponseSchema = z.object({
   success: z.literal(true),
 })
+export const rbacAuditResponseSchema = successEnvelope(rbacAuditPayloadSchema)
