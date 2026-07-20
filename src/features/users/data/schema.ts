@@ -107,6 +107,21 @@ export const completeOnboardingInputSchema = z.object({
   phone: z.string().trim().optional(),
 })
 
+export const userPermissionOverridesSchema = z.object({
+  grants: z.array(z.string()),
+  denies: z.array(z.string()),
+})
+
+export type UserPermissionOverrides = z.infer<
+  typeof userPermissionOverridesSchema
+>
+
+export const setUserPermissionOverridesInputSchema = z.object({
+  tenantUserId: z.string().min(1),
+  grants: z.array(z.string()),
+  denies: z.array(z.string()),
+})
+
 const successEnvelope = <T extends z.ZodTypeAny>(schema: T) =>
   z.object({
     success: z.literal(true),
@@ -120,3 +135,9 @@ export const roleResponseSchema = successEnvelope(roleSchema)
 export const successResponseSchema = z.object({
   success: z.literal(true),
 })
+export const userPermissionOverridesResponseSchema = successEnvelope(
+  userPermissionOverridesSchema
+)
+export const effectivePermissionsResponseSchema = successEnvelope(
+  z.object({ effectivePermissionNames: z.array(z.string()) })
+)

@@ -143,6 +143,7 @@ export function UserManagementPage() {
               roles={roles}
               isLoading={usersQuery.isLoading}
               canManageUsers={canManageUsers}
+              permissions={canManagePermissions ? permissions : []}
               pendingUserId={updateUserRoleMutation.variables?.userId ?? null}
               onUpdateUserRole={(userId, roleId) =>
                 updateUserRoleMutation.mutate({

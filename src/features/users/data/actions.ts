@@ -10,6 +10,10 @@ import {
   usersResponseSchema,
   createRoleInputSchema,
   setRolePermissionsInputSchema,
+  setUserPermissionOverridesInputSchema,
+  userPermissionOverridesResponseSchema,
+  effectivePermissionsResponseSchema,
+  type UserPermissionOverrides,
 } from './schema'
 import type {
   CompleteOnboardingInput,
@@ -145,6 +149,30 @@ export async function setRolePermissions(
     body: JSON.stringify(body),
   })
   return roleResponseSchema.parse(payload).data
+}
+
+export async function fetchUserPermissionOverrides(
+  getToken: TokenGetter,
+  tenantUserId: string
+): Promise<UserPermissionOverrides> {
+  const payload = await authorizedRequest(
+    getToken,
+    `/api/users/permissions?tenantUserId=${encodeURIComponent(tenantUserId)}`
+  )
+  return userPermissionOverridesResponseSchema.parse(payload).data
+}
+
+export async function setUserPermissionOverrides(
+  getToken: TokenGetter,
+  input: { tenantUserId: string; grants: string[]; denies: string[] }
+): Promise<string[]> {
+  const body = setUserPermissionOverridesInputSchema.parse(input)
+  const payload = await authorizedRequest(getToken, '/api/users/permissions', {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+  return effectivePermissionsResponseSchema.parse(payload).data
+    .effectivePermissionNames
 }
 
 export async function completeOnboarding(

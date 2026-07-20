@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MoreHorizontal, KeyRound, UserX } from 'lucide-react'
+import { MoreHorizontal, KeyRound, ShieldCheck, UserX } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,7 +25,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import type { Permission } from '../data/schema'
 import type { RoleWithPermissions, User } from '../data/types'
+import { UserPermissionOverridesDialog } from '../components/user-permission-overrides-dialog'
 import { DeactivateUserDialog } from './deactivate-user-dialog'
 import { ResetPasswordDialog } from './reset-password-dialog'
 
@@ -36,6 +38,8 @@ interface UserListProps {
   canManageUsers: boolean
   pendingUserId?: string | null
   onUpdateUserRole: (userId: string, roleId: string) => void
+  /** Full permission catalog, for the per-user override editor. */
+  permissions?: Permission[]
 }
 
 function statusVariant(status: User['status']) {
@@ -56,11 +60,13 @@ export function UserList({
   canManageUsers,
   pendingUserId,
   onUpdateUserRole,
+  permissions = [],
 }: UserListProps) {
   const [resetPasswordUserId, setResetPasswordUserId] = useState<string | null>(
     null
   )
   const [userToDeactivate, setUserToDeactivate] = useState<User | null>(null)
+  const [overridesUser, setOverridesUser] = useState<User | null>(null)
 
   if (isLoading) {
     return (
@@ -172,6 +178,14 @@ export function UserList({
                           <KeyRound className='mr-2 size-4' />
                           Reset Password
                         </DropdownMenuItem>
+                        {canManageUsers && permissions.length > 0 ? (
+                          <DropdownMenuItem
+                            onClick={() => setOverridesUser(user)}
+                          >
+                            <ShieldCheck className='mr-2 size-4' />
+                            Permission Overrides
+                          </DropdownMenuItem>
+                        ) : null}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className='text-destructive focus:bg-destructive/10 focus:text-destructive'
@@ -195,6 +209,23 @@ export function UserList({
         onOpenChange={(isOpen) => {
           if (!isOpen) setResetPasswordUserId(null)
         }}
+      />
+      <UserPermissionOverridesDialog
+        user={overridesUser}
+        open={!!overridesUser}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setOverridesUser(null)
+        }}
+        permissions={permissions}
+        rolePermissionNames={
+          overridesUser
+            ? roles
+                .filter((role) => overridesUser.roleIds.includes(role.id))
+                .flatMap((role) =>
+                  role.permissions.map((permission) => permission.name)
+                )
+            : []
+        }
       />
       <DeactivateUserDialog
         user={userToDeactivate}
