@@ -72,6 +72,7 @@ describe('buildNavGroupsFromNavigation (db-sidebar.ts)', () => {
         },
       ],
       screens: { '/': true, '/products': true },
+      buttons: {},
     })
 
     expect(groups).toHaveLength(1)
