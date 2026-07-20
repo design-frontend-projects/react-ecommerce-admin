@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   approveRequisition,
   convertRequisition,
@@ -7,7 +8,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const ACTIONS = {
   submit: submitRequisition,
@@ -54,8 +54,12 @@ const POST = withAuth(
   }
 )
 
-export const APIRoute = createAPIFileRoute(
+export const Route = createFileRoute(
   '/api/inventory/purchase-requisitions/actions'
 )({
-  POST,
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

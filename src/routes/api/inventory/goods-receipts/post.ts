@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { postReceipt } from '@/server/fns/goods-receipts'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = withAuth(
   PERMISSIONS.PURCHASING_MANAGE,
@@ -25,8 +25,10 @@ const POST = withAuth(
   }
 )
 
-export const APIRoute = createAPIFileRoute(
-  '/api/inventory/goods-receipts/post'
-)({
-  POST,
+export const Route = createFileRoute('/api/inventory/goods-receipts/post')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

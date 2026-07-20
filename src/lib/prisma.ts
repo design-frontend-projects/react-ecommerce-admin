@@ -8,7 +8,7 @@ let prisma: any
 
 if (typeof window === 'undefined') {
   // Use dynamic import to prevent browser bundlers from resolving this statically
-  const { PrismaClient } = await import('../generated/prisma/index.js')
+  const { PrismaClient } = await import('../generated/prisma/client')
   const { Pool } = await import('pg')
   const { PrismaPg } = await import('@prisma/adapter-pg')
 

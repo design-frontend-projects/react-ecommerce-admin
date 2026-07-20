@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   setPurchaseOrderStatus,
   type PurchaseOrderLifecycleStatus,
@@ -5,7 +6,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const LIFECYCLE_STATUSES: PurchaseOrderLifecycleStatus[] = [
   'draft',
@@ -55,8 +55,10 @@ const POST = withAuth(
   }
 )
 
-export const APIRoute = createAPIFileRoute(
-  '/api/inventory/purchase-orders/status'
-)({
-  POST,
+export const Route = createFileRoute('/api/inventory/purchase-orders/status')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

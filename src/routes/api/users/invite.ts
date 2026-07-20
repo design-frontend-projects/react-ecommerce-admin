@@ -1,9 +1,9 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { inviteUser } from '@/server/fns/invitations'
-import { withAuth } from '@/server/utils/with-auth'
 import { getBearerToken } from '@/server/utils/auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
   const token = getBearerToken(request)
@@ -47,6 +47,10 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/users/invite')({
-  POST,
+export const Route = createFileRoute('/api/users/invite')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

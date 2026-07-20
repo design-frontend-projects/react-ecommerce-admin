@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   postCount,
   reviewCount,
@@ -8,7 +9,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 type CountAction = 'snapshot' | 'review' | 'post' | 'save'
 
@@ -57,8 +57,10 @@ const POST = withAuth(
   }
 )
 
-export const APIRoute = createAPIFileRoute(
-  '/api/inventory/stock-counts/actions'
-)({
-  POST,
+export const Route = createFileRoute('/api/inventory/stock-counts/actions')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

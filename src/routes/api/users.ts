@@ -1,9 +1,9 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { createUser } from '@/server/fns/create-user'
 import { getUsers } from '@/server/fns/users'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.USERS_VIEW, async ({ auth }) => {
   const users = await getUsers(auth.userId)
@@ -67,7 +67,11 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/users')({
-  GET,
-  POST,
+export const Route = createFileRoute('/api/users')({
+  server: {
+    handlers: {
+      GET,
+      POST,
+    },
+  },
 })

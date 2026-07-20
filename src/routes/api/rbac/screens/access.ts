@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { setScreenPermissions, setScreenRoles } from '@/server/fns/screens'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const PUT = withAuth(PERMISSIONS.SCREENS_MANAGE, async ({ request }) => {
   const body = (await request.json()) as {
@@ -27,6 +27,10 @@ const PUT = withAuth(PERMISSIONS.SCREENS_MANAGE, async ({ request }) => {
   return Response.json({ success: true })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac/screens/access')({
-  PUT,
+export const Route = createFileRoute('/api/rbac/screens/access')({
+  server: {
+    handlers: {
+      PUT,
+    },
+  },
 })

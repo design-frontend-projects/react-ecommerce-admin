@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { updateUserRoles } from '@/server/fns/rbac'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   const body = (await request.json()) as {
@@ -21,6 +21,10 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/users/roles')({
-  POST,
+export const Route = createFileRoute('/api/users/roles')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

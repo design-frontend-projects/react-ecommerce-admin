@@ -1,7 +1,7 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { listShifts, openShift, runShiftMaintenance } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import {
   listShiftsQuerySchema,
   openShiftInputSchema,
@@ -48,7 +48,11 @@ const POST = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/respos/shifts')({
-  GET,
-  POST,
+export const Route = createFileRoute('/api/respos/shifts')({
+  server: {
+    handlers: {
+      GET,
+      POST,
+    },
+  },
 })

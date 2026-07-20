@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { expireBatches } from '@/server/fns/batches'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = withAuth(PERMISSIONS.INVENTORY_MANAGE, async ({ auth }) => {
   try {
@@ -14,6 +14,10 @@ const POST = withAuth(PERMISSIONS.INVENTORY_MANAGE, async ({ auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/inventory/batches/expire')({
-  POST,
+export const Route = createFileRoute('/api/inventory/batches/expire')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

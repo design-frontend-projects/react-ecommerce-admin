@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   cancelOrder,
   confirmOrder,
@@ -8,7 +9,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 type OrderAction =
   | 'confirm'
@@ -66,8 +66,10 @@ const POST = withAuth(PERMISSIONS.SALES_MANAGE, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute(
-  '/api/inventory/sales-orders/actions'
-)({
-  POST,
+export const Route = createFileRoute('/api/inventory/sales-orders/actions')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

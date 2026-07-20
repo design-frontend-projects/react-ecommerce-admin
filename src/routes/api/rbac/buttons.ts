@@ -1,13 +1,13 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   createButton,
   deleteButton,
   getButtons,
   updateButton,
 } from '@/server/fns/buttons'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.SCREENS_VIEW, async () => {
   const data = await getButtons()
@@ -66,9 +66,13 @@ const DELETE = withAuth(PERMISSIONS.BUTTONS_MANAGE, async ({ request }) => {
   return Response.json({ success: true })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac/buttons')({
-  GET,
-  POST,
-  PATCH,
-  DELETE,
+export const Route = createFileRoute('/api/rbac/buttons')({
+  server: {
+    handlers: {
+      GET,
+      POST,
+      PATCH,
+      DELETE,
+    },
+  },
 })

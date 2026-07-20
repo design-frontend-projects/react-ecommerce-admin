@@ -20,6 +20,8 @@ import { Route as MenuIndexRouteImport } from './routes/menu/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as ApiUsersRouteImport } from './routes/api/users'
+import { Route as ApiRbacRouteImport } from './routes/api/rbac'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_authenticated/force-password-change'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
@@ -79,6 +81,38 @@ import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedBrandsIndexRouteImport } from './routes/_authenticated/brands/index'
 import { Route as AuthenticatedBatchesIndexRouteImport } from './routes/_authenticated/batches/index'
+import { Route as ApiUsersRolesRouteImport } from './routes/api/users/roles'
+import { Route as ApiUsersPermissionsRouteImport } from './routes/api/users/permissions'
+import { Route as ApiUsersOnboardingRouteImport } from './routes/api/users/onboarding'
+import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
+import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
+import { Route as ApiTenantActivityTypesRouteImport } from './routes/api/tenant/activity-types'
+import { Route as ApiResposShiftsRouteImport } from './routes/api/respos/shifts'
+import { Route as ApiRbacScreensRouteImport } from './routes/api/rbac/screens'
+import { Route as ApiRbacScreenButtonsRouteImport } from './routes/api/rbac/screen-buttons'
+import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permissions'
+import { Route as ApiRbacButtonsRouteImport } from './routes/api/rbac/buttons'
+import { Route as ApiRbacAuditRouteImport } from './routes/api/rbac/audit'
+import { Route as ApiPosCheckoutRouteImport } from './routes/api/pos/checkout'
+import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
+import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
+import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
+import { Route as ApiInventoryStockCountsRouteImport } from './routes/api/inventory/stock-counts'
+import { Route as ApiInventoryStockByLocationRouteImport } from './routes/api/inventory/stock-by-location'
+import { Route as ApiInventorySerialsRouteImport } from './routes/api/inventory/serials'
+import { Route as ApiInventorySalesOrdersRouteImport } from './routes/api/inventory/sales-orders'
+import { Route as ApiInventoryReservationsRouteImport } from './routes/api/inventory/reservations'
+import { Route as ApiInventoryReorderSuggestionsRouteImport } from './routes/api/inventory/reorder-suggestions'
+import { Route as ApiInventoryReorderRulesRouteImport } from './routes/api/inventory/reorder-rules'
+import { Route as ApiInventoryPurchaseRequisitionsRouteImport } from './routes/api/inventory/purchase-requisitions'
+import { Route as ApiInventoryOpeningStockRouteImport } from './routes/api/inventory/opening-stock'
+import { Route as ApiInventoryMovementsRouteImport } from './routes/api/inventory/movements'
+import { Route as ApiInventoryGoodsReceiptsRouteImport } from './routes/api/inventory/goods-receipts'
+import { Route as ApiInventoryBrandsRouteImport } from './routes/api/inventory/brands'
+import { Route as ApiInventoryBatchesRouteImport } from './routes/api/inventory/batches'
+import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/inventory/adjustments'
+import { Route as ApiCrmSyncTransactionRouteImport } from './routes/api/crm/sync-transaction'
+import { Route as ApiAccessControlNavigationRouteImport } from './routes/api/access-control/navigation'
 import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
@@ -105,6 +139,33 @@ import { Route as AuthenticatedSystemSystemManagementRouteImport } from './route
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
 import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
+import { Route as ApiTenantSubscriptionStatusRouteImport } from './routes/api/tenant/subscription/status'
+import { Route as ApiResposShiftsSettingsRouteImport } from './routes/api/respos/shifts/settings'
+import { Route as ApiResposShiftsReviewRouteImport } from './routes/api/respos/shifts/review'
+import { Route as ApiResposShiftsMovementsRouteImport } from './routes/api/respos/shifts/movements'
+import { Route as ApiResposShiftsForceCloseRouteImport } from './routes/api/respos/shifts/force-close'
+import { Route as ApiResposShiftsExpectedRouteImport } from './routes/api/respos/shifts/expected'
+import { Route as ApiResposShiftsCorrectionsRouteImport } from './routes/api/respos/shifts/corrections'
+import { Route as ApiResposShiftsCloseRouteImport } from './routes/api/respos/shifts/close'
+import { Route as ApiResposShiftsAuditRouteImport } from './routes/api/respos/shifts/audit'
+import { Route as ApiResposShiftsAnalyticsRouteImport } from './routes/api/respos/shifts/analytics'
+import { Route as ApiResposShiftsActiveRouteImport } from './routes/api/respos/shifts/active'
+import { Route as ApiRbacScreensAccessRouteImport } from './routes/api/rbac/screens/access'
+import { Route as ApiRbacMeNavRouteImport } from './routes/api/rbac/me/nav'
+import { Route as ApiRbacMeAccessRouteImport } from './routes/api/rbac/me/access'
+import { Route as ApiInventoryWarehousesLocationsRouteImport } from './routes/api/inventory/warehouses/locations'
+import { Route as ApiInventoryUomsConversionsRouteImport } from './routes/api/inventory/uoms/conversions'
+import { Route as ApiInventoryTransfersApplyRouteImport } from './routes/api/inventory/transfers/apply'
+import { Route as ApiInventoryStockCountsActionsRouteImport } from './routes/api/inventory/stock-counts/actions'
+import { Route as ApiInventorySalesOrdersActionsRouteImport } from './routes/api/inventory/sales-orders/actions'
+import { Route as ApiInventoryReorderSuggestionsRunRouteImport } from './routes/api/inventory/reorder-suggestions/run'
+import { Route as ApiInventoryReorderSuggestionsConvertRouteImport } from './routes/api/inventory/reorder-suggestions/convert'
+import { Route as ApiInventoryPurchaseRequisitionsActionsRouteImport } from './routes/api/inventory/purchase-requisitions/actions'
+import { Route as ApiInventoryPurchaseOrdersStatusRouteImport } from './routes/api/inventory/purchase-orders/status'
+import { Route as ApiInventoryGoodsReceiptsPostRouteImport } from './routes/api/inventory/goods-receipts/post'
+import { Route as ApiInventoryBatchesExpireRouteImport } from './routes/api/inventory/batches/expire'
+import { Route as ApiInventoryAdjustmentsApplyRouteImport } from './routes/api/inventory/adjustments/apply'
+import { Route as ApiCrmCustomersSegmentRouteImport } from './routes/api/crm/customers/segment'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 
 const CrmPipelineLazyRouteImport = createFileRoute('/crm/pipeline')()
@@ -171,6 +232,16 @@ const CrmLayoutRoute = CrmLayoutRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersRoute = ApiUsersRouteImport.update({
+  id: '/api/users',
+  path: '/api/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRbacRoute = ApiRbacRouteImport.update({
+  id: '/api/rbac',
+  path: '/api/rbac',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
@@ -515,6 +586,174 @@ const AuthenticatedBatchesIndexRoute =
     path: '/batches/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiUsersRolesRoute = ApiUsersRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
+const ApiUsersPermissionsRoute = ApiUsersPermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
+const ApiUsersOnboardingRoute = ApiUsersOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
+const ApiUsersInviteRoute = ApiUsersInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
+const ApiTenantOnboardRoute = ApiTenantOnboardRouteImport.update({
+  id: '/api/tenant/onboard',
+  path: '/api/tenant/onboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTenantActivityTypesRoute = ApiTenantActivityTypesRouteImport.update({
+  id: '/api/tenant/activity-types',
+  path: '/api/tenant/activity-types',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiResposShiftsRoute = ApiResposShiftsRouteImport.update({
+  id: '/api/respos/shifts',
+  path: '/api/respos/shifts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRbacScreensRoute = ApiRbacScreensRouteImport.update({
+  id: '/screens',
+  path: '/screens',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiRbacScreenButtonsRoute = ApiRbacScreenButtonsRouteImport.update({
+  id: '/screen-buttons',
+  path: '/screen-buttons',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiRbacPermissionsRoute = ApiRbacPermissionsRouteImport.update({
+  id: '/permissions',
+  path: '/permissions',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiRbacButtonsRoute = ApiRbacButtonsRouteImport.update({
+  id: '/buttons',
+  path: '/buttons',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiRbacAuditRoute = ApiRbacAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiPosCheckoutRoute = ApiPosCheckoutRouteImport.update({
+  id: '/api/pos/checkout',
+  path: '/api/pos/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
+  id: '/api/inventory/warehouses',
+  path: '/api/inventory/warehouses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryUomsRoute = ApiInventoryUomsRouteImport.update({
+  id: '/api/inventory/uoms',
+  path: '/api/inventory/uoms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryTransfersRoute = ApiInventoryTransfersRouteImport.update({
+  id: '/api/inventory/transfers',
+  path: '/api/inventory/transfers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryStockCountsRoute = ApiInventoryStockCountsRouteImport.update({
+  id: '/api/inventory/stock-counts',
+  path: '/api/inventory/stock-counts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryStockByLocationRoute =
+  ApiInventoryStockByLocationRouteImport.update({
+    id: '/api/inventory/stock-by-location',
+    path: '/api/inventory/stock-by-location',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventorySerialsRoute = ApiInventorySerialsRouteImport.update({
+  id: '/api/inventory/serials',
+  path: '/api/inventory/serials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventorySalesOrdersRoute = ApiInventorySalesOrdersRouteImport.update({
+  id: '/api/inventory/sales-orders',
+  path: '/api/inventory/sales-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryReservationsRoute =
+  ApiInventoryReservationsRouteImport.update({
+    id: '/api/inventory/reservations',
+    path: '/api/inventory/reservations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryReorderSuggestionsRoute =
+  ApiInventoryReorderSuggestionsRouteImport.update({
+    id: '/api/inventory/reorder-suggestions',
+    path: '/api/inventory/reorder-suggestions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryReorderRulesRoute =
+  ApiInventoryReorderRulesRouteImport.update({
+    id: '/api/inventory/reorder-rules',
+    path: '/api/inventory/reorder-rules',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryPurchaseRequisitionsRoute =
+  ApiInventoryPurchaseRequisitionsRouteImport.update({
+    id: '/api/inventory/purchase-requisitions',
+    path: '/api/inventory/purchase-requisitions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryOpeningStockRoute =
+  ApiInventoryOpeningStockRouteImport.update({
+    id: '/api/inventory/opening-stock',
+    path: '/api/inventory/opening-stock',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryMovementsRoute = ApiInventoryMovementsRouteImport.update({
+  id: '/api/inventory/movements',
+  path: '/api/inventory/movements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryGoodsReceiptsRoute =
+  ApiInventoryGoodsReceiptsRouteImport.update({
+    id: '/api/inventory/goods-receipts',
+    path: '/api/inventory/goods-receipts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryBrandsRoute = ApiInventoryBrandsRouteImport.update({
+  id: '/api/inventory/brands',
+  path: '/api/inventory/brands',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryBatchesRoute = ApiInventoryBatchesRouteImport.update({
+  id: '/api/inventory/batches',
+  path: '/api/inventory/batches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryAdjustmentsRoute = ApiInventoryAdjustmentsRouteImport.update({
+  id: '/api/inventory/adjustments',
+  path: '/api/inventory/adjustments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCrmSyncTransactionRoute = ApiCrmSyncTransactionRouteImport.update({
+  id: '/api/crm/sync-transaction',
+  path: '/api/crm/sync-transaction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAccessControlNavigationRoute =
+  ApiAccessControlNavigationRouteImport.update({
+    id: '/api/access-control/navigation',
+    path: '/api/access-control/navigation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedSettingsSystemRoute =
   AuthenticatedSettingsSystemRouteImport.update({
     id: '/system',
@@ -669,6 +908,158 @@ const AuthenticatedSystemRestaurantsIndexRoute =
     path: '/restaurants/',
     getParentRoute: () => AuthenticatedSystemRoute,
   } as any)
+const ApiTenantSubscriptionStatusRoute =
+  ApiTenantSubscriptionStatusRouteImport.update({
+    id: '/api/tenant/subscription/status',
+    path: '/api/tenant/subscription/status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiResposShiftsSettingsRoute = ApiResposShiftsSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiResposShiftsReviewRoute = ApiResposShiftsReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiResposShiftsMovementsRoute =
+  ApiResposShiftsMovementsRouteImport.update({
+    id: '/movements',
+    path: '/movements',
+    getParentRoute: () => ApiResposShiftsRoute,
+  } as any)
+const ApiResposShiftsForceCloseRoute =
+  ApiResposShiftsForceCloseRouteImport.update({
+    id: '/force-close',
+    path: '/force-close',
+    getParentRoute: () => ApiResposShiftsRoute,
+  } as any)
+const ApiResposShiftsExpectedRoute = ApiResposShiftsExpectedRouteImport.update({
+  id: '/expected',
+  path: '/expected',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiResposShiftsCorrectionsRoute =
+  ApiResposShiftsCorrectionsRouteImport.update({
+    id: '/corrections',
+    path: '/corrections',
+    getParentRoute: () => ApiResposShiftsRoute,
+  } as any)
+const ApiResposShiftsCloseRoute = ApiResposShiftsCloseRouteImport.update({
+  id: '/close',
+  path: '/close',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiResposShiftsAuditRoute = ApiResposShiftsAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiResposShiftsAnalyticsRoute =
+  ApiResposShiftsAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => ApiResposShiftsRoute,
+  } as any)
+const ApiResposShiftsActiveRoute = ApiResposShiftsActiveRouteImport.update({
+  id: '/active',
+  path: '/active',
+  getParentRoute: () => ApiResposShiftsRoute,
+} as any)
+const ApiRbacScreensAccessRoute = ApiRbacScreensAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => ApiRbacScreensRoute,
+} as any)
+const ApiRbacMeNavRoute = ApiRbacMeNavRouteImport.update({
+  id: '/me/nav',
+  path: '/me/nav',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiRbacMeAccessRoute = ApiRbacMeAccessRouteImport.update({
+  id: '/me/access',
+  path: '/me/access',
+  getParentRoute: () => ApiRbacRoute,
+} as any)
+const ApiInventoryWarehousesLocationsRoute =
+  ApiInventoryWarehousesLocationsRouteImport.update({
+    id: '/locations',
+    path: '/locations',
+    getParentRoute: () => ApiInventoryWarehousesRoute,
+  } as any)
+const ApiInventoryUomsConversionsRoute =
+  ApiInventoryUomsConversionsRouteImport.update({
+    id: '/conversions',
+    path: '/conversions',
+    getParentRoute: () => ApiInventoryUomsRoute,
+  } as any)
+const ApiInventoryTransfersApplyRoute =
+  ApiInventoryTransfersApplyRouteImport.update({
+    id: '/apply',
+    path: '/apply',
+    getParentRoute: () => ApiInventoryTransfersRoute,
+  } as any)
+const ApiInventoryStockCountsActionsRoute =
+  ApiInventoryStockCountsActionsRouteImport.update({
+    id: '/actions',
+    path: '/actions',
+    getParentRoute: () => ApiInventoryStockCountsRoute,
+  } as any)
+const ApiInventorySalesOrdersActionsRoute =
+  ApiInventorySalesOrdersActionsRouteImport.update({
+    id: '/actions',
+    path: '/actions',
+    getParentRoute: () => ApiInventorySalesOrdersRoute,
+  } as any)
+const ApiInventoryReorderSuggestionsRunRoute =
+  ApiInventoryReorderSuggestionsRunRouteImport.update({
+    id: '/run',
+    path: '/run',
+    getParentRoute: () => ApiInventoryReorderSuggestionsRoute,
+  } as any)
+const ApiInventoryReorderSuggestionsConvertRoute =
+  ApiInventoryReorderSuggestionsConvertRouteImport.update({
+    id: '/convert',
+    path: '/convert',
+    getParentRoute: () => ApiInventoryReorderSuggestionsRoute,
+  } as any)
+const ApiInventoryPurchaseRequisitionsActionsRoute =
+  ApiInventoryPurchaseRequisitionsActionsRouteImport.update({
+    id: '/actions',
+    path: '/actions',
+    getParentRoute: () => ApiInventoryPurchaseRequisitionsRoute,
+  } as any)
+const ApiInventoryPurchaseOrdersStatusRoute =
+  ApiInventoryPurchaseOrdersStatusRouteImport.update({
+    id: '/api/inventory/purchase-orders/status',
+    path: '/api/inventory/purchase-orders/status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInventoryGoodsReceiptsPostRoute =
+  ApiInventoryGoodsReceiptsPostRouteImport.update({
+    id: '/post',
+    path: '/post',
+    getParentRoute: () => ApiInventoryGoodsReceiptsRoute,
+  } as any)
+const ApiInventoryBatchesExpireRoute =
+  ApiInventoryBatchesExpireRouteImport.update({
+    id: '/expire',
+    path: '/expire',
+    getParentRoute: () => ApiInventoryBatchesRoute,
+  } as any)
+const ApiInventoryAdjustmentsApplyRoute =
+  ApiInventoryAdjustmentsApplyRouteImport.update({
+    id: '/apply',
+    path: '/apply',
+    getParentRoute: () => ApiInventoryAdjustmentsRoute,
+  } as any)
+const ApiCrmCustomersSegmentRoute = ApiCrmCustomersSegmentRouteImport.update({
+  id: '/api/crm/customers/segment',
+  path: '/api/crm/customers/segment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedResposInvoiceOrderIdRoute =
   AuthenticatedResposInvoiceOrderIdRouteImport.update({
     id: '/respos/invoice/$orderId',
@@ -716,6 +1107,8 @@ export interface FileRoutesByFullPath {
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/rbac': typeof ApiRbacRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
@@ -747,6 +1140,38 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
+  '/api/inventory/brands': typeof ApiInventoryBrandsRoute
+  '/api/inventory/goods-receipts': typeof ApiInventoryGoodsReceiptsRouteWithChildren
+  '/api/inventory/movements': typeof ApiInventoryMovementsRoute
+  '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
+  '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
+  '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
+  '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
+  '/api/inventory/reservations': typeof ApiInventoryReservationsRoute
+  '/api/inventory/sales-orders': typeof ApiInventorySalesOrdersRouteWithChildren
+  '/api/inventory/serials': typeof ApiInventorySerialsRoute
+  '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
+  '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
+  '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/rbac/audit': typeof ApiRbacAuditRoute
+  '/api/rbac/buttons': typeof ApiRbacButtonsRoute
+  '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
+  '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
+  '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
+  '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
+  '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/invite': typeof ApiUsersInviteRoute
+  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
+  '/api/users/permissions': typeof ApiUsersPermissionsRoute
+  '/api/users/roles': typeof ApiUsersRolesRoute
   '/batches/': typeof AuthenticatedBatchesIndexRoute
   '/brands/': typeof AuthenticatedBrandsIndexRoute
   '/chats/': typeof AuthenticatedChatsIndexRoute
@@ -773,6 +1198,33 @@ export interface FileRoutesByFullPath {
   '/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
+  '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
+  '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
+  '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
+  '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
+  '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
+  '/api/inventory/reorder-suggestions/run': typeof ApiInventoryReorderSuggestionsRunRoute
+  '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
+  '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
+  '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
+  '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
+  '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
+  '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
+  '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
+  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
+  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
+  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
+  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
+  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
+  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
+  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
+  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
+  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
+  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
+  '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -813,6 +1265,8 @@ export interface FileRoutesByTo {
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/rbac': typeof ApiRbacRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/crm': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
@@ -844,6 +1298,38 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
+  '/api/inventory/brands': typeof ApiInventoryBrandsRoute
+  '/api/inventory/goods-receipts': typeof ApiInventoryGoodsReceiptsRouteWithChildren
+  '/api/inventory/movements': typeof ApiInventoryMovementsRoute
+  '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
+  '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
+  '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
+  '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
+  '/api/inventory/reservations': typeof ApiInventoryReservationsRoute
+  '/api/inventory/sales-orders': typeof ApiInventorySalesOrdersRouteWithChildren
+  '/api/inventory/serials': typeof ApiInventorySerialsRoute
+  '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
+  '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
+  '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/rbac/audit': typeof ApiRbacAuditRoute
+  '/api/rbac/buttons': typeof ApiRbacButtonsRoute
+  '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
+  '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
+  '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
+  '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
+  '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/invite': typeof ApiUsersInviteRoute
+  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
+  '/api/users/permissions': typeof ApiUsersPermissionsRoute
+  '/api/users/roles': typeof ApiUsersRolesRoute
   '/batches': typeof AuthenticatedBatchesIndexRoute
   '/brands': typeof AuthenticatedBrandsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
@@ -870,6 +1356,33 @@ export interface FileRoutesByTo {
   '/warehouses': typeof AuthenticatedWarehousesIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
+  '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
+  '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
+  '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
+  '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
+  '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
+  '/api/inventory/reorder-suggestions/run': typeof ApiInventoryReorderSuggestionsRunRoute
+  '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
+  '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
+  '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
+  '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
+  '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
+  '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
+  '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
+  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
+  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
+  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
+  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
+  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
+  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
+  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
+  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
+  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
+  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
+  '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRoutesById {
@@ -914,6 +1427,8 @@ export interface FileRoutesById {
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/rbac': typeof ApiRbacRouteWithChildren
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/crm/_layout': typeof CrmLayoutRoute
   '/crm/contacts': typeof CrmContactsLazyRoute
@@ -946,6 +1461,38 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
+  '/api/inventory/brands': typeof ApiInventoryBrandsRoute
+  '/api/inventory/goods-receipts': typeof ApiInventoryGoodsReceiptsRouteWithChildren
+  '/api/inventory/movements': typeof ApiInventoryMovementsRoute
+  '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
+  '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
+  '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
+  '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
+  '/api/inventory/reservations': typeof ApiInventoryReservationsRoute
+  '/api/inventory/sales-orders': typeof ApiInventorySalesOrdersRouteWithChildren
+  '/api/inventory/serials': typeof ApiInventorySerialsRoute
+  '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
+  '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
+  '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/rbac/audit': typeof ApiRbacAuditRoute
+  '/api/rbac/buttons': typeof ApiRbacButtonsRoute
+  '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
+  '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
+  '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
+  '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
+  '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/invite': typeof ApiUsersInviteRoute
+  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
+  '/api/users/permissions': typeof ApiUsersPermissionsRoute
+  '/api/users/roles': typeof ApiUsersRolesRoute
   '/_authenticated/batches/': typeof AuthenticatedBatchesIndexRoute
   '/_authenticated/brands/': typeof AuthenticatedBrandsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
@@ -972,6 +1519,33 @@ export interface FileRoutesById {
   '/_authenticated/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
+  '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
+  '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
+  '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
+  '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
+  '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
+  '/api/inventory/reorder-suggestions/run': typeof ApiInventoryReorderSuggestionsRunRoute
+  '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
+  '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
+  '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
+  '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
+  '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
+  '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
+  '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
+  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
+  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
+  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
+  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
+  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
+  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
+  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
+  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
+  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
+  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
+  '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/_authenticated/_system/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
 export interface FileRouteTypes {
@@ -1016,6 +1590,8 @@ export interface FileRouteTypes {
     | '/complete-account'
     | '/force-password-change'
     | '/subscriptions'
+    | '/api/rbac'
+    | '/api/users'
     | '/auth/callback'
     | '/crm'
     | '/crm/contacts'
@@ -1047,6 +1623,38 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/api/access-control/navigation'
+    | '/api/crm/sync-transaction'
+    | '/api/inventory/adjustments'
+    | '/api/inventory/batches'
+    | '/api/inventory/brands'
+    | '/api/inventory/goods-receipts'
+    | '/api/inventory/movements'
+    | '/api/inventory/opening-stock'
+    | '/api/inventory/purchase-requisitions'
+    | '/api/inventory/reorder-rules'
+    | '/api/inventory/reorder-suggestions'
+    | '/api/inventory/reservations'
+    | '/api/inventory/sales-orders'
+    | '/api/inventory/serials'
+    | '/api/inventory/stock-by-location'
+    | '/api/inventory/stock-counts'
+    | '/api/inventory/transfers'
+    | '/api/inventory/uoms'
+    | '/api/inventory/warehouses'
+    | '/api/pos/checkout'
+    | '/api/rbac/audit'
+    | '/api/rbac/buttons'
+    | '/api/rbac/permissions'
+    | '/api/rbac/screen-buttons'
+    | '/api/rbac/screens'
+    | '/api/respos/shifts'
+    | '/api/tenant/activity-types'
+    | '/api/tenant/onboard'
+    | '/api/users/invite'
+    | '/api/users/onboarding'
+    | '/api/users/permissions'
+    | '/api/users/roles'
     | '/batches/'
     | '/brands/'
     | '/chats/'
@@ -1073,6 +1681,33 @@ export interface FileRouteTypes {
     | '/warehouses/'
     | '/cities/'
     | '/respos/invoice/$orderId'
+    | '/api/crm/customers/segment'
+    | '/api/inventory/adjustments/apply'
+    | '/api/inventory/batches/expire'
+    | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/purchase-orders/status'
+    | '/api/inventory/purchase-requisitions/actions'
+    | '/api/inventory/reorder-suggestions/convert'
+    | '/api/inventory/reorder-suggestions/run'
+    | '/api/inventory/sales-orders/actions'
+    | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transfers/apply'
+    | '/api/inventory/uoms/conversions'
+    | '/api/inventory/warehouses/locations'
+    | '/api/rbac/me/access'
+    | '/api/rbac/me/nav'
+    | '/api/rbac/screens/access'
+    | '/api/respos/shifts/active'
+    | '/api/respos/shifts/analytics'
+    | '/api/respos/shifts/audit'
+    | '/api/respos/shifts/close'
+    | '/api/respos/shifts/corrections'
+    | '/api/respos/shifts/expected'
+    | '/api/respos/shifts/force-close'
+    | '/api/respos/shifts/movements'
+    | '/api/respos/shifts/review'
+    | '/api/respos/shifts/settings'
+    | '/api/tenant/subscription/status'
     | '/restaurants/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1113,6 +1748,8 @@ export interface FileRouteTypes {
     | '/complete-account'
     | '/force-password-change'
     | '/subscriptions'
+    | '/api/rbac'
+    | '/api/users'
     | '/auth/callback'
     | '/crm'
     | '/crm/contacts'
@@ -1144,6 +1781,38 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/api/access-control/navigation'
+    | '/api/crm/sync-transaction'
+    | '/api/inventory/adjustments'
+    | '/api/inventory/batches'
+    | '/api/inventory/brands'
+    | '/api/inventory/goods-receipts'
+    | '/api/inventory/movements'
+    | '/api/inventory/opening-stock'
+    | '/api/inventory/purchase-requisitions'
+    | '/api/inventory/reorder-rules'
+    | '/api/inventory/reorder-suggestions'
+    | '/api/inventory/reservations'
+    | '/api/inventory/sales-orders'
+    | '/api/inventory/serials'
+    | '/api/inventory/stock-by-location'
+    | '/api/inventory/stock-counts'
+    | '/api/inventory/transfers'
+    | '/api/inventory/uoms'
+    | '/api/inventory/warehouses'
+    | '/api/pos/checkout'
+    | '/api/rbac/audit'
+    | '/api/rbac/buttons'
+    | '/api/rbac/permissions'
+    | '/api/rbac/screen-buttons'
+    | '/api/rbac/screens'
+    | '/api/respos/shifts'
+    | '/api/tenant/activity-types'
+    | '/api/tenant/onboard'
+    | '/api/users/invite'
+    | '/api/users/onboarding'
+    | '/api/users/permissions'
+    | '/api/users/roles'
     | '/batches'
     | '/brands'
     | '/chats'
@@ -1170,6 +1839,33 @@ export interface FileRouteTypes {
     | '/warehouses'
     | '/cities'
     | '/respos/invoice/$orderId'
+    | '/api/crm/customers/segment'
+    | '/api/inventory/adjustments/apply'
+    | '/api/inventory/batches/expire'
+    | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/purchase-orders/status'
+    | '/api/inventory/purchase-requisitions/actions'
+    | '/api/inventory/reorder-suggestions/convert'
+    | '/api/inventory/reorder-suggestions/run'
+    | '/api/inventory/sales-orders/actions'
+    | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transfers/apply'
+    | '/api/inventory/uoms/conversions'
+    | '/api/inventory/warehouses/locations'
+    | '/api/rbac/me/access'
+    | '/api/rbac/me/nav'
+    | '/api/rbac/screens/access'
+    | '/api/respos/shifts/active'
+    | '/api/respos/shifts/analytics'
+    | '/api/respos/shifts/audit'
+    | '/api/respos/shifts/close'
+    | '/api/respos/shifts/corrections'
+    | '/api/respos/shifts/expected'
+    | '/api/respos/shifts/force-close'
+    | '/api/respos/shifts/movements'
+    | '/api/respos/shifts/review'
+    | '/api/respos/shifts/settings'
+    | '/api/tenant/subscription/status'
     | '/restaurants'
   id:
     | '__root__'
@@ -1213,6 +1909,8 @@ export interface FileRouteTypes {
     | '/_authenticated/complete-account'
     | '/_authenticated/force-password-change'
     | '/_authenticated/subscriptions'
+    | '/api/rbac'
+    | '/api/users'
     | '/auth/callback'
     | '/crm/_layout'
     | '/crm/contacts'
@@ -1245,6 +1943,38 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/settings/system'
+    | '/api/access-control/navigation'
+    | '/api/crm/sync-transaction'
+    | '/api/inventory/adjustments'
+    | '/api/inventory/batches'
+    | '/api/inventory/brands'
+    | '/api/inventory/goods-receipts'
+    | '/api/inventory/movements'
+    | '/api/inventory/opening-stock'
+    | '/api/inventory/purchase-requisitions'
+    | '/api/inventory/reorder-rules'
+    | '/api/inventory/reorder-suggestions'
+    | '/api/inventory/reservations'
+    | '/api/inventory/sales-orders'
+    | '/api/inventory/serials'
+    | '/api/inventory/stock-by-location'
+    | '/api/inventory/stock-counts'
+    | '/api/inventory/transfers'
+    | '/api/inventory/uoms'
+    | '/api/inventory/warehouses'
+    | '/api/pos/checkout'
+    | '/api/rbac/audit'
+    | '/api/rbac/buttons'
+    | '/api/rbac/permissions'
+    | '/api/rbac/screen-buttons'
+    | '/api/rbac/screens'
+    | '/api/respos/shifts'
+    | '/api/tenant/activity-types'
+    | '/api/tenant/onboard'
+    | '/api/users/invite'
+    | '/api/users/onboarding'
+    | '/api/users/permissions'
+    | '/api/users/roles'
     | '/_authenticated/batches/'
     | '/_authenticated/brands/'
     | '/_authenticated/chats/'
@@ -1271,6 +2001,33 @@ export interface FileRouteTypes {
     | '/_authenticated/warehouses/'
     | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
+    | '/api/crm/customers/segment'
+    | '/api/inventory/adjustments/apply'
+    | '/api/inventory/batches/expire'
+    | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/purchase-orders/status'
+    | '/api/inventory/purchase-requisitions/actions'
+    | '/api/inventory/reorder-suggestions/convert'
+    | '/api/inventory/reorder-suggestions/run'
+    | '/api/inventory/sales-orders/actions'
+    | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transfers/apply'
+    | '/api/inventory/uoms/conversions'
+    | '/api/inventory/warehouses/locations'
+    | '/api/rbac/me/access'
+    | '/api/rbac/me/nav'
+    | '/api/rbac/screens/access'
+    | '/api/respos/shifts/active'
+    | '/api/respos/shifts/analytics'
+    | '/api/respos/shifts/audit'
+    | '/api/respos/shifts/close'
+    | '/api/respos/shifts/corrections'
+    | '/api/respos/shifts/expected'
+    | '/api/respos/shifts/force-close'
+    | '/api/respos/shifts/movements'
+    | '/api/respos/shifts/review'
+    | '/api/respos/shifts/settings'
+    | '/api/tenant/subscription/status'
     | '/_authenticated/_system/restaurants/'
   fileRoutesById: FileRoutesById
 }
@@ -1291,12 +2048,40 @@ export interface RootRouteChildren {
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
+  ApiRbacRoute: typeof ApiRbacRouteWithChildren
+  ApiUsersRoute: typeof ApiUsersRouteWithChildren
   AuthCallbackRoute: typeof AuthCallbackRoute
   CrmLayoutRoute: typeof CrmLayoutRoute
   CrmContactsLazyRoute: typeof CrmContactsLazyRoute
   CrmDashboardLazyRoute: typeof CrmDashboardLazyRoute
   CrmPipelineLazyRoute: typeof CrmPipelineLazyRoute
   MenuIndexRoute: typeof MenuIndexRoute
+  ApiAccessControlNavigationRoute: typeof ApiAccessControlNavigationRoute
+  ApiCrmSyncTransactionRoute: typeof ApiCrmSyncTransactionRoute
+  ApiInventoryAdjustmentsRoute: typeof ApiInventoryAdjustmentsRouteWithChildren
+  ApiInventoryBatchesRoute: typeof ApiInventoryBatchesRouteWithChildren
+  ApiInventoryBrandsRoute: typeof ApiInventoryBrandsRoute
+  ApiInventoryGoodsReceiptsRoute: typeof ApiInventoryGoodsReceiptsRouteWithChildren
+  ApiInventoryMovementsRoute: typeof ApiInventoryMovementsRoute
+  ApiInventoryOpeningStockRoute: typeof ApiInventoryOpeningStockRoute
+  ApiInventoryPurchaseRequisitionsRoute: typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
+  ApiInventoryReorderRulesRoute: typeof ApiInventoryReorderRulesRoute
+  ApiInventoryReorderSuggestionsRoute: typeof ApiInventoryReorderSuggestionsRouteWithChildren
+  ApiInventoryReservationsRoute: typeof ApiInventoryReservationsRoute
+  ApiInventorySalesOrdersRoute: typeof ApiInventorySalesOrdersRouteWithChildren
+  ApiInventorySerialsRoute: typeof ApiInventorySerialsRoute
+  ApiInventoryStockByLocationRoute: typeof ApiInventoryStockByLocationRoute
+  ApiInventoryStockCountsRoute: typeof ApiInventoryStockCountsRouteWithChildren
+  ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
+  ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
+  ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
+  ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
+  ApiResposShiftsRoute: typeof ApiResposShiftsRouteWithChildren
+  ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
+  ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
+  ApiCrmCustomersSegmentRoute: typeof ApiCrmCustomersSegmentRoute
+  ApiInventoryPurchaseOrdersStatusRoute: typeof ApiInventoryPurchaseOrdersStatusRoute
+  ApiTenantSubscriptionStatusRoute: typeof ApiTenantSubscriptionStatusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1383,6 +2168,20 @@ declare module '@tanstack/react-router' {
       path: '/auth/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users': {
+      id: '/api/users'
+      path: '/api/users'
+      fullPath: '/api/users'
+      preLoaderRoute: typeof ApiUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rbac': {
+      id: '/api/rbac'
+      path: '/api/rbac'
+      fullPath: '/api/rbac'
+      preLoaderRoute: typeof ApiRbacRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
@@ -1805,6 +2604,230 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBatchesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/users/roles': {
+      id: '/api/users/roles'
+      path: '/roles'
+      fullPath: '/api/users/roles'
+      preLoaderRoute: typeof ApiUsersRolesRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/users/permissions': {
+      id: '/api/users/permissions'
+      path: '/permissions'
+      fullPath: '/api/users/permissions'
+      preLoaderRoute: typeof ApiUsersPermissionsRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/users/onboarding': {
+      id: '/api/users/onboarding'
+      path: '/onboarding'
+      fullPath: '/api/users/onboarding'
+      preLoaderRoute: typeof ApiUsersOnboardingRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/users/invite': {
+      id: '/api/users/invite'
+      path: '/invite'
+      fullPath: '/api/users/invite'
+      preLoaderRoute: typeof ApiUsersInviteRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/tenant/onboard': {
+      id: '/api/tenant/onboard'
+      path: '/api/tenant/onboard'
+      fullPath: '/api/tenant/onboard'
+      preLoaderRoute: typeof ApiTenantOnboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tenant/activity-types': {
+      id: '/api/tenant/activity-types'
+      path: '/api/tenant/activity-types'
+      fullPath: '/api/tenant/activity-types'
+      preLoaderRoute: typeof ApiTenantActivityTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/respos/shifts': {
+      id: '/api/respos/shifts'
+      path: '/api/respos/shifts'
+      fullPath: '/api/respos/shifts'
+      preLoaderRoute: typeof ApiResposShiftsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rbac/screens': {
+      id: '/api/rbac/screens'
+      path: '/screens'
+      fullPath: '/api/rbac/screens'
+      preLoaderRoute: typeof ApiRbacScreensRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/rbac/screen-buttons': {
+      id: '/api/rbac/screen-buttons'
+      path: '/screen-buttons'
+      fullPath: '/api/rbac/screen-buttons'
+      preLoaderRoute: typeof ApiRbacScreenButtonsRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/rbac/permissions': {
+      id: '/api/rbac/permissions'
+      path: '/permissions'
+      fullPath: '/api/rbac/permissions'
+      preLoaderRoute: typeof ApiRbacPermissionsRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/rbac/buttons': {
+      id: '/api/rbac/buttons'
+      path: '/buttons'
+      fullPath: '/api/rbac/buttons'
+      preLoaderRoute: typeof ApiRbacButtonsRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/rbac/audit': {
+      id: '/api/rbac/audit'
+      path: '/audit'
+      fullPath: '/api/rbac/audit'
+      preLoaderRoute: typeof ApiRbacAuditRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/pos/checkout': {
+      id: '/api/pos/checkout'
+      path: '/api/pos/checkout'
+      fullPath: '/api/pos/checkout'
+      preLoaderRoute: typeof ApiPosCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/warehouses': {
+      id: '/api/inventory/warehouses'
+      path: '/api/inventory/warehouses'
+      fullPath: '/api/inventory/warehouses'
+      preLoaderRoute: typeof ApiInventoryWarehousesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/uoms': {
+      id: '/api/inventory/uoms'
+      path: '/api/inventory/uoms'
+      fullPath: '/api/inventory/uoms'
+      preLoaderRoute: typeof ApiInventoryUomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/transfers': {
+      id: '/api/inventory/transfers'
+      path: '/api/inventory/transfers'
+      fullPath: '/api/inventory/transfers'
+      preLoaderRoute: typeof ApiInventoryTransfersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/stock-counts': {
+      id: '/api/inventory/stock-counts'
+      path: '/api/inventory/stock-counts'
+      fullPath: '/api/inventory/stock-counts'
+      preLoaderRoute: typeof ApiInventoryStockCountsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/stock-by-location': {
+      id: '/api/inventory/stock-by-location'
+      path: '/api/inventory/stock-by-location'
+      fullPath: '/api/inventory/stock-by-location'
+      preLoaderRoute: typeof ApiInventoryStockByLocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/serials': {
+      id: '/api/inventory/serials'
+      path: '/api/inventory/serials'
+      fullPath: '/api/inventory/serials'
+      preLoaderRoute: typeof ApiInventorySerialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/sales-orders': {
+      id: '/api/inventory/sales-orders'
+      path: '/api/inventory/sales-orders'
+      fullPath: '/api/inventory/sales-orders'
+      preLoaderRoute: typeof ApiInventorySalesOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/reservations': {
+      id: '/api/inventory/reservations'
+      path: '/api/inventory/reservations'
+      fullPath: '/api/inventory/reservations'
+      preLoaderRoute: typeof ApiInventoryReservationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/reorder-suggestions': {
+      id: '/api/inventory/reorder-suggestions'
+      path: '/api/inventory/reorder-suggestions'
+      fullPath: '/api/inventory/reorder-suggestions'
+      preLoaderRoute: typeof ApiInventoryReorderSuggestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/reorder-rules': {
+      id: '/api/inventory/reorder-rules'
+      path: '/api/inventory/reorder-rules'
+      fullPath: '/api/inventory/reorder-rules'
+      preLoaderRoute: typeof ApiInventoryReorderRulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/purchase-requisitions': {
+      id: '/api/inventory/purchase-requisitions'
+      path: '/api/inventory/purchase-requisitions'
+      fullPath: '/api/inventory/purchase-requisitions'
+      preLoaderRoute: typeof ApiInventoryPurchaseRequisitionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/opening-stock': {
+      id: '/api/inventory/opening-stock'
+      path: '/api/inventory/opening-stock'
+      fullPath: '/api/inventory/opening-stock'
+      preLoaderRoute: typeof ApiInventoryOpeningStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/movements': {
+      id: '/api/inventory/movements'
+      path: '/api/inventory/movements'
+      fullPath: '/api/inventory/movements'
+      preLoaderRoute: typeof ApiInventoryMovementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/goods-receipts': {
+      id: '/api/inventory/goods-receipts'
+      path: '/api/inventory/goods-receipts'
+      fullPath: '/api/inventory/goods-receipts'
+      preLoaderRoute: typeof ApiInventoryGoodsReceiptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/brands': {
+      id: '/api/inventory/brands'
+      path: '/api/inventory/brands'
+      fullPath: '/api/inventory/brands'
+      preLoaderRoute: typeof ApiInventoryBrandsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/batches': {
+      id: '/api/inventory/batches'
+      path: '/api/inventory/batches'
+      fullPath: '/api/inventory/batches'
+      preLoaderRoute: typeof ApiInventoryBatchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/adjustments': {
+      id: '/api/inventory/adjustments'
+      path: '/api/inventory/adjustments'
+      fullPath: '/api/inventory/adjustments'
+      preLoaderRoute: typeof ApiInventoryAdjustmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/crm/sync-transaction': {
+      id: '/api/crm/sync-transaction'
+      path: '/api/crm/sync-transaction'
+      fullPath: '/api/crm/sync-transaction'
+      preLoaderRoute: typeof ApiCrmSyncTransactionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/access-control/navigation': {
+      id: '/api/access-control/navigation'
+      path: '/api/access-control/navigation'
+      fullPath: '/api/access-control/navigation'
+      preLoaderRoute: typeof ApiAccessControlNavigationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/settings/system': {
       id: '/_authenticated/settings/system'
       path: '/system'
@@ -1986,6 +3009,195 @@ declare module '@tanstack/react-router' {
       fullPath: '/restaurants/'
       preLoaderRoute: typeof AuthenticatedSystemRestaurantsIndexRouteImport
       parentRoute: typeof AuthenticatedSystemRoute
+    }
+    '/api/tenant/subscription/status': {
+      id: '/api/tenant/subscription/status'
+      path: '/api/tenant/subscription/status'
+      fullPath: '/api/tenant/subscription/status'
+      preLoaderRoute: typeof ApiTenantSubscriptionStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/respos/shifts/settings': {
+      id: '/api/respos/shifts/settings'
+      path: '/settings'
+      fullPath: '/api/respos/shifts/settings'
+      preLoaderRoute: typeof ApiResposShiftsSettingsRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/review': {
+      id: '/api/respos/shifts/review'
+      path: '/review'
+      fullPath: '/api/respos/shifts/review'
+      preLoaderRoute: typeof ApiResposShiftsReviewRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/movements': {
+      id: '/api/respos/shifts/movements'
+      path: '/movements'
+      fullPath: '/api/respos/shifts/movements'
+      preLoaderRoute: typeof ApiResposShiftsMovementsRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/force-close': {
+      id: '/api/respos/shifts/force-close'
+      path: '/force-close'
+      fullPath: '/api/respos/shifts/force-close'
+      preLoaderRoute: typeof ApiResposShiftsForceCloseRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/expected': {
+      id: '/api/respos/shifts/expected'
+      path: '/expected'
+      fullPath: '/api/respos/shifts/expected'
+      preLoaderRoute: typeof ApiResposShiftsExpectedRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/corrections': {
+      id: '/api/respos/shifts/corrections'
+      path: '/corrections'
+      fullPath: '/api/respos/shifts/corrections'
+      preLoaderRoute: typeof ApiResposShiftsCorrectionsRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/close': {
+      id: '/api/respos/shifts/close'
+      path: '/close'
+      fullPath: '/api/respos/shifts/close'
+      preLoaderRoute: typeof ApiResposShiftsCloseRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/audit': {
+      id: '/api/respos/shifts/audit'
+      path: '/audit'
+      fullPath: '/api/respos/shifts/audit'
+      preLoaderRoute: typeof ApiResposShiftsAuditRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/analytics': {
+      id: '/api/respos/shifts/analytics'
+      path: '/analytics'
+      fullPath: '/api/respos/shifts/analytics'
+      preLoaderRoute: typeof ApiResposShiftsAnalyticsRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/respos/shifts/active': {
+      id: '/api/respos/shifts/active'
+      path: '/active'
+      fullPath: '/api/respos/shifts/active'
+      preLoaderRoute: typeof ApiResposShiftsActiveRouteImport
+      parentRoute: typeof ApiResposShiftsRoute
+    }
+    '/api/rbac/screens/access': {
+      id: '/api/rbac/screens/access'
+      path: '/access'
+      fullPath: '/api/rbac/screens/access'
+      preLoaderRoute: typeof ApiRbacScreensAccessRouteImport
+      parentRoute: typeof ApiRbacScreensRoute
+    }
+    '/api/rbac/me/nav': {
+      id: '/api/rbac/me/nav'
+      path: '/me/nav'
+      fullPath: '/api/rbac/me/nav'
+      preLoaderRoute: typeof ApiRbacMeNavRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/rbac/me/access': {
+      id: '/api/rbac/me/access'
+      path: '/me/access'
+      fullPath: '/api/rbac/me/access'
+      preLoaderRoute: typeof ApiRbacMeAccessRouteImport
+      parentRoute: typeof ApiRbacRoute
+    }
+    '/api/inventory/warehouses/locations': {
+      id: '/api/inventory/warehouses/locations'
+      path: '/locations'
+      fullPath: '/api/inventory/warehouses/locations'
+      preLoaderRoute: typeof ApiInventoryWarehousesLocationsRouteImport
+      parentRoute: typeof ApiInventoryWarehousesRoute
+    }
+    '/api/inventory/uoms/conversions': {
+      id: '/api/inventory/uoms/conversions'
+      path: '/conversions'
+      fullPath: '/api/inventory/uoms/conversions'
+      preLoaderRoute: typeof ApiInventoryUomsConversionsRouteImport
+      parentRoute: typeof ApiInventoryUomsRoute
+    }
+    '/api/inventory/transfers/apply': {
+      id: '/api/inventory/transfers/apply'
+      path: '/apply'
+      fullPath: '/api/inventory/transfers/apply'
+      preLoaderRoute: typeof ApiInventoryTransfersApplyRouteImport
+      parentRoute: typeof ApiInventoryTransfersRoute
+    }
+    '/api/inventory/stock-counts/actions': {
+      id: '/api/inventory/stock-counts/actions'
+      path: '/actions'
+      fullPath: '/api/inventory/stock-counts/actions'
+      preLoaderRoute: typeof ApiInventoryStockCountsActionsRouteImport
+      parentRoute: typeof ApiInventoryStockCountsRoute
+    }
+    '/api/inventory/sales-orders/actions': {
+      id: '/api/inventory/sales-orders/actions'
+      path: '/actions'
+      fullPath: '/api/inventory/sales-orders/actions'
+      preLoaderRoute: typeof ApiInventorySalesOrdersActionsRouteImport
+      parentRoute: typeof ApiInventorySalesOrdersRoute
+    }
+    '/api/inventory/reorder-suggestions/run': {
+      id: '/api/inventory/reorder-suggestions/run'
+      path: '/run'
+      fullPath: '/api/inventory/reorder-suggestions/run'
+      preLoaderRoute: typeof ApiInventoryReorderSuggestionsRunRouteImport
+      parentRoute: typeof ApiInventoryReorderSuggestionsRoute
+    }
+    '/api/inventory/reorder-suggestions/convert': {
+      id: '/api/inventory/reorder-suggestions/convert'
+      path: '/convert'
+      fullPath: '/api/inventory/reorder-suggestions/convert'
+      preLoaderRoute: typeof ApiInventoryReorderSuggestionsConvertRouteImport
+      parentRoute: typeof ApiInventoryReorderSuggestionsRoute
+    }
+    '/api/inventory/purchase-requisitions/actions': {
+      id: '/api/inventory/purchase-requisitions/actions'
+      path: '/actions'
+      fullPath: '/api/inventory/purchase-requisitions/actions'
+      preLoaderRoute: typeof ApiInventoryPurchaseRequisitionsActionsRouteImport
+      parentRoute: typeof ApiInventoryPurchaseRequisitionsRoute
+    }
+    '/api/inventory/purchase-orders/status': {
+      id: '/api/inventory/purchase-orders/status'
+      path: '/api/inventory/purchase-orders/status'
+      fullPath: '/api/inventory/purchase-orders/status'
+      preLoaderRoute: typeof ApiInventoryPurchaseOrdersStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/goods-receipts/post': {
+      id: '/api/inventory/goods-receipts/post'
+      path: '/post'
+      fullPath: '/api/inventory/goods-receipts/post'
+      preLoaderRoute: typeof ApiInventoryGoodsReceiptsPostRouteImport
+      parentRoute: typeof ApiInventoryGoodsReceiptsRoute
+    }
+    '/api/inventory/batches/expire': {
+      id: '/api/inventory/batches/expire'
+      path: '/expire'
+      fullPath: '/api/inventory/batches/expire'
+      preLoaderRoute: typeof ApiInventoryBatchesExpireRouteImport
+      parentRoute: typeof ApiInventoryBatchesRoute
+    }
+    '/api/inventory/adjustments/apply': {
+      id: '/api/inventory/adjustments/apply'
+      path: '/apply'
+      fullPath: '/api/inventory/adjustments/apply'
+      preLoaderRoute: typeof ApiInventoryAdjustmentsApplyRouteImport
+      parentRoute: typeof ApiInventoryAdjustmentsRoute
+    }
+    '/api/crm/customers/segment': {
+      id: '/api/crm/customers/segment'
+      path: '/api/crm/customers/segment'
+      fullPath: '/api/crm/customers/segment'
+      preLoaderRoute: typeof ApiCrmCustomersSegmentRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/respos/invoice/$orderId': {
       id: '/_authenticated/respos/invoice/$orderId'
@@ -2204,6 +3416,227 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface ApiRbacScreensRouteChildren {
+  ApiRbacScreensAccessRoute: typeof ApiRbacScreensAccessRoute
+}
+
+const ApiRbacScreensRouteChildren: ApiRbacScreensRouteChildren = {
+  ApiRbacScreensAccessRoute: ApiRbacScreensAccessRoute,
+}
+
+const ApiRbacScreensRouteWithChildren = ApiRbacScreensRoute._addFileChildren(
+  ApiRbacScreensRouteChildren,
+)
+
+interface ApiRbacRouteChildren {
+  ApiRbacAuditRoute: typeof ApiRbacAuditRoute
+  ApiRbacButtonsRoute: typeof ApiRbacButtonsRoute
+  ApiRbacPermissionsRoute: typeof ApiRbacPermissionsRoute
+  ApiRbacScreenButtonsRoute: typeof ApiRbacScreenButtonsRoute
+  ApiRbacScreensRoute: typeof ApiRbacScreensRouteWithChildren
+  ApiRbacMeAccessRoute: typeof ApiRbacMeAccessRoute
+  ApiRbacMeNavRoute: typeof ApiRbacMeNavRoute
+}
+
+const ApiRbacRouteChildren: ApiRbacRouteChildren = {
+  ApiRbacAuditRoute: ApiRbacAuditRoute,
+  ApiRbacButtonsRoute: ApiRbacButtonsRoute,
+  ApiRbacPermissionsRoute: ApiRbacPermissionsRoute,
+  ApiRbacScreenButtonsRoute: ApiRbacScreenButtonsRoute,
+  ApiRbacScreensRoute: ApiRbacScreensRouteWithChildren,
+  ApiRbacMeAccessRoute: ApiRbacMeAccessRoute,
+  ApiRbacMeNavRoute: ApiRbacMeNavRoute,
+}
+
+const ApiRbacRouteWithChildren =
+  ApiRbacRoute._addFileChildren(ApiRbacRouteChildren)
+
+interface ApiUsersRouteChildren {
+  ApiUsersInviteRoute: typeof ApiUsersInviteRoute
+  ApiUsersOnboardingRoute: typeof ApiUsersOnboardingRoute
+  ApiUsersPermissionsRoute: typeof ApiUsersPermissionsRoute
+  ApiUsersRolesRoute: typeof ApiUsersRolesRoute
+}
+
+const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersInviteRoute: ApiUsersInviteRoute,
+  ApiUsersOnboardingRoute: ApiUsersOnboardingRoute,
+  ApiUsersPermissionsRoute: ApiUsersPermissionsRoute,
+  ApiUsersRolesRoute: ApiUsersRolesRoute,
+}
+
+const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
+  ApiUsersRouteChildren,
+)
+
+interface ApiInventoryAdjustmentsRouteChildren {
+  ApiInventoryAdjustmentsApplyRoute: typeof ApiInventoryAdjustmentsApplyRoute
+}
+
+const ApiInventoryAdjustmentsRouteChildren: ApiInventoryAdjustmentsRouteChildren =
+  {
+    ApiInventoryAdjustmentsApplyRoute: ApiInventoryAdjustmentsApplyRoute,
+  }
+
+const ApiInventoryAdjustmentsRouteWithChildren =
+  ApiInventoryAdjustmentsRoute._addFileChildren(
+    ApiInventoryAdjustmentsRouteChildren,
+  )
+
+interface ApiInventoryBatchesRouteChildren {
+  ApiInventoryBatchesExpireRoute: typeof ApiInventoryBatchesExpireRoute
+}
+
+const ApiInventoryBatchesRouteChildren: ApiInventoryBatchesRouteChildren = {
+  ApiInventoryBatchesExpireRoute: ApiInventoryBatchesExpireRoute,
+}
+
+const ApiInventoryBatchesRouteWithChildren =
+  ApiInventoryBatchesRoute._addFileChildren(ApiInventoryBatchesRouteChildren)
+
+interface ApiInventoryGoodsReceiptsRouteChildren {
+  ApiInventoryGoodsReceiptsPostRoute: typeof ApiInventoryGoodsReceiptsPostRoute
+}
+
+const ApiInventoryGoodsReceiptsRouteChildren: ApiInventoryGoodsReceiptsRouteChildren =
+  {
+    ApiInventoryGoodsReceiptsPostRoute: ApiInventoryGoodsReceiptsPostRoute,
+  }
+
+const ApiInventoryGoodsReceiptsRouteWithChildren =
+  ApiInventoryGoodsReceiptsRoute._addFileChildren(
+    ApiInventoryGoodsReceiptsRouteChildren,
+  )
+
+interface ApiInventoryPurchaseRequisitionsRouteChildren {
+  ApiInventoryPurchaseRequisitionsActionsRoute: typeof ApiInventoryPurchaseRequisitionsActionsRoute
+}
+
+const ApiInventoryPurchaseRequisitionsRouteChildren: ApiInventoryPurchaseRequisitionsRouteChildren =
+  {
+    ApiInventoryPurchaseRequisitionsActionsRoute:
+      ApiInventoryPurchaseRequisitionsActionsRoute,
+  }
+
+const ApiInventoryPurchaseRequisitionsRouteWithChildren =
+  ApiInventoryPurchaseRequisitionsRoute._addFileChildren(
+    ApiInventoryPurchaseRequisitionsRouteChildren,
+  )
+
+interface ApiInventoryReorderSuggestionsRouteChildren {
+  ApiInventoryReorderSuggestionsConvertRoute: typeof ApiInventoryReorderSuggestionsConvertRoute
+  ApiInventoryReorderSuggestionsRunRoute: typeof ApiInventoryReorderSuggestionsRunRoute
+}
+
+const ApiInventoryReorderSuggestionsRouteChildren: ApiInventoryReorderSuggestionsRouteChildren =
+  {
+    ApiInventoryReorderSuggestionsConvertRoute:
+      ApiInventoryReorderSuggestionsConvertRoute,
+    ApiInventoryReorderSuggestionsRunRoute:
+      ApiInventoryReorderSuggestionsRunRoute,
+  }
+
+const ApiInventoryReorderSuggestionsRouteWithChildren =
+  ApiInventoryReorderSuggestionsRoute._addFileChildren(
+    ApiInventoryReorderSuggestionsRouteChildren,
+  )
+
+interface ApiInventorySalesOrdersRouteChildren {
+  ApiInventorySalesOrdersActionsRoute: typeof ApiInventorySalesOrdersActionsRoute
+}
+
+const ApiInventorySalesOrdersRouteChildren: ApiInventorySalesOrdersRouteChildren =
+  {
+    ApiInventorySalesOrdersActionsRoute: ApiInventorySalesOrdersActionsRoute,
+  }
+
+const ApiInventorySalesOrdersRouteWithChildren =
+  ApiInventorySalesOrdersRoute._addFileChildren(
+    ApiInventorySalesOrdersRouteChildren,
+  )
+
+interface ApiInventoryStockCountsRouteChildren {
+  ApiInventoryStockCountsActionsRoute: typeof ApiInventoryStockCountsActionsRoute
+}
+
+const ApiInventoryStockCountsRouteChildren: ApiInventoryStockCountsRouteChildren =
+  {
+    ApiInventoryStockCountsActionsRoute: ApiInventoryStockCountsActionsRoute,
+  }
+
+const ApiInventoryStockCountsRouteWithChildren =
+  ApiInventoryStockCountsRoute._addFileChildren(
+    ApiInventoryStockCountsRouteChildren,
+  )
+
+interface ApiInventoryTransfersRouteChildren {
+  ApiInventoryTransfersApplyRoute: typeof ApiInventoryTransfersApplyRoute
+}
+
+const ApiInventoryTransfersRouteChildren: ApiInventoryTransfersRouteChildren = {
+  ApiInventoryTransfersApplyRoute: ApiInventoryTransfersApplyRoute,
+}
+
+const ApiInventoryTransfersRouteWithChildren =
+  ApiInventoryTransfersRoute._addFileChildren(
+    ApiInventoryTransfersRouteChildren,
+  )
+
+interface ApiInventoryUomsRouteChildren {
+  ApiInventoryUomsConversionsRoute: typeof ApiInventoryUomsConversionsRoute
+}
+
+const ApiInventoryUomsRouteChildren: ApiInventoryUomsRouteChildren = {
+  ApiInventoryUomsConversionsRoute: ApiInventoryUomsConversionsRoute,
+}
+
+const ApiInventoryUomsRouteWithChildren =
+  ApiInventoryUomsRoute._addFileChildren(ApiInventoryUomsRouteChildren)
+
+interface ApiInventoryWarehousesRouteChildren {
+  ApiInventoryWarehousesLocationsRoute: typeof ApiInventoryWarehousesLocationsRoute
+}
+
+const ApiInventoryWarehousesRouteChildren: ApiInventoryWarehousesRouteChildren =
+  {
+    ApiInventoryWarehousesLocationsRoute: ApiInventoryWarehousesLocationsRoute,
+  }
+
+const ApiInventoryWarehousesRouteWithChildren =
+  ApiInventoryWarehousesRoute._addFileChildren(
+    ApiInventoryWarehousesRouteChildren,
+  )
+
+interface ApiResposShiftsRouteChildren {
+  ApiResposShiftsActiveRoute: typeof ApiResposShiftsActiveRoute
+  ApiResposShiftsAnalyticsRoute: typeof ApiResposShiftsAnalyticsRoute
+  ApiResposShiftsAuditRoute: typeof ApiResposShiftsAuditRoute
+  ApiResposShiftsCloseRoute: typeof ApiResposShiftsCloseRoute
+  ApiResposShiftsCorrectionsRoute: typeof ApiResposShiftsCorrectionsRoute
+  ApiResposShiftsExpectedRoute: typeof ApiResposShiftsExpectedRoute
+  ApiResposShiftsForceCloseRoute: typeof ApiResposShiftsForceCloseRoute
+  ApiResposShiftsMovementsRoute: typeof ApiResposShiftsMovementsRoute
+  ApiResposShiftsReviewRoute: typeof ApiResposShiftsReviewRoute
+  ApiResposShiftsSettingsRoute: typeof ApiResposShiftsSettingsRoute
+}
+
+const ApiResposShiftsRouteChildren: ApiResposShiftsRouteChildren = {
+  ApiResposShiftsActiveRoute: ApiResposShiftsActiveRoute,
+  ApiResposShiftsAnalyticsRoute: ApiResposShiftsAnalyticsRoute,
+  ApiResposShiftsAuditRoute: ApiResposShiftsAuditRoute,
+  ApiResposShiftsCloseRoute: ApiResposShiftsCloseRoute,
+  ApiResposShiftsCorrectionsRoute: ApiResposShiftsCorrectionsRoute,
+  ApiResposShiftsExpectedRoute: ApiResposShiftsExpectedRoute,
+  ApiResposShiftsForceCloseRoute: ApiResposShiftsForceCloseRoute,
+  ApiResposShiftsMovementsRoute: ApiResposShiftsMovementsRoute,
+  ApiResposShiftsReviewRoute: ApiResposShiftsReviewRoute,
+  ApiResposShiftsSettingsRoute: ApiResposShiftsSettingsRoute,
+}
+
+const ApiResposShiftsRouteWithChildren = ApiResposShiftsRoute._addFileChildren(
+  ApiResposShiftsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LoginRoute: LoginRoute,
@@ -2221,13 +3654,52 @@ const rootRouteChildren: RootRouteChildren = {
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
+  ApiRbacRoute: ApiRbacRouteWithChildren,
+  ApiUsersRoute: ApiUsersRouteWithChildren,
   AuthCallbackRoute: AuthCallbackRoute,
   CrmLayoutRoute: CrmLayoutRoute,
   CrmContactsLazyRoute: CrmContactsLazyRoute,
   CrmDashboardLazyRoute: CrmDashboardLazyRoute,
   CrmPipelineLazyRoute: CrmPipelineLazyRoute,
   MenuIndexRoute: MenuIndexRoute,
+  ApiAccessControlNavigationRoute: ApiAccessControlNavigationRoute,
+  ApiCrmSyncTransactionRoute: ApiCrmSyncTransactionRoute,
+  ApiInventoryAdjustmentsRoute: ApiInventoryAdjustmentsRouteWithChildren,
+  ApiInventoryBatchesRoute: ApiInventoryBatchesRouteWithChildren,
+  ApiInventoryBrandsRoute: ApiInventoryBrandsRoute,
+  ApiInventoryGoodsReceiptsRoute: ApiInventoryGoodsReceiptsRouteWithChildren,
+  ApiInventoryMovementsRoute: ApiInventoryMovementsRoute,
+  ApiInventoryOpeningStockRoute: ApiInventoryOpeningStockRoute,
+  ApiInventoryPurchaseRequisitionsRoute:
+    ApiInventoryPurchaseRequisitionsRouteWithChildren,
+  ApiInventoryReorderRulesRoute: ApiInventoryReorderRulesRoute,
+  ApiInventoryReorderSuggestionsRoute:
+    ApiInventoryReorderSuggestionsRouteWithChildren,
+  ApiInventoryReservationsRoute: ApiInventoryReservationsRoute,
+  ApiInventorySalesOrdersRoute: ApiInventorySalesOrdersRouteWithChildren,
+  ApiInventorySerialsRoute: ApiInventorySerialsRoute,
+  ApiInventoryStockByLocationRoute: ApiInventoryStockByLocationRoute,
+  ApiInventoryStockCountsRoute: ApiInventoryStockCountsRouteWithChildren,
+  ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
+  ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
+  ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
+  ApiPosCheckoutRoute: ApiPosCheckoutRoute,
+  ApiResposShiftsRoute: ApiResposShiftsRouteWithChildren,
+  ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
+  ApiTenantOnboardRoute: ApiTenantOnboardRoute,
+  ApiCrmCustomersSegmentRoute: ApiCrmCustomersSegmentRoute,
+  ApiInventoryPurchaseOrdersStatusRoute: ApiInventoryPurchaseOrdersStatusRoute,
+  ApiTenantSubscriptionStatusRoute: ApiTenantSubscriptionStatusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

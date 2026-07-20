@@ -42,9 +42,9 @@ Prisma is **not** wrapped in npm scripts — invoke via `pnpm exec prisma ...`. 
 
 - **ORM:** Prisma 7 via the `@prisma/adapter-pg` driver adapter over a raw `pg` Pool. Schema: `prisma/schema.prisma` (~90 models, ~40 enums).
 - **DB singleton:** `src/lib/prisma.ts` is environment-aware — on the server it loads the generated client; **in the browser it returns a Proxy that throws.** All DB access must go through server code.
-- **Two API styles coexist (transitional):** Next-style route handlers in `src/app/api/**/route.ts` (the active server contract that `fetch('/api/...')` hits) and TanStack Start file routes in `src/routes/api/**`. Prefer `src/app/api/**` for new server endpoints.
-- **Thin handlers, fat server fns:** `app/api` handlers delegate to `src/server/fns/*` (rbac, users, invitations, auth). Shared helpers in `src/server/utils/{auth,http}.ts`; Supabase admin client in `src/server/supabase-admin.ts`.
-- **Typical write flow:** Component → TanStack Query hook → `data/actions.ts` (Zod-validates, attaches Supabase bearer token) → `fetch('/api/...')` → `route.ts` handler → `requireAuth(token, 'perm')` → `src/server/fns/*` → `src/lib/prisma.ts` → Postgres. Responses use the `{ success, data, error }` envelope and are re-parsed with Zod on the client.
+- **API routes:** TanStack Start server routes in `src/routes/api/**` are the server contract that `fetch('/api/...')` hits. Each file exports `Route` via `createFileRoute('/api/...')({ server: { handlers: { GET, POST, ... } } })` (unified server-route syntax, Start v1.121+). The former Next-style `src/app/api/**/route.ts` layer has been removed — do not add new files there.
+- **Thin handlers, fat server fns:** route handlers delegate to `src/server/fns/*` (rbac, users, invitations, auth). Shared helpers in `src/server/utils/{auth,http}.ts`; Supabase admin client in `src/server/supabase-admin.ts`.
+- **Typical write flow:** Component → TanStack Query hook → `data/actions.ts` (Zod-validates, attaches Supabase bearer token) → `fetch('/api/...')` → `src/routes/api/**` server-route handler → `requireAuth(token, 'perm')` → `src/server/fns/*` → `src/lib/prisma.ts` → Postgres. Responses use the `{ success, data, error }` envelope and are re-parsed with Zod on the client.
 - **Shortcut to know:** many RBAC/customer reads go client → Supabase directly (`supabase.from(...)`) relying on RLS, bypassing the Prisma API layer. Writes go through the API path above.
 
 ## Auth & RBAC

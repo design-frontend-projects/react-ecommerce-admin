@@ -1,6 +1,6 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { checkoutRequestSchema } from '@/features/pos/schemas/checkout'
 import { processCheckout } from '@/features/pos/services/CheckoutService'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
@@ -38,6 +38,10 @@ const POST = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/pos/checkout')({
-  POST,
+export const Route = createFileRoute('/api/pos/checkout')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

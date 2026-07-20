@@ -1,9 +1,9 @@
-import prisma from '@/lib/prisma'
+import { createFileRoute } from '@tanstack/react-router'
 import { setUserPermissionOverrides } from '@/server/fns/rbac'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
+import prisma from '@/lib/prisma'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request }) => {
   const { searchParams } = new URL(request.url)
@@ -54,7 +54,11 @@ const PUT = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/users/permissions')({
-  GET,
-  PUT,
+export const Route = createFileRoute('/api/users/permissions')({
+  server: {
+    handlers: {
+      GET,
+      PUT,
+    },
+  },
 })

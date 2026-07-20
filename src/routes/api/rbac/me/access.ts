@@ -1,6 +1,6 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
-import prisma from '@/lib/prisma'
+import { createFileRoute } from '@tanstack/react-router'
 import { withAuth } from '@/server/utils/with-auth'
+import prisma from '@/lib/prisma'
 
 /**
  * Current-user access, computed by the authoritative server resolver (including
@@ -26,6 +26,10 @@ const GET = withAuth(null, async ({ auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac/me/access')({
-  GET,
+export const Route = createFileRoute('/api/rbac/me/access')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

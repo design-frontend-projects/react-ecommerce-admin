@@ -1,4 +1,4 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { createFileRoute } from '@tanstack/react-router'
 import { getNavCatalog } from '@/server/fns/screens'
 import { withAuth } from '@/server/utils/with-auth'
 
@@ -13,6 +13,10 @@ const GET = withAuth(null, async () => {
   return Response.json({ success: true, data })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac/me/nav')({
-  GET,
+export const Route = createFileRoute('/api/rbac/me/nav')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

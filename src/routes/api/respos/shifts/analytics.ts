@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   getShiftAnalytics,
   type ShiftAnalyticsMetric,
@@ -6,7 +7,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { jsonError } from '@/server/utils/http'
 import { withAuth } from '@/server/utils/with-auth'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
 const METRICS = ['duration', 'variance', 'coverage', 'offenders'] as const
@@ -33,6 +33,10 @@ const GET = withAuth(PERMISSIONS.SHIFTS_VIEW, async ({ request }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/respos/shifts/analytics')({
-  GET,
+export const Route = createFileRoute('/api/respos/shifts/analytics')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

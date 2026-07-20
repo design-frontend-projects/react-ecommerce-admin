@@ -1,7 +1,7 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { reviewShift } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { reviewShiftInputSchema } from '@/features/respos/data/shift-schemas'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
@@ -15,6 +15,10 @@ const POST = withAuth(PERMISSIONS.SHIFTS_MANAGE, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/respos/shifts/review')({
-  POST,
+export const Route = createFileRoute('/api/respos/shifts/review')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

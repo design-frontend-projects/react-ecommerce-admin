@@ -1,7 +1,7 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { completeOnboarding } from '@/server/fns/auth'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { withAuth } from '@/server/utils/with-auth'
 
 const POST = withAuth(null, async ({ request, auth }) => {
   const body = (await request.json()) as {
@@ -35,6 +35,10 @@ const POST = withAuth(null, async ({ request, auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/users/onboarding')({
-  POST,
+export const Route = createFileRoute('/api/users/onboarding')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

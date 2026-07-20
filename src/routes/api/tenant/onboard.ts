@@ -1,7 +1,7 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { setTenantActivityTypes } from '@/server/fns/activity-types'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 
 const POST = withAuth(null, async ({ request, auth }) => {
@@ -63,6 +63,10 @@ const POST = withAuth(null, async ({ request, auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/tenant/onboard')({
-  POST,
+export const Route = createFileRoute('/api/tenant/onboard')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

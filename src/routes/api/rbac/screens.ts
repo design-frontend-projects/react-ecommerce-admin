@@ -1,13 +1,13 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   createScreen,
   deleteScreen,
   getScreensWithAccess,
   updateScreen,
 } from '@/server/fns/screens'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.SCREENS_VIEW, async () => {
   const data = await getScreensWithAccess()
@@ -84,9 +84,13 @@ const DELETE = withAuth(PERMISSIONS.SCREENS_MANAGE, async ({ request }) => {
   return Response.json({ success: true })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac/screens')({
-  GET,
-  POST,
-  PATCH,
-  DELETE,
+export const Route = createFileRoute('/api/rbac/screens')({
+  server: {
+    handlers: {
+      GET,
+      POST,
+      PATCH,
+      DELETE,
+    },
+  },
 })

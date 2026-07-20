@@ -1,13 +1,13 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   createRole,
   deleteRole,
   getRolesPermissions,
   updateRole,
 } from '@/server/fns/rbac'
-import { withAuth } from '@/server/utils/with-auth'
 import { jsonError } from '@/server/utils/http'
+import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.USERS_VIEW, async () => {
   const payload = await getRolesPermissions()
@@ -82,9 +82,13 @@ const DELETE = withAuth(PERMISSIONS.ROLES_MANAGE, async ({ request, auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/rbac')({
-  GET,
-  POST,
-  PATCH,
-  DELETE,
+export const Route = createFileRoute('/api/rbac')({
+  server: {
+    handlers: {
+      GET,
+      POST,
+      PATCH,
+      DELETE,
+    },
+  },
 })

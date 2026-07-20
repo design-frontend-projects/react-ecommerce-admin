@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { getExpectedCash } from '@/server/fns/shifts'
 import { handleRouteError } from '@/server/utils/api-error'
 import { jsonError } from '@/server/utils/http'
 import { withAuth } from '@/server/utils/with-auth'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
 const GET = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request, auth }) => {
@@ -19,6 +19,10 @@ const GET = withAuth(PERMISSIONS.SHIFTS_USE, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/respos/shifts/expected')({
-  GET,
+export const Route = createFileRoute('/api/respos/shifts/expected')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

@@ -1,6 +1,6 @@
-import { withAuth } from '@/server/utils/with-auth'
+import { createFileRoute } from '@tanstack/react-router'
 import { jsonError } from '@/server/utils/http'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
+import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 
 const GET = withAuth(null, async ({ auth }) => {
@@ -30,6 +30,10 @@ const GET = withAuth(null, async ({ auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/tenant/subscription/status')({
-  GET,
+export const Route = createFileRoute('/api/tenant/subscription/status')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

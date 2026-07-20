@@ -1,8 +1,8 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { applyTransfer } from '@/server/fns/stock-transfers'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const POST = withAuth(
   PERMISSIONS.INVENTORY_MANAGE,
@@ -25,6 +25,10 @@ const POST = withAuth(
   }
 )
 
-export const APIRoute = createAPIFileRoute('/api/inventory/transfers/apply')({
-  POST,
+export const Route = createFileRoute('/api/inventory/transfers/apply')({
+  server: {
+    handlers: {
+      POST,
+    },
+  },
 })

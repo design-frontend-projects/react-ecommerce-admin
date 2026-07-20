@@ -1,11 +1,8 @@
-import prisma from '@/lib/prisma'
+import { createFileRoute } from '@tanstack/react-router'
 import { ensureAccessControlSeeded } from '@/server/fns/access-control-seed'
 import { withAuth } from '@/server/utils/with-auth'
-import {
-  hasAnyPermission,
-  normalizeRoleName,
-} from '@/features/users/data/rbac'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
+import prisma from '@/lib/prisma'
+import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
 
 interface ScreenRow {
   id: string
@@ -149,6 +146,10 @@ const GET = withAuth(null, async ({ auth }) => {
   })
 })
 
-export const APIRoute = createAPIFileRoute('/api/access-control/navigation')({
-  GET,
+export const Route = createFileRoute('/api/access-control/navigation')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })

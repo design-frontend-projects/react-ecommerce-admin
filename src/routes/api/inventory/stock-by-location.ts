@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import {
   getReconcileReport,
   listStockByLocation,
@@ -5,7 +6,6 @@ import {
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 
 const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
@@ -27,6 +27,10 @@ const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   }
 })
 
-export const APIRoute = createAPIFileRoute('/api/inventory/stock-by-location')({
-  GET,
+export const Route = createFileRoute('/api/inventory/stock-by-location')({
+  server: {
+    handlers: {
+      GET,
+    },
+  },
 })
