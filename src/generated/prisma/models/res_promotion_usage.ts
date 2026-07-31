@@ -158,7 +158,7 @@ export type Res_promotion_usageGroupByOutputType = {
   _max: Res_promotion_usageMaxAggregateOutputType | null
 }
 
-type GetRes_promotion_usageGroupByPayload<T extends res_promotion_usageGroupByArgs> = Prisma.PrismaPromise<
+export type GetRes_promotion_usageGroupByPayload<T extends res_promotion_usageGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_promotion_usageGroupByOutputType, T['by']> &
       {

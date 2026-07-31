@@ -25,7 +25,11 @@ import { ScreenAccessDialog } from '../components/screen-access-dialog'
 import { ScreenFormDialog } from '../components/screen-form-dialog'
 import type { ModuleWithScreens, Screen } from '../data/schema'
 import { useButtons } from '../hooks/use-buttons'
-import { useAccessCatalog, useDeleteScreen, useScreens } from '../hooks/use-screens'
+import {
+  useAccessCatalog,
+  useDeleteScreen,
+  useScreens,
+} from '../hooks/use-screens'
 
 interface EditTarget {
   screen: Screen
@@ -112,8 +116,8 @@ export function ScreensRegistryPage() {
       </Header>
       <Main className='flex flex-1 flex-col gap-6'>
         <p className='max-w-3xl text-sm text-muted-foreground'>
-          Screens drive the database-backed navigation and route guards. Grant
-          a screen to roles or permissions, and activate the action buttons
+          Screens drive the database-backed navigation and route guards. Grant a
+          screen to roles or permissions, and activate the action buttons
           available on it.
         </p>
 

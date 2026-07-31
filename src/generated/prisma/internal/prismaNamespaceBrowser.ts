@@ -2120,7 +2120,6 @@ export type Reorder_suggestionsScalarFieldEnum = (typeof Reorder_suggestionsScal
 export const Rbac_auditScalarFieldEnum = {
   id: 'id',
   actor_auth_user_id: 'actor_auth_user_id',
-  tenant_id: 'tenant_id',
   action: 'action',
   target_type: 'target_type',
   target_id: 'target_id',

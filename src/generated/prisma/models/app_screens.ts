@@ -241,7 +241,7 @@ export type App_screensGroupByOutputType = {
   _max: App_screensMaxAggregateOutputType | null
 }
 
-type GetApp_screensGroupByPayload<T extends app_screensGroupByArgs> = Prisma.PrismaPromise<
+export type GetApp_screensGroupByPayload<T extends app_screensGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<App_screensGroupByOutputType, T['by']> &
       {

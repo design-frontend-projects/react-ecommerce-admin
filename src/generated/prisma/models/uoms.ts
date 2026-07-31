@@ -193,7 +193,7 @@ export type UomsGroupByOutputType = {
   _max: UomsMaxAggregateOutputType | null
 }
 
-type GetUomsGroupByPayload<T extends uomsGroupByArgs> = Prisma.PrismaPromise<
+export type GetUomsGroupByPayload<T extends uomsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UomsGroupByOutputType, T['by']> &
       {

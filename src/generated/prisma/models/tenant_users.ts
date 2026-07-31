@@ -279,7 +279,7 @@ export type Tenant_usersGroupByOutputType = {
   _max: Tenant_usersMaxAggregateOutputType | null
 }
 
-type GetTenant_usersGroupByPayload<T extends tenant_usersGroupByArgs> = Prisma.PrismaPromise<
+export type GetTenant_usersGroupByPayload<T extends tenant_usersGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tenant_usersGroupByOutputType, T['by']> &
       {
@@ -1284,10 +1284,6 @@ export type tenant_usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type $tenant_usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "tenant_users"
   objects: {
-    /**
-     * Owning account profile (renamed from the misleading `tenant_subscriptions`
-     * — the FK has always pointed at `profiles`).
-     */
     owner_profile: Prisma.$profilesPayload<ExtArgs> | null
     user_permissions: Prisma.$user_permissionsPayload<ExtArgs>[]
     user_roles: Prisma.$user_rolesPayload<ExtArgs>[]

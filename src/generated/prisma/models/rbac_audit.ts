@@ -27,7 +27,6 @@ export type AggregateRbac_audit = {
 export type Rbac_auditMinAggregateOutputType = {
   id: string | null
   actor_auth_user_id: string | null
-  tenant_id: string | null
   action: string | null
   target_type: string | null
   target_id: string | null
@@ -37,7 +36,6 @@ export type Rbac_auditMinAggregateOutputType = {
 export type Rbac_auditMaxAggregateOutputType = {
   id: string | null
   actor_auth_user_id: string | null
-  tenant_id: string | null
   action: string | null
   target_type: string | null
   target_id: string | null
@@ -47,7 +45,6 @@ export type Rbac_auditMaxAggregateOutputType = {
 export type Rbac_auditCountAggregateOutputType = {
   id: number
   actor_auth_user_id: number
-  tenant_id: number
   action: number
   target_type: number
   target_id: number
@@ -60,7 +57,6 @@ export type Rbac_auditCountAggregateOutputType = {
 export type Rbac_auditMinAggregateInputType = {
   id?: true
   actor_auth_user_id?: true
-  tenant_id?: true
   action?: true
   target_type?: true
   target_id?: true
@@ -70,7 +66,6 @@ export type Rbac_auditMinAggregateInputType = {
 export type Rbac_auditMaxAggregateInputType = {
   id?: true
   actor_auth_user_id?: true
-  tenant_id?: true
   action?: true
   target_type?: true
   target_id?: true
@@ -80,7 +75,6 @@ export type Rbac_auditMaxAggregateInputType = {
 export type Rbac_auditCountAggregateInputType = {
   id?: true
   actor_auth_user_id?: true
-  tenant_id?: true
   action?: true
   target_type?: true
   target_id?: true
@@ -164,7 +158,6 @@ export type rbac_auditGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type Rbac_auditGroupByOutputType = {
   id: string
   actor_auth_user_id: string | null
-  tenant_id: string | null
   action: string
   target_type: string
   target_id: string
@@ -175,7 +168,7 @@ export type Rbac_auditGroupByOutputType = {
   _max: Rbac_auditMaxAggregateOutputType | null
 }
 
-type GetRbac_auditGroupByPayload<T extends rbac_auditGroupByArgs> = Prisma.PrismaPromise<
+export type GetRbac_auditGroupByPayload<T extends rbac_auditGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Rbac_auditGroupByOutputType, T['by']> &
       {
@@ -196,7 +189,6 @@ export type rbac_auditWhereInput = {
   NOT?: Prisma.rbac_auditWhereInput | Prisma.rbac_auditWhereInput[]
   id?: Prisma.UuidFilter<"rbac_audit"> | string
   actor_auth_user_id?: Prisma.UuidNullableFilter<"rbac_audit"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"rbac_audit"> | string | null
   action?: Prisma.StringFilter<"rbac_audit"> | string
   target_type?: Prisma.StringFilter<"rbac_audit"> | string
   target_id?: Prisma.StringFilter<"rbac_audit"> | string
@@ -207,7 +199,6 @@ export type rbac_auditWhereInput = {
 export type rbac_auditOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   actor_auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
   target_type?: Prisma.SortOrder
   target_id?: Prisma.SortOrder
@@ -221,7 +212,6 @@ export type rbac_auditWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.rbac_auditWhereInput[]
   NOT?: Prisma.rbac_auditWhereInput | Prisma.rbac_auditWhereInput[]
   actor_auth_user_id?: Prisma.UuidNullableFilter<"rbac_audit"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"rbac_audit"> | string | null
   action?: Prisma.StringFilter<"rbac_audit"> | string
   target_type?: Prisma.StringFilter<"rbac_audit"> | string
   target_id?: Prisma.StringFilter<"rbac_audit"> | string
@@ -232,7 +222,6 @@ export type rbac_auditWhereUniqueInput = Prisma.AtLeast<{
 export type rbac_auditOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   actor_auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
   target_type?: Prisma.SortOrder
   target_id?: Prisma.SortOrder
@@ -249,7 +238,6 @@ export type rbac_auditScalarWhereWithAggregatesInput = {
   NOT?: Prisma.rbac_auditScalarWhereWithAggregatesInput | Prisma.rbac_auditScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"rbac_audit"> | string
   actor_auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"rbac_audit"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"rbac_audit"> | string | null
   action?: Prisma.StringWithAggregatesFilter<"rbac_audit"> | string
   target_type?: Prisma.StringWithAggregatesFilter<"rbac_audit"> | string
   target_id?: Prisma.StringWithAggregatesFilter<"rbac_audit"> | string
@@ -260,7 +248,6 @@ export type rbac_auditScalarWhereWithAggregatesInput = {
 export type rbac_auditCreateInput = {
   id?: string
   actor_auth_user_id?: string | null
-  tenant_id?: string | null
   action: string
   target_type: string
   target_id: string
@@ -271,7 +258,6 @@ export type rbac_auditCreateInput = {
 export type rbac_auditUncheckedCreateInput = {
   id?: string
   actor_auth_user_id?: string | null
-  tenant_id?: string | null
   action: string
   target_type: string
   target_id: string
@@ -282,7 +268,6 @@ export type rbac_auditUncheckedCreateInput = {
 export type rbac_auditUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   target_type?: Prisma.StringFieldUpdateOperationsInput | string
   target_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -293,7 +278,6 @@ export type rbac_auditUpdateInput = {
 export type rbac_auditUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   target_type?: Prisma.StringFieldUpdateOperationsInput | string
   target_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -304,7 +288,6 @@ export type rbac_auditUncheckedUpdateInput = {
 export type rbac_auditCreateManyInput = {
   id?: string
   actor_auth_user_id?: string | null
-  tenant_id?: string | null
   action: string
   target_type: string
   target_id: string
@@ -315,7 +298,6 @@ export type rbac_auditCreateManyInput = {
 export type rbac_auditUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   target_type?: Prisma.StringFieldUpdateOperationsInput | string
   target_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -326,7 +308,6 @@ export type rbac_auditUpdateManyMutationInput = {
 export type rbac_auditUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   target_type?: Prisma.StringFieldUpdateOperationsInput | string
   target_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -337,7 +318,6 @@ export type rbac_auditUncheckedUpdateManyInput = {
 export type rbac_auditCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   actor_auth_user_id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
   target_type?: Prisma.SortOrder
   target_id?: Prisma.SortOrder
@@ -348,7 +328,6 @@ export type rbac_auditCountOrderByAggregateInput = {
 export type rbac_auditMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   actor_auth_user_id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
   target_type?: Prisma.SortOrder
   target_id?: Prisma.SortOrder
@@ -358,7 +337,6 @@ export type rbac_auditMaxOrderByAggregateInput = {
 export type rbac_auditMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   actor_auth_user_id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
   target_type?: Prisma.SortOrder
   target_id?: Prisma.SortOrder
@@ -370,7 +348,6 @@ export type rbac_auditMinOrderByAggregateInput = {
 export type rbac_auditSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   actor_auth_user_id?: boolean
-  tenant_id?: boolean
   action?: boolean
   target_type?: boolean
   target_id?: boolean
@@ -381,7 +358,6 @@ export type rbac_auditSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type rbac_auditSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   actor_auth_user_id?: boolean
-  tenant_id?: boolean
   action?: boolean
   target_type?: boolean
   target_id?: boolean
@@ -392,7 +368,6 @@ export type rbac_auditSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type rbac_auditSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   actor_auth_user_id?: boolean
-  tenant_id?: boolean
   action?: boolean
   target_type?: boolean
   target_id?: boolean
@@ -403,7 +378,6 @@ export type rbac_auditSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type rbac_auditSelectScalar = {
   id?: boolean
   actor_auth_user_id?: boolean
-  tenant_id?: boolean
   action?: boolean
   target_type?: boolean
   target_id?: boolean
@@ -411,7 +385,7 @@ export type rbac_auditSelectScalar = {
   created_at?: boolean
 }
 
-export type rbac_auditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actor_auth_user_id" | "tenant_id" | "action" | "target_type" | "target_id" | "diff" | "created_at", ExtArgs["result"]["rbac_audit"]>
+export type rbac_auditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actor_auth_user_id" | "action" | "target_type" | "target_id" | "diff" | "created_at", ExtArgs["result"]["rbac_audit"]>
 
 export type $rbac_auditPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "rbac_audit"
@@ -419,10 +393,6 @@ export type $rbac_auditPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     actor_auth_user_id: string | null
-    /**
-     * Tenant the change happened in (nullable for legacy/platform-level rows).
-     */
-    tenant_id: string | null
     action: string
     target_type: string
     target_id: string
@@ -853,7 +823,6 @@ export interface Prisma__rbac_auditClient<T, Null = never, ExtArgs extends runti
 export interface rbac_auditFieldRefs {
   readonly id: Prisma.FieldRef<"rbac_audit", 'String'>
   readonly actor_auth_user_id: Prisma.FieldRef<"rbac_audit", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"rbac_audit", 'String'>
   readonly action: Prisma.FieldRef<"rbac_audit", 'String'>
   readonly target_type: Prisma.FieldRef<"rbac_audit", 'String'>
   readonly target_id: Prisma.FieldRef<"rbac_audit", 'String'>
