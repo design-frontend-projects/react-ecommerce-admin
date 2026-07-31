@@ -16,17 +16,26 @@ export const currentAccessQueryKey = (authUserId: string | null | undefined) =>
  */
 export async function fetchCurrentUserAccess(
   authUserId: string
-): Promise<CurrentUserAccess | null> {
+): Promise<CurrentUserAccess> {
   const { data } = await authClient.auth.getSession()
   const token = data.session?.access_token
-  if (!token) return null
+  // Right after sign-in the Supabase session may not be readable yet. Throwing
+  // (instead of resolving null) keeps the query in a retryable error state, so
+  // the RBAC store is never poisoned with a cached-for-60s empty result.
+  if (!token) {
+    throw new Error('Auth session is not available yet.')
+  }
 
   const payload = (await authorizedRequest(
     async () => token,
     '/api/rbac/me/access'
   )) as { data?: CurrentUserAccess } | undefined
   const access = payload?.data
-  if (!access) return null
+  // The server always returns a data envelope on 2xx (empty arrays for users
+  // without membership) — a missing envelope is a malformed response.
+  if (!access) {
+    throw new Error('Malformed response from /api/rbac/me/access.')
+  }
 
   return {
     authUserId: access.authUserId ?? authUserId,

@@ -131,7 +131,11 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
 
       clearPendingOtpRequest()
 
-      const access = await fetchCurrentUserAccess(data.user.id)
+      // Access resolution failing must not abort a successful sign-in —
+      // useRBACSession retries it after redirect.
+      const access = await fetchCurrentUserAccess(data.user.id).catch(
+        () => null
+      )
       const roles = access?.roleNames || []
       const isRestaurantRole = roles.some((r) =>
         ['cashier', 'captain', 'kitchen'].includes(r)

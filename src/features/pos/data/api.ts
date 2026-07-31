@@ -995,6 +995,8 @@ export async function getPosShipmentDetails(
     if (orderError) throw orderError
 
     let orderItems: PosShipmentOrderItemDetail[] = []
+    let resolvedPaymentMethod = order?.payment_method || null
+
     if (order) {
       const { data: items, error: itemsError } = await supabase
         .from('res_order_items')
@@ -1004,6 +1006,18 @@ export async function getPosShipmentDetails(
 
       if (itemsError) throw itemsError
       orderItems = (items || []) as PosShipmentOrderItemDetail[]
+
+      if (order.payment_method) {
+        const { data: pm } = await supabase
+          .from('res_payment_methods')
+          .select('name')
+          .eq('id', order.payment_method)
+          .maybeSingle()
+
+        if (pm?.name) {
+          resolvedPaymentMethod = pm.name
+        }
+      }
     }
 
     return {
@@ -1028,6 +1042,7 @@ export async function getPosShipmentDetails(
       order: order
         ? ({
             ...order,
+            payment_method: resolvedPaymentMethod,
             order_items: orderItems,
           } as PosShipmentOrderDetail)
         : null,
@@ -1120,3 +1135,103 @@ export async function updatePosShipmentStatus(
 
   return updateNonRestaurantShipment({ shipmentId, status })
 }
+
+export type PosTakeawayOrderItem = {
+  id: string
+  quantity: number
+  unit_price: number
+  notes?: string | null
+  properties?: unknown
+  menu_item?: {
+    id: string
+    name: string
+  } | null
+}
+
+export type PosTakeawayOrder = {
+  id: string
+  order_number: string
+  customer_name?: string | null
+  mobile_number?: string | null
+  status: string
+  order_type: string
+  subtotal: number
+  discount_amount: number
+  tax_amount: number
+  tip_amount?: number
+  total_amount: number
+  payment_method?: string | null
+  paid_at?: string | null
+  notes?: string | null
+  created_at: string
+  order_items: PosTakeawayOrderItem[]
+}
+
+export async function getPosTakeawayOrders(): Promise<PosTakeawayOrder[]> {
+  const { data: pmList } = await supabase
+    .from('res_payment_methods')
+    .select('id, name')
+
+  const pmMap = new Map<string, string>()
+  if (pmList) {
+    for (const pm of pmList) {
+      if (pm.id && pm.name) {
+        pmMap.set(pm.id, pm.name)
+      }
+    }
+  }
+
+  const { data, error } = await supabase
+    .from('res_orders')
+    .select(
+      '*, order_items:res_order_items(*, menu_item:res_menu_items(*))'
+    )
+    .eq('order_type', 'takeaway')
+    .in('status', ['paid', 'completed'])
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  return (data || []).map((order) => {
+    const rawPaymentMethod = order.payment_method || null
+    const resolvedMethod = rawPaymentMethod
+      ? pmMap.get(rawPaymentMethod) || rawPaymentMethod
+      : null
+
+    return {
+      id: order.id,
+      order_number: order.order_number || 'N/A',
+      customer_name: order.customer_name || null,
+      mobile_number: order.mobile_number || null,
+      status: order.status || 'paid',
+      order_type: order.order_type || 'takeaway',
+      subtotal: Number(order.subtotal || 0),
+      discount_amount: Number(order.discount_amount || 0),
+      tax_amount: Number(order.tax_amount || 0),
+      tip_amount: Number(order.tip_amount || 0),
+      total_amount: Number(order.total_amount || 0),
+      payment_method: resolvedMethod,
+      paid_at: order.paid_at || order.created_at,
+      notes: order.notes || null,
+      created_at: order.created_at,
+      order_items: (order.order_items || []).map((item: {
+        id: string
+        quantity?: number | null
+        unit_price?: number | null
+        notes?: string | null
+        properties?: unknown
+        menu_item?: { id?: string; name?: string } | null
+      }) => ({
+        id: item.id,
+        quantity: Number(item.quantity || 1),
+        unit_price: Number(item.unit_price || 0),
+        notes: item.notes || null,
+        properties: item.properties,
+        menu_item: item.menu_item?.name
+          ? { id: item.menu_item.id || '', name: item.menu_item.name }
+          : null,
+      })),
+    }
+  })
+}
+

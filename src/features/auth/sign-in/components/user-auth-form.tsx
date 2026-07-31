@@ -70,7 +70,11 @@ export function UserAuthForm({
         setSession(authData.session)
         setUser(authData.user)
 
-        const access = await fetchCurrentUserAccess(authData.user.id)
+        // Access resolution failing must not abort a successful sign-in —
+        // useRBACSession retries it after redirect.
+        const access = await fetchCurrentUserAccess(authData.user.id).catch(
+          () => null
+        )
         const roles = access?.roleNames || []
         const isRestaurantRole = roles.some((r) =>
           ['cashier', 'captain', 'kitchen'].includes(r)

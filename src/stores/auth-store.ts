@@ -3,6 +3,8 @@ import { create } from 'zustand'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 import { supabase } from '@/lib/supabase'
 import type { Profile } from '@/features/auth/services/profile-service'
+import { useRBACStore } from '@/features/users/data/store'
+import { expandPermissionNames, getFallbackPermissionNamesForRoles } from '@/features/users/data/rbac'
 
 const SELECTED_BRANCH = 'respos_selected_branch'
 
@@ -40,7 +42,45 @@ export const useAuthStore = create<AuthState>()((set) => {
         set((state) => ({ ...state, auth: { ...state.auth, session } })),
       profile: null,
       setProfile: (profile) =>
-        set((state) => ({ ...state, auth: { ...state.auth, profile } })),
+        set((state) => {
+          if (profile) {
+            const rbac = useRBACStore.getState()
+            // The server resolver (useRBACSession → /api/rbac/me/access) is
+            // authoritative. Only seed the profile-derived fallback while the
+            // server has not answered yet for this user, so the fallback can
+            // never overwrite real role/permission data.
+            const serverSynced =
+              rbac.currentUserId === profile.auth_user_id &&
+              (rbac.lastSyncSource === 'bootstrap' ||
+                rbac.lastSyncSource === 'realtime')
+
+            if (!serverSynced) {
+              const role = profile.role
+              const roleNames = role ? [role] : []
+              let permissionNames: string[] = []
+
+              if (role === 'admin' || role === 'super_admin') {
+                permissionNames = expandPermissionNames(['*'])
+              } else if (role) {
+                permissionNames = getFallbackPermissionNamesForRoles([role])
+              }
+
+              rbac.setCurrentAccess(
+                {
+                  userId: profile.auth_user_id,
+                  roleIds: [],
+                  roleNames,
+                  permissionNames,
+                },
+                'mutation'
+              )
+            }
+          } else {
+            useRBACStore.getState().reset()
+          }
+
+          return { ...state, auth: { ...state.auth, profile } }
+        }),
       selectedBranchId: initSelectedBranchId,
       setSelectedBranchId: (branchId) =>
         set((state) => {

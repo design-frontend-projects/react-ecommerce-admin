@@ -51,10 +51,12 @@ export function RequirePermission({
 
   const access = accessQuery.data
   // Deny-by-default: treat "still resolving" as not-yet-allowed so unauthorized
-  // content never flashes before the redirect fires. A resolved `null` (no
-  // tenant membership row) is a hard deny.
+  // content never flashes before the redirect fires. A user with no tenant
+  // membership resolves with empty role/permission arrays and is denied by
+  // isAllowed; transient fetch failures stay in the resolving state and retry.
   const isResolving = !isLoaded || !user || access === undefined
-  const allowed = !isResolving && access !== null && isAllowed(access, role, permission)
+  const allowed =
+    !isResolving && access !== undefined && isAllowed(access, role, permission)
 
   useEffect(() => {
     if (!isResolving && !allowed) {

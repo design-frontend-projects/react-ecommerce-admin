@@ -14,6 +14,7 @@ export interface Profile {
   payment_method: string | null
   transfer_ref: string | null
   branch_id: string | null
+  role?: string | null
   created_at: string
   updated_at: string
 }

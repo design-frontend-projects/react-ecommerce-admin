@@ -37,16 +37,11 @@ export function useRBACSession() {
       return
     }
 
+    // While the access query is loading or errored, keep whatever access is
+    // already in the store (the profile-derived fallback from auth-store, or
+    // the last known server answer) instead of clobbering it with empty
+    // arrays — that wipe is what hid every permission-gated item on sign-in.
     if (!currentAccessQuery.data) {
-      setCurrentAccess(
-        {
-          userId: user.id,
-          roleIds: [],
-          roleNames: [],
-          permissionNames: [],
-        },
-        'bootstrap'
-      )
       return
     }
 
