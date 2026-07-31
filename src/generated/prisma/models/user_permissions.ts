@@ -28,7 +28,6 @@ export type User_permissionsMinAggregateOutputType = {
   tenant_user_id: string | null
   permission_id: string | null
   is_granted: boolean | null
-  granted_by: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -37,7 +36,6 @@ export type User_permissionsMaxAggregateOutputType = {
   tenant_user_id: string | null
   permission_id: string | null
   is_granted: boolean | null
-  granted_by: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -46,7 +44,6 @@ export type User_permissionsCountAggregateOutputType = {
   tenant_user_id: number
   permission_id: number
   is_granted: number
-  granted_by: number
   created_at: number
   updated_at: number
   _all: number
@@ -57,7 +54,6 @@ export type User_permissionsMinAggregateInputType = {
   tenant_user_id?: true
   permission_id?: true
   is_granted?: true
-  granted_by?: true
   created_at?: true
   updated_at?: true
 }
@@ -66,7 +62,6 @@ export type User_permissionsMaxAggregateInputType = {
   tenant_user_id?: true
   permission_id?: true
   is_granted?: true
-  granted_by?: true
   created_at?: true
   updated_at?: true
 }
@@ -75,7 +70,6 @@ export type User_permissionsCountAggregateInputType = {
   tenant_user_id?: true
   permission_id?: true
   is_granted?: true
-  granted_by?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -157,7 +151,6 @@ export type User_permissionsGroupByOutputType = {
   tenant_user_id: string
   permission_id: string
   is_granted: boolean
-  granted_by: string | null
   created_at: Date | null
   updated_at: Date | null
   _count: User_permissionsCountAggregateOutputType | null
@@ -187,7 +180,6 @@ export type user_permissionsWhereInput = {
   tenant_user_id?: Prisma.UuidFilter<"user_permissions"> | string
   permission_id?: Prisma.UuidFilter<"user_permissions"> | string
   is_granted?: Prisma.BoolFilter<"user_permissions"> | boolean
-  granted_by?: Prisma.UuidNullableFilter<"user_permissions"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
@@ -198,7 +190,6 @@ export type user_permissionsOrderByWithRelationInput = {
   tenant_user_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   is_granted?: Prisma.SortOrder
-  granted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   permissions?: Prisma.permissionsOrderByWithRelationInput
@@ -213,7 +204,6 @@ export type user_permissionsWhereUniqueInput = Prisma.AtLeast<{
   tenant_user_id?: Prisma.UuidFilter<"user_permissions"> | string
   permission_id?: Prisma.UuidFilter<"user_permissions"> | string
   is_granted?: Prisma.BoolFilter<"user_permissions"> | boolean
-  granted_by?: Prisma.UuidNullableFilter<"user_permissions"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
@@ -224,7 +214,6 @@ export type user_permissionsOrderByWithAggregationInput = {
   tenant_user_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   is_granted?: Prisma.SortOrder
-  granted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.user_permissionsCountOrderByAggregateInput
@@ -239,14 +228,12 @@ export type user_permissionsScalarWhereWithAggregatesInput = {
   tenant_user_id?: Prisma.UuidWithAggregatesFilter<"user_permissions"> | string
   permission_id?: Prisma.UuidWithAggregatesFilter<"user_permissions"> | string
   is_granted?: Prisma.BoolWithAggregatesFilter<"user_permissions"> | boolean
-  granted_by?: Prisma.UuidNullableWithAggregatesFilter<"user_permissions"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_permissions"> | Date | string | null
 }
 
 export type user_permissionsCreateInput = {
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   permissions: Prisma.permissionsCreateNestedOneWithoutUser_permissionsInput
@@ -257,14 +244,12 @@ export type user_permissionsUncheckedCreateInput = {
   tenant_user_id: string
   permission_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
 
 export type user_permissionsUpdateInput = {
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutUser_permissionsNestedInput
@@ -275,7 +260,6 @@ export type user_permissionsUncheckedUpdateInput = {
   tenant_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   permission_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -284,14 +268,12 @@ export type user_permissionsCreateManyInput = {
   tenant_user_id: string
   permission_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
 
 export type user_permissionsUpdateManyMutationInput = {
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -300,7 +282,6 @@ export type user_permissionsUncheckedUpdateManyInput = {
   tenant_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   permission_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -324,7 +305,6 @@ export type user_permissionsCountOrderByAggregateInput = {
   tenant_user_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   is_granted?: Prisma.SortOrder
-  granted_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -333,7 +313,6 @@ export type user_permissionsMaxOrderByAggregateInput = {
   tenant_user_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   is_granted?: Prisma.SortOrder
-  granted_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -342,7 +321,6 @@ export type user_permissionsMinOrderByAggregateInput = {
   tenant_user_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   is_granted?: Prisma.SortOrder
-  granted_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -433,7 +411,6 @@ export type user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput = 
 
 export type user_permissionsCreateWithoutPermissionsInput = {
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   tenant_users: Prisma.tenant_usersCreateNestedOneWithoutUser_permissionsInput
@@ -442,7 +419,6 @@ export type user_permissionsCreateWithoutPermissionsInput = {
 export type user_permissionsUncheckedCreateWithoutPermissionsInput = {
   tenant_user_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -480,14 +456,12 @@ export type user_permissionsScalarWhereInput = {
   tenant_user_id?: Prisma.UuidFilter<"user_permissions"> | string
   permission_id?: Prisma.UuidFilter<"user_permissions"> | string
   is_granted?: Prisma.BoolFilter<"user_permissions"> | boolean
-  granted_by?: Prisma.UuidNullableFilter<"user_permissions"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
 }
 
 export type user_permissionsCreateWithoutTenant_usersInput = {
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   permissions: Prisma.permissionsCreateNestedOneWithoutUser_permissionsInput
@@ -496,7 +470,6 @@ export type user_permissionsCreateWithoutTenant_usersInput = {
 export type user_permissionsUncheckedCreateWithoutTenant_usersInput = {
   permission_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -530,14 +503,12 @@ export type user_permissionsUpdateManyWithWhereWithoutTenant_usersInput = {
 export type user_permissionsCreateManyPermissionsInput = {
   tenant_user_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
 
 export type user_permissionsUpdateWithoutPermissionsInput = {
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_users?: Prisma.tenant_usersUpdateOneRequiredWithoutUser_permissionsNestedInput
@@ -546,7 +517,6 @@ export type user_permissionsUpdateWithoutPermissionsInput = {
 export type user_permissionsUncheckedUpdateWithoutPermissionsInput = {
   tenant_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -554,7 +524,6 @@ export type user_permissionsUncheckedUpdateWithoutPermissionsInput = {
 export type user_permissionsUncheckedUpdateManyWithoutPermissionsInput = {
   tenant_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -562,14 +531,12 @@ export type user_permissionsUncheckedUpdateManyWithoutPermissionsInput = {
 export type user_permissionsCreateManyTenant_usersInput = {
   permission_id: string
   is_granted?: boolean
-  granted_by?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
 
 export type user_permissionsUpdateWithoutTenant_usersInput = {
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutUser_permissionsNestedInput
@@ -578,7 +545,6 @@ export type user_permissionsUpdateWithoutTenant_usersInput = {
 export type user_permissionsUncheckedUpdateWithoutTenant_usersInput = {
   permission_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -586,7 +552,6 @@ export type user_permissionsUncheckedUpdateWithoutTenant_usersInput = {
 export type user_permissionsUncheckedUpdateManyWithoutTenant_usersInput = {
   permission_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  granted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -597,7 +562,6 @@ export type user_permissionsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   tenant_user_id?: boolean
   permission_id?: boolean
   is_granted?: boolean
-  granted_by?: boolean
   created_at?: boolean
   updated_at?: boolean
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
@@ -608,7 +572,6 @@ export type user_permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   tenant_user_id?: boolean
   permission_id?: boolean
   is_granted?: boolean
-  granted_by?: boolean
   created_at?: boolean
   updated_at?: boolean
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
@@ -619,7 +582,6 @@ export type user_permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   tenant_user_id?: boolean
   permission_id?: boolean
   is_granted?: boolean
-  granted_by?: boolean
   created_at?: boolean
   updated_at?: boolean
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
@@ -630,12 +592,11 @@ export type user_permissionsSelectScalar = {
   tenant_user_id?: boolean
   permission_id?: boolean
   is_granted?: boolean
-  granted_by?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type user_permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tenant_user_id" | "permission_id" | "is_granted" | "granted_by" | "created_at" | "updated_at", ExtArgs["result"]["user_permissions"]>
+export type user_permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tenant_user_id" | "permission_id" | "is_granted" | "created_at" | "updated_at", ExtArgs["result"]["user_permissions"]>
 export type user_permissionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
   tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
@@ -659,10 +620,6 @@ export type $user_permissionsPayload<ExtArgs extends runtime.Types.Extensions.In
     tenant_user_id: string
     permission_id: string
     is_granted: boolean
-    /**
-     * Auth uid of the admin who set this override (nullable for legacy rows).
-     */
-    granted_by: string | null
     created_at: Date | null
     updated_at: Date | null
   }, ExtArgs["result"]["user_permissions"]>
@@ -1093,7 +1050,6 @@ export interface user_permissionsFieldRefs {
   readonly tenant_user_id: Prisma.FieldRef<"user_permissions", 'String'>
   readonly permission_id: Prisma.FieldRef<"user_permissions", 'String'>
   readonly is_granted: Prisma.FieldRef<"user_permissions", 'Boolean'>
-  readonly granted_by: Prisma.FieldRef<"user_permissions", 'String'>
   readonly created_at: Prisma.FieldRef<"user_permissions", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"user_permissions", 'DateTime'>
 }

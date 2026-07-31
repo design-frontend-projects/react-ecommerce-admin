@@ -1087,9 +1087,6 @@ model res_void_requests {
 model role_permissions {
   role_id       String      @db.Uuid
   permission_id String      @db.Uuid
-  /// Auth uid of the admin who granted this link (nullable for legacy rows).
-  granted_by    String?     @db.Uuid
-  created_at    DateTime?   @default(now()) @db.Timestamptz(6)
   permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade)
   roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
@@ -1107,17 +1104,10 @@ model roles {
   is_active        Boolean               @default(true)
   /// Protects the 7 seeded roles from deletion (backfilled by migration).
   is_system        Boolean               @default(false)
-  /// NULL = platform/system role; set = tenant-scoped custom role. Global name
-  /// uniqueness is retained until tenant-role creation ships (seeding and
-  /// invitations still upsert/find roles by name).
-  tenant_id        String?               @db.Uuid
-  tenant           tenant_subscriptions? @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   employee_roles   employee_roles[]
   role_permissions role_permissions[]
   screen_roles     screen_roles[]
   user_roles       user_roles[]
-
-  @@index([tenant_id], map: "idx_roles_tenant_id")
 }
 
 /// DEPRECATED — unused, superseded by the active RBAC set (roles/permissions/role_permissions/user_roles).
@@ -1430,7 +1420,6 @@ model tenant_subscriptions {
   last_name             String?
   is_owner              Boolean?
   tenant_activity_types tenant_activity_types[]
-  roles                 roles[]
   subscriptions         subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([status], map: "idx_tenant_subscriptions_status")
@@ -1532,9 +1521,6 @@ model user_roles {
   /// FKs tenant_users.id (the row PK), NOT the Supabase auth uid. Physical column stays `auth_user_id`
   /// (renamed at the Prisma level only to fix the code-level misnomer — no DB migration).
   tenant_user_id String       @map("auth_user_id") @db.Uuid
-  /// Auth uid of the admin who assigned this role (nullable for legacy rows).
-  assigned_by    String?      @db.Uuid
-  assigned_at    DateTime?    @default(now()) @db.Timestamptz(6)
   tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
   roles          roles        @relation(fields: [role_id], references: [id], onDelete: Cascade)
 
@@ -1667,8 +1653,6 @@ model user_permissions {
   tenant_user_id String       @db.Uuid
   permission_id  String       @db.Uuid
   is_granted     Boolean      @default(true)
-  /// Auth uid of the admin who set this override (nullable for legacy rows).
-  granted_by     String?      @db.Uuid
   created_at     DateTime?    @default(now()) @db.Timestamptz(6)
   updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
   permissions    permissions  @relation(fields: [permission_id], references: [id], onDelete: Cascade)

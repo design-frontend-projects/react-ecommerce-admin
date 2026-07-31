@@ -1,10 +1,11 @@
 // ResPOS Shift Management Page
 // Manage cashier shifts: open, close, and view shift history
 import { useEffect, useState } from 'react'
-import { z } from 'zod'
+import z from 'zod'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from '@tanstack/react-router'
 import { UserRole } from '@/types/user-role.enum'
 import { motion } from 'framer-motion'
 import {
@@ -15,12 +16,15 @@ import {
   Clock,
   DollarSign,
   Loader2,
+  LogOut,
   Plus,
+  ShieldAlert,
   Timer,
   X,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { useAuth, useUser } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/auth-store'
+import { useAuth, useSupabase, useUser } from '@/hooks/use-auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -112,9 +116,26 @@ export type CloseShiftFormValues = z.infer<typeof closeShiftSchema>
 // ============ Main Component ============
 
 export function ShiftManagement() {
+  const navigate = useNavigate()
+  const { signOut } = useSupabase()
+  const [isSigningOut, setIsSigningOut] = useState(false)
   const [openDialogOpen, setOpenDialogOpen] = useState(false)
   const [closeDialogOpen, setCloseDialogOpen] = useState(false)
   const [movementDialogOpen, setMovementDialogOpen] = useState(false)
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true)
+    try {
+      await signOut()
+      useAuthStore.getState().auth.reset()
+      toast.success('Signed out successfully')
+      navigate({ to: '/sign-in', replace: true })
+    } catch (_error) {
+      toast.error('Failed to sign out')
+    } finally {
+      setIsSigningOut(false)
+    }
+  }
 
   const { isLoaded, isSignedIn } = useAuth()
   const { user } = useUser()
@@ -245,6 +266,8 @@ export function ShiftManagement() {
                     <NoActiveShiftCard
                       onOpen={() => setOpenDialogOpen(true)}
                       canOpen={isLoaded && canOpen}
+                      onSignOut={handleSignOut}
+                      isSigningOut={isSigningOut}
                     />
                   )}
                 </motion.div>
@@ -482,28 +505,59 @@ function ActiveShiftCard({
 function NoActiveShiftCard({
   onOpen,
   canOpen,
+  onSignOut,
+  isSigningOut = false,
 }: {
   onOpen: () => void
   canOpen: boolean
+  onSignOut?: () => void
+  isSigningOut?: boolean
 }) {
   return (
-    <Card className='border-dashed'>
-      <CardContent className='flex flex-col items-center justify-center gap-4 py-12'>
-        <div className='rounded-full bg-muted p-4'>
-          <Timer className='h-8 w-8 text-muted-foreground' />
+    <Card className='border-dashed shadow-sm'>
+      <CardContent className='flex flex-col items-center justify-center gap-5 py-14'>
+        <div
+          className={
+            canOpen
+              ? 'rounded-full bg-primary/10 p-4 text-primary'
+              : 'rounded-full bg-destructive/10 p-4 text-destructive'
+          }
+        >
+          {canOpen ? (
+            <Timer className='h-8 w-8' />
+          ) : (
+            <ShieldAlert className='h-8 w-8' />
+          )}
         </div>
-        <div className='space-y-1 text-center'>
-          <h3 className='text-lg font-semibold'>No Active Shift</h3>
-          <p className='text-sm text-muted-foreground'>
+        <div className='max-w-md space-y-1.5 text-center'>
+          <h3 className='text-xl font-bold tracking-tight'>
+            {canOpen ? 'No Active Shift' : 'Shift Access Restricted'}
+          </h3>
+          <p className='text-sm leading-relaxed text-muted-foreground'>
             {canOpen
-              ? 'Open a new shift to start tracking cash and orders.'
-              : 'You do not have permission to open a shift.'}
+              ? 'Open a new shift to start tracking cash movements, register sales, and manage station sessions.'
+              : 'Your current account does not have permission to open or manage shifts. Please contact an administrator for access, or sign out to switch accounts.'}
           </p>
         </div>
-        {canOpen && (
-          <Button onClick={onOpen} className='gap-2'>
-            <Plus className='h-4 w-4' />
+        {canOpen ? (
+          <Button onClick={onOpen} size='lg' className='gap-2 shadow-sm'>
+            <Plus className='h-5 w-5' />
             Open New Shift
+          </Button>
+        ) : (
+          <Button
+            variant='destructive'
+            size='lg'
+            onClick={onSignOut}
+            disabled={isSigningOut}
+            className='gap-2 shadow-sm'
+          >
+            {isSigningOut ? (
+              <Loader2 className='h-5 w-5 animate-spin' />
+            ) : (
+              <LogOut className='h-5 w-5' />
+            )}
+            Sign Out & Switch Account
           </Button>
         )}
       </CardContent>

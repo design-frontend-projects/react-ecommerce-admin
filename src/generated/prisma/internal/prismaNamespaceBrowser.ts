@@ -1075,9 +1075,7 @@ export type Res_void_requestsScalarFieldEnum = (typeof Res_void_requestsScalarFi
 
 export const Role_permissionsScalarFieldEnum = {
   role_id: 'role_id',
-  permission_id: 'permission_id',
-  granted_by: 'granted_by',
-  created_at: 'created_at'
+  permission_id: 'permission_id'
 } as const
 
 export type Role_permissionsScalarFieldEnum = (typeof Role_permissionsScalarFieldEnum)[keyof typeof Role_permissionsScalarFieldEnum]
@@ -1090,8 +1088,7 @@ export const RolesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_active: 'is_active',
-  is_system: 'is_system',
-  tenant_id: 'tenant_id'
+  is_system: 'is_system'
 } as const
 
 export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -1423,9 +1420,7 @@ export type TransactionsScalarFieldEnum = (typeof TransactionsScalarFieldEnum)[k
 
 export const User_rolesScalarFieldEnum = {
   role_id: 'role_id',
-  tenant_user_id: 'tenant_user_id',
-  assigned_by: 'assigned_by',
-  assigned_at: 'assigned_at'
+  tenant_user_id: 'tenant_user_id'
 } as const
 
 export type User_rolesScalarFieldEnum = (typeof User_rolesScalarFieldEnum)[keyof typeof User_rolesScalarFieldEnum]
@@ -1545,7 +1540,6 @@ export const User_permissionsScalarFieldEnum = {
   tenant_user_id: 'tenant_user_id',
   permission_id: 'permission_id',
   is_granted: 'is_granted',
-  granted_by: 'granted_by',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

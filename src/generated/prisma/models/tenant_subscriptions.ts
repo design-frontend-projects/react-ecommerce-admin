@@ -301,7 +301,6 @@ export type tenant_subscriptionsWhereInput = {
   last_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableFilter<"tenant_subscriptions"> | boolean | null
   tenant_activity_types?: Prisma.Tenant_activity_typesListRelationFilter
-  roles?: Prisma.RolesListRelationFilter
   subscriptions?: Prisma.XOR<Prisma.SubscriptionsScalarRelationFilter, Prisma.subscriptionsWhereInput>
 }
 
@@ -322,7 +321,6 @@ export type tenant_subscriptionsOrderByWithRelationInput = {
   last_name?: Prisma.SortOrderInput | Prisma.SortOrder
   is_owner?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_activity_types?: Prisma.tenant_activity_typesOrderByRelationAggregateInput
-  roles?: Prisma.rolesOrderByRelationAggregateInput
   subscriptions?: Prisma.subscriptionsOrderByWithRelationInput
 }
 
@@ -346,7 +344,6 @@ export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   last_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableFilter<"tenant_subscriptions"> | boolean | null
   tenant_activity_types?: Prisma.Tenant_activity_typesListRelationFilter
-  roles?: Prisma.RolesListRelationFilter
   subscriptions?: Prisma.XOR<Prisma.SubscriptionsScalarRelationFilter, Prisma.subscriptionsWhereInput>
 }, "id">
 
@@ -410,7 +407,6 @@ export type tenant_subscriptionsCreateInput = {
   last_name?: string | null
   is_owner?: boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesCreateNestedManyWithoutTenant_subscriptionsInput
-  roles?: Prisma.rolesCreateNestedManyWithoutTenantInput
   subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
 }
 
@@ -431,7 +427,6 @@ export type tenant_subscriptionsUncheckedCreateInput = {
   last_name?: string | null
   is_owner?: boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
-  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type tenant_subscriptionsUpdateInput = {
@@ -450,7 +445,6 @@ export type tenant_subscriptionsUpdateInput = {
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUpdateManyWithoutTenant_subscriptionsNestedInput
-  roles?: Prisma.rolesUpdateManyWithoutTenantNestedInput
   subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
 }
 
@@ -471,7 +465,6 @@ export type tenant_subscriptionsUncheckedUpdateInput = {
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
-  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type tenant_subscriptionsCreateManyInput = {
@@ -525,11 +518,6 @@ export type tenant_subscriptionsUncheckedUpdateManyInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-}
-
-export type Tenant_subscriptionsNullableScalarRelationFilter = {
-  is?: Prisma.tenant_subscriptionsWhereInput | null
-  isNot?: Prisma.tenant_subscriptionsWhereInput | null
 }
 
 export type Tenant_subscriptionsListRelationFilter = {
@@ -611,22 +599,6 @@ export type Tenant_subscriptionsScalarRelationFilter = {
   isNot?: Prisma.tenant_subscriptionsWhereInput
 }
 
-export type tenant_subscriptionsCreateNestedOneWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutRolesInput>
-  connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutRolesInput
-  connect?: Prisma.tenant_subscriptionsWhereUniqueInput
-}
-
-export type tenant_subscriptionsUpdateOneWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutRolesInput>
-  connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutRolesInput
-  upsert?: Prisma.tenant_subscriptionsUpsertWithoutRolesInput
-  disconnect?: Prisma.tenant_subscriptionsWhereInput | boolean
-  delete?: Prisma.tenant_subscriptionsWhereInput | boolean
-  connect?: Prisma.tenant_subscriptionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_subscriptionsUpdateToOneWithWhereWithoutRolesInput, Prisma.tenant_subscriptionsUpdateWithoutRolesInput>, Prisma.tenant_subscriptionsUncheckedUpdateWithoutRolesInput>
-}
-
 export type tenant_subscriptionsCreateNestedManyWithoutSubscriptionsInput = {
   create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutSubscriptionsInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput> | Prisma.tenant_subscriptionsCreateWithoutSubscriptionsInput[] | Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput[]
   connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutSubscriptionsInput | Prisma.tenant_subscriptionsCreateOrConnectWithoutSubscriptionsInput[]
@@ -691,98 +663,6 @@ export type tenant_subscriptionsUpdateOneRequiredWithoutTenant_activity_typesNes
   update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_subscriptionsUpdateToOneWithWhereWithoutTenant_activity_typesInput, Prisma.tenant_subscriptionsUpdateWithoutTenant_activity_typesInput>, Prisma.tenant_subscriptionsUncheckedUpdateWithoutTenant_activity_typesInput>
 }
 
-export type tenant_subscriptionsCreateWithoutRolesInput = {
-  id?: string
-  auth_user_id: string
-  email: string
-  status?: $Enums.subscription_status
-  first_use?: boolean
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  commission_type?: $Enums.subscription_commission_type
-  first_name?: string | null
-  last_name?: string | null
-  is_owner?: boolean | null
-  tenant_activity_types?: Prisma.tenant_activity_typesCreateNestedManyWithoutTenant_subscriptionsInput
-  subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
-}
-
-export type tenant_subscriptionsUncheckedCreateWithoutRolesInput = {
-  id?: string
-  auth_user_id: string
-  email: string
-  subscription_id: number
-  status?: $Enums.subscription_status
-  first_use?: boolean
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  commission_type?: $Enums.subscription_commission_type
-  first_name?: string | null
-  last_name?: string | null
-  is_owner?: boolean | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
-}
-
-export type tenant_subscriptionsCreateOrConnectWithoutRolesInput = {
-  where: Prisma.tenant_subscriptionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutRolesInput>
-}
-
-export type tenant_subscriptionsUpsertWithoutRolesInput = {
-  update: Prisma.XOR<Prisma.tenant_subscriptionsUpdateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedUpdateWithoutRolesInput>
-  create: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutRolesInput>
-  where?: Prisma.tenant_subscriptionsWhereInput
-}
-
-export type tenant_subscriptionsUpdateToOneWithWhereWithoutRolesInput = {
-  where?: Prisma.tenant_subscriptionsWhereInput
-  data: Prisma.XOR<Prisma.tenant_subscriptionsUpdateWithoutRolesInput, Prisma.tenant_subscriptionsUncheckedUpdateWithoutRolesInput>
-}
-
-export type tenant_subscriptionsUpdateWithoutRolesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
-  first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  commission_type?: Prisma.Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUpdateManyWithoutTenant_subscriptionsNestedInput
-  subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
-}
-
-export type tenant_subscriptionsUncheckedUpdateWithoutRolesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  subscription_id?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
-  first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  commission_type?: Prisma.Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
-}
-
 export type tenant_subscriptionsCreateWithoutSubscriptionsInput = {
   id?: string
   auth_user_id: string
@@ -799,7 +679,6 @@ export type tenant_subscriptionsCreateWithoutSubscriptionsInput = {
   last_name?: string | null
   is_owner?: boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesCreateNestedManyWithoutTenant_subscriptionsInput
-  roles?: Prisma.rolesCreateNestedManyWithoutTenantInput
 }
 
 export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
@@ -818,7 +697,6 @@ export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
   last_name?: string | null
   is_owner?: boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
-  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type tenant_subscriptionsCreateOrConnectWithoutSubscriptionsInput = {
@@ -883,7 +761,6 @@ export type tenant_subscriptionsCreateWithoutTenant_activity_typesInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
-  roles?: Prisma.rolesCreateNestedManyWithoutTenantInput
   subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
 }
 
@@ -903,7 +780,6 @@ export type tenant_subscriptionsUncheckedCreateWithoutTenant_activity_typesInput
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
-  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type tenant_subscriptionsCreateOrConnectWithoutTenant_activity_typesInput = {
@@ -937,7 +813,6 @@ export type tenant_subscriptionsUpdateWithoutTenant_activity_typesInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  roles?: Prisma.rolesUpdateManyWithoutTenantNestedInput
   subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
 }
 
@@ -957,7 +832,6 @@ export type tenant_subscriptionsUncheckedUpdateWithoutTenant_activity_typesInput
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type tenant_subscriptionsCreateManySubscriptionsInput = {
@@ -993,7 +867,6 @@ export type tenant_subscriptionsUpdateWithoutSubscriptionsInput = {
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUpdateManyWithoutTenant_subscriptionsNestedInput
-  roles?: Prisma.rolesUpdateManyWithoutTenantNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1012,7 +885,6 @@ export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tenant_activity_types?: Prisma.tenant_activity_typesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
-  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
@@ -1039,12 +911,10 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
 
 export type Tenant_subscriptionsCountOutputType = {
   tenant_activity_types: number
-  roles: number
 }
 
 export type Tenant_subscriptionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant_activity_types?: boolean | Tenant_subscriptionsCountOutputTypeCountTenant_activity_typesArgs
-  roles?: boolean | Tenant_subscriptionsCountOutputTypeCountRolesArgs
 }
 
 /**
@@ -1062,13 +932,6 @@ export type Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs extends runti
  */
 export type Tenant_subscriptionsCountOutputTypeCountTenant_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.tenant_activity_typesWhereInput
-}
-
-/**
- * Tenant_subscriptionsCountOutputType without action
- */
-export type Tenant_subscriptionsCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.rolesWhereInput
 }
 
 
@@ -1089,7 +952,6 @@ export type tenant_subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.
   last_name?: boolean
   is_owner?: boolean
   tenant_activity_types?: boolean | Prisma.tenant_subscriptions$tenant_activity_typesArgs<ExtArgs>
-  roles?: boolean | Prisma.tenant_subscriptions$rolesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_subscriptions"]>
@@ -1153,7 +1015,6 @@ export type tenant_subscriptionsSelectScalar = {
 export type tenant_subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "subscription_id" | "status" | "first_use" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner", ExtArgs["result"]["tenant_subscriptions"]>
 export type tenant_subscriptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant_activity_types?: boolean | Prisma.tenant_subscriptions$tenant_activity_typesArgs<ExtArgs>
-  roles?: boolean | Prisma.tenant_subscriptions$rolesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1168,7 +1029,6 @@ export type $tenant_subscriptionsPayload<ExtArgs extends runtime.Types.Extension
   name: "tenant_subscriptions"
   objects: {
     tenant_activity_types: Prisma.$tenant_activity_typesPayload<ExtArgs>[]
-    roles: Prisma.$rolesPayload<ExtArgs>[]
     subscriptions: Prisma.$subscriptionsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1582,7 +1442,6 @@ readonly fields: tenant_subscriptionsFieldRefs;
 export interface Prisma__tenant_subscriptionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant_activity_types<T extends Prisma.tenant_subscriptions$tenant_activity_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_subscriptions$tenant_activity_typesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_activity_typesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  roles<T extends Prisma.tenant_subscriptions$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_subscriptions$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.subscriptionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.subscriptionsDefaultArgs<ExtArgs>>): Prisma.Prisma__subscriptionsClient<runtime.Types.Result.GetResult<Prisma.$subscriptionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2050,30 +1909,6 @@ export type tenant_subscriptions$tenant_activity_typesArgs<ExtArgs extends runti
   take?: number
   skip?: number
   distinct?: Prisma.Tenant_activity_typesScalarFieldEnum | Prisma.Tenant_activity_typesScalarFieldEnum[]
-}
-
-/**
- * tenant_subscriptions.roles
- */
-export type tenant_subscriptions$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the roles
-   */
-  select?: Prisma.rolesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the roles
-   */
-  omit?: Prisma.rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.rolesInclude<ExtArgs> | null
-  where?: Prisma.rolesWhereInput
-  orderBy?: Prisma.rolesOrderByWithRelationInput | Prisma.rolesOrderByWithRelationInput[]
-  cursor?: Prisma.rolesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RolesScalarFieldEnum | Prisma.RolesScalarFieldEnum[]
 }
 
 /**
