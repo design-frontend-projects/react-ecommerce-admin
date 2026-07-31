@@ -581,7 +581,7 @@ export async function updateUserRoles(
 export async function getUserRoles(
   clerkUserId: string
 ): Promise<RoleWithPermissions[]> {
-  const tenantUser = (await prisma.tenant_users.findUnique({
+  const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: clerkUserId },
     include: {
       user_roles: {

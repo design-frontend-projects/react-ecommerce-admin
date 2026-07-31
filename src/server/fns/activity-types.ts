@@ -13,7 +13,7 @@ export interface TenantActivityTypesResult {
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
 
 async function resolveTenantId(authUserId: string): Promise<string | null> {
-  const tenantUser = (await prisma.tenant_users.findUnique({
+  const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
     select: { parent_tenant_id: true },
   })) as { parent_tenant_id: string | null } | null

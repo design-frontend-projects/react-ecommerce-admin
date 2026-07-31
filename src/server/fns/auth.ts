@@ -45,7 +45,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
       ? currentMetadata.role.trim().toLowerCase()
       : null
 
-  const existingTenantUserByClerkId = await prisma.tenant_users.findUnique({
+  const existingTenantUserByClerkId = await prisma.tenant_users.findFirst({
     where: { auth_user_id: input.clerkId },
   })
 

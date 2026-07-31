@@ -9,7 +9,7 @@ import prisma from '@/lib/prisma'
 export async function resolveTenantId(
   authUserId: string
 ): Promise<string | null> {
-  const tenantUser = (await prisma.tenant_users.findUnique({
+  const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
     select: { parent_tenant_id: true },
   })) as { parent_tenant_id: string | null } | null

@@ -9,7 +9,7 @@ import prisma from '@/lib/prisma'
  * `requireAuth` exactly (spec Q5).
  */
 const GET = withAuth(null, async ({ auth }) => {
-  const tenantUser = (await prisma.tenant_users.findUnique({
+  const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: auth.userId },
     select: { id: true, user_roles: { select: { role_id: true } } },
   })) as { id: string; user_roles: Array<{ role_id: string }> } | null

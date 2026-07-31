@@ -26,7 +26,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const caller = await requireAuth(input.sessionToken, 'users.manage')
     const inviterAuthUserId = caller.userId
 
-    const inviter = await prisma.tenant_users.findUnique({
+    const inviter = await prisma.tenant_users.findFirst({
       where: { auth_user_id: inviterAuthUserId },
     })
 
@@ -225,7 +225,7 @@ export const revokeInvitation = createServerFn({ method: 'POST' })
     const tenantId = await resolveTenantId(caller.userId)
 
     // The invitation must belong to a pending user inside the caller's tenant.
-    const pendingUser = (await prisma.tenant_users.findUnique({
+    const pendingUser = (await prisma.tenant_users.findFirst({
       where: { auth_user_id: invitationId },
       select: { parent_tenant_id: true },
     })) as { parent_tenant_id: string | null } | null

@@ -150,7 +150,7 @@ export const updateUserBranch = createServerFn({ method: 'POST' })
 
     // If profile didn't exist yet for this user
     if (updated.count === 0) {
-      const tenantUser = await prisma.tenant_users.findUnique({
+      const tenantUser = await prisma.tenant_users.findFirst({
         where: { auth_user_id: userId },
       })
       if (tenantUser) {

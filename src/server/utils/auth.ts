@@ -63,7 +63,7 @@ export function getBearerToken(request: Request) {
 }
 
 export async function getDatabasePermissionNames(userId: string) {
-  const tenantUser = (await prisma.tenant_users.findUnique({
+  const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: userId },
     include: {
       user_roles: {
