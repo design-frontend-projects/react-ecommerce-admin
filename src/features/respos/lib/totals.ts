@@ -31,7 +31,7 @@ export interface OrderTotals {
 
 /**
  * Computes order totals for both tax modes. With S = subtotal, D = clamped
- * discounts, base = S − D, r = rate:
+ * discounts, base = S − D, r = rate / 100 (rate is a percentage, e.g. 14):
  *
  *  - Exclusive (is_inclusive = false): tax = base × r; total = base + tax + tip
  *  - Inclusive (is_inclusive = true): menu prices already contain tax, so the
@@ -46,9 +46,11 @@ export function computeOrderTotals(input: OrderTotalsInput): OrderTotals {
   const tipAmount = Math.max(0, input.tipAmount ?? 0)
 
   const base = subtotal - totalDiscount
-  const { rate, isInclusive } = input.taxConfig
+  const { rate: rawRate, isInclusive } = input.taxConfig
+  // Convert percentage number (e.g. 14) to decimal factor (0.14)
+  const r = rawRate / 100
 
-  const taxAmount = isInclusive ? base - base / (1 + rate) : base * rate
+  const taxAmount = isInclusive ? base - base / (1 + r) : base * r
   const total = isInclusive ? base + tipAmount : base + taxAmount + tipAmount
 
   const receivedAmount = input.receivedAmount ?? 0

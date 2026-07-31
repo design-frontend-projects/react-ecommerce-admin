@@ -125,7 +125,7 @@ export const ORDER_STATUS_COLORS: Record<string, string> = {
 // Default tax rate (14% for Egypt) additional tax ضريبة القيمة المضافة
 // Fallback only — the live rate comes from the tax_rates table via
 // useActiveTaxRate/useTaxSync.
-export const DEFAULT_TAX_RATE = 0.14
+export const DEFAULT_TAX_RATE = 14
 
 // Order channels (promotion "activity" scoping)
 export const ORDER_CHANNELS = ['dine_in', 'takeaway', 'delivery'] as const

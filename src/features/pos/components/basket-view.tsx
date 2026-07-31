@@ -30,6 +30,7 @@ export function BasketView() {
     getTaxAmount,
     getDiscountAmount,
     appliedPromotion,
+    taxRates,
   } = useBasket()
   const { selectedBranchId } = useAuthStore((state) => state.auth)
   const queryClient = useQueryClient()
@@ -40,6 +41,13 @@ export function BasketView() {
   const tax = getTaxAmount()
   const total = getTotalAmount()
   const cartDiscount = getDiscountAmount()
+  const taxLabel = (() => {
+    const allInclusive = taxRates.length > 0 && taxRates.every((t: any) => t.is_inclusive)
+    const allExclusive = taxRates.length > 0 && taxRates.every((t: any) => !t.is_inclusive)
+    if (allInclusive) return 'Tax (Included)'
+    if (allExclusive) return 'Tax'
+    return 'Tax (Mixed)'
+  })()
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0)
   const hasMissingVariantItems = items.some((item) => !item.productVariantId)
 
@@ -390,7 +398,7 @@ export function BasketView() {
           )}
           {tax > 0 && (
             <div className='flex justify-between text-sm text-muted-foreground'>
-              <span>Tax (Included)</span>
+              <span>{taxLabel}</span>
               <span className='tabular-nums'>{formatCurrency(tax)}</span>
             </div>
           )}

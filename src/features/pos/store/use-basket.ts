@@ -204,8 +204,11 @@ export const useBasket = create<BasketState>((set, get) => ({
     taxRates.forEach((tax) => {
       const rate = Number(tax.rate)
       if (tax.is_inclusive) {
-        totalTax += (afterDiscount * rate) / 100
+        // Inclusive: extract the embedded tax from the gross price
+        // e.g. rate=14 → afterDiscount - afterDiscount / 1.14
+        totalTax += afterDiscount - afterDiscount / (1 + rate / 100)
       } else {
+        // Exclusive: add tax on top of the net price
         totalTax += afterDiscount * (rate / 100)
       }
     })

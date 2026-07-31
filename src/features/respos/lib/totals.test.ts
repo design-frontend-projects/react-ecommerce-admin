@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { computeOrderTotals, round2 } from './totals'
 
-const exclusive = { rate: 0.14, isInclusive: false }
-const inclusive = { rate: 0.14, isInclusive: true }
+const exclusive = { rate: 14, isInclusive: false }
+const inclusive = { rate: 14, isInclusive: true }
 
 describe('computeOrderTotals', () => {
   it('computes exclusive tax on the discounted base', () => {
