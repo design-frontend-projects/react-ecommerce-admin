@@ -17,6 +17,15 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import {
   Form,
   FormControl,
   FormField,
@@ -30,7 +39,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { PromoUsageError, useUpdateOrderStatus } from '../api/mutations'
-import { usePaymentMethods, useValidatePromoCode } from '../api/queries'
+import { usePaymentMethods, useValidatePromoCode, useValidatePromoById } from '../api/queries'
 import { useTaxSync } from '../hooks/use-tax-sync'
 import { formatCurrency } from '../lib/formatters'
 import type { PromoCartLine } from '../lib/promo-engine'
@@ -51,7 +60,7 @@ const checkoutSchema = z
       .min(1, 'respos.checkout.errors.paymentMethodRequired'),
     customerName: z.string().optional(),
     mobileNumber: z.string().optional(),
-    discountType: z.enum(['percent', 'amount']),
+    discountType: z.enum(['percent', 'amount', 'none']),
     discountValue: z.number().min(0),
     promoCode: z.string().optional(),
     receivedAmount: z
@@ -130,6 +139,22 @@ export function CheckoutDialog({
     customerMobile: cart.customerMobile || order?.mobile_number || undefined,
   })
 
+  const {
+    data: existingPromoResult,
+  } = useValidatePromoById(
+    orderHasPromo ? order?.applied_promotion_id : null,
+    {
+      lines: promoLines,
+      subtotal,
+      orderType: orderChannel,
+      customerMobile: cart.customerMobile || order?.mobile_number || undefined,
+    }
+  )
+
+  const isExistingPromoInvalid = Boolean(
+    open && orderHasPromo && existingPromoResult && !existingPromoResult.valid
+  )
+
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -169,7 +194,9 @@ export function CheckoutDialog({
         customerName: order.customer_name ?? '',
         mobileNumber: cart.customerMobile || order.mobile_number || '',
         discountType:
-          cart.manualDiscountType === 'percentage' ? 'percent' : 'amount',
+          cart.manualDiscountAmount === 0 
+            ? 'none' 
+            : cart.manualDiscountType === 'percentage' ? 'percent' : 'amount',
         discountValue: cart.manualDiscountAmount || 0,
         promoCode: cart.promoCode || '',
         receivedAmount: cart.receivedAmount || 0,
@@ -205,7 +232,7 @@ export function CheckoutDialog({
   let manualDiscount = 0
   if (discountType === 'percent') {
     manualDiscount = (subtotal * (discountValue || 0)) / 100
-  } else {
+  } else if (discountType === 'amount') {
     manualDiscount = discountValue || 0
   }
 
@@ -622,6 +649,14 @@ export function CheckoutDialog({
                       >
                         <FormItem className='flex items-center space-y-0 space-x-2'>
                           <FormControl>
+                            <RadioGroupItem value='none' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>
+                            {t('respos.checkout.none', 'None')}
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className='flex items-center space-y-0 space-x-2'>
+                          <FormControl>
                             <RadioGroupItem value='amount' />
                           </FormControl>
                           <FormLabel className='font-normal'>
@@ -641,28 +676,30 @@ export function CheckoutDialog({
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name='discountValue'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t('respos.checkout.discountValue')}
-                      {discountType === 'percent' ? ' (%)' : ''}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        min={0}
-                        step={discountType === 'percent' ? 1 : 0.01}
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {discountType !== 'none' && (
+                <FormField
+                  control={form.control}
+                  name='discountValue'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t('respos.checkout.discountValue')}
+                        {discountType === 'percent' ? ' (%)' : ''}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          min={0}
+                          step={discountType === 'percent' ? 1 : 0.01}
+                          {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
 
             {/* Promo Code */}
@@ -679,17 +716,19 @@ export function CheckoutDialog({
                       -{formatCurrency(promoDiscount)}
                     </Badge>
                   </span>
-                  <Button
-                    type='button'
-                    variant='ghost'
-                    size='sm'
-                    className='h-6 w-6 p-0 text-green-700 hover:text-destructive'
-                    onClick={handleRemovePromo}
-                  >
-                    <X className='h-3 w-3' />
-                  </Button>
+                  {!isDeliveryOrder && (
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='sm'
+                      className='h-6 w-6 p-0 text-green-700 hover:text-destructive'
+                      onClick={handleRemovePromo}
+                    >
+                      <X className='h-3 w-3' />
+                    </Button>
+                  )}
                 </div>
-              ) : (
+              ) : !isDeliveryOrder ? (
                 <div className='flex gap-2'>
                   <Input
                     placeholder={t('respos.promo.placeholder')}
@@ -722,7 +761,7 @@ export function CheckoutDialog({
                     <span className='ml-2'>{t('respos.promo.apply')}</span>
                   </Button>
                 </div>
-              )}
+              ) : null}
               {promoInput &&
                 !appliedPromoCode &&
                 promoResult &&
@@ -948,6 +987,43 @@ export function CheckoutDialog({
           </form>
         </Form>
       </DialogContent>
+
+      {isExistingPromoInvalid && (
+        <AlertDialog open={isExistingPromoInvalid}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {t('respos.promo.expiredTitle', 'Promotion Invalid')}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {t(
+                  'respos.promo.expiredDescription',
+                  'The applied promotion is expired or no longer valid. You must remove it to proceed with the payment.'
+                )}
+                <br />
+                <br />
+                <span className="font-medium text-destructive">
+                  {existingPromoResult?.error?.key
+                    ? t(existingPromoResult.error.key, {
+                        ...existingPromoResult.error.params,
+                        defaultValue: existingPromoResult.error.key,
+                      })
+                    : t('respos.promo.error.invalid')}
+                </span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction
+                onClick={() => {
+                  handleRemovePromo()
+                }}
+              >
+                {t('respos.promo.removeAndProceed', 'Remove Promotion')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </Dialog>
   )
 }

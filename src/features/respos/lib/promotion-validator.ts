@@ -155,6 +155,40 @@ export async function validatePromoCode(
 }
 
 /**
+ * Looks up a promo code by ID on the `promotions` table and validates it against
+ * the current cart context.
+ */
+export async function validatePromotionById(
+  promotionId: number,
+  ctx: PromoValidationContext
+): Promise<PromoValidationResult> {
+  if (isOffline()) {
+    return {
+      valid: false,
+      discountAmount: 0,
+      error: { key: 'respos.promo.error.offline' },
+    }
+  }
+
+  const { data, error } = await supabase
+    .from('promotions')
+    .select(PROMOTION_SELECT)
+    .eq('promotion_id', promotionId)
+    .eq('is_active', true)
+    .maybeSingle()
+
+  if (error || !data) {
+    return {
+      valid: false,
+      discountAmount: 0,
+      error: { key: 'respos.promo.error.invalid' },
+    }
+  }
+
+  return validatePromotion(normalizePromotion(data), ctx)
+}
+
+/**
  * Fetches active promotions eligible for the given order channel, for the
  * POS selection list. Date window and activity are filtered server-side;
  * usage-limit checks are deferred to apply-time to avoid N count queries.

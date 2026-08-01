@@ -878,11 +878,21 @@ export async function getPosShipments() {
   if (isRestaurant) {
     const { data, error } = await supabase
       .from('res_shipments')
-      .select('*')
+      .select('*, res_orders!inner(res_order_items(status))')
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data
+    
+    // Filter to only include shipments where all order items are ready
+    const readyShipments = data.filter((shipment) => {
+      const orderItems = shipment.res_orders?.res_order_items || []
+      // If there are no items, it's considered ready
+      if (orderItems.length === 0) return true
+      return orderItems.every((item: any) => ['ready', 'served'].includes(item.status))
+    })
+
+    // Remove the joined data before returning to match expected signature
+    return readyShipments.map(({ res_orders, ...rest }) => rest)
   }
 
   const shipments = await getNonRestaurantShipments()

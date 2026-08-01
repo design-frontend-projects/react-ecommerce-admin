@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import {
   fetchEligiblePromotions,
   validatePromoCode,
+  validatePromotionById,
   type PromoValidationContext,
 } from '../lib/promotion-validator'
 import type {
@@ -83,6 +84,8 @@ export const resposQueryKeys = {
   paymentMethods: ['respos', 'payment-methods'] as const,
   promotions: (code: string, ctx: unknown) =>
     ['respos', 'promotions', 'validate', code, ctx] as const,
+  promotionsById: (id: number, ctx: unknown) =>
+    ['respos', 'promotions', 'validate-id', id, ctx] as const,
   eligiblePromotions: (orderType: string) =>
     ['respos', 'promotions', 'eligible', orderType] as const,
   dashboardStats: ['respos', 'dashboard-stats'] as const,
@@ -794,6 +797,19 @@ export function useValidatePromoCode(
     queryKey: resposQueryKeys.promotions(code, ctx),
     queryFn: () => validatePromoCode(code, ctx),
     enabled: !!code.trim() && ctx.subtotal > 0,
+    staleTime: 30_000,
+    retry: false,
+  })
+}
+
+export function useValidatePromoById(
+  promotionId: number | null | undefined,
+  ctx: PromoValidationContext
+) {
+  return useQuery({
+    queryKey: resposQueryKeys.promotionsById(promotionId ?? 0, ctx),
+    queryFn: () => validatePromotionById(promotionId!, ctx),
+    enabled: !!promotionId && ctx.subtotal > 0,
     staleTime: 30_000,
     retry: false,
   })

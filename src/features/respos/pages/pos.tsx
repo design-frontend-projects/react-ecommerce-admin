@@ -96,6 +96,7 @@ export function POSScreen() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [checkoutDeliveryOrder, setCheckoutDeliveryOrder] = useState<ResOrderWithDetails | null>(null)
   const [showHistory, setShowHistory] = useState(false)
 
   // Keep the configured tax rate flowing into cart totals
@@ -232,12 +233,32 @@ export function POSScreen() {
     }))
 
     const callbacks = {
-      onSuccess: () => {
+      onSuccess: (data?: any) => {
         toast.success(
           activeOrder
             ? t('respos.pos.orderUpdated')
             : t('respos.pos.orderPlaced')
         )
+        if (orderMode === 'delivery' && !activeOrder && data) {
+          const constructedOrder: ResOrderWithDetails = {
+            ...data,
+            items: cart.items.map((cartItem) => ({
+              id: Math.random().toString(),
+              order_id: data.id,
+              item_id: cartItem.item.id,
+              variant_id: cartItem.variant?.id || null,
+              quantity: cartItem.quantity,
+              unit_price: cartItem.lineTotal / cartItem.quantity,
+              properties: cartItem.selectedProperties || null,
+              notes: cartItem.notes || null,
+              created_at: data.created_at || new Date().toISOString(),
+              updated_at: data.updated_at || new Date().toISOString(),
+              item: cartItem.item,
+              variant: cartItem.variant || null,
+            })),
+          }
+          setCheckoutDeliveryOrder(constructedOrder)
+        }
         clearCart()
       },
       onError: () => toast.error(t('respos.pos.processOrderFailed')),
@@ -316,10 +337,16 @@ export function POSScreen() {
   return (
     <>
       <CheckoutDialog
-        open={isCheckoutOpen}
-        onOpenChange={setIsCheckoutOpen}
-        order={activeOrder || null}
-        onSuccess={() => {}}
+        open={isCheckoutOpen || !!checkoutDeliveryOrder}
+        onOpenChange={(open) => {
+          setIsCheckoutOpen(open)
+          if (!open) setCheckoutDeliveryOrder(null)
+        }}
+        order={checkoutDeliveryOrder || activeOrder || null}
+        onSuccess={() => {
+          setCheckoutDeliveryOrder(null)
+          setIsCheckoutOpen(false)
+        }}
       />
 
       <MenuItemDetailsDialog

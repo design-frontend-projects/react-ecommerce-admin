@@ -37,7 +37,7 @@ export function KitchenDisplay() {
   const activeOrders =
     orders?.filter(
       (order) =>
-        ['open', 'in_progress'].includes(order.status) &&
+        ['open', 'in_progress', 'paid'].includes(order.status) &&
         order.order_items?.some((item) =>
           ['pending', 'preparing'].includes(item.status)
         )
