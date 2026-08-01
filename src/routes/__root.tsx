@@ -2,7 +2,6 @@ import * as React from 'react'
 import {
   type QueryClient,
   QueryClientProvider,
-  useQueryClient,
 } from '@tanstack/react-query'
 import {
   createRootRouteWithContext,
@@ -23,7 +22,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { InstallBanner } from '@/components/InstallBanner'
 import { InstallPrompt } from '@/components/InstallPrompt'
 import { NetworkStatus } from '@/components/NetworkStatus'
-import { OnboardingModal } from '@/components/auth/OnboardingModal'
+
 import { SubscriptionRenewalModal } from '@/components/auth/SubscriptionRenewalModal'
 import { NavigationProgress } from '@/components/navigation-progress'
 import { OfflineBadge, OnlineBadge } from '@/components/offline-badge'
@@ -55,7 +54,6 @@ function InnerRootComponent() {
   const { isLoading: isSyncing } = useSyncUser()
   const { data: subscription, isLoading: isSubscriptionLoading } =
     useSubscription()
-  const queryClient = useQueryClient()
 
   if (isSyncing || isSubscriptionLoading) {
     return (
@@ -63,10 +61,6 @@ function InnerRootComponent() {
         <Loader2 className='h-10 w-10 animate-spin text-primary' />
       </div>
     )
-  }
-
-  const handleOnboardingSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ['subscription'] })
   }
 
   const handleManageBilling = () => {
@@ -81,9 +75,7 @@ function InnerRootComponent() {
         <NavigationProgress />
         <PwaUpdatePrompt />
         <Outlet />
-        {subscription && subscription.first_use && (
-          <OnboardingModal open={true} onSuccess={handleOnboardingSuccess} />
-        )}
+
         {subscription && !subscription.first_use && !subscription.is_active && (
           <SubscriptionRenewalModal
             open={true}

@@ -139,7 +139,7 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={sidebarData.user} />
+        {sidebarData.user && <NavUser user={sidebarData.user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
