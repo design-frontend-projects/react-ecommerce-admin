@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   onboardingSchema,
   type OnboardingFormData,
@@ -53,6 +54,7 @@ export function OnboardingForm({
   isLoading,
   defaultEmail = '',
 }: OnboardingFormProps) {
+  const { t } = useTranslation()
   const form = useForm<OnboardingFormData>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
@@ -71,10 +73,10 @@ export function OnboardingForm({
           name='company_name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Company Name</FormLabel>
+              <FormLabel>{t('authForms.companyName', 'Company Name')}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder='Acme Restaurant Group'
+                  placeholder={t('authForms.companyPlaceholder', 'Acme Restaurant Group')}
                   disabled={isLoading}
                   {...field}
                 />
@@ -89,7 +91,7 @@ export function OnboardingForm({
           name='billing_contact'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Billing Contact Email</FormLabel>
+              <FormLabel>{t('authForms.billingContactEmail', 'Billing Contact Email')}</FormLabel>
               <FormControl>
                 <Input
                   placeholder='billing@example.com'
@@ -109,7 +111,7 @@ export function OnboardingForm({
             name='industry'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Industry</FormLabel>
+                <FormLabel>{t('authForms.industry', 'Industry')}</FormLabel>
                 <Select
                   disabled={isLoading}
                   onValueChange={field.onChange}
@@ -117,7 +119,7 @@ export function OnboardingForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder='Select industry' />
+                      <SelectValue placeholder={t('authForms.selectIndustry', 'Select industry')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -138,7 +140,7 @@ export function OnboardingForm({
             name='timezone'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Timezone</FormLabel>
+                <FormLabel>{t('authForms.timezone', 'Timezone')}</FormLabel>
                 <Select
                   disabled={isLoading}
                   onValueChange={field.onChange}
@@ -146,7 +148,7 @@ export function OnboardingForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder='Select timezone' />
+                      <SelectValue placeholder={t('authForms.selectTimezone', 'Select timezone')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -165,7 +167,7 @@ export function OnboardingForm({
 
         <Button className='mt-6 w-full' type='submit' disabled={isLoading}>
           {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-          Complete Setup
+          {t('authForms.completeSetup', 'Complete Setup')}
         </Button>
       </form>
     </Form>

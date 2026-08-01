@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UserRole } from '@/types/user-role.enum'
 
 // Mock authentication check hook for frontend
@@ -13,6 +14,7 @@ export function withCRMAuth<P extends object>(
   return function WithCRMAuth(props: P) {
     const { role, loading } = useAuthRole()
     const [authorized, setAuthorized] = useState(false)
+    const { t } = useTranslation()
 
     useEffect(() => {
       if (!loading) {
@@ -22,11 +24,11 @@ export function withCRMAuth<P extends object>(
       }
     }, [role, loading])
 
-    if (loading) return <div>Loading CRM...</div>
+    if (loading) return <div>{t('crm.loadingCrm', 'Loading CRM...')}</div>
     if (!authorized)
       return (
         <div className='p-6 text-red-500'>
-          Access Denied: Requires Manager or Admin role.
+          {t('crm.accessDenied', 'Access Denied: Requires Manager or Admin role.')}
         </div>
       )
 

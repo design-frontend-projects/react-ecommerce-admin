@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useCRMStore } from '@/store/crmStore'
 
 export function CustomerList() {
   const { leads } = useCRMStore()
   const [filterSegment, setFilterSegment] = useState('all')
+  const { t } = useTranslation()
 
   // Note: We're using leads to proxy for customers in this basic store for now.
   // In a full implementation, customers and leads would be separated.
@@ -15,23 +17,23 @@ export function CustomerList() {
   return (
     <div className='rounded bg-white p-4 shadow'>
       <div className='mb-6 flex items-center justify-between'>
-        <h2 className='text-2xl font-bold text-gray-800'>Customers</h2>
+        <h2 className='text-2xl font-bold text-gray-800'>{t('crm.customers', 'Customers')}</h2>
         <select
           value={filterSegment}
           onChange={(e) => setFilterSegment(e.target.value)}
           className='rounded border p-2 text-gray-700'
         >
-          <option value='all'>All Segments</option>
-          <option value='VIP'>VIP</option>
-          <option value='frequent'>Frequent</option>
-          <option value='inactive'>Inactive</option>
-          <option value='new'>New</option>
+          <option value='all'>{t('crm.allSegments', 'All Segments')}</option>
+          <option value='VIP'>{t('crm.vip', 'VIP')}</option>
+          <option value='frequent'>{t('crm.frequent', 'Frequent')}</option>
+          <option value='inactive'>{t('crm.inactive', 'Inactive')}</option>
+          <option value='new'>{t('crm.new', 'New')}</option>
         </select>
       </div>
 
       <div className='grid gap-4'>
         {filteredCustomers.length === 0 ? (
-          <p className='text-gray-500'>No customers found for this segment.</p>
+          <p className='text-gray-500'>{t('crm.noCustomersFound', 'No customers found for this segment.')}</p>
         ) : (
           filteredCustomers.map((customer) => (
             <div
@@ -54,7 +56,7 @@ export function CustomerList() {
                       : 'bg-blue-100 text-blue-800'
                   }`}
                 >
-                  {customer.status || 'Standard'}
+                  {customer.status || t('crm.standard', 'Standard')}
                 </span>
               </div>
             </div>

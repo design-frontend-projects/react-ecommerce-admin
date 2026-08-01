@@ -1,9 +1,11 @@
 import React from 'react'
 import { WifiOff, Wifi } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { useNetworkContext } from '@/context/network-status-provider'
 
 export const OfflineBadge: React.FC = () => {
+  const { t } = useTranslation()
   const { isOnline } = useNetworkContext()
 
   if (isOnline) return null
@@ -17,13 +19,14 @@ export const OfflineBadge: React.FC = () => {
     >
       <WifiOff className='h-4 w-4' />
       <span className='text-sm font-medium'>
-        Bạn đang Offline - Đơn hàng sẽ được lưu tạm
+        {t('offlineBadge.title', 'You are offline - Orders will be saved locally')}
       </span>
     </div>
   )
 }
 
 export const OnlineBadge: React.FC = () => {
+  const { t } = useTranslation()
   const { isOnline } = useNetworkContext()
   const [show, setShow] = React.useState(false)
 
@@ -45,7 +48,9 @@ export const OnlineBadge: React.FC = () => {
       )}
     >
       <Wifi className='h-4 w-4' />
-      <span className='text-sm font-medium'>Reconnected - Syncing...</span>
+      <span className='text-sm font-medium'>
+        {t('offlineBadge.reconnected', 'Reconnected - Syncing...')}
+      </span>
     </div>
   )
 }

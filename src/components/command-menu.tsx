@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { ArrowRight, ChevronRight, Laptop, Moon, Sun } from 'lucide-react'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useSearch } from '@/context/search-provider'
 import { useTheme } from '@/context/theme-provider'
 import {
@@ -22,6 +22,7 @@ export function CommandMenu() {
   const { setTheme } = useTheme()
   const { open, setOpen } = useSearch()
   const sidebarData = useSidebarData()
+  const { t } = useTranslation()
 
   const runCommand = React.useCallback(
     (command: () => unknown) => {
@@ -33,10 +34,10 @@ export function CommandMenu() {
 
   return (
     <CommandDialog modal open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder='Type a command or search...' />
+      <CommandInput placeholder={t('commandMenu.placeholder', 'Type a command or search...')} />
       <CommandList>
         <ScrollArea type='hover' className='h-72 pe-1'>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>{t('commandMenu.noResults', 'No results found.')}</CommandEmpty>
           {sidebarData.navGroups.map((group: NavGroup) => (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items.map((navItem: NavItem, i: number) => {
@@ -74,7 +75,7 @@ export function CommandMenu() {
             </CommandGroup>
           ))}
           <CommandSeparator />
-          <CommandGroup heading='Chủ đề'>
+          <CommandGroup heading={t('commandMenu.themeHeading', 'Theme')}>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
               <Sun />{' '}
               <span>

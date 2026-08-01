@@ -4,6 +4,7 @@ import {
   type ColumnDef,
   type Table as TanstackTable,
 } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import {
   Table,
   TableBody,
@@ -29,6 +30,8 @@ export function DataTable<TData, TValue>({
   searchKey,
   searchPlaceholder,
 }: DataTableProps<TData, TValue>) {
+  const { t } = useTranslation()
+
   return (
     <div className='space-y-4'>
       <DataTableToolbar
@@ -79,7 +82,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('dataTable.noResults', 'No results.')}
                 </TableCell>
               </TableRow>
             )}

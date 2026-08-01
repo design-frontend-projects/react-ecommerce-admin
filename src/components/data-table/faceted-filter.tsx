@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { type Column } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -37,12 +38,13 @@ export function DataTableFacetedFilter<TData, TValue>({
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues()
   const selectedValues = new Set(column?.getFilterValue() as string[])
+  const { t } = useTranslation()
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant='outline' size='sm' className='h-8 border-dashed'>
-          <PlusCircledIcon className='size-4' />
+          <PlusCircledIcon className='ms-2 size-4' />
           {title}
           {selectedValues?.size > 0 && (
             <>
@@ -59,7 +61,10 @@ export function DataTableFacetedFilter<TData, TValue>({
                     variant='secondary'
                     className='rounded-sm px-1 font-normal'
                   >
-                    {selectedValues.size} selected
+                    {t('dataTable.selectedCount', {
+                      count: selectedValues.size,
+                      defaultValue: `${selectedValues.size} selected`,
+                    })}
                   </Badge>
                 ) : (
                   options
@@ -83,7 +88,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{t('dataTable.noResults', 'No results found.')}</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
@@ -104,20 +109,20 @@ export function DataTableFacetedFilter<TData, TValue>({
                   >
                     <div
                       className={cn(
-                        'flex size-4 items-center justify-center rounded-sm border border-primary',
+                        'ms-2 flex size-4 items-center justify-center rounded-xs border border-primary',
                         isSelected
                           ? 'bg-primary text-primary-foreground'
                           : 'opacity-50 [&_svg]:invisible'
                       )}
                     >
-                      <CheckIcon className={cn('h-4 w-4 text-background')} />
+                      <CheckIcon className={cn('size-4')} />
                     </div>
                     {option.icon && (
-                      <option.icon className='size-4 text-muted-foreground' />
+                      <option.icon className='ms-2 size-4 text-muted-foreground' />
                     )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
-                      <span className='ms-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>
+                      <span className='ms-auto flex size-4 items-center justify-center font-mono text-xs'>
                         {facets.get(option.value)}
                       </span>
                     )}
@@ -133,7 +138,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     onSelect={() => column?.setFilterValue(undefined)}
                     className='justify-center text-center'
                   >
-                    Clear filters
+                    {t('dataTable.clearFilters', 'Clear filters')}
                   </CommandItem>
                 </CommandGroup>
               </>

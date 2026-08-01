@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { LogOut, Timer } from 'lucide-react'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { useResposStore } from '@/stores/respos-store'
@@ -50,6 +50,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const { user } = useUser()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [closeShiftDialogOpen, setCloseShiftDialogOpen] = useState(false)
+  const { t } = useTranslation()
 
   const authUserId = user?.id || null
   const roleNames = useRBACStore((state) => state.currentRoleNames)
@@ -108,7 +109,10 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
     const pendingCount = await outboxPendingCount().catch(() => 0)
     if (pendingCount > 0) {
       toast.error(
-        `You have ${pendingCount} offline order(s) pending sync. Go online and let them sync before closing the shift.`
+        t('signOutDialog.pendingOrdersWarning', {
+          count: pendingCount,
+          defaultValue: `You have ${pendingCount} offline order(s) pending sync. Go online and let them sync before closing the shift.`,
+        })
       )
       return
     }
@@ -118,14 +122,14 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
         useResposStore.getState().setActiveShift(activeShift)
       }
       await closeShift(user.id, values.closingCash, values.notes)
-      toast.success('Shift closed successfully')
+      toast.success(t('signOutDialog.shiftClosedSuccess', 'Shift closed successfully'))
       setCloseShiftDialogOpen(false)
       await signOutAndRedirect()
     } catch (error) {
       toast.error(
         error instanceof Error && error.message
           ? error.message
-          : 'Failed to close shift'
+          : t('signOutDialog.failedCloseShift', 'Failed to close shift')
       )
     }
   }
@@ -141,9 +145,9 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
       <ConfirmDialog
         open={open}
         onOpenChange={onOpenChange}
-        title='Checking shift status'
-        desc='Please wait while we verify your active shift.'
-        confirmText='Continue'
+        title={t('signOutDialog.checkingShift', 'Checking shift status')}
+        desc={t('signOutDialog.waitVerifyShift', 'Please wait while we verify your active shift.')}
+        confirmText={t('common.continue', 'Continue')}
         disabled
         isLoading
         handleConfirm={() => {}}
@@ -160,11 +164,10 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
             <DialogHeader>
               <DialogTitle className='flex items-center gap-2'>
                 <Timer className='h-5 w-5 text-orange-500' />
-                Active shift detected
+                {t('signOutDialog.activeShiftDetected', 'Active shift detected')}
               </DialogTitle>
               <DialogDescription>
-                You still have an open cashier shift. Close shift first or
-                proceed to sign out without closing it.
+                {t('signOutDialog.activeShiftDesc', 'You still have an open cashier shift. Close shift first or proceed to sign out without closing it.')}
               </DialogDescription>
             </DialogHeader>
 
@@ -175,7 +178,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
                 onClick={() => onOpenChange(false)}
                 disabled={isSigningOut}
               >
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </Button>
               <Button
                 type='button'
@@ -186,7 +189,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
                 }}
                 disabled={isSigningOut}
               >
-                Close Shift First
+                {t('signOutDialog.closeShiftFirst', 'Close Shift First')}
               </Button>
               <Button
                 type='button'
@@ -196,7 +199,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
                 className='gap-2'
               >
                 <LogOut className='h-4 w-4' />
-                Proceed Sign Out
+                {t('signOutDialog.proceedSignOut', 'Proceed Sign Out')}
               </Button>
             </DialogFooter>
           </DialogContent>

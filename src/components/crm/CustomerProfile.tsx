@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface TimelineEvent {
   id: string
   type: 'order' | 'task' | 'note'
@@ -10,6 +12,7 @@ export function CustomerProfile({
 }: {
   customerId: number
 }) {
+  const { t } = useTranslation()
   // In a real implementation, we would fetch the customer details and timeline by ID
   const customer = {
     first_name: 'Jane',
@@ -61,11 +64,11 @@ export function CustomerProfile({
 
         <div className='space-y-4 text-sm'>
           <div>
-            <span className='block text-gray-500'>Email</span>
+            <span className='block text-gray-500'>{t('crm.email', 'Email')}</span>
             <span className='font-medium'>{customer.email}</span>
           </div>
           <div>
-            <span className='block text-gray-500'>Phone</span>
+            <span className='block text-gray-500'>{t('crm.phone', 'Phone')}</span>
             <span className='font-medium'>{customer.phone}</span>
           </div>
         </div>
@@ -73,7 +76,7 @@ export function CustomerProfile({
 
       {/* Unified Timeline View */}
       <div className='w-full md:w-2/3'>
-        <h3 className='mb-6 text-xl font-bold'>Activity Timeline</h3>
+        <h3 className='mb-6 text-xl font-bold'>{t('crm.activityTimeline', 'Activity Timeline')}</h3>
         <div className='relative space-y-6 before:absolute before:inset-0 before:ml-5 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent md:before:mx-auto md:before:translate-x-0'>
           {timeline.map((event) => (
             <div

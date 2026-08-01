@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { emailSchema, type EmailFormData } from '@/lib/validation/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,7 @@ interface LoginEmailFormProps {
 }
 
 export function LoginEmailForm({ onSubmit, isLoading }: LoginEmailFormProps) {
+  const { t } = useTranslation()
   const form = useForm<EmailFormData>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -34,7 +36,7 @@ export function LoginEmailForm({ onSubmit, isLoading }: LoginEmailFormProps) {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>{t('authForms.emailAddress', 'Email Address')}</FormLabel>
               <FormControl>
                 <Input
                   placeholder='you@example.com'
@@ -52,7 +54,7 @@ export function LoginEmailForm({ onSubmit, isLoading }: LoginEmailFormProps) {
         />
         <Button className='w-full' type='submit' disabled={isLoading}>
           {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-          Continue with Email
+          {t('authForms.continueWithEmail', 'Continue with Email')}
         </Button>
       </form>
     </Form>

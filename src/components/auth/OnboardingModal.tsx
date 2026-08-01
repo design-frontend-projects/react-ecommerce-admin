@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { telemetry } from '@/lib/telemetry'
@@ -20,6 +21,7 @@ interface OnboardingModalProps {
 export function OnboardingModal({ open, onSuccess }: OnboardingModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const user = useAuthStore((state) => state.auth.user)
+  const { t } = useTranslation()
 
   const handleSubmit = async (data: OnboardingFormData) => {
     setIsLoading(true)
@@ -33,14 +35,14 @@ export function OnboardingModal({ open, onSuccess }: OnboardingModalProps) {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error || 'Failed to complete onboarding')
+        throw new Error(errorData.error || t('authForms.onboardingFailed', 'Failed to complete onboarding'))
       }
 
       telemetry.track('onboarding_completed')
-      toast.success('Workspace setup complete!')
+      toast.success(t('authForms.onboardingSuccess', 'Workspace setup complete!'))
       onSuccess()
     } catch (error: any) {
-      toast.error(error.message || 'An error occurred during setup')
+      toast.error(error.message || t('authForms.setupError', 'An error occurred during setup'))
     } finally {
       setIsLoading(false)
     }
@@ -60,11 +62,10 @@ export function OnboardingModal({ open, onSuccess }: OnboardingModalProps) {
       >
         <DialogHeader>
           <DialogTitle className='text-2xl font-bold'>
-            Welcome to Bluewave POS
+            {t('authForms.welcomeTitle', 'Welcome to Bluewave POS')}
           </DialogTitle>
           <DialogDescription>
-            Let's set up your workspace. This information will be used for
-            billing and location settings.
+            {t('authForms.onboardingSubtitle', "Let's set up your workspace. This information will be used for billing and location settings.")}
           </DialogDescription>
         </DialogHeader>
 

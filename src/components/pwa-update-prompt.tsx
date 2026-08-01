@@ -5,7 +5,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react'
 import { Button } from '@/components/ui/button'
 
 export function PwaUpdatePrompt() {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     offlineReady: [offlineReady, setOfflineReady],

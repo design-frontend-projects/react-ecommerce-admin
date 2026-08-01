@@ -1,5 +1,6 @@
 import { type Table } from '@tanstack/react-table'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from './data-table-view-options'
@@ -17,9 +18,10 @@ export function DataTableToolbar<TData>({
   searchKey,
   toolbarActions,
 }: DataTableToolbarProps<TData>) {
+  const { t } = useTranslation()
   const isFiltered = table.getState().columnFilters.length > 0
   const effectiveSearchKey = searchKey || 'transaction_number'
-  const effectivePlaceholder = searchPlaceholder || 'Filter...'
+  const effectivePlaceholder = searchPlaceholder || t('dataTable.filterPlaceholder', 'Filter...')
 
   return (
     <div className='flex items-center justify-between'>
@@ -43,7 +45,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
             className='h-8 px-2 lg:px-3'
           >
-            Reset
+            {t('dataTable.reset', 'Reset')}
             <X className='ml-2 h-4 w-4' />
           </Button>
         )}

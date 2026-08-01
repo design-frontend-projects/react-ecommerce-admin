@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,6 +27,7 @@ export function QRCodeScanner({
   const [isPaused, setIsPaused] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
+  const { t } = useTranslation()
 
   const handleScan = (result: { rawValue: string }[]) => {
     if (result && result.length > 0) {
@@ -60,9 +62,9 @@ export function QRCodeScanner({
       >
         {!isMinimized && (
           <DialogHeader>
-            <DialogTitle>Scan QR/Barcode</DialogTitle>
+            <DialogTitle>{t('qrScanner.title', 'Scan QR/Barcode')}</DialogTitle>
             <DialogDescription>
-              Position the code within the camera frame to scan.
+              {t('qrScanner.description', 'Position the code within the camera frame to scan.')}
             </DialogDescription>
           </DialogHeader>
         )}
@@ -85,9 +87,11 @@ export function QRCodeScanner({
           {isPaused && (
             <div className='absolute inset-0 flex items-center justify-center bg-black/50 text-white'>
               <div className='text-center'>
-                <div className='mb-2 text-xl font-bold'>Scan Successful!</div>
+                <div className='mb-2 text-xl font-bold'>
+                  {t('qrScanner.scanSuccessful', 'Scan Successful!')}
+                </div>
                 <div className='text-sm opacity-80'>
-                  Resuming in a moment...
+                  {t('qrScanner.resuming', 'Resuming in a moment...')}
                 </div>
               </div>
             </div>
@@ -101,7 +105,7 @@ export function QRCodeScanner({
               size='icon'
               className='h-8 w-8'
               onClick={() => setIsMuted(!isMuted)}
-              title={isMuted ? 'Unmute' : 'Mute'}
+              title={isMuted ? t('qrScanner.unmute', 'Unmute') : t('qrScanner.mute', 'Mute')}
             >
               {isMuted ? (
                 <VolumeX className='h-4 w-4 text-muted-foreground' />
@@ -115,7 +119,7 @@ export function QRCodeScanner({
               size='icon'
               className='h-8 w-8'
               onClick={() => setIsMinimized(!isMinimized)}
-              title={isMinimized ? 'Maximize' : 'Minimize'}
+              title={isMinimized ? t('qrScanner.maximize', 'Maximize') : t('qrScanner.minimize', 'Minimize')}
             >
               {isMinimized ? (
                 <Maximize2 className='h-4 w-4' />
@@ -131,7 +135,7 @@ export function QRCodeScanner({
               size='sm'
               onClick={() => onOpenChange(false)}
             >
-              Close
+              {t('qrScanner.close', 'Close')}
             </Button>
           )}
         </div>

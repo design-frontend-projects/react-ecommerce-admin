@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { type Table } from '@tanstack/react-table'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -36,6 +37,7 @@ export function DataTableBulkActions<TData>({
   const selectedCount = selectedRows.length
   const toolbarRef = useRef<HTMLDivElement>(null)
   const [announcement, setAnnouncement] = useState('')
+  const { t } = useTranslation()
 
   // Announce selection changes to screen readers
   useEffect(() => {
@@ -163,15 +165,15 @@ export function DataTableBulkActions<TData>({
                 size='icon'
                 onClick={handleClearSelection}
                 className='size-6 rounded-full'
-                aria-label='Clear selection'
-                title='Clear selection (Escape)'
+                aria-label={t('dataTable.clearSelection', 'Clear selection')}
+                title={t('dataTable.clearSelectionEscape', 'Clear selection (Escape)')}
               >
                 <X />
-                <span className='sr-only'>Clear selection</span>
+                <span className='sr-only'>{t('dataTable.clearSelection', 'Clear selection')}</span>
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Clear selection (Escape)</p>
+              <p>{t('dataTable.clearSelectionEscape', 'Clear selection (Escape)')}</p>
             </TooltipContent>
           </Tooltip>
 
@@ -196,7 +198,7 @@ export function DataTableBulkActions<TData>({
               {entityName}
               {selectedCount > 1 ? 's' : ''}
             </span>{' '}
-            selected
+            {t('dataTable.selected', 'selected')}
           </div>
 
           <Separator

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 
@@ -15,6 +16,7 @@ export function PasswordInput({
   ...props
 }: PasswordInputProps & { ref?: React.Ref<HTMLInputElement> }) {
   const [showPassword, setShowPassword] = React.useState(false)
+  const { t } = useTranslation()
 
   return (
     <div className={cn('relative rounded-md', className)}>
@@ -30,6 +32,11 @@ export function PasswordInput({
         size='icon'
         variant='ghost'
         disabled={disabled}
+        aria-label={
+          showPassword
+            ? t('passwordInput.hidePassword', 'Hide password')
+            : t('passwordInput.showPassword', 'Show password')
+        }
         className='absolute end-1 top-1/2 h-6 w-6 -translate-y-1/2 rounded-md text-muted-foreground'
         onClick={() => setShowPassword((prev) => !prev)}
       >

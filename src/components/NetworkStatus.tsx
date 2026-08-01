@@ -5,7 +5,7 @@ import { storageManager } from '@/lib/storage-manager'
 import { usePWA } from '@/context/PWAContext'
 
 export function NetworkStatus() {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   const { isOnline } = usePWA()
   const [isNearLimit, setIsNearLimit] = useState(false)
 

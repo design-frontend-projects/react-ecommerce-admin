@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { otpSchema, type OtpFormData } from '@/lib/validation/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -34,6 +35,7 @@ export function LoginOtpForm({
   isLoading,
 }: LoginOtpFormProps) {
   const [countdown, setCountdown] = useState(30)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (countdown > 0) {
@@ -59,7 +61,7 @@ export function LoginOtpForm({
     <div className='space-y-6'>
       <div className='text-center'>
         <p className='text-sm text-muted-foreground'>
-          We sent a 6-digit code to{' '}
+          {t('authForms.codeSentTo', 'We sent a 6-digit code to')}{' '}
           <span className='font-medium text-foreground'>{email}</span>
         </p>
       </div>
@@ -71,7 +73,9 @@ export function LoginOtpForm({
             name='token'
             render={({ field }) => (
               <FormItem className='flex flex-col items-center justify-center'>
-                <FormLabel className='sr-only'>One-Time Password</FormLabel>
+                <FormLabel className='sr-only'>
+                  {t('authForms.oneTimePassword', 'One-Time Password')}
+                </FormLabel>
                 <FormControl>
                   <InputOTP maxLength={6} {...field}>
                     <InputOTPGroup>
@@ -91,14 +95,19 @@ export function LoginOtpForm({
 
           <Button className='w-full' type='submit' disabled={isLoading}>
             {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            Verify Code
+            {t('authForms.verifyCode', 'Verify Code')}
           </Button>
         </form>
       </Form>
 
       <div className='flex flex-col space-y-2 text-center text-sm'>
         {countdown > 0 ? (
-          <p className='text-muted-foreground'>Resend code in {countdown}s</p>
+          <p className='text-muted-foreground'>
+            {t('authForms.resendCodeIn', {
+              seconds: countdown,
+              defaultValue: `Resend code in ${countdown}s`,
+            })}
+          </p>
         ) : (
           <button
             type='button'
@@ -106,7 +115,7 @@ export function LoginOtpForm({
             className='text-primary hover:underline focus:outline-none'
             disabled={isLoading}
           >
-            Resend Code
+            {t('authForms.resendCode', 'Resend Code')}
           </button>
         )}
         <button
@@ -115,7 +124,7 @@ export function LoginOtpForm({
           className='text-muted-foreground hover:text-foreground hover:underline focus:outline-none'
           disabled={isLoading}
         >
-          Use a different email
+          {t('authForms.useDifferentEmail', 'Use a different email')}
         </button>
       </div>
     </div>

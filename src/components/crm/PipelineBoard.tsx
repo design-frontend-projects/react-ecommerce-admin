@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useCRMStore } from '@/store/crmStore'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,9 +13,19 @@ const STAGES = [
   'Closed Lost',
 ]
 
+const STAGE_KEYS: Record<string, string> = {
+  Lead: 'crm.stages.lead',
+  Contacted: 'crm.stages.contacted',
+  Proposal: 'crm.stages.proposal',
+  Negotiation: 'crm.stages.negotiation',
+  'Closed Won': 'crm.stages.closedWon',
+  'Closed Lost': 'crm.stages.closedLost',
+}
+
 export function PipelineBoard() {
   const { opportunities, updateOpportunityStage } = useCRMStore()
   const [draggedId, setDraggedId] = useState<number | null>(null)
+  const { t } = useTranslation()
 
   const handleDragStart = (e: React.DragEvent, id: number) => {
     setDraggedId(id)
@@ -44,7 +55,9 @@ export function PipelineBoard() {
           onDrop={(e) => handleDrop(e, stage)}
         >
           <div className='mb-4 flex items-center justify-between'>
-            <h3 className='text-lg font-semibold'>{stage}</h3>
+            <h3 className='text-lg font-semibold'>
+              {STAGE_KEYS[stage] ? t(STAGE_KEYS[stage], stage) : stage}
+            </h3>
             <Badge variant='secondary'>
               {opportunities.filter((o) => o.stage === stage).length}
             </Badge>
@@ -62,7 +75,7 @@ export function PipelineBoard() {
                 >
                   <CardHeader className='p-4 pb-2'>
                     <CardTitle className='text-md'>
-                      Opp #{opp.opportunity_id}
+                      {t('crm.opp', 'Opp')} #{opp.opportunity_id}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className='p-4 pt-0'>
@@ -70,7 +83,7 @@ export function PipelineBoard() {
                       ${opp.value?.toLocaleString()}
                     </p>
                     <p className='mt-2 text-sm text-muted-foreground'>
-                      Customer ID: {opp.customer_id}
+                      {t('crm.customerId', 'Customer ID')}: {opp.customer_id}
                     </p>
                   </CardContent>
                 </Card>
