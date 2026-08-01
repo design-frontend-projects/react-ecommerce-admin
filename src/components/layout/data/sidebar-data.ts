@@ -49,6 +49,7 @@ import {
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
+import { useAuthStore } from '@/stores/auth-store'
 import { type SidebarData } from '../types'
 import { buildCatalogNavGroups } from './catalog-nav'
 
@@ -57,13 +58,21 @@ const ADMINS = [...ADMIN_ROLES]
 export function useSidebarData(): SidebarData {
   const { t } = useTranslation()
   const navCatalog = useNavCatalog()
+  const profile = useAuthStore((state) => state.auth.profile)
 
   const staticData: SidebarData = {
-    user: {
-      name: 'satnaing',
-      email: 'satnaingdev@gmail.com',
-      avatar: '/avatars/shadcn.jpg',
-    },
+    ...(profile
+      ? {
+          user: {
+            name:
+              profile.first_name ||
+              profile.email?.split('@')[0] ||
+              'User',
+            email: profile.email || '',
+            avatar: '/avatars/shadcn.jpg',
+          },
+        }
+      : {}),
     teams: [
       {
         name: t('sidebar.restaurantPos'),
@@ -183,7 +192,7 @@ export function useSidebarData(): SidebarData {
             url: '/respos/shifts',
             icon: Timer,
             roles: [...ADMINS, UserRole.Manager],
-            permissions: ['shifts.view', 'shifts.manage'],
+            permissions: ['restaurant.shifts.view', 'restaurant.shifts.manage'],
           },
           {
             title: t('sidebar.cashierCheckout'),
@@ -220,8 +229,11 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.accessControl'),
             url: '/access-control',
             icon: ShieldCheck,
-            roles: ['admin', 'super_admin'],
-            permissions: ['screens.view', 'roles.manage'],
+            roles: ADMINS,
+            permissions: [
+              'access_control.screens.view',
+              'access_control.roles.manage',
+            ],
           },
         ],
       },
@@ -293,91 +305,100 @@ export function useSidebarData(): SidebarData {
             url: '/purchase-requisitions',
             icon: FileText,
             roles: ADMINS,
-            permissions: ['purchasing.view', 'purchasing.manage'],
+            permissions: [
+              'inventory.purchasing.view',
+              'inventory.purchasing.manage',
+            ],
           },
           {
             title: t('sidebar.goodsReceipts'),
             url: '/goods-receipts',
             icon: PackageCheck,
             roles: ADMINS,
-            permissions: ['purchasing.view', 'purchasing.manage'],
+            permissions: [
+              'inventory.purchasing.view',
+              'inventory.purchasing.manage',
+            ],
           },
           {
             title: t('sidebar.salesOrders'),
             url: '/sales-orders',
             icon: FileSpreadsheet,
             roles: ADMINS,
-            permissions: ['sales.view', 'sales.manage'],
+            permissions: ['inventory.sales.view', 'inventory.sales.manage'],
           },
           {
             title: t('sidebar.reservations'),
             url: '/reservations',
             icon: Lock,
             roles: ADMINS,
-            permissions: ['sales.view', 'sales.manage'],
+            permissions: ['inventory.sales.view', 'inventory.sales.manage'],
           },
           {
             title: t('sidebar.warehouses'),
             url: '/warehouses',
             icon: Warehouse,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.stockByLocation'),
             url: '/stock-by-location',
             icon: MapPin,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.brands'),
             url: '/brands',
             icon: Tags,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.units'),
             url: '/units',
             icon: Ruler,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.batches'),
             url: '/batches',
             icon: Layers,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.serials'),
             url: '/serials',
             icon: Barcode,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.stockCounts'),
             url: '/stock-counts',
             icon: ClipboardCheck,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.reorderRules'),
             url: '/reorder-rules',
             icon: Repeat,
             roles: ADMINS,
-            permissions: ['inventory.view', 'inventory.manage'],
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.replenishment'),
             url: '/replenishment',
             icon: TrendingUp,
             roles: ADMINS,
-            permissions: ['purchasing.view', 'purchasing.manage'],
+            permissions: [
+              'inventory.purchasing.view',
+              'inventory.purchasing.manage',
+            ],
           },
           {
             title: t('sidebar.stockBalances'),
@@ -389,31 +410,31 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.stockTransfers'),
             url: '/stock-transfers',
             icon: ArrowLeftRight,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.stockAdjustments'),
             url: '/stock-adjustments',
             icon: ClipboardList,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.inventoryMovements'),
             url: '/inventory-movements',
             icon: History,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.taxRates'),
             url: '/tax-rates',
             icon: Package,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.transactions'),
             url: '/transactions',
             icon: Receipt,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
         ],
       },
@@ -424,31 +445,31 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.countries'),
             url: '/countries',
             icon: Map,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.cities'),
             url: '/cities',
             icon: MapPin,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.currencies'),
             url: '/currencies',
             icon: DollarSign,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.branches'),
             url: '/branches',
             icon: Building2,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
           {
             title: t('sidebar.stores'),
             url: '/stores',
             icon: MapPin,
-            roles: ['admin', 'super_admin'],
+            roles: ADMINS,
           },
         ],
       },

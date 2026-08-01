@@ -7,6 +7,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useNavigation } from '@/features/access-control/hooks/use-navigation'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 import { hasAnyPermission, normalizeRoleName } from '@/features/users/data/rbac'
@@ -65,7 +66,10 @@ export function AppSidebar() {
   const currentPermissionNames = useRBACStore(
     (state) => state.currentPermissionNames
   )
+  const lastSyncedAt = useRBACStore((state) => state.lastSyncedAt)
   const sidebarData = useSidebarData()
+
+  const isRBACReady = !isSignedIn || lastSyncedAt !== null
 
   // DB-driven navigation (feature-flagged). Falls back to the hardcoded
   // sidebar while loading, on error, or when the catalog is empty.
@@ -78,9 +82,7 @@ export function AppSidebar() {
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
 
   const sourceNavGroups =
-    dbNavGroups && dbNavGroups.length > 0
-      ? dbNavGroups
-      : sidebarData.navGroups
+    dbNavGroups && dbNavGroups.length > 0 ? dbNavGroups : sidebarData.navGroups
 
   // Filter navigation items based on user roles and system ownership
   const filteredNavGroups = sourceNavGroups
@@ -134,9 +136,20 @@ export function AppSidebar() {
         <AppTitle />
       </SidebarHeader>
       <SidebarContent>
-        {filteredNavGroups.map((props) => (
-          <NavGroup key={props.title} {...props} />
-        ))}
+        {!isRBACReady ? (
+          <div className='flex flex-col gap-4 p-4'>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className='flex items-center gap-4'>
+                <Skeleton className='h-8 w-8 rounded-md' />
+                <Skeleton className='h-4 w-32' />
+              </div>
+            ))}
+          </div>
+        ) : (
+          filteredNavGroups.map((props) => (
+            <NavGroup key={props.title} {...props} />
+          ))
+        )}
       </SidebarContent>
       <SidebarFooter>
         {sidebarData.user && <NavUser user={sidebarData.user} />}
