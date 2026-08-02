@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Loader2 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
-import { isSubscriptionActive } from '@/lib/subscription_utils'
+import { isSubscriptionActiveTemporal } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { RequireScreen } from '@/components/rbac/require-screen'
 import { profileService } from '@/features/auth/services/profile-service'
@@ -105,9 +105,10 @@ const AuthenticatedRoute = () => {
       const isSuperAdmin = profile?.system_owner === true
 
       // If not super_admin and no active paid subscription, redirect
-      const active = isSubscriptionActive(
+      const active = isSubscriptionActiveTemporal(
         subscription?.status ?? '',
-        subscription?.end_date ? new Date(subscription.end_date) : null
+        subscription?.start_date,
+        subscription?.end_date
       )
       if (
         !isSuperAdmin &&

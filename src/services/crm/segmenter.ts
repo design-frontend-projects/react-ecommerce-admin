@@ -1,22 +1,25 @@
-import { subDays, subMonths } from 'date-fns'
+import { Temporal, toPlainDate } from '@/lib/temporal_utils'
 import prisma from '@/lib/prisma'
 
 export function determineSegment(customer: any, sales: any[]): string {
-  const thirtyDaysAgo = subDays(new Date(), 30)
-  const sixMonthsAgo = subMonths(new Date(), 6)
+  const today = Temporal.Now.plainDateISO()
+  const thirtyDaysAgo = today.subtract({ days: 30 })
+  const sixMonthsAgo = today.subtract({ months: 6 })
 
   const segment = 'active' // Default
 
   // If no activity in 6 months, inactive
   if (
     customer.last_active_at &&
-    new Date(customer.last_active_at) < sixMonthsAgo
+    Temporal.PlainDate.compare(toPlainDate(customer.last_active_at), sixMonthsAgo) < 0
   ) {
     return 'inactive'
   }
 
   const recentSales = sales.filter(
-    (s) => s.sale_date && new Date(s.sale_date) >= thirtyDaysAgo
+    (s) =>
+      s.sale_date &&
+      Temporal.PlainDate.compare(toPlainDate(s.sale_date), thirtyDaysAgo) >= 0
   )
 
   if (recentSales.length > 0) {
@@ -34,7 +37,10 @@ export function determineSegment(customer: any, sales: any[]): string {
     }
   }
 
-  if (customer.created_at && new Date(customer.created_at) >= thirtyDaysAgo) {
+  if (
+    customer.created_at &&
+    Temporal.PlainDate.compare(toPlainDate(customer.created_at), thirtyDaysAgo) >= 0
+  ) {
     return 'new'
   }
 

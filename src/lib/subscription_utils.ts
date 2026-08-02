@@ -1,8 +1,7 @@
-import { addMonths } from 'date-fns'
 import { Temporal } from '@js-temporal/polyfill'
 
 /**
- * Calculates the end date for a subscription plan based on the duration in months.
+ * Calculates the end date for a subscription plan based on the duration in months using JS Temporal.
  * @param startDate The date the subscription starts.
  * @param durationMonths The duration of the plan in months (e.g., 1, 3, 6, 12).
  * @returns The calculated end date.
@@ -11,11 +10,13 @@ export function calculateEndDate(
   startDate: Date,
   durationMonths: number
 ): Date {
-  return addMonths(startDate, durationMonths)
+  const plainDate = Temporal.PlainDate.from(startDate.toISOString().split('T')[0])
+  const resultPlainDate = plainDate.add({ months: durationMonths })
+  return new Date(resultPlainDate.toString() + 'T00:00:00.000Z')
 }
 
 /**
- * Validates if a subscription record is active based on its status and end date.
+ * Validates if a subscription record is active based on its status and end date using Temporal.
  * @param status The status of the subscription ('new', 'paid', 'canceled').
  * @param endDate The date the subscription expires.
  * @returns True if the subscription is active.
@@ -26,7 +27,9 @@ export function isSubscriptionActive(
 ): boolean {
   if (status !== 'paid') return false
   if (!endDate) return false
-  return new Date() <= endDate
+  const today = Temporal.Now.plainDateISO()
+  const endPlain = Temporal.PlainDate.from(endDate.toISOString().split('T')[0])
+  return Temporal.PlainDate.compare(today, endPlain) <= 0
 }
 
 /**

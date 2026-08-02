@@ -1,3 +1,4 @@
+import { Temporal } from '@js-temporal/polyfill'
 import prisma from '@/lib/prisma'
 
 export interface SyncPayload {
@@ -43,7 +44,7 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         first_name: customer.firstName || existingCustomer.first_name,
         last_name: customer.lastName || existingCustomer.last_name,
         phone: customer.phone || existingCustomer.phone,
-        last_active_at: new Date(),
+        last_active_at: new Date(Temporal.Now.instant().epochMilliseconds),
       },
     })
   } else {
@@ -54,7 +55,7 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         last_name: customer.lastName,
         email: customer.email,
         phone: customer.phone,
-        last_active_at: new Date(),
+        last_active_at: new Date(Temporal.Now.instant().epochMilliseconds),
       },
     })
   }

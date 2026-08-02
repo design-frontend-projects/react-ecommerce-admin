@@ -1,4 +1,4 @@
-import { isBefore } from 'date-fns'
+import { Temporal, toPlainDate } from '@/lib/temporal_utils'
 import prisma from '@/lib/prisma'
 
 export async function scheduleTask(
@@ -6,7 +6,9 @@ export async function scheduleTask(
   title: string,
   dueDate: Date
 ) {
-  if (isBefore(dueDate, new Date())) {
+  const today = Temporal.Now.plainDateISO()
+  const duePlain = toPlainDate(dueDate)
+  if (Temporal.PlainDate.compare(duePlain, today) < 0) {
     throw new Error('Cannot schedule tasks in the past')
   }
 

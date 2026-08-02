@@ -1,8 +1,9 @@
-import { subMonths } from 'date-fns'
+import { Temporal } from '@js-temporal/polyfill'
 import prisma from '@/lib/prisma'
 
 export async function getCRMMetrics() {
-  const thirtyDaysAgo = subMonths(new Date(), 1)
+  const oneMonthAgoInstant = Temporal.Now.instant().subtract({ days: 30 })
+  const thirtyDaysAgo = new Date(oneMonthAgoInstant.epochMilliseconds)
 
   const [totalLeads, convertedLeads, opportunities, wonOpportunities] =
     await Promise.all([

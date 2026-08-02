@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import { LogOut, Sparkles, Loader2 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
-import { isSubscriptionActive } from '@/lib/subscription_utils'
+import { isSubscriptionActiveTemporal } from '@/lib/subscription_utils'
 import { Button } from '@/components/ui/button'
 import { SignOutDialog } from '@/components/sign-out-dialog'
 import { SubscriptionFlow } from '@/features/subscriptions/components/subscription-flow'
@@ -34,9 +34,10 @@ function SubscriptionRequired() {
 
   useEffect(() => {
     if (!subLoading && subscription) {
-      const active = isSubscriptionActive(
+      const active = isSubscriptionActiveTemporal(
         subscription.status ?? '',
-        subscription.end_date ? new Date(subscription.end_date) : null
+        subscription.start_date,
+        subscription.end_date
       )
       if (active) {
         navigate({ to: isRestaurantRole ? '/respos' : '/products' })

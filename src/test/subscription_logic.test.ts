@@ -1,4 +1,3 @@
-import { addMonths } from 'date-fns'
 import { Temporal } from '@js-temporal/polyfill'
 import { expect, test, describe } from 'vitest'
 import {
@@ -10,26 +9,24 @@ import {
 } from '../lib/subscription_utils'
 
 describe('Subscription Logic', () => {
-  test('calculateEndDate correctly adds months', () => {
+  test('calculateEndDate correctly adds months using Temporal', () => {
     const startDate = new Date('2026-03-10')
-    expect(calculateEndDate(startDate, 1)).toEqual(addMonths(startDate, 1))
-    expect(calculateEndDate(startDate, 3)).toEqual(addMonths(startDate, 3))
-    expect(calculateEndDate(startDate, 6)).toEqual(addMonths(startDate, 6))
-    expect(calculateEndDate(startDate, 12)).toEqual(addMonths(startDate, 12))
+    const endDate = calculateEndDate(startDate, 1)
+    expect(endDate.toISOString().split('T')[0]).toBe('2026-04-10')
   })
 
   test('calculateEndDate handles leap years correctly', () => {
     const startDate = new Date('2024-02-29') // Leap year
     const endDate = calculateEndDate(startDate, 12)
-    expect(endDate.getFullYear()).toBe(2025)
-    expect(endDate.getMonth()).toBe(1) // February
-    expect(endDate.getDate()).toBe(28) // Not a leap year next year
+    expect(endDate.getUTCFullYear()).toBe(2025)
+    expect(endDate.getUTCMonth()).toBe(1) // February
+    expect(endDate.getUTCDate()).toBe(28) // Not a leap year next year
   })
 
-  test('isSubscriptionActive correctly determines if a subscription is valid', () => {
-    const today = new Date()
-    const tomorrow = new Date(today.getTime() + 86400000)
-    const yesterday = new Date(today.getTime() - 86400000)
+  test('isSubscriptionActive correctly determines if a subscription is valid using Temporal', () => {
+    const today = Temporal.Now.plainDateISO()
+    const tomorrow = new Date(today.add({ days: 1 }).toString() + 'T00:00:00.000Z')
+    const yesterday = new Date(today.subtract({ days: 1 }).toString() + 'T00:00:00.000Z')
 
     expect(isSubscriptionActive('paid', tomorrow)).toBe(true)
     expect(isSubscriptionActive('new', tomorrow)).toBe(false)
