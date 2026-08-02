@@ -110,8 +110,12 @@ const AuthenticatedRoute = () => {
         subscription?.start_date,
         subscription?.end_date
       )
+      
+      const isOwner = profile?.is_owner !== false
+      
       if (
         !isSuperAdmin &&
+        isOwner &&
         !active &&
         currentPath !== '/subscription-required'
       ) {

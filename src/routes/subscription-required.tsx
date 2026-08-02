@@ -17,6 +17,7 @@ function SubscriptionRequired() {
   const navigate = useNavigate()
   const [signOutDialogOpen, setSignOutDialogOpen] = useState(false)
   const user = useAuthStore((state) => state.auth.user)
+  const profile = useAuthStore((state) => state.auth.profile)
   const userId = user?.id
   const userMetadata = user?.user_metadata
   const roleNames = userMetadata?.roles || userMetadata?.role || []
@@ -39,14 +40,29 @@ function SubscriptionRequired() {
         subscription.start_date,
         subscription.end_date
       )
-      if (active) {
-        navigate({ to: isRestaurantRole ? '/respos' : '/products' })
+      
+      const isOwner = profile?.is_owner !== false
+      
+      if (active || !isOwner) {
+        let targetPath = '/products'
+        if (profile?.activity === 'restaurant' || isRestaurantRole) {
+          targetPath = '/respos'
+        } else if (profile?.activity?.toLowerCase().includes('restaurant')) {
+          targetPath = '/respos'
+        }
+        navigate({ to: targetPath })
       }
     }
-  }, [subLoading, subscription, isRestaurantRole, navigate])
+  }, [subLoading, subscription, isRestaurantRole, navigate, profile])
 
   const handleSuccess = () => {
-    navigate({ to: isRestaurantRole ? '/respos' : '/inventory' })
+    let targetPath = '/inventory'
+    if (profile?.activity === 'restaurant' || isRestaurantRole) {
+      targetPath = '/respos'
+    } else if (profile?.activity?.toLowerCase().includes('restaurant')) {
+      targetPath = '/respos'
+    }
+    navigate({ to: targetPath })
   }
 
   if (subLoading) {
