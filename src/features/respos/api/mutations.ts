@@ -1,14 +1,10 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import i18n from '@/config/i18n'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
-import i18n from '@/config/i18n'
 import { enqueue } from '@/lib/sync/outbox'
-import { useAuth } from '@/hooks/use-auth'
-import { closeShiftRequest, openShiftRequest } from '../data/shift-actions'
-import { shiftDtoToResShift, toMoneyString } from '../data/shift-schemas'
 import { mapPromoRpcError } from '../lib/promo-engine'
-// generateOrderNumber imported via ./api instead
 import type {
   OrderItemStatus,
   OrderStatus,
@@ -91,78 +87,6 @@ export function useUpdateTableStatus() {
   })
 }
 
-// ============ Shift Mutations ============
-// Open/close now go through the server API (/api/respos/shifts) so expected
-// cash + variance are computed atomically in Postgres (specs/026). The hook
-// signatures are unchanged for existing callers; branchId is optional and
-// stamped when provided.
-
-export function useOpenShift() {
-  const queryClient = useQueryClient()
-  const { getToken } = useAuth()
-
-  return useMutation({
-    mutationFn: async ({
-      employeeId,
-      openingCash,
-      restaurantId,
-      branchId,
-      notes,
-    }: {
-      employeeId: string
-      openingCash: number
-      authUserId?: string
-      restaurantId?: string
-      branchId?: string | null
-      notes?: string
-    }) => {
-      const dto = await openShiftRequest(getToken, {
-        openedBy: employeeId,
-        openingCash: toMoneyString(openingCash),
-        restaurantId: restaurantId ?? null,
-        branchId: branchId ?? null,
-        notes: notes ?? null,
-      })
-      return shiftDtoToResShift(dto)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts() })
-    },
-  })
-}
-
-export function useCloseShift() {
-  const queryClient = useQueryClient()
-  const { getToken } = useAuth()
-
-  return useMutation({
-    mutationFn: async ({
-      shiftId,
-      employeeId,
-      closingCash,
-      notes,
-    }: {
-      shiftId: string
-      employeeId: string
-      closingCash: number
-      notes?: string
-    }) => {
-      const dto = await closeShiftRequest(getToken, {
-        shiftId,
-        countedCash: toMoneyString(closingCash),
-        comment: notes ?? null,
-        closedBy: employeeId,
-      })
-      return shiftDtoToResShift(dto)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.activeShift() })
-      queryClient.invalidateQueries({ queryKey: resposQueryKeys.shifts() })
-    },
-  })
-}
-
 // ============ Order Mutations ============
 
 export function useCreateOrder() {
@@ -191,7 +115,9 @@ export function useCreateOrder() {
           payload,
         })
 
-        toast.info(i18n.t('respos.offlineOrderSaved', 'Đơn hàng đã được lưu offline'))
+        toast.info(
+          i18n.t('respos.offlineOrderSaved', 'Đơn hàng đã được lưu offline')
+        )
         return {
           id: orderNumber,
           order_number: orderNumber,
@@ -206,7 +132,6 @@ export function useCreateOrder() {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         } as ResOrder
-
       }
 
       return createResOrder(payload)

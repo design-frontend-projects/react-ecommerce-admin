@@ -37,7 +37,7 @@ import { useCountries } from '@/features/countries/hooks/use-countries'
 import { useCustomerGroups } from '@/features/customer-groups/hooks/use-customer-groups'
 import { useCreateCustomer, useUpdateCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
-import { CreateCustomerGroupDialog } from './create-customer-group-dialog'
+
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'First name is required'),
@@ -451,7 +451,7 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
         <FormItem>
           <div className='flex items-center justify-between'>
             <FormLabel>Customer Group</FormLabel>
-            <CreateCustomerGroupDialog onGroupCreated={handleGroupCreated} />
+
           </div>
           <FormControl>
             {isLoading ? (

@@ -83,19 +83,7 @@ export const BASE_PERMISSION_DEFINITIONS = [
     name: 'access_control.buttons.manage',
     description: 'Manage the permission-button catalog and screen mappings.',
   },
-  {
-    name: 'restaurant.shifts.use',
-    description: 'Open and close own shifts and record cash movements.',
-  },
-  {
-    name: 'restaurant.shifts.view',
-    description: 'View all shifts, live staffing, and shift analytics.',
-  },
-  {
-    name: 'restaurant.shifts.manage',
-    description:
-      'Force-close, correct, review shifts and manage shift settings.',
-  },
+
   {
     name: 'inventory.purchasing.view',
     description: 'View purchase orders, requisitions, and goods receipts.',
@@ -148,9 +136,7 @@ export const LEGACY_PERMISSION_ALIASES: Record<string, string> = {
   'screens.view': 'access_control.screens.view',
   'screens.manage': 'access_control.screens.manage',
   'buttons.manage': 'access_control.buttons.manage',
-  'shifts.use': 'restaurant.shifts.use',
-  'shifts.view': 'restaurant.shifts.view',
-  'shifts.manage': 'restaurant.shifts.manage',
+
   'purchasing.view': 'inventory.purchasing.view',
   'purchasing.manage': 'inventory.purchasing.manage',
   'sales.view': 'inventory.sales.view',
@@ -200,9 +186,7 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'access_control.screens.view',
     'access_control.screens.manage',
     'access_control.buttons.manage',
-    'restaurant.shifts.use',
-    'restaurant.shifts.view',
-    'restaurant.shifts.manage',
+
     'inventory.purchasing.view',
     'inventory.purchasing.manage',
     'inventory.sales.view',
@@ -220,8 +204,7 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'restaurant.orders.manage',
     'general.reports.view',
     'general.pos.access',
-    'restaurant.shifts.use',
-    'restaurant.shifts.view',
+
     'inventory.purchasing.view',
     'inventory.purchasing.manage',
     'inventory.sales.view',
@@ -234,21 +217,21 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'restaurant.orders.view',
     'restaurant.orders.create',
     'general.pos.access',
-    'restaurant.shifts.use',
+
   ],
   [UserRole.Cashier]: [
     'general.dashboard.view',
     'restaurant.orders.view',
     'restaurant.orders.create',
     'general.pos.access',
-    'restaurant.shifts.use',
+
   ],
   [UserRole.Captain]: [
     'general.dashboard.view',
     'restaurant.orders.view',
     'restaurant.orders.manage',
     'general.pos.access',
-    'restaurant.shifts.use',
+
   ],
   [UserRole.Kitchen]: [
     'general.dashboard.view',

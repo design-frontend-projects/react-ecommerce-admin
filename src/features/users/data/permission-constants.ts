@@ -25,9 +25,7 @@ export const PERMISSIONS = {
   SCREENS_VIEW: 'access_control.screens.view',
   SCREENS_MANAGE: 'access_control.screens.manage',
   BUTTONS_MANAGE: 'access_control.buttons.manage',
-  SHIFTS_USE: 'restaurant.shifts.use',
-  SHIFTS_VIEW: 'restaurant.shifts.view',
-  SHIFTS_MANAGE: 'restaurant.shifts.manage',
+
   PURCHASING_VIEW: 'inventory.purchasing.view',
   PURCHASING_MANAGE: 'inventory.purchasing.manage',
   SALES_VIEW: 'inventory.sales.view',

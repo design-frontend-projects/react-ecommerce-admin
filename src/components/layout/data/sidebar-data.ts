@@ -36,7 +36,7 @@ import {
   ShieldCheck,
   ShoppingCart,
   Tags,
-  Timer,
+
   TrendingUp,
   UserCog,
   Users,
@@ -187,13 +187,7 @@ export function useSidebarData(): SidebarData {
             icon: LineChart,
             roles: ADMINS,
           },
-          {
-            title: t('sidebar.shifts'),
-            url: '/respos/shifts',
-            icon: Timer,
-            roles: [...ADMINS, UserRole.Manager],
-            permissions: ['restaurant.shifts.view', 'restaurant.shifts.manage'],
-          },
+
           {
             title: t('sidebar.cashierCheckout'),
             url: '/respos/cashier',

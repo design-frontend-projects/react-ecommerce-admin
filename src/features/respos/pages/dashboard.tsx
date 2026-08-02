@@ -1,6 +1,5 @@
 // ResPOS Dashboard Page
 // Main dashboard for restaurant staff with role-based widgets
-import { useState } from 'react'
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
@@ -13,14 +12,11 @@ import {
   Loader2,
   Receipt,
   Shield,
-  Timer,
   TrendingUp,
   Users,
   UtensilsCrossed,
 } from 'lucide-react'
-import { toast } from 'sonner'
-import { useAuth, useUser } from '@/hooks/use-auth'
-import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/use-auth'
 import {
   Card,
   CardContent,
@@ -34,14 +30,11 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useDashboardStats, useActiveShift, useShifts } from '../api/queries'
+import { useDashboardStats } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
-import { RoleNames } from '../constants'
-import { useShift } from '../hooks/use-shift'
 import { formatCurrency } from '../lib/formatters'
 import type { Permission } from '../types'
-import { OpenShiftDialog, CloseShiftDialog } from './shifts'
 
 const container = {
   hidden: { opacity: 0 },
@@ -57,41 +50,10 @@ const item = {
 }
 
 export function ResposDashboard() {
-  const [openDialogOpen, setOpenDialogOpen] = useState(false)
-  const [closeDialogOpen, setCloseDialogOpen] = useState(false)
-
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
   const { has, isLoaded, isSignedIn } = useAuth()
-  const { user } = useUser()
-  const authUserId = user?.id ?? null
 
-  // Pass authUserId so the query is enabled and actually fetches
-  const { data: activeShift, isLoading: shiftLoading } =
-    useActiveShift(authUserId)
-
-  const { openShift, closeShift, isOpening, isClosing } = useShift({
-    authUserId,
-  })
-
-  const isAdmin =
-    has?.({ permission: RoleNames.admin }) ||
-    has?.({ permission: RoleNames.super_admin })
-  const { data: allShifts = [] } = useShifts(isAdmin ? null : authUserId)
-  const closedShifts = allShifts.filter((s) => s.status === 'closed')
-  const previousClosingCash = closedShifts[0]?.closing_cash ?? 0
-
-  const isLoading = statsLoading || shiftLoading || isLoaded
-
-  // Validate before opening shift - if already open, show toast warning
-  const handleOpenShiftClick = () => {
-    if (activeShift) {
-      toast.warning('You already have an open shift', {
-        description: `Shift opened at ${format(new Date(activeShift.opened_at), 'HH:mm')}. Please close it before opening a new one.`,
-      })
-      return
-    }
-    setOpenDialogOpen(true)
-  }
+  const isLoading = statsLoading || isLoaded
 
   const quickActions: Array<{
     title: string
@@ -191,28 +153,7 @@ export function ResposDashboard() {
                 {format(new Date(), 'EEEE, MMMM d, yyyy')}
               </p>
             </div>
-            {activeShift ? (
-              <div className='flex items-center gap-2 text-sm'>
-                <div className='flex h-3 w-3 animate-pulse rounded-full bg-green-500' />
-                <span>Shift Active</span>
-                <span className='text-muted-foreground'>
-                  since {format(new Date(activeShift.opened_at), 'HH:mm')}
-                </span>
-                <Button
-                  variant='destructive'
-                  size='sm'
-                  className='ml-4'
-                  onClick={() => setCloseDialogOpen(true)}
-                >
-                  Close Shift
-                </Button>
-              </div>
-            ) : (
-              <Button variant='outline' onClick={handleOpenShiftClick}>
-                <Timer className='mr-2 h-4 w-4' />
-                Open Shift
-              </Button>
-            )}
+
           </motion.div>
 
           {/* Stats Grid */}
@@ -291,40 +232,6 @@ export function ResposDashboard() {
         </motion.div>
       </Main>
 
-      <OpenShiftDialog
-        open={openDialogOpen}
-        onOpenChange={setOpenDialogOpen}
-        employeeName={user ? `${user.firstName} ${user.lastName}` : 'Unknown'}
-        isPending={isOpening}
-        defaultOpeningCash={previousClosingCash}
-        onSubmit={async (values) => {
-          if (!user) return
-          try {
-            await openShift(user.id, values.openingCash)
-            toast.success('Shift opened successfully')
-            setOpenDialogOpen(false)
-          } catch {
-            toast.error('Failed to open shift')
-          }
-        }}
-      />
-
-      <CloseShiftDialog
-        open={closeDialogOpen}
-        onOpenChange={setCloseDialogOpen}
-        openingCash={activeShift?.opening_cash ?? 0}
-        isPending={isClosing}
-        onSubmit={async (values) => {
-          if (!user) return
-          try {
-            await closeShift(user.id, values.closingCash, values.notes)
-            toast.success('Shift closed successfully')
-            setCloseDialogOpen(false)
-          } catch {
-            toast.error('Failed to close shift')
-          }
-        }}
-      />
     </>
   )
 }

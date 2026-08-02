@@ -87,7 +87,6 @@ import { Route as ApiUsersOnboardingRouteImport } from './routes/api/users/onboa
 import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
 import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
 import { Route as ApiTenantActivityTypesRouteImport } from './routes/api/tenant/activity-types'
-import { Route as ApiResposShiftsRouteImport } from './routes/api/respos/shifts'
 import { Route as ApiRbacScreensRouteImport } from './routes/api/rbac/screens'
 import { Route as ApiRbacScreenButtonsRouteImport } from './routes/api/rbac/screen-buttons'
 import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permissions'
@@ -119,7 +118,6 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedResposShipmentsRouteImport } from './routes/_authenticated/respos/shipments'
-import { Route as AuthenticatedResposShiftsRouteImport } from './routes/_authenticated/respos/shifts'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
 import { Route as AuthenticatedResposPaymentsRouteImport } from './routes/_authenticated/respos/payments'
@@ -140,16 +138,6 @@ import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes
 import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as ApiTenantSubscriptionStatusRouteImport } from './routes/api/tenant/subscription/status'
-import { Route as ApiResposShiftsSettingsRouteImport } from './routes/api/respos/shifts/settings'
-import { Route as ApiResposShiftsReviewRouteImport } from './routes/api/respos/shifts/review'
-import { Route as ApiResposShiftsMovementsRouteImport } from './routes/api/respos/shifts/movements'
-import { Route as ApiResposShiftsForceCloseRouteImport } from './routes/api/respos/shifts/force-close'
-import { Route as ApiResposShiftsExpectedRouteImport } from './routes/api/respos/shifts/expected'
-import { Route as ApiResposShiftsCorrectionsRouteImport } from './routes/api/respos/shifts/corrections'
-import { Route as ApiResposShiftsCloseRouteImport } from './routes/api/respos/shifts/close'
-import { Route as ApiResposShiftsAuditRouteImport } from './routes/api/respos/shifts/audit'
-import { Route as ApiResposShiftsAnalyticsRouteImport } from './routes/api/respos/shifts/analytics'
-import { Route as ApiResposShiftsActiveRouteImport } from './routes/api/respos/shifts/active'
 import { Route as ApiRbacScreensAccessRouteImport } from './routes/api/rbac/screens/access'
 import { Route as ApiRbacMeNavRouteImport } from './routes/api/rbac/me/nav'
 import { Route as ApiRbacMeAccessRouteImport } from './routes/api/rbac/me/access'
@@ -616,11 +604,6 @@ const ApiTenantActivityTypesRoute = ApiTenantActivityTypesRouteImport.update({
   path: '/api/tenant/activity-types',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiResposShiftsRoute = ApiResposShiftsRouteImport.update({
-  id: '/api/respos/shifts',
-  path: '/api/respos/shifts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiRbacScreensRoute = ApiRbacScreensRouteImport.update({
   id: '/screens',
   path: '/screens',
@@ -790,12 +773,6 @@ const AuthenticatedResposShipmentsRoute =
     path: '/respos/shipments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedResposShiftsRoute =
-  AuthenticatedResposShiftsRouteImport.update({
-    id: '/respos/shifts',
-    path: '/respos/shifts',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedResposReservationsRoute =
   AuthenticatedResposReservationsRouteImport.update({
     id: '/respos/reservations',
@@ -914,60 +891,6 @@ const ApiTenantSubscriptionStatusRoute =
     path: '/api/tenant/subscription/status',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiResposShiftsSettingsRoute = ApiResposShiftsSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
-const ApiResposShiftsReviewRoute = ApiResposShiftsReviewRouteImport.update({
-  id: '/review',
-  path: '/review',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
-const ApiResposShiftsMovementsRoute =
-  ApiResposShiftsMovementsRouteImport.update({
-    id: '/movements',
-    path: '/movements',
-    getParentRoute: () => ApiResposShiftsRoute,
-  } as any)
-const ApiResposShiftsForceCloseRoute =
-  ApiResposShiftsForceCloseRouteImport.update({
-    id: '/force-close',
-    path: '/force-close',
-    getParentRoute: () => ApiResposShiftsRoute,
-  } as any)
-const ApiResposShiftsExpectedRoute = ApiResposShiftsExpectedRouteImport.update({
-  id: '/expected',
-  path: '/expected',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
-const ApiResposShiftsCorrectionsRoute =
-  ApiResposShiftsCorrectionsRouteImport.update({
-    id: '/corrections',
-    path: '/corrections',
-    getParentRoute: () => ApiResposShiftsRoute,
-  } as any)
-const ApiResposShiftsCloseRoute = ApiResposShiftsCloseRouteImport.update({
-  id: '/close',
-  path: '/close',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
-const ApiResposShiftsAuditRoute = ApiResposShiftsAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
-const ApiResposShiftsAnalyticsRoute =
-  ApiResposShiftsAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => ApiResposShiftsRoute,
-  } as any)
-const ApiResposShiftsActiveRoute = ApiResposShiftsActiveRouteImport.update({
-  id: '/active',
-  path: '/active',
-  getParentRoute: () => ApiResposShiftsRoute,
-} as any)
 const ApiRbacScreensAccessRoute = ApiRbacScreensAccessRouteImport.update({
   id: '/access',
   path: '/access',
@@ -1133,7 +1056,6 @@ export interface FileRoutesByFullPath {
   '/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
-  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -1165,7 +1087,6 @@ export interface FileRoutesByFullPath {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
-  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
@@ -1214,16 +1135,6 @@ export interface FileRoutesByFullPath {
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
   '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
-  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
-  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
-  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
-  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
-  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
-  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
-  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
-  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
-  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
-  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -1291,7 +1202,6 @@ export interface FileRoutesByTo {
   '/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
-  '/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -1323,7 +1233,6 @@ export interface FileRoutesByTo {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
-  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
@@ -1372,16 +1281,6 @@ export interface FileRoutesByTo {
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
   '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
-  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
-  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
-  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
-  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
-  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
-  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
-  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
-  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
-  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
-  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -1454,7 +1353,6 @@ export interface FileRoutesById {
   '/_authenticated/respos/payments': typeof AuthenticatedResposPaymentsRoute
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
-  '/_authenticated/respos/shifts': typeof AuthenticatedResposShiftsRoute
   '/_authenticated/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -1486,7 +1384,6 @@ export interface FileRoutesById {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
-  '/api/respos/shifts': typeof ApiResposShiftsRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
@@ -1535,16 +1432,6 @@ export interface FileRoutesById {
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
   '/api/rbac/me/nav': typeof ApiRbacMeNavRoute
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
-  '/api/respos/shifts/active': typeof ApiResposShiftsActiveRoute
-  '/api/respos/shifts/analytics': typeof ApiResposShiftsAnalyticsRoute
-  '/api/respos/shifts/audit': typeof ApiResposShiftsAuditRoute
-  '/api/respos/shifts/close': typeof ApiResposShiftsCloseRoute
-  '/api/respos/shifts/corrections': typeof ApiResposShiftsCorrectionsRoute
-  '/api/respos/shifts/expected': typeof ApiResposShiftsExpectedRoute
-  '/api/respos/shifts/force-close': typeof ApiResposShiftsForceCloseRoute
-  '/api/respos/shifts/movements': typeof ApiResposShiftsMovementsRoute
-  '/api/respos/shifts/review': typeof ApiResposShiftsReviewRoute
-  '/api/respos/shifts/settings': typeof ApiResposShiftsSettingsRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/_authenticated/_system/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
 }
@@ -1616,7 +1503,6 @@ export interface FileRouteTypes {
     | '/respos/payments'
     | '/respos/pos'
     | '/respos/reservations'
-    | '/respos/shifts'
     | '/respos/shipments'
     | '/settings/account'
     | '/settings/appearance'
@@ -1648,7 +1534,6 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
-    | '/api/respos/shifts'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/invite'
@@ -1697,16 +1582,6 @@ export interface FileRouteTypes {
     | '/api/rbac/me/access'
     | '/api/rbac/me/nav'
     | '/api/rbac/screens/access'
-    | '/api/respos/shifts/active'
-    | '/api/respos/shifts/analytics'
-    | '/api/respos/shifts/audit'
-    | '/api/respos/shifts/close'
-    | '/api/respos/shifts/corrections'
-    | '/api/respos/shifts/expected'
-    | '/api/respos/shifts/force-close'
-    | '/api/respos/shifts/movements'
-    | '/api/respos/shifts/review'
-    | '/api/respos/shifts/settings'
     | '/api/tenant/subscription/status'
     | '/restaurants/'
   fileRoutesByTo: FileRoutesByTo
@@ -1774,7 +1649,6 @@ export interface FileRouteTypes {
     | '/respos/payments'
     | '/respos/pos'
     | '/respos/reservations'
-    | '/respos/shifts'
     | '/respos/shipments'
     | '/settings/account'
     | '/settings/appearance'
@@ -1806,7 +1680,6 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
-    | '/api/respos/shifts'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/invite'
@@ -1855,16 +1728,6 @@ export interface FileRouteTypes {
     | '/api/rbac/me/access'
     | '/api/rbac/me/nav'
     | '/api/rbac/screens/access'
-    | '/api/respos/shifts/active'
-    | '/api/respos/shifts/analytics'
-    | '/api/respos/shifts/audit'
-    | '/api/respos/shifts/close'
-    | '/api/respos/shifts/corrections'
-    | '/api/respos/shifts/expected'
-    | '/api/respos/shifts/force-close'
-    | '/api/respos/shifts/movements'
-    | '/api/respos/shifts/review'
-    | '/api/respos/shifts/settings'
     | '/api/tenant/subscription/status'
     | '/restaurants'
   id:
@@ -1936,7 +1799,6 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/payments'
     | '/_authenticated/respos/pos'
     | '/_authenticated/respos/reservations'
-    | '/_authenticated/respos/shifts'
     | '/_authenticated/respos/shipments'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
@@ -1968,7 +1830,6 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
-    | '/api/respos/shifts'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/invite'
@@ -2017,16 +1878,6 @@ export interface FileRouteTypes {
     | '/api/rbac/me/access'
     | '/api/rbac/me/nav'
     | '/api/rbac/screens/access'
-    | '/api/respos/shifts/active'
-    | '/api/respos/shifts/analytics'
-    | '/api/respos/shifts/audit'
-    | '/api/respos/shifts/close'
-    | '/api/respos/shifts/corrections'
-    | '/api/respos/shifts/expected'
-    | '/api/respos/shifts/force-close'
-    | '/api/respos/shifts/movements'
-    | '/api/respos/shifts/review'
-    | '/api/respos/shifts/settings'
     | '/api/tenant/subscription/status'
     | '/_authenticated/_system/restaurants/'
   fileRoutesById: FileRoutesById
@@ -2076,7 +1927,6 @@ export interface RootRouteChildren {
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
   ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
-  ApiResposShiftsRoute: typeof ApiResposShiftsRouteWithChildren
   ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
   ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
   ApiCrmCustomersSegmentRoute: typeof ApiCrmCustomersSegmentRoute
@@ -2646,13 +2496,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTenantActivityTypesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/respos/shifts': {
-      id: '/api/respos/shifts'
-      path: '/api/respos/shifts'
-      fullPath: '/api/respos/shifts'
-      preLoaderRoute: typeof ApiResposShiftsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/rbac/screens': {
       id: '/api/rbac/screens'
       path: '/screens'
@@ -2870,13 +2713,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposShipmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/respos/shifts': {
-      id: '/_authenticated/respos/shifts'
-      path: '/respos/shifts'
-      fullPath: '/respos/shifts'
-      preLoaderRoute: typeof AuthenticatedResposShiftsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/respos/reservations': {
       id: '/_authenticated/respos/reservations'
       path: '/respos/reservations'
@@ -3016,76 +2852,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/tenant/subscription/status'
       preLoaderRoute: typeof ApiTenantSubscriptionStatusRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/api/respos/shifts/settings': {
-      id: '/api/respos/shifts/settings'
-      path: '/settings'
-      fullPath: '/api/respos/shifts/settings'
-      preLoaderRoute: typeof ApiResposShiftsSettingsRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/review': {
-      id: '/api/respos/shifts/review'
-      path: '/review'
-      fullPath: '/api/respos/shifts/review'
-      preLoaderRoute: typeof ApiResposShiftsReviewRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/movements': {
-      id: '/api/respos/shifts/movements'
-      path: '/movements'
-      fullPath: '/api/respos/shifts/movements'
-      preLoaderRoute: typeof ApiResposShiftsMovementsRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/force-close': {
-      id: '/api/respos/shifts/force-close'
-      path: '/force-close'
-      fullPath: '/api/respos/shifts/force-close'
-      preLoaderRoute: typeof ApiResposShiftsForceCloseRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/expected': {
-      id: '/api/respos/shifts/expected'
-      path: '/expected'
-      fullPath: '/api/respos/shifts/expected'
-      preLoaderRoute: typeof ApiResposShiftsExpectedRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/corrections': {
-      id: '/api/respos/shifts/corrections'
-      path: '/corrections'
-      fullPath: '/api/respos/shifts/corrections'
-      preLoaderRoute: typeof ApiResposShiftsCorrectionsRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/close': {
-      id: '/api/respos/shifts/close'
-      path: '/close'
-      fullPath: '/api/respos/shifts/close'
-      preLoaderRoute: typeof ApiResposShiftsCloseRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/audit': {
-      id: '/api/respos/shifts/audit'
-      path: '/audit'
-      fullPath: '/api/respos/shifts/audit'
-      preLoaderRoute: typeof ApiResposShiftsAuditRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/analytics': {
-      id: '/api/respos/shifts/analytics'
-      path: '/analytics'
-      fullPath: '/api/respos/shifts/analytics'
-      preLoaderRoute: typeof ApiResposShiftsAnalyticsRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
-    }
-    '/api/respos/shifts/active': {
-      id: '/api/respos/shifts/active'
-      path: '/active'
-      fullPath: '/api/respos/shifts/active'
-      preLoaderRoute: typeof ApiResposShiftsActiveRouteImport
-      parentRoute: typeof ApiResposShiftsRoute
     }
     '/api/rbac/screens/access': {
       id: '/api/rbac/screens/access'
@@ -3309,7 +3075,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPaymentsRoute: typeof AuthenticatedResposPaymentsRoute
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
-  AuthenticatedResposShiftsRoute: typeof AuthenticatedResposShiftsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
   AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
   AuthenticatedBrandsIndexRoute: typeof AuthenticatedBrandsIndexRoute
@@ -3380,7 +3145,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPaymentsRoute: AuthenticatedResposPaymentsRoute,
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
-  AuthenticatedResposShiftsRoute: AuthenticatedResposShiftsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
   AuthenticatedBatchesIndexRoute: AuthenticatedBatchesIndexRoute,
   AuthenticatedBrandsIndexRoute: AuthenticatedBrandsIndexRoute,
@@ -3607,36 +3371,6 @@ const ApiInventoryWarehousesRouteWithChildren =
     ApiInventoryWarehousesRouteChildren,
   )
 
-interface ApiResposShiftsRouteChildren {
-  ApiResposShiftsActiveRoute: typeof ApiResposShiftsActiveRoute
-  ApiResposShiftsAnalyticsRoute: typeof ApiResposShiftsAnalyticsRoute
-  ApiResposShiftsAuditRoute: typeof ApiResposShiftsAuditRoute
-  ApiResposShiftsCloseRoute: typeof ApiResposShiftsCloseRoute
-  ApiResposShiftsCorrectionsRoute: typeof ApiResposShiftsCorrectionsRoute
-  ApiResposShiftsExpectedRoute: typeof ApiResposShiftsExpectedRoute
-  ApiResposShiftsForceCloseRoute: typeof ApiResposShiftsForceCloseRoute
-  ApiResposShiftsMovementsRoute: typeof ApiResposShiftsMovementsRoute
-  ApiResposShiftsReviewRoute: typeof ApiResposShiftsReviewRoute
-  ApiResposShiftsSettingsRoute: typeof ApiResposShiftsSettingsRoute
-}
-
-const ApiResposShiftsRouteChildren: ApiResposShiftsRouteChildren = {
-  ApiResposShiftsActiveRoute: ApiResposShiftsActiveRoute,
-  ApiResposShiftsAnalyticsRoute: ApiResposShiftsAnalyticsRoute,
-  ApiResposShiftsAuditRoute: ApiResposShiftsAuditRoute,
-  ApiResposShiftsCloseRoute: ApiResposShiftsCloseRoute,
-  ApiResposShiftsCorrectionsRoute: ApiResposShiftsCorrectionsRoute,
-  ApiResposShiftsExpectedRoute: ApiResposShiftsExpectedRoute,
-  ApiResposShiftsForceCloseRoute: ApiResposShiftsForceCloseRoute,
-  ApiResposShiftsMovementsRoute: ApiResposShiftsMovementsRoute,
-  ApiResposShiftsReviewRoute: ApiResposShiftsReviewRoute,
-  ApiResposShiftsSettingsRoute: ApiResposShiftsSettingsRoute,
-}
-
-const ApiResposShiftsRouteWithChildren = ApiResposShiftsRoute._addFileChildren(
-  ApiResposShiftsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LoginRoute: LoginRoute,
@@ -3684,7 +3418,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
   ApiPosCheckoutRoute: ApiPosCheckoutRoute,
-  ApiResposShiftsRoute: ApiResposShiftsRouteWithChildren,
   ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
   ApiTenantOnboardRoute: ApiTenantOnboardRoute,
   ApiCrmCustomersSegmentRoute: ApiCrmCustomersSegmentRoute,

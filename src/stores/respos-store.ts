@@ -18,7 +18,6 @@ import type {
   PromoError,
   ResEmployeeWithRoles,
   ResPromotion,
-  ResShift,
   ResTable,
   SelectedProperty,
   TaxConfig,
@@ -29,9 +28,6 @@ interface ResposState {
   currentEmployee: ResEmployeeWithRoles | null
   setCurrentEmployee: (employee: ResEmployeeWithRoles | null) => void
 
-  // Active shift
-  activeShift: ResShift | null
-  setActiveShift: (shift: ResShift | null) => void
 
   // Selected table
   selectedTable: ResTable | null
@@ -183,9 +179,6 @@ export const useResposStore = create<ResposState>()(
       currentEmployee: null,
       setCurrentEmployee: (employee) => set({ currentEmployee: employee }),
 
-      // Shift
-      activeShift: null,
-      setActiveShift: (shift) => set({ activeShift: shift }),
 
       // Table
       selectedTable: null,

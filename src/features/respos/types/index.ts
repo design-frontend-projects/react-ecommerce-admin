@@ -16,7 +16,6 @@ export type Permission =
   | 'reservations'
   | 'reservations_view'
   | 'analytics'
-  | 'shifts'
   | 'settings'
   | 'payments'
   | 'void_approve'
@@ -155,7 +154,6 @@ export interface ResMenuItemWithDetails extends ResMenuItem {
 
 // ============ Order Types ============
 
-export type ShiftStatus = 'open' | 'closed' | 'force_closed' | 'auto_closed'
 export type OrderStatus =
   | 'open'
   | 'in_progress'
@@ -166,41 +164,9 @@ export type OrderStatus =
   | 'refunded'
 export type OrderItemStatus = 'pending' | 'preparing' | 'ready' | 'served'
 
-export interface ResShift {
-  id: string
-  auth_user_id?: string
-  restaurant_id?: string
-  opened_by: string
-  closed_by?: string
-  opening_cash: number
-  closing_cash?: number
-  status: ShiftStatus
-  opened_at: string
-  closed_at?: string
-  notes?: string
-  // specs/026 — populated by res_close_shift() at close; snake_case because
-  // own-shift reads come straight from supabase.
-  branch_id?: string | null
-  expected_cash?: number | null
-  variance?: number | null
-  cash_sales_total?: number | null
-  movements_in_total?: number | null
-  movements_out_total?: number | null
-  original_closing_cash?: number | null
-  original_variance?: number | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  is_corrected?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: string | null
-}
 
-export interface ResShiftWithEmployee extends ResShift {
-  opener: ResEmployee
-  closer?: ResEmployee
-}
+
+
 
 export interface ResOrder {
   id: string

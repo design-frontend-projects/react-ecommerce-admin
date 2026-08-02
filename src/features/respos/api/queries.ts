@@ -21,7 +21,6 @@ import type {
   ResPaymentMethod,
   ResReservation,
   ResRole,
-  ResShift,
   ResTable,
   ResVoidRequestWithDetails,
 } from '../types'
@@ -47,14 +46,7 @@ export const resposQueryKeys = {
       ? (['respos', 'menu-items', categoryId] as const)
       : (['respos', 'menu-items'] as const),
   menuItem: (id: string) => ['respos', 'menu-items', 'detail', id] as const,
-  shifts: (authUserId?: string) =>
-    authUserId
-      ? (['respos', 'shifts', authUserId] as const)
-      : (['respos', 'shifts'] as const),
-  activeShift: (authUserId?: string) =>
-    authUserId
-      ? (['respos', 'shifts', 'active', authUserId] as const)
-      : (['respos', 'shifts', 'active'] as const),
+
   activeOrder: (tableId: string) =>
     ['respos', 'orders', 'active', tableId] as const,
   deliveryOrders: ['respos', 'orders', 'delivery-open'] as const,
@@ -91,31 +83,6 @@ export const resposQueryKeys = {
   dashboardStats: ['respos', 'dashboard-stats'] as const,
   analyticsOrders: (days: number) =>
     ['respos', 'analytics', 'orders', days] as const,
-  // Shift management (specs/026) — server-backed admin/oversight reads.
-  allShifts: (filters?: unknown) =>
-    filters
-      ? (['respos', 'shifts', 'all', filters] as const)
-      : (['respos', 'shifts', 'all'] as const),
-  activeShiftsAll: (branchId?: string) =>
-    branchId
-      ? (['respos', 'shifts', 'active-all', branchId] as const)
-      : (['respos', 'shifts', 'active-all'] as const),
-  shiftAudit: (shiftId: string) =>
-    ['respos', 'shifts', 'audit', shiftId] as const,
-  shiftExpected: (shiftId: string) =>
-    ['respos', 'shifts', 'expected', shiftId] as const,
-  shiftMovements: (shiftId: string) =>
-    ['respos', 'shifts', 'movements', shiftId] as const,
-  shiftSettings: (restaurantId?: string | null, branchId?: string | null) =>
-    [
-      'respos',
-      'shifts',
-      'settings',
-      restaurantId ?? '',
-      branchId ?? '',
-    ] as const,
-  shiftAnalytics: (metric: string, range: string, branchId?: string) =>
-    ['respos', 'shifts', 'analytics', metric, range, branchId ?? ''] as const,
 }
 
 // ============ Roles ============
@@ -404,59 +371,6 @@ export function useMenuItem(id: string) {
   })
 }
 
-// ============ Shifts ============
-
-export function useActiveShift(authUserId?: string | null) {
-  return useQuery({
-    queryKey: resposQueryKeys.activeShift(authUserId ?? undefined),
-    queryFn: async () => {
-      let query = supabase
-        .from('res_shifts')
-        .select('*')
-        .eq('status', 'open')
-        .order('opened_at', { ascending: false })
-        .limit(1)
-
-      if (authUserId) {
-        query = query.eq('auth_user_id', authUserId)
-      }
-
-      const { data, error } = await query.maybeSingle()
-
-      if (error) throw error
-      return data as ResShift | null
-    },
-    enabled: !!authUserId,
-  })
-}
-
-export function useShifts(authUserId?: string | null) {
-  return useQuery({
-    queryKey: resposQueryKeys.shifts(authUserId ?? undefined),
-    queryFn: async () => {
-      let query = supabase
-        .from('res_shifts')
-        .select('*')
-        .order('opened_at', { ascending: false })
-
-      if (authUserId) {
-        query = query.eq('auth_user_id', authUserId)
-      }
-
-      const { data, error } = await query
-
-      if (error) throw error
-      return data as unknown as Array<
-        ResShift & {
-          opener?: { first_name: string; last_name: string }
-          closer?: { first_name: string; last_name: string }
-        }
-      >
-    },
-    // If authUserId is explicitly null (admin), we still want to run the query
-    enabled: authUserId !== undefined,
-  })
-}
 
 // ============ Orders ============
 
