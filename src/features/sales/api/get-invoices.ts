@@ -1,8 +1,7 @@
-'use server'
-
+import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 
-interface GetInvoicesParams {
+export interface GetInvoicesParams {
   page?: number
   limit?: number
   search?: string
@@ -12,7 +11,9 @@ interface GetInvoicesParams {
 }
 
 // TODO: Implement proper auth verification for TanStack Start
-export async function getInvoices(params: GetInvoicesParams = {}) {
+export const getInvoices = createServerFn({ method: 'GET' })
+  .validator((params: GetInvoicesParams = {}) => params)
+  .handler(async ({ data: params }) => {
   const userId = 'system' // Placeholder
 
   const {
@@ -88,4 +89,4 @@ export async function getInvoices(params: GetInvoicesParams = {}) {
     console.error('Failed to fetch invoices:', error)
     throw new Error(error instanceof Error ? error.message : 'Database error')
   }
-}
+})

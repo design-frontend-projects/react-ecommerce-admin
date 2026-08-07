@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import i18n from '@/config/i18n'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
-import { enqueue } from '@/lib/sync/outbox'
 import { mapPromoRpcError } from '../lib/promo-engine'
 import type {
   OrderItemStatus,
@@ -93,49 +92,7 @@ export function useCreateOrder() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (payload: CreateResOrderPayload) => {
-      const { tableId, orderType, shiftId, createdBy, customerName, items } =
-        payload
-
-      // If offline, enqueue the order in the durable outbox. Promotions require
-      // being online (usage limits are global counters), so offline orders are
-      // saved without one. The `resOrder` handler replays the SAME
-      // `createResOrder` on reconnect — fixing the legacy bug where offline
-      // restaurant orders were marked synced but never actually pushed.
-      if (typeof window !== 'undefined' && !window.navigator.onLine) {
-        const orderNumber = generateOrderNumber()
-        const subtotal = items.reduce(
-          (sum, item) => sum + item.unit_price * item.quantity,
-          0
-        )
-
-        await enqueue({
-          type: 'resOrder',
-          idempotencyKey: orderNumber,
-          payload,
-        })
-
-        toast.info(
-          i18n.t('respos.offlineOrderSaved', 'Đơn hàng đã được lưu offline')
-        )
-        return {
-          id: orderNumber,
-          order_number: orderNumber,
-          status: 'open',
-          order_type: orderType ?? 'dine_in',
-          total_amount: subtotal,
-          subtotal,
-          table_id: orderType === 'dine_in' ? tableId : null,
-          shift_id: shiftId,
-          created_by: createdBy,
-          customer_name: customerName,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        } as ResOrder
-      }
-
-      return createResOrder(payload)
-    },
+    mutationFn: async (payload: CreateResOrderPayload) => createResOrder(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
       queryClient.invalidateQueries({

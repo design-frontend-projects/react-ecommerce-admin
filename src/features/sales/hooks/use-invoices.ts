@@ -12,7 +12,7 @@ export function useInvoices(options: UseInvoicesOptions = {}) {
   return useQuery({
     queryKey: ['sales-invoices', options],
     queryFn: async () => {
-      return getInvoices(options)
+      return getInvoices({ data: options })
     },
     // Keep previous data when fetching a new page to avoid flashing
     placeholderData: (previousData) => previousData,

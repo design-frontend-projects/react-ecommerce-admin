@@ -1,15 +1,8 @@
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
-import { setupQueryPersistence } from '@/lib/db/persister'
 import { queryClient } from '@/lib/query-client'
 import { routeTree } from './routeTree.gen'
 
 export function createRouter() {
-  // Persist the catalog query cache to IndexedDB (client-side only) so offline
-  // reads survive a full reload. Safe to call once per client bootstrap.
-  if (typeof window !== 'undefined') {
-    setupQueryPersistence(queryClient)
-  }
-
   return createTanStackRouter({
     routeTree,
     context: { queryClient },

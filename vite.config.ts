@@ -73,4 +73,10 @@ export default defineConfig({
       '@tests': path.resolve(__dirname, './tests'),
     },
   },
+  build: {
+    rollupOptions: {
+      external: (id) =>
+        id.includes('@prisma/client') || id.includes('generated/prisma'),
+    },
+  },
 })

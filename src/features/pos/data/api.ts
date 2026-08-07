@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
-import { enqueue } from '@/lib/sync/outbox'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
 import type { CheckoutRequestType } from '../schemas/checkout'
 import type { CheckoutResponse } from '../types'
@@ -629,19 +628,6 @@ export async function createPosTransaction(
     ...item,
     productVariantId: item.productVariantId as string,
   }))
-
-  // If offline, enqueue the full checkout payload in the durable outbox. The
-  // SAME `createPosTransaction` runs on replay via the `posTransaction`
-  // handler, so there is one code path for online and offline writes.
-  if (typeof window !== 'undefined' && !window.navigator.onLine) {
-    const idempotencyKey = uuidv4()
-    await enqueue({
-      type: 'posTransaction',
-      idempotencyKey,
-      payload: { ...payload, items: normalizedItems },
-    })
-    return { success: true, invoiceId: idempotencyKey }
-  }
 
   try {
     const isRestaurant = isRestaurantModuleContext()
