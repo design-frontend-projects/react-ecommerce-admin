@@ -2190,6 +2190,7 @@ export const NotificationsScalarFieldEnum = {
   sender_id: 'sender_id',
   template_id: 'template_id',
   is_active: 'is_active',
+  auth_user_id: 'auth_user_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
@@ -2203,6 +2204,7 @@ export const User_notificationsScalarFieldEnum = {
   user_id: 'user_id',
   is_read: 'is_read',
   read_at: 'read_at',
+  auth_user_id: 'auth_user_id',
   created_at: 'created_at'
 } as const
 
@@ -2216,6 +2218,7 @@ export const Notification_templatesScalarFieldEnum = {
   content: 'content',
   severity: 'severity',
   created_by: 'created_by',
+  auth_user_id: 'auth_user_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

@@ -251,6 +251,9 @@ export type warehousesWhereInput = {
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
+  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
 }
 
 export type warehousesOrderByWithRelationInput = {
@@ -272,6 +275,9 @@ export type warehousesOrderByWithRelationInput = {
   purchase_orders?: Prisma.purchase_ordersOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
   stock_counts?: Prisma.stock_countsOrderByRelationAggregateInput
+  branches?: Prisma.branchesOrderByWithRelationInput
+  stores?: Prisma.storesOrderByWithRelationInput
+  warehouse_locations?: Prisma.warehouse_locationsOrderByRelationAggregateInput
 }
 
 export type warehousesWhereUniqueInput = Prisma.AtLeast<{
@@ -297,6 +303,9 @@ export type warehousesWhereUniqueInput = Prisma.AtLeast<{
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
+  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
 }, "id" | "tenant_id_code">
 
 export type warehousesOrderByWithAggregationInput = {
@@ -340,8 +349,6 @@ export type warehousesScalarWhereWithAggregatesInput = {
 export type warehousesCreateInput = {
   id?: string
   tenant_id: string
-  branch_id?: string | null
-  store_id?: string | null
   code: string
   name: string
   is_default?: boolean
@@ -356,6 +363,9 @@ export type warehousesCreateInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateInput = {
@@ -377,13 +387,12 @@ export type warehousesUncheckedCreateInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -398,6 +407,9 @@ export type warehousesUpdateInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateInput = {
@@ -419,6 +431,7 @@ export type warehousesUncheckedUpdateInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesCreateManyInput = {
@@ -440,8 +453,6 @@ export type warehousesCreateManyInput = {
 export type warehousesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -467,6 +478,16 @@ export type warehousesUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type WarehousesListRelationFilter = {
+  every?: Prisma.warehousesWhereInput
+  some?: Prisma.warehousesWhereInput
+  none?: Prisma.warehousesWhereInput
+}
+
+export type warehousesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type WarehousesNullableScalarRelationFilter = {
@@ -527,6 +548,53 @@ export type warehousesMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
+export type WarehousesScalarRelationFilter = {
+  is?: Prisma.warehousesWhereInput
+  isNot?: Prisma.warehousesWhereInput
+}
+
+export type warehousesCreateNestedManyWithoutBranchesInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput> | Prisma.warehousesCreateWithoutBranchesInput[] | Prisma.warehousesUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutBranchesInput | Prisma.warehousesCreateOrConnectWithoutBranchesInput[]
+  createMany?: Prisma.warehousesCreateManyBranchesInputEnvelope
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+}
+
+export type warehousesUncheckedCreateNestedManyWithoutBranchesInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput> | Prisma.warehousesCreateWithoutBranchesInput[] | Prisma.warehousesUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutBranchesInput | Prisma.warehousesCreateOrConnectWithoutBranchesInput[]
+  createMany?: Prisma.warehousesCreateManyBranchesInputEnvelope
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+}
+
+export type warehousesUpdateManyWithoutBranchesNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput> | Prisma.warehousesCreateWithoutBranchesInput[] | Prisma.warehousesUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutBranchesInput | Prisma.warehousesCreateOrConnectWithoutBranchesInput[]
+  upsert?: Prisma.warehousesUpsertWithWhereUniqueWithoutBranchesInput | Prisma.warehousesUpsertWithWhereUniqueWithoutBranchesInput[]
+  createMany?: Prisma.warehousesCreateManyBranchesInputEnvelope
+  set?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  disconnect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  delete?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  update?: Prisma.warehousesUpdateWithWhereUniqueWithoutBranchesInput | Prisma.warehousesUpdateWithWhereUniqueWithoutBranchesInput[]
+  updateMany?: Prisma.warehousesUpdateManyWithWhereWithoutBranchesInput | Prisma.warehousesUpdateManyWithWhereWithoutBranchesInput[]
+  deleteMany?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+}
+
+export type warehousesUncheckedUpdateManyWithoutBranchesNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput> | Prisma.warehousesCreateWithoutBranchesInput[] | Prisma.warehousesUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutBranchesInput | Prisma.warehousesCreateOrConnectWithoutBranchesInput[]
+  upsert?: Prisma.warehousesUpsertWithWhereUniqueWithoutBranchesInput | Prisma.warehousesUpsertWithWhereUniqueWithoutBranchesInput[]
+  createMany?: Prisma.warehousesCreateManyBranchesInputEnvelope
+  set?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  disconnect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  delete?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  update?: Prisma.warehousesUpdateWithWhereUniqueWithoutBranchesInput | Prisma.warehousesUpdateWithWhereUniqueWithoutBranchesInput[]
+  updateMany?: Prisma.warehousesUpdateManyWithWhereWithoutBranchesInput | Prisma.warehousesUpdateManyWithWhereWithoutBranchesInput[]
+  deleteMany?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+}
+
 export type warehousesCreateNestedOneWithoutPurchase_ordersInput = {
   create?: Prisma.XOR<Prisma.warehousesCreateWithoutPurchase_ordersInput, Prisma.warehousesUncheckedCreateWithoutPurchase_ordersInput>
   connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutPurchase_ordersInput
@@ -543,6 +611,48 @@ export type warehousesUpdateOneWithoutPurchase_ordersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutPurchase_ordersInput, Prisma.warehousesUpdateWithoutPurchase_ordersInput>, Prisma.warehousesUncheckedUpdateWithoutPurchase_ordersInput>
 }
 
+export type warehousesCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput> | Prisma.warehousesCreateWithoutStoresInput[] | Prisma.warehousesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStoresInput | Prisma.warehousesCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.warehousesCreateManyStoresInputEnvelope
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+}
+
+export type warehousesUncheckedCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput> | Prisma.warehousesCreateWithoutStoresInput[] | Prisma.warehousesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStoresInput | Prisma.warehousesCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.warehousesCreateManyStoresInputEnvelope
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+}
+
+export type warehousesUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput> | Prisma.warehousesCreateWithoutStoresInput[] | Prisma.warehousesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStoresInput | Prisma.warehousesCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.warehousesUpsertWithWhereUniqueWithoutStoresInput | Prisma.warehousesUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.warehousesCreateManyStoresInputEnvelope
+  set?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  disconnect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  delete?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  update?: Prisma.warehousesUpdateWithWhereUniqueWithoutStoresInput | Prisma.warehousesUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.warehousesUpdateManyWithWhereWithoutStoresInput | Prisma.warehousesUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+}
+
+export type warehousesUncheckedUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput> | Prisma.warehousesCreateWithoutStoresInput[] | Prisma.warehousesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStoresInput | Prisma.warehousesCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.warehousesUpsertWithWhereUniqueWithoutStoresInput | Prisma.warehousesUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.warehousesCreateManyStoresInputEnvelope
+  set?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  disconnect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  delete?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  connect?: Prisma.warehousesWhereUniqueInput | Prisma.warehousesWhereUniqueInput[]
+  update?: Prisma.warehousesUpdateWithWhereUniqueWithoutStoresInput | Prisma.warehousesUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.warehousesUpdateManyWithWhereWithoutStoresInput | Prisma.warehousesUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+}
+
 export type warehousesCreateNestedOneWithoutInventory_movementsInput = {
   create?: Prisma.XOR<Prisma.warehousesCreateWithoutInventory_movementsInput, Prisma.warehousesUncheckedCreateWithoutInventory_movementsInput>
   connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutInventory_movementsInput
@@ -557,6 +667,20 @@ export type warehousesUpdateOneWithoutInventory_movementsNestedInput = {
   delete?: Prisma.warehousesWhereInput | boolean
   connect?: Prisma.warehousesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutInventory_movementsInput, Prisma.warehousesUpdateWithoutInventory_movementsInput>, Prisma.warehousesUncheckedUpdateWithoutInventory_movementsInput>
+}
+
+export type warehousesCreateNestedOneWithoutWarehouse_locationsInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedCreateWithoutWarehouse_locationsInput>
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutWarehouse_locationsInput
+  connect?: Prisma.warehousesWhereUniqueInput
+}
+
+export type warehousesUpdateOneRequiredWithoutWarehouse_locationsNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedCreateWithoutWarehouse_locationsInput>
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutWarehouse_locationsInput
+  upsert?: Prisma.warehousesUpsertWithoutWarehouse_locationsInput
+  connect?: Prisma.warehousesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutWarehouse_locationsInput, Prisma.warehousesUpdateWithoutWarehouse_locationsInput>, Prisma.warehousesUncheckedUpdateWithoutWarehouse_locationsInput>
 }
 
 export type warehousesCreateNestedOneWithoutGoods_receiptsInput = {
@@ -607,11 +731,96 @@ export type warehousesUpdateOneWithoutStock_countsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutStock_countsInput, Prisma.warehousesUpdateWithoutStock_countsInput>, Prisma.warehousesUncheckedUpdateWithoutStock_countsInput>
 }
 
+export type warehousesCreateWithoutBranchesInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesUncheckedCreateWithoutBranchesInput = {
+  id?: string
+  tenant_id: string
+  store_id?: string | null
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesCreateOrConnectWithoutBranchesInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput>
+}
+
+export type warehousesCreateManyBranchesInputEnvelope = {
+  data: Prisma.warehousesCreateManyBranchesInput | Prisma.warehousesCreateManyBranchesInput[]
+  skipDuplicates?: boolean
+}
+
+export type warehousesUpsertWithWhereUniqueWithoutBranchesInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  update: Prisma.XOR<Prisma.warehousesUpdateWithoutBranchesInput, Prisma.warehousesUncheckedUpdateWithoutBranchesInput>
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutBranchesInput, Prisma.warehousesUncheckedCreateWithoutBranchesInput>
+}
+
+export type warehousesUpdateWithWhereUniqueWithoutBranchesInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  data: Prisma.XOR<Prisma.warehousesUpdateWithoutBranchesInput, Prisma.warehousesUncheckedUpdateWithoutBranchesInput>
+}
+
+export type warehousesUpdateManyWithWhereWithoutBranchesInput = {
+  where: Prisma.warehousesScalarWhereInput
+  data: Prisma.XOR<Prisma.warehousesUpdateManyMutationInput, Prisma.warehousesUncheckedUpdateManyWithoutBranchesInput>
+}
+
+export type warehousesScalarWhereInput = {
+  AND?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+  OR?: Prisma.warehousesScalarWhereInput[]
+  NOT?: Prisma.warehousesScalarWhereInput | Prisma.warehousesScalarWhereInput[]
+  id?: Prisma.UuidFilter<"warehouses"> | string
+  tenant_id?: Prisma.UuidFilter<"warehouses"> | string
+  branch_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  code?: Prisma.StringFilter<"warehouses"> | string
+  name?: Prisma.StringFilter<"warehouses"> | string
+  is_default?: Prisma.BoolFilter<"warehouses"> | boolean
+  is_active?: Prisma.BoolFilter<"warehouses"> | boolean
+  address?: Prisma.StringNullableFilter<"warehouses"> | string | null
+  notes?: Prisma.StringNullableFilter<"warehouses"> | string | null
+  created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
+  auth_user_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+}
+
 export type warehousesCreateWithoutPurchase_ordersInput = {
   id?: string
   tenant_id: string
-  branch_id?: string | null
-  store_id?: string | null
   code: string
   name: string
   is_default?: boolean
@@ -625,6 +834,9 @@ export type warehousesCreateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutPurchase_ordersInput = {
@@ -645,6 +857,7 @@ export type warehousesUncheckedCreateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutPurchase_ordersInput = {
@@ -666,8 +879,6 @@ export type warehousesUpdateToOneWithWhereWithoutPurchase_ordersInput = {
 export type warehousesUpdateWithoutPurchase_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -681,6 +892,9 @@ export type warehousesUpdateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutPurchase_ordersInput = {
@@ -701,13 +915,80 @@ export type warehousesUncheckedUpdateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesUncheckedCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  branch_id?: string | null
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesCreateOrConnectWithoutStoresInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput>
+}
+
+export type warehousesCreateManyStoresInputEnvelope = {
+  data: Prisma.warehousesCreateManyStoresInput | Prisma.warehousesCreateManyStoresInput[]
+  skipDuplicates?: boolean
+}
+
+export type warehousesUpsertWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  update: Prisma.XOR<Prisma.warehousesUpdateWithoutStoresInput, Prisma.warehousesUncheckedUpdateWithoutStoresInput>
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutStoresInput, Prisma.warehousesUncheckedCreateWithoutStoresInput>
+}
+
+export type warehousesUpdateWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  data: Prisma.XOR<Prisma.warehousesUpdateWithoutStoresInput, Prisma.warehousesUncheckedUpdateWithoutStoresInput>
+}
+
+export type warehousesUpdateManyWithWhereWithoutStoresInput = {
+  where: Prisma.warehousesScalarWhereInput
+  data: Prisma.XOR<Prisma.warehousesUpdateManyMutationInput, Prisma.warehousesUncheckedUpdateManyWithoutStoresInput>
 }
 
 export type warehousesCreateWithoutInventory_movementsInput = {
   id?: string
   tenant_id: string
-  branch_id?: string | null
-  store_id?: string | null
   code: string
   name: string
   is_default?: boolean
@@ -721,6 +1002,9 @@ export type warehousesCreateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutInventory_movementsInput = {
@@ -741,6 +1025,7 @@ export type warehousesUncheckedCreateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutInventory_movementsInput = {
@@ -762,8 +1047,6 @@ export type warehousesUpdateToOneWithWhereWithoutInventory_movementsInput = {
 export type warehousesUpdateWithoutInventory_movementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -777,6 +1060,9 @@ export type warehousesUpdateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutInventory_movementsInput = {
@@ -797,9 +1083,31 @@ export type warehousesUncheckedUpdateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
-export type warehousesCreateWithoutGoods_receiptsInput = {
+export type warehousesCreateWithoutWarehouse_locationsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+}
+
+export type warehousesUncheckedCreateWithoutWarehouse_locationsInput = {
   id?: string
   tenant_id: string
   branch_id?: string | null
@@ -813,10 +1121,90 @@ export type warehousesCreateWithoutGoods_receiptsInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesCreateOrConnectWithoutWarehouse_locationsInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedCreateWithoutWarehouse_locationsInput>
+}
+
+export type warehousesUpsertWithoutWarehouse_locationsInput = {
+  update: Prisma.XOR<Prisma.warehousesUpdateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedUpdateWithoutWarehouse_locationsInput>
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedCreateWithoutWarehouse_locationsInput>
+  where?: Prisma.warehousesWhereInput
+}
+
+export type warehousesUpdateToOneWithWhereWithoutWarehouse_locationsInput = {
+  where?: Prisma.warehousesWhereInput
+  data: Prisma.XOR<Prisma.warehousesUpdateWithoutWarehouse_locationsInput, Prisma.warehousesUncheckedUpdateWithoutWarehouse_locationsInput>
+}
+
+export type warehousesUpdateWithoutWarehouse_locationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateWithoutWarehouse_locationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesCreateWithoutGoods_receiptsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutGoods_receiptsInput = {
@@ -837,6 +1225,7 @@ export type warehousesUncheckedCreateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutGoods_receiptsInput = {
@@ -858,8 +1247,6 @@ export type warehousesUpdateToOneWithWhereWithoutGoods_receiptsInput = {
 export type warehousesUpdateWithoutGoods_receiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -873,6 +1260,9 @@ export type warehousesUpdateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutGoods_receiptsInput = {
@@ -893,13 +1283,12 @@ export type warehousesUncheckedUpdateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesCreateWithoutSales_ordersInput = {
   id?: string
   tenant_id: string
-  branch_id?: string | null
-  store_id?: string | null
   code: string
   name: string
   is_default?: boolean
@@ -913,6 +1302,9 @@ export type warehousesCreateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutSales_ordersInput = {
@@ -933,6 +1325,7 @@ export type warehousesUncheckedCreateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutSales_ordersInput = {
@@ -954,8 +1347,6 @@ export type warehousesUpdateToOneWithWhereWithoutSales_ordersInput = {
 export type warehousesUpdateWithoutSales_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -969,6 +1360,9 @@ export type warehousesUpdateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutSales_ordersInput = {
@@ -989,13 +1383,12 @@ export type warehousesUncheckedUpdateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesCreateWithoutStock_countsInput = {
   id?: string
   tenant_id: string
-  branch_id?: string | null
-  store_id?: string | null
   code: string
   name: string
   is_default?: boolean
@@ -1009,6 +1402,9 @@ export type warehousesCreateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutStock_countsInput = {
@@ -1029,6 +1425,7 @@ export type warehousesUncheckedCreateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutStock_countsInput = {
@@ -1050,8 +1447,6 @@ export type warehousesUpdateToOneWithWhereWithoutStock_countsInput = {
 export type warehousesUpdateWithoutStock_countsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1065,6 +1460,9 @@ export type warehousesUpdateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutStock_countsInput = {
@@ -1085,6 +1483,151 @@ export type warehousesUncheckedUpdateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesCreateManyBranchesInput = {
+  id?: string
+  tenant_id: string
+  store_id?: string | null
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type warehousesUpdateWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateManyWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type warehousesCreateManyStoresInput = {
+  id?: string
+  tenant_id: string
+  branch_id?: string | null
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type warehousesUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateManyWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1098,6 +1641,7 @@ export type WarehousesCountOutputType = {
   purchase_orders: number
   sales_orders: number
   stock_counts: number
+  warehouse_locations: number
 }
 
 export type WarehousesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1106,6 +1650,7 @@ export type WarehousesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   purchase_orders?: boolean | WarehousesCountOutputTypeCountPurchase_ordersArgs
   sales_orders?: boolean | WarehousesCountOutputTypeCountSales_ordersArgs
   stock_counts?: boolean | WarehousesCountOutputTypeCountStock_countsArgs
+  warehouse_locations?: boolean | WarehousesCountOutputTypeCountWarehouse_locationsArgs
 }
 
 /**
@@ -1153,6 +1698,13 @@ export type WarehousesCountOutputTypeCountStock_countsArgs<ExtArgs extends runti
   where?: Prisma.stock_countsWhereInput
 }
 
+/**
+ * WarehousesCountOutputType without action
+ */
+export type WarehousesCountOutputTypeCountWarehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.warehouse_locationsWhereInput
+}
+
 
 export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1173,6 +1725,9 @@ export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   purchase_orders?: boolean | Prisma.warehouses$purchase_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.warehouses$sales_ordersArgs<ExtArgs>
   stock_counts?: boolean | Prisma.warehouses$stock_countsArgs<ExtArgs>
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   _count?: boolean | Prisma.WarehousesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["warehouses"]>
 
@@ -1190,6 +1745,8 @@ export type warehousesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
 }, ExtArgs["result"]["warehouses"]>
 
 export type warehousesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1206,6 +1763,8 @@ export type warehousesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
 }, ExtArgs["result"]["warehouses"]>
 
 export type warehousesSelectScalar = {
@@ -1231,10 +1790,19 @@ export type warehousesInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   purchase_orders?: boolean | Prisma.warehouses$purchase_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.warehouses$sales_ordersArgs<ExtArgs>
   stock_counts?: boolean | Prisma.warehouses$stock_countsArgs<ExtArgs>
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   _count?: boolean | Prisma.WarehousesCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type warehousesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type warehousesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type warehousesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
+}
+export type warehousesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
+  stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
+}
 
 export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "warehouses"
@@ -1244,6 +1812,9 @@ export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     purchase_orders: Prisma.$purchase_ordersPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
     stock_counts: Prisma.$stock_countsPayload<ExtArgs>[]
+    branches: Prisma.$branchesPayload<ExtArgs> | null
+    stores: Prisma.$storesPayload<ExtArgs> | null
+    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1658,6 +2229,9 @@ export interface Prisma__warehousesClient<T, Null = never, ExtArgs extends runti
   purchase_orders<T extends Prisma.warehouses$purchase_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$purchase_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.warehouses$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_counts<T extends Prisma.warehouses$stock_countsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_countsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_countsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  branches<T extends Prisma.warehouses$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stores<T extends Prisma.warehouses$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouse_locations<T extends Prisma.warehouses$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$warehouse_locationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1954,6 +2528,10 @@ export type warehousesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.warehousesCreateManyInput | Prisma.warehousesCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2024,6 +2602,10 @@ export type warehousesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many warehouses to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2210,6 +2792,68 @@ export type warehouses$stock_countsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.Stock_countsScalarFieldEnum | Prisma.Stock_countsScalarFieldEnum[]
+}
+
+/**
+ * warehouses.branches
+ */
+export type warehouses$branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the branches
+   */
+  select?: Prisma.branchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the branches
+   */
+  omit?: Prisma.branchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.branchesInclude<ExtArgs> | null
+  where?: Prisma.branchesWhereInput
+}
+
+/**
+ * warehouses.stores
+ */
+export type warehouses$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stores
+   */
+  select?: Prisma.storesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stores
+   */
+  omit?: Prisma.storesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storesInclude<ExtArgs> | null
+  where?: Prisma.storesWhereInput
+}
+
+/**
+ * warehouses.warehouse_locations
+ */
+export type warehouses$warehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouse_locations
+   */
+  select?: Prisma.warehouse_locationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouse_locations
+   */
+  omit?: Prisma.warehouse_locationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
+  where?: Prisma.warehouse_locationsWhereInput
+  orderBy?: Prisma.warehouse_locationsOrderByWithRelationInput | Prisma.warehouse_locationsOrderByWithRelationInput[]
+  cursor?: Prisma.warehouse_locationsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Warehouse_locationsScalarFieldEnum | Prisma.Warehouse_locationsScalarFieldEnum[]
 }
 
 /**

@@ -31,6 +31,7 @@ export type Notification_templatesMinAggregateOutputType = {
   content: string | null
   severity: $Enums.notification_severity | null
   created_by: string | null
+  auth_user_id: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -42,6 +43,7 @@ export type Notification_templatesMaxAggregateOutputType = {
   content: string | null
   severity: $Enums.notification_severity | null
   created_by: string | null
+  auth_user_id: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -53,6 +55,7 @@ export type Notification_templatesCountAggregateOutputType = {
   content: number
   severity: number
   created_by: number
+  auth_user_id: number
   created_at: number
   updated_at: number
   _all: number
@@ -66,6 +69,7 @@ export type Notification_templatesMinAggregateInputType = {
   content?: true
   severity?: true
   created_by?: true
+  auth_user_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -77,6 +81,7 @@ export type Notification_templatesMaxAggregateInputType = {
   content?: true
   severity?: true
   created_by?: true
+  auth_user_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -88,6 +93,7 @@ export type Notification_templatesCountAggregateInputType = {
   content?: true
   severity?: true
   created_by?: true
+  auth_user_id?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -172,6 +178,7 @@ export type Notification_templatesGroupByOutputType = {
   content: string
   severity: $Enums.notification_severity
   created_by: string | null
+  auth_user_id: string | null
   created_at: Date
   updated_at: Date
   _count: Notification_templatesCountAggregateOutputType | null
@@ -204,6 +211,7 @@ export type notification_templatesWhereInput = {
   content?: Prisma.StringFilter<"notification_templates"> | string
   severity?: Prisma.Enumnotification_severityFilter<"notification_templates"> | $Enums.notification_severity
   created_by?: Prisma.UuidNullableFilter<"notification_templates"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"notification_templates"> | string | null
   created_at?: Prisma.DateTimeFilter<"notification_templates"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"notification_templates"> | Date | string
   notifications?: Prisma.NotificationsListRelationFilter
@@ -216,6 +224,7 @@ export type notification_templatesOrderByWithRelationInput = {
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   notifications?: Prisma.notificationsOrderByRelationAggregateInput
@@ -231,6 +240,7 @@ export type notification_templatesWhereUniqueInput = Prisma.AtLeast<{
   content?: Prisma.StringFilter<"notification_templates"> | string
   severity?: Prisma.Enumnotification_severityFilter<"notification_templates"> | $Enums.notification_severity
   created_by?: Prisma.UuidNullableFilter<"notification_templates"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"notification_templates"> | string | null
   created_at?: Prisma.DateTimeFilter<"notification_templates"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"notification_templates"> | Date | string
   notifications?: Prisma.NotificationsListRelationFilter
@@ -243,6 +253,7 @@ export type notification_templatesOrderByWithAggregationInput = {
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.notification_templatesCountOrderByAggregateInput
@@ -260,6 +271,7 @@ export type notification_templatesScalarWhereWithAggregatesInput = {
   content?: Prisma.StringWithAggregatesFilter<"notification_templates"> | string
   severity?: Prisma.Enumnotification_severityWithAggregatesFilter<"notification_templates"> | $Enums.notification_severity
   created_by?: Prisma.UuidNullableWithAggregatesFilter<"notification_templates"> | string | null
+  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"notification_templates"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"notification_templates"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"notification_templates"> | Date | string
 }
@@ -271,6 +283,7 @@ export type notification_templatesCreateInput = {
   content: string
   severity?: $Enums.notification_severity
   created_by?: string | null
+  auth_user_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   notifications?: Prisma.notificationsCreateNestedManyWithoutNotification_templatesInput
@@ -283,6 +296,7 @@ export type notification_templatesUncheckedCreateInput = {
   content: string
   severity?: $Enums.notification_severity
   created_by?: string | null
+  auth_user_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutNotification_templatesInput
@@ -295,6 +309,7 @@ export type notification_templatesUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.notificationsUpdateManyWithoutNotification_templatesNestedInput
@@ -307,6 +322,7 @@ export type notification_templatesUncheckedUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutNotification_templatesNestedInput
@@ -319,6 +335,7 @@ export type notification_templatesCreateManyInput = {
   content: string
   severity?: $Enums.notification_severity
   created_by?: string | null
+  auth_user_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -330,6 +347,7 @@ export type notification_templatesUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -341,6 +359,7 @@ export type notification_templatesUncheckedUpdateManyInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -357,6 +376,7 @@ export type notification_templatesCountOrderByAggregateInput = {
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -368,6 +388,7 @@ export type notification_templatesMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -379,6 +400,7 @@ export type notification_templatesMinOrderByAggregateInput = {
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -406,6 +428,7 @@ export type notification_templatesCreateWithoutNotificationsInput = {
   content: string
   severity?: $Enums.notification_severity
   created_by?: string | null
+  auth_user_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -417,6 +440,7 @@ export type notification_templatesUncheckedCreateWithoutNotificationsInput = {
   content: string
   severity?: $Enums.notification_severity
   created_by?: string | null
+  auth_user_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -444,6 +468,7 @@ export type notification_templatesUpdateWithoutNotificationsInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,6 +480,7 @@ export type notification_templatesUncheckedUpdateWithoutNotificationsInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -497,6 +523,7 @@ export type notification_templatesSelect<ExtArgs extends runtime.Types.Extension
   content?: boolean
   severity?: boolean
   created_by?: boolean
+  auth_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   notifications?: boolean | Prisma.notification_templates$notificationsArgs<ExtArgs>
@@ -510,6 +537,7 @@ export type notification_templatesSelectCreateManyAndReturn<ExtArgs extends runt
   content?: boolean
   severity?: boolean
   created_by?: boolean
+  auth_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["notification_templates"]>
@@ -521,6 +549,7 @@ export type notification_templatesSelectUpdateManyAndReturn<ExtArgs extends runt
   content?: boolean
   severity?: boolean
   created_by?: boolean
+  auth_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["notification_templates"]>
@@ -532,11 +561,12 @@ export type notification_templatesSelectScalar = {
   content?: boolean
   severity?: boolean
   created_by?: boolean
+  auth_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type notification_templatesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "header" | "content" | "severity" | "created_by" | "created_at" | "updated_at", ExtArgs["result"]["notification_templates"]>
+export type notification_templatesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "header" | "content" | "severity" | "created_by" | "auth_user_id" | "created_at" | "updated_at", ExtArgs["result"]["notification_templates"]>
 export type notification_templatesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   notifications?: boolean | Prisma.notification_templates$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.Notification_templatesCountOutputTypeDefaultArgs<ExtArgs>
@@ -556,6 +586,7 @@ export type $notification_templatesPayload<ExtArgs extends runtime.Types.Extensi
     content: string
     severity: $Enums.notification_severity
     created_by: string | null
+    auth_user_id: string | null
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["notification_templates"]>
@@ -988,6 +1019,7 @@ export interface notification_templatesFieldRefs {
   readonly content: Prisma.FieldRef<"notification_templates", 'String'>
   readonly severity: Prisma.FieldRef<"notification_templates", 'notification_severity'>
   readonly created_by: Prisma.FieldRef<"notification_templates", 'String'>
+  readonly auth_user_id: Prisma.FieldRef<"notification_templates", 'String'>
   readonly created_at: Prisma.FieldRef<"notification_templates", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"notification_templates", 'DateTime'>
 }

@@ -35,14 +35,24 @@ export const warehouseListItemSchema = z.object({
   name: z.string(),
   is_default: z.boolean(),
   is_active: z.boolean(),
-  address: z.string().nullable(),
-  notes: z.string().nullable(),
-  created_at: z.string(),
+  address: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+  created_at: z.union([z.string(), z.date()]).or(z.string()).optional().nullable(),
   stores: z
-    .object({ store_id: z.string(), name: z.string().nullable() })
-    .nullable(),
-  branches: z.object({ id: z.string(), name: z.string() }).nullable(),
-  _count: z.object({ warehouse_locations: z.number() }).optional(),
+    .object({
+      store_id: z.string().nullable().optional(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  branches: z
+    .object({
+      id: z.string(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  _count: z.object({ warehouse_locations: z.number() }).optional().nullable(),
 })
 export type WarehouseListItem = z.infer<typeof warehouseListItemSchema>
 
