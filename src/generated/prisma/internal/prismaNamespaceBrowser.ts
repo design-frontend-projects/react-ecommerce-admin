@@ -162,7 +162,10 @@ export const ModelName = {
   rbac_audit: 'rbac_audit',
   res_cash_movements: 'res_cash_movements',
   res_shift_audit: 'res_shift_audit',
-  res_shift_settings: 'res_shift_settings'
+  res_shift_settings: 'res_shift_settings',
+  notifications: 'notifications',
+  user_notifications: 'user_notifications',
+  notification_templates: 'notification_templates'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2175,6 +2178,49 @@ export const Res_shift_settingsScalarFieldEnum = {
 } as const
 
 export type Res_shift_settingsScalarFieldEnum = (typeof Res_shift_settingsScalarFieldEnum)[keyof typeof Res_shift_settingsScalarFieldEnum]
+
+
+export const NotificationsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  severity: 'severity',
+  target_type: 'target_type',
+  target_role: 'target_role',
+  sender_id: 'sender_id',
+  template_id: 'template_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const User_notificationsScalarFieldEnum = {
+  id: 'id',
+  notification_id: 'notification_id',
+  user_id: 'user_id',
+  is_read: 'is_read',
+  read_at: 'read_at',
+  created_at: 'created_at'
+} as const
+
+export type User_notificationsScalarFieldEnum = (typeof User_notificationsScalarFieldEnum)[keyof typeof User_notificationsScalarFieldEnum]
+
+
+export const Notification_templatesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  header: 'header',
+  content: 'content',
+  severity: 'severity',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Notification_templatesScalarFieldEnum = (typeof Notification_templatesScalarFieldEnum)[keyof typeof Notification_templatesScalarFieldEnum]
 
 
 export const SortOrder = {

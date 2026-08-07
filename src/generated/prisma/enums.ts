@@ -462,3 +462,22 @@ export const reorder_suggestion_status_enum = {
 } as const
 
 export type reorder_suggestion_status_enum = (typeof reorder_suggestion_status_enum)[keyof typeof reorder_suggestion_status_enum]
+
+
+export const notification_severity = {
+  INFO: 'INFO',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS'
+} as const
+
+export type notification_severity = (typeof notification_severity)[keyof typeof notification_severity]
+
+
+export const notification_target_type = {
+  ALL: 'ALL',
+  ROLE: 'ROLE',
+  USER: 'USER'
+} as const
+
+export type notification_target_type = (typeof notification_target_type)[keyof typeof notification_target_type]

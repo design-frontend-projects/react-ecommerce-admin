@@ -22,7 +22,9 @@ import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as ApiRbacRouteImport } from './routes/api/rbac'
+import { Route as ApiNotificationsRouteImport } from './routes/api/notifications'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_authenticated/force-password-change'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
@@ -232,10 +234,21 @@ const ApiRbacRoute = ApiRbacRouteImport.update({
   path: '/api/rbac',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiNotificationsRoute = ApiNotificationsRouteImport.update({
+  id: '/api/notifications',
+  path: '/api/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedSubscriptionsRoute =
   AuthenticatedSubscriptionsRouteImport.update({
     id: '/subscriptions',
     path: '/subscriptions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedForcePasswordChangeRoute =
@@ -1029,7 +1042,9 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/notifications': typeof ApiNotificationsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1175,7 +1190,9 @@ export interface FileRoutesByTo {
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/notifications': typeof ApiNotificationsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1325,7 +1342,9 @@ export interface FileRoutesById {
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/notifications': typeof ApiNotificationsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1476,7 +1495,9 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/force-password-change'
+    | '/notifications'
     | '/subscriptions'
+    | '/api/notifications'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -1622,7 +1643,9 @@ export interface FileRouteTypes {
     | '/areas'
     | '/complete-account'
     | '/force-password-change'
+    | '/notifications'
     | '/subscriptions'
+    | '/api/notifications'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -1771,7 +1794,9 @@ export interface FileRouteTypes {
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
     | '/_authenticated/force-password-change'
+    | '/_authenticated/notifications'
     | '/_authenticated/subscriptions'
+    | '/api/notifications'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -1899,6 +1924,7 @@ export interface RootRouteChildren {
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
   errorsOfflineRoute: typeof errorsOfflineRoute
+  ApiNotificationsRoute: typeof ApiNotificationsRoute
   ApiRbacRoute: typeof ApiRbacRouteWithChildren
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -2034,11 +2060,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRbacRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/notifications': {
+      id: '/api/notifications'
+      path: '/api/notifications'
+      fullPath: '/api/notifications'
+      preLoaderRoute: typeof ApiNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/subscriptions': {
       id: '/_authenticated/subscriptions'
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/force-password-change': {
@@ -3058,6 +3098,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAreasRoute: typeof AuthenticatedAreasRoute
   AuthenticatedCompleteAccountRoute: typeof AuthenticatedCompleteAccountRoute
   AuthenticatedForcePasswordChangeRoute: typeof AuthenticatedForcePasswordChangeRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessControlAuditRoute: typeof AuthenticatedAccessControlAuditRoute
@@ -3126,6 +3167,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAreasRoute: AuthenticatedAreasRoute,
   AuthenticatedCompleteAccountRoute: AuthenticatedCompleteAccountRoute,
   AuthenticatedForcePasswordChangeRoute: AuthenticatedForcePasswordChangeRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessControlAuditRoute: AuthenticatedAccessControlAuditRoute,
@@ -3388,6 +3430,7 @@ const rootRouteChildren: RootRouteChildren = {
   errors500Route: errors500Route,
   errors503Route: errors503Route,
   errorsOfflineRoute: errorsOfflineRoute,
+  ApiNotificationsRoute: ApiNotificationsRoute,
   ApiRbacRoute: ApiRbacRouteWithChildren,
   ApiUsersRoute: ApiUsersRouteWithChildren,
   AuthCallbackRoute: AuthCallbackRoute,

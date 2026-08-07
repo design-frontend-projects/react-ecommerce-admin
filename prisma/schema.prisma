@@ -2784,3 +2784,65 @@ enum reorder_suggestion_status_enum {
   dismissed
   expired
 }
+
+enum notification_severity {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+enum notification_target_type {
+  ALL
+  ROLE
+  USER
+}
+
+model notifications {
+  id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title            String                   @db.VarChar(255)
+  content          String
+  severity         notification_severity    @default(INFO)
+  target_type      notification_target_type @default(ALL)
+  target_role      String?                  @db.VarChar(100)
+  sender_id        String?                  @db.Uuid
+  template_id      String?                  @db.Uuid
+  is_active        Boolean                  @default(true)
+  created_at       DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime                 @default(now()) @db.Timestamptz(6)
+  
+  notification_templates notification_templates? @relation(fields: [template_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  user_notifications     user_notifications[]
+
+  @@index([created_at], map: "idx_notifications_created_at")
+  @@index([target_type], map: "idx_notifications_target_type")
+}
+
+model user_notifications {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notification_id String        @db.Uuid
+  user_id         String        @db.Uuid
+  is_read         Boolean       @default(false)
+  read_at         DateTime?     @db.Timestamptz(6)
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  
+  notifications   notifications @relation(fields: [notification_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_user_notifications_user_id")
+  @@index([is_read], map: "idx_user_notifications_is_read")
+  @@index([user_id, is_read], map: "idx_user_notifications_user_unread")
+}
+
+model notification_templates {
+  id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String                @db.VarChar(200)
+  header      String                @db.VarChar(255)
+  content     String
+  severity    notification_severity @default(INFO)
+  created_by  String?               @db.Uuid
+  created_at  DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime              @default(now()) @db.Timestamptz(6)
+  
+  notifications notifications[]
+}
+

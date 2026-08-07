@@ -131,6 +131,12 @@ export function useSidebarData(): SidebarData {
             icon: CreditCard,
             roles: ADMINS,
           },
+          {
+            title: 'Notifications',
+            url: '/notifications',
+            icon: Bell,
+            roles: ADMINS,
+          },
         ],
       },
       {

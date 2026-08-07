@@ -16,6 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ReorderNotificationsBell } from '@/features/pos/components/reorder-notifications-bell'
+import { NotificationBell } from '@/features/notifications/components/notification-bell'
 import { ConfigDrawer } from './config-drawer'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
@@ -106,6 +107,7 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
               </SelectContent>
             </Select>
           )}
+          <NotificationBell />
           <ReorderNotificationsBell />
           <ConfigDrawer />
           {isSignedIn && <ProfileDropdown />}
@@ -113,4 +115,5 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
       </div>
     </header>
   )
+
 }

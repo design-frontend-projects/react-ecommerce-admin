@@ -508,7 +508,10 @@ export const ModelName = {
   rbac_audit: 'rbac_audit',
   res_cash_movements: 'res_cash_movements',
   res_shift_audit: 'res_shift_audit',
-  res_shift_settings: 'res_shift_settings'
+  res_shift_settings: 'res_shift_settings',
+  notifications: 'notifications',
+  user_notifications: 'user_notifications',
+  notification_templates: 'notification_templates'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -524,7 +527,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_roles" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "employee_roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings"
+    modelProps: "activity_types" | "audit_logs" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_roles" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "employee_roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings" | "notifications" | "user_notifications" | "notification_templates"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -8816,6 +8819,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    notifications: {
+      payload: Prisma.$notificationsPayload<ExtArgs>
+      fields: Prisma.notificationsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notificationsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notificationsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        findFirst: {
+          args: Prisma.notificationsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notificationsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        findMany: {
+          args: Prisma.notificationsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        create: {
+          args: Prisma.notificationsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        createMany: {
+          args: Prisma.notificationsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notificationsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        delete: {
+          args: Prisma.notificationsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        update: {
+          args: Prisma.notificationsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        deleteMany: {
+          args: Prisma.notificationsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notificationsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notificationsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        upsert: {
+          args: Prisma.notificationsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotifications>
+        }
+        groupBy: {
+          args: Prisma.notificationsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notificationsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsCountAggregateOutputType> | number
+        }
+      }
+    }
+    user_notifications: {
+      payload: Prisma.$user_notificationsPayload<ExtArgs>
+      fields: Prisma.user_notificationsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.user_notificationsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.user_notificationsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        findFirst: {
+          args: Prisma.user_notificationsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.user_notificationsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        findMany: {
+          args: Prisma.user_notificationsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>[]
+        }
+        create: {
+          args: Prisma.user_notificationsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        createMany: {
+          args: Prisma.user_notificationsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.user_notificationsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>[]
+        }
+        delete: {
+          args: Prisma.user_notificationsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        update: {
+          args: Prisma.user_notificationsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        deleteMany: {
+          args: Prisma.user_notificationsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.user_notificationsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.user_notificationsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>[]
+        }
+        upsert: {
+          args: Prisma.user_notificationsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_notificationsPayload>
+        }
+        aggregate: {
+          args: Prisma.User_notificationsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser_notifications>
+        }
+        groupBy: {
+          args: Prisma.user_notificationsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_notificationsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.user_notificationsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_notificationsCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_templates: {
+      payload: Prisma.$notification_templatesPayload<ExtArgs>
+      fields: Prisma.notification_templatesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_templatesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_templatesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_templatesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_templatesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        findMany: {
+          args: Prisma.notification_templatesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        create: {
+          args: Prisma.notification_templatesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        createMany: {
+          args: Prisma.notification_templatesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_templatesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_templatesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        update: {
+          args: Prisma.notification_templatesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_templatesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_templatesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_templatesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_templatesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_templatesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_templates>
+        }
+        groupBy: {
+          args: Prisma.notification_templatesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_templatesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_templatesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_templatesCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -10851,6 +11076,49 @@ export const Res_shift_settingsScalarFieldEnum = {
 export type Res_shift_settingsScalarFieldEnum = (typeof Res_shift_settingsScalarFieldEnum)[keyof typeof Res_shift_settingsScalarFieldEnum]
 
 
+export const NotificationsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  severity: 'severity',
+  target_type: 'target_type',
+  target_role: 'target_role',
+  sender_id: 'sender_id',
+  template_id: 'template_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const User_notificationsScalarFieldEnum = {
+  id: 'id',
+  notification_id: 'notification_id',
+  user_id: 'user_id',
+  is_read: 'is_read',
+  read_at: 'read_at',
+  created_at: 'created_at'
+} as const
+
+export type User_notificationsScalarFieldEnum = (typeof User_notificationsScalarFieldEnum)[keyof typeof User_notificationsScalarFieldEnum]
+
+
+export const Notification_templatesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  header: 'header',
+  content: 'content',
+  severity: 'severity',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Notification_templatesScalarFieldEnum = (typeof Notification_templatesScalarFieldEnum)[keyof typeof Notification_templatesScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -11417,6 +11685,34 @@ export type ListEnumcash_movement_reason_enumFieldRefInput<$PrismaModel> = Field
 
 
 /**
+ * Reference to a field of type 'notification_severity'
+ */
+export type Enumnotification_severityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_severity'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_severity[]'
+ */
+export type ListEnumnotification_severityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_severity[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_target_type'
+ */
+export type Enumnotification_target_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_target_type'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_target_type[]'
+ */
+export type ListEnumnotification_target_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_target_type[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -11692,6 +11988,9 @@ export type GlobalOmitConfig = {
   res_cash_movements?: Prisma.res_cash_movementsOmit
   res_shift_audit?: Prisma.res_shift_auditOmit
   res_shift_settings?: Prisma.res_shift_settingsOmit
+  notifications?: Prisma.notificationsOmit
+  user_notifications?: Prisma.user_notificationsOmit
+  notification_templates?: Prisma.notification_templatesOmit
 }
 
 /* Types for Logging */

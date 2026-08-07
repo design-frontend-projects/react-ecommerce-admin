@@ -962,6 +962,40 @@ export type Enumcash_movement_reason_enumWithAggregatesFilter<$PrismaModel = nev
   _max?: Prisma.NestedEnumcash_movement_reason_enumFilter<$PrismaModel>
 }
 
+export type Enumnotification_severityFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_severity | Prisma.Enumnotification_severityFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel> | $Enums.notification_severity
+}
+
+export type Enumnotification_target_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_target_type | Prisma.Enumnotification_target_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel> | $Enums.notification_target_type
+}
+
+export type Enumnotification_severityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_severity | Prisma.Enumnotification_severityFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_severityWithAggregatesFilter<$PrismaModel> | $Enums.notification_severity
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel>
+}
+
+export type Enumnotification_target_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_target_type | Prisma.Enumnotification_target_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_target_typeWithAggregatesFilter<$PrismaModel> | $Enums.notification_target_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -1863,6 +1897,40 @@ export type NestedEnumcash_movement_reason_enumWithAggregatesFilter<$PrismaModel
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumcash_movement_reason_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumcash_movement_reason_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumnotification_severityFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_severity | Prisma.Enumnotification_severityFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel> | $Enums.notification_severity
+}
+
+export type NestedEnumnotification_target_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_target_type | Prisma.Enumnotification_target_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel> | $Enums.notification_target_type
+}
+
+export type NestedEnumnotification_severityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_severity | Prisma.Enumnotification_severityFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_severity[] | Prisma.ListEnumnotification_severityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_severityWithAggregatesFilter<$PrismaModel> | $Enums.notification_severity
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumnotification_severityFilter<$PrismaModel>
+}
+
+export type NestedEnumnotification_target_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.notification_target_type | Prisma.Enumnotification_target_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.notification_target_type[] | Prisma.ListEnumnotification_target_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumnotification_target_typeWithAggregatesFilter<$PrismaModel> | $Enums.notification_target_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumnotification_target_typeFilter<$PrismaModel>
 }
 
 

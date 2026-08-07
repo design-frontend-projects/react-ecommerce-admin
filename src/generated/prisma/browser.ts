@@ -606,3 +606,18 @@ export type res_shift_audit = Prisma.res_shift_auditModel
  * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
  */
 export type res_shift_settings = Prisma.res_shift_settingsModel
+/**
+ * Model notifications
+ * 
+ */
+export type notifications = Prisma.notificationsModel
+/**
+ * Model user_notifications
+ * 
+ */
+export type user_notifications = Prisma.user_notificationsModel
+/**
+ * Model notification_templates
+ * 
+ */
+export type notification_templates = Prisma.notification_templatesModel
