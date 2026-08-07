@@ -248,6 +248,9 @@ export type unit_conversionsWhereInput = {
   created_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  from_uom?: Prisma.XOR<Prisma.UomsScalarRelationFilter, Prisma.uomsWhereInput>
+  to_uom?: Prisma.XOR<Prisma.UomsScalarRelationFilter, Prisma.uomsWhereInput>
+  product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
 }
 
 export type unit_conversionsOrderByWithRelationInput = {
@@ -260,6 +263,9 @@ export type unit_conversionsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  from_uom?: Prisma.uomsOrderByWithRelationInput
+  to_uom?: Prisma.uomsOrderByWithRelationInput
+  product_variants?: Prisma.product_variantsOrderByWithRelationInput
 }
 
 export type unit_conversionsWhereUniqueInput = Prisma.AtLeast<{
@@ -275,6 +281,9 @@ export type unit_conversionsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  from_uom?: Prisma.XOR<Prisma.UomsScalarRelationFilter, Prisma.uomsWhereInput>
+  to_uom?: Prisma.XOR<Prisma.UomsScalarRelationFilter, Prisma.uomsWhereInput>
+  product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
 }, "id">
 
 export type unit_conversionsOrderByWithAggregationInput = {
@@ -312,13 +321,13 @@ export type unit_conversionsScalarWhereWithAggregatesInput = {
 export type unit_conversionsCreateInput = {
   id?: string
   tenant_id: string
-  product_variant_id?: string | null
-  from_uom_id: string
-  to_uom_id: string
   factor: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  from_uom: Prisma.uomsCreateNestedOneWithoutConversions_fromInput
+  to_uom: Prisma.uomsCreateNestedOneWithoutConversions_toInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutUnit_conversionsInput
 }
 
 export type unit_conversionsUncheckedCreateInput = {
@@ -336,13 +345,13 @@ export type unit_conversionsUncheckedCreateInput = {
 export type unit_conversionsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
-  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_fromNestedInput
+  to_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_toNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutUnit_conversionsNestedInput
 }
 
 export type unit_conversionsUncheckedUpdateInput = {
@@ -372,9 +381,6 @@ export type unit_conversionsCreateManyInput = {
 export type unit_conversionsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
-  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -391,6 +397,16 @@ export type unit_conversionsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Unit_conversionsListRelationFilter = {
+  every?: Prisma.unit_conversionsWhereInput
+  some?: Prisma.unit_conversionsWhereInput
+  none?: Prisma.unit_conversionsWhereInput
+}
+
+export type unit_conversionsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type unit_conversionsCountOrderByAggregateInput = {
@@ -437,6 +453,423 @@ export type unit_conversionsSumOrderByAggregateInput = {
   factor?: Prisma.SortOrder
 }
 
+export type unit_conversionsCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.unit_conversionsCreateWithoutProduct_variantsInput[] | Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput | Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.unit_conversionsCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.unit_conversionsCreateWithoutProduct_variantsInput[] | Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput | Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.unit_conversionsCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.unit_conversionsCreateWithoutProduct_variantsInput[] | Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput | Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.unit_conversionsCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.unit_conversionsCreateWithoutProduct_variantsInput[] | Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput | Prisma.unit_conversionsCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.unit_conversionsCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsCreateNestedManyWithoutFrom_uomInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput> | Prisma.unit_conversionsCreateWithoutFrom_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyFrom_uomInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsCreateNestedManyWithoutTo_uomInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput> | Prisma.unit_conversionsCreateWithoutTo_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyTo_uomInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsUncheckedCreateNestedManyWithoutFrom_uomInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput> | Prisma.unit_conversionsCreateWithoutFrom_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyFrom_uomInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsUncheckedCreateNestedManyWithoutTo_uomInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput> | Prisma.unit_conversionsCreateWithoutTo_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyTo_uomInputEnvelope
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+}
+
+export type unit_conversionsUpdateManyWithoutFrom_uomNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput> | Prisma.unit_conversionsCreateWithoutFrom_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutFrom_uomInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutFrom_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyFrom_uomInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutFrom_uomInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutFrom_uomInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutFrom_uomInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutFrom_uomInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsUpdateManyWithoutTo_uomNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput> | Prisma.unit_conversionsCreateWithoutTo_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutTo_uomInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutTo_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyTo_uomInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutTo_uomInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutTo_uomInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutTo_uomInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutTo_uomInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutFrom_uomNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput> | Prisma.unit_conversionsCreateWithoutFrom_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutFrom_uomInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutFrom_uomInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutFrom_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyFrom_uomInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutFrom_uomInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutFrom_uomInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutFrom_uomInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutFrom_uomInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutTo_uomNestedInput = {
+  create?: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput> | Prisma.unit_conversionsCreateWithoutTo_uomInput[] | Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput[]
+  connectOrCreate?: Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput | Prisma.unit_conversionsCreateOrConnectWithoutTo_uomInput[]
+  upsert?: Prisma.unit_conversionsUpsertWithWhereUniqueWithoutTo_uomInput | Prisma.unit_conversionsUpsertWithWhereUniqueWithoutTo_uomInput[]
+  createMany?: Prisma.unit_conversionsCreateManyTo_uomInputEnvelope
+  set?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  disconnect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  delete?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  connect?: Prisma.unit_conversionsWhereUniqueInput | Prisma.unit_conversionsWhereUniqueInput[]
+  update?: Prisma.unit_conversionsUpdateWithWhereUniqueWithoutTo_uomInput | Prisma.unit_conversionsUpdateWithWhereUniqueWithoutTo_uomInput[]
+  updateMany?: Prisma.unit_conversionsUpdateManyWithWhereWithoutTo_uomInput | Prisma.unit_conversionsUpdateManyWithWhereWithoutTo_uomInput[]
+  deleteMany?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+}
+
+export type unit_conversionsCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  from_uom: Prisma.uomsCreateNestedOneWithoutConversions_fromInput
+  to_uom: Prisma.uomsCreateNestedOneWithoutConversions_toInput
+}
+
+export type unit_conversionsUncheckedCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  from_uom_id: string
+  to_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsCreateOrConnectWithoutProduct_variantsInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type unit_conversionsCreateManyProduct_variantsInputEnvelope = {
+  data: Prisma.unit_conversionsCreateManyProduct_variantsInput | Prisma.unit_conversionsCreateManyProduct_variantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type unit_conversionsUpsertWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedUpdateWithoutProduct_variantsInput>
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type unit_conversionsUpdateWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutProduct_variantsInput, Prisma.unit_conversionsUncheckedUpdateWithoutProduct_variantsInput>
+}
+
+export type unit_conversionsUpdateManyWithWhereWithoutProduct_variantsInput = {
+  where: Prisma.unit_conversionsScalarWhereInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateManyMutationInput, Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsInput>
+}
+
+export type unit_conversionsScalarWhereInput = {
+  AND?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+  OR?: Prisma.unit_conversionsScalarWhereInput[]
+  NOT?: Prisma.unit_conversionsScalarWhereInput | Prisma.unit_conversionsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"unit_conversions"> | string
+  tenant_id?: Prisma.UuidFilter<"unit_conversions"> | string
+  product_variant_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  from_uom_id?: Prisma.UuidFilter<"unit_conversions"> | string
+  to_uom_id?: Prisma.UuidFilter<"unit_conversions"> | string
+  factor?: Prisma.DecimalFilter<"unit_conversions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
+  auth_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+}
+
+export type unit_conversionsCreateWithoutFrom_uomInput = {
+  id?: string
+  tenant_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  to_uom: Prisma.uomsCreateNestedOneWithoutConversions_toInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutUnit_conversionsInput
+}
+
+export type unit_conversionsUncheckedCreateWithoutFrom_uomInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id?: string | null
+  to_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsCreateOrConnectWithoutFrom_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput>
+}
+
+export type unit_conversionsCreateManyFrom_uomInputEnvelope = {
+  data: Prisma.unit_conversionsCreateManyFrom_uomInput | Prisma.unit_conversionsCreateManyFrom_uomInput[]
+  skipDuplicates?: boolean
+}
+
+export type unit_conversionsCreateWithoutTo_uomInput = {
+  id?: string
+  tenant_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  from_uom: Prisma.uomsCreateNestedOneWithoutConversions_fromInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutUnit_conversionsInput
+}
+
+export type unit_conversionsUncheckedCreateWithoutTo_uomInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id?: string | null
+  from_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsCreateOrConnectWithoutTo_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput>
+}
+
+export type unit_conversionsCreateManyTo_uomInputEnvelope = {
+  data: Prisma.unit_conversionsCreateManyTo_uomInput | Prisma.unit_conversionsCreateManyTo_uomInput[]
+  skipDuplicates?: boolean
+}
+
+export type unit_conversionsUpsertWithWhereUniqueWithoutFrom_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedUpdateWithoutFrom_uomInput>
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutFrom_uomInput>
+}
+
+export type unit_conversionsUpdateWithWhereUniqueWithoutFrom_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutFrom_uomInput, Prisma.unit_conversionsUncheckedUpdateWithoutFrom_uomInput>
+}
+
+export type unit_conversionsUpdateManyWithWhereWithoutFrom_uomInput = {
+  where: Prisma.unit_conversionsScalarWhereInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateManyMutationInput, Prisma.unit_conversionsUncheckedUpdateManyWithoutFrom_uomInput>
+}
+
+export type unit_conversionsUpsertWithWhereUniqueWithoutTo_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedUpdateWithoutTo_uomInput>
+  create: Prisma.XOR<Prisma.unit_conversionsCreateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedCreateWithoutTo_uomInput>
+}
+
+export type unit_conversionsUpdateWithWhereUniqueWithoutTo_uomInput = {
+  where: Prisma.unit_conversionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateWithoutTo_uomInput, Prisma.unit_conversionsUncheckedUpdateWithoutTo_uomInput>
+}
+
+export type unit_conversionsUpdateManyWithWhereWithoutTo_uomInput = {
+  where: Prisma.unit_conversionsScalarWhereInput
+  data: Prisma.XOR<Prisma.unit_conversionsUpdateManyMutationInput, Prisma.unit_conversionsUncheckedUpdateManyWithoutTo_uomInput>
+}
+
+export type unit_conversionsCreateManyProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  from_uom_id: string
+  to_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_fromNestedInput
+  to_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_toNestedInput
+}
+
+export type unit_conversionsUncheckedUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type unit_conversionsCreateManyFrom_uomInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id?: string | null
+  to_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsCreateManyTo_uomInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id?: string | null
+  from_uom_id: string
+  factor: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type unit_conversionsUpdateWithoutFrom_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_toNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutUnit_conversionsNestedInput
+}
+
+export type unit_conversionsUncheckedUpdateWithoutFrom_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutFrom_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type unit_conversionsUpdateWithoutTo_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_uom?: Prisma.uomsUpdateOneRequiredWithoutConversions_fromNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutUnit_conversionsNestedInput
+}
+
+export type unit_conversionsUncheckedUpdateWithoutTo_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type unit_conversionsUncheckedUpdateManyWithoutTo_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_uom_id?: Prisma.StringFieldUpdateOperationsInput | string
+  factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type unit_conversionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -449,6 +882,9 @@ export type unit_conversionsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -461,6 +897,9 @@ export type unit_conversionsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -473,6 +912,9 @@ export type unit_conversionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectScalar = {
@@ -488,10 +930,29 @@ export type unit_conversionsSelectScalar = {
 }
 
 export type unit_conversionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "from_uom_id" | "to_uom_id" | "factor" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["unit_conversions"]>
+export type unit_conversionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
+}
+export type unit_conversionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
+}
+export type unit_conversionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  from_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  to_uom?: boolean | Prisma.uomsDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.unit_conversions$product_variantsArgs<ExtArgs>
+}
 
 export type $unit_conversionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "unit_conversions"
-  objects: {}
+  objects: {
+    from_uom: Prisma.$uomsPayload<ExtArgs>
+    to_uom: Prisma.$uomsPayload<ExtArgs>
+    product_variants: Prisma.$product_variantsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -896,6 +1357,9 @@ readonly fields: unit_conversionsFieldRefs;
  */
 export interface Prisma__unit_conversionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  from_uom<T extends Prisma.uomsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uomsDefaultArgs<ExtArgs>>): Prisma.Prisma__uomsClient<runtime.Types.Result.GetResult<Prisma.$uomsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  to_uom<T extends Prisma.uomsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uomsDefaultArgs<ExtArgs>>): Prisma.Prisma__uomsClient<runtime.Types.Result.GetResult<Prisma.$uomsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  product_variants<T extends Prisma.unit_conversions$product_variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.unit_conversions$product_variantsArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -951,6 +1415,10 @@ export type unit_conversionsFindUniqueArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  /**
    * Filter, which unit_conversions to fetch.
    */
   where: Prisma.unit_conversionsWhereUniqueInput
@@ -969,6 +1437,10 @@ export type unit_conversionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  /**
    * Filter, which unit_conversions to fetch.
    */
   where: Prisma.unit_conversionsWhereUniqueInput
@@ -986,6 +1458,10 @@ export type unit_conversionsFindFirstArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the unit_conversions
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
   /**
    * Filter, which unit_conversions to fetch.
    */
@@ -1035,6 +1511,10 @@ export type unit_conversionsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  /**
    * Filter, which unit_conversions to fetch.
    */
   where?: Prisma.unit_conversionsWhereInput
@@ -1082,6 +1562,10 @@ export type unit_conversionsFindManyArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the unit_conversions
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
   /**
    * Filter, which unit_conversions to fetch.
    */
@@ -1131,6 +1615,10 @@ export type unit_conversionsCreateArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  /**
    * The data needed to create a unit_conversions.
    */
   data: Prisma.XOR<Prisma.unit_conversionsCreateInput, Prisma.unit_conversionsUncheckedCreateInput>
@@ -1164,6 +1652,10 @@ export type unit_conversionsCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.unit_conversionsCreateManyInput | Prisma.unit_conversionsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1178,6 +1670,10 @@ export type unit_conversionsUpdateArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the unit_conversions
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
   /**
    * The data needed to update a unit_conversions.
    */
@@ -1230,6 +1726,10 @@ export type unit_conversionsUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many unit_conversions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1244,6 +1744,10 @@ export type unit_conversionsUpsertArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the unit_conversions
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
   /**
    * The filter to search for the unit_conversions to update in case it exists.
    */
@@ -1271,6 +1775,10 @@ export type unit_conversionsDeleteArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  /**
    * Filter which unit_conversions to delete.
    */
   where: Prisma.unit_conversionsWhereUniqueInput
@@ -1291,6 +1799,25 @@ export type unit_conversionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * unit_conversions.product_variants
+ */
+export type unit_conversions$product_variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the product_variants
+   */
+  select?: Prisma.product_variantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the product_variants
+   */
+  omit?: Prisma.product_variantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_variantsInclude<ExtArgs> | null
+  where?: Prisma.product_variantsWhereInput
+}
+
+/**
  * unit_conversions without action
  */
 export type unit_conversionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,4 +1829,8 @@ export type unit_conversionsDefaultArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the unit_conversions
    */
   omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
 }

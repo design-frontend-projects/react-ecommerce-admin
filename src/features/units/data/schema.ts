@@ -35,13 +35,17 @@ export const uomListItemSchema = z.object({
   id: z.string().uuid(),
   code: z.string(),
   name: z.string(),
-  uom_category: uomCategorySchema,
-  is_base: z.boolean(),
-  is_active: z.boolean(),
-  created_at: z.string(),
+  uom_category: uomCategorySchema.or(z.string()).catch('count'),
+  is_base: z.boolean().nullish().transform((v) => v ?? false),
+  is_active: z.boolean().nullish().transform((v) => v ?? true),
+  created_at: z.coerce.string(),
   _count: z
-    .object({ conversions_from: z.number(), conversions_to: z.number() })
-    .optional(),
+    .object({
+      conversions_from: z.number().default(0),
+      conversions_to: z.number().default(0),
+    })
+    .optional()
+    .nullable(),
 })
 export type UomListItem = z.infer<typeof uomListItemSchema>
 
@@ -52,7 +56,8 @@ export const conversionListItemSchema = z.object({
   to_uom: z.object({ id: z.string(), code: z.string() }),
   product_variants: z
     .object({ id: z.string(), sku: z.string().nullable() })
-    .nullable(),
+    .nullable()
+    .optional(),
 })
 export type ConversionListItem = z.infer<typeof conversionListItemSchema>
 

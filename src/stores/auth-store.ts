@@ -62,7 +62,11 @@ export const useAuthStore = create<AuthState>()((set) => {
               const roleNames = role ? [role] : []
               let permissionNames: string[] = []
 
-              if (role === 'admin' || role === 'super_admin') {
+              if (
+                role === 'admin' ||
+                role === 'super_admin' ||
+                (profile.system_owner && role === 'super_admin')
+              ) {
                 permissionNames = expandPermissionNames(['*'])
                 console.log('all permission ')
                 console.log(permissionNames)

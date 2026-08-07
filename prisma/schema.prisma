@@ -357,6 +357,7 @@ model product_variants {
   stock_count_items          stock_count_items[]
   stock_reservations         stock_reservations[]
   stock_transfer_items       stock_transfer_items[]
+  unit_conversions           unit_conversions[]
 
   @@index([uom_id], map: "idx_product_variants_uom_id")
 }
@@ -1943,6 +1944,8 @@ model uoms {
   products                   products[]
   purchase_requisition_items purchase_requisition_items[]
   sales_order_items          sales_order_items[]
+  conversions_from           unit_conversions[]           @relation("conversions_from")
+  conversions_to             unit_conversions[]           @relation("conversions_to")
 
   @@unique([tenant_id, code], map: "uq_uoms_tenant_code")
   @@index([tenant_id], map: "idx_uoms_tenant_id")
@@ -1950,15 +1953,18 @@ model uoms {
 
 /// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model unit_conversions {
-  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id          String   @db.Uuid
-  product_variant_id String?  @db.Uuid
-  from_uom_id        String   @db.Uuid
-  to_uom_id          String   @db.Uuid
-  factor             Decimal  @db.Decimal(18, 6)
-  created_at         DateTime @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime @default(now()) @db.Timestamptz(6)
-  auth_user_id       String?  @default(dbgenerated("auth.uid()")) @db.Uuid
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String            @db.Uuid
+  product_variant_id String?           @db.Uuid
+  from_uom_id        String            @db.Uuid
+  to_uom_id          String            @db.Uuid
+  factor             Decimal           @db.Decimal(18, 6)
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime          @default(now()) @db.Timestamptz(6)
+  auth_user_id       String?           @default(dbgenerated("auth.uid()")) @db.Uuid
+  from_uom           uoms              @relation("conversions_from", fields: [from_uom_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  to_uom             uoms              @relation("conversions_to", fields: [to_uom_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants   product_variants? @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([tenant_id], map: "idx_unit_conversions_tenant_id")
   @@index([product_variant_id], map: "idx_unit_conversions_variant_id")

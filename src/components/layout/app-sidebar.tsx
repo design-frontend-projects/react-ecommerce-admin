@@ -26,8 +26,12 @@ function canAccessItem(
   normalizedRoleNames: string[],
   permissionNames: string[],
   isSystemOwner: boolean,
-  isSignedIn: boolean
+  isSignedIn: boolean,
+  isSuperAdminOwner: boolean
 ): boolean {
+  // System owner + super_admin bypasses ALL access restrictions
+  if (isSuperAdminOwner) return true
+
   // System owner restriction
   if (item.isSystemOwner && !isSystemOwner) return false
 
@@ -61,7 +65,7 @@ function canAccessItem(
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   const { isSignedIn } = useAuth()
-  const { isSystemOwner } = useSystemOwner()
+  const { isSystemOwner, isSuperAdminOwner } = useSystemOwner()
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
   const currentPermissionNames = useRBACStore(
     (state) => state.currentPermissionNames
@@ -96,7 +100,8 @@ export function AppSidebar() {
             normalizedRoleNames,
             currentPermissionNames,
             isSystemOwner,
-            !!isSignedIn
+            !!isSignedIn,
+            isSuperAdminOwner
           )
         )
         .map((item): NavItem => {
@@ -110,7 +115,8 @@ export function AppSidebar() {
                   normalizedRoleNames,
                   currentPermissionNames,
                   isSystemOwner,
-                  !!isSignedIn
+                  !!isSignedIn,
+                  isSuperAdminOwner
                 )
               ),
             }

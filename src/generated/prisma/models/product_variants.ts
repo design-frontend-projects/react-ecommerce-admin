@@ -332,6 +332,7 @@ export type product_variantsWhereInput = {
   stock_count_items?: Prisma.Stock_count_itemsListRelationFilter
   stock_reservations?: Prisma.Stock_reservationsListRelationFilter
   stock_transfer_items?: Prisma.Stock_transfer_itemsListRelationFilter
+  unit_conversions?: Prisma.Unit_conversionsListRelationFilter
 }
 
 export type product_variantsOrderByWithRelationInput = {
@@ -370,6 +371,7 @@ export type product_variantsOrderByWithRelationInput = {
   stock_count_items?: Prisma.stock_count_itemsOrderByRelationAggregateInput
   stock_reservations?: Prisma.stock_reservationsOrderByRelationAggregateInput
   stock_transfer_items?: Prisma.stock_transfer_itemsOrderByRelationAggregateInput
+  unit_conversions?: Prisma.unit_conversionsOrderByRelationAggregateInput
 }
 
 export type product_variantsWhereUniqueInput = Prisma.AtLeast<{
@@ -411,6 +413,7 @@ export type product_variantsWhereUniqueInput = Prisma.AtLeast<{
   stock_count_items?: Prisma.Stock_count_itemsListRelationFilter
   stock_reservations?: Prisma.Stock_reservationsListRelationFilter
   stock_transfer_items?: Prisma.Stock_transfer_itemsListRelationFilter
+  unit_conversions?: Prisma.Unit_conversionsListRelationFilter
 }, "id" | "sku">
 
 export type product_variantsOrderByWithAggregationInput = {
@@ -491,6 +494,7 @@ export type product_variantsCreateInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateInput = {
@@ -527,6 +531,7 @@ export type product_variantsUncheckedCreateInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUpdateInput = {
@@ -563,6 +568,7 @@ export type product_variantsUpdateInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateInput = {
@@ -599,6 +605,7 @@ export type product_variantsUncheckedUpdateInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateManyInput = {
@@ -985,6 +992,22 @@ export type product_variantsUncheckedUpdateManyWithoutUomsNestedInput = {
   deleteMany?: Prisma.product_variantsScalarWhereInput | Prisma.product_variantsScalarWhereInput[]
 }
 
+export type product_variantsCreateNestedOneWithoutUnit_conversionsInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedCreateWithoutUnit_conversionsInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutUnit_conversionsInput
+  connect?: Prisma.product_variantsWhereUniqueInput
+}
+
+export type product_variantsUpdateOneWithoutUnit_conversionsNestedInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedCreateWithoutUnit_conversionsInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutUnit_conversionsInput
+  upsert?: Prisma.product_variantsUpsertWithoutUnit_conversionsInput
+  disconnect?: Prisma.product_variantsWhereInput | boolean
+  delete?: Prisma.product_variantsWhereInput | boolean
+  connect?: Prisma.product_variantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutUnit_conversionsInput, Prisma.product_variantsUpdateWithoutUnit_conversionsInput>, Prisma.product_variantsUncheckedUpdateWithoutUnit_conversionsInput>
+}
+
 export type product_variantsCreateNestedOneWithoutGoods_receipt_itemsInput = {
   create?: Prisma.XOR<Prisma.product_variantsCreateWithoutGoods_receipt_itemsInput, Prisma.product_variantsUncheckedCreateWithoutGoods_receipt_itemsInput>
   connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutGoods_receipt_itemsInput
@@ -1116,6 +1139,7 @@ export type product_variantsCreateWithoutPrice_list_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPrice_list_itemsInput = {
@@ -1151,6 +1175,7 @@ export type product_variantsUncheckedCreateWithoutPrice_list_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPrice_list_itemsInput = {
@@ -1202,6 +1227,7 @@ export type product_variantsUpdateWithoutPrice_list_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPrice_list_itemsInput = {
@@ -1237,6 +1263,7 @@ export type product_variantsUncheckedUpdateWithoutPrice_list_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutProductsInput = {
@@ -1272,6 +1299,7 @@ export type product_variantsCreateWithoutProductsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutProductsInput = {
@@ -1307,6 +1335,7 @@ export type product_variantsUncheckedCreateWithoutProductsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutProductsInput = {
@@ -1389,6 +1418,7 @@ export type product_variantsCreateWithoutPos_reorder_requestsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPos_reorder_requestsInput = {
@@ -1424,6 +1454,7 @@ export type product_variantsUncheckedCreateWithoutPos_reorder_requestsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPos_reorder_requestsInput = {
@@ -1475,6 +1506,7 @@ export type product_variantsUpdateWithoutPos_reorder_requestsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPos_reorder_requestsInput = {
@@ -1510,6 +1542,7 @@ export type product_variantsUncheckedUpdateWithoutPos_reorder_requestsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutPurchase_invoice_itemsInput = {
@@ -1545,6 +1578,7 @@ export type product_variantsCreateWithoutPurchase_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPurchase_invoice_itemsInput = {
@@ -1580,6 +1614,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_invoice_itemsInput = 
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPurchase_invoice_itemsInput = {
@@ -1631,6 +1666,7 @@ export type product_variantsUpdateWithoutPurchase_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPurchase_invoice_itemsInput = {
@@ -1666,6 +1702,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_invoice_itemsInput = 
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutPurchase_order_itemsInput = {
@@ -1701,6 +1738,7 @@ export type product_variantsCreateWithoutPurchase_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPurchase_order_itemsInput = {
@@ -1736,6 +1774,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPurchase_order_itemsInput = {
@@ -1787,6 +1826,7 @@ export type product_variantsUpdateWithoutPurchase_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
@@ -1822,6 +1862,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutPurchase_return_itemsInput = {
@@ -1857,6 +1898,7 @@ export type product_variantsCreateWithoutPurchase_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPurchase_return_itemsInput = {
@@ -1892,6 +1934,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPurchase_return_itemsInput = {
@@ -1943,6 +1986,7 @@ export type product_variantsUpdateWithoutPurchase_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPurchase_return_itemsInput = {
@@ -1978,6 +2022,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutSales_invoice_itemsInput = {
@@ -2013,6 +2058,7 @@ export type product_variantsCreateWithoutSales_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutSales_invoice_itemsInput = {
@@ -2048,6 +2094,7 @@ export type product_variantsUncheckedCreateWithoutSales_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutSales_invoice_itemsInput = {
@@ -2099,6 +2146,7 @@ export type product_variantsUpdateWithoutSales_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutSales_invoice_itemsInput = {
@@ -2134,6 +2182,7 @@ export type product_variantsUncheckedUpdateWithoutSales_invoice_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutSales_return_itemsInput = {
@@ -2169,6 +2218,7 @@ export type product_variantsCreateWithoutSales_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutSales_return_itemsInput = {
@@ -2204,6 +2254,7 @@ export type product_variantsUncheckedCreateWithoutSales_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutSales_return_itemsInput = {
@@ -2255,6 +2306,7 @@ export type product_variantsUpdateWithoutSales_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutSales_return_itemsInput = {
@@ -2290,6 +2342,7 @@ export type product_variantsUncheckedUpdateWithoutSales_return_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutInventory_movementsInput = {
@@ -2325,6 +2378,7 @@ export type product_variantsCreateWithoutInventory_movementsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutInventory_movementsInput = {
@@ -2360,6 +2414,7 @@ export type product_variantsUncheckedCreateWithoutInventory_movementsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutInventory_movementsInput = {
@@ -2411,6 +2466,7 @@ export type product_variantsUpdateWithoutInventory_movementsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutInventory_movementsInput = {
@@ -2446,6 +2502,7 @@ export type product_variantsUncheckedUpdateWithoutInventory_movementsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutStock_balancesInput = {
@@ -2481,6 +2538,7 @@ export type product_variantsCreateWithoutStock_balancesInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutStock_balancesInput = {
@@ -2516,6 +2574,7 @@ export type product_variantsUncheckedCreateWithoutStock_balancesInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutStock_balancesInput = {
@@ -2567,6 +2626,7 @@ export type product_variantsUpdateWithoutStock_balancesInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutStock_balancesInput = {
@@ -2602,6 +2662,7 @@ export type product_variantsUncheckedUpdateWithoutStock_balancesInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutStock_transfer_itemsInput = {
@@ -2637,6 +2698,7 @@ export type product_variantsCreateWithoutStock_transfer_itemsInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutProduct_variantsInput
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutStock_transfer_itemsInput = {
@@ -2672,6 +2734,7 @@ export type product_variantsUncheckedCreateWithoutStock_transfer_itemsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutStock_transfer_itemsInput = {
@@ -2723,6 +2786,7 @@ export type product_variantsUpdateWithoutStock_transfer_itemsInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutProduct_variantsNestedInput
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutStock_transfer_itemsInput = {
@@ -2758,6 +2822,7 @@ export type product_variantsUncheckedUpdateWithoutStock_transfer_itemsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutStock_adjustment_itemsInput = {
@@ -2793,6 +2858,7 @@ export type product_variantsCreateWithoutStock_adjustment_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutStock_adjustment_itemsInput = {
@@ -2828,6 +2894,7 @@ export type product_variantsUncheckedCreateWithoutStock_adjustment_itemsInput = 
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutStock_adjustment_itemsInput = {
@@ -2879,6 +2946,7 @@ export type product_variantsUpdateWithoutStock_adjustment_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutStock_adjustment_itemsInput = {
@@ -2914,6 +2982,7 @@ export type product_variantsUncheckedUpdateWithoutStock_adjustment_itemsInput = 
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutUomsInput = {
@@ -2949,6 +3018,7 @@ export type product_variantsCreateWithoutUomsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutUomsInput = {
@@ -2984,6 +3054,7 @@ export type product_variantsUncheckedCreateWithoutUomsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutUomsInput = {
@@ -3010,6 +3081,166 @@ export type product_variantsUpdateWithWhereUniqueWithoutUomsInput = {
 export type product_variantsUpdateManyWithWhereWithoutUomsInput = {
   where: Prisma.product_variantsScalarWhereInput
   data: Prisma.XOR<Prisma.product_variantsUpdateManyMutationInput, Prisma.product_variantsUncheckedUpdateManyWithoutUomsInput>
+}
+
+export type product_variantsCreateWithoutUnit_conversionsInput = {
+  id?: string
+  sku: string
+  barcode?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutProduct_variantsInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutProduct_variantsInput
+  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
+  price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutProduct_variantsInput
+  products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  uoms?: Prisma.uomsCreateNestedOneWithoutProduct_variantsInput
+  purchase_invoice_items?: Prisma.purchase_invoice_itemsCreateNestedManyWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutProduct_variantsInput
+  purchase_return_items?: Prisma.purchase_return_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutProduct_variantsInput
+  sales_order_items?: Prisma.sales_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  sales_return_items?: Prisma.sales_return_itemsCreateNestedManyWithoutProduct_variantsInput
+  stock_adjustment_items?: Prisma.stock_adjustment_itemsCreateNestedManyWithoutProduct_variantsInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutProduct_variantsInput
+  stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsUncheckedCreateWithoutUnit_conversionsInput = {
+  id?: string
+  product_id: number
+  sku: string
+  barcode?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  uom_id?: string | null
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_invoice_items?: Prisma.purchase_invoice_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_return_items?: Prisma.purchase_return_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  sales_order_items?: Prisma.sales_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  sales_return_items?: Prisma.sales_return_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_adjustment_items?: Prisma.stock_adjustment_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsCreateOrConnectWithoutUnit_conversionsInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedCreateWithoutUnit_conversionsInput>
+}
+
+export type product_variantsUpsertWithoutUnit_conversionsInput = {
+  update: Prisma.XOR<Prisma.product_variantsUpdateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedUpdateWithoutUnit_conversionsInput>
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedCreateWithoutUnit_conversionsInput>
+  where?: Prisma.product_variantsWhereInput
+}
+
+export type product_variantsUpdateToOneWithWhereWithoutUnit_conversionsInput = {
+  where?: Prisma.product_variantsWhereInput
+  data: Prisma.XOR<Prisma.product_variantsUpdateWithoutUnit_conversionsInput, Prisma.product_variantsUncheckedUpdateWithoutUnit_conversionsInput>
+}
+
+export type product_variantsUpdateWithoutUnit_conversionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutProduct_variantsNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutProduct_variantsNestedInput
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
+  price_list_items?: Prisma.price_list_itemsUpdateManyWithoutProduct_variantsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  uoms?: Prisma.uomsUpdateOneWithoutProduct_variantsNestedInput
+  purchase_invoice_items?: Prisma.purchase_invoice_itemsUpdateManyWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutProduct_variantsNestedInput
+  purchase_return_items?: Prisma.purchase_return_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutProduct_variantsNestedInput
+  sales_order_items?: Prisma.sales_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  sales_return_items?: Prisma.sales_return_itemsUpdateManyWithoutProduct_variantsNestedInput
+  stock_adjustment_items?: Prisma.stock_adjustment_itemsUpdateManyWithoutProduct_variantsNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutProduct_variantsNestedInput
+  stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+}
+
+export type product_variantsUncheckedUpdateWithoutUnit_conversionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_invoice_items?: Prisma.purchase_invoice_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_return_items?: Prisma.purchase_return_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  sales_order_items?: Prisma.sales_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  sales_return_items?: Prisma.sales_return_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_adjustment_items?: Prisma.stock_adjustment_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutGoods_receipt_itemsInput = {
@@ -3045,6 +3276,7 @@ export type product_variantsCreateWithoutGoods_receipt_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutGoods_receipt_itemsInput = {
@@ -3080,6 +3312,7 @@ export type product_variantsUncheckedCreateWithoutGoods_receipt_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutGoods_receipt_itemsInput = {
@@ -3131,6 +3364,7 @@ export type product_variantsUpdateWithoutGoods_receipt_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutGoods_receipt_itemsInput = {
@@ -3166,6 +3400,7 @@ export type product_variantsUncheckedUpdateWithoutGoods_receipt_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutPurchase_requisition_itemsInput = {
@@ -3201,6 +3436,7 @@ export type product_variantsCreateWithoutPurchase_requisition_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPurchase_requisition_itemsInput = {
@@ -3236,6 +3472,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_requisition_itemsInpu
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPurchase_requisition_itemsInput = {
@@ -3287,6 +3524,7 @@ export type product_variantsUpdateWithoutPurchase_requisition_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
@@ -3322,6 +3560,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_requisition_itemsInpu
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutSales_order_itemsInput = {
@@ -3357,6 +3596,7 @@ export type product_variantsCreateWithoutSales_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutSales_order_itemsInput = {
@@ -3392,6 +3632,7 @@ export type product_variantsUncheckedCreateWithoutSales_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutSales_order_itemsInput = {
@@ -3443,6 +3684,7 @@ export type product_variantsUpdateWithoutSales_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutSales_order_itemsInput = {
@@ -3478,6 +3720,7 @@ export type product_variantsUncheckedUpdateWithoutSales_order_itemsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutStock_reservationsInput = {
@@ -3513,6 +3756,7 @@ export type product_variantsCreateWithoutStock_reservationsInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutProduct_variantsInput
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutStock_reservationsInput = {
@@ -3548,6 +3792,7 @@ export type product_variantsUncheckedCreateWithoutStock_reservationsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutStock_reservationsInput = {
@@ -3599,6 +3844,7 @@ export type product_variantsUpdateWithoutStock_reservationsInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutProduct_variantsNestedInput
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutStock_reservationsInput = {
@@ -3634,6 +3880,7 @@ export type product_variantsUncheckedUpdateWithoutStock_reservationsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutStock_count_itemsInput = {
@@ -3669,6 +3916,7 @@ export type product_variantsCreateWithoutStock_count_itemsInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutStock_count_itemsInput = {
@@ -3704,6 +3952,7 @@ export type product_variantsUncheckedCreateWithoutStock_count_itemsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutStock_count_itemsInput = {
@@ -3755,6 +4004,7 @@ export type product_variantsUpdateWithoutStock_count_itemsInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutStock_count_itemsInput = {
@@ -3790,6 +4040,7 @@ export type product_variantsUncheckedUpdateWithoutStock_count_itemsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutReorder_rulesInput = {
@@ -3825,6 +4076,7 @@ export type product_variantsCreateWithoutReorder_rulesInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutReorder_rulesInput = {
@@ -3860,6 +4112,7 @@ export type product_variantsUncheckedCreateWithoutReorder_rulesInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutReorder_rulesInput = {
@@ -3911,6 +4164,7 @@ export type product_variantsUpdateWithoutReorder_rulesInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutReorder_rulesInput = {
@@ -3946,6 +4200,7 @@ export type product_variantsUncheckedUpdateWithoutReorder_rulesInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutReorder_suggestionsInput = {
@@ -3981,6 +4236,7 @@ export type product_variantsCreateWithoutReorder_suggestionsInput = {
   stock_count_items?: Prisma.stock_count_itemsCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutReorder_suggestionsInput = {
@@ -4016,6 +4272,7 @@ export type product_variantsUncheckedCreateWithoutReorder_suggestionsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutProduct_variantsInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutReorder_suggestionsInput = {
@@ -4067,6 +4324,7 @@ export type product_variantsUpdateWithoutReorder_suggestionsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutReorder_suggestionsInput = {
@@ -4102,6 +4360,7 @@ export type product_variantsUncheckedUpdateWithoutReorder_suggestionsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateManyProductsInput = {
@@ -4154,6 +4413,7 @@ export type product_variantsUpdateWithoutProductsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutProductsInput = {
@@ -4189,6 +4449,7 @@ export type product_variantsUncheckedUpdateWithoutProductsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateManyWithoutProductsInput = {
@@ -4258,6 +4519,7 @@ export type product_variantsUpdateWithoutUomsInput = {
   stock_count_items?: Prisma.stock_count_itemsUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutUomsInput = {
@@ -4293,6 +4555,7 @@ export type product_variantsUncheckedUpdateWithoutUomsInput = {
   stock_count_items?: Prisma.stock_count_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  unit_conversions?: Prisma.unit_conversionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateManyWithoutUomsInput = {
@@ -4336,6 +4599,7 @@ export type Product_variantsCountOutputType = {
   stock_count_items: number
   stock_reservations: number
   stock_transfer_items: number
+  unit_conversions: number
 }
 
 export type Product_variantsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4357,6 +4621,7 @@ export type Product_variantsCountOutputTypeSelect<ExtArgs extends runtime.Types.
   stock_count_items?: boolean | Product_variantsCountOutputTypeCountStock_count_itemsArgs
   stock_reservations?: boolean | Product_variantsCountOutputTypeCountStock_reservationsArgs
   stock_transfer_items?: boolean | Product_variantsCountOutputTypeCountStock_transfer_itemsArgs
+  unit_conversions?: boolean | Product_variantsCountOutputTypeCountUnit_conversionsArgs
 }
 
 /**
@@ -4495,6 +4760,13 @@ export type Product_variantsCountOutputTypeCountStock_transfer_itemsArgs<ExtArgs
   where?: Prisma.stock_transfer_itemsWhereInput
 }
 
+/**
+ * Product_variantsCountOutputType without action
+ */
+export type Product_variantsCountOutputTypeCountUnit_conversionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.unit_conversionsWhereInput
+}
+
 
 export type product_variantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4532,6 +4804,7 @@ export type product_variantsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   stock_count_items?: boolean | Prisma.product_variants$stock_count_itemsArgs<ExtArgs>
   stock_reservations?: boolean | Prisma.product_variants$stock_reservationsArgs<ExtArgs>
   stock_transfer_items?: boolean | Prisma.product_variants$stock_transfer_itemsArgs<ExtArgs>
+  unit_conversions?: boolean | Prisma.product_variants$unit_conversionsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_variantsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_variants"]>
 
@@ -4615,6 +4888,7 @@ export type product_variantsInclude<ExtArgs extends runtime.Types.Extensions.Int
   stock_count_items?: boolean | Prisma.product_variants$stock_count_itemsArgs<ExtArgs>
   stock_reservations?: boolean | Prisma.product_variants$stock_reservationsArgs<ExtArgs>
   stock_transfer_items?: boolean | Prisma.product_variants$stock_transfer_itemsArgs<ExtArgs>
+  unit_conversions?: boolean | Prisma.product_variants$unit_conversionsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_variantsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type product_variantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4649,6 +4923,7 @@ export type $product_variantsPayload<ExtArgs extends runtime.Types.Extensions.In
     stock_count_items: Prisma.$stock_count_itemsPayload<ExtArgs>[]
     stock_reservations: Prisma.$stock_reservationsPayload<ExtArgs>[]
     stock_transfer_items: Prisma.$stock_transfer_itemsPayload<ExtArgs>[]
+    unit_conversions: Prisma.$unit_conversionsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5080,6 +5355,7 @@ export interface Prisma__product_variantsClient<T, Null = never, ExtArgs extends
   stock_count_items<T extends Prisma.product_variants$stock_count_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$stock_count_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_count_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_reservations<T extends Prisma.product_variants$stock_reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$stock_reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_reservationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_transfer_items<T extends Prisma.product_variants$stock_transfer_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$stock_transfer_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  unit_conversions<T extends Prisma.product_variants$unit_conversionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$unit_conversionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$unit_conversionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5973,6 +6249,30 @@ export type product_variants$stock_transfer_itemsArgs<ExtArgs extends runtime.Ty
   take?: number
   skip?: number
   distinct?: Prisma.Stock_transfer_itemsScalarFieldEnum | Prisma.Stock_transfer_itemsScalarFieldEnum[]
+}
+
+/**
+ * product_variants.unit_conversions
+ */
+export type product_variants$unit_conversionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the unit_conversions
+   */
+  select?: Prisma.unit_conversionsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the unit_conversions
+   */
+  omit?: Prisma.unit_conversionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.unit_conversionsInclude<ExtArgs> | null
+  where?: Prisma.unit_conversionsWhereInput
+  orderBy?: Prisma.unit_conversionsOrderByWithRelationInput | Prisma.unit_conversionsOrderByWithRelationInput[]
+  cursor?: Prisma.unit_conversionsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Unit_conversionsScalarFieldEnum | Prisma.Unit_conversionsScalarFieldEnum[]
 }
 
 /**

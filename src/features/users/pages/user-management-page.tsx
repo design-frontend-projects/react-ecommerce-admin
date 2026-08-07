@@ -22,18 +22,26 @@ import {
 } from '../hooks/use-roles-permissions'
 import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
 
+import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
+
 export function UserManagementPage() {
   const [inviteOpen, setInviteOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   
+  const { isSuperAdminOwner } = useSystemOwner()
   const isSuperAdmin = useHasRole('super_admin')
   const isNormalAdmin = useHasRole('admin')
-  const isAdmin = isSuperAdmin || isNormalAdmin
+  const isAdmin = isSuperAdminOwner || isSuperAdmin || isNormalAdmin
 
-  const canViewUsers = useRBAC('users', 'read') || isAdmin
-  const canManageUsers = useRBAC('users', 'manage') || isAdmin
-  const canManageRoles = useRBAC('roles', 'manage') || isAdmin
-  const canManagePermissions = useRBAC('permissions', 'manage') || isAdmin
+  const hasUserReadAccess = useRBAC('users', 'read')
+  const hasUserManageAccess = useRBAC('users', 'manage')
+  const hasRolesManageAccess = useRBAC('roles', 'manage')
+  const hasPermissionsManageAccess = useRBAC('permissions', 'manage')
+
+  const canViewUsers = isSuperAdminOwner || hasUserReadAccess || isAdmin
+  const canManageUsers = isSuperAdminOwner || hasUserManageAccess || isAdmin
+  const canManageRoles = isSuperAdminOwner || hasRolesManageAccess || isAdmin
+  const canManagePermissions = isSuperAdminOwner || hasPermissionsManageAccess || isAdmin
 
   const usersQuery = useUsersList(canViewUsers)
   const rbacCatalogQuery = useRBACCatalog(canViewUsers)

@@ -41,12 +41,15 @@ export function Units() {
         </div>
 
         {isLoading ? (
-          <div className='flex min-h-[400px] flex-1 items-center justify-center'>
+          <div className='flex min-h-100 flex-1 items-center justify-center'>
             <Loader2 className='h-10 w-10 animate-spin text-primary' />
           </div>
         ) : error ? (
-          <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
+          <div className='flex flex-1 flex-col items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
             <p className='font-medium'>Error loading units.</p>
+            <p className='mt-1 text-sm text-rose-400'>
+              {error instanceof Error ? error.message : String(error)}
+            </p>
           </div>
         ) : (
           <>

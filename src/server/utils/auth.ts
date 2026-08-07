@@ -64,63 +64,78 @@ export function getBearerToken(request: Request) {
 }
 
 export async function getDatabasePermissionNames(userId: string) {
-  const tenantUser = (await prisma.tenant_users.findFirst({
-    where: { auth_user_id: userId },
-    include: {
-      user_roles: {
-        include: {
-          roles: {
-            include: {
-              role_permissions: {
-                include: {
-                  permissions: true,
+  const [tenantUser, profile] = await Promise.all([
+    prisma.tenant_users.findFirst({
+      where: { auth_user_id: userId },
+      include: {
+        user_roles: {
+          include: {
+            roles: {
+              include: {
+                role_permissions: {
+                  include: {
+                    permissions: true,
+                  },
                 },
               },
             },
           },
         },
-      },
-      user_permissions: {
-        include: {
-          permissions: true,
+        user_permissions: {
+          include: {
+            permissions: true,
+          },
         },
       },
-    },
-  })) as {
-    user_roles: Array<{
-      roles: {
-        name: string
-        role_permissions: Array<{
-          permissions: {
-            name: string
-          }
-        }>
-      }
-    }>
-    user_permissions: Array<{
-      is_granted: boolean
-      permissions: {
-        name: string
-      }
-    }>
-  } | null
+    }),
+    prisma.profiles.findFirst({
+      where: { auth_user_id: userId },
+      select: { system_owner: true, role: true }
+    })
+  ]) as [
+    {
+      user_roles: Array<{
+        roles: {
+          name: string
+          role_permissions: Array<{
+            permissions: {
+              name: string
+            }
+          }>
+        }
+      }>
+      user_permissions: Array<{
+        is_granted: boolean
+        permissions: {
+          name: string
+        }
+      }>
+    } | null,
+    { system_owner: boolean; role: string | null } | null
+  ]
 
-  if (!tenantUser) {
+  const isSuperAdminOwner = profile?.system_owner === true && profile?.role === 'super_admin'
+
+  if (!tenantUser && !isSuperAdminOwner) {
     return {
       roleNames: [] as string[],
       permissionNames: [] as string[],
     }
   }
 
-  const roleNames = tenantUser.user_roles.map((assignment) =>
+  const roleNames = tenantUser?.user_roles.map((assignment) =>
     normalizeRoleName(assignment.roles.name)
-  )
+  ) ?? []
 
-  const roleDerivedNames = tenantUser.user_roles.flatMap((assignment) =>
+  if (isSuperAdminOwner && !roleNames.includes('super_admin')) {
+    roleNames.push('super_admin')
+  }
+
+  const roleDerivedNames = tenantUser?.user_roles.flatMap((assignment) =>
     assignment.roles.role_permissions.map(
       (rolePermission) => rolePermission.permissions.name
     )
-  )
+  ) ?? []
 
   // Honour wildcard roles (e.g. super_admin) for permissions not concretely linked
   // (like dynamically created button permissions).
@@ -131,12 +146,12 @@ export async function getDatabasePermissionNames(userId: string) {
     roleDerivedNames.push('*')
   }
 
-  const userGrants = tenantUser.user_permissions
+  const userGrants = tenantUser?.user_permissions
     .filter((override) => override.is_granted)
-    .map((override) => override.permissions.name)
-  const userDenies = tenantUser.user_permissions
+    .map((override) => override.permissions.name) ?? []
+  const userDenies = tenantUser?.user_permissions
     .filter((override) => !override.is_granted)
-    .map((override) => override.permissions.name)
+    .map((override) => override.permissions.name) ?? []
 
   // When a wildcard holder has explicit denies, expand the wildcard against the full
   // permission universe so the specific denies can be carved out precisely.
