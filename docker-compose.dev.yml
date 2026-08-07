@@ -5,11 +5,16 @@ services:
       context: .
       target: dev
     restart: always
+    env_file:
+      - .env.development
+      - .env
     ports:
       - "4010:5190"
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.output
+      - /app/src/generated/prisma
     networks:
       - app-network
 
