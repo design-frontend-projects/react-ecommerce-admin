@@ -3,8 +3,11 @@ import { create } from 'zustand'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 import { supabase } from '@/lib/supabase'
 import type { Profile } from '@/features/auth/services/profile-service'
+import {
+  expandPermissionNames,
+  getFallbackPermissionNamesForRoles,
+} from '@/features/users/data/rbac'
 import { useRBACStore } from '@/features/users/data/store'
-import { expandPermissionNames, getFallbackPermissionNamesForRoles } from '@/features/users/data/rbac'
 
 const SELECTED_BRANCH = 'respos_selected_branch'
 
@@ -61,6 +64,9 @@ export const useAuthStore = create<AuthState>()((set) => {
 
               if (role === 'admin' || role === 'super_admin') {
                 permissionNames = expandPermissionNames(['*'])
+                console.log('all permission ')
+                console.log(permissionNames)
+                console.log('roles name : ', roleNames)
               } else if (role) {
                 permissionNames = getFallbackPermissionNamesForRoles([role])
               }

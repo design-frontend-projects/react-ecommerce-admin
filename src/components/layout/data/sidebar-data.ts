@@ -36,7 +36,6 @@ import {
   ShieldCheck,
   ShoppingCart,
   Tags,
-
   TrendingUp,
   UserCog,
   Users,
@@ -48,8 +47,8 @@ import {
   MonitorDot,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
 import { useAuthStore } from '@/stores/auth-store'
+import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
 import { type SidebarData } from '../types'
 import { buildCatalogNavGroups } from './catalog-nav'
 
@@ -64,10 +63,7 @@ export function useSidebarData(): SidebarData {
     ...(profile
       ? {
           user: {
-            name:
-              profile.first_name ||
-              profile.email?.split('@')[0] ||
-              'User',
+            name: profile.first_name || profile.email?.split('@')[0] || 'User',
             email: profile.email || '',
             avatar: '/avatars/shadcn.jpg',
           },
@@ -115,6 +111,7 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.dashboard'),
             url: '/',
             icon: LayoutDashboard,
+            roles: ADMINS,
           },
           {
             title: t('sidebar.posSystem'),
@@ -143,7 +140,7 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.posDashboard'),
             url: '/respos',
             icon: LayoutDashboard,
-            roles: ADMINS,
+            roles: [UserRole.Captain, UserRole.Cashier, ...ADMINS],
           },
           {
             title: t('sidebar.posScreen'),
@@ -198,7 +195,7 @@ export function useSidebarData(): SidebarData {
             title: t('sidebar.payments'),
             url: '/respos/payments',
             icon: CreditCard,
-            roles: ADMINS,
+            roles: [UserRole.Cashier, ...ADMINS],
           },
           {
             title: t('sidebar.shipments'),
@@ -218,6 +215,10 @@ export function useSidebarData(): SidebarData {
             url: '/users',
             icon: Users,
             roles: ADMINS,
+            permissions: [
+              'access_control.users.view',
+              'access_control.users.manage',
+            ],
           },
           {
             title: t('sidebar.accessControl'),

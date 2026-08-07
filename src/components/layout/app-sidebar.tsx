@@ -80,7 +80,8 @@ export function AppSidebar() {
       : null
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
-
+  console.log('normalizedRoleNames ', normalizedRoleNames)
+  console.log('currentPermissionNames ', currentPermissionNames)
   const sourceNavGroups =
     dbNavGroups && dbNavGroups.length > 0 ? dbNavGroups : sidebarData.navGroups
 
