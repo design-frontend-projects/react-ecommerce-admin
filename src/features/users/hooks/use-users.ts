@@ -4,8 +4,8 @@ import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
-import { createUser, fetchUsers, updateUserRoles } from '../data/actions'
-import type { CreateUserApiInput } from '../data/schema'
+import { createUser, fetchUsers, updateUserRoles, createTenantAction } from '../data/actions'
+import type { CreateUserApiInput, CreateTenantApiInput } from '../data/schema'
 import type { UpdateUserRolesInput } from '../data/types'
 
 export const usersQueryKey = ['users'] as const
@@ -113,6 +113,23 @@ export function useResetUserPassword() {
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Unable to reset password.')
+    },
+  })
+}
+
+export function useCreateTenant() {
+  const queryClient = useQueryClient()
+
+  return useAuthMutation({
+    mutationFn: (getToken, input: CreateTenantApiInput) =>
+      createTenantAction(getToken, input),
+    rbac: { permission: 'users.manage' },
+    onSuccess: () => {
+      toast.success('Tenant created successfully. They will complete onboarding on first login.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to create tenant.')
     },
   })
 }

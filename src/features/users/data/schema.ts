@@ -94,6 +94,21 @@ export const createUserResultSchema = z.object({
 })
 export type CreateUserResult = z.infer<typeof createUserResultSchema>
 
+export const createTenantApiInputSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  firstName: z.string().trim().min(1).optional(),
+  lastName: z.string().trim().min(1).optional(),
+  phone: z.string().trim().optional(),
+})
+export type CreateTenantApiInput = z.infer<typeof createTenantApiInputSchema>
+
+export const createTenantResultSchema = z.object({
+  authUserId: z.string(),
+  temporaryPassword: z.string().optional(),
+})
+export type CreateTenantResult = z.infer<typeof createTenantResultSchema>
+
+
 export const inviteUserResultSchema = z.object({
   success: z.boolean(),
   invitationId: z.string().nullable(),
@@ -163,6 +178,7 @@ export const createUserResponseSchema = successEnvelope(createUserResultSchema)
 export const inviteUserResponseSchema = successEnvelope(inviteUserResultSchema)
 export const rbacCatalogResponseSchema = successEnvelope(rbacCatalogSchema)
 export const roleResponseSchema = successEnvelope(roleSchema)
+export const createTenantResponseSchema = successEnvelope(createTenantResultSchema)
 export const successResponseSchema = z.object({
   success: z.literal(true),
 })

@@ -1516,6 +1516,9 @@
       "branch": "Branch",
       "selectRole": "Select a role",
       "selectBranch": "Select a branch",
+      "createAsTenant": "Create as new Tenant (Business Owner)",
+      "tenantNotice": "This user will be created as a new tenant. They will complete their business setup on first login through the onboarding flow.",
+      "tenantCreatedSuccess": "Tenant created successfully. They will complete onboarding on first login.",
       "autoPasswordNotice": "A temporary password is generated automatically and shown once after the user is created.",
       "saveChanges": "Save changes"
     },

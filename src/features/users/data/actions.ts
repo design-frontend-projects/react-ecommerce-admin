@@ -15,9 +15,13 @@ import {
   setUserPermissionOverridesInputSchema,
   userPermissionOverridesResponseSchema,
   effectivePermissionsResponseSchema,
+  createTenantApiInputSchema,
+  createTenantResponseSchema,
   type UserPermissionOverrides,
   type CreateUserApiInput,
   type CreateUserResult,
+  type CreateTenantApiInput,
+  type CreateTenantResult,
 } from './schema'
 import type {
   CompleteOnboardingInput,
@@ -164,4 +168,16 @@ export async function completeOnboarding(
     body: JSON.stringify(body),
   })
   return successResponseSchema.parse(payload)
+}
+
+export async function createTenantAction(
+  getToken: TokenGetter,
+  input: CreateTenantApiInput
+): Promise<CreateTenantResult> {
+  const body = createTenantApiInputSchema.parse(input)
+  const payload = await authorizedRequest(getToken, '/api/users/create-tenant', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  return createTenantResponseSchema.parse(payload).data
 }

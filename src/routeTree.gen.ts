@@ -88,6 +88,7 @@ import { Route as ApiUsersRolesRouteImport } from './routes/api/users/roles'
 import { Route as ApiUsersPermissionsRouteImport } from './routes/api/users/permissions'
 import { Route as ApiUsersOnboardingRouteImport } from './routes/api/users/onboarding'
 import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
+import { Route as ApiUsersCreateTenantRouteImport } from './routes/api/users/create-tenant'
 import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
 import { Route as ApiTenantActivityTypesRouteImport } from './routes/api/tenant/activity-types'
 import { Route as ApiRbacScreensRouteImport } from './routes/api/rbac/screens'
@@ -614,6 +615,11 @@ const ApiUsersInviteRoute = ApiUsersInviteRouteImport.update({
   path: '/invite',
   getParentRoute: () => ApiUsersRoute,
 } as any)
+const ApiUsersCreateTenantRoute = ApiUsersCreateTenantRouteImport.update({
+  id: '/create-tenant',
+  path: '/create-tenant',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
 const ApiTenantOnboardRoute = ApiTenantOnboardRouteImport.update({
   id: '/api/tenant/onboard',
   path: '/api/tenant/onboard',
@@ -1111,6 +1117,7 @@ export interface FileRoutesByFullPath {
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
@@ -1260,6 +1267,7 @@ export interface FileRoutesByTo {
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
@@ -1414,6 +1422,7 @@ export interface FileRoutesById {
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
@@ -1567,6 +1576,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/create-tenant'
     | '/api/users/invite'
     | '/api/users/onboarding'
     | '/api/users/permissions'
@@ -1716,6 +1726,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/create-tenant'
     | '/api/users/invite'
     | '/api/users/onboarding'
     | '/api/users/permissions'
@@ -1869,6 +1880,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/create-tenant'
     | '/api/users/invite'
     | '/api/users/onboarding'
     | '/api/users/permissions'
@@ -2540,6 +2552,13 @@ declare module '@tanstack/react-router' {
       path: '/invite'
       fullPath: '/api/users/invite'
       preLoaderRoute: typeof ApiUsersInviteRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/users/create-tenant': {
+      id: '/api/users/create-tenant'
+      path: '/create-tenant'
+      fullPath: '/api/users/create-tenant'
+      preLoaderRoute: typeof ApiUsersCreateTenantRouteImport
       parentRoute: typeof ApiUsersRoute
     }
     '/api/tenant/onboard': {
@@ -3280,6 +3299,7 @@ const ApiRbacRouteWithChildren =
   ApiRbacRoute._addFileChildren(ApiRbacRouteChildren)
 
 interface ApiUsersRouteChildren {
+  ApiUsersCreateTenantRoute: typeof ApiUsersCreateTenantRoute
   ApiUsersInviteRoute: typeof ApiUsersInviteRoute
   ApiUsersOnboardingRoute: typeof ApiUsersOnboardingRoute
   ApiUsersPermissionsRoute: typeof ApiUsersPermissionsRoute
@@ -3287,6 +3307,7 @@ interface ApiUsersRouteChildren {
 }
 
 const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersCreateTenantRoute: ApiUsersCreateTenantRoute,
   ApiUsersInviteRoute: ApiUsersInviteRoute,
   ApiUsersOnboardingRoute: ApiUsersOnboardingRoute,
   ApiUsersPermissionsRoute: ApiUsersPermissionsRoute,
