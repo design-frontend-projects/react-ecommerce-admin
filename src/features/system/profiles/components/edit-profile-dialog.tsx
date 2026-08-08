@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,6 +40,7 @@ export function EditProfileDialog({
   open,
   onOpenChange,
 }: EditProfileDialogProps) {
+  const { t } = useTranslation()
   const updateProfile = useUpdateProfile()
 
   const form = useForm<ProfileFormValues>({
@@ -75,7 +77,7 @@ export function EditProfileDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogTitle>{t('system.profiles.editDialog.title')}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -84,10 +86,10 @@ export function EditProfileDialog({
               name='full_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>{t('system.profiles.editDialog.fullName')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='John Doe'
+                      placeholder={t('system.profiles.editDialog.fullNamePlaceholder')}
                       {...field}
                       value={field.value || ''}
                     />
@@ -101,10 +103,10 @@ export function EditProfileDialog({
               name='avatar_url'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Avatar URL</FormLabel>
+                  <FormLabel>{t('system.profiles.editDialog.avatarUrl')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='https://...'
+                      placeholder={t('system.profiles.editDialog.avatarUrlPlaceholder')}
                       {...field}
                       value={field.value || ''}
                     />
@@ -114,8 +116,16 @@ export function EditProfileDialog({
               )}
             />
             <DialogFooter>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => onOpenChange(false)}
+                disabled={updateProfile.isPending}
+              >
+                {t('system.profiles.editDialog.cancel')}
+              </Button>
               <Button type='submit' disabled={updateProfile.isPending}>
-                {updateProfile.isPending ? 'Saving...' : 'Save Changes'}
+                {updateProfile.isPending ? t('system.profiles.editDialog.saving') : t('system.profiles.editDialog.saveChanges')}
               </Button>
             </DialogFooter>
           </form>

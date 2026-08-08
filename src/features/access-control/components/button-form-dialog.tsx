@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 import { z } from 'zod'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -51,6 +52,7 @@ export function ButtonFormDialog({
   onOpenChange,
   button,
 }: ButtonFormDialogProps) {
+  const { t } = useTranslation()
   const createMutation = useCreateButton()
   const updateMutation = useUpdateButton()
   const isPending = createMutation.isPending || updateMutation.isPending
@@ -106,11 +108,11 @@ export function ButtonFormDialog({
     >
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>{button ? 'Edit button' : 'Create button'}</DialogTitle>
+          <DialogTitle>{button ? t('accessControl.buttonFormDialog.editTitle') : t('accessControl.buttonFormDialog.createTitle')}</DialogTitle>
           <DialogDescription>
             {button
-              ? 'Update the permission button. Code is locked for system buttons.'
-              : 'Define a reusable action button that screens can activate.'}
+              ? t('accessControl.buttonFormDialog.editDesc')
+              : t('accessControl.buttonFormDialog.createDesc')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -120,7 +122,7 @@ export function ButtonFormDialog({
               name='code'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Code</FormLabel>
+                  <FormLabel>{t('accessControl.buttonFormDialog.code')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='approve'
@@ -129,8 +131,10 @@ export function ButtonFormDialog({
                     />
                   </FormControl>
                   <FormDescription>
-                    Combined with a screen code it becomes the permission name,
-                    e.g. <code>orders.approve</code>.
+                    <Trans
+                      i18nKey='accessControl.buttonFormDialog.codeDesc'
+                      components={{ code: <code /> }}
+                    />
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -141,7 +145,7 @@ export function ButtonFormDialog({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t('accessControl.buttonFormDialog.name')}</FormLabel>
                   <FormControl>
                     <Input placeholder='Approve' {...field} />
                   </FormControl>
@@ -154,10 +158,10 @@ export function ButtonFormDialog({
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t('accessControl.buttonFormDialog.description')}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Optional description'
+                      placeholder={t('accessControl.buttonFormDialog.descriptionPlaceholder')}
                       className='resize-none'
                       {...field}
                       value={field.value ?? ''}
@@ -174,10 +178,10 @@ export function ButtonFormDialog({
                 disabled={isPending}
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('accessControl.buttonFormDialog.cancel')}
               </Button>
               <Button type='submit' disabled={isPending}>
-                {button ? 'Save changes' : 'Create button'}
+                {button ? t('accessControl.buttonFormDialog.saveChanges') : t('accessControl.buttonFormDialog.createButton')}
               </Button>
             </DialogFooter>
           </form>

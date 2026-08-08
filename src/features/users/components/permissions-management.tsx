@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ export function PermissionsManagement({
   isSaving = false,
   onSave,
 }: PermissionsManagementProps) {
+  const { t } = useTranslation()
   const initialRoleId = roles[0]?.id ?? ''
   const [selectedRoleId, setSelectedRoleId] = useState(initialRoleId)
 
@@ -58,7 +60,7 @@ export function PermissionsManagement({
         </div>
         <Select value={selectedRole.id} onValueChange={setSelectedRoleId}>
           <SelectTrigger className='w-full md:w-64'>
-            <SelectValue placeholder='Select role' />
+            <SelectValue placeholder={t('users.rolesManagement.dialog.roleNamePlaceholder')} />
           </SelectTrigger>
           <SelectContent>
             {roles.map((role) => (

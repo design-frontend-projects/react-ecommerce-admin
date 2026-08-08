@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 import { AlertTriangle } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
@@ -18,6 +19,7 @@ export function DeactivateUserDialog({
   onOpenChange,
   user,
 }: DeactivateUserDialogProps) {
+  const { t } = useTranslation()
   const [value, setValue] = useState('')
   const deactivateMutation = useDeactivateUser()
 
@@ -50,39 +52,41 @@ export function DeactivateUserDialog({
             className='me-1 inline-block stroke-destructive'
             size={18}
           />{' '}
-          Deactivate User
+          {t('users.deactivateDialog.title')}
         </span>
       }
       desc={
         <div className='space-y-4'>
           <p className='mb-2 text-foreground'>
-            Are you sure you want to deactivate{' '}
-            <span className='font-bold'>{user.email}</span>?
-            <br />
-            This will immediately revoke their access to the system. You can
-            reactivate them later if needed.
+            <Trans
+              i18nKey='users.deactivateDialog.confirmPrompt'
+              values={{ email: user.email }}
+              components={{
+                1: <span className='font-bold' />,
+                br: <br />,
+              }}
+            />
           </p>
 
           <Label className='my-2 block'>
-            Email Address:
+            {t('users.deactivateDialog.emailLabel')}
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder='Enter email address to confirm.'
+              placeholder={t('users.deactivateDialog.emailPlaceholder')}
               className='mt-1'
             />
           </Label>
 
           <Alert variant='destructive'>
-            <AlertTitle>Warning!</AlertTitle>
+            <AlertTitle>{t('users.deactivateDialog.warningTitle')}</AlertTitle>
             <AlertDescription>
-              This user will be logged out of all active sessions and will not
-              be able to log back in.
+              {t('users.deactivateDialog.warningDesc')}
             </AlertDescription>
           </Alert>
         </div>
       }
-      confirmText='Deactivate'
+      confirmText={t('users.deactivateDialog.confirmBtn')}
       destructive
     />
   )

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -48,6 +49,7 @@ export function UserPermissionOverridesDialog({
   permissions,
   rolePermissionNames,
 }: UserPermissionOverridesDialogProps) {
+  const { t } = useTranslation()
   const tenantUserId = user?.id
   const overridesQuery = useUserPermissionOverrides(tenantUserId, open)
   const saveMutation = useSetUserPermissionOverrides()
@@ -110,22 +112,23 @@ export function UserPermissionOverridesDialog({
     >
       <DialogContent className='max-h-[85vh] overflow-hidden sm:max-w-3xl'>
         <DialogHeader>
-          <DialogTitle>Permission overrides — {user.email}</DialogTitle>
+          <DialogTitle>{t('users.overridesDialog.title', { email: user.email })}</DialogTitle>
           <DialogDescription>
-            Overrides apply on top of the user's roles. A denial always wins,
-            including over a super-admin wildcard.
+            {t('users.overridesDialog.desc')}
           </DialogDescription>
         </DialogHeader>
 
         <div className='flex items-center justify-between gap-3'>
           <Input
-            placeholder='Search permissions…'
+            placeholder={t('users.overridesDialog.searchPlaceholder')}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             className='max-w-sm'
           />
           <Badge variant={overrideCount > 0 ? 'default' : 'secondary'}>
-            {overrideCount} override{overrideCount === 1 ? '' : 's'}
+            {overrideCount === 1
+              ? t('users.overridesDialog.override', { count: overrideCount })
+              : t('users.overridesDialog.overrides', { count: overrideCount })}
           </Badge>
         </div>
 
@@ -133,7 +136,7 @@ export function UserPermissionOverridesDialog({
 
         {overridesQuery.isLoading ? (
           <p className='py-6 text-sm text-muted-foreground'>
-            Loading overrides…
+            {t('users.overridesDialog.loading')}
           </p>
         ) : (
           <ScrollArea className='h-[45vh] pr-3'>
@@ -169,7 +172,7 @@ export function UserPermissionOverridesDialog({
 
                     <div className='flex shrink-0 items-center gap-2'>
                       <Badge variant={effective ? 'default' : 'outline'}>
-                        {effective ? 'Allowed' : 'Blocked'}
+                        {effective ? t('users.overridesDialog.allowed') : t('users.overridesDialog.blocked')}
                       </Badge>
                       <div className='flex overflow-hidden rounded-md border'>
                         {(
@@ -191,7 +194,7 @@ export function UserPermissionOverridesDialog({
                                 : 'bg-background hover:bg-muted'
                             }`}
                           >
-                            {STATE_LABELS[option]}
+                            {t(`users.overridesDialog.state.${option}`)}
                           </button>
                         ))}
                       </div>
@@ -201,7 +204,7 @@ export function UserPermissionOverridesDialog({
               })}
               {visible.length === 0 ? (
                 <p className='py-6 text-sm text-muted-foreground'>
-                  No permissions match “{search}”.
+                  {t('users.overridesDialog.noMatch', { search })}
                 </p>
               ) : null}
             </div>
@@ -214,10 +217,10 @@ export function UserPermissionOverridesDialog({
             onClick={() => onOpenChange(false)}
             disabled={saveMutation.isPending}
           >
-            Cancel
+            {t('users.overridesDialog.cancel')}
           </Button>
           <Button onClick={handleSave} disabled={saveMutation.isPending}>
-            {saveMutation.isPending ? 'Saving…' : 'Save overrides'}
+            {saveMutation.isPending ? t('users.overridesDialog.saving') : t('users.overridesDialog.saveOverrides')}
           </Button>
         </DialogFooter>
       </DialogContent>

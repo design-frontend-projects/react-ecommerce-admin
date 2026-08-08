@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -38,6 +39,7 @@ export function ResetPasswordDialog({
   open,
   onOpenChange,
 }: ResetPasswordDialogProps) {
+  const { t } = useTranslation()
   const resetMutation = useResetUserPassword()
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordFormSchema),
@@ -72,10 +74,9 @@ export function ResetPasswordDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reset Password</DialogTitle>
+          <DialogTitle>{t('users.resetPasswordDialog.title')}</DialogTitle>
           <DialogDescription>
-            Enter a new password for this user. They can change it later in
-            their profile settings.
+            {t('users.resetPasswordDialog.desc')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -88,7 +89,7 @@ export function ResetPasswordDialog({
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>{t('users.resetPasswordDialog.newPassword')}</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
@@ -108,10 +109,10 @@ export function ResetPasswordDialog({
                 onClick={() => onOpenChange(false)}
                 disabled={resetMutation.isPending}
               >
-                Cancel
+                {t('users.resetPasswordDialog.cancel')}
               </Button>
               <Button type='submit' disabled={resetMutation.isPending}>
-                Reset Password
+                {t('users.resetPasswordDialog.resetPasswordBtn')}
               </Button>
             </div>
           </form>

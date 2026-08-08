@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Main } from '@/components/layout/main'
@@ -6,6 +7,8 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 
 export function SystemDashboard() {
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col'>
       {/* Header */}
@@ -22,9 +25,9 @@ export function SystemDashboard() {
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Dashboard</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('system.dashboard.title')}</h2>
             <p className='text-muted-foreground'>
-              System-wide overview and metrics.
+              {t('system.dashboard.subtitle')}
             </p>
           </div>
         </div>
@@ -32,26 +35,26 @@ export function SystemDashboard() {
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
-                Total Restaurants
+                {t('system.dashboard.totalRestaurants')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='text-2xl font-bold'>+20</div>
               <p className='text-xs text-muted-foreground'>
-                +2 from last month
+                {t('system.dashboard.fromLastMonth', { change: '+2' })}
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
-                Active Users
+                {t('system.dashboard.activeUsers')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='text-2xl font-bold'>+2350</div>
               <p className='text-xs text-muted-foreground'>
-                +180 from last month
+                {t('system.dashboard.fromLastMonth', { change: '+180' })}
               </p>
             </CardContent>
           </Card>

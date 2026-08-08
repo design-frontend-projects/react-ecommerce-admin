@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { format } from 'date-fns'
 import {
   type ColumnDef,
@@ -32,6 +33,7 @@ import { type AuditLog, useAuditLogs, useActivityTypes } from '../queries'
 import { AuditLogDetailsDialog } from './audit-log-details-dialog'
 
 export function AuditLogsTable() {
+  const { t } = useTranslation()
   const [filters, setFilters] = React.useState({
     entityType: '',
     activityTypeId: '',
@@ -42,62 +44,65 @@ export function AuditLogsTable() {
 
   const [selectedLog, setSelectedLog] = React.useState<AuditLog | null>(null)
 
-  const columns: ColumnDef<AuditLog>[] = [
-    {
-      accessorKey: 'created_at',
-      header: 'Time',
-      cell: ({ row }) => (
-        <span className='text-sm'>
-          {format(new Date(row.original.created_at), 'MMM d, HH:mm:ss')}
-        </span>
-      ),
-    },
-    {
-      accessorKey: 'profiles.email',
-      header: 'User',
-      cell: ({ row }) => (
-        <div className='flex flex-col'>
-          <span className='font-medium'>
-            {row.original.profiles?.first_name}{' '}
-            {row.original.profiles?.last_name}
+  const columns: ColumnDef<AuditLog>[] = React.useMemo(
+    () => [
+      {
+        accessorKey: 'created_at',
+        header: t('system.auditLogs.table.time'),
+        cell: ({ row }) => (
+          <span className='text-sm'>
+            {format(new Date(row.original.created_at), 'MMM d, HH:mm:ss')}
           </span>
-          <span className='text-xs text-muted-foreground'>
-            {row.original.profiles?.email}
-          </span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'activity_types.name',
-      header: 'Activity',
-      cell: ({ row }) => (
-        <Badge variant='outline'>{row.original.activity_types?.name}</Badge>
-      ),
-    },
-    {
-      accessorKey: 'action',
-      header: 'Action',
-    },
-    {
-      accessorKey: 'entity_type',
-      header: 'Entity',
-      cell: ({ row }) => (
-        <Badge variant='secondary'>{row.original.entity_type}</Badge>
-      ),
-    },
-    {
-      id: 'actions',
-      cell: ({ row }) => (
-        <Button
-          variant='ghost'
-          size='icon'
-          onClick={() => setSelectedLog(row.original)}
-        >
-          <Eye className='h-4 w-4' />
-        </Button>
-      ),
-    },
-  ]
+        ),
+      },
+      {
+        accessorKey: 'profiles.email',
+        header: t('system.auditLogs.table.user'),
+        cell: ({ row }) => (
+          <div className='flex flex-col'>
+            <span className='font-medium'>
+              {row.original.profiles?.first_name}{' '}
+              {row.original.profiles?.last_name}
+            </span>
+            <span className='text-xs text-muted-foreground'>
+              {row.original.profiles?.email}
+            </span>
+          </div>
+        ),
+      },
+      {
+        accessorKey: 'activity_types.name',
+        header: t('system.auditLogs.table.activity'),
+        cell: ({ row }) => (
+          <Badge variant='outline'>{row.original.activity_types?.name}</Badge>
+        ),
+      },
+      {
+        accessorKey: 'action',
+        header: t('system.auditLogs.table.action'),
+      },
+      {
+        accessorKey: 'entity_type',
+        header: t('system.auditLogs.table.entity'),
+        cell: ({ row }) => (
+          <Badge variant='secondary'>{row.original.entity_type}</Badge>
+        ),
+      },
+      {
+        id: 'actions',
+        cell: ({ row }) => (
+          <Button
+            variant='ghost'
+            size='icon'
+            onClick={() => setSelectedLog(row.original)}
+          >
+            <Eye className='h-4 w-4' />
+          </Button>
+        ),
+      },
+    ],
+    [t]
+  )
 
   const table = useReactTable({
     data: logs || [],
@@ -111,7 +116,7 @@ export function AuditLogsTable() {
       <div className='flex flex-wrap gap-4'>
         <div className='min-w-[200px] flex-1'>
           <Input
-            placeholder='Filter by entity type...'
+            placeholder={t('system.auditLogs.table.filterEntityPlaceholder')}
             value={filters.entityType}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, entityType: e.target.value }))
@@ -129,10 +134,10 @@ export function AuditLogsTable() {
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder='Activity Type' />
+              <SelectValue placeholder={t('system.auditLogs.table.activityType')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='all'>All Types</SelectItem>
+              <SelectItem value='all'>{t('system.auditLogs.table.allTypes')}</SelectItem>
               {activityTypes?.map((type) => (
                 <SelectItem key={type.id} value={type.id}>
                   {type.name}
@@ -168,7 +173,7 @@ export function AuditLogsTable() {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  Loading...
+                  {t('system.auditLogs.table.loading')}
                 </TableCell>
               </TableRow>
             ) : table.getRowModel().rows?.length ? (
@@ -190,7 +195,7 @@ export function AuditLogsTable() {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('system.auditLogs.table.noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -205,7 +210,7 @@ export function AuditLogsTable() {
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          {t('system.auditLogs.table.previous')}
         </Button>
         <Button
           variant='outline'
@@ -213,7 +218,7 @@ export function AuditLogsTable() {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          {t('system.auditLogs.table.next')}
         </Button>
       </div>
 

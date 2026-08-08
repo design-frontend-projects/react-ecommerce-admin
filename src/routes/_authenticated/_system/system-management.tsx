@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation, Trans } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -9,50 +10,55 @@ import {
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 
 const SystemManagementPage = () => {
+  const { t } = useTranslation()
   const { profile } = useSystemOwner()
+
+  const adminName = profile?.first_name || profile?.email || t('system.systemManagement.defaultAdmin')
 
   return (
     <div className='space-y-6 p-6'>
       <div className='flex items-center justify-between'>
-        <h1 className='text-3xl font-bold tracking-tight'>System Management</h1>
+        <h1 className='text-3xl font-bold tracking-tight'>{t('system.systemManagement.title')}</h1>
       </div>
 
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Stores</CardTitle>
+            <CardTitle className='text-sm font-medium'>{t('system.systemManagement.totalStores')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>0</div>
-            <p className='text-xs text-muted-foreground'>Across the platform</p>
+            <p className='text-xs text-muted-foreground'>{t('system.systemManagement.acrossPlatform')}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Users</CardTitle>
+            <CardTitle className='text-sm font-medium'>{t('system.systemManagement.totalUsers')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>0</div>
-            <p className='text-xs text-muted-foreground'>Registered profiles</p>
+            <p className='text-xs text-muted-foreground'>{t('system.systemManagement.registeredProfiles')}</p>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Global Configuration</CardTitle>
+          <CardTitle>{t('system.systemManagement.globalConfigTitle')}</CardTitle>
           <CardDescription>
-            Manage platform-wide settings and administrative actions.
+            {t('system.systemManagement.globalConfigDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className='space-y-4'>
             <p>
-              Welcome,{' '}
-              {profile?.first_name || profile?.email || 'System Administrator'}.
+              <Trans
+                i18nKey='system.systemManagement.welcome'
+                values={{ name: adminName }}
+              />
             </p>
             <p className='text-sm text-muted-foreground italic'>
-              This dashboard is only visible to system owners.
+              {t('system.systemManagement.systemOwnersOnly')}
             </p>
           </div>
         </CardContent>

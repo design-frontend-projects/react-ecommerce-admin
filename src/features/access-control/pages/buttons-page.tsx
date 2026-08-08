@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 import { PencilIcon, SquarePlusIcon, Trash2Icon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -21,6 +22,7 @@ import type { PermissionButton } from '../data/schema'
 import { useButtons, useDeleteButton } from '../hooks/use-buttons'
 
 export function ButtonsPage() {
+  const { t } = useTranslation()
   const buttonsQuery = useButtons()
   const deleteMutation = useDeleteButton()
 
@@ -53,9 +55,9 @@ export function ButtonsPage() {
     return (
       <Main className='flex flex-1 items-center justify-center'>
         <Alert className='max-w-xl'>
-          <AlertTitle>Access restricted</AlertTitle>
+          <AlertTitle>{t('accessControl.buttonsPage.restrictedTitle')}</AlertTitle>
           <AlertDescription>
-            Your account does not have permission to view permission buttons.
+            {t('accessControl.buttonsPage.restrictedDesc')}
           </AlertDescription>
         </Alert>
       </Main>
@@ -68,26 +70,26 @@ export function ButtonsPage() {
         <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
           <div className='flex min-w-0 flex-col gap-1'>
             <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
-              Access control
+              {t('accessControl.buttonsPage.category')}
             </p>
             <h1 className='truncate text-lg font-semibold'>
-              Permission buttons
+              {t('accessControl.buttonsPage.title')}
             </h1>
           </div>
           <Can permission='buttons.manage'>
             <Button type='button' onClick={openCreate}>
               <SquarePlusIcon className='mr-2 size-4' />
-              Create button
+              {t('accessControl.buttonsPage.createButton')}
             </Button>
           </Can>
         </div>
       </Header>
       <Main className='flex flex-1 flex-col gap-6'>
         <p className='max-w-3xl text-sm text-muted-foreground'>
-          Buttons are reusable actions that screens activate. Activating a
-          button on a screen generates a{' '}
-          <code>&lt;screen&gt;.&lt;button&gt;</code> permission that roles can
-          be granted.
+          <Trans
+            i18nKey='accessControl.buttonsPage.subtitle'
+            components={{ code: <code /> }}
+          />
         </p>
 
         {buttonsQuery.isLoading && (
@@ -100,11 +102,11 @@ export function ButtonsPage() {
 
         {buttonsQuery.isError && (
           <Alert variant='destructive'>
-            <AlertTitle>Failed to load buttons</AlertTitle>
+            <AlertTitle>{t('accessControl.buttonsPage.failedLoadTitle')}</AlertTitle>
             <AlertDescription>
               {buttonsQuery.error instanceof Error
                 ? buttonsQuery.error.message
-                : 'Please try again.'}
+                : t('accessControl.buttonsPage.pleaseTryAgain')}
             </AlertDescription>
           </Alert>
         )}
@@ -113,18 +115,18 @@ export function ButtonsPage() {
           <section className='rounded-2xl border border-border/70 bg-card/60 px-5 py-4'>
             {buttons.length === 0 ? (
               <p className='text-sm text-muted-foreground'>
-                No permission buttons defined yet.
+                {t('accessControl.buttonsPage.noButtons')}
               </p>
             ) : (
               <div className='overflow-x-auto'>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Code</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead className='text-right'>Actions</TableHead>
+                      <TableHead>{t('accessControl.buttonsPage.table.code')}</TableHead>
+                      <TableHead>{t('accessControl.buttonsPage.table.name')}</TableHead>
+                      <TableHead>{t('accessControl.buttonsPage.table.description')}</TableHead>
+                      <TableHead>{t('accessControl.buttonsPage.table.type')}</TableHead>
+                      <TableHead className='text-right'>{t('accessControl.buttonsPage.table.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -143,7 +145,7 @@ export function ButtonsPage() {
                           <Badge
                             variant={button.isSystem ? 'outline' : 'secondary'}
                           >
-                            {button.isSystem ? 'System' : 'Custom'}
+                            {button.isSystem ? t('accessControl.buttonsPage.table.system') : t('accessControl.buttonsPage.table.custom')}
                           </Badge>
                         </TableCell>
                         <TableCell className='text-right'>
@@ -191,14 +193,14 @@ export function ButtonsPage() {
       <ConfirmDialog
         open={deleteTarget !== null}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title='Delete button'
+        title={t('accessControl.buttonsPage.deleteDialog.title')}
         desc={
           deleteTarget
-            ? `This removes "${deleteTarget.name}" (${deleteTarget.code}). Screens using it will lose the action. This cannot be undone.`
+            ? t('accessControl.buttonsPage.deleteDialog.desc', { name: deleteTarget.name, code: deleteTarget.code })
             : ''
         }
-        cancelBtnText='Cancel'
-        confirmText='Delete'
+        cancelBtnText={t('accessControl.buttonsPage.deleteDialog.cancel')}
+        confirmText={t('accessControl.buttonsPage.deleteDialog.confirm')}
         destructive
         isLoading={deleteMutation.isPending}
         handleConfirm={handleDelete}

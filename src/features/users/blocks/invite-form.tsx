@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -43,6 +44,7 @@ interface InviteFormProps {
 }
 
 export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
+  const { t } = useTranslation()
   const inviteMutation = useInviteUser()
   const form = useForm<InviteFormValues>({
     resolver: zodResolver(inviteFormSchema),
@@ -81,10 +83,9 @@ export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Invite a team member</DialogTitle>
+          <DialogTitle>{t('users.inviteDialog.title')}</DialogTitle>
           <DialogDescription>
-            Send an email invitation and assign the initial role before the user
-            joins the tenant.
+            {t('users.inviteDialog.desc')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -97,10 +98,10 @@ export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email address</FormLabel>
+                  <FormLabel>{t('users.inviteDialog.emailAddress')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='manager@restaurant.com'
+                      placeholder={t('users.inviteDialog.emailPlaceholder')}
                       disabled={inviteMutation.isPending}
                       {...field}
                     />
@@ -114,7 +115,7 @@ export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
               name='roleId'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Initial role</FormLabel>
+                  <FormLabel>{t('users.inviteDialog.initialRole')}</FormLabel>
                   <Select
                     value={field.value}
                     onValueChange={field.onChange}
@@ -122,7 +123,7 @@ export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a role' />
+                        <SelectValue placeholder={t('users.inviteDialog.selectRole')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -144,10 +145,10 @@ export function InviteForm({ open, onOpenChange, roles }: InviteFormProps) {
                 onClick={() => onOpenChange(false)}
                 disabled={inviteMutation.isPending}
               >
-                Cancel
+                {t('users.inviteDialog.cancel')}
               </Button>
               <Button type='submit' disabled={inviteMutation.isPending}>
-                Send invitation
+                {t('users.inviteDialog.sendInvitation')}
               </Button>
             </div>
           </form>

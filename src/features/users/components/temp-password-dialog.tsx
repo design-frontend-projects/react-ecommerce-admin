@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Check, Copy, Share2, TriangleAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -30,6 +31,7 @@ interface TempPasswordDialogProps {
  * explicit password reset.
  */
 export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps) {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -38,9 +40,9 @@ export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps
       await navigator.clipboard.writeText(details.password)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
-      toast.success('Temporary password copied.')
+      toast.success(t('users.tempPasswordDialog.copiedToast'))
     } catch {
-      toast.error('Unable to copy. Select and copy the password manually.')
+      toast.error(t('users.tempPasswordDialog.copyErrorToast'))
     }
   }
 
@@ -57,9 +59,9 @@ export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps
     }
     try {
       await navigator.clipboard.writeText(text)
-      toast.success('Credentials copied to clipboard.')
+      toast.success(t('users.tempPasswordDialog.credentialsCopiedToast'))
     } catch {
-      toast.error('Unable to share. Copy the password manually.')
+      toast.error(t('users.tempPasswordDialog.shareErrorToast'))
     }
   }
 
@@ -75,24 +77,23 @@ export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps
     >
       <DialogContent className='sm:max-w-md'>
         <DialogHeader className='text-start'>
-          <DialogTitle>User created</DialogTitle>
+          <DialogTitle>{t('users.tempPasswordDialog.title')}</DialogTitle>
           <DialogDescription>
-            Share these credentials with the user now. The temporary password is shown once and
-            cannot be retrieved again.
+            {t('users.tempPasswordDialog.desc')}
           </DialogDescription>
         </DialogHeader>
 
         {details && (
           <div className='space-y-3'>
             <div className='space-y-1'>
-              <p className='text-xs font-medium text-muted-foreground'>Email</p>
+              <p className='text-xs font-medium text-muted-foreground'>{t('users.tempPasswordDialog.email')}</p>
               <p className='rounded-md border bg-muted/40 px-3 py-2 text-sm break-all'>
                 {details.email}
               </p>
             </div>
             <div className='space-y-1'>
               <p className='text-xs font-medium text-muted-foreground'>
-                Temporary password
+                {t('users.tempPasswordDialog.tempPassword')}
               </p>
               <div className='flex items-center gap-2'>
                 <code className='flex-1 rounded-md border bg-muted/40 px-3 py-2 font-mono text-sm break-all'>
@@ -116,7 +117,7 @@ export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps
             <div className='flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-400'>
               <TriangleAlert className='mt-0.5 h-4 w-4 shrink-0' />
               <span>
-                The user must set a new password the first time they sign in.
+                {t('users.tempPasswordDialog.mustSetPassword')}
               </span>
             </div>
           </div>
@@ -125,10 +126,10 @@ export function TempPasswordDialog({ details, onClose }: TempPasswordDialogProps
         <DialogFooter className='gap-2 sm:gap-2'>
           <Button type='button' variant='outline' onClick={handleShare}>
             <Share2 className='mr-2 h-4 w-4' />
-            Share
+            {t('users.tempPasswordDialog.share')}
           </Button>
           <Button type='button' onClick={onClose}>
-            Done
+            {t('users.tempPasswordDialog.done')}
           </Button>
         </DialogFooter>
       </DialogContent>

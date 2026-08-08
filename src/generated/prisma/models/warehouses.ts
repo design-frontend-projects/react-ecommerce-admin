@@ -251,6 +251,7 @@ export type warehousesWhereInput = {
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
+  stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
@@ -275,6 +276,7 @@ export type warehousesOrderByWithRelationInput = {
   purchase_orders?: Prisma.purchase_ordersOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
   stock_counts?: Prisma.stock_countsOrderByRelationAggregateInput
+  stock_by_location?: Prisma.stock_by_locationOrderByRelationAggregateInput
   branches?: Prisma.branchesOrderByWithRelationInput
   stores?: Prisma.storesOrderByWithRelationInput
   warehouse_locations?: Prisma.warehouse_locationsOrderByRelationAggregateInput
@@ -303,6 +305,7 @@ export type warehousesWhereUniqueInput = Prisma.AtLeast<{
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
+  stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
@@ -363,6 +366,7 @@ export type warehousesCreateInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -387,6 +391,7 @@ export type warehousesUncheckedCreateInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -407,6 +412,7 @@ export type warehousesUpdateInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -431,6 +437,7 @@ export type warehousesUncheckedUpdateInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -683,6 +690,20 @@ export type warehousesUpdateOneRequiredWithoutWarehouse_locationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutWarehouse_locationsInput, Prisma.warehousesUpdateWithoutWarehouse_locationsInput>, Prisma.warehousesUncheckedUpdateWithoutWarehouse_locationsInput>
 }
 
+export type warehousesCreateNestedOneWithoutStock_by_locationInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStock_by_locationInput, Prisma.warehousesUncheckedCreateWithoutStock_by_locationInput>
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStock_by_locationInput
+  connect?: Prisma.warehousesWhereUniqueInput
+}
+
+export type warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput = {
+  create?: Prisma.XOR<Prisma.warehousesCreateWithoutStock_by_locationInput, Prisma.warehousesUncheckedCreateWithoutStock_by_locationInput>
+  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutStock_by_locationInput
+  upsert?: Prisma.warehousesUpsertWithoutStock_by_locationInput
+  connect?: Prisma.warehousesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutStock_by_locationInput, Prisma.warehousesUpdateWithoutStock_by_locationInput>, Prisma.warehousesUncheckedUpdateWithoutStock_by_locationInput>
+}
+
 export type warehousesCreateNestedOneWithoutGoods_receiptsInput = {
   create?: Prisma.XOR<Prisma.warehousesCreateWithoutGoods_receiptsInput, Prisma.warehousesUncheckedCreateWithoutGoods_receiptsInput>
   connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutGoods_receiptsInput
@@ -748,6 +769,7 @@ export type warehousesCreateWithoutBranchesInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
@@ -770,6 +792,7 @@ export type warehousesUncheckedCreateWithoutBranchesInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -834,6 +857,7 @@ export type warehousesCreateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -857,6 +881,7 @@ export type warehousesUncheckedCreateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -892,6 +917,7 @@ export type warehousesUpdateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -915,6 +941,7 @@ export type warehousesUncheckedUpdateWithoutPurchase_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -935,6 +962,7 @@ export type warehousesCreateWithoutStoresInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
@@ -957,6 +985,7 @@ export type warehousesUncheckedCreateWithoutStoresInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -1002,6 +1031,7 @@ export type warehousesCreateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -1025,6 +1055,7 @@ export type warehousesUncheckedCreateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -1060,6 +1091,7 @@ export type warehousesUpdateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -1083,6 +1115,7 @@ export type warehousesUncheckedUpdateWithoutInventory_movementsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1103,6 +1136,7 @@ export type warehousesCreateWithoutWarehouse_locationsInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
 }
@@ -1126,6 +1160,7 @@ export type warehousesUncheckedCreateWithoutWarehouse_locationsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesCreateOrConnectWithoutWarehouse_locationsInput = {
@@ -1161,6 +1196,7 @@ export type warehousesUpdateWithoutWarehouse_locationsInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
 }
@@ -1184,6 +1220,111 @@ export type warehousesUncheckedUpdateWithoutWarehouse_locationsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesCreateWithoutStock_by_locationInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesUncheckedCreateWithoutStock_by_locationInput = {
+  id?: string
+  tenant_id: string
+  branch_id?: string | null
+  store_id?: string | null
+  code: string
+  name: string
+  is_default?: boolean
+  is_active?: boolean
+  address?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
+}
+
+export type warehousesCreateOrConnectWithoutStock_by_locationInput = {
+  where: Prisma.warehousesWhereUniqueInput
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutStock_by_locationInput, Prisma.warehousesUncheckedCreateWithoutStock_by_locationInput>
+}
+
+export type warehousesUpsertWithoutStock_by_locationInput = {
+  update: Prisma.XOR<Prisma.warehousesUpdateWithoutStock_by_locationInput, Prisma.warehousesUncheckedUpdateWithoutStock_by_locationInput>
+  create: Prisma.XOR<Prisma.warehousesCreateWithoutStock_by_locationInput, Prisma.warehousesUncheckedCreateWithoutStock_by_locationInput>
+  where?: Prisma.warehousesWhereInput
+}
+
+export type warehousesUpdateToOneWithWhereWithoutStock_by_locationInput = {
+  where?: Prisma.warehousesWhereInput
+  data: Prisma.XOR<Prisma.warehousesUpdateWithoutStock_by_locationInput, Prisma.warehousesUncheckedUpdateWithoutStock_by_locationInput>
+}
+
+export type warehousesUpdateWithoutStock_by_locationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
+}
+
+export type warehousesUncheckedUpdateWithoutStock_by_locationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesCreateWithoutGoods_receiptsInput = {
@@ -1202,6 +1343,7 @@ export type warehousesCreateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -1225,6 +1367,7 @@ export type warehousesUncheckedCreateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -1260,6 +1403,7 @@ export type warehousesUpdateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -1283,6 +1427,7 @@ export type warehousesUncheckedUpdateWithoutGoods_receiptsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1302,6 +1447,7 @@ export type warehousesCreateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -1325,6 +1471,7 @@ export type warehousesUncheckedCreateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -1360,6 +1507,7 @@ export type warehousesUpdateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -1383,6 +1531,7 @@ export type warehousesUncheckedUpdateWithoutSales_ordersInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1402,6 +1551,7 @@ export type warehousesCreateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
@@ -1425,6 +1575,7 @@ export type warehousesUncheckedCreateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutWarehousesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
 }
 
@@ -1460,6 +1611,7 @@ export type warehousesUpdateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
@@ -1483,6 +1635,7 @@ export type warehousesUncheckedUpdateWithoutStock_countsInput = {
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutWarehousesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1518,6 +1671,7 @@ export type warehousesUpdateWithoutBranchesInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
@@ -1540,6 +1694,7 @@ export type warehousesUncheckedUpdateWithoutBranchesInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1590,6 +1745,7 @@ export type warehousesUpdateWithoutStoresInput = {
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
@@ -1612,6 +1768,7 @@ export type warehousesUncheckedUpdateWithoutStoresInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
 }
 
@@ -1641,6 +1798,7 @@ export type WarehousesCountOutputType = {
   purchase_orders: number
   sales_orders: number
   stock_counts: number
+  stock_by_location: number
   warehouse_locations: number
 }
 
@@ -1650,6 +1808,7 @@ export type WarehousesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   purchase_orders?: boolean | WarehousesCountOutputTypeCountPurchase_ordersArgs
   sales_orders?: boolean | WarehousesCountOutputTypeCountSales_ordersArgs
   stock_counts?: boolean | WarehousesCountOutputTypeCountStock_countsArgs
+  stock_by_location?: boolean | WarehousesCountOutputTypeCountStock_by_locationArgs
   warehouse_locations?: boolean | WarehousesCountOutputTypeCountWarehouse_locationsArgs
 }
 
@@ -1701,6 +1860,13 @@ export type WarehousesCountOutputTypeCountStock_countsArgs<ExtArgs extends runti
 /**
  * WarehousesCountOutputType without action
  */
+export type WarehousesCountOutputTypeCountStock_by_locationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_by_locationWhereInput
+}
+
+/**
+ * WarehousesCountOutputType without action
+ */
 export type WarehousesCountOutputTypeCountWarehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.warehouse_locationsWhereInput
 }
@@ -1725,6 +1891,7 @@ export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   purchase_orders?: boolean | Prisma.warehouses$purchase_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.warehouses$sales_ordersArgs<ExtArgs>
   stock_counts?: boolean | Prisma.warehouses$stock_countsArgs<ExtArgs>
+  stock_by_location?: boolean | Prisma.warehouses$stock_by_locationArgs<ExtArgs>
   branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
   stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
@@ -1790,6 +1957,7 @@ export type warehousesInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   purchase_orders?: boolean | Prisma.warehouses$purchase_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.warehouses$sales_ordersArgs<ExtArgs>
   stock_counts?: boolean | Prisma.warehouses$stock_countsArgs<ExtArgs>
+  stock_by_location?: boolean | Prisma.warehouses$stock_by_locationArgs<ExtArgs>
   branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
   stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
@@ -1812,6 +1980,7 @@ export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     purchase_orders: Prisma.$purchase_ordersPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
     stock_counts: Prisma.$stock_countsPayload<ExtArgs>[]
+    stock_by_location: Prisma.$stock_by_locationPayload<ExtArgs>[]
     branches: Prisma.$branchesPayload<ExtArgs> | null
     stores: Prisma.$storesPayload<ExtArgs> | null
     warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs>[]
@@ -2229,6 +2398,7 @@ export interface Prisma__warehousesClient<T, Null = never, ExtArgs extends runti
   purchase_orders<T extends Prisma.warehouses$purchase_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$purchase_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.warehouses$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_counts<T extends Prisma.warehouses$stock_countsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_countsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_countsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_by_location<T extends Prisma.warehouses$stock_by_locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_by_locationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_by_locationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branches<T extends Prisma.warehouses$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.warehouses$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   warehouse_locations<T extends Prisma.warehouses$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$warehouse_locationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2792,6 +2962,30 @@ export type warehouses$stock_countsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.Stock_countsScalarFieldEnum | Prisma.Stock_countsScalarFieldEnum[]
+}
+
+/**
+ * warehouses.stock_by_location
+ */
+export type warehouses$stock_by_locationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_by_location
+   */
+  select?: Prisma.stock_by_locationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_by_location
+   */
+  omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
+  where?: Prisma.stock_by_locationWhereInput
+  orderBy?: Prisma.stock_by_locationOrderByWithRelationInput | Prisma.stock_by_locationOrderByWithRelationInput[]
+  cursor?: Prisma.stock_by_locationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_by_locationScalarFieldEnum | Prisma.Stock_by_locationScalarFieldEnum[]
 }
 
 /**

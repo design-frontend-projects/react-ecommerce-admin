@@ -1335,5 +1335,444 @@
   "page": "Page",
   "pageSize": "Page Size",
   "restaurantId": "Restaurant Id",
-  "pending": "Pending"
+  "pending": "Pending",
+  "users": {
+    "title": "Users and access",
+    "tenantSecurity": "Tenant security",
+    "createUser": "Create user",
+    "inviteUser": "Invite user",
+    "bannerTitle": "Access stays explicit, visible, and reversible.",
+    "bannerDesc": "Invite teammates, assign operational roles, and update permission maps without leaving the dashboard. Realtime updates keep active sessions aligned with the latest role model.",
+    "stats": {
+      "users": "{{count}} users",
+      "active": "{{count}} active",
+      "invited": "{{count}} invited",
+      "roles": "{{count}} roles"
+    },
+    "tabs": {
+      "users": "Users",
+      "roles": "Roles",
+      "permissions": "Permissions"
+    },
+    "accessRestrictedTitle": "Access restricted",
+    "accessRestrictedDesc": "Your account can use the product, but it does not have permission to view tenant users or RBAC settings.",
+    "permissionEditingRestrictedTitle": "Permission editing is restricted",
+    "permissionEditingRestrictedDesc": "Only administrators with both role and permission management rights can change the RBAC matrix.",
+    "table": {
+      "teamMember": "Team member",
+      "email": "Email",
+      "phone": "Phone",
+      "status": "Status",
+      "role": "Role",
+      "updated": "Updated",
+      "action": "Action",
+      "noUsers": "No users found for this tenant yet.",
+      "noRole": "No assigned role",
+      "chooseRole": "Choose role",
+      "resetPassword": "Reset Password",
+      "permissionOverrides": "Permission Overrides",
+      "deactivateUser": "Deactivate User",
+      "none": "None",
+      "username": "Username",
+      "name": "Name",
+      "phoneNumber": "Phone Number"
+    },
+    "deactivateDialog": {
+      "title": "Deactivate User",
+      "confirmPrompt": "Are you sure you want to deactivate <1>{{email}}</1>?<br/>This will immediately revoke their access to the system. You can reactivate them later if needed.",
+      "emailLabel": "Email Address:",
+      "emailPlaceholder": "Enter email address to confirm.",
+      "warningTitle": "Warning!",
+      "warningDesc": "This user will be logged out of all active sessions and will not be able to log back in.",
+      "confirmBtn": "Deactivate"
+    },
+    "inviteDialog": {
+      "title": "Invite a team member",
+      "desc": "Send an email invitation and assign the initial role before the user joins the tenant.",
+      "emailAddress": "Email address",
+      "emailPlaceholder": "manager@restaurant.com",
+      "initialRole": "Initial role",
+      "selectRole": "Select a role",
+      "cancel": "Cancel",
+      "sendInvitation": "Send invitation"
+    },
+    "resetPasswordDialog": {
+      "title": "Reset Password",
+      "desc": "Enter a new password for this user. They can change it later in their profile settings.",
+      "newPassword": "New Password",
+      "cancel": "Cancel",
+      "resetPasswordBtn": "Reset Password"
+    },
+    "permissionEditor": {
+      "subtitle": "Adjust granular access for this role. Changes propagate to active sessions through Supabase realtime updates.",
+      "permission": "{{count}} permission",
+      "permissions": "{{count}} permissions",
+      "savePermissions": "Save permissions"
+    },
+    "rolesManagement": {
+      "title": "Role catalog",
+      "subtitle": "Create tenant-specific roles or edit the default operational roles.",
+      "roleWizard": "Role wizard",
+      "newRole": "New role",
+      "table": {
+        "role": "Role",
+        "description": "Description",
+        "permissions": "Permissions",
+        "status": "Status",
+        "actions": "Actions",
+        "defaultSystemRole": "Default system role",
+        "noDescription": "No description",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit"
+      },
+      "dialog": {
+        "editRole": "Edit role",
+        "createRole": "Create role",
+        "desc": "Role permissions are edited separately so the catalog stays easy to scan.",
+        "roleName": "Role name",
+        "roleNamePlaceholder": "branch_supervisor",
+        "description": "Description",
+        "descriptionPlaceholder": "Operational lead for a single branch.",
+        "activeStatus": "Active status",
+        "activeStatusDesc": "Inactive roles remain visible but should not be assigned.",
+        "cancel": "Cancel",
+        "saveRole": "Save role"
+      }
+    },
+    "roleWizard": {
+      "step": "(step {{current}} of {{total}})",
+      "stepTitles": {
+        "details": "Name the role",
+        "permissions": "Choose what it can do",
+        "review": "Review and create"
+      },
+      "stepDescs": {
+        "details": "Roles group permissions. Members can hold several roles at once.",
+        "permissions": "Pick the screens and actions this role unlocks.",
+        "review": "Confirm the role before creating it."
+      },
+      "roleName": "Role name",
+      "roleNamePlaceholder": "e.g. shift_supervisor",
+      "description": "Description",
+      "optional": "(optional)",
+      "descriptionPlaceholder": "What is this role for?",
+      "selectAll": "Select all",
+      "clear": "Clear",
+      "loadingScreens": "Loading the screen catalog…",
+      "noPermissionsAvailable": "No permissions available.",
+      "permissionsGranted": "{{count}} permission granted",
+      "permissionsGrantedPlural": "{{count}} permissions granted",
+      "noPermissionsSelected": "No permissions selected — the role will start with no access and can be edited later.",
+      "cancel": "Cancel",
+      "back": "Back",
+      "next": "Next",
+      "createRole": "Create role",
+      "creating": "Creating…"
+    },
+    "tempPasswordDialog": {
+      "title": "User created",
+      "desc": "Share these credentials with the user now. The temporary password is shown once and cannot be retrieved again.",
+      "email": "Email",
+      "tempPassword": "Temporary password",
+      "mustSetPassword": "The user must set a new password the first time they sign in.",
+      "share": "Share",
+      "done": "Done",
+      "copiedToast": "Temporary password copied.",
+      "copyErrorToast": "Unable to copy. Select and copy the password manually.",
+      "credentialsCopiedToast": "Credentials copied to clipboard.",
+      "shareErrorToast": "Unable to share. Copy the password manually."
+    },
+    "overridesDialog": {
+      "title": "Permission overrides — {{email}}",
+      "desc": "Overrides apply on top of the user's roles. A denial always wins, including over a super-admin wildcard.",
+      "searchPlaceholder": "Search permissions…",
+      "override": "{{count}} override",
+      "overrides": "{{count}} overrides",
+      "loading": "Loading overrides…",
+      "allowed": "Allowed",
+      "blocked": "Blocked",
+      "noMatch": "No permissions match “{{search}}”.",
+      "cancel": "Cancel",
+      "saving": "Saving…",
+      "saveOverrides": "Save overrides",
+      "state": {
+        "inherit": "Inherit",
+        "grant": "Grant",
+        "deny": "Deny"
+      }
+    },
+    "userActionDialog": {
+      "editTitle": "Edit User",
+      "addTitle": "Add New User",
+      "editDesc": "Update the user here. Click save when you're done.",
+      "addDesc": "Create new user here. Click save when you're done.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone Number",
+      "role": "Role",
+      "branch": "Branch",
+      "selectRole": "Select a role",
+      "selectBranch": "Select a branch",
+      "autoPasswordNotice": "A temporary password is generated automatically and shown once after the user is created.",
+      "saveChanges": "Save changes"
+    },
+    "deleteDialog": {
+      "title": "Delete User",
+      "confirmPrompt": "Are you sure you want to delete <1>{{username}}</1>?<br/>This action will permanently remove the user with the role of <3>{{role}}</3> from the system. This cannot be undone.",
+      "usernameLabel": "Username:",
+      "placeholder": "Enter username to confirm deletion.",
+      "warningTitle": "Warning!",
+      "warningDesc": "Please be careful, this operation can not be rolled back.",
+      "confirmBtn": "Delete"
+    },
+    "multiDeleteDialog": {
+      "title": "Delete {{count}} user",
+      "titlePlural": "Delete {{count}} users",
+      "confirmPrompt": "Are you sure you want to delete the selected users?<br/>This action cannot be undone.",
+      "confirmWordLabel": "Confirm by typing \"{{word}}\":",
+      "placeholder": "Type \"{{word}}\" to confirm.",
+      "warningTitle": "Warning!",
+      "warningDesc": "Please be careful, this operation can not be rolled back.",
+      "confirmBtn": "Delete"
+    },
+    "bulkActions": {
+      "invite": "Invite selected users",
+      "activate": "Activate selected users",
+      "deactivate": "Deactivate selected users",
+      "delete": "Delete selected users"
+    },
+    "primaryButtons": {
+      "inviteUser": "Invite User",
+      "addUser": "Add User"
+    }
+  },
+  "accessControl": {
+    "headerTag": "Access control",
+    "audit": {
+      "title": "Audit trail",
+      "desc": "Every role, permission, and override change in your tenant, newest first. Entries are append-only and cannot be edited or removed.",
+      "filterPlaceholder": "Filter by target",
+      "allTargets": "All targets",
+      "targetTypes": {
+        "role": "Roles",
+        "role_permissions": "Role permissions",
+        "user_roles": "User roles",
+        "user_permissions": "User overrides",
+        "permission": "Permissions"
+      },
+      "accessRestrictedTitle": "Access restricted",
+      "accessRestrictedDesc": "Your account does not have permission to view the RBAC audit trail.",
+      "table": {
+        "when": "When",
+        "action": "Action",
+        "target": "Target",
+        "actor": "Actor",
+        "details": "Details",
+        "noEntries": "No audit entries recorded yet.",
+        "view": "View"
+      },
+      "showing": "Showing {{start}}–{{end}} of {{total}}",
+      "noEntriesLabel": "No entries",
+      "previous": "Previous",
+      "next": "Next",
+      "loadFailedTitle": "Failed to load the audit trail",
+      "pleaseTryAgain": "Please try again."
+    },
+    "buttons": {
+      "title": "Permission buttons",
+      "createButton": "Create button",
+      "desc": "Buttons are reusable actions that screens activate. Activating a button on a screen generates a <1><screen>.<button></1> permission that roles can be granted.",
+      "accessRestrictedTitle": "Access restricted",
+      "accessRestrictedDesc": "Your account does not have permission to view permission buttons.",
+      "noButtons": "No permission buttons defined yet.",
+      "table": {
+        "code": "Code",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "actions": "Actions",
+        "system": "System",
+        "custom": "Custom"
+      },
+      "dialog": {
+        "editTitle": "Edit button",
+        "createTitle": "Create button",
+        "editDesc": "Update the permission button. Code is locked for system buttons.",
+        "createDesc": "Define a reusable action button that screens can activate.",
+        "code": "Code",
+        "codeDesc": "Combined with a screen code it becomes the permission name, e.g. <1>orders.approve</1>.",
+        "name": "Name",
+        "namePlaceholder": "Approve",
+        "description": "Description",
+        "descriptionPlaceholder": "Optional description",
+        "cancel": "Cancel",
+        "saveChanges": "Save changes",
+        "createBtn": "Create button"
+      },
+      "deleteDialog": {
+        "title": "Delete button",
+        "desc": "This removes \"{{name}}\" ({{code}}). Screens using it will lose the action. This cannot be undone.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    },
+    "screens": {
+      "title": "Screens registry",
+      "createScreen": "Create screen",
+      "desc": "Screens drive the database-backed navigation and route guards. Grant a screen to roles or permissions, and activate the action buttons available on it.",
+      "accessRestrictedTitle": "Access restricted",
+      "accessRestrictedDesc": "Your account does not have permission to view the screens registry.",
+      "moduleSection": {
+        "screen": "{{count}} screen",
+        "screens": "{{count}} screens",
+        "noScreens": "No screens registered in this module yet."
+      },
+      "table": {
+        "name": "Name",
+        "code": "Code",
+        "route": "Route",
+        "icon": "Icon",
+        "sort": "Sort",
+        "status": "Status",
+        "buttons": "Buttons",
+        "actions": "Actions",
+        "system": "System",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "dialog": {
+        "editTitle": "Edit screen",
+        "createTitle": "Create screen",
+        "editDesc": "Update the screen registry entry. Code and route are locked for system screens.",
+        "createDesc": "Register a new screen so it can be granted to roles and shown in navigation.",
+        "name": "Name",
+        "code": "Code",
+        "route": "Route",
+        "module": "Module",
+        "selectModule": "Select a module",
+        "sortOrder": "Sort order",
+        "icon": "Icon",
+        "iconPlaceholder": "package (lucide icon name, optional)",
+        "description": "Description",
+        "active": "Active",
+        "cancel": "Cancel",
+        "saveChanges": "Save changes",
+        "createBtn": "Create screen"
+      },
+      "accessDialog": {
+        "title": "Manage access — {{name}}",
+        "desc": "Grant this screen to roles and/or permissions, and choose which action buttons are available on it.",
+        "roles": "Roles",
+        "permissions": "Permissions",
+        "selectedCount": "{{count}} selected",
+        "noRoles": "No roles available.",
+        "noPermissions": "No permissions available.",
+        "saveAccess": "Save access",
+        "screenButtons": "Screen buttons",
+        "activeCount": "{{count}} active",
+        "buttonsDesc": "Each active button generates a <1>{{code}}.<button></1> permission. Deselected buttons are deactivated, not deleted.",
+        "noButtonsDefined": "No permission buttons defined yet.",
+        "saveButtons": "Save buttons",
+        "close": "Close"
+      },
+      "deleteDialog": {
+        "title": "Delete screen",
+        "desc": "This removes \"{{name}}\" ({{code}}) from the registry along with its role and permission grants. This cannot be undone.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    }
+  },
+  "system": {
+    "management": {
+      "title": "System Management",
+      "totalStores": "Total Stores",
+      "acrossPlatform": "Across the platform",
+      "totalUsers": "Total Users",
+      "registeredProfiles": "Registered profiles",
+      "globalConfig": "Global Configuration",
+      "globalConfigDesc": "Manage platform-wide settings and administrative actions.",
+      "welcome": "Welcome, {{name}}.",
+      "systemAdministrator": "System Administrator",
+      "onlyVisibleToOwners": "This dashboard is only visible to system owners."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "System-wide overview and metrics.",
+      "totalRestaurants": "Total Restaurants",
+      "fromLastMonth": "+{{count}} from last month",
+      "activeUsers": "Active Users"
+    },
+    "restaurants": {
+      "title": "Restaurants",
+      "subtitle": "Manage all restaurants in the system.",
+      "listTitle": "Restaurants List",
+      "listDesc": "System-wide overview of registered restaurants.",
+      "placeholderData": "Restaurant data will be queried and displayed here."
+    },
+    "auditLogs": {
+      "title": "Audit Logs",
+      "subtitle": "Track system activities, changes, and user actions.",
+      "accessControlChanges": "Access control changes",
+      "accessControlChangesSubtitle": "Role, permission, screen, and per-user override changes.",
+      "table": {
+        "time": "Time",
+        "user": "User",
+        "activity": "Activity",
+        "action": "Action",
+        "entity": "Entity",
+        "filterEntityPlaceholder": "Filter by entity type...",
+        "activityType": "Activity Type",
+        "allTypes": "All Types",
+        "loading": "Loading...",
+        "noResults": "No results.",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "detailsDialog": {
+        "title": "Audit Log Details",
+        "activityType": "Activity Type",
+        "action": "Action",
+        "entityType": "Entity Type",
+        "entityId": "Entity ID",
+        "user": "User",
+        "timestamp": "Timestamp",
+        "oldValues": "Old Values",
+        "newValues": "New Values",
+        "metadata": "Metadata",
+        "ipAddress": "IP Address: {{ip}}",
+        "userAgent": "User Agent: {{ua}}"
+      }
+    },
+    "profiles": {
+      "title": "System Profiles",
+      "subtitle": "Manage user profiles and assign system owner status.",
+      "errorTitle": "Error",
+      "errorDesc": "Failed to load profiles. Please try again later.",
+      "table": {
+        "user": "User",
+        "role": "Role",
+        "systemOwner": "System Owner",
+        "joined": "Joined",
+        "noName": "No Name",
+        "userDefault": "User",
+        "actions": "Actions",
+        "editProfile": "Edit Profile",
+        "noResults": "No results.",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "dialog": {
+        "title": "Edit Profile",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "John Doe",
+        "avatarUrl": "Avatar URL",
+        "saving": "Saving...",
+        "saveChanges": "Save Changes"
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   type ColumnDef,
   flexRender,
@@ -27,6 +28,7 @@ export function ProfilesTable<TData, TValue>({
   columns,
   data,
 }: ProfilesTableProps<TData, TValue>) {
+  const { t } = useTranslation()
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -86,7 +88,7 @@ export function ProfilesTable<TData, TValue>({
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('system.profiles.table.noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -100,7 +102,7 @@ export function ProfilesTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          {t('system.profiles.table.previous')}
         </Button>
         <Button
           variant='outline'
@@ -108,7 +110,7 @@ export function ProfilesTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          {t('system.profiles.table.next')}
         </Button>
       </div>
     </div>

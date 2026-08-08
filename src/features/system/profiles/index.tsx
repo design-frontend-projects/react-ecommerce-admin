@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { AlertCircle } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -8,6 +9,7 @@ import { ProfilesTable } from './components/profiles-table'
 import { useProfiles, type Profile } from './queries'
 
 export default function SystemProfilesPage() {
+  const { t } = useTranslation()
   const { data: profiles, isLoading, error } = useProfiles()
   const [editingProfile, setEditingProfile] = React.useState<Profile | null>(
     null
@@ -19,7 +21,7 @@ export default function SystemProfilesPage() {
     setIsEditDialogOpen(true)
   }
 
-  const columns = React.useMemo(() => getColumns(handleEdit), [])
+  const columns = React.useMemo(() => getColumns(handleEdit, t), [t])
 
   if (isLoading) {
     return (
@@ -38,9 +40,9 @@ export default function SystemProfilesPage() {
     return (
       <Alert variant='destructive'>
         <AlertCircle className='h-4 w-4' />
-        <AlertTitle>Error</AlertTitle>
+        <AlertTitle>{t('system.profiles.errorTitle')}</AlertTitle>
         <AlertDescription>
-          Failed to load profiles. Please try again later.
+          {t('system.profiles.errorDesc')}
         </AlertDescription>
       </Alert>
     )
@@ -50,9 +52,9 @@ export default function SystemProfilesPage() {
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
         <div>
-          <h2 className='text-3xl font-bold tracking-tight'>System Profiles</h2>
+          <h2 className='text-3xl font-bold tracking-tight'>{t('system.profiles.title')}</h2>
           <p className='text-muted-foreground'>
-            Manage user profiles and assign system owner status.
+            {t('system.profiles.subtitle')}
           </p>
         </div>
       </div>

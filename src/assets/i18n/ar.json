@@ -1334,5 +1334,444 @@
   "page": "Page",
   "pageSize": "Page Size",
   "restaurantId": "Restaurant Id",
-  "pending": "Pending"
+  "pending": "Pending",
+  "users": {
+    "title": "المستخدمون والوصول",
+    "tenantSecurity": "أمان المؤسسة",
+    "createUser": "إنشاء مستخدم",
+    "inviteUser": "دعوة مستخدم",
+    "bannerTitle": "يبقى الوصول صريحًا ومدركًا وممكن الإلغاء.",
+    "bannerDesc": "ادعُ أعضاء الفريق، وخصص الأدوار التشغيلية، وحدّث خرائط الصلاحيات دون مغادرة لوحة التحكم. التحديثات المباشرة تبقي الجلسات النشطة متوافقة مع أحدث نموذج للأدوار.",
+    "stats": {
+      "users": "{{count}} مستخدم",
+      "active": "{{count}} نشط",
+      "invited": "{{count}} مدعو",
+      "roles": "{{count}} دور"
+    },
+    "tabs": {
+      "users": "المستخدمون",
+      "roles": "الأدوار",
+      "permissions": "الصلاحيات"
+    },
+    "accessRestrictedTitle": "الوصول مقيد",
+    "accessRestrictedDesc": "حسابك يمكنه استخدام المنتج، ولكن ليس لديه صلاحية لعرض مستخدمي المؤسسة أو إعدادات RBAC.",
+    "permissionEditingRestrictedTitle": "تعديل الصلاحيات مقيد",
+    "permissionEditingRestrictedDesc": "فقط المسؤولون الذين يمتلكون حقوق إدارة الأدوار والصلاحيات معًا يمكنهم تغيير مصفوفة RBAC.",
+    "table": {
+      "teamMember": "عضو الفريق",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "status": "الحالة",
+      "role": "الدور",
+      "updated": "تاريخ التحديث",
+      "action": "الإجراء",
+      "noUsers": "لم يتم العثور على مستخدمين لهذه المؤسسة بعد.",
+      "noRole": "لا يوجد دور مخصص",
+      "chooseRole": "اختر دوراً",
+      "resetPassword": "إعادة تعيين كلمة السر",
+      "permissionOverrides": "تجاوزات الصلاحيات",
+      "deactivateUser": "تعطيل المستخدم",
+      "none": "لا يوجد",
+      "username": "اسم المستخدم",
+      "name": "الاسم",
+      "phoneNumber": "رقم الهاتف"
+    },
+    "deactivateDialog": {
+      "title": "تعطيل المستخدم",
+      "confirmPrompt": "هل أنت تأكد من رغبتك في تعطيل <1>{{email}}</1>؟<br/>سيؤدي هذا إلى إلغاء وصولهم إلى النظام فورًا. يمكنك إعادة تفعيلهم لاحقًا إذا لزم الأمر.",
+      "emailLabel": "عنوان البريد الإلكتروني:",
+      "emailPlaceholder": "أدخل البريد الإلكتروني للتأكيد.",
+      "warningTitle": "تحذير!",
+      "warningDesc": "سيتم تسجيل خروج هذا المستخدم من جميع الجلسات النشطة ولن يستطيع تسجيل الدخول مرة أخرى.",
+      "confirmBtn": "تعطيل"
+    },
+    "inviteDialog": {
+      "title": "دعوة عضو في الفريق",
+      "desc": "أرسل دعوة عبر البريد الإلكتروني وخصص الدور الأولي قبل انضمام المستخدم للمؤسسة.",
+      "emailAddress": "عنوان البريد الإلكتروني",
+      "emailPlaceholder": "manager@restaurant.com",
+      "initialRole": "الدور الأولي",
+      "selectRole": "اختر دوراً",
+      "cancel": "إلغاء",
+      "sendInvitation": "إرسال الدعوة"
+    },
+    "resetPasswordDialog": {
+      "title": "إعادة تعيين كلمة السر",
+      "desc": "أدخل كلمة سر جديدة لهذا المستخدم. يمكنه تغييرها لاحقًا في إعدادات ملفه الشخصي.",
+      "newPassword": "كلمة السر الجديدة",
+      "cancel": "إلغاء",
+      "resetPasswordBtn": "إعادة تعيين كلمة السر"
+    },
+    "permissionEditor": {
+      "subtitle": "ضبط الوصول الدقيق لهذا الدور. تنتقل التغيرات إلى الجلسات النشطة عبر تحديثات Supabase المباشرة.",
+      "permission": "{{count}} صلاحية",
+      "permissions": "{{count}} صلاحيات",
+      "savePermissions": "حفظ الصلاحيات"
+    },
+    "rolesManagement": {
+      "title": "كتالوج الأدوار",
+      "subtitle": "إنشاء أدوار خاصة بالمؤسسة أو تعديل الأدوار التشغيلية الافتراضية.",
+      "roleWizard": "معالج الأدوار",
+      "newRole": "دور جديد",
+      "table": {
+        "role": "الدور",
+        "description": "الوصف",
+        "permissions": "الصلاحيات",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "defaultSystemRole": "دور نظام افتراضي",
+        "noDescription": "لا يوجد وصف",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "edit": "تعديل"
+      },
+      "dialog": {
+        "editRole": "تعديل الدور",
+        "createRole": "إنشاء دور",
+        "desc": "تتم إدارة صلاحيات الأدوار بشكل منفصل ليبقى الكتالوج سهل الفحص.",
+        "roleName": "اسم الدور",
+        "roleNamePlaceholder": "branch_supervisor",
+        "description": "الوصف",
+        "descriptionPlaceholder": "مسؤول تشغيلي لفرع واحد.",
+        "activeStatus": "الحالة النشطة",
+        "activeStatusDesc": "تبقى الأدوار غير النشطة مرئية ولكن لا ينبغي تخصيصها.",
+        "cancel": "إلغاء",
+        "saveRole": "حفظ الدور"
+      }
+    },
+    "roleWizard": {
+      "step": "(الخطوة {{current}} من {{total}})",
+      "stepTitles": {
+        "details": "تسمية الدور",
+        "permissions": "تحديد ما يمكنه فعله",
+        "review": "المراجعة والإنشاء"
+      },
+      "stepDescs": {
+        "details": "تجمع الأدوار الصلاحيات. يمكن للأعضاء تولي عدة أدوار في نفس الوقت.",
+        "permissions": "اختر الشاشات والإجراءات التي يفتحها هذا الدور.",
+        "review": "تأكيد الدور قبل إنشائه."
+      },
+      "roleName": "اسم الدور",
+      "roleNamePlaceholder": "مثال: shift_supervisor",
+      "description": "الوصف",
+      "optional": "(اختياري)",
+      "descriptionPlaceholder": "ما هو الغرض من هذا الدور؟",
+      "selectAll": "تحديد الكل",
+      "clear": "مسح",
+      "loadingScreens": "جاري تحميل كتالوج الشاشات…",
+      "noPermissionsAvailable": "لا تتوفر صلاحيات.",
+      "permissionsGranted": "تم منح {{count}} صلاحية",
+      "permissionsGrantedPlural": "تم منح {{count}} صلاحيات",
+      "noPermissionsSelected": "لم يتم تحديد أي صلاحيات — سيبدأ الدور بدون صلاحيات وصول ويمكن تعديله لاحقًا.",
+      "cancel": "إلغاء",
+      "back": "رجوع",
+      "next": "التالي",
+      "createRole": "إنشاء دور",
+      "creating": "جاري الإنشاء…"
+    },
+    "tempPasswordDialog": {
+      "title": "تم إنشاء المستخدم",
+      "desc": "شارك هذه البيانات مع المستخدم الآن. تظهر كلمة السر المؤقتة مرة واحدة فقط ولا يمكن استردادها لاحقًا.",
+      "email": "البريد الإلكتروني",
+      "tempPassword": "كلمة السر المؤقتة",
+      "mustSetPassword": "يجب على المستخدم تعيين كلمة سر جديدة عند تسجيل الدخول لأول مرة.",
+      "share": "مشاركة",
+      "done": "تم",
+      "copiedToast": "تم نسخ كلمة السر المؤقتة.",
+      "copyErrorToast": "تعذر النسخ. حدد كلمة السر وانسخها يدويًا.",
+      "credentialsCopiedToast": "تم نسخ البيانات إلى الحافظة.",
+      "shareErrorToast": "تعذر المشاركة. انسخ كلمة السر يدويًا."
+    },
+    "overridesDialog": {
+      "title": "تجاوزات الصلاحيات — {{email}}",
+      "desc": "تطبق التجاوزات فوق أدوار المستخدم. يكون للرفض الأولوية دائمًا، بما في ذلك على صلاحيات المسؤول الفائق الشاملة.",
+      "searchPlaceholder": "البحث في الصلاحيات…",
+      "override": "{{count}} تجاوز",
+      "overrides": "{{count}} تجاوزات",
+      "loading": "جاري تحميل التجاوزات…",
+      "allowed": "مسموح",
+      "blocked": "محظور",
+      "noMatch": "لا توجد صلاحيات تطابق “{{search}}”.",
+      "cancel": "إلغاء",
+      "saving": "جاري الحفظ…",
+      "saveOverrides": "حفظ التجاوزات",
+      "state": {
+        "inherit": "وراثة",
+        "grant": "منح",
+        "deny": "منع"
+      }
+    },
+    "userActionDialog": {
+      "editTitle": "تعديل المستخدم",
+      "addTitle": "إضافة مستخدم جديد",
+      "editDesc": "حَدِّث بيانات المستخدم هنا. انقر على حفظ عند الانتهاء.",
+      "addDesc": "أنشئ مستخدماً جديداً هنا. انقر على حفظ عند الانتهاء.",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "role": "الدور",
+      "branch": "الفرع",
+      "selectRole": "اختر دوراً",
+      "selectBranch": "اختر فرعاً",
+      "autoPasswordNotice": "يتم إنشاء كلمة سر مؤقتة تلقائيًا وعرضها مرة واحدة بعد إنشاء المستخدم.",
+      "saveChanges": "حفظ التغييرات"
+    },
+    "deleteDialog": {
+      "title": "حذف المستخدم",
+      "confirmPrompt": "هل أنت تأكد من رغبتك في حذف <1>{{username}}</1>؟<br/>سيؤدي هذا الإجراء إلى إزالة المستخدم صاحب دور <3>{{role}}</3> نهائيًا من النظام. لا يمكن التراجع عن هذا الإجراء.",
+      "usernameLabel": "اسم المستخدم:",
+      "placeholder": "أدخل اسم المستخدم لتأكيد الحذف.",
+      "warningTitle": "تحذير!",
+      "warningDesc": "يرجى الحذر، لا يمكن التراجع عن هذه العملية.",
+      "confirmBtn": "حذف"
+    },
+    "multiDeleteDialog": {
+      "title": "حذف {{count}} مستخدم",
+      "titlePlural": "حذف {{count}} مستخدمين",
+      "confirmPrompt": "هل أنت تأكد من رغبتك في حذف المستخدمين المحددين؟<br/>لا يمكن التراجع عن هذا الإجراء.",
+      "confirmWordLabel": "أكد بكتابة \"{{word}}\":",
+      "placeholder": "اكتب \"{{word}}\" للتأكيد.",
+      "warningTitle": "تحذير!",
+      "warningDesc": "يرجى الحذر، لا يمكن التراجع عن هذه العملية.",
+      "confirmBtn": "حذف"
+    },
+    "bulkActions": {
+      "invite": "دعوة المستخدمين المحددين",
+      "activate": "تفعيل المستخدمين المحددين",
+      "deactivate": "تعطيل المستخدمين المحددين",
+      "delete": "حذف المستخدمين المحددين"
+    },
+    "primaryButtons": {
+      "inviteUser": "دعوة مستخدم",
+      "addUser": "إضافة مستخدم"
+    }
+  },
+  "accessControl": {
+    "headerTag": "التحكم بالوصول",
+    "audit": {
+      "title": "سجل التتبع والتدقيق",
+      "desc": "كل تغيير في الدور والصلاحيات والتجاوزات في مؤسستك، الأحدث أولاً. الإدخالات للإضافة فقط ولا يمكن تعديلها أو إزالتها.",
+      "filterPlaceholder": "التصفية حسب الهدف",
+      "allTargets": "جميع الأهداف",
+      "targetTypes": {
+        "role": "الأدوار",
+        "role_permissions": "صلاحيات الأدوار",
+        "user_roles": "أدوار المستخدمين",
+        "user_permissions": "تجاوزات المستخدمين",
+        "permission": "الصلاحيات"
+      },
+      "accessRestrictedTitle": "الوصول مقيد",
+      "accessRestrictedDesc": "حسابك لا يملك صلاحية لعرض سجل تدقيق RBAC.",
+      "table": {
+        "when": "الوقت",
+        "action": "الإجراء",
+        "target": "الهدف",
+        "actor": "المنفذ",
+        "details": "التفاصيل",
+        "noEntries": "لم يتم تسجيل أي إدخالات تدقيق بعد.",
+        "view": "عرض"
+      },
+      "showing": "عرض {{start}}–{{end}} من {{total}}",
+      "noEntriesLabel": "لا توجد إدخالات",
+      "previous": "السابق",
+      "next": "التالي",
+      "loadFailedTitle": "فشل في تحميل سجل التدقيق",
+      "pleaseTryAgain": "يرجى المحاولة مرة أخرى."
+    },
+    "buttons": {
+      "title": "أزرار الصلاحيات",
+      "createButton": "إنشاء زر",
+      "desc": "الأزرار هي إجراءات قابلة للإعادة تُفَعّلها الشاشات. تفعيل زر على شاشة يولد صلاحية <1><screen>.<button></1> يمكن منحها للأدوار.",
+      "accessRestrictedTitle": "الوصول مقيد",
+      "accessRestrictedDesc": "حسابك لا يملك صلاحية لعرض أزرار الصلاحيات.",
+      "noButtons": "لم يتم تعريف أزرار صلاحيات بعد.",
+      "table": {
+        "code": "الرمز",
+        "name": "الاسم",
+        "description": "الوصف",
+        "type": "النوع",
+        "actions": "الإجراءات",
+        "system": "نظام",
+        "custom": "مخصص"
+      },
+      "dialog": {
+        "editTitle": "تعديل الزر",
+        "createTitle": "إنشاء زر",
+        "editDesc": "تحديث زر الصلاحية. الرمز مقفل لأزرار النظام.",
+        "createDesc": "تعريف زر إجراء قابل لإعادة الاستخدام يمكن للشاشات تفعيله.",
+        "code": "الرمز",
+        "codeDesc": "عند دمجه مع رمز الشاشة يصبح اسم الصلاحية، مثل <1>orders.approve</1>.",
+        "name": "الاسم",
+        "namePlaceholder": "الموافقة",
+        "description": "الوصف",
+        "descriptionPlaceholder": "وصف اختياري",
+        "cancel": "إلغاء",
+        "saveChanges": "حفظ التغييرات",
+        "createBtn": "إنشاء زر"
+      },
+      "deleteDialog": {
+        "title": "حذف الزر",
+        "desc": "سيؤدي هذا إلى إزالة \"{{name}}\" ({{code}}). الشاشات التي تستخدمه ستفقد هذا الإجراء. لا يمكن التراجع عن هذا.",
+        "cancel": "إلغاء",
+        "delete": "حذف"
+      }
+    },
+    "screens": {
+      "title": "سجل الشاشات",
+      "createScreen": "إنشاء شاشة",
+      "desc": "تقود الشاشات التنقل والحماية في المسارات المدعومة بقواعد البيانات. امنح الشاشة للأدوار أو الصلاحيات، وفَعِّل أزرار الإجراءات المتاحة عليها.",
+      "accessRestrictedTitle": "الوصول مقيد",
+      "accessRestrictedDesc": "حسابك لا يملك صلاحية لعرض سجل الشاشات.",
+      "moduleSection": {
+        "screen": "{{count}} شاشة",
+        "screens": "{{count}} شاشات",
+        "noScreens": "لم يتم تسجيل أي شاشات في هذه الوحدة بعد."
+      },
+      "table": {
+        "name": "الاسم",
+        "code": "الرمز",
+        "route": "المسار",
+        "icon": "الأيقونة",
+        "sort": "الترتيب",
+        "status": "الحالة",
+        "buttons": "الأزرار",
+        "actions": "الإجراءات",
+        "system": "نظام",
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "dialog": {
+        "editTitle": "تعديل الشاشة",
+        "createTitle": "إنشاء شاشة",
+        "editDesc": "تحديث إدخال سجل الشاشات. الرمز والمسار مقفلان لشاشات النظام.",
+        "createDesc": "تسجيل شاشة جديدة بحيث يمكن منحها للأدوار وعرضها في التنقل.",
+        "name": "الاسم",
+        "code": "الرمز",
+        "route": "المسار",
+        "module": "الوحدة",
+        "selectModule": "اختر وحدة",
+        "sortOrder": "ترتيب الترتيب",
+        "icon": "الأيقونة",
+        "iconPlaceholder": "package (اسم أيقونة lucide، اختياري)",
+        "description": "الوصف",
+        "active": "نشط",
+        "cancel": "إلغاء",
+        "saveChanges": "حفظ التغييرات",
+        "createBtn": "إنشاء شاشة"
+      },
+      "accessDialog": {
+        "title": "إدارة الوصول — {{name}}",
+        "desc": "امنح هذه الشاشة للأدوار و/أو الصلاحيات، واختر أزرار الإجراءات المتاحة عليها.",
+        "roles": "الأدوار",
+        "permissions": "الصلاحيات",
+        "selectedCount": "تم تحديد {{count}}",
+        "noRoles": "لا تتوفر أدوار.",
+        "noPermissions": "لا تتوفر صلاحيات.",
+        "saveAccess": "حفظ الوصول",
+        "screenButtons": "أزرار الشاشة",
+        "activeCount": "{{count}} نشط",
+        "buttonsDesc": "كل زر نشط يولد صلاحية <1>{{code}}.<button></1>. الأزرار غير المحددة يتم تعطيلها ولا تحذف.",
+        "noButtonsDefined": "لم يتم تعريف أزرار صلاحيات بعد.",
+        "saveButtons": "حفظ الأزرار",
+        "close": "إغلاق"
+      },
+      "deleteDialog": {
+        "title": "حذف الشاشة",
+        "desc": "سيؤدي هذا إلى إزالة \"{{name}}\" ({{code}}) من السجل بالإضافة إلى منح الأدوار والصلاحيات الخاصة بها. لا يمكن التراجع عن هذا.",
+        "cancel": "إلغاء",
+        "delete": "حذف"
+      }
+    }
+  },
+  "system": {
+    "management": {
+      "title": "إدارة النظام",
+      "totalStores": "إجمالي المتاجر",
+      "acrossPlatform": "عبر جميع أنحاء المنصة",
+      "totalUsers": "إجمالي المستخدمين",
+      "registeredProfiles": "الملفات الشخصية المسجلة",
+      "globalConfig": "الإعدادات العامة",
+      "globalConfigDesc": "إدارة الإعدادات على مستوى المنصة والإجراءات الإدارية.",
+      "welcome": "مرحباً، {{name}}.",
+      "systemAdministrator": "مسؤول النظام",
+      "onlyVisibleToOwners": "لوحة التحكم هذه مرئية فقط لمالكي النظام."
+    },
+    "dashboard": {
+      "title": "لوحة التحكم",
+      "subtitle": "نظرة عامة ومقاييس على مستوى النظام.",
+      "totalRestaurants": "إجمالي المطاعم",
+      "fromLastMonth": "+{{count}} من الشهر الماضي",
+      "activeUsers": "المستخدمون النشطون"
+    },
+    "restaurants": {
+      "title": "المطاعم",
+      "subtitle": "إدارة جميع المطاعم في النظام.",
+      "listTitle": "قائمة المطاعم",
+      "listDesc": "نظرة عامة على مستوى النظام للمطاعم المسجلة.",
+      "placeholderData": "سيتم الاستعلام عن بيانات المطاعم وعرضها هنا."
+    },
+    "auditLogs": {
+      "title": "سجلات التدقيق",
+      "subtitle": "تتبع أنشطة النظام والتغييرات وإجراءات المستخدمين.",
+      "accessControlChanges": "تغييرات التحكم بالوصول",
+      "accessControlChangesSubtitle": "تغييرات الدور والصلاحيات والشاشات وتجاوزات المستخدمين.",
+      "table": {
+        "time": "الوقت",
+        "user": "المستخدم",
+        "activity": "النشاط",
+        "action": "الإجراء",
+        "entity": "الكيان",
+        "filterEntityPlaceholder": "التصفية حسب نوع الكيان...",
+        "activityType": "نوع النشاط",
+        "allTypes": "جميع الأنواع",
+        "loading": "جاري التحميل...",
+        "noResults": "لا توجد نتائج.",
+        "previous": "السابق",
+        "next": "التالي"
+      },
+      "detailsDialog": {
+        "title": "تفاصيل سجل التدقيق",
+        "activityType": "نوع النشاط",
+        "action": "الإجراء",
+        "entityType": "نوع الكيان",
+        "entityId": "معرف الكيان",
+        "user": "المستخدم",
+        "timestamp": "الطابع الزمني",
+        "oldValues": "القيم القديمة",
+        "newValues": "القيم الجديدة",
+        "metadata": "البيانات الوصفية",
+        "ipAddress": "عنوان IP: {{ip}}",
+        "userAgent": "متصفح المستخدم: {{ua}}"
+      }
+    },
+    "profiles": {
+      "title": "الملفات الشخصية للنظام",
+      "subtitle": "إدارة ملفات المستخدمين وتخصيص حالة مالك النظام.",
+      "errorTitle": "خطأ",
+      "errorDesc": "فشل في تحميل الملفات الشخصية. يرجى المحاولة لاحقاً.",
+      "table": {
+        "user": "المستخدم",
+        "role": "الدور",
+        "systemOwner": "مالك النظام",
+        "joined": "تاريخ الانضمام",
+        "noName": "بدون اسم",
+        "userDefault": "مستخدم",
+        "actions": "الإجراءات",
+        "editProfile": "تعديل الملف الشخصي",
+        "noResults": "لا توجد نتائج.",
+        "previous": "السابق",
+        "next": "التالي"
+      },
+      "dialog": {
+        "title": "تعديل الملف الشخصي",
+        "fullName": "الاسم الكامل",
+        "fullNamePlaceholder": "John Doe",
+        "avatarUrl": "رابط الصورة الشخصية",
+        "saving": "جاري الحفظ...",
+        "saveChanges": "حفظ التغييرات"
+      }
+    }
+  }
 }

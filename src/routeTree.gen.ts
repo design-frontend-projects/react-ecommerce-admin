@@ -83,6 +83,7 @@ import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedBrandsIndexRouteImport } from './routes/_authenticated/brands/index'
 import { Route as AuthenticatedBatchesIndexRouteImport } from './routes/_authenticated/batches/index'
+import { Route as AuthenticatedAccessControlIndexRouteImport } from './routes/_authenticated/access-control/index'
 import { Route as ApiUsersRolesRouteImport } from './routes/api/users/roles'
 import { Route as ApiUsersPermissionsRouteImport } from './routes/api/users/permissions'
 import { Route as ApiUsersOnboardingRouteImport } from './routes/api/users/onboarding'
@@ -585,6 +586,12 @@ const AuthenticatedBatchesIndexRoute =
   AuthenticatedBatchesIndexRouteImport.update({
     id: '/batches/',
     path: '/batches/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccessControlIndexRoute =
+  AuthenticatedAccessControlIndexRouteImport.update({
+    id: '/access-control/',
+    path: '/access-control/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const ApiUsersRolesRoute = ApiUsersRolesRouteImport.update({
@@ -1108,6 +1115,7 @@ export interface FileRoutesByFullPath {
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
+  '/access-control/': typeof AuthenticatedAccessControlIndexRoute
   '/batches/': typeof AuthenticatedBatchesIndexRoute
   '/brands/': typeof AuthenticatedBrandsIndexRoute
   '/chats/': typeof AuthenticatedChatsIndexRoute
@@ -1256,6 +1264,7 @@ export interface FileRoutesByTo {
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
+  '/access-control': typeof AuthenticatedAccessControlIndexRoute
   '/batches': typeof AuthenticatedBatchesIndexRoute
   '/brands': typeof AuthenticatedBrandsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
@@ -1409,6 +1418,7 @@ export interface FileRoutesById {
   '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
+  '/_authenticated/access-control/': typeof AuthenticatedAccessControlIndexRoute
   '/_authenticated/batches/': typeof AuthenticatedBatchesIndexRoute
   '/_authenticated/brands/': typeof AuthenticatedBrandsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
@@ -1561,6 +1571,7 @@ export interface FileRouteTypes {
     | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
+    | '/access-control/'
     | '/batches/'
     | '/brands/'
     | '/chats/'
@@ -1709,6 +1720,7 @@ export interface FileRouteTypes {
     | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
+    | '/access-control'
     | '/batches'
     | '/brands'
     | '/chats'
@@ -1861,6 +1873,7 @@ export interface FileRouteTypes {
     | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
+    | '/_authenticated/access-control/'
     | '/_authenticated/batches/'
     | '/_authenticated/brands/'
     | '/_authenticated/chats/'
@@ -2494,6 +2507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBatchesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/access-control/': {
+      id: '/_authenticated/access-control/'
+      path: '/access-control'
+      fullPath: '/access-control/'
+      preLoaderRoute: typeof AuthenticatedAccessControlIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/users/roles': {
       id: '/api/users/roles'
       path: '/roles'
@@ -3117,6 +3137,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
+  AuthenticatedAccessControlIndexRoute: typeof AuthenticatedAccessControlIndexRoute
   AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
   AuthenticatedBrandsIndexRoute: typeof AuthenticatedBrandsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -3188,6 +3209,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
+  AuthenticatedAccessControlIndexRoute: AuthenticatedAccessControlIndexRoute,
   AuthenticatedBatchesIndexRoute: AuthenticatedBatchesIndexRoute,
   AuthenticatedBrandsIndexRoute: AuthenticatedBrandsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,

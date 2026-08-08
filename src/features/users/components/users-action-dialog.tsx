@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
@@ -49,6 +50,7 @@ export function UsersActionDialog({
   open,
   onOpenChange,
 }: UserActionDialogProps) {
+  const { t } = useTranslation()
   const isEdit = !!currentRow
   const { data: rolesData = [] } = useRoles()
   const updateUserRole = useUpdateUserRole()
@@ -157,10 +159,9 @@ export function UsersActionDialog({
     >
       <DialogContent className='sm:max-w-lg'>
         <DialogHeader className='text-start'>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add New User'}</DialogTitle>
+          <DialogTitle>{isEdit ? t('users.userActionDialog.editTitle') : t('users.userActionDialog.addTitle')}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the user here. ' : 'Create new user here. '}
-            Click save when you&apos;re done.
+            {isEdit ? t('users.userActionDialog.editDesc') : t('users.userActionDialog.addDesc')}
           </DialogDescription>
         </DialogHeader>
         <div className='h-105 w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3'>
@@ -176,7 +177,7 @@ export function UsersActionDialog({
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-end'>
-                      First Name
+                      {t('users.userActionDialog.firstName')}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -196,7 +197,7 @@ export function UsersActionDialog({
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-end'>
-                      Last Name
+                      {t('users.userActionDialog.lastName')}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -216,7 +217,7 @@ export function UsersActionDialog({
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-end'>
-                      Username
+                      {t('users.userActionDialog.username')}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -234,7 +235,7 @@ export function UsersActionDialog({
                 name='email'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-end'>Email</FormLabel>
+                    <FormLabel className='col-span-2 text-end'>{t('users.userActionDialog.email')}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder='john.doe@gmail.com'
@@ -252,7 +253,7 @@ export function UsersActionDialog({
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-end'>
-                      Phone Number
+                      {t('users.userActionDialog.phone')}
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -270,11 +271,11 @@ export function UsersActionDialog({
                 name='role'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-end'>Role</FormLabel>
+                    <FormLabel className='col-span-2 text-end'>{t('users.userActionDialog.role')}</FormLabel>
                     <SelectDropdown
                       defaultValue={field.value}
                       onValueChange={field.onChange}
-                      placeholder='Select a role'
+                      placeholder={t('users.userActionDialog.selectRole')}
                       className='col-span-4'
                       items={rolesData.map(({ name }) => ({
                         label: name,
@@ -291,7 +292,7 @@ export function UsersActionDialog({
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 flex items-center justify-end gap-1'>
-                      Branch
+                      {t('users.userActionDialog.branch')}
                       {isBranchesLoading && (
                         <Loader2 className='h-3 w-3 animate-spin' />
                       )}
@@ -299,7 +300,7 @@ export function UsersActionDialog({
                     <SelectDropdown
                       defaultValue={field.value ?? ''}
                       onValueChange={field.onChange}
-                      placeholder='Select a branch'
+                      placeholder={t('users.userActionDialog.selectBranch')}
                       className='col-span-4'
                       items={(branches ?? []).map((b) => ({
                         label: b.name,
@@ -312,8 +313,7 @@ export function UsersActionDialog({
               />
               {!isEdit && (
                 <p className='px-1 text-xs text-muted-foreground'>
-                  A temporary password is generated automatically and shown once
-                  after the user is created.
+                  {t('users.userActionDialog.autoPasswordNotice')}
                 </p>
               )}
             </form>
@@ -328,7 +328,7 @@ export function UsersActionDialog({
             {createUser.isPending && (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             )}
-            Save changes
+            {t('users.userActionDialog.saveChanges')}
           </Button>
         </DialogFooter>
       </DialogContent>

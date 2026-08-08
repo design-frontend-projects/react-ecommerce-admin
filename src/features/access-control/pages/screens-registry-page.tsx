@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   MonitorCogIcon,
   PencilIcon,
@@ -37,6 +38,7 @@ interface EditTarget {
 }
 
 export function ScreensRegistryPage() {
+  const { t } = useTranslation()
   const screensQuery = useScreens()
   const catalogQuery = useAccessCatalog()
   const buttonsQuery = useButtons()
@@ -87,9 +89,9 @@ export function ScreensRegistryPage() {
     return (
       <Main className='flex flex-1 items-center justify-center'>
         <Alert className='max-w-xl'>
-          <AlertTitle>Access restricted</AlertTitle>
+          <AlertTitle>{t('accessControl.screensPage.restrictedTitle')}</AlertTitle>
           <AlertDescription>
-            Your account does not have permission to view the screens registry.
+            {t('accessControl.screensPage.restrictedDesc')}
           </AlertDescription>
         </Alert>
       </Main>
@@ -102,23 +104,21 @@ export function ScreensRegistryPage() {
         <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
           <div className='flex min-w-0 flex-col gap-1'>
             <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
-              Access control
+              {t('accessControl.screensPage.category')}
             </p>
-            <h1 className='truncate text-lg font-semibold'>Screens registry</h1>
+            <h1 className='truncate text-lg font-semibold'>{t('accessControl.screensPage.title')}</h1>
           </div>
           <Can permission='screens.manage'>
             <Button type='button' onClick={openCreate}>
               <MonitorCogIcon className='mr-2 size-4' />
-              Create screen
+              {t('accessControl.screensPage.createScreen')}
             </Button>
           </Can>
         </div>
       </Header>
       <Main className='flex flex-1 flex-col gap-6'>
         <p className='max-w-3xl text-sm text-muted-foreground'>
-          Screens drive the database-backed navigation and route guards. Grant a
-          screen to roles or permissions, and activate the action buttons
-          available on it.
+          {t('accessControl.screensPage.subtitle')}
         </p>
 
         {screensQuery.isLoading && (
@@ -131,11 +131,11 @@ export function ScreensRegistryPage() {
 
         {screensQuery.isError && (
           <Alert variant='destructive'>
-            <AlertTitle>Failed to load screens</AlertTitle>
+            <AlertTitle>{t('accessControl.screensPage.failedLoadTitle')}</AlertTitle>
             <AlertDescription>
               {screensQuery.error instanceof Error
                 ? screensQuery.error.message
-                : 'Please try again.'}
+                : t('accessControl.screensPage.pleaseTryAgain')}
             </AlertDescription>
           </Alert>
         )}
@@ -172,14 +172,14 @@ export function ScreensRegistryPage() {
       <ConfirmDialog
         open={deleteTarget !== null}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title='Delete screen'
+        title={t('accessControl.screensPage.deleteDialog.title')}
         desc={
           deleteTarget
-            ? `This removes "${deleteTarget.name}" (${deleteTarget.code}) from the registry along with its role and permission grants. This cannot be undone.`
+            ? t('accessControl.screensPage.deleteDialog.desc', { name: deleteTarget.name, code: deleteTarget.code })
             : ''
         }
-        cancelBtnText='Cancel'
-        confirmText='Delete'
+        cancelBtnText={t('accessControl.screensPage.deleteDialog.cancel')}
+        confirmText={t('accessControl.screensPage.deleteDialog.confirm')}
         destructive
         isLoading={deleteMutation.isPending}
         handleConfirm={handleDelete}
@@ -201,33 +201,35 @@ function ModuleSection({
   onAccess,
   onDelete,
 }: ModuleSectionProps) {
+  const { t } = useTranslation()
   return (
     <section className='flex flex-col gap-3 rounded-2xl border border-border/70 bg-card/60 px-5 py-4'>
       <div className='flex items-center gap-2'>
         <h2 className='text-base font-semibold'>{module.name}</h2>
         <Badge variant='outline'>{module.code}</Badge>
         <Badge variant='secondary'>
-          {module.screens.length}{' '}
-          {module.screens.length === 1 ? 'screen' : 'screens'}
+          {module.screens.length === 1
+            ? t('accessControl.screensPage.screensCount', { count: module.screens.length })
+            : t('accessControl.screensPage.screensCountPlural', { count: module.screens.length })}
         </Badge>
       </div>
       {module.screens.length === 0 ? (
         <p className='text-sm text-muted-foreground'>
-          No screens registered in this module yet.
+          {t('accessControl.screensPage.noScreens')}
         </p>
       ) : (
         <div className='overflow-x-auto'>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Code</TableHead>
-                <TableHead>Route</TableHead>
-                <TableHead>Icon</TableHead>
-                <TableHead className='text-right'>Sort</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Buttons</TableHead>
-                <TableHead className='text-right'>Actions</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.name')}</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.code')}</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.route')}</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.icon')}</TableHead>
+                <TableHead className='text-right'>{t('accessControl.screensPage.table.sort')}</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.status')}</TableHead>
+                <TableHead>{t('accessControl.screensPage.table.buttons')}</TableHead>
+                <TableHead className='text-right'>{t('accessControl.screensPage.table.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -237,7 +239,7 @@ function ModuleSection({
                     <div className='flex items-center gap-2'>
                       <span className='font-medium'>{screen.name}</span>
                       {screen.isSystem && (
-                        <Badge variant='outline'>System</Badge>
+                        <Badge variant='outline'>{t('accessControl.screensPage.table.system')}</Badge>
                       )}
                     </div>
                   </TableCell>
@@ -255,7 +257,7 @@ function ModuleSection({
                   </TableCell>
                   <TableCell>
                     <Badge variant={screen.isActive ? 'default' : 'secondary'}>
-                      {screen.isActive ? 'Active' : 'Inactive'}
+                      {screen.isActive ? t('accessControl.screensPage.table.active') : t('accessControl.screensPage.table.inactive')}
                     </Badge>
                   </TableCell>
                   <TableCell>

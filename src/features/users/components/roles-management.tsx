@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PlusIcon, Trash2Icon, WandSparklesIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -67,6 +68,7 @@ export function RolesManagement({
   permissions = [],
   onCreateRoleWithPermissions,
 }: RolesManagementProps) {
+  const { t } = useTranslation()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [wizardOpen, setWizardOpen] = useState(false)
   const [editingRole, setEditingRole] = useState<RoleWithPermissions | null>(
@@ -131,9 +133,9 @@ export function RolesManagement({
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between rounded-xl border border-border/70 bg-card/60 px-4 py-4'>
         <div className='flex flex-col gap-1'>
-          <h3 className='text-base font-semibold'>Role catalog</h3>
+          <h3 className='text-base font-semibold'>{t('users.rolesManagement.title')}</h3>
           <p className='text-sm text-muted-foreground'>
-            Create tenant-specific roles or edit the default operational roles.
+            {t('users.rolesManagement.subtitle')}
           </p>
         </div>
         <div className='flex gap-2'>
@@ -144,7 +146,7 @@ export function RolesManagement({
               onClick={() => setWizardOpen(true)}
             >
               <WandSparklesIcon data-icon='inline-start' />
-              Role wizard
+              {t('users.rolesManagement.roleWizard')}
             </Button>
           ) : null}
           <Button
@@ -155,7 +157,7 @@ export function RolesManagement({
             }}
           >
             <PlusIcon data-icon='inline-start' />
-            New role
+            {t('users.rolesManagement.newRole')}
           </Button>
         </div>
       </div>
@@ -163,11 +165,11 @@ export function RolesManagement({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Role</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Permissions</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className='text-right'>Actions</TableHead>
+              <TableHead>{t('users.rolesManagement.table.role')}</TableHead>
+              <TableHead>{t('users.rolesManagement.table.description')}</TableHead>
+              <TableHead>{t('users.rolesManagement.table.permissions')}</TableHead>
+              <TableHead>{t('users.rolesManagement.table.status')}</TableHead>
+              <TableHead className='text-right'>{t('users.rolesManagement.table.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -178,14 +180,14 @@ export function RolesManagement({
                     <span className='font-medium'>{role.name}</span>
                     {isSystemRole(role.name) ? (
                       <span className='text-xs text-muted-foreground'>
-                        Default system role
+                        {t('users.rolesManagement.table.defaultSystemRole')}
                       </span>
                     ) : null}
                   </div>
                 </TableCell>
-                <TableCell>{role.description || 'No description'}</TableCell>
+                <TableCell>{role.description || t('users.rolesManagement.table.noDescription')}</TableCell>
                 <TableCell>{role.permissions.length}</TableCell>
-                <TableCell>{role.is_active ? 'Active' : 'Inactive'}</TableCell>
+                <TableCell>{role.is_active ? t('users.rolesManagement.table.active') : t('users.rolesManagement.table.inactive')}</TableCell>
                 <TableCell className='text-right'>
                   <div className='flex items-center justify-end gap-2'>
                     <Button
@@ -197,7 +199,7 @@ export function RolesManagement({
                         setDialogOpen(true)
                       }}
                     >
-                      Edit
+                      {t('users.rolesManagement.table.edit')}
                     </Button>
                     <Button
                       type='button'
@@ -219,16 +221,15 @@ export function RolesManagement({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingRole ? 'Edit role' : 'Create role'}
+              {editingRole ? t('users.rolesManagement.dialog.editRole') : t('users.rolesManagement.dialog.createRole')}
             </DialogTitle>
             <DialogDescription>
-              Role permissions are edited separately so the catalog stays easy
-              to scan.
+              {t('users.rolesManagement.dialog.desc')}
             </DialogDescription>
           </DialogHeader>
           <div className='flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
-              <Label htmlFor='role-name'>Role name</Label>
+              <Label htmlFor='role-name'>{t('users.rolesManagement.dialog.roleName')}</Label>
               <Input
                 id='role-name'
                 value={name}
@@ -238,7 +239,7 @@ export function RolesManagement({
               />
             </div>
             <div className='flex flex-col gap-2'>
-              <Label htmlFor='role-description'>Description</Label>
+              <Label htmlFor='role-description'>{t('users.rolesManagement.dialog.description')}</Label>
               <Input
                 id='role-description'
                 value={description}
@@ -250,9 +251,9 @@ export function RolesManagement({
             {editingRole ? (
               <div className='flex items-center justify-between rounded-lg border border-border/60 px-3 py-3'>
                 <div className='flex flex-col gap-1'>
-                  <span className='text-sm font-medium'>Active status</span>
+                  <span className='text-sm font-medium'>{t('users.rolesManagement.dialog.activeStatus')}</span>
                   <span className='text-xs text-muted-foreground'>
-                    Inactive roles remain visible but should not be assigned.
+                    {t('users.rolesManagement.dialog.activeStatusDesc')}
                   </span>
                 </div>
                 <Switch checked={isActive} onCheckedChange={setIsActive} />
@@ -265,10 +266,10 @@ export function RolesManagement({
                 onClick={() => setDialogOpen(false)}
                 disabled={isMutating}
               >
-                Cancel
+                {t('users.rolesManagement.dialog.cancel')}
               </Button>
               <Button type='button' onClick={submit} disabled={isMutating}>
-                {editingRole ? 'Save role' : 'Create role'}
+                {editingRole ? t('users.rolesManagement.dialog.saveRole') : t('users.rolesManagement.dialog.createRole')}
               </Button>
             </div>
           </div>

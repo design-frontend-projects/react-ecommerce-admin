@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -30,15 +31,6 @@ import { useRbacAudit } from '../hooks/use-rbac-audit'
 const PAGE_SIZE = 25
 const ALL_TARGETS = 'all'
 
-const TARGET_TYPES = [
-  { value: ALL_TARGETS, label: 'All targets' },
-  { value: 'role', label: 'Roles' },
-  { value: 'role_permissions', label: 'Role permissions' },
-  { value: 'user_roles', label: 'User roles' },
-  { value: 'user_permissions', label: 'User overrides' },
-  { value: 'permission', label: 'Permissions' },
-]
-
 /** Colour-code destructive vs additive actions at a glance. */
 function actionVariant(action: string) {
   if (action.includes('delete') || action.includes('revoke')) {
@@ -56,8 +48,18 @@ function formatTimestamp(value: string | Date) {
 }
 
 export function AuditPage() {
+  const { t } = useTranslation()
   const [offset, setOffset] = useState(0)
   const [targetType, setTargetType] = useState<string>(ALL_TARGETS)
+
+  const TARGET_TYPES = [
+    { value: ALL_TARGETS, label: t('accessControl.auditPage.allTargets') },
+    { value: 'role', label: t('accessControl.auditPage.targetRoles') },
+    { value: 'role_permissions', label: t('accessControl.auditPage.targetRolePermissions') },
+    { value: 'user_roles', label: t('accessControl.auditPage.targetUserRoles') },
+    { value: 'user_permissions', label: t('accessControl.auditPage.targetUserOverrides') },
+    { value: 'permission', label: t('accessControl.auditPage.targetPermissions') },
+  ]
 
   const auditQuery = useRbacAudit({
     limit: PAGE_SIZE,
@@ -69,9 +71,9 @@ export function AuditPage() {
     return (
       <Main className='flex flex-1 items-center justify-center'>
         <Alert className='max-w-xl'>
-          <AlertTitle>Access restricted</AlertTitle>
+          <AlertTitle>{t('accessControl.auditPage.restrictedTitle')}</AlertTitle>
           <AlertDescription>
-            Your account does not have permission to view the RBAC audit trail.
+            {t('accessControl.auditPage.restrictedDesc')}
           </AlertDescription>
         </Alert>
       </Main>
@@ -89,9 +91,9 @@ export function AuditPage() {
         <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
           <div className='flex min-w-0 flex-col gap-1'>
             <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
-              Access control
+              {t('accessControl.auditPage.category')}
             </p>
-            <h1 className='truncate text-lg font-semibold'>Audit trail</h1>
+            <h1 className='truncate text-lg font-semibold'>{t('accessControl.auditPage.title')}</h1>
           </div>
           <Select
             value={targetType}
@@ -101,7 +103,7 @@ export function AuditPage() {
             }}
           >
             <SelectTrigger className='w-52'>
-              <SelectValue placeholder='Filter by target' />
+              <SelectValue placeholder={t('accessControl.auditPage.filterPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
               {TARGET_TYPES.map((option) => (
@@ -116,8 +118,7 @@ export function AuditPage() {
 
       <Main className='flex flex-1 flex-col gap-6'>
         <p className='max-w-3xl text-sm text-muted-foreground'>
-          Every role, permission, and override change in your tenant, newest
-          first. Entries are append-only and cannot be edited or removed.
+          {t('accessControl.auditPage.subtitle')}
         </p>
 
         {auditQuery.isLoading && (
@@ -130,11 +131,11 @@ export function AuditPage() {
 
         {auditQuery.isError && (
           <Alert variant='destructive'>
-            <AlertTitle>Failed to load the audit trail</AlertTitle>
+            <AlertTitle>{t('accessControl.auditPage.failedLoadTitle')}</AlertTitle>
             <AlertDescription>
               {auditQuery.error instanceof Error
                 ? auditQuery.error.message
-                : 'Please try again.'}
+                : t('accessControl.auditPage.pleaseTryAgain')}
             </AlertDescription>
           </Alert>
         )}
@@ -145,11 +146,11 @@ export function AuditPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className='w-48'>When</TableHead>
-                    <TableHead className='w-56'>Action</TableHead>
-                    <TableHead>Target</TableHead>
-                    <TableHead className='w-64'>Actor</TableHead>
-                    <TableHead className='w-24 text-right'>Details</TableHead>
+                    <TableHead className='w-48'>{t('accessControl.auditPage.when')}</TableHead>
+                    <TableHead className='w-56'>{t('accessControl.auditPage.action')}</TableHead>
+                    <TableHead>{t('accessControl.auditPage.target')}</TableHead>
+                    <TableHead className='w-64'>{t('accessControl.auditPage.actor')}</TableHead>
+                    <TableHead className='w-24 text-right'>{t('accessControl.auditPage.details')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -159,7 +160,7 @@ export function AuditPage() {
                         colSpan={5}
                         className='py-12 text-center text-sm text-muted-foreground'
                       >
-                        No audit entries recorded yet.
+                        {t('accessControl.auditPage.noEntries')}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -189,7 +190,7 @@ export function AuditPage() {
                             <Collapsible>
                               <CollapsibleTrigger asChild>
                                 <Button variant='ghost' size='sm'>
-                                  View
+                                  {t('accessControl.auditPage.view')}
                                 </Button>
                               </CollapsibleTrigger>
                               <CollapsibleContent>
@@ -214,8 +215,8 @@ export function AuditPage() {
             <div className='flex items-center justify-between gap-4'>
               <p className='text-sm text-muted-foreground'>
                 {total === 0
-                  ? 'No entries'
-                  : `Showing ${offset + 1}–${pageEnd} of ${total}`}
+                  ? t('accessControl.auditPage.noEntriesCount')
+                  : t('accessControl.auditPage.showingRange', { start: offset + 1, end: pageEnd, total })}
               </p>
               <div className='flex gap-2'>
                 <Button
@@ -224,7 +225,7 @@ export function AuditPage() {
                   disabled={offset === 0}
                   onClick={() => setOffset(Math.max(offset - PAGE_SIZE, 0))}
                 >
-                  Previous
+                  {t('accessControl.auditPage.previous')}
                 </Button>
                 <Button
                   variant='outline'
@@ -232,7 +233,7 @@ export function AuditPage() {
                   disabled={pageEnd >= total}
                   onClick={() => setOffset(offset + PAGE_SIZE)}
                 >
-                  Next
+                  {t('accessControl.auditPage.next')}
                 </Button>
               </div>
             </div>

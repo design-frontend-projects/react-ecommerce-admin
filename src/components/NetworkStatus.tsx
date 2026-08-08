@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useSyncExternalStore } from 'react'
 import { WifiOff, Database } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { storageManager } from '@/lib/storage-manager'
 import { usePWA } from '@/context/PWAContext'
 
+const emptySubscribe = () => () => {}
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
 export function NetworkStatus() {
   const { t } = useTranslation()
   const { isOnline } = usePWA()
   const [isNearLimit, setIsNearLimit] = useState(false)
+  const isMounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot)
 
   useEffect(() => {
     const checkStorage = async () => {
@@ -23,7 +28,7 @@ export function NetworkStatus() {
     return () => clearInterval(intervalId)
   }, [])
 
-  if (isOnline && !isNearLimit) {
+  if (!isMounted || (isOnline && !isNearLimit)) {
     return null
   }
 

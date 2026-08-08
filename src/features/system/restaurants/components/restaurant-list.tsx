@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   Card,
   CardContent,
@@ -12,6 +13,8 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 
 export function RestaurantList() {
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col'>
       {/* Header */}
@@ -28,24 +31,24 @@ export function RestaurantList() {
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Restaurants</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('system.restaurants.title')}</h2>
             <p className='text-muted-foreground'>
-              Manage all restaurants in the system.
+              {t('system.restaurants.subtitle')}
             </p>
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <Card>
             <CardHeader>
-              <CardTitle>Restaurants List</CardTitle>
+              <CardTitle>{t('system.restaurants.cardTitle')}</CardTitle>
               <CardDescription>
-                System-wide overview of registered restaurants.
+                {t('system.restaurants.cardDescription')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className='py-10 text-center'>
                 <p className='text-muted-foreground'>
-                  Restaurant data will be queried and displayed here.
+                  {t('system.restaurants.emptyNotice')}
                 </p>
               </div>
             </CardContent>

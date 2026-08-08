@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -20,12 +21,6 @@ import type { Permission } from '../data/schema'
 type WizardStep = 'details' | 'permissions' | 'review'
 
 const STEP_ORDER: WizardStep[] = ['details', 'permissions', 'review']
-
-const STEP_TITLES: Record<WizardStep, string> = {
-  details: 'Name the role',
-  permissions: 'Choose what it can do',
-  review: 'Review and create',
-}
 
 interface RoleWizardDialogProps {
   open: boolean
@@ -56,6 +51,7 @@ export function RoleWizardDialog({
   isSubmitting = false,
   onSubmit,
 }: RoleWizardDialogProps) {
+  const { t } = useTranslation()
   const screensQuery = useScreens(open)
 
   const [step, setStep] = useState<WizardStep>('details')
@@ -170,40 +166,36 @@ export function RoleWizardDialog({
       <DialogContent className='max-h-[85vh] overflow-hidden sm:max-w-2xl'>
         <DialogHeader>
           <DialogTitle>
-            {STEP_TITLES[step]}{' '}
+            {t(`users.roleWizard.stepTitles.${step}`)}{' '}
             <span className='text-sm font-normal text-muted-foreground'>
-              (step {stepIndex + 1} of {STEP_ORDER.length})
+              {t('users.roleWizard.step', { current: stepIndex + 1, total: STEP_ORDER.length })}
             </span>
           </DialogTitle>
           <DialogDescription>
-            {step === 'details'
-              ? 'Roles group permissions. Members can hold several roles at once.'
-              : step === 'permissions'
-                ? 'Pick the screens and actions this role unlocks.'
-                : 'Confirm the role before creating it.'}
+            {t(`users.roleWizard.stepDescs.${step}`)}
           </DialogDescription>
         </DialogHeader>
 
         {step === 'details' && (
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-2'>
-              <Label htmlFor='role-wizard-name'>Role name</Label>
+              <Label htmlFor='role-wizard-name'>{t('users.roleWizard.roleName')}</Label>
               <Input
                 id='role-wizard-name'
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder='e.g. shift_supervisor'
+                placeholder={t('users.roleWizard.roleNamePlaceholder')}
               />
             </div>
             <div className='flex flex-col gap-2'>
               <Label htmlFor='role-wizard-description'>
-                Description <span className='text-muted-foreground'>(optional)</span>
+                {t('users.roleWizard.description')} <span className='text-muted-foreground'>{t('users.roleWizard.optional')}</span>
               </Label>
               <Input
                 id='role-wizard-description'
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
-                placeholder='What is this role for?'
+                placeholder={t('users.roleWizard.descriptionPlaceholder')}
               />
             </div>
           </div>
@@ -238,7 +230,7 @@ export function RoleWizardDialog({
                               toggleMany(screen.permissionIds, !allChecked)
                             }
                           >
-                            {allChecked ? 'Clear' : 'Select all'}
+                            {allChecked ? t('users.roleWizard.clear') : t('users.roleWizard.selectAll')}
                           </Button>
                         </div>
                         <div className='flex flex-col gap-2'>
@@ -273,8 +265,8 @@ export function RoleWizardDialog({
               {groups.length === 0 && (
                 <p className='text-sm text-muted-foreground'>
                   {screensQuery.isLoading
-                    ? 'Loading the screen catalog…'
-                    : 'No permissions available.'}
+                    ? t('users.roleWizard.loadingScreens')
+                    : t('users.roleWizard.noPermissionsAvailable')}
                 </p>
               )}
             </div>
@@ -295,7 +287,9 @@ export function RoleWizardDialog({
             <div className='flex items-center gap-2'>
               <Badge>{selected.size}</Badge>
               <span className='text-sm text-muted-foreground'>
-                permission{selected.size === 1 ? '' : 's'} granted
+                {selected.size === 1
+                  ? t('users.roleWizard.permissionsGranted', { count: selected.size })
+                  : t('users.roleWizard.permissionsGrantedPlural', { count: selected.size })}
               </span>
             </div>
             <ScrollArea className='h-48 rounded-md border p-3'>
@@ -307,8 +301,7 @@ export function RoleWizardDialog({
                 ))}
                 {selected.size === 0 && (
                   <p className='text-sm text-muted-foreground'>
-                    No permissions selected — the role will start with no
-                    access and can be edited later.
+                    {t('users.roleWizard.noPermissionsSelected')}
                   </p>
                 )}
               </div>
@@ -322,15 +315,15 @@ export function RoleWizardDialog({
             onClick={step === 'details' ? () => onOpenChange(false) : handleBack}
             disabled={isSubmitting}
           >
-            {step === 'details' ? 'Cancel' : 'Back'}
+            {step === 'details' ? t('users.roleWizard.cancel') : t('users.roleWizard.back')}
           </Button>
           {step === 'review' ? (
             <Button onClick={handleCreate} disabled={isSubmitting}>
-              {isSubmitting ? 'Creating…' : 'Create role'}
+              {isSubmitting ? t('users.roleWizard.creating') : t('users.roleWizard.createRole')}
             </Button>
           ) : (
             <Button onClick={handleNext} disabled={!canAdvance}>
-              Next
+              {t('users.roleWizard.next')}
             </Button>
           )}
         </DialogFooter>

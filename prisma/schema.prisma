@@ -355,6 +355,7 @@ model product_variants {
   sales_return_items         sales_return_items[]
   stock_adjustment_items     stock_adjustment_items[]
   stock_balances             stock_balances[]
+  stock_by_location        stock_by_location[]
   stock_count_items          stock_count_items[]
   stock_reservations         stock_reservations[]
   stock_transfer_items       stock_transfer_items[]
@@ -1339,6 +1340,7 @@ model stores {
   stock_balances           stock_balances[]
   stock_counts             stock_counts[]
   stock_reservations       stock_reservations[]
+  stock_by_location        stock_by_location[]
   stock_transfers_from     stock_transfers[]       @relation("stock_transfers_from_store")
   stock_transfers_to       stock_transfers[]       @relation("stock_transfers_to_store")
   warehouses               warehouses[]
@@ -1855,6 +1857,7 @@ model warehouses {
   purchase_orders     purchase_orders[]
   sales_orders        sales_orders[]
   stock_counts        stock_counts[]
+  stock_by_location   stock_by_location[]
   branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stores              stores?               @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
   warehouse_locations warehouse_locations[]
@@ -1887,6 +1890,7 @@ model warehouse_locations {
   stock_count_items   stock_count_items[]
   stock_counts        stock_counts[]
   stock_reservations  stock_reservations[]
+  stock_by_location   stock_by_location[]
   warehouses          warehouses            @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([tenant_id], map: "idx_warehouse_locations_tenant_id")
@@ -1910,6 +1914,10 @@ model stock_by_location {
   updated_at            DateTime         @default(now()) @db.Timestamptz(6)
   auth_user_id          String?          @default(dbgenerated("auth.uid()")) @db.Uuid
   product_batches       product_batches? @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_variants      product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses            warehouses       @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouse_locations   warehouse_locations @relation(fields: [warehouse_location_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores                stores           @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([store_id, product_variant_id], map: "idx_stock_by_location_store_variant")
   @@index([tenant_id], map: "idx_stock_by_location_tenant_id")

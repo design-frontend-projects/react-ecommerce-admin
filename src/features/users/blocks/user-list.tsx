@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MoreHorizontal, KeyRound, ShieldCheck, UserX } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -62,6 +63,7 @@ export function UserList({
   onUpdateUserRole,
   permissions = [],
 }: UserListProps) {
+  const { t } = useTranslation()
   const [resetPasswordUserId, setResetPasswordUserId] = useState<string | null>(
     null
   )
@@ -83,13 +85,13 @@ export function UserList({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Team member</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Phone</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Updated</TableHead>
-            <TableHead className='text-right'>Action</TableHead>
+            <TableHead>{t('users.table.teamMember')}</TableHead>
+            <TableHead>{t('users.table.email')}</TableHead>
+            <TableHead>{t('users.table.phone')}</TableHead>
+            <TableHead>{t('users.table.status')}</TableHead>
+            <TableHead>{t('users.table.role')}</TableHead>
+            <TableHead>{t('users.table.updated')}</TableHead>
+            <TableHead className='text-right'>{t('users.table.action')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -99,7 +101,7 @@ export function UserList({
                 colSpan={6}
                 className='py-12 text-center text-sm text-muted-foreground'
               >
-                No users found for this tenant yet.
+                {t('users.table.noUsers')}
               </TableCell>
             </TableRow>
           ) : (
@@ -117,7 +119,7 @@ export function UserList({
                     <div className='flex flex-col gap-1'>
                       <span className='font-medium'>{fullName}</span>
                       <span className='text-xs text-muted-foreground'>
-                        {user.roleNames.join(', ') || 'No assigned role'}
+                        {user.roleNames.join(', ') || t('users.table.noRole')}
                       </span>
                     </div>
                   </TableCell>
@@ -140,7 +142,7 @@ export function UserList({
                         disabled={pendingUserId === user.id}
                       >
                         <SelectTrigger className='w-44'>
-                          <SelectValue placeholder='Choose role' />
+                          <SelectValue placeholder={t('users.table.chooseRole')} />
                         </SelectTrigger>
                         <SelectContent>
                           {roles.map((role) => (
@@ -152,7 +154,7 @@ export function UserList({
                       </Select>
                     ) : (
                       <Badge variant='outline'>
-                        {user.roleNames.join(', ') || 'None'}
+                        {user.roleNames.join(', ') || t('users.table.none')}
                       </Badge>
                     )}
                   </TableCell>
@@ -176,14 +178,14 @@ export function UserList({
                           onClick={() => setResetPasswordUserId(user.id)}
                         >
                           <KeyRound className='mr-2 size-4' />
-                          Reset Password
+                          {t('users.table.resetPassword')}
                         </DropdownMenuItem>
                         {canManageUsers && permissions.length > 0 ? (
                           <DropdownMenuItem
                             onClick={() => setOverridesUser(user)}
                           >
                             <ShieldCheck className='mr-2 size-4' />
-                            Permission Overrides
+                            {t('users.table.permissionOverrides')}
                           </DropdownMenuItem>
                         ) : null}
                         <DropdownMenuSeparator />
@@ -192,7 +194,7 @@ export function UserList({
                           onClick={() => setUserToDeactivate(user)}
                         >
                           <UserX className='mr-2 size-4' />
-                          Deactivate User
+                          {t('users.table.deactivateUser')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

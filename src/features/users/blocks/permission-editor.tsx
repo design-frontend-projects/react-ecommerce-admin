@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { PermissionRecord, RoleWithPermissions } from '../data/types'
@@ -30,6 +31,7 @@ export function PermissionEditor({
   isSaving = false,
   onSave,
 }: PermissionEditorProps) {
+  const { t } = useTranslation()
   const groupedPermissions = useMemo(
     () => groupPermissions(allPermissions),
     [allPermissions]
@@ -54,8 +56,7 @@ export function PermissionEditor({
       <div className='flex flex-col gap-1'>
         <h3 className='text-base font-semibold'>{role.name}</h3>
         <p className='text-sm text-muted-foreground'>
-          Adjust granular access for this role. Changes propagate to active
-          sessions through Supabase realtime updates.
+          {t('users.permissionEditor.subtitle')}
         </p>
       </div>
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
@@ -69,8 +70,7 @@ export function PermissionEditor({
               <div className='flex flex-col gap-1'>
                 <p className='text-sm font-medium capitalize'>{resource}</p>
                 <p className='text-xs text-muted-foreground'>
-                  {permissions.length} permission
-                  {permissions.length === 1 ? '' : 's'}
+                  {t('users.permissionEditor.permissions', { count: permissions.length })}
                 </p>
               </div>
               <div className='flex flex-col gap-3'>
@@ -121,7 +121,7 @@ export function PermissionEditor({
           disabled={isSaving}
           onClick={() => onSave(role.id, selectedPermissionIds)}
         >
-          Save permissions
+          {t('users.permissionEditor.savePermissions')}
         </Button>
       </div>
     </div>

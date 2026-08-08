@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ShieldPlusIcon, UsersIcon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -25,6 +26,7 @@ import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 
 export function UserManagementPage() {
+  const { t } = useTranslation()
   const [inviteOpen, setInviteOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   
@@ -80,10 +82,9 @@ export function UserManagementPage() {
     return (
       <Main className='flex flex-1 items-center justify-center'>
         <Alert className='max-w-xl'>
-          <AlertTitle>Access restricted</AlertTitle>
+          <AlertTitle>{t('users.accessRestrictedTitle')}</AlertTitle>
           <AlertDescription>
-            Your account can use the product, but it does not have permission to
-            view tenant users or RBAC settings.
+            {t('users.accessRestrictedDesc')}
           </AlertDescription>
         </Alert>
       </Main>
@@ -96,9 +97,9 @@ export function UserManagementPage() {
         <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
           <div className='flex min-w-0 flex-col gap-1'>
             <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
-              Tenant security
+              {t('users.tenantSecurity')}
             </p>
-            <h1 className='truncate text-lg font-semibold'>Users and access</h1>
+            <h1 className='truncate text-lg font-semibold'>{t('users.title')}</h1>
           </div>
           {(canManageUsers || isAdmin) && (
             <div className='flex items-center gap-2'>
@@ -108,11 +109,11 @@ export function UserManagementPage() {
                 onClick={() => setCreateOpen(true)}
               >
                 <ShieldPlusIcon className='mr-2 size-4' />
-                Create user
+                {t('users.createUser')}
               </Button>
               <Button type='button' onClick={() => setInviteOpen(true)}>
                 <UsersIcon className='mr-2 size-4' />
-                Invite user
+                {t('users.inviteUser')}
               </Button>
             </div>
           )}
@@ -122,27 +123,25 @@ export function UserManagementPage() {
         <section className='flex flex-col gap-4 rounded-2xl border border-border/70 bg-card/60 px-5 py-5'>
           <div className='flex flex-col gap-2'>
             <h2 className='text-2xl font-semibold tracking-tight'>
-              Access stays explicit, visible, and reversible.
+              {t('users.bannerTitle')}
             </h2>
             <p className='max-w-3xl text-sm text-muted-foreground'>
-              Invite teammates, assign operational roles, and update permission
-              maps without leaving the dashboard. Realtime updates keep active
-              sessions aligned with the latest role model.
+              {t('users.bannerDesc')}
             </p>
           </div>
           <div className='flex flex-wrap items-center gap-3'>
-            <Badge variant='outline'>{stats.total} users</Badge>
-            <Badge variant='outline'>{stats.active} active</Badge>
-            <Badge variant='outline'>{stats.invited} invited</Badge>
-            <Badge variant='outline'>{stats.roles} roles</Badge>
+            <Badge variant='outline'>{t('users.stats.users', { count: stats.total })}</Badge>
+            <Badge variant='outline'>{t('users.stats.active', { count: stats.active })}</Badge>
+            <Badge variant='outline'>{t('users.stats.invited', { count: stats.invited })}</Badge>
+            <Badge variant='outline'>{t('users.stats.roles', { count: stats.roles })}</Badge>
           </div>
         </section>
 
         <Tabs defaultValue='users' className='flex flex-col gap-4'>
           <TabsList className='grid w-full max-w-xl grid-cols-3'>
-            <TabsTrigger value='users'>Users</TabsTrigger>
-            <TabsTrigger value='roles'>Roles</TabsTrigger>
-            <TabsTrigger value='permissions'>Permissions</TabsTrigger>
+            <TabsTrigger value='users'>{t('users.tabs.users')}</TabsTrigger>
+            <TabsTrigger value='roles'>{t('users.tabs.roles')}</TabsTrigger>
+            <TabsTrigger value='permissions'>{t('users.tabs.permissions')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value='users' className='m-0'>
@@ -211,10 +210,9 @@ export function UserManagementPage() {
             ) : (
               <Alert>
                 <UsersIcon className='size-4' />
-                <AlertTitle>Permission editing is restricted</AlertTitle>
+                <AlertTitle>{t('users.permissionEditingRestrictedTitle')}</AlertTitle>
                 <AlertDescription>
-                  Only administrators with both role and permission management
-                  rights can change the RBAC matrix.
+                  {t('users.permissionEditingRestrictedDesc')}
                 </AlertDescription>
               </Alert>
             )}
