@@ -38,10 +38,12 @@ export type ProfilesMinAggregateOutputType = {
   activity: string | null
   auth_user_id: string | null
   is_paid: boolean | null
+  is_user: boolean | null
   branch_id: string | null
   role: string | null
   payment_method: string | null
   transfer_ref: string | null
+  parent_auth_user_id: string | null
 }
 
 export type ProfilesMaxAggregateOutputType = {
@@ -58,10 +60,12 @@ export type ProfilesMaxAggregateOutputType = {
   activity: string | null
   auth_user_id: string | null
   is_paid: boolean | null
+  is_user: boolean | null
   branch_id: string | null
   role: string | null
   payment_method: string | null
   transfer_ref: string | null
+  parent_auth_user_id: string | null
 }
 
 export type ProfilesCountAggregateOutputType = {
@@ -78,10 +82,12 @@ export type ProfilesCountAggregateOutputType = {
   activity: number
   auth_user_id: number
   is_paid: number
+  is_user: number
   branch_id: number
   role: number
   payment_method: number
   transfer_ref: number
+  parent_auth_user_id: number
   _all: number
 }
 
@@ -100,10 +106,12 @@ export type ProfilesMinAggregateInputType = {
   activity?: true
   auth_user_id?: true
   is_paid?: true
+  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
   transfer_ref?: true
+  parent_auth_user_id?: true
 }
 
 export type ProfilesMaxAggregateInputType = {
@@ -120,10 +128,12 @@ export type ProfilesMaxAggregateInputType = {
   activity?: true
   auth_user_id?: true
   is_paid?: true
+  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
   transfer_ref?: true
+  parent_auth_user_id?: true
 }
 
 export type ProfilesCountAggregateInputType = {
@@ -140,10 +150,12 @@ export type ProfilesCountAggregateInputType = {
   activity?: true
   auth_user_id?: true
   is_paid?: true
+  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
   transfer_ref?: true
+  parent_auth_user_id?: true
   _all?: true
 }
 
@@ -233,10 +245,12 @@ export type ProfilesGroupByOutputType = {
   activity: string | null
   auth_user_id: string
   is_paid: boolean
+  is_user: boolean
   branch_id: string | null
   role: string | null
   payment_method: string | null
   transfer_ref: string | null
+  parent_auth_user_id: string
   _count: ProfilesCountAggregateOutputType | null
   _min: ProfilesMinAggregateOutputType | null
   _max: ProfilesMaxAggregateOutputType | null
@@ -274,10 +288,12 @@ export type profilesWhereInput = {
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   is_paid?: Prisma.BoolFilter<"profiles"> | boolean
+  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
+  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   audit_logs?: Prisma.Audit_logsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -297,10 +313,12 @@ export type profilesOrderByWithRelationInput = {
   activity?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_paid?: Prisma.SortOrder
+  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
   transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
+  parent_auth_user_id?: Prisma.SortOrder
   audit_logs?: Prisma.audit_logsOrderByRelationAggregateInput
   branches?: Prisma.branchesOrderByWithRelationInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
@@ -323,10 +341,12 @@ export type profilesWhereUniqueInput = Prisma.AtLeast<{
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   is_paid?: Prisma.BoolFilter<"profiles"> | boolean
+  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
+  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   audit_logs?: Prisma.Audit_logsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -346,10 +366,12 @@ export type profilesOrderByWithAggregationInput = {
   activity?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_paid?: Prisma.SortOrder
+  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
   transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
+  parent_auth_user_id?: Prisma.SortOrder
   _count?: Prisma.profilesCountOrderByAggregateInput
   _max?: Prisma.profilesMaxOrderByAggregateInput
   _min?: Prisma.profilesMinOrderByAggregateInput
@@ -372,10 +394,12 @@ export type profilesScalarWhereWithAggregatesInput = {
   activity?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"profiles"> | string
   is_paid?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
+  is_user?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"profiles"> | string | null
   role?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   transfer_ref?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
+  parent_auth_user_id?: Prisma.UuidWithAggregatesFilter<"profiles"> | string
 }
 
 export type profilesCreateInput = {
@@ -392,9 +416,11 @@ export type profilesCreateInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
   branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
@@ -414,10 +440,12 @@ export type profilesUncheckedCreateInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
@@ -436,9 +464,11 @@ export type profilesUpdateInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
@@ -458,10 +488,12 @@ export type profilesUncheckedUpdateInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
@@ -480,10 +512,12 @@ export type profilesCreateManyInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
 }
 
 export type profilesUpdateManyMutationInput = {
@@ -500,9 +534,11 @@ export type profilesUpdateManyMutationInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type profilesUncheckedUpdateManyInput = {
@@ -519,10 +555,12 @@ export type profilesUncheckedUpdateManyInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProfilesScalarRelationFilter = {
@@ -554,10 +592,12 @@ export type profilesCountOrderByAggregateInput = {
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_paid?: Prisma.SortOrder
+  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  parent_auth_user_id?: Prisma.SortOrder
 }
 
 export type profilesMaxOrderByAggregateInput = {
@@ -574,10 +614,12 @@ export type profilesMaxOrderByAggregateInput = {
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_paid?: Prisma.SortOrder
+  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  parent_auth_user_id?: Prisma.SortOrder
 }
 
 export type profilesMinOrderByAggregateInput = {
@@ -594,10 +636,12 @@ export type profilesMinOrderByAggregateInput = {
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_paid?: Prisma.SortOrder
+  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  parent_auth_user_id?: Prisma.SortOrder
 }
 
 export type ProfilesNullableScalarRelationFilter = {
@@ -691,9 +735,11 @@ export type profilesCreateWithoutAudit_logsInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
 }
@@ -712,10 +758,12 @@ export type profilesUncheckedCreateWithoutAudit_logsInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
 
@@ -749,9 +797,11 @@ export type profilesUpdateWithoutAudit_logsInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
 }
@@ -770,10 +820,12 @@ export type profilesUncheckedUpdateWithoutAudit_logsInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
 
@@ -791,9 +843,11 @@ export type profilesCreateWithoutBranchesInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
 }
@@ -812,9 +866,11 @@ export type profilesUncheckedCreateWithoutBranchesInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
@@ -862,10 +918,12 @@ export type profilesScalarWhereInput = {
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   is_paid?: Prisma.BoolFilter<"profiles"> | boolean
+  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
+  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
 }
 
 export type profilesCreateWithoutTenant_usersInput = {
@@ -882,9 +940,11 @@ export type profilesCreateWithoutTenant_usersInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
   branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
 }
@@ -903,10 +963,12 @@ export type profilesUncheckedCreateWithoutTenant_usersInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
 }
 
@@ -940,9 +1002,11 @@ export type profilesUpdateWithoutTenant_usersInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
 }
@@ -961,10 +1025,12 @@ export type profilesUncheckedUpdateWithoutTenant_usersInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
 }
 
@@ -982,9 +1048,11 @@ export type profilesCreateManyBranchesInput = {
   activity?: string | null
   auth_user_id: string
   is_paid?: boolean
+  is_user?: boolean
   role?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  parent_auth_user_id: string
 }
 
 export type profilesUpdateWithoutBranchesInput = {
@@ -1001,9 +1069,11 @@ export type profilesUpdateWithoutBranchesInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
 }
@@ -1022,9 +1092,11 @@ export type profilesUncheckedUpdateWithoutBranchesInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
@@ -1043,9 +1115,11 @@ export type profilesUncheckedUpdateManyWithoutBranchesInput = {
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -1102,10 +1176,12 @@ export type profilesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   activity?: boolean
   auth_user_id?: boolean
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  parent_auth_user_id?: boolean
   audit_logs?: boolean | Prisma.profiles$audit_logsArgs<ExtArgs>
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.profiles$tenant_usersArgs<ExtArgs>
@@ -1126,10 +1202,12 @@ export type profilesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   activity?: boolean
   auth_user_id?: boolean
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  parent_auth_user_id?: boolean
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
@@ -1147,10 +1225,12 @@ export type profilesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   activity?: boolean
   auth_user_id?: boolean
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  parent_auth_user_id?: boolean
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
@@ -1168,13 +1248,15 @@ export type profilesSelectScalar = {
   activity?: boolean
   auth_user_id?: boolean
   is_paid?: boolean
+  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  parent_auth_user_id?: boolean
 }
 
-export type profilesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "first_name" | "last_name" | "phone" | "is_owner" | "system_owner" | "onboarding_complete" | "created_at" | "updated_at" | "activity" | "auth_user_id" | "is_paid" | "branch_id" | "role" | "payment_method" | "transfer_ref", ExtArgs["result"]["profiles"]>
+export type profilesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "first_name" | "last_name" | "phone" | "is_owner" | "system_owner" | "onboarding_complete" | "created_at" | "updated_at" | "activity" | "auth_user_id" | "is_paid" | "is_user" | "branch_id" | "role" | "payment_method" | "transfer_ref" | "parent_auth_user_id", ExtArgs["result"]["profiles"]>
 export type profilesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audit_logs?: boolean | Prisma.profiles$audit_logsArgs<ExtArgs>
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
@@ -1209,10 +1291,12 @@ export type $profilesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     activity: string | null
     auth_user_id: string
     is_paid: boolean
+    is_user: boolean
     branch_id: string | null
     role: string | null
     payment_method: string | null
     transfer_ref: string | null
+    parent_auth_user_id: string
   }, ExtArgs["result"]["profiles"]>
   composites: {}
 }
@@ -1652,10 +1736,12 @@ export interface profilesFieldRefs {
   readonly activity: Prisma.FieldRef<"profiles", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"profiles", 'String'>
   readonly is_paid: Prisma.FieldRef<"profiles", 'Boolean'>
+  readonly is_user: Prisma.FieldRef<"profiles", 'Boolean'>
   readonly branch_id: Prisma.FieldRef<"profiles", 'String'>
   readonly role: Prisma.FieldRef<"profiles", 'String'>
   readonly payment_method: Prisma.FieldRef<"profiles", 'String'>
   readonly transfer_ref: Prisma.FieldRef<"profiles", 'String'>
+  readonly parent_auth_user_id: Prisma.FieldRef<"profiles", 'String'>
 }
     
 

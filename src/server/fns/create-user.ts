@@ -227,6 +227,10 @@ export async function createUser(
           onboarding_complete: false,
           branch_id: input.branchId || null,
           role: primaryRole,
+          is_user: true,                          // Created by admin, not self-registered
+          is_paid: false,                         // Staff users don't pay
+          payment_method: null,                   // Not a buyer
+          parent_auth_user_id: caller.authUserId, // Links to the admin who created them
         },
       })
 

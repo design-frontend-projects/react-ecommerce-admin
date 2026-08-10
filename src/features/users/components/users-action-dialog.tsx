@@ -129,6 +129,7 @@ export function UsersActionDialog({
           firstName: values.firstName,
           lastName: values.lastName,
           phone: values.phoneNumber,
+          redirectTo: `${window.location.origin}/complete-account`,
         },
         {
           onSuccess: (result) => {

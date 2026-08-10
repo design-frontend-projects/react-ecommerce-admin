@@ -10,6 +10,7 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
     firstName?: string
     lastName?: string
     phone?: string
+    redirectTo?: string
   }
 
   if (!body.email) {
@@ -23,6 +24,7 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
         firstName: body.firstName,
         lastName: body.lastName,
         phone: body.phone,
+        redirectTo: body.redirectTo,
       },
       { authUserId: auth.userId }
     )

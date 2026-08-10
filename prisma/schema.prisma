@@ -355,7 +355,7 @@ model product_variants {
   sales_return_items         sales_return_items[]
   stock_adjustment_items     stock_adjustment_items[]
   stock_balances             stock_balances[]
-  stock_by_location        stock_by_location[]
+  stock_by_location          stock_by_location[]
   stock_count_items          stock_count_items[]
   stock_reservations         stock_reservations[]
   stock_transfer_items       stock_transfer_items[]
@@ -451,6 +451,7 @@ model profiles {
   activity            String?        @db.VarChar(100)
   auth_user_id        String         @db.Uuid
   is_paid             Boolean        @default(false)
+  is_user             Boolean        @default(false)
   branch_id           String?        @db.Uuid
   role                String?
   payment_method      String?        @db.VarChar(50)
@@ -458,6 +459,7 @@ model profiles {
   audit_logs          audit_logs[]
   branches            branches?      @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
   tenant_users        tenant_users[]
+  parent_auth_user_id String         @db.Uuid
 
   @@index([email], map: "idx_profiles_email")
   @@index([branch_id], map: "idx_profiles_branch_id")
@@ -1900,24 +1902,24 @@ model warehouse_locations {
 
 /// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model stock_by_location {
-  id                    String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id             String           @db.Uuid
-  store_id              String           @db.Uuid
-  warehouse_id          String           @db.Uuid
-  warehouse_location_id String           @db.Uuid
-  product_variant_id    String           @db.Uuid
-  batch_id              String?          @db.Uuid
-  qty_on_hand           Decimal          @default(0) @db.Decimal(18, 4)
-  qty_reserved          Decimal          @default(0) @db.Decimal(18, 4)
-  last_movement_at      DateTime?        @db.Timestamptz(6)
-  created_at            DateTime         @default(now()) @db.Timestamptz(6)
-  updated_at            DateTime         @default(now()) @db.Timestamptz(6)
-  auth_user_id          String?          @default(dbgenerated("auth.uid()")) @db.Uuid
-  product_batches       product_batches? @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product_variants      product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  warehouses            warehouses       @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String              @db.Uuid
+  store_id              String              @db.Uuid
+  warehouse_id          String              @db.Uuid
+  warehouse_location_id String              @db.Uuid
+  product_variant_id    String              @db.Uuid
+  batch_id              String?             @db.Uuid
+  qty_on_hand           Decimal             @default(0) @db.Decimal(18, 4)
+  qty_reserved          Decimal             @default(0) @db.Decimal(18, 4)
+  last_movement_at      DateTime?           @db.Timestamptz(6)
+  created_at            DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime            @default(now()) @db.Timestamptz(6)
+  auth_user_id          String?             @default(dbgenerated("auth.uid()")) @db.Uuid
+  product_batches       product_batches?    @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_variants      product_variants    @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses            warehouses          @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   warehouse_locations   warehouse_locations @relation(fields: [warehouse_location_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  stores                stores           @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  stores                stores              @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([store_id, product_variant_id], map: "idx_stock_by_location_store_variant")
   @@index([tenant_id], map: "idx_stock_by_location_tenant_id")
@@ -2813,19 +2815,19 @@ enum notification_target_type {
 }
 
 model notifications {
-  id               String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title            String                   @db.VarChar(255)
-  content          String
-  severity         notification_severity    @default(INFO)
-  target_type      notification_target_type @default(ALL)
-  target_role      String?                  @db.VarChar(100)
-  sender_id        String?                  @db.Uuid
-  template_id      String?                  @db.Uuid
-  is_active        Boolean                  @default(true)
-  auth_user_id     String?                  @default(dbgenerated("auth.uid()")) @db.Uuid
-  created_at       DateTime                 @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime                 @default(now()) @db.Timestamptz(6)
-  
+  id           String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title        String                   @db.VarChar(255)
+  content      String
+  severity     notification_severity    @default(INFO)
+  target_type  notification_target_type @default(ALL)
+  target_role  String?                  @db.VarChar(100)
+  sender_id    String?                  @db.Uuid
+  template_id  String?                  @db.Uuid
+  is_active    Boolean                  @default(true)
+  auth_user_id String?                  @default(dbgenerated("auth.uid()")) @db.Uuid
+  created_at   DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime                 @default(now()) @db.Timestamptz(6)
+
   notification_templates notification_templates? @relation(fields: [template_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   user_notifications     user_notifications[]
 
@@ -2834,15 +2836,15 @@ model notifications {
 }
 
 model user_notifications {
-  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  notification_id String        @db.Uuid
-  user_id         String        @db.Uuid
-  is_read         Boolean       @default(false)
-  read_at         DateTime?     @db.Timestamptz(6)
-  auth_user_id    String?       @default(dbgenerated("auth.uid()")) @db.Uuid
-  created_at      DateTime      @default(now()) @db.Timestamptz(6)
-  
-  notifications   notifications @relation(fields: [notification_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notification_id String    @db.Uuid
+  user_id         String    @db.Uuid
+  is_read         Boolean   @default(false)
+  read_at         DateTime? @db.Timestamptz(6)
+  auth_user_id    String?   @default(dbgenerated("auth.uid()")) @db.Uuid
+  created_at      DateTime  @default(now()) @db.Timestamptz(6)
+
+  notifications notifications @relation(fields: [notification_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([user_id], map: "idx_user_notifications_user_id")
   @@index([is_read], map: "idx_user_notifications_is_read")
@@ -2859,7 +2861,6 @@ model notification_templates {
   auth_user_id String?               @default(dbgenerated("auth.uid()")) @db.Uuid
   created_at   DateTime              @default(now()) @db.Timestamptz(6)
   updated_at   DateTime              @default(now()) @db.Timestamptz(6)
-  
+
   notifications notifications[]
 }
-

@@ -15,6 +15,9 @@ export interface Profile {
   transfer_ref: string | null
   branch_id: string | null
   role?: string | null
+  is_paid: boolean
+  is_user: boolean
+  parent_auth_user_id: string
   created_at: string
   updated_at: string
 }

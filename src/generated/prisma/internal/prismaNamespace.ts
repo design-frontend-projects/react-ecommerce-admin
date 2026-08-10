@@ -9428,10 +9428,12 @@ export const ProfilesScalarFieldEnum = {
   activity: 'activity',
   auth_user_id: 'auth_user_id',
   is_paid: 'is_paid',
+  is_user: 'is_user',
   branch_id: 'branch_id',
   role: 'role',
   payment_method: 'payment_method',
-  transfer_ref: 'transfer_ref'
+  transfer_ref: 'transfer_ref',
+  parent_auth_user_id: 'parent_auth_user_id'
 } as const
 
 export type ProfilesScalarFieldEnum = (typeof ProfilesScalarFieldEnum)[keyof typeof ProfilesScalarFieldEnum]

@@ -52,6 +52,7 @@ const AuthenticatedRoute = () => {
 
     // Checking the database profile
     const onboardingComplete = profile?.onboarding_complete === true
+    const isStaffUser = profile?.is_user === true // Tenant-created staff
 
     const currentPath = window.location.pathname
 
@@ -70,12 +71,14 @@ const AuthenticatedRoute = () => {
       return
     }
 
+    // Tenant-created staff bypass onboarding
     if (
       isLoaded &&
       isSignedIn &&
       user &&
       !profileLoading &&
       !onboardingComplete &&
+      !isStaffUser &&
       currentPath !== '/complete-account'
     ) {
       navigate({ to: '/complete-account' })
@@ -87,7 +90,7 @@ const AuthenticatedRoute = () => {
       isSignedIn &&
       user &&
       !profileLoading &&
-      onboardingComplete &&
+      (onboardingComplete || isStaffUser) &&
       currentPath === '/complete-account'
     ) {
       navigate({ to: '/' })
@@ -99,7 +102,7 @@ const AuthenticatedRoute = () => {
       isSignedIn &&
       !subLoading &&
       !profileLoading &&
-      onboardingComplete
+      (onboardingComplete || isStaffUser)
     ) {
       // Check for super_admin role
       const isSuperAdmin = profile?.system_owner === true

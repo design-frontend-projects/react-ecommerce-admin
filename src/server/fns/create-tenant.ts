@@ -9,6 +9,7 @@ export interface CreateTenantInput {
   firstName?: string
   lastName?: string
   phone?: string
+  redirectTo?: string
 }
 
 export interface CreateTenantCaller {
@@ -32,30 +33,56 @@ export async function createTenant(
     throw new Error('A user with this email already exists.')
   }
 
-  // Generate a temporary password
-  const temporaryPassword = generateTempPassword()
+  const appUrl =
+    process.env.VITE_APP_URL ||
+    process.env.APP_URL ||
+    'http://localhost:5177'
 
-  // 1. Create Supabase Auth user (with onboarding NOT complete)
-  const { data: authData, error: authError } =
-    await supabaseAdmin.auth.admin.createUser({
-      email,
-      password: temporaryPassword,
-      // Omit email_confirm so that Supabase sends the confirmation email if configured in project settings.
-      user_metadata: {
+  const redirectTo = input.redirectTo || `${appUrl}/complete-account`
+
+  let authUserId: string
+  let temporaryPassword: string | undefined
+
+  // 1. Send Supabase Auth invitation email with redirectTo set to /complete-account (matching SignUp flow)
+  const { data: inviteData, error: inviteError } =
+    await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+      data: {
         firstName: input.firstName ?? '',
         lastName: input.lastName ?? '',
         onboardingComplete: false,
-        force_password_change: true,
+        isTenantOwner: true,
       },
+      redirectTo,
     })
 
-  if (authError || !authData.user) {
-    throw new Error(
-      authError?.message ?? 'Failed to create user in Supabase Auth.'
-    )
-  }
+  if (!inviteError && inviteData?.user) {
+    authUserId = inviteData.user.id
+  } else {
+    // Fallback: If inviteUserByEmail fails (e.g. SMTP unavailable in local dev), create user with temporary password
+    temporaryPassword = generateTempPassword()
+    const { data: authData, error: authError } =
+      await supabaseAdmin.auth.admin.createUser({
+        email,
+        password: temporaryPassword,
+        email_confirm: true,
+        user_metadata: {
+          firstName: input.firstName ?? '',
+          lastName: input.lastName ?? '',
+          onboardingComplete: false,
+          force_password_change: true,
+        },
+      })
 
-  const authUserId = authData.user.id
+    if (authError || !authData.user) {
+      throw new Error(
+        inviteError?.message ||
+          authError?.message ||
+          'Failed to create user in Supabase Auth.'
+      )
+    }
+
+    authUserId = authData.user.id
+  }
 
   // 2. Create profile only (is_owner = true, onboarding_complete = false)
   //    NO tenant_users row — created during onboarding

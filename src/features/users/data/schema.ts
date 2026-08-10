@@ -99,6 +99,7 @@ export const createTenantApiInputSchema = z.object({
   firstName: z.string().trim().min(1).optional(),
   lastName: z.string().trim().min(1).optional(),
   phone: z.string().trim().optional(),
+  redirectTo: z.string().url().optional(),
 })
 export type CreateTenantApiInput = z.infer<typeof createTenantApiInputSchema>
 
@@ -188,3 +189,75 @@ export const userPermissionOverridesResponseSchema = successEnvelope(
 export const effectivePermissionsResponseSchema = successEnvelope(
   z.object({ effectivePermissionNames: z.array(z.string()) })
 )
+
+// ─── Onboarding Schemas ─────────────────────────────────────────────────────
+
+export const onboardingBranchInputSchema = z.object({
+  name: z.string().trim().min(1, 'Branch name is required'),
+  cityId: z.string().min(1, 'City is required'),
+  address: z.string().trim().optional(),
+  phone: z.string().trim().optional(),
+})
+export type OnboardingBranchInput = z.infer<typeof onboardingBranchInputSchema>
+
+export const onboardingUserInputSchema = z.object({
+  email: z.string().email('Please enter a valid email'),
+  firstName: z.string().trim().optional(),
+  lastName: z.string().trim().optional(),
+  phone: z.string().trim().optional(),
+  roleId: z.string().min(1, 'Role is required'),
+  branchId: z.string().optional(),
+})
+export type OnboardingUserInput = z.infer<typeof onboardingUserInputSchema>
+
+export const onboardingBranchesApiSchema = z.object({
+  branches: z.array(onboardingBranchInputSchema).min(1, 'At least one branch is required'),
+})
+
+export const onboardingUsersApiSchema = z.object({
+  users: z.array(onboardingUserInputSchema).min(1, 'At least one user is required'),
+})
+
+export const createdOnboardingUserSchema = z.object({
+  email: z.string(),
+  authUserId: z.string(),
+  temporaryPassword: z.string(),
+  roleName: z.string(),
+  branchId: z.string().nullable(),
+  tenantUserId: z.string(),
+})
+
+export const onboardingUsersResultSchema = z.object({
+  users: z.array(createdOnboardingUserSchema),
+  errors: z.array(z.object({ email: z.string(), error: z.string() })),
+})
+
+export const createdBranchSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  cityId: z.string(),
+  address: z.string().nullable(),
+  phone: z.string().nullable(),
+})
+
+export const onboardingBranchesResultSchema = z.array(createdBranchSchema)
+
+export const tenantUserSchema = z.object({
+  id: z.string(),
+  authUserId: z.string(),
+  email: z.string(),
+  firstName: z.string().nullable(),
+  lastName: z.string().nullable(),
+  phone: z.string().nullable(),
+  role: z.string().nullable(),
+  roleNames: z.array(z.string()),
+  roleIds: z.array(z.string()),
+  branchId: z.string().nullable(),
+  branchName: z.string().nullable(),
+  isUser: z.boolean(),
+  isPaid: z.boolean(),
+  isOwner: z.boolean(),
+  parentAuthUserId: z.string(),
+  createdAt: z.string().nullable(),
+})
+export type TenantUser = z.infer<typeof tenantUserSchema>
