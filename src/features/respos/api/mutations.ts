@@ -92,7 +92,8 @@ export function useCreateOrder() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (payload: CreateResOrderPayload) => createResOrder(payload),
+    mutationFn: async (payload: CreateResOrderPayload) =>
+      createResOrder(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: resposQueryKeys.orders() })
       queryClient.invalidateQueries({
@@ -1446,8 +1447,8 @@ export function useCreateRole() {
       permissions: string[]
     }) => {
       const { data, error } = await supabase
-        .from('res_roles')
-        .insert({ name, display_name, permissions })
+        .from('roles')
+        .insert({ name, description: display_name })
         .select()
         .maybeSingle()
 
@@ -1468,7 +1469,6 @@ export function useUpdateRole() {
       id,
       name,
       display_name,
-      permissions,
     }: {
       id: string
       name: string
@@ -1476,8 +1476,8 @@ export function useUpdateRole() {
       permissions: string[]
     }) => {
       const { data, error } = await supabase
-        .from('res_roles')
-        .update({ name, display_name, permissions })
+        .from('roles')
+        .update({ name, description: display_name })
         .eq('id', id)
         .select()
         .maybeSingle()
@@ -1496,7 +1496,7 @@ export function useDeleteRole() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('res_roles').delete().eq('id', id)
+      const { error } = await supabase.from('roles').delete().eq('id', id)
 
       if (error) throw error
     },

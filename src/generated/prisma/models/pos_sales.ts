@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model pos_sales
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type pos_salesModel = runtime.Types.Result.DefaultSelection<Prisma.$pos_salesPayload>
 
@@ -27,59 +27,54 @@ export type AggregatePos_sales = {
 }
 
 export type Pos_salesAvgAggregateOutputType = {
-  sale_id: number | null
-  customer_id: number | null
-  promotion_id: number | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
-  card_id: number | null
 }
 
 export type Pos_salesSumAggregateOutputType = {
-  sale_id: number | null
-  customer_id: number | null
-  promotion_id: number | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
-  card_id: number | null
 }
 
 export type Pos_salesMinAggregateOutputType = {
-  sale_id: number | null
-  customer_id: number | null
-  promotion_id: number | null
+  id: string | null
+  tenant_id: string | null
+  customer_id: string | null
+  promotion_id: string | null
   sale_date: Date | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   payment_method: string | null
-  card_id: number | null
+  card_id: string | null
   status: string | null
   auth_user_id: string | null
 }
 
 export type Pos_salesMaxAggregateOutputType = {
-  sale_id: number | null
-  customer_id: number | null
-  promotion_id: number | null
+  id: string | null
+  tenant_id: string | null
+  customer_id: string | null
+  promotion_id: string | null
   sale_date: Date | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   payment_method: string | null
-  card_id: number | null
+  card_id: string | null
   status: string | null
   auth_user_id: string | null
 }
 
 export type Pos_salesCountAggregateOutputType = {
-  sale_id: number
+  id: number
+  tenant_id: number
   customer_id: number
   promotion_id: number
   sale_date: number
@@ -96,29 +91,22 @@ export type Pos_salesCountAggregateOutputType = {
 
 
 export type Pos_salesAvgAggregateInputType = {
-  sale_id?: true
-  customer_id?: true
-  promotion_id?: true
   subtotal?: true
   discount_amount?: true
   tax_amount?: true
   total_amount?: true
-  card_id?: true
 }
 
 export type Pos_salesSumAggregateInputType = {
-  sale_id?: true
-  customer_id?: true
-  promotion_id?: true
   subtotal?: true
   discount_amount?: true
   tax_amount?: true
   total_amount?: true
-  card_id?: true
 }
 
 export type Pos_salesMinAggregateInputType = {
-  sale_id?: true
+  id?: true
+  tenant_id?: true
   customer_id?: true
   promotion_id?: true
   sale_date?: true
@@ -133,7 +121,8 @@ export type Pos_salesMinAggregateInputType = {
 }
 
 export type Pos_salesMaxAggregateInputType = {
-  sale_id?: true
+  id?: true
+  tenant_id?: true
   customer_id?: true
   promotion_id?: true
   sale_date?: true
@@ -148,7 +137,8 @@ export type Pos_salesMaxAggregateInputType = {
 }
 
 export type Pos_salesCountAggregateInputType = {
-  sale_id?: true
+  id?: true
+  tenant_id?: true
   customer_id?: true
   promotion_id?: true
   sale_date?: true
@@ -250,16 +240,17 @@ export type pos_salesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type Pos_salesGroupByOutputType = {
-  sale_id: number
-  customer_id: number | null
-  promotion_id: number | null
+  id: string
+  tenant_id: string | null
+  customer_id: string | null
+  promotion_id: string | null
   sale_date: Date | null
   subtotal: runtime.Decimal
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal
   payment_method: string | null
-  card_id: number | null
+  card_id: string | null
   status: string | null
   auth_user_id: string | null
   _count: Pos_salesCountAggregateOutputType | null
@@ -288,16 +279,17 @@ export type pos_salesWhereInput = {
   AND?: Prisma.pos_salesWhereInput | Prisma.pos_salesWhereInput[]
   OR?: Prisma.pos_salesWhereInput[]
   NOT?: Prisma.pos_salesWhereInput | Prisma.pos_salesWhereInput[]
-  sale_id?: Prisma.IntFilter<"pos_sales"> | number
-  customer_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
-  promotion_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  id?: Prisma.UuidFilter<"pos_sales"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  promotion_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   sale_date?: Prisma.DateTimeNullableFilter<"pos_sales"> | Date | string | null
   subtotal?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.StringNullableFilter<"pos_sales"> | string | null
-  card_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  card_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   status?: Prisma.StringNullableFilter<"pos_sales"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   customer_cards?: Prisma.XOR<Prisma.Customer_cardsNullableScalarRelationFilter, Prisma.customer_cardsWhereInput> | null
@@ -308,7 +300,8 @@ export type pos_salesWhereInput = {
 }
 
 export type pos_salesOrderByWithRelationInput = {
-  sale_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sale_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -328,19 +321,20 @@ export type pos_salesOrderByWithRelationInput = {
 }
 
 export type pos_salesWhereUniqueInput = Prisma.AtLeast<{
-  sale_id?: number
+  id?: string
   AND?: Prisma.pos_salesWhereInput | Prisma.pos_salesWhereInput[]
   OR?: Prisma.pos_salesWhereInput[]
   NOT?: Prisma.pos_salesWhereInput | Prisma.pos_salesWhereInput[]
-  customer_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
-  promotion_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  tenant_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  promotion_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   sale_date?: Prisma.DateTimeNullableFilter<"pos_sales"> | Date | string | null
   subtotal?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.StringNullableFilter<"pos_sales"> | string | null
-  card_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  card_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   status?: Prisma.StringNullableFilter<"pos_sales"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   customer_cards?: Prisma.XOR<Prisma.Customer_cardsNullableScalarRelationFilter, Prisma.customer_cardsWhereInput> | null
@@ -348,10 +342,11 @@ export type pos_salesWhereUniqueInput = Prisma.AtLeast<{
   promotions?: Prisma.XOR<Prisma.PromotionsNullableScalarRelationFilter, Prisma.promotionsWhereInput> | null
   promotion_usage?: Prisma.Promotion_usageListRelationFilter
   sale_items?: Prisma.Sale_itemsListRelationFilter
-}, "sale_id">
+}, "id">
 
 export type pos_salesOrderByWithAggregationInput = {
-  sale_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sale_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -374,21 +369,24 @@ export type pos_salesScalarWhereWithAggregatesInput = {
   AND?: Prisma.pos_salesScalarWhereWithAggregatesInput | Prisma.pos_salesScalarWhereWithAggregatesInput[]
   OR?: Prisma.pos_salesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.pos_salesScalarWhereWithAggregatesInput | Prisma.pos_salesScalarWhereWithAggregatesInput[]
-  sale_id?: Prisma.IntWithAggregatesFilter<"pos_sales"> | number
-  customer_id?: Prisma.IntNullableWithAggregatesFilter<"pos_sales"> | number | null
-  promotion_id?: Prisma.IntNullableWithAggregatesFilter<"pos_sales"> | number | null
+  id?: Prisma.UuidWithAggregatesFilter<"pos_sales"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_sales"> | string | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_sales"> | string | null
+  promotion_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_sales"> | string | null
   sale_date?: Prisma.DateTimeNullableWithAggregatesFilter<"pos_sales"> | Date | string | null
   subtotal?: Prisma.DecimalWithAggregatesFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableWithAggregatesFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalWithAggregatesFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.StringNullableWithAggregatesFilter<"pos_sales"> | string | null
-  card_id?: Prisma.IntNullableWithAggregatesFilter<"pos_sales"> | number | null
+  card_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_sales"> | string | null
   status?: Prisma.StringNullableWithAggregatesFilter<"pos_sales"> | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_sales"> | string | null
 }
 
 export type pos_salesCreateInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -405,16 +403,17 @@ export type pos_salesCreateInput = {
 }
 
 export type pos_salesUncheckedCreateInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
@@ -422,6 +421,8 @@ export type pos_salesUncheckedCreateInput = {
 }
 
 export type pos_salesUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -438,16 +439,17 @@ export type pos_salesUpdateInput = {
 }
 
 export type pos_salesUncheckedUpdateInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
@@ -455,21 +457,24 @@ export type pos_salesUncheckedUpdateInput = {
 }
 
 export type pos_salesCreateManyInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
 }
 
 export type pos_salesUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -481,16 +486,17 @@ export type pos_salesUpdateManyMutationInput = {
 }
 
 export type pos_salesUncheckedUpdateManyInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -506,7 +512,8 @@ export type pos_salesOrderByRelationAggregateInput = {
 }
 
 export type pos_salesCountOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   sale_date?: Prisma.SortOrder
@@ -521,18 +528,15 @@ export type pos_salesCountOrderByAggregateInput = {
 }
 
 export type pos_salesAvgOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
-  customer_id?: Prisma.SortOrder
-  promotion_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
-  card_id?: Prisma.SortOrder
 }
 
 export type pos_salesMaxOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   sale_date?: Prisma.SortOrder
@@ -547,7 +551,8 @@ export type pos_salesMaxOrderByAggregateInput = {
 }
 
 export type pos_salesMinOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   sale_date?: Prisma.SortOrder
@@ -562,14 +567,10 @@ export type pos_salesMinOrderByAggregateInput = {
 }
 
 export type pos_salesSumOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
-  customer_id?: Prisma.SortOrder
-  promotion_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
-  card_id?: Prisma.SortOrder
 }
 
 export type Pos_salesNullableScalarRelationFilter = {
@@ -747,6 +748,8 @@ export type pos_salesUpdateOneRequiredWithoutSale_itemsNestedInput = {
 }
 
 export type pos_salesCreateWithoutCustomer_cardsInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -762,9 +765,10 @@ export type pos_salesCreateWithoutCustomer_cardsInput = {
 }
 
 export type pos_salesUncheckedCreateWithoutCustomer_cardsInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -807,21 +811,24 @@ export type pos_salesScalarWhereInput = {
   AND?: Prisma.pos_salesScalarWhereInput | Prisma.pos_salesScalarWhereInput[]
   OR?: Prisma.pos_salesScalarWhereInput[]
   NOT?: Prisma.pos_salesScalarWhereInput | Prisma.pos_salesScalarWhereInput[]
-  sale_id?: Prisma.IntFilter<"pos_sales"> | number
-  customer_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
-  promotion_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  id?: Prisma.UuidFilter<"pos_sales"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
+  promotion_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   sale_date?: Prisma.DateTimeNullableFilter<"pos_sales"> | Date | string | null
   subtotal?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFilter<"pos_sales"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.StringNullableFilter<"pos_sales"> | string | null
-  card_id?: Prisma.IntNullableFilter<"pos_sales"> | number | null
+  card_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
   status?: Prisma.StringNullableFilter<"pos_sales"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"pos_sales"> | string | null
 }
 
 export type pos_salesCreateWithoutCustomersInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -837,15 +844,16 @@ export type pos_salesCreateWithoutCustomersInput = {
 }
 
 export type pos_salesUncheckedCreateWithoutCustomersInput = {
-  sale_id?: number
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
@@ -879,6 +887,8 @@ export type pos_salesUpdateManyWithWhereWithoutCustomersInput = {
 }
 
 export type pos_salesCreateWithoutPromotion_usageInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -894,16 +904,17 @@ export type pos_salesCreateWithoutPromotion_usageInput = {
 }
 
 export type pos_salesUncheckedCreateWithoutPromotion_usageInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
   sale_items?: Prisma.sale_itemsUncheckedCreateNestedManyWithoutPos_salesInput
@@ -926,6 +937,8 @@ export type pos_salesUpdateToOneWithWhereWithoutPromotion_usageInput = {
 }
 
 export type pos_salesUpdateWithoutPromotion_usageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -941,22 +954,25 @@ export type pos_salesUpdateWithoutPromotion_usageInput = {
 }
 
 export type pos_salesUncheckedUpdateWithoutPromotion_usageInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_items?: Prisma.sale_itemsUncheckedUpdateManyWithoutPos_salesNestedInput
 }
 
 export type pos_salesCreateWithoutPromotionsInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -972,15 +988,16 @@ export type pos_salesCreateWithoutPromotionsInput = {
 }
 
 export type pos_salesUncheckedCreateWithoutPromotionsInput = {
-  sale_id?: number
-  customer_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
@@ -1014,6 +1031,8 @@ export type pos_salesUpdateManyWithWhereWithoutPromotionsInput = {
 }
 
 export type pos_salesCreateWithoutSale_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1029,16 +1048,17 @@ export type pos_salesCreateWithoutSale_itemsInput = {
 }
 
 export type pos_salesUncheckedCreateWithoutSale_itemsInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput
@@ -1061,6 +1081,8 @@ export type pos_salesUpdateToOneWithWhereWithoutSale_itemsInput = {
 }
 
 export type pos_salesUpdateWithoutSale_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1076,25 +1098,27 @@ export type pos_salesUpdateWithoutSale_itemsInput = {
 }
 
 export type pos_salesUncheckedUpdateWithoutSale_itemsInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
 }
 
 export type pos_salesCreateManyCustomer_cardsInput = {
-  sale_id?: number
-  customer_id?: number | null
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1106,6 +1130,8 @@ export type pos_salesCreateManyCustomer_cardsInput = {
 }
 
 export type pos_salesUpdateWithoutCustomer_cardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1121,9 +1147,10 @@ export type pos_salesUpdateWithoutCustomer_cardsInput = {
 }
 
 export type pos_salesUncheckedUpdateWithoutCustomer_cardsInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1137,9 +1164,10 @@ export type pos_salesUncheckedUpdateWithoutCustomer_cardsInput = {
 }
 
 export type pos_salesUncheckedUpdateManyWithoutCustomer_cardsInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1151,20 +1179,23 @@ export type pos_salesUncheckedUpdateManyWithoutCustomer_cardsInput = {
 }
 
 export type pos_salesCreateManyCustomersInput = {
-  sale_id?: number
-  promotion_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  promotion_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
 }
 
 export type pos_salesUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1180,15 +1211,16 @@ export type pos_salesUpdateWithoutCustomersInput = {
 }
 
 export type pos_salesUncheckedUpdateWithoutCustomersInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
@@ -1196,34 +1228,38 @@ export type pos_salesUncheckedUpdateWithoutCustomersInput = {
 }
 
 export type pos_salesUncheckedUpdateManyWithoutCustomersInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_salesCreateManyPromotionsInput = {
-  sale_id?: number
-  customer_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  customer_id?: string | null
   sale_date?: Date | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: string | null
-  card_id?: number | null
+  card_id?: string | null
   status?: string | null
   auth_user_id?: string | null
 }
 
 export type pos_salesUpdateWithoutPromotionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1239,15 +1275,16 @@ export type pos_salesUpdateWithoutPromotionsInput = {
 }
 
 export type pos_salesUncheckedUpdateWithoutPromotionsInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput
@@ -1255,15 +1292,16 @@ export type pos_salesUncheckedUpdateWithoutPromotionsInput = {
 }
 
 export type pos_salesUncheckedUpdateManyWithoutPromotionsInput = {
-  sale_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  card_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  card_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -1309,7 +1347,8 @@ export type Pos_salesCountOutputTypeCountSale_itemsArgs<ExtArgs extends runtime.
 
 
 export type pos_salesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   customer_id?: boolean
   promotion_id?: boolean
   sale_date?: boolean
@@ -1330,7 +1369,8 @@ export type pos_salesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 }, ExtArgs["result"]["pos_sales"]>
 
 export type pos_salesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   customer_id?: boolean
   promotion_id?: boolean
   sale_date?: boolean
@@ -1348,7 +1388,8 @@ export type pos_salesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["pos_sales"]>
 
 export type pos_salesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   customer_id?: boolean
   promotion_id?: boolean
   sale_date?: boolean
@@ -1366,7 +1407,8 @@ export type pos_salesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["pos_sales"]>
 
 export type pos_salesSelectScalar = {
-  sale_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   customer_id?: boolean
   promotion_id?: boolean
   sale_date?: boolean
@@ -1380,7 +1422,7 @@ export type pos_salesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type pos_salesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"sale_id" | "customer_id" | "promotion_id" | "sale_date" | "subtotal" | "discount_amount" | "tax_amount" | "total_amount" | "payment_method" | "card_id" | "status" | "auth_user_id", ExtArgs["result"]["pos_sales"]>
+export type pos_salesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "customer_id" | "promotion_id" | "sale_date" | "subtotal" | "discount_amount" | "tax_amount" | "total_amount" | "payment_method" | "card_id" | "status" | "auth_user_id", ExtArgs["result"]["pos_sales"]>
 export type pos_salesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_cards?: boolean | Prisma.pos_sales$customer_cardsArgs<ExtArgs>
   customers?: boolean | Prisma.pos_sales$customersArgs<ExtArgs>
@@ -1410,16 +1452,17 @@ export type $pos_salesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     sale_items: Prisma.$sale_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    sale_id: number
-    customer_id: number | null
-    promotion_id: number | null
+    id: string
+    tenant_id: string | null
+    customer_id: string | null
+    promotion_id: string | null
     sale_date: Date | null
     subtotal: runtime.Decimal
     discount_amount: runtime.Decimal | null
     tax_amount: runtime.Decimal | null
     total_amount: runtime.Decimal
     payment_method: string | null
-    card_id: number | null
+    card_id: string | null
     status: string | null
     auth_user_id: string | null
   }, ExtArgs["result"]["pos_sales"]>
@@ -1505,8 +1548,8 @@ export interface pos_salesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Pos_sales
    * const pos_sales = await prisma.pos_sales.findMany({ take: 10 })
    * 
-   * // Only select the `sale_id`
-   * const pos_salesWithSale_idOnly = await prisma.pos_sales.findMany({ select: { sale_id: true } })
+   * // Only select the `id`
+   * const pos_salesWithIdOnly = await prisma.pos_sales.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends pos_salesFindManyArgs>(args?: Prisma.SelectSubset<T, pos_salesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1550,9 +1593,9 @@ export interface pos_salesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Pos_sales and only return the `sale_id`
-   * const pos_salesWithSale_idOnly = await prisma.pos_sales.createManyAndReturn({
-   *   select: { sale_id: true },
+   * // Create many Pos_sales and only return the `id`
+   * const pos_salesWithIdOnly = await prisma.pos_sales.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1641,9 +1684,9 @@ export interface pos_salesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Pos_sales and only return the `sale_id`
-   * const pos_salesWithSale_idOnly = await prisma.pos_sales.updateManyAndReturn({
-   *   select: { sale_id: true },
+   * // Update zero or more Pos_sales and only return the `id`
+   * const pos_salesWithIdOnly = await prisma.pos_sales.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1850,16 +1893,17 @@ export interface Prisma__pos_salesClient<T, Null = never, ExtArgs extends runtim
  * Fields of the pos_sales model
  */
 export interface pos_salesFieldRefs {
-  readonly sale_id: Prisma.FieldRef<"pos_sales", 'Int'>
-  readonly customer_id: Prisma.FieldRef<"pos_sales", 'Int'>
-  readonly promotion_id: Prisma.FieldRef<"pos_sales", 'Int'>
+  readonly id: Prisma.FieldRef<"pos_sales", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"pos_sales", 'String'>
+  readonly customer_id: Prisma.FieldRef<"pos_sales", 'String'>
+  readonly promotion_id: Prisma.FieldRef<"pos_sales", 'String'>
   readonly sale_date: Prisma.FieldRef<"pos_sales", 'DateTime'>
   readonly subtotal: Prisma.FieldRef<"pos_sales", 'Decimal'>
   readonly discount_amount: Prisma.FieldRef<"pos_sales", 'Decimal'>
   readonly tax_amount: Prisma.FieldRef<"pos_sales", 'Decimal'>
   readonly total_amount: Prisma.FieldRef<"pos_sales", 'Decimal'>
   readonly payment_method: Prisma.FieldRef<"pos_sales", 'String'>
-  readonly card_id: Prisma.FieldRef<"pos_sales", 'Int'>
+  readonly card_id: Prisma.FieldRef<"pos_sales", 'String'>
   readonly status: Prisma.FieldRef<"pos_sales", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"pos_sales", 'String'>
 }

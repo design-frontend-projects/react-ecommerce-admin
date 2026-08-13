@@ -31,6 +31,7 @@ export const PERMISSIONS = {
   SALES_VIEW: 'inventory.sales.view',
   SALES_MANAGE: 'inventory.sales.manage',
   AUDIT_VIEW: 'access_control.audit.view',
+  SHIFTS_USE: 'restaurant.shifts.use',
 } as const satisfies Record<string, Exclude<PermissionName, '*'>>
 
 export type KnownPermission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS]

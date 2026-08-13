@@ -14,28 +14,19 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model suppliers
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type suppliersModel = runtime.Types.Result.DefaultSelection<Prisma.$suppliersPayload>
 
 export type AggregateSuppliers = {
   _count: SuppliersCountAggregateOutputType | null
-  _avg: SuppliersAvgAggregateOutputType | null
-  _sum: SuppliersSumAggregateOutputType | null
   _min: SuppliersMinAggregateOutputType | null
   _max: SuppliersMaxAggregateOutputType | null
 }
 
-export type SuppliersAvgAggregateOutputType = {
-  supplier_id: number | null
-}
-
-export type SuppliersSumAggregateOutputType = {
-  supplier_id: number | null
-}
-
 export type SuppliersMinAggregateOutputType = {
-  supplier_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   contact_person: string | null
   email: string | null
@@ -51,7 +42,8 @@ export type SuppliersMinAggregateOutputType = {
 }
 
 export type SuppliersMaxAggregateOutputType = {
-  supplier_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   contact_person: string | null
   email: string | null
@@ -67,7 +59,8 @@ export type SuppliersMaxAggregateOutputType = {
 }
 
 export type SuppliersCountAggregateOutputType = {
-  supplier_id: number
+  id: number
+  tenant_id: number
   name: number
   contact_person: number
   email: number
@@ -84,16 +77,9 @@ export type SuppliersCountAggregateOutputType = {
 }
 
 
-export type SuppliersAvgAggregateInputType = {
-  supplier_id?: true
-}
-
-export type SuppliersSumAggregateInputType = {
-  supplier_id?: true
-}
-
 export type SuppliersMinAggregateInputType = {
-  supplier_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -109,7 +95,8 @@ export type SuppliersMinAggregateInputType = {
 }
 
 export type SuppliersMaxAggregateInputType = {
-  supplier_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -125,7 +112,8 @@ export type SuppliersMaxAggregateInputType = {
 }
 
 export type SuppliersCountAggregateInputType = {
-  supplier_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -179,18 +167,6 @@ export type SuppliersAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: SuppliersAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: SuppliersSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: SuppliersMinAggregateInputType
@@ -221,14 +197,13 @@ export type suppliersGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: SuppliersCountAggregateInputType | true
-  _avg?: SuppliersAvgAggregateInputType
-  _sum?: SuppliersSumAggregateInputType
   _min?: SuppliersMinAggregateInputType
   _max?: SuppliersMaxAggregateInputType
 }
 
 export type SuppliersGroupByOutputType = {
-  supplier_id: number
+  id: string
+  tenant_id: string | null
   name: string
   contact_person: string | null
   email: string | null
@@ -242,8 +217,6 @@ export type SuppliersGroupByOutputType = {
   is_preferred: boolean | null
   is_system: boolean | null
   _count: SuppliersCountAggregateOutputType | null
-  _avg: SuppliersAvgAggregateOutputType | null
-  _sum: SuppliersSumAggregateOutputType | null
   _min: SuppliersMinAggregateOutputType | null
   _max: SuppliersMaxAggregateOutputType | null
 }
@@ -267,7 +240,8 @@ export type suppliersWhereInput = {
   AND?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
   OR?: Prisma.suppliersWhereInput[]
   NOT?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
-  supplier_id?: Prisma.IntFilter<"suppliers"> | number
+  id?: Prisma.UuidFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -292,7 +266,8 @@ export type suppliersWhereInput = {
 }
 
 export type suppliersOrderByWithRelationInput = {
-  supplier_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -317,10 +292,11 @@ export type suppliersOrderByWithRelationInput = {
 }
 
 export type suppliersWhereUniqueInput = Prisma.AtLeast<{
-  supplier_id?: number
+  id?: string
   AND?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
   OR?: Prisma.suppliersWhereInput[]
   NOT?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -342,10 +318,11 @@ export type suppliersWhereUniqueInput = Prisma.AtLeast<{
   reorder_rules?: Prisma.Reorder_rulesListRelationFilter
   reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
-}, "supplier_id">
+}, "id">
 
 export type suppliersOrderByWithAggregationInput = {
-  supplier_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,17 +336,16 @@ export type suppliersOrderByWithAggregationInput = {
   is_preferred?: Prisma.SortOrderInput | Prisma.SortOrder
   is_system?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.suppliersCountOrderByAggregateInput
-  _avg?: Prisma.suppliersAvgOrderByAggregateInput
   _max?: Prisma.suppliersMaxOrderByAggregateInput
   _min?: Prisma.suppliersMinOrderByAggregateInput
-  _sum?: Prisma.suppliersSumOrderByAggregateInput
 }
 
 export type suppliersScalarWhereWithAggregatesInput = {
   AND?: Prisma.suppliersScalarWhereWithAggregatesInput | Prisma.suppliersScalarWhereWithAggregatesInput[]
   OR?: Prisma.suppliersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.suppliersScalarWhereWithAggregatesInput | Prisma.suppliersScalarWhereWithAggregatesInput[]
-  supplier_id?: Prisma.IntWithAggregatesFilter<"suppliers"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
@@ -385,6 +361,8 @@ export type suppliersScalarWhereWithAggregatesInput = {
 }
 
 export type suppliersCreateInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -408,7 +386,8 @@ export type suppliersCreateInput = {
 }
 
 export type suppliersUncheckedCreateInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -432,6 +411,8 @@ export type suppliersUncheckedCreateInput = {
 }
 
 export type suppliersUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -455,7 +436,8 @@ export type suppliersUpdateInput = {
 }
 
 export type suppliersUncheckedUpdateInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -479,7 +461,8 @@ export type suppliersUncheckedUpdateInput = {
 }
 
 export type suppliersCreateManyInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -495,6 +478,8 @@ export type suppliersCreateManyInput = {
 }
 
 export type suppliersUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -509,7 +494,8 @@ export type suppliersUpdateManyMutationInput = {
 }
 
 export type suppliersUncheckedUpdateManyInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -545,7 +531,8 @@ export type SuppliersScalarRelationFilter = {
 }
 
 export type suppliersCountOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -560,12 +547,9 @@ export type suppliersCountOrderByAggregateInput = {
   is_system?: Prisma.SortOrder
 }
 
-export type suppliersAvgOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
-}
-
 export type suppliersMaxOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -581,7 +565,8 @@ export type suppliersMaxOrderByAggregateInput = {
 }
 
 export type suppliersMinOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -594,10 +579,6 @@ export type suppliersMinOrderByAggregateInput = {
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
-}
-
-export type suppliersSumOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
 }
 
 export type suppliersCreateNestedManyWithoutCitiesInput = {
@@ -767,6 +748,8 @@ export type suppliersUpdateOneWithoutReorder_suggestionsNestedInput = {
 }
 
 export type suppliersCreateWithoutCitiesInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -789,7 +772,8 @@ export type suppliersCreateWithoutCitiesInput = {
 }
 
 export type suppliersUncheckedCreateWithoutCitiesInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -841,7 +825,8 @@ export type suppliersScalarWhereInput = {
   AND?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
   OR?: Prisma.suppliersScalarWhereInput[]
   NOT?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
-  supplier_id?: Prisma.IntFilter<"suppliers"> | number
+  id?: Prisma.UuidFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -857,6 +842,8 @@ export type suppliersScalarWhereInput = {
 }
 
 export type suppliersCreateWithoutProductsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -879,7 +866,8 @@ export type suppliersCreateWithoutProductsInput = {
 }
 
 export type suppliersUncheckedCreateWithoutProductsInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -918,6 +906,8 @@ export type suppliersUpdateToOneWithWhereWithoutProductsInput = {
 }
 
 export type suppliersUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -940,7 +930,8 @@ export type suppliersUpdateWithoutProductsInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutProductsInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -963,6 +954,8 @@ export type suppliersUncheckedUpdateWithoutProductsInput = {
 }
 
 export type suppliersCreateWithoutPurchase_invoicesInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -985,7 +978,8 @@ export type suppliersCreateWithoutPurchase_invoicesInput = {
 }
 
 export type suppliersUncheckedCreateWithoutPurchase_invoicesInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1024,6 +1018,8 @@ export type suppliersUpdateToOneWithWhereWithoutPurchase_invoicesInput = {
 }
 
 export type suppliersUpdateWithoutPurchase_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1046,7 +1042,8 @@ export type suppliersUpdateWithoutPurchase_invoicesInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutPurchase_invoicesInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1069,6 +1066,8 @@ export type suppliersUncheckedUpdateWithoutPurchase_invoicesInput = {
 }
 
 export type suppliersCreateWithoutPurchase_ordersInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1091,7 +1090,8 @@ export type suppliersCreateWithoutPurchase_ordersInput = {
 }
 
 export type suppliersUncheckedCreateWithoutPurchase_ordersInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1130,6 +1130,8 @@ export type suppliersUpdateToOneWithWhereWithoutPurchase_ordersInput = {
 }
 
 export type suppliersUpdateWithoutPurchase_ordersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1152,7 +1154,8 @@ export type suppliersUpdateWithoutPurchase_ordersInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1175,6 +1178,8 @@ export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
 }
 
 export type suppliersCreateWithoutPurchase_returnsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1197,7 +1202,8 @@ export type suppliersCreateWithoutPurchase_returnsInput = {
 }
 
 export type suppliersUncheckedCreateWithoutPurchase_returnsInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1236,6 +1242,8 @@ export type suppliersUpdateToOneWithWhereWithoutPurchase_returnsInput = {
 }
 
 export type suppliersUpdateWithoutPurchase_returnsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1258,7 +1266,8 @@ export type suppliersUpdateWithoutPurchase_returnsInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutPurchase_returnsInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1281,6 +1290,8 @@ export type suppliersUncheckedUpdateWithoutPurchase_returnsInput = {
 }
 
 export type suppliersCreateWithoutGoods_receiptsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1303,7 +1314,8 @@ export type suppliersCreateWithoutGoods_receiptsInput = {
 }
 
 export type suppliersUncheckedCreateWithoutGoods_receiptsInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1342,6 +1354,8 @@ export type suppliersUpdateToOneWithWhereWithoutGoods_receiptsInput = {
 }
 
 export type suppliersUpdateWithoutGoods_receiptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1364,7 +1378,8 @@ export type suppliersUpdateWithoutGoods_receiptsInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutGoods_receiptsInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1387,6 +1402,8 @@ export type suppliersUncheckedUpdateWithoutGoods_receiptsInput = {
 }
 
 export type suppliersCreateWithoutPurchase_requisition_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1409,7 +1426,8 @@ export type suppliersCreateWithoutPurchase_requisition_itemsInput = {
 }
 
 export type suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1448,6 +1466,8 @@ export type suppliersUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput 
 }
 
 export type suppliersUpdateWithoutPurchase_requisition_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1470,7 +1490,8 @@ export type suppliersUpdateWithoutPurchase_requisition_itemsInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1493,6 +1514,8 @@ export type suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
 }
 
 export type suppliersCreateWithoutReorder_rulesInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1515,7 +1538,8 @@ export type suppliersCreateWithoutReorder_rulesInput = {
 }
 
 export type suppliersUncheckedCreateWithoutReorder_rulesInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1554,6 +1578,8 @@ export type suppliersUpdateToOneWithWhereWithoutReorder_rulesInput = {
 }
 
 export type suppliersUpdateWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1576,7 +1602,8 @@ export type suppliersUpdateWithoutReorder_rulesInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutReorder_rulesInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1599,6 +1626,8 @@ export type suppliersUncheckedUpdateWithoutReorder_rulesInput = {
 }
 
 export type suppliersCreateWithoutReorder_suggestionsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1621,7 +1650,8 @@ export type suppliersCreateWithoutReorder_suggestionsInput = {
 }
 
 export type suppliersUncheckedCreateWithoutReorder_suggestionsInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1660,6 +1690,8 @@ export type suppliersUpdateToOneWithWhereWithoutReorder_suggestionsInput = {
 }
 
 export type suppliersUpdateWithoutReorder_suggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1682,7 +1714,8 @@ export type suppliersUpdateWithoutReorder_suggestionsInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutReorder_suggestionsInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1705,7 +1738,8 @@ export type suppliersUncheckedUpdateWithoutReorder_suggestionsInput = {
 }
 
 export type suppliersCreateManyCitiesInput = {
-  supplier_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1720,6 +1754,8 @@ export type suppliersCreateManyCitiesInput = {
 }
 
 export type suppliersUpdateWithoutCitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1742,7 +1778,8 @@ export type suppliersUpdateWithoutCitiesInput = {
 }
 
 export type suppliersUncheckedUpdateWithoutCitiesInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1765,7 +1802,8 @@ export type suppliersUncheckedUpdateWithoutCitiesInput = {
 }
 
 export type suppliersUncheckedUpdateManyWithoutCitiesInput = {
-  supplier_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1874,7 +1912,8 @@ export type SuppliersCountOutputTypeCountReorder_suggestionsArgs<ExtArgs extends
 
 
 export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  supplier_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -1900,7 +1939,8 @@ export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  supplier_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -1917,7 +1957,8 @@ export type suppliersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  supplier_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -1934,7 +1975,8 @@ export type suppliersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectScalar = {
-  supplier_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -1949,7 +1991,7 @@ export type suppliersSelectScalar = {
   is_system?: boolean
 }
 
-export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"supplier_id" | "name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "auth_user_id" | "city_id" | "is_preferred" | "is_system", ExtArgs["result"]["suppliers"]>
+export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "auth_user_id" | "city_id" | "is_preferred" | "is_system", ExtArgs["result"]["suppliers"]>
 export type suppliersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   goods_receipts?: boolean | Prisma.suppliers$goods_receiptsArgs<ExtArgs>
   products?: boolean | Prisma.suppliers$productsArgs<ExtArgs>
@@ -1983,7 +2025,8 @@ export type $suppliersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     cities: Prisma.$citiesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    supplier_id: number
+    id: string
+    tenant_id: string | null
     name: string
     contact_person: string | null
     email: string | null
@@ -2079,8 +2122,8 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Suppliers
    * const suppliers = await prisma.suppliers.findMany({ take: 10 })
    * 
-   * // Only select the `supplier_id`
-   * const suppliersWithSupplier_idOnly = await prisma.suppliers.findMany({ select: { supplier_id: true } })
+   * // Only select the `id`
+   * const suppliersWithIdOnly = await prisma.suppliers.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends suppliersFindManyArgs>(args?: Prisma.SelectSubset<T, suppliersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -2124,9 +2167,9 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Suppliers and only return the `supplier_id`
-   * const suppliersWithSupplier_idOnly = await prisma.suppliers.createManyAndReturn({
-   *   select: { supplier_id: true },
+   * // Create many Suppliers and only return the `id`
+   * const suppliersWithIdOnly = await prisma.suppliers.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -2215,9 +2258,9 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Suppliers and only return the `supplier_id`
-   * const suppliersWithSupplier_idOnly = await prisma.suppliers.updateManyAndReturn({
-   *   select: { supplier_id: true },
+   * // Update zero or more Suppliers and only return the `id`
+   * const suppliersWithIdOnly = await prisma.suppliers.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2428,7 +2471,8 @@ export interface Prisma__suppliersClient<T, Null = never, ExtArgs extends runtim
  * Fields of the suppliers model
  */
 export interface suppliersFieldRefs {
-  readonly supplier_id: Prisma.FieldRef<"suppliers", 'Int'>
+  readonly id: Prisma.FieldRef<"suppliers", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"suppliers", 'String'>
   readonly name: Prisma.FieldRef<"suppliers", 'String'>
   readonly contact_person: Prisma.FieldRef<"suppliers", 'String'>
   readonly email: Prisma.FieldRef<"suppliers", 'String'>

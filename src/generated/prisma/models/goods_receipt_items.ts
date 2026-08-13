@@ -27,13 +27,11 @@ export type AggregateGoods_receipt_items = {
 }
 
 export type Goods_receipt_itemsAvgAggregateOutputType = {
-  purchase_order_item_id: number | null
   qty_received: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
 }
 
 export type Goods_receipt_itemsSumAggregateOutputType = {
-  purchase_order_item_id: number | null
   qty_received: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
 }
@@ -41,7 +39,7 @@ export type Goods_receipt_itemsSumAggregateOutputType = {
 export type Goods_receipt_itemsMinAggregateOutputType = {
   id: string | null
   goods_receipt_id: string | null
-  purchase_order_item_id: number | null
+  purchase_order_item_id: string | null
   product_variant_id: string | null
   qty_received: runtime.Decimal | null
   uom_id: string | null
@@ -56,7 +54,7 @@ export type Goods_receipt_itemsMinAggregateOutputType = {
 export type Goods_receipt_itemsMaxAggregateOutputType = {
   id: string | null
   goods_receipt_id: string | null
-  purchase_order_item_id: number | null
+  purchase_order_item_id: string | null
   product_variant_id: string | null
   qty_received: runtime.Decimal | null
   uom_id: string | null
@@ -87,13 +85,11 @@ export type Goods_receipt_itemsCountAggregateOutputType = {
 
 
 export type Goods_receipt_itemsAvgAggregateInputType = {
-  purchase_order_item_id?: true
   qty_received?: true
   unit_cost?: true
 }
 
 export type Goods_receipt_itemsSumAggregateInputType = {
-  purchase_order_item_id?: true
   qty_received?: true
   unit_cost?: true
 }
@@ -234,7 +230,7 @@ export type goods_receipt_itemsGroupByArgs<ExtArgs extends runtime.Types.Extensi
 export type Goods_receipt_itemsGroupByOutputType = {
   id: string
   goods_receipt_id: string
-  purchase_order_item_id: number | null
+  purchase_order_item_id: string | null
   product_variant_id: string
   qty_received: runtime.Decimal
   uom_id: string | null
@@ -273,7 +269,7 @@ export type goods_receipt_itemsWhereInput = {
   NOT?: Prisma.goods_receipt_itemsWhereInput | Prisma.goods_receipt_itemsWhereInput[]
   id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   goods_receipt_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
-  purchase_order_item_id?: Prisma.IntNullableFilter<"goods_receipt_items"> | number | null
+  purchase_order_item_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   product_variant_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
@@ -320,7 +316,7 @@ export type goods_receipt_itemsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.goods_receipt_itemsWhereInput[]
   NOT?: Prisma.goods_receipt_itemsWhereInput | Prisma.goods_receipt_itemsWhereInput[]
   goods_receipt_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
-  purchase_order_item_id?: Prisma.IntNullableFilter<"goods_receipt_items"> | number | null
+  purchase_order_item_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   product_variant_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
@@ -366,7 +362,7 @@ export type goods_receipt_itemsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.goods_receipt_itemsScalarWhereWithAggregatesInput | Prisma.goods_receipt_itemsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"goods_receipt_items"> | string
   goods_receipt_id?: Prisma.UuidWithAggregatesFilter<"goods_receipt_items"> | string
-  purchase_order_item_id?: Prisma.IntNullableWithAggregatesFilter<"goods_receipt_items"> | number | null
+  purchase_order_item_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalWithAggregatesFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
@@ -398,7 +394,7 @@ export type goods_receipt_itemsCreateInput = {
 export type goods_receipt_itemsUncheckedCreateInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -430,7 +426,7 @@ export type goods_receipt_itemsUpdateInput = {
 export type goods_receipt_itemsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -446,7 +442,7 @@ export type goods_receipt_itemsUncheckedUpdateInput = {
 export type goods_receipt_itemsCreateManyInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -472,7 +468,7 @@ export type goods_receipt_itemsUpdateManyMutationInput = {
 export type goods_receipt_itemsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -512,7 +508,6 @@ export type goods_receipt_itemsCountOrderByAggregateInput = {
 }
 
 export type goods_receipt_itemsAvgOrderByAggregateInput = {
-  purchase_order_item_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
@@ -548,7 +543,6 @@ export type goods_receipt_itemsMinOrderByAggregateInput = {
 }
 
 export type goods_receipt_itemsSumOrderByAggregateInput = {
-  purchase_order_item_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
@@ -823,7 +817,7 @@ export type goods_receipt_itemsCreateWithoutProduct_variantsInput = {
 export type goods_receipt_itemsUncheckedCreateWithoutProduct_variantsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -867,7 +861,7 @@ export type goods_receipt_itemsScalarWhereInput = {
   NOT?: Prisma.goods_receipt_itemsScalarWhereInput | Prisma.goods_receipt_itemsScalarWhereInput[]
   id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   goods_receipt_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
-  purchase_order_item_id?: Prisma.IntNullableFilter<"goods_receipt_items"> | number | null
+  purchase_order_item_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   product_variant_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
@@ -954,7 +948,7 @@ export type goods_receipt_itemsCreateWithoutWarehouse_locationsInput = {
 export type goods_receipt_itemsUncheckedCreateWithoutWarehouse_locationsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1010,7 +1004,7 @@ export type goods_receipt_itemsCreateWithoutUomsInput = {
 export type goods_receipt_itemsUncheckedCreateWithoutUomsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1066,7 +1060,7 @@ export type goods_receipt_itemsCreateWithoutProduct_batchesInput = {
 export type goods_receipt_itemsUncheckedCreateWithoutProduct_batchesInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1121,7 +1115,7 @@ export type goods_receipt_itemsCreateWithoutGoods_receiptsInput = {
 
 export type goods_receipt_itemsUncheckedCreateWithoutGoods_receiptsInput = {
   id?: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1163,7 +1157,7 @@ export type goods_receipt_itemsUpdateManyWithWhereWithoutGoods_receiptsInput = {
 export type goods_receipt_itemsCreateManyProduct_variantsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1193,7 +1187,7 @@ export type goods_receipt_itemsUpdateWithoutProduct_variantsInput = {
 export type goods_receipt_itemsUncheckedUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1208,7 +1202,7 @@ export type goods_receipt_itemsUncheckedUpdateWithoutProduct_variantsInput = {
 export type goods_receipt_itemsUncheckedUpdateManyWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1283,7 +1277,7 @@ export type goods_receipt_itemsUncheckedUpdateManyWithoutPurchase_order_itemsInp
 export type goods_receipt_itemsCreateManyWarehouse_locationsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1313,7 +1307,7 @@ export type goods_receipt_itemsUpdateWithoutWarehouse_locationsInput = {
 export type goods_receipt_itemsUncheckedUpdateWithoutWarehouse_locationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1328,7 +1322,7 @@ export type goods_receipt_itemsUncheckedUpdateWithoutWarehouse_locationsInput = 
 export type goods_receipt_itemsUncheckedUpdateManyWithoutWarehouse_locationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1343,7 +1337,7 @@ export type goods_receipt_itemsUncheckedUpdateManyWithoutWarehouse_locationsInpu
 export type goods_receipt_itemsCreateManyUomsInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1373,7 +1367,7 @@ export type goods_receipt_itemsUpdateWithoutUomsInput = {
 export type goods_receipt_itemsUncheckedUpdateWithoutUomsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1388,7 +1382,7 @@ export type goods_receipt_itemsUncheckedUpdateWithoutUomsInput = {
 export type goods_receipt_itemsUncheckedUpdateManyWithoutUomsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1403,7 +1397,7 @@ export type goods_receipt_itemsUncheckedUpdateManyWithoutUomsInput = {
 export type goods_receipt_itemsCreateManyProduct_batchesInput = {
   id?: string
   goods_receipt_id: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1433,7 +1427,7 @@ export type goods_receipt_itemsUpdateWithoutProduct_batchesInput = {
 export type goods_receipt_itemsUncheckedUpdateWithoutProduct_batchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1448,7 +1442,7 @@ export type goods_receipt_itemsUncheckedUpdateWithoutProduct_batchesInput = {
 export type goods_receipt_itemsUncheckedUpdateManyWithoutProduct_batchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1462,7 +1456,7 @@ export type goods_receipt_itemsUncheckedUpdateManyWithoutProduct_batchesInput = 
 
 export type goods_receipt_itemsCreateManyGoods_receiptsInput = {
   id?: string
-  purchase_order_item_id?: number | null
+  purchase_order_item_id?: string | null
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -1492,7 +1486,7 @@ export type goods_receipt_itemsUpdateWithoutGoods_receiptsInput = {
 
 export type goods_receipt_itemsUncheckedUpdateWithoutGoods_receiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1507,7 +1501,7 @@ export type goods_receipt_itemsUncheckedUpdateWithoutGoods_receiptsInput = {
 
 export type goods_receipt_itemsUncheckedUpdateManyWithoutGoods_receiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  purchase_order_item_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1643,7 +1637,7 @@ export type $goods_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     goods_receipt_id: string
-    purchase_order_item_id: number | null
+    purchase_order_item_id: string | null
     product_variant_id: string
     qty_received: runtime.Decimal
     uom_id: string | null
@@ -2085,7 +2079,7 @@ export interface Prisma__goods_receipt_itemsClient<T, Null = never, ExtArgs exte
 export interface goods_receipt_itemsFieldRefs {
   readonly id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly goods_receipt_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
-  readonly purchase_order_item_id: Prisma.FieldRef<"goods_receipt_items", 'Int'>
+  readonly purchase_order_item_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly qty_received: Prisma.FieldRef<"goods_receipt_items", 'Decimal'>
   readonly uom_id: Prisma.FieldRef<"goods_receipt_items", 'String'>

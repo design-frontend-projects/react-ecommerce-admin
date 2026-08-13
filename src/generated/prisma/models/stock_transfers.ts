@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model stock_transfers
- * Inter-store stock transfer header. Applied atomically via the apply_stock_transfer() RPC,
- * which writes paired transfer_out/transfer_in rows to inventory_movements.
+ * 
  */
 export type stock_transfersModel = runtime.Types.Result.DefaultSelection<Prisma.$stock_transfersPayload>
 

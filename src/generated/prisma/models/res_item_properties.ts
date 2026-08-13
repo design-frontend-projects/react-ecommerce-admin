@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_item_properties
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_item_propertiesModel = runtime.Types.Result.DefaultSelection<Prisma.$res_item_propertiesPayload>
 
@@ -38,6 +38,7 @@ export type Res_item_propertiesSumAggregateOutputType = {
 
 export type Res_item_propertiesMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   item_id: string | null
   name: string | null
   is_required: boolean | null
@@ -49,6 +50,7 @@ export type Res_item_propertiesMinAggregateOutputType = {
 
 export type Res_item_propertiesMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   item_id: string | null
   name: string | null
   is_required: boolean | null
@@ -60,6 +62,7 @@ export type Res_item_propertiesMaxAggregateOutputType = {
 
 export type Res_item_propertiesCountAggregateOutputType = {
   id: number
+  tenant_id: number
   item_id: number
   name: number
   options: number
@@ -84,6 +87,7 @@ export type Res_item_propertiesSumAggregateInputType = {
 
 export type Res_item_propertiesMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   is_required?: true
@@ -95,6 +99,7 @@ export type Res_item_propertiesMinAggregateInputType = {
 
 export type Res_item_propertiesMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   is_required?: true
@@ -106,6 +111,7 @@ export type Res_item_propertiesMaxAggregateInputType = {
 
 export type Res_item_propertiesCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   options?: true
@@ -205,6 +211,7 @@ export type res_item_propertiesGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Res_item_propertiesGroupByOutputType = {
   id: string
+  tenant_id: string | null
   item_id: string | null
   name: string
   options: runtime.JsonValue | null
@@ -240,6 +247,7 @@ export type res_item_propertiesWhereInput = {
   OR?: Prisma.res_item_propertiesWhereInput[]
   NOT?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
   id?: Prisma.UuidFilter<"res_item_properties"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   name?: Prisma.StringFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableFilter<"res_item_properties">
@@ -253,6 +261,7 @@ export type res_item_propertiesWhereInput = {
 
 export type res_item_propertiesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -269,6 +278,7 @@ export type res_item_propertiesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
   OR?: Prisma.res_item_propertiesWhereInput[]
   NOT?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   name?: Prisma.StringFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableFilter<"res_item_properties">
@@ -282,6 +292,7 @@ export type res_item_propertiesWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_item_propertiesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -302,6 +313,7 @@ export type res_item_propertiesScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_item_propertiesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_item_propertiesScalarWhereWithAggregatesInput | Prisma.res_item_propertiesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_item_properties"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableWithAggregatesFilter<"res_item_properties">
@@ -314,6 +326,7 @@ export type res_item_propertiesScalarWhereWithAggregatesInput = {
 
 export type res_item_propertiesCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: boolean | null
@@ -326,6 +339,7 @@ export type res_item_propertiesCreateInput = {
 
 export type res_item_propertiesUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   item_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -338,6 +352,7 @@ export type res_item_propertiesUncheckedCreateInput = {
 
 export type res_item_propertiesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -350,6 +365,7 @@ export type res_item_propertiesUpdateInput = {
 
 export type res_item_propertiesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -362,6 +378,7 @@ export type res_item_propertiesUncheckedUpdateInput = {
 
 export type res_item_propertiesCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   item_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -374,6 +391,7 @@ export type res_item_propertiesCreateManyInput = {
 
 export type res_item_propertiesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -385,6 +403,7 @@ export type res_item_propertiesUpdateManyMutationInput = {
 
 export type res_item_propertiesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -397,6 +416,7 @@ export type res_item_propertiesUncheckedUpdateManyInput = {
 
 export type res_item_propertiesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrder
@@ -414,6 +434,7 @@ export type res_item_propertiesAvgOrderByAggregateInput = {
 
 export type res_item_propertiesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_required?: Prisma.SortOrder
@@ -425,6 +446,7 @@ export type res_item_propertiesMaxOrderByAggregateInput = {
 
 export type res_item_propertiesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_required?: Prisma.SortOrder
@@ -493,6 +515,7 @@ export type res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsNestedInp
 
 export type res_item_propertiesCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: boolean | null
@@ -504,6 +527,7 @@ export type res_item_propertiesCreateWithoutRes_menu_itemsInput = {
 
 export type res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: boolean | null
@@ -544,6 +568,7 @@ export type res_item_propertiesScalarWhereInput = {
   OR?: Prisma.res_item_propertiesScalarWhereInput[]
   NOT?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
   id?: Prisma.UuidFilter<"res_item_properties"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   name?: Prisma.StringFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableFilter<"res_item_properties">
@@ -556,6 +581,7 @@ export type res_item_propertiesScalarWhereInput = {
 
 export type res_item_propertiesCreateManyRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: boolean | null
@@ -567,6 +593,7 @@ export type res_item_propertiesCreateManyRes_menu_itemsInput = {
 
 export type res_item_propertiesUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -578,6 +605,7 @@ export type res_item_propertiesUpdateWithoutRes_menu_itemsInput = {
 
 export type res_item_propertiesUncheckedUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -589,6 +617,7 @@ export type res_item_propertiesUncheckedUpdateWithoutRes_menu_itemsInput = {
 
 export type res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -602,6 +631,7 @@ export type res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsInput = {
 
 export type res_item_propertiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -615,6 +645,7 @@ export type res_item_propertiesSelect<ExtArgs extends runtime.Types.Extensions.I
 
 export type res_item_propertiesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -628,6 +659,7 @@ export type res_item_propertiesSelectCreateManyAndReturn<ExtArgs extends runtime
 
 export type res_item_propertiesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -641,6 +673,7 @@ export type res_item_propertiesSelectUpdateManyAndReturn<ExtArgs extends runtime
 
 export type res_item_propertiesSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -651,7 +684,7 @@ export type res_item_propertiesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type res_item_propertiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "name" | "options" | "is_required" | "max_selections" | "created_at" | "price" | "auth_user_id", ExtArgs["result"]["res_item_properties"]>
+export type res_item_propertiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "item_id" | "name" | "options" | "is_required" | "max_selections" | "created_at" | "price" | "auth_user_id", ExtArgs["result"]["res_item_properties"]>
 export type res_item_propertiesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
 }
@@ -669,6 +702,7 @@ export type $res_item_propertiesPayload<ExtArgs extends runtime.Types.Extensions
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     item_id: string | null
     name: string
     options: runtime.JsonValue | null
@@ -1102,6 +1136,7 @@ export interface Prisma__res_item_propertiesClient<T, Null = never, ExtArgs exte
  */
 export interface res_item_propertiesFieldRefs {
   readonly id: Prisma.FieldRef<"res_item_properties", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly item_id: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly name: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly options: Prisma.FieldRef<"res_item_properties", 'Json'>

@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model sales_return_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type sales_return_itemsModel = runtime.Types.Result.DefaultSelection<Prisma.$sales_return_itemsPayload>
 

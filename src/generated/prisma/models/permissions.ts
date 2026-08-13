@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model permissions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type permissionsModel = runtime.Types.Result.DefaultSelection<Prisma.$permissionsPayload>
 
@@ -881,9 +881,6 @@ export type $permissionsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     created_at: Date | null
     updated_at: Date | null
     action: string | null
-    /**
-     * Nullable, backfilled by splitting `name` on the first `.`. `name` stays the unique source of truth.
-     */
     resource: string | null
     auth_user_id: string | null
   }, ExtArgs["result"]["permissions"]>

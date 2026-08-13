@@ -27,14 +27,12 @@ export type AggregateSales_returns = {
 }
 
 export type Sales_returnsAvgAggregateOutputType = {
-  customer_id: number | null
   subtotal: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
 }
 
 export type Sales_returnsSumAggregateOutputType = {
-  customer_id: number | null
   subtotal: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
@@ -46,7 +44,7 @@ export type Sales_returnsMinAggregateOutputType = {
   sales_invoice_id: string | null
   branch_id: string | null
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   return_no: string | null
   return_date: Date | null
   status: $Enums.return_status_enum | null
@@ -66,7 +64,7 @@ export type Sales_returnsMaxAggregateOutputType = {
   sales_invoice_id: string | null
   branch_id: string | null
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   return_no: string | null
   return_date: Date | null
   status: $Enums.return_status_enum | null
@@ -103,14 +101,12 @@ export type Sales_returnsCountAggregateOutputType = {
 
 
 export type Sales_returnsAvgAggregateInputType = {
-  customer_id?: true
   subtotal?: true
   tax_amount?: true
   total_amount?: true
 }
 
 export type Sales_returnsSumAggregateInputType = {
-  customer_id?: true
   subtotal?: true
   tax_amount?: true
   total_amount?: true
@@ -269,7 +265,7 @@ export type Sales_returnsGroupByOutputType = {
   sales_invoice_id: string | null
   branch_id: string
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   return_no: string
   return_date: Date
   status: $Enums.return_status_enum
@@ -312,7 +308,7 @@ export type sales_returnsWhereInput = {
   sales_invoice_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   branch_id?: Prisma.UuidFilter<"sales_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_returns"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   return_no?: Prisma.StringFilter<"sales_returns"> | string
   return_date?: Prisma.DateTimeFilter<"sales_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumFilter<"sales_returns"> | $Enums.return_status_enum
@@ -367,7 +363,7 @@ export type sales_returnsWhereUniqueInput = Prisma.AtLeast<{
   sales_invoice_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   branch_id?: Prisma.UuidFilter<"sales_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_returns"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   return_no?: Prisma.StringFilter<"sales_returns"> | string
   return_date?: Prisma.DateTimeFilter<"sales_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumFilter<"sales_returns"> | $Enums.return_status_enum
@@ -421,7 +417,7 @@ export type sales_returnsScalarWhereWithAggregatesInput = {
   sales_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_returns"> | string | null
   branch_id?: Prisma.UuidWithAggregatesFilter<"sales_returns"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_returns"> | string | null
-  customer_id?: Prisma.IntNullableWithAggregatesFilter<"sales_returns"> | number | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_returns"> | string | null
   return_no?: Prisma.StringWithAggregatesFilter<"sales_returns"> | string
   return_date?: Prisma.DateTimeWithAggregatesFilter<"sales_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumWithAggregatesFilter<"sales_returns"> | $Enums.return_status_enum
@@ -463,7 +459,7 @@ export type sales_returnsUncheckedCreateInput = {
   sales_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -507,7 +503,7 @@ export type sales_returnsUncheckedUpdateInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -529,7 +525,7 @@ export type sales_returnsCreateManyInput = {
   sales_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -565,7 +561,7 @@ export type sales_returnsUncheckedUpdateManyInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -615,7 +611,6 @@ export type sales_returnsCountOrderByAggregateInput = {
 }
 
 export type sales_returnsAvgOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -662,7 +657,6 @@ export type sales_returnsMinOrderByAggregateInput = {
 }
 
 export type sales_returnsSumOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -897,7 +891,7 @@ export type sales_returnsUncheckedCreateWithoutBranchesInput = {
   auth_user_id?: string
   sales_invoice_id?: string | null
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -948,7 +942,7 @@ export type sales_returnsScalarWhereInput = {
   sales_invoice_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   branch_id?: Prisma.UuidFilter<"sales_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_returns"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   return_no?: Prisma.StringFilter<"sales_returns"> | string
   return_date?: Prisma.DateTimeFilter<"sales_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumFilter<"sales_returns"> | $Enums.return_status_enum
@@ -1056,7 +1050,7 @@ export type sales_returnsUncheckedCreateWithoutSales_invoicesInput = {
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1125,7 +1119,7 @@ export type sales_returnsUncheckedCreateWithoutSales_return_itemsInput = {
   sales_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1183,7 +1177,7 @@ export type sales_returnsUncheckedUpdateWithoutSales_return_itemsInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1224,7 +1218,7 @@ export type sales_returnsUncheckedCreateWithoutStoresInput = {
   auth_user_id?: string
   sales_invoice_id?: string | null
   branch_id: string
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1293,7 +1287,7 @@ export type sales_returnsUncheckedCreateWithoutTransactionsInput = {
   sales_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1351,7 +1345,7 @@ export type sales_returnsUncheckedUpdateWithoutTransactionsInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1371,7 +1365,7 @@ export type sales_returnsCreateManyBranchesInput = {
   auth_user_id?: string
   sales_invoice_id?: string | null
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1411,7 +1405,7 @@ export type sales_returnsUncheckedUpdateWithoutBranchesInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1432,7 +1426,7 @@ export type sales_returnsUncheckedUpdateManyWithoutBranchesInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1531,7 +1525,7 @@ export type sales_returnsCreateManySales_invoicesInput = {
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1571,7 +1565,7 @@ export type sales_returnsUncheckedUpdateWithoutSales_invoicesInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1592,7 +1586,7 @@ export type sales_returnsUncheckedUpdateManyWithoutSales_invoicesInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1611,7 +1605,7 @@ export type sales_returnsCreateManyStoresInput = {
   auth_user_id?: string
   sales_invoice_id?: string | null
   branch_id: string
-  customer_id?: number | null
+  customer_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -1651,7 +1645,7 @@ export type sales_returnsUncheckedUpdateWithoutStoresInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1672,7 +1666,7 @@ export type sales_returnsUncheckedUpdateManyWithoutStoresInput = {
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -1860,7 +1854,7 @@ export type $sales_returnsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     sales_invoice_id: string | null
     branch_id: string
     store_id: string | null
-    customer_id: number | null
+    customer_id: string | null
     return_no: string
     return_date: Date
     status: $Enums.return_status_enum
@@ -2306,7 +2300,7 @@ export interface sales_returnsFieldRefs {
   readonly sales_invoice_id: Prisma.FieldRef<"sales_returns", 'String'>
   readonly branch_id: Prisma.FieldRef<"sales_returns", 'String'>
   readonly store_id: Prisma.FieldRef<"sales_returns", 'String'>
-  readonly customer_id: Prisma.FieldRef<"sales_returns", 'Int'>
+  readonly customer_id: Prisma.FieldRef<"sales_returns", 'String'>
   readonly return_no: Prisma.FieldRef<"sales_returns", 'String'>
   readonly return_date: Prisma.FieldRef<"sales_returns", 'DateTime'>
   readonly status: Prisma.FieldRef<"sales_returns", 'return_status_enum'>

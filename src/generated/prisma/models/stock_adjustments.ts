@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model stock_adjustments
- * Batch stock adjustment header (manual entry / damaged-expired / stocktake).
- * Applied atomically via the apply_stock_adjustment() RPC. See specs/023-stock-adjustments.
+ * 
  */
 export type stock_adjustmentsModel = runtime.Types.Result.DefaultSelection<Prisma.$stock_adjustmentsPayload>
 

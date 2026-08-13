@@ -27,8 +27,6 @@ export type AggregateSales_invoices = {
 }
 
 export type Sales_invoicesAvgAggregateOutputType = {
-  customer_id: number | null
-  price_list_id: number | null
   subtotal: runtime.Decimal | null
   discount_value: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -40,8 +38,6 @@ export type Sales_invoicesAvgAggregateOutputType = {
 }
 
 export type Sales_invoicesSumAggregateOutputType = {
-  customer_id: number | null
-  price_list_id: number | null
   subtotal: runtime.Decimal | null
   discount_value: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -54,12 +50,14 @@ export type Sales_invoicesSumAggregateOutputType = {
 
 export type Sales_invoicesMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   pos_terminal_id: string | null
-  price_list_id: number | null
+  price_list_id: string | null
+  channel: string | null
   invoice_no: string | null
   external_reference: string | null
   invoice_date: Date | null
@@ -84,12 +82,14 @@ export type Sales_invoicesMinAggregateOutputType = {
 
 export type Sales_invoicesMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   pos_terminal_id: string | null
-  price_list_id: number | null
+  price_list_id: string | null
+  channel: string | null
   invoice_no: string | null
   external_reference: string | null
   invoice_date: Date | null
@@ -114,12 +114,14 @@ export type Sales_invoicesMaxAggregateOutputType = {
 
 export type Sales_invoicesCountAggregateOutputType = {
   id: number
+  tenant_id: number
   auth_user_id: number
   branch_id: number
   store_id: number
   customer_id: number
   pos_terminal_id: number
   price_list_id: number
+  channel: number
   invoice_no: number
   external_reference: number
   invoice_date: number
@@ -145,8 +147,6 @@ export type Sales_invoicesCountAggregateOutputType = {
 
 
 export type Sales_invoicesAvgAggregateInputType = {
-  customer_id?: true
-  price_list_id?: true
   subtotal?: true
   discount_value?: true
   discount_amount?: true
@@ -158,8 +158,6 @@ export type Sales_invoicesAvgAggregateInputType = {
 }
 
 export type Sales_invoicesSumAggregateInputType = {
-  customer_id?: true
-  price_list_id?: true
   subtotal?: true
   discount_value?: true
   discount_amount?: true
@@ -172,12 +170,14 @@ export type Sales_invoicesSumAggregateInputType = {
 
 export type Sales_invoicesMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
   customer_id?: true
   pos_terminal_id?: true
   price_list_id?: true
+  channel?: true
   invoice_no?: true
   external_reference?: true
   invoice_date?: true
@@ -202,12 +202,14 @@ export type Sales_invoicesMinAggregateInputType = {
 
 export type Sales_invoicesMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
   customer_id?: true
   pos_terminal_id?: true
   price_list_id?: true
+  channel?: true
   invoice_no?: true
   external_reference?: true
   invoice_date?: true
@@ -232,12 +234,14 @@ export type Sales_invoicesMaxAggregateInputType = {
 
 export type Sales_invoicesCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
   customer_id?: true
   pos_terminal_id?: true
   price_list_id?: true
+  channel?: true
   invoice_no?: true
   external_reference?: true
   invoice_date?: true
@@ -349,12 +353,14 @@ export type sales_invoicesGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type Sales_invoicesGroupByOutputType = {
   id: string
+  tenant_id: string | null
   auth_user_id: string
   branch_id: string
   store_id: string | null
-  customer_id: number | null
+  customer_id: string | null
   pos_terminal_id: string | null
-  price_list_id: number | null
+  price_list_id: string | null
+  channel: string | null
   invoice_no: string
   external_reference: string | null
   invoice_date: Date
@@ -402,12 +408,14 @@ export type sales_invoicesWhereInput = {
   OR?: Prisma.sales_invoicesWhereInput[]
   NOT?: Prisma.sales_invoicesWhereInput | Prisma.sales_invoicesWhereInput[]
   id?: Prisma.UuidFilter<"sales_invoices"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   auth_user_id?: Prisma.UuidFilter<"sales_invoices"> | string
   branch_id?: Prisma.UuidFilter<"sales_invoices"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   pos_terminal_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  price_list_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  price_list_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
+  channel?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_no?: Prisma.StringFilter<"sales_invoices"> | string
   external_reference?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_date?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
@@ -442,12 +450,14 @@ export type sales_invoicesWhereInput = {
 
 export type sales_invoicesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   pos_terminal_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel?: Prisma.SortOrderInput | Prisma.SortOrder
   invoice_no?: Prisma.SortOrder
   external_reference?: Prisma.SortOrderInput | Prisma.SortOrder
   invoice_date?: Prisma.SortOrder
@@ -485,12 +495,14 @@ export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.sales_invoicesWhereInput | Prisma.sales_invoicesWhereInput[]
   OR?: Prisma.sales_invoicesWhereInput[]
   NOT?: Prisma.sales_invoicesWhereInput | Prisma.sales_invoicesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   auth_user_id?: Prisma.UuidFilter<"sales_invoices"> | string
   branch_id?: Prisma.UuidFilter<"sales_invoices"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   pos_terminal_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  price_list_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  price_list_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
+  channel?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_no?: Prisma.StringFilter<"sales_invoices"> | string
   external_reference?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_date?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
@@ -525,12 +537,14 @@ export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
 
 export type sales_invoicesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   pos_terminal_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel?: Prisma.SortOrderInput | Prisma.SortOrder
   invoice_no?: Prisma.SortOrder
   external_reference?: Prisma.SortOrderInput | Prisma.SortOrder
   invoice_date?: Prisma.SortOrder
@@ -563,12 +577,14 @@ export type sales_invoicesScalarWhereWithAggregatesInput = {
   OR?: Prisma.sales_invoicesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.sales_invoicesScalarWhereWithAggregatesInput | Prisma.sales_invoicesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"sales_invoices"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"sales_invoices"> | string
   branch_id?: Prisma.UuidWithAggregatesFilter<"sales_invoices"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
-  customer_id?: Prisma.IntNullableWithAggregatesFilter<"sales_invoices"> | number | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
   pos_terminal_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
-  price_list_id?: Prisma.IntNullableWithAggregatesFilter<"sales_invoices"> | number | null
+  price_list_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
+  channel?: Prisma.StringNullableWithAggregatesFilter<"sales_invoices"> | string | null
   invoice_no?: Prisma.StringWithAggregatesFilter<"sales_invoices"> | string
   external_reference?: Prisma.StringNullableWithAggregatesFilter<"sales_invoices"> | string | null
   invoice_date?: Prisma.DateTimeWithAggregatesFilter<"sales_invoices"> | Date | string
@@ -593,7 +609,9 @@ export type sales_invoicesScalarWhereWithAggregatesInput = {
 
 export type sales_invoicesCreateInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -628,12 +646,14 @@ export type sales_invoicesCreateInput = {
 
 export type sales_invoicesUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -663,7 +683,9 @@ export type sales_invoicesUncheckedCreateInput = {
 
 export type sales_invoicesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -698,12 +720,14 @@ export type sales_invoicesUpdateInput = {
 
 export type sales_invoicesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -733,12 +757,14 @@ export type sales_invoicesUncheckedUpdateInput = {
 
 export type sales_invoicesCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -763,7 +789,9 @@ export type sales_invoicesCreateManyInput = {
 
 export type sales_invoicesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -788,12 +816,14 @@ export type sales_invoicesUpdateManyMutationInput = {
 
 export type sales_invoicesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -838,12 +868,14 @@ export type Sales_invoicesScalarRelationFilter = {
 
 export type sales_invoicesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   pos_terminal_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  channel?: Prisma.SortOrder
   invoice_no?: Prisma.SortOrder
   external_reference?: Prisma.SortOrder
   invoice_date?: Prisma.SortOrder
@@ -867,8 +899,6 @@ export type sales_invoicesCountOrderByAggregateInput = {
 }
 
 export type sales_invoicesAvgOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
-  price_list_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -881,12 +911,14 @@ export type sales_invoicesAvgOrderByAggregateInput = {
 
 export type sales_invoicesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   pos_terminal_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  channel?: Prisma.SortOrder
   invoice_no?: Prisma.SortOrder
   external_reference?: Prisma.SortOrder
   invoice_date?: Prisma.SortOrder
@@ -911,12 +943,14 @@ export type sales_invoicesMaxOrderByAggregateInput = {
 
 export type sales_invoicesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   pos_terminal_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  channel?: Prisma.SortOrder
   invoice_no?: Prisma.SortOrder
   external_reference?: Prisma.SortOrder
   invoice_date?: Prisma.SortOrder
@@ -940,8 +974,6 @@ export type sales_invoicesMinOrderByAggregateInput = {
 }
 
 export type sales_invoicesSumOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
-  price_list_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -1242,7 +1274,9 @@ export type sales_invoicesUpdateOneWithoutSales_ordersNestedInput = {
 
 export type sales_invoicesCreateWithoutBranchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1276,11 +1310,13 @@ export type sales_invoicesCreateWithoutBranchesInput = {
 
 export type sales_invoicesUncheckedCreateWithoutBranchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1339,12 +1375,14 @@ export type sales_invoicesScalarWhereInput = {
   OR?: Prisma.sales_invoicesScalarWhereInput[]
   NOT?: Prisma.sales_invoicesScalarWhereInput | Prisma.sales_invoicesScalarWhereInput[]
   id?: Prisma.UuidFilter<"sales_invoices"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   auth_user_id?: Prisma.UuidFilter<"sales_invoices"> | string
   branch_id?: Prisma.UuidFilter<"sales_invoices"> | string
   store_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  customer_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   pos_terminal_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
-  price_list_id?: Prisma.IntNullableFilter<"sales_invoices"> | number | null
+  price_list_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
+  channel?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_no?: Prisma.StringFilter<"sales_invoices"> | string
   external_reference?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
   invoice_date?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
@@ -1369,7 +1407,9 @@ export type sales_invoicesScalarWhereInput = {
 
 export type sales_invoicesCreateWithoutCustomersInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1403,11 +1443,13 @@ export type sales_invoicesCreateWithoutCustomersInput = {
 
 export type sales_invoicesUncheckedCreateWithoutCustomersInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1463,7 +1505,9 @@ export type sales_invoicesUpdateManyWithWhereWithoutCustomersInput = {
 
 export type sales_invoicesCreateWithoutPos_terminalsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1497,11 +1541,13 @@ export type sales_invoicesCreateWithoutPos_terminalsInput = {
 
 export type sales_invoicesUncheckedCreateWithoutPos_terminalsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
-  price_list_id?: number | null
+  customer_id?: string | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1557,7 +1603,9 @@ export type sales_invoicesUpdateManyWithWhereWithoutPos_terminalsInput = {
 
 export type sales_invoicesCreateWithoutPrice_listInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1591,11 +1639,13 @@ export type sales_invoicesCreateWithoutPrice_listInput = {
 
 export type sales_invoicesUncheckedCreateWithoutPrice_listInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1651,7 +1701,9 @@ export type sales_invoicesUpdateManyWithWhereWithoutPrice_listInput = {
 
 export type sales_invoicesCreateWithoutRefundsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1685,12 +1737,14 @@ export type sales_invoicesCreateWithoutRefundsInput = {
 
 export type sales_invoicesUncheckedCreateWithoutRefundsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1735,7 +1789,9 @@ export type sales_invoicesUpdateToOneWithWhereWithoutRefundsInput = {
 
 export type sales_invoicesUpdateWithoutRefundsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1769,12 +1825,14 @@ export type sales_invoicesUpdateWithoutRefundsInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutRefundsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1803,7 +1861,9 @@ export type sales_invoicesUncheckedUpdateWithoutRefundsInput = {
 
 export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1837,12 +1897,14 @@ export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
 
 export type sales_invoicesUncheckedCreateWithoutSales_invoice_itemsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1887,7 +1949,9 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_invoice_itemsInput = 
 
 export type sales_invoicesUpdateWithoutSales_invoice_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1921,12 +1985,14 @@ export type sales_invoicesUpdateWithoutSales_invoice_itemsInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutSales_invoice_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1955,7 +2021,9 @@ export type sales_invoicesUncheckedUpdateWithoutSales_invoice_itemsInput = {
 
 export type sales_invoicesCreateWithoutSales_returnsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -1989,12 +2057,14 @@ export type sales_invoicesCreateWithoutSales_returnsInput = {
 
 export type sales_invoicesUncheckedCreateWithoutSales_returnsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2039,7 +2109,9 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_returnsInput = {
 
 export type sales_invoicesUpdateWithoutSales_returnsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2073,12 +2145,14 @@ export type sales_invoicesUpdateWithoutSales_returnsInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutSales_returnsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2107,7 +2181,9 @@ export type sales_invoicesUncheckedUpdateWithoutSales_returnsInput = {
 
 export type sales_invoicesCreateWithoutStoresInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2141,11 +2217,13 @@ export type sales_invoicesCreateWithoutStoresInput = {
 
 export type sales_invoicesUncheckedCreateWithoutStoresInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2201,7 +2279,9 @@ export type sales_invoicesUpdateManyWithWhereWithoutStoresInput = {
 
 export type sales_invoicesCreateWithoutTransactionsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2235,12 +2315,14 @@ export type sales_invoicesCreateWithoutTransactionsInput = {
 
 export type sales_invoicesUncheckedCreateWithoutTransactionsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2285,7 +2367,9 @@ export type sales_invoicesUpdateToOneWithWhereWithoutTransactionsInput = {
 
 export type sales_invoicesUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2319,12 +2403,14 @@ export type sales_invoicesUpdateWithoutTransactionsInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2353,7 +2439,9 @@ export type sales_invoicesUncheckedUpdateWithoutTransactionsInput = {
 
 export type sales_invoicesCreateWithoutSales_ordersInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2387,12 +2475,14 @@ export type sales_invoicesCreateWithoutSales_ordersInput = {
 
 export type sales_invoicesUncheckedCreateWithoutSales_ordersInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2437,7 +2527,9 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_ordersInput = {
 
 export type sales_invoicesUpdateWithoutSales_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2471,12 +2563,14 @@ export type sales_invoicesUpdateWithoutSales_ordersInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutSales_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2505,11 +2599,13 @@ export type sales_invoicesUncheckedUpdateWithoutSales_ordersInput = {
 
 export type sales_invoicesCreateManyBranchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2534,7 +2630,9 @@ export type sales_invoicesCreateManyBranchesInput = {
 
 export type sales_invoicesUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2568,11 +2666,13 @@ export type sales_invoicesUpdateWithoutBranchesInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2602,11 +2702,13 @@ export type sales_invoicesUncheckedUpdateWithoutBranchesInput = {
 
 export type sales_invoicesUncheckedUpdateManyWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2631,11 +2733,13 @@ export type sales_invoicesUncheckedUpdateManyWithoutBranchesInput = {
 
 export type sales_invoicesCreateManyCustomersInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2660,7 +2764,9 @@ export type sales_invoicesCreateManyCustomersInput = {
 
 export type sales_invoicesUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2694,11 +2800,13 @@ export type sales_invoicesUpdateWithoutCustomersInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2728,11 +2836,13 @@ export type sales_invoicesUncheckedUpdateWithoutCustomersInput = {
 
 export type sales_invoicesUncheckedUpdateManyWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2757,11 +2867,13 @@ export type sales_invoicesUncheckedUpdateManyWithoutCustomersInput = {
 
 export type sales_invoicesCreateManyPos_terminalsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
-  price_list_id?: number | null
+  customer_id?: string | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2786,7 +2898,9 @@ export type sales_invoicesCreateManyPos_terminalsInput = {
 
 export type sales_invoicesUpdateWithoutPos_terminalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2820,11 +2934,13 @@ export type sales_invoicesUpdateWithoutPos_terminalsInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutPos_terminalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2854,11 +2970,13 @@ export type sales_invoicesUncheckedUpdateWithoutPos_terminalsInput = {
 
 export type sales_invoicesUncheckedUpdateManyWithoutPos_terminalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2883,11 +3001,13 @@ export type sales_invoicesUncheckedUpdateManyWithoutPos_terminalsInput = {
 
 export type sales_invoicesCreateManyPrice_listInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
   store_id?: string | null
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -2912,7 +3032,9 @@ export type sales_invoicesCreateManyPrice_listInput = {
 
 export type sales_invoicesUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2946,11 +3068,13 @@ export type sales_invoicesUpdateWithoutPrice_listInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2980,11 +3104,13 @@ export type sales_invoicesUncheckedUpdateWithoutPrice_listInput = {
 
 export type sales_invoicesUncheckedUpdateManyWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3009,11 +3135,13 @@ export type sales_invoicesUncheckedUpdateManyWithoutPrice_listInput = {
 
 export type sales_invoicesCreateManyStoresInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id?: string
   branch_id: string
-  customer_id?: number | null
+  customer_id?: string | null
   pos_terminal_id?: string | null
-  price_list_id?: number | null
+  price_list_id?: string | null
+  channel?: string | null
   invoice_no: string
   external_reference?: string | null
   invoice_date?: Date | string
@@ -3038,7 +3166,9 @@ export type sales_invoicesCreateManyStoresInput = {
 
 export type sales_invoicesUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3072,11 +3202,13 @@ export type sales_invoicesUpdateWithoutStoresInput = {
 
 export type sales_invoicesUncheckedUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3106,11 +3238,13 @@ export type sales_invoicesUncheckedUpdateWithoutStoresInput = {
 
 export type sales_invoicesUncheckedUpdateManyWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price_list_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
   external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3202,12 +3336,14 @@ export type Sales_invoicesCountOutputTypeCountTransactionsArgs<ExtArgs extends r
 
 export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   customer_id?: boolean
   pos_terminal_id?: boolean
   price_list_id?: boolean
+  channel?: boolean
   invoice_no?: boolean
   external_reference?: boolean
   invoice_date?: boolean
@@ -3243,12 +3379,14 @@ export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type sales_invoicesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   customer_id?: boolean
   pos_terminal_id?: boolean
   price_list_id?: boolean
+  channel?: boolean
   invoice_no?: boolean
   external_reference?: boolean
   invoice_date?: boolean
@@ -3278,12 +3416,14 @@ export type sales_invoicesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 
 export type sales_invoicesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   customer_id?: boolean
   pos_terminal_id?: boolean
   price_list_id?: boolean
+  channel?: boolean
   invoice_no?: boolean
   external_reference?: boolean
   invoice_date?: boolean
@@ -3313,12 +3453,14 @@ export type sales_invoicesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 
 export type sales_invoicesSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   customer_id?: boolean
   pos_terminal_id?: boolean
   price_list_id?: boolean
+  channel?: boolean
   invoice_no?: boolean
   external_reference?: boolean
   invoice_date?: boolean
@@ -3341,7 +3483,7 @@ export type sales_invoicesSelectScalar = {
   updated_at?: boolean
 }
 
-export type sales_invoicesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "branch_id" | "store_id" | "customer_id" | "pos_terminal_id" | "price_list_id" | "invoice_no" | "external_reference" | "invoice_date" | "due_date" | "status" | "subtotal" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "rounding_amount" | "total_amount" | "paid_amount" | "due_amount" | "notes" | "created_by" | "updated_by" | "posted_at" | "created_at" | "updated_at", ExtArgs["result"]["sales_invoices"]>
+export type sales_invoicesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "branch_id" | "store_id" | "customer_id" | "pos_terminal_id" | "price_list_id" | "channel" | "invoice_no" | "external_reference" | "invoice_date" | "due_date" | "status" | "subtotal" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "rounding_amount" | "total_amount" | "paid_amount" | "due_amount" | "notes" | "created_by" | "updated_by" | "posted_at" | "created_at" | "updated_at", ExtArgs["result"]["sales_invoices"]>
 export type sales_invoicesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refunds?: boolean | Prisma.sales_invoices$refundsArgs<ExtArgs>
   sales_invoice_items?: boolean | Prisma.sales_invoices$sales_invoice_itemsArgs<ExtArgs>
@@ -3386,12 +3528,14 @@ export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.Inte
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     auth_user_id: string
     branch_id: string
     store_id: string | null
-    customer_id: number | null
+    customer_id: string | null
     pos_terminal_id: string | null
-    price_list_id: number | null
+    price_list_id: string | null
+    channel: string | null
     invoice_no: string
     external_reference: string | null
     invoice_date: Date
@@ -3846,12 +3990,14 @@ export interface Prisma__sales_invoicesClient<T, Null = never, ExtArgs extends r
  */
 export interface sales_invoicesFieldRefs {
   readonly id: Prisma.FieldRef<"sales_invoices", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly branch_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly store_id: Prisma.FieldRef<"sales_invoices", 'String'>
-  readonly customer_id: Prisma.FieldRef<"sales_invoices", 'Int'>
+  readonly customer_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly pos_terminal_id: Prisma.FieldRef<"sales_invoices", 'String'>
-  readonly price_list_id: Prisma.FieldRef<"sales_invoices", 'Int'>
+  readonly price_list_id: Prisma.FieldRef<"sales_invoices", 'String'>
+  readonly channel: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly invoice_no: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly external_reference: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly invoice_date: Prisma.FieldRef<"sales_invoices", 'DateTime'>

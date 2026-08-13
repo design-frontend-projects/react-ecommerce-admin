@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model stock_count_items
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type stock_count_itemsModel = runtime.Types.Result.DefaultSelection<Prisma.$stock_count_itemsPayload>
 

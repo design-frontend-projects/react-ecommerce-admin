@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
+  addresses: 'addresses',
+  res_addresses: 'res_addresses',
   branches: 'branches',
   categories: 'categories',
   cities: 'cities',
@@ -429,13 +431,11 @@ export const ModelName = {
   res_promotion_usage: 'res_promotion_usage',
   res_promotions: 'res_promotions',
   res_reservations: 'res_reservations',
-  res_roles: 'res_roles',
   res_shifts: 'res_shifts',
   res_tables: 'res_tables',
   res_void_requests: 'res_void_requests',
   role_permissions: 'role_permissions',
   roles: 'roles',
-  employee_roles: 'employee_roles',
   sale_items: 'sale_items',
   sales_invoice_items: 'sales_invoice_items',
   sales_invoices: 'sales_invoices',
@@ -515,7 +515,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_roles" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "employee_roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings" | "notifications" | "user_notifications" | "notification_templates"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "res_addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings" | "notifications" | "user_notifications" | "notification_templates"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -664,6 +664,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.audit_logsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Audit_logsCountAggregateOutputType> | number
+        }
+      }
+    }
+    addresses: {
+      payload: Prisma.$addressesPayload<ExtArgs>
+      fields: Prisma.addressesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.addressesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.addressesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        findFirst: {
+          args: Prisma.addressesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.addressesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        findMany: {
+          args: Prisma.addressesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>[]
+        }
+        create: {
+          args: Prisma.addressesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        createMany: {
+          args: Prisma.addressesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.addressesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>[]
+        }
+        delete: {
+          args: Prisma.addressesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        update: {
+          args: Prisma.addressesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        deleteMany: {
+          args: Prisma.addressesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.addressesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.addressesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>[]
+        }
+        upsert: {
+          args: Prisma.addressesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$addressesPayload>
+        }
+        aggregate: {
+          args: Prisma.AddressesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAddresses>
+        }
+        groupBy: {
+          args: Prisma.addressesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AddressesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.addressesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AddressesCountAggregateOutputType> | number
+        }
+      }
+    }
+    res_addresses: {
+      payload: Prisma.$res_addressesPayload<ExtArgs>
+      fields: Prisma.res_addressesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.res_addressesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.res_addressesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        findFirst: {
+          args: Prisma.res_addressesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.res_addressesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        findMany: {
+          args: Prisma.res_addressesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>[]
+        }
+        create: {
+          args: Prisma.res_addressesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        createMany: {
+          args: Prisma.res_addressesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.res_addressesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>[]
+        }
+        delete: {
+          args: Prisma.res_addressesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        update: {
+          args: Prisma.res_addressesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        deleteMany: {
+          args: Prisma.res_addressesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.res_addressesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.res_addressesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>[]
+        }
+        upsert: {
+          args: Prisma.res_addressesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_addressesPayload>
+        }
+        aggregate: {
+          args: Prisma.Res_addressesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRes_addresses>
+        }
+        groupBy: {
+          args: Prisma.res_addressesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Res_addressesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.res_addressesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Res_addressesCountAggregateOutputType> | number
         }
       }
     }
@@ -3849,80 +3997,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    res_roles: {
-      payload: Prisma.$res_rolesPayload<ExtArgs>
-      fields: Prisma.res_rolesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.res_rolesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.res_rolesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        findFirst: {
-          args: Prisma.res_rolesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.res_rolesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        findMany: {
-          args: Prisma.res_rolesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-        }
-        create: {
-          args: Prisma.res_rolesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        createMany: {
-          args: Prisma.res_rolesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.res_rolesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-        }
-        delete: {
-          args: Prisma.res_rolesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        update: {
-          args: Prisma.res_rolesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        deleteMany: {
-          args: Prisma.res_rolesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.res_rolesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.res_rolesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>[]
-        }
-        upsert: {
-          args: Prisma.res_rolesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$res_rolesPayload>
-        }
-        aggregate: {
-          args: Prisma.Res_rolesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRes_roles>
-        }
-        groupBy: {
-          args: Prisma.res_rolesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Res_rolesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.res_rolesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Res_rolesCountAggregateOutputType> | number
-        }
-      }
-    }
     res_shifts: {
       payload: Prisma.$res_shiftsPayload<ExtArgs>
       fields: Prisma.res_shiftsFieldRefs
@@ -4290,80 +4364,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.rolesCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RolesCountAggregateOutputType> | number
-        }
-      }
-    }
-    employee_roles: {
-      payload: Prisma.$employee_rolesPayload<ExtArgs>
-      fields: Prisma.employee_rolesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.employee_rolesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.employee_rolesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        findFirst: {
-          args: Prisma.employee_rolesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.employee_rolesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        findMany: {
-          args: Prisma.employee_rolesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>[]
-        }
-        create: {
-          args: Prisma.employee_rolesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        createMany: {
-          args: Prisma.employee_rolesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.employee_rolesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>[]
-        }
-        delete: {
-          args: Prisma.employee_rolesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        update: {
-          args: Prisma.employee_rolesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        deleteMany: {
-          args: Prisma.employee_rolesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.employee_rolesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.employee_rolesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>[]
-        }
-        upsert: {
-          args: Prisma.employee_rolesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$employee_rolesPayload>
-        }
-        aggregate: {
-          args: Prisma.Employee_rolesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateEmployee_roles>
-        }
-        groupBy: {
-          args: Prisma.employee_rolesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Employee_rolesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.employee_rolesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Employee_rolesCountAggregateOutputType> | number
         }
       }
     }
@@ -9172,6 +9172,46 @@ export const Audit_logsScalarFieldEnum = {
 export type Audit_logsScalarFieldEnum = (typeof Audit_logsScalarFieldEnum)[keyof typeof Audit_logsScalarFieldEnum]
 
 
+export const AddressesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  address_type: 'address_type',
+  line1: 'line1',
+  line2: 'line2',
+  city: 'city',
+  state: 'state',
+  postal_code: 'postal_code',
+  country: 'country',
+  country_id: 'country_id',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  is_default: 'is_default',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+} as const
+
+export type AddressesScalarFieldEnum = (typeof AddressesScalarFieldEnum)[keyof typeof AddressesScalarFieldEnum]
+
+
+export const Res_addressesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  address_type: 'address_type',
+  line1: 'line1',
+  line2: 'line2',
+  city: 'city',
+  state: 'state',
+  postal_code: 'postal_code',
+  country: 'country',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+} as const
+
+export type Res_addressesScalarFieldEnum = (typeof Res_addressesScalarFieldEnum)[keyof typeof Res_addressesScalarFieldEnum]
+
+
 export const BranchesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -9189,12 +9229,14 @@ export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typ
 
 
 export const CategoriesScalarFieldEnum = {
-  category_id: 'category_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   created_at: 'created_at',
   auth_user_id: 'auth_user_id',
-  is_active: 'is_active'
+  is_active: 'is_active',
+  deleted_at: 'deleted_at'
 } as const
 
 export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]
@@ -9241,7 +9283,8 @@ export type CurrenciesScalarFieldEnum = (typeof CurrenciesScalarFieldEnum)[keyof
 
 
 export const Customer_cardsScalarFieldEnum = {
-  card_id: 'card_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   customer_id: 'customer_id',
   card_type: 'card_type',
   last_four_digits: 'last_four_digits',
@@ -9259,7 +9302,8 @@ export type Customer_cardsScalarFieldEnum = (typeof Customer_cardsScalarFieldEnu
 
 
 export const Customer_groupsScalarFieldEnum = {
-  group_id: 'group_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   minimum_order_amount: 'minimum_order_amount',
@@ -9272,7 +9316,8 @@ export type Customer_groupsScalarFieldEnum = (typeof Customer_groupsScalarFieldE
 
 
 export const CustomersScalarFieldEnum = {
-  customer_id: 'customer_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   first_name: 'first_name',
   last_name: 'last_name',
   email: 'email',
@@ -9288,6 +9333,7 @@ export const CustomersScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
   group_id: 'group_id',
   auth_user_id: 'auth_user_id'
 } as const
@@ -9296,7 +9342,8 @@ export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof t
 
 
 export const InventoryScalarFieldEnum = {
-  inventory_id: 'inventory_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   product_id: 'product_id',
   quantity: 'quantity',
   reorder_level: 'reorder_level',
@@ -9313,6 +9360,7 @@ export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof t
 
 export const Payment_typesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   is_enabled: 'is_enabled',
   created_at: 'created_at',
@@ -9338,7 +9386,8 @@ export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[key
 
 
 export const Pos_salesScalarFieldEnum = {
-  sale_id: 'sale_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   customer_id: 'customer_id',
   promotion_id: 'promotion_id',
   sale_date: 'sale_date',
@@ -9372,7 +9421,8 @@ export type Pos_terminalsScalarFieldEnum = (typeof Pos_terminalsScalarFieldEnum)
 
 
 export const Price_listScalarFieldEnum = {
-  price_id: 'price_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   product_id: 'product_id',
   group_id: 'group_id',
   price: 'price',
@@ -9390,6 +9440,7 @@ export type Price_listScalarFieldEnum = (typeof Price_listScalarFieldEnum)[keyof
 
 export const Price_list_itemsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   price_list_id: 'price_list_id',
   product_variant_id: 'product_variant_id',
   price: 'price',
@@ -9425,7 +9476,8 @@ export type Product_variantsScalarFieldEnum = (typeof Product_variantsScalarFiel
 
 
 export const ProductsScalarFieldEnum = {
-  product_id: 'product_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   supplier_id: 'supplier_id',
   name: 'name',
   description: 'description',
@@ -9437,6 +9489,7 @@ export const ProductsScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
   reorder_level: 'reorder_level',
   auth_user_id: 'auth_user_id',
   store_id: 'store_id',
@@ -9504,7 +9557,8 @@ export type ProfilesScalarFieldEnum = (typeof ProfilesScalarFieldEnum)[keyof typ
 
 
 export const Promotion_usageScalarFieldEnum = {
-  usage_id: 'usage_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   promotion_id: 'promotion_id',
   customer_id: 'customer_id',
   sale_id: 'sale_id',
@@ -9521,7 +9575,8 @@ export type Promotion_usageScalarFieldEnum = (typeof Promotion_usageScalarFieldE
 
 
 export const PromotionsScalarFieldEnum = {
-  promotion_id: 'promotion_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   code: 'code',
   name: 'name',
   description: 'description',
@@ -9547,7 +9602,7 @@ export type PromotionsScalarFieldEnum = (typeof PromotionsScalarFieldEnum)[keyof
 
 
 export const Promotion_menu_scopesScalarFieldEnum = {
-  scope_id: 'scope_id',
+  id: 'id',
   promotion_id: 'promotion_id',
   menu_item_id: 'menu_item_id',
   menu_category_id: 'menu_category_id',
@@ -9582,6 +9637,7 @@ export type Purchase_invoice_itemsScalarFieldEnum = (typeof Purchase_invoice_ite
 
 export const Purchase_invoicesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
@@ -9612,7 +9668,8 @@ export type Purchase_invoicesScalarFieldEnum = (typeof Purchase_invoicesScalarFi
 
 
 export const Purchase_order_itemsScalarFieldEnum = {
-  po_item_id: 'po_item_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   po_id: 'po_id',
   product_id: 'product_id',
   quantity_ordered: 'quantity_ordered',
@@ -9627,7 +9684,8 @@ export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsSc
 
 
 export const Purchase_ordersScalarFieldEnum = {
-  po_id: 'po_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   supplier_id: 'supplier_id',
   order_date: 'order_date',
   expected_delivery_date: 'expected_delivery_date',
@@ -9695,7 +9753,8 @@ export type Purchase_returnsScalarFieldEnum = (typeof Purchase_returnsScalarFiel
 
 
 export const RefundsScalarFieldEnum = {
-  refund_id: 'refund_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   sale_id: 'sale_id',
   order_id: 'order_id',
   refund_date: 'refund_date',
@@ -9716,6 +9775,7 @@ export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeo
 
 export const Res_eventsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   title: 'title',
   description: 'description',
   event_date: 'event_date',
@@ -9733,6 +9793,7 @@ export type Res_eventsScalarFieldEnum = (typeof Res_eventsScalarFieldEnum)[keyof
 
 export const Res_floorsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   sort_order: 'sort_order',
@@ -9746,6 +9807,7 @@ export type Res_floorsScalarFieldEnum = (typeof Res_floorsScalarFieldEnum)[keyof
 
 export const Res_item_propertiesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   item_id: 'item_id',
   name: 'name',
   options: 'options',
@@ -9761,6 +9823,7 @@ export type Res_item_propertiesScalarFieldEnum = (typeof Res_item_propertiesScal
 
 export const Res_item_variantsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   item_id: 'item_id',
   name: 'name',
   price_adjustment: 'price_adjustment',
@@ -9774,6 +9837,7 @@ export type Res_item_variantsScalarFieldEnum = (typeof Res_item_variantsScalarFi
 
 export const Res_menu_categoriesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   name_ar: 'name_ar',
   icon: 'icon',
@@ -9788,6 +9852,7 @@ export type Res_menu_categoriesScalarFieldEnum = (typeof Res_menu_categoriesScal
 
 export const Res_menu_itemsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   category_id: 'category_id',
   name: 'name',
   name_ar: 'name_ar',
@@ -9809,6 +9874,7 @@ export type Res_menu_itemsScalarFieldEnum = (typeof Res_menu_itemsScalarFieldEnu
 
 export const Res_notificationsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   recipient_id: 'recipient_id',
   type: 'type',
   title: 'title',
@@ -9824,6 +9890,7 @@ export type Res_notificationsScalarFieldEnum = (typeof Res_notificationsScalarFi
 
 export const Res_order_itemsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   order_id: 'order_id',
   item_id: 'item_id',
   variant_id: 'variant_id',
@@ -9842,6 +9909,7 @@ export type Res_order_itemsScalarFieldEnum = (typeof Res_order_itemsScalarFieldE
 
 export const Res_ordersScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   order_number: 'order_number',
   table_id: 'table_id',
   shift_id: 'shift_id',
@@ -9875,6 +9943,7 @@ export type Res_ordersScalarFieldEnum = (typeof Res_ordersScalarFieldEnum)[keyof
 
 export const Res_shipmentsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   order_id: 'order_id',
   auth_user_id: 'auth_user_id',
   recipient_name: 'recipient_name',
@@ -9898,6 +9967,7 @@ export type Res_shipmentsScalarFieldEnum = (typeof Res_shipmentsScalarFieldEnum)
 
 export const Res_payment_methodsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   icon: 'icon',
   is_enabled: 'is_enabled',
@@ -9913,6 +9983,7 @@ export type Res_payment_methodsScalarFieldEnum = (typeof Res_payment_methodsScal
 
 export const Res_promotion_usageScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   promotion_id: 'promotion_id',
   order_id: 'order_id',
   applied_at: 'applied_at',
@@ -9924,6 +9995,7 @@ export type Res_promotion_usageScalarFieldEnum = (typeof Res_promotion_usageScal
 
 export const Res_promotionsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   code: 'code',
   description: 'description',
   discount_type: 'discount_type',
@@ -9943,6 +10015,7 @@ export type Res_promotionsScalarFieldEnum = (typeof Res_promotionsScalarFieldEnu
 
 export const Res_reservationsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   table_id: 'table_id',
   customer_name: 'customer_name',
   customer_phone: 'customer_phone',
@@ -9961,20 +10034,9 @@ export const Res_reservationsScalarFieldEnum = {
 export type Res_reservationsScalarFieldEnum = (typeof Res_reservationsScalarFieldEnum)[keyof typeof Res_reservationsScalarFieldEnum]
 
 
-export const Res_rolesScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  display_name: 'display_name',
-  permissions: 'permissions',
-  created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Res_rolesScalarFieldEnum = (typeof Res_rolesScalarFieldEnum)[keyof typeof Res_rolesScalarFieldEnum]
-
-
 export const Res_shiftsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   closed_by: 'closed_by',
   opening_cash: 'opening_cash',
@@ -10008,6 +10070,7 @@ export type Res_shiftsScalarFieldEnum = (typeof Res_shiftsScalarFieldEnum)[keyof
 
 export const Res_tablesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   floor_id: 'floor_id',
   table_number: 'table_number',
   seats: 'seats',
@@ -10025,6 +10088,7 @@ export type Res_tablesScalarFieldEnum = (typeof Res_tablesScalarFieldEnum)[keyof
 
 export const Res_void_requestsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   order_id: 'order_id',
   requested_by: 'requested_by',
   approved_by: 'approved_by',
@@ -10059,19 +10123,9 @@ export const RolesScalarFieldEnum = {
 export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
 
 
-export const Employee_rolesScalarFieldEnum = {
-  id: 'id',
-  auth_user_id: 'auth_user_id',
-  role_id: 'role_id',
-  assigned_at: 'assigned_at',
-  assigned_by: 'assigned_by'
-} as const
-
-export type Employee_rolesScalarFieldEnum = (typeof Employee_rolesScalarFieldEnum)[keyof typeof Employee_rolesScalarFieldEnum]
-
-
 export const Sale_itemsScalarFieldEnum = {
-  sale_item_id: 'sale_item_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   sale_id: 'sale_id',
   product_id: 'product_id',
   quantity: 'quantity',
@@ -10110,12 +10164,14 @@ export type Sales_invoice_itemsScalarFieldEnum = (typeof Sales_invoice_itemsScal
 
 export const Sales_invoicesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
   customer_id: 'customer_id',
   pos_terminal_id: 'pos_terminal_id',
   price_list_id: 'price_list_id',
+  channel: 'channel',
   invoice_no: 'invoice_no',
   external_reference: 'external_reference',
   invoice_date: 'invoice_date',
@@ -10182,7 +10238,8 @@ export type Sales_returnsScalarFieldEnum = (typeof Sales_returnsScalarFieldEnum)
 
 
 export const ShipmentsScalarFieldEnum = {
-  shipment_id: 'shipment_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   order_id: 'order_id',
   tracking_number: 'tracking_number',
   shipped_date: 'shipped_date',
@@ -10197,7 +10254,8 @@ export type ShipmentsScalarFieldEnum = (typeof ShipmentsScalarFieldEnum)[keyof t
 
 
 export const Shipping_methodsScalarFieldEnum = {
-  method_id: 'method_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   carrier: 'carrier',
@@ -10210,7 +10268,8 @@ export type Shipping_methodsScalarFieldEnum = (typeof Shipping_methodsScalarFiel
 
 
 export const Shipping_ratesScalarFieldEnum = {
-  rate_id: 'rate_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   method_id: 'method_id',
   destination_country: 'destination_country',
   destination_state: 'destination_state',
@@ -10259,7 +10318,8 @@ export type SubscriptionsScalarFieldEnum = (typeof SubscriptionsScalarFieldEnum)
 
 
 export const SuppliersScalarFieldEnum = {
-  supplier_id: 'supplier_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   contact_person: 'contact_person',
   email: 'email',
@@ -10278,7 +10338,8 @@ export type SuppliersScalarFieldEnum = (typeof SuppliersScalarFieldEnum)[keyof t
 
 
 export const Tax_ratesScalarFieldEnum = {
-  tax_rate_id: 'tax_rate_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
   tax_type: 'tax_type',
   rate: 'rate',
   description: 'description',
@@ -11323,20 +11384,6 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -11347,6 +11394,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -11463,20 +11524,6 @@ export type ListEnumreturn_status_enumFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
  * Reference to a field of type 'refund_status'
  */
 export type Enumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status'>
@@ -11491,6 +11538,34 @@ export type ListEnumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'order_item_status'
+ */
+export type Enumorder_item_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'order_item_status'>
+    
+
+
+/**
+ * Reference to a field of type 'order_item_status[]'
+ */
+export type ListEnumorder_item_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'order_item_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'order_status'
+ */
+export type Enumorder_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'order_status'>
+    
+
+
+/**
+ * Reference to a field of type 'order_status[]'
+ */
+export type ListEnumorder_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'order_status[]'>
+    
+
+
+/**
  * Reference to a field of type 'shipment_status_enum'
  */
 export type Enumshipment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'shipment_status_enum'>
@@ -11501,6 +11576,48 @@ export type Enumshipment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'shipment_status_enum[]'
  */
 export type ListEnumshipment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'shipment_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'reservation_status'
+ */
+export type Enumreservation_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'reservation_status'>
+    
+
+
+/**
+ * Reference to a field of type 'reservation_status[]'
+ */
+export type ListEnumreservation_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'reservation_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'table_status'
+ */
+export type Enumtable_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'table_status'>
+    
+
+
+/**
+ * Reference to a field of type 'table_status[]'
+ */
+export type ListEnumtable_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'table_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'void_request_status'
+ */
+export type Enumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'void_request_status'>
+    
+
+
+/**
+ * Reference to a field of type 'void_request_status[]'
+ */
+export type ListEnumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'void_request_status[]'>
     
 
 
@@ -11950,6 +12067,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   activity_types?: Prisma.activity_typesOmit
   audit_logs?: Prisma.audit_logsOmit
+  addresses?: Prisma.addressesOmit
+  res_addresses?: Prisma.res_addressesOmit
   branches?: Prisma.branchesOmit
   categories?: Prisma.categoriesOmit
   cities?: Prisma.citiesOmit
@@ -11993,13 +12112,11 @@ export type GlobalOmitConfig = {
   res_promotion_usage?: Prisma.res_promotion_usageOmit
   res_promotions?: Prisma.res_promotionsOmit
   res_reservations?: Prisma.res_reservationsOmit
-  res_roles?: Prisma.res_rolesOmit
   res_shifts?: Prisma.res_shiftsOmit
   res_tables?: Prisma.res_tablesOmit
   res_void_requests?: Prisma.res_void_requestsOmit
   role_permissions?: Prisma.role_permissionsOmit
   roles?: Prisma.rolesOmit
-  employee_roles?: Prisma.employee_rolesOmit
   sale_items?: Prisma.sale_itemsOmit
   sales_invoice_items?: Prisma.sales_invoice_itemsOmit
   sales_invoices?: Prisma.sales_invoicesOmit

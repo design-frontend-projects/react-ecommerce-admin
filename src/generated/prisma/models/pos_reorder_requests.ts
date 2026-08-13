@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model pos_reorder_requests
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type pos_reorder_requestsModel = runtime.Types.Result.DefaultSelection<Prisma.$pos_reorder_requestsPayload>
 
@@ -27,13 +27,11 @@ export type AggregatePos_reorder_requests = {
 }
 
 export type Pos_reorder_requestsAvgAggregateOutputType = {
-  product_id: number | null
   requested_quantity: number | null
   requested_min_stock: number | null
 }
 
 export type Pos_reorder_requestsSumAggregateOutputType = {
-  product_id: number | null
   requested_quantity: number | null
   requested_min_stock: number | null
 }
@@ -41,7 +39,7 @@ export type Pos_reorder_requestsSumAggregateOutputType = {
 export type Pos_reorder_requestsMinAggregateOutputType = {
   id: string | null
   auth_user_id: string | null
-  product_id: number | null
+  product_id: string | null
   product_variant_id: string | null
   requested_by_auth_user_id: string | null
   requested_by_name: string | null
@@ -60,7 +58,7 @@ export type Pos_reorder_requestsMinAggregateOutputType = {
 export type Pos_reorder_requestsMaxAggregateOutputType = {
   id: string | null
   auth_user_id: string | null
-  product_id: number | null
+  product_id: string | null
   product_variant_id: string | null
   requested_by_auth_user_id: string | null
   requested_by_name: string | null
@@ -98,13 +96,11 @@ export type Pos_reorder_requestsCountAggregateOutputType = {
 
 
 export type Pos_reorder_requestsAvgAggregateInputType = {
-  product_id?: true
   requested_quantity?: true
   requested_min_stock?: true
 }
 
 export type Pos_reorder_requestsSumAggregateInputType = {
-  product_id?: true
   requested_quantity?: true
   requested_min_stock?: true
 }
@@ -256,7 +252,7 @@ export type pos_reorder_requestsGroupByArgs<ExtArgs extends runtime.Types.Extens
 export type Pos_reorder_requestsGroupByOutputType = {
   id: string
   auth_user_id: string
-  product_id: number
+  product_id: string
   product_variant_id: string | null
   requested_by_auth_user_id: string
   requested_by_name: string
@@ -298,7 +294,7 @@ export type pos_reorder_requestsWhereInput = {
   NOT?: Prisma.pos_reorder_requestsWhereInput | Prisma.pos_reorder_requestsWhereInput[]
   id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
-  product_id?: Prisma.IntFilter<"pos_reorder_requests"> | number
+  product_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   product_variant_id?: Prisma.UuidNullableFilter<"pos_reorder_requests"> | string | null
   requested_by_auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   requested_by_name?: Prisma.StringFilter<"pos_reorder_requests"> | string
@@ -343,7 +339,7 @@ export type pos_reorder_requestsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.pos_reorder_requestsWhereInput[]
   NOT?: Prisma.pos_reorder_requestsWhereInput | Prisma.pos_reorder_requestsWhereInput[]
   auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
-  product_id?: Prisma.IntFilter<"pos_reorder_requests"> | number
+  product_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   product_variant_id?: Prisma.UuidNullableFilter<"pos_reorder_requests"> | string | null
   requested_by_auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   requested_by_name?: Prisma.StringFilter<"pos_reorder_requests"> | string
@@ -391,7 +387,7 @@ export type pos_reorder_requestsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.pos_reorder_requestsScalarWhereWithAggregatesInput | Prisma.pos_reorder_requestsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"pos_reorder_requests"> | string
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"pos_reorder_requests"> | string
-  product_id?: Prisma.IntWithAggregatesFilter<"pos_reorder_requests"> | number
+  product_id?: Prisma.UuidWithAggregatesFilter<"pos_reorder_requests"> | string
   product_variant_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_reorder_requests"> | string | null
   requested_by_auth_user_id?: Prisma.UuidWithAggregatesFilter<"pos_reorder_requests"> | string
   requested_by_name?: Prisma.StringWithAggregatesFilter<"pos_reorder_requests"> | string
@@ -429,7 +425,7 @@ export type pos_reorder_requestsCreateInput = {
 export type pos_reorder_requestsUncheckedCreateInput = {
   id?: string
   auth_user_id?: string
-  product_id: number
+  product_id: string
   product_variant_id?: string | null
   requested_by_auth_user_id: string
   requested_by_name: string
@@ -467,7 +463,7 @@ export type pos_reorder_requestsUpdateInput = {
 export type pos_reorder_requestsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requested_by_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -486,7 +482,7 @@ export type pos_reorder_requestsUncheckedUpdateInput = {
 export type pos_reorder_requestsCreateManyInput = {
   id?: string
   auth_user_id?: string
-  product_id: number
+  product_id: string
   product_variant_id?: string | null
   requested_by_auth_user_id: string
   requested_by_name: string
@@ -522,7 +518,7 @@ export type pos_reorder_requestsUpdateManyMutationInput = {
 export type pos_reorder_requestsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requested_by_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -568,7 +564,6 @@ export type pos_reorder_requestsCountOrderByAggregateInput = {
 }
 
 export type pos_reorder_requestsAvgOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
   requested_quantity?: Prisma.SortOrder
   requested_min_stock?: Prisma.SortOrder
 }
@@ -612,7 +607,6 @@ export type pos_reorder_requestsMinOrderByAggregateInput = {
 }
 
 export type pos_reorder_requestsSumOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
   requested_quantity?: Prisma.SortOrder
   requested_min_stock?: Prisma.SortOrder
 }
@@ -726,7 +720,7 @@ export type pos_reorder_requestsCreateWithoutProduct_variantsInput = {
 export type pos_reorder_requestsUncheckedCreateWithoutProduct_variantsInput = {
   id?: string
   auth_user_id?: string
-  product_id: number
+  product_id: string
   requested_by_auth_user_id: string
   requested_by_name: string
   requested_by_role?: string | null
@@ -773,7 +767,7 @@ export type pos_reorder_requestsScalarWhereInput = {
   NOT?: Prisma.pos_reorder_requestsScalarWhereInput | Prisma.pos_reorder_requestsScalarWhereInput[]
   id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
-  product_id?: Prisma.IntFilter<"pos_reorder_requests"> | number
+  product_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   product_variant_id?: Prisma.UuidNullableFilter<"pos_reorder_requests"> | string | null
   requested_by_auth_user_id?: Prisma.UuidFilter<"pos_reorder_requests"> | string
   requested_by_name?: Prisma.StringFilter<"pos_reorder_requests"> | string
@@ -854,7 +848,7 @@ export type pos_reorder_requestsUpdateManyWithWhereWithoutProductsInput = {
 export type pos_reorder_requestsCreateManyProduct_variantsInput = {
   id?: string
   auth_user_id?: string
-  product_id: number
+  product_id: string
   requested_by_auth_user_id: string
   requested_by_name: string
   requested_by_role?: string | null
@@ -890,7 +884,7 @@ export type pos_reorder_requestsUpdateWithoutProduct_variantsInput = {
 export type pos_reorder_requestsUncheckedUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_name?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -908,7 +902,7 @@ export type pos_reorder_requestsUncheckedUpdateWithoutProduct_variantsInput = {
 export type pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_name?: Prisma.StringFieldUpdateOperationsInput | string
   requested_by_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1102,7 +1096,7 @@ export type $pos_reorder_requestsPayload<ExtArgs extends runtime.Types.Extension
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     auth_user_id: string
-    product_id: number
+    product_id: string
     product_variant_id: string | null
     requested_by_auth_user_id: string
     requested_by_name: string
@@ -1543,7 +1537,7 @@ export interface Prisma__pos_reorder_requestsClient<T, Null = never, ExtArgs ext
 export interface pos_reorder_requestsFieldRefs {
   readonly id: Prisma.FieldRef<"pos_reorder_requests", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"pos_reorder_requests", 'String'>
-  readonly product_id: Prisma.FieldRef<"pos_reorder_requests", 'Int'>
+  readonly product_id: Prisma.FieldRef<"pos_reorder_requests", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"pos_reorder_requests", 'String'>
   readonly requested_by_auth_user_id: Prisma.FieldRef<"pos_reorder_requests", 'String'>
   readonly requested_by_name: Prisma.FieldRef<"pos_reorder_requests", 'String'>

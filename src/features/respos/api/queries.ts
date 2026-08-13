@@ -19,7 +19,6 @@ import type {
   ResOrderWithDetails,
   ResPaymentMethod,
   ResReservation,
-  ResRole,
   ResTable,
   ResVoidRequestWithDetails,
 } from '../types'
@@ -91,12 +90,12 @@ export function useRoles() {
     queryKey: resposQueryKeys.roles,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('res_roles')
+        .from('roles')
         .select('*')
         .order('name')
 
       if (error) throw error
-      return data as ResRole[]
+      return data
     },
   })
 }
@@ -260,7 +259,6 @@ export function useMenuItem(id: string) {
     enabled: !!id,
   })
 }
-
 
 // ============ Orders ============
 

@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model app_settings
- * Global system settings stored as key-value pairs with JSON values.
- * Supports multi-tenancy via auth_user_id and grouping for UI organization.
+ * 
  */
 export type app_settingsModel = runtime.Types.Result.DefaultSelection<Prisma.$app_settingsPayload>
 

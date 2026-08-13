@@ -14,88 +14,82 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model categories
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type categoriesModel = runtime.Types.Result.DefaultSelection<Prisma.$categoriesPayload>
 
 export type AggregateCategories = {
   _count: CategoriesCountAggregateOutputType | null
-  _avg: CategoriesAvgAggregateOutputType | null
-  _sum: CategoriesSumAggregateOutputType | null
   _min: CategoriesMinAggregateOutputType | null
   _max: CategoriesMaxAggregateOutputType | null
 }
 
-export type CategoriesAvgAggregateOutputType = {
-  category_id: number | null
-}
-
-export type CategoriesSumAggregateOutputType = {
-  category_id: number | null
-}
-
 export type CategoriesMinAggregateOutputType = {
-  category_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
   created_at: Date | null
   auth_user_id: string | null
   is_active: boolean | null
+  deleted_at: Date | null
 }
 
 export type CategoriesMaxAggregateOutputType = {
-  category_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
   created_at: Date | null
   auth_user_id: string | null
   is_active: boolean | null
+  deleted_at: Date | null
 }
 
 export type CategoriesCountAggregateOutputType = {
-  category_id: number
+  id: number
+  tenant_id: number
   name: number
   description: number
   created_at: number
   auth_user_id: number
   is_active: number
+  deleted_at: number
   _all: number
 }
 
 
-export type CategoriesAvgAggregateInputType = {
-  category_id?: true
-}
-
-export type CategoriesSumAggregateInputType = {
-  category_id?: true
-}
-
 export type CategoriesMinAggregateInputType = {
-  category_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   created_at?: true
   auth_user_id?: true
   is_active?: true
+  deleted_at?: true
 }
 
 export type CategoriesMaxAggregateInputType = {
-  category_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   created_at?: true
   auth_user_id?: true
   is_active?: true
+  deleted_at?: true
 }
 
 export type CategoriesCountAggregateInputType = {
-  category_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   created_at?: true
   auth_user_id?: true
   is_active?: true
+  deleted_at?: true
   _all?: true
 }
 
@@ -137,18 +131,6 @@ export type CategoriesAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: CategoriesAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: CategoriesSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: CategoriesMinAggregateInputType
@@ -179,22 +161,20 @@ export type categoriesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: CategoriesCountAggregateInputType | true
-  _avg?: CategoriesAvgAggregateInputType
-  _sum?: CategoriesSumAggregateInputType
   _min?: CategoriesMinAggregateInputType
   _max?: CategoriesMaxAggregateInputType
 }
 
 export type CategoriesGroupByOutputType = {
-  category_id: number
+  id: string
+  tenant_id: string | null
   name: string
   description: string | null
   created_at: Date | null
   auth_user_id: string | null
   is_active: boolean | null
+  deleted_at: Date | null
   _count: CategoriesCountAggregateOutputType | null
-  _avg: CategoriesAvgAggregateOutputType | null
-  _sum: CategoriesSumAggregateOutputType | null
   _min: CategoriesMinAggregateOutputType | null
   _max: CategoriesMaxAggregateOutputType | null
 }
@@ -218,181 +198,196 @@ export type categoriesWhereInput = {
   AND?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
   OR?: Prisma.categoriesWhereInput[]
   NOT?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
-  category_id?: Prisma.IntFilter<"categories"> | number
+  id?: Prisma.UuidFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   name?: Prisma.StringFilter<"categories"> | string
   description?: Prisma.StringNullableFilter<"categories"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   is_active?: Prisma.BoolNullableFilter<"categories"> | boolean | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   products?: Prisma.ProductsListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
 }
 
 export type categoriesOrderByWithRelationInput = {
-  category_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByRelationAggregateInput
   stock_counts?: Prisma.stock_countsOrderByRelationAggregateInput
 }
 
 export type categoriesWhereUniqueInput = Prisma.AtLeast<{
-  category_id?: number
+  id?: string
   AND?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
   OR?: Prisma.categoriesWhereInput[]
   NOT?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   name?: Prisma.StringFilter<"categories"> | string
   description?: Prisma.StringNullableFilter<"categories"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   is_active?: Prisma.BoolNullableFilter<"categories"> | boolean | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   products?: Prisma.ProductsListRelationFilter
   stock_counts?: Prisma.Stock_countsListRelationFilter
-}, "category_id">
+}, "id">
 
 export type categoriesOrderByWithAggregationInput = {
-  category_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.categoriesCountOrderByAggregateInput
-  _avg?: Prisma.categoriesAvgOrderByAggregateInput
   _max?: Prisma.categoriesMaxOrderByAggregateInput
   _min?: Prisma.categoriesMinOrderByAggregateInput
-  _sum?: Prisma.categoriesSumOrderByAggregateInput
 }
 
 export type categoriesScalarWhereWithAggregatesInput = {
   AND?: Prisma.categoriesScalarWhereWithAggregatesInput | Prisma.categoriesScalarWhereWithAggregatesInput[]
   OR?: Prisma.categoriesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.categoriesScalarWhereWithAggregatesInput | Prisma.categoriesScalarWhereWithAggregatesInput[]
-  category_id?: Prisma.IntWithAggregatesFilter<"categories"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"categories"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"categories"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"categories"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"categories"> | boolean | null
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"categories"> | Date | string | null
 }
 
 export type categoriesCreateInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   products?: Prisma.productsCreateNestedManyWithoutCategoriesInput
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutCategoriesInput
 }
 
 export type categoriesUncheckedCreateInput = {
-  category_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutCategoriesInput
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
 export type categoriesUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   products?: Prisma.productsUpdateManyWithoutCategoriesNestedInput
   stock_counts?: Prisma.stock_countsUpdateManyWithoutCategoriesNestedInput
 }
 
 export type categoriesUncheckedUpdateInput = {
-  category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutCategoriesNestedInput
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
 export type categoriesCreateManyInput = {
-  category_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
 }
 
 export type categoriesUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type categoriesUncheckedUpdateManyInput = {
-  category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type categoriesCountOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-}
-
-export type categoriesAvgOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type categoriesMaxOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type categoriesMinOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-}
-
-export type categoriesSumOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type CategoriesNullableScalarRelationFilter = {
   is?: Prisma.categoriesWhereInput | null
   isNot?: Prisma.categoriesWhereInput | null
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type categoriesCreateNestedOneWithoutProductsInput = {
@@ -428,21 +423,26 @@ export type categoriesUpdateOneWithoutStock_countsNestedInput = {
 }
 
 export type categoriesCreateWithoutProductsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   stock_counts?: Prisma.stock_countsCreateNestedManyWithoutCategoriesInput
 }
 
 export type categoriesUncheckedCreateWithoutProductsInput = {
-  category_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
@@ -463,40 +463,50 @@ export type categoriesUpdateToOneWithWhereWithoutProductsInput = {
 }
 
 export type categoriesUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   stock_counts?: Prisma.stock_countsUpdateManyWithoutCategoriesNestedInput
 }
 
 export type categoriesUncheckedUpdateWithoutProductsInput = {
-  category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
 export type categoriesCreateWithoutStock_countsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   products?: Prisma.productsCreateNestedManyWithoutCategoriesInput
 }
 
 export type categoriesUncheckedCreateWithoutStock_countsInput = {
-  category_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
   is_active?: boolean | null
+  deleted_at?: Date | string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
@@ -517,21 +527,26 @@ export type categoriesUpdateToOneWithWhereWithoutStock_countsInput = {
 }
 
 export type categoriesUpdateWithoutStock_countsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   products?: Prisma.productsUpdateManyWithoutCategoriesNestedInput
 }
 
 export type categoriesUncheckedUpdateWithoutStock_countsInput = {
-  category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
@@ -576,45 +591,53 @@ export type CategoriesCountOutputTypeCountStock_countsArgs<ExtArgs extends runti
 
 
 export type categoriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  category_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   created_at?: boolean
   auth_user_id?: boolean
   is_active?: boolean
+  deleted_at?: boolean
   products?: boolean | Prisma.categories$productsArgs<ExtArgs>
   stock_counts?: boolean | Prisma.categories$stock_countsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoriesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  category_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   created_at?: boolean
   auth_user_id?: boolean
   is_active?: boolean
+  deleted_at?: boolean
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  category_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   created_at?: boolean
   auth_user_id?: boolean
   is_active?: boolean
+  deleted_at?: boolean
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectScalar = {
-  category_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   created_at?: boolean
   auth_user_id?: boolean
   is_active?: boolean
+  deleted_at?: boolean
 }
 
-export type categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"category_id" | "name" | "description" | "created_at" | "auth_user_id" | "is_active", ExtArgs["result"]["categories"]>
+export type categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "description" | "created_at" | "auth_user_id" | "is_active" | "deleted_at", ExtArgs["result"]["categories"]>
 export type categoriesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.categories$productsArgs<ExtArgs>
   stock_counts?: boolean | Prisma.categories$stock_countsArgs<ExtArgs>
@@ -630,12 +653,14 @@ export type $categoriesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     stock_counts: Prisma.$stock_countsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    category_id: number
+    id: string
+    tenant_id: string | null
     name: string
     description: string | null
     created_at: Date | null
     auth_user_id: string | null
     is_active: boolean | null
+    deleted_at: Date | null
   }, ExtArgs["result"]["categories"]>
   composites: {}
 }
@@ -719,8 +744,8 @@ export interface categoriesDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 Categories
    * const categories = await prisma.categories.findMany({ take: 10 })
    * 
-   * // Only select the `category_id`
-   * const categoriesWithCategory_idOnly = await prisma.categories.findMany({ select: { category_id: true } })
+   * // Only select the `id`
+   * const categoriesWithIdOnly = await prisma.categories.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends categoriesFindManyArgs>(args?: Prisma.SelectSubset<T, categoriesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -764,9 +789,9 @@ export interface categoriesDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many Categories and only return the `category_id`
-   * const categoriesWithCategory_idOnly = await prisma.categories.createManyAndReturn({
-   *   select: { category_id: true },
+   * // Create many Categories and only return the `id`
+   * const categoriesWithIdOnly = await prisma.categories.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -855,9 +880,9 @@ export interface categoriesDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more Categories and only return the `category_id`
-   * const categoriesWithCategory_idOnly = await prisma.categories.updateManyAndReturn({
-   *   select: { category_id: true },
+   * // Update zero or more Categories and only return the `id`
+   * const categoriesWithIdOnly = await prisma.categories.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1061,12 +1086,14 @@ export interface Prisma__categoriesClient<T, Null = never, ExtArgs extends runti
  * Fields of the categories model
  */
 export interface categoriesFieldRefs {
-  readonly category_id: Prisma.FieldRef<"categories", 'Int'>
+  readonly id: Prisma.FieldRef<"categories", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"categories", 'String'>
   readonly name: Prisma.FieldRef<"categories", 'String'>
   readonly description: Prisma.FieldRef<"categories", 'String'>
   readonly created_at: Prisma.FieldRef<"categories", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"categories", 'String'>
   readonly is_active: Prisma.FieldRef<"categories", 'Boolean'>
+  readonly deleted_at: Prisma.FieldRef<"categories", 'DateTime'>
 }
     
 

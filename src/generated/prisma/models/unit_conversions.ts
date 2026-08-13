@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model unit_conversions
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type unit_conversionsModel = runtime.Types.Result.DefaultSelection<Prisma.$unit_conversionsPayload>
 

@@ -14,9 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model branches
- * Append-only RBAC change log (feature 027, Part 8). Never cascade-deleted; retains history
- * of who changed roles/permissions/screens/overrides, when, and the before/after diff.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type branchesModel = runtime.Types.Result.DefaultSelection<Prisma.$branchesPayload>
 
@@ -551,10 +549,6 @@ export type BranchesNullableScalarRelationFilter = {
 export type BranchesScalarRelationFilter = {
   is?: Prisma.branchesWhereInput
   isNot?: Prisma.branchesWhereInput
-}
-
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
 }
 
 export type branchesCreateNestedManyWithoutCitiesInput = {

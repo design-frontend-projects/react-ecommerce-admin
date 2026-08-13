@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model price_list
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type price_listModel = runtime.Types.Result.DefaultSelection<Prisma.$price_listPayload>
 
@@ -27,23 +27,18 @@ export type AggregatePrice_list = {
 }
 
 export type Price_listAvgAggregateOutputType = {
-  price_id: number | null
-  product_id: number | null
-  group_id: number | null
   price: runtime.Decimal | null
 }
 
 export type Price_listSumAggregateOutputType = {
-  price_id: number | null
-  product_id: number | null
-  group_id: number | null
   price: runtime.Decimal | null
 }
 
 export type Price_listMinAggregateOutputType = {
-  price_id: number | null
-  product_id: number | null
-  group_id: number | null
+  id: string | null
+  tenant_id: string | null
+  product_id: string | null
+  group_id: string | null
   price: runtime.Decimal | null
   start_date: Date | null
   end_date: Date | null
@@ -55,9 +50,10 @@ export type Price_listMinAggregateOutputType = {
 }
 
 export type Price_listMaxAggregateOutputType = {
-  price_id: number | null
-  product_id: number | null
-  group_id: number | null
+  id: string | null
+  tenant_id: string | null
+  product_id: string | null
+  group_id: string | null
   price: runtime.Decimal | null
   start_date: Date | null
   end_date: Date | null
@@ -69,7 +65,8 @@ export type Price_listMaxAggregateOutputType = {
 }
 
 export type Price_listCountAggregateOutputType = {
-  price_id: number
+  id: number
+  tenant_id: number
   product_id: number
   group_id: number
   price: number
@@ -85,21 +82,16 @@ export type Price_listCountAggregateOutputType = {
 
 
 export type Price_listAvgAggregateInputType = {
-  price_id?: true
-  product_id?: true
-  group_id?: true
   price?: true
 }
 
 export type Price_listSumAggregateInputType = {
-  price_id?: true
-  product_id?: true
-  group_id?: true
   price?: true
 }
 
 export type Price_listMinAggregateInputType = {
-  price_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   group_id?: true
   price?: true
@@ -113,7 +105,8 @@ export type Price_listMinAggregateInputType = {
 }
 
 export type Price_listMaxAggregateInputType = {
-  price_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   group_id?: true
   price?: true
@@ -127,7 +120,8 @@ export type Price_listMaxAggregateInputType = {
 }
 
 export type Price_listCountAggregateInputType = {
-  price_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   group_id?: true
   price?: true
@@ -228,9 +222,10 @@ export type price_listGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 export type Price_listGroupByOutputType = {
-  price_id: number
-  product_id: number
-  group_id: number | null
+  id: string
+  tenant_id: string | null
+  product_id: string
+  group_id: string | null
   price: runtime.Decimal
   start_date: Date
   end_date: Date | null
@@ -265,9 +260,10 @@ export type price_listWhereInput = {
   AND?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
   OR?: Prisma.price_listWhereInput[]
   NOT?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
-  price_id?: Prisma.IntFilter<"price_list"> | number
-  product_id?: Prisma.IntFilter<"price_list"> | number
-  group_id?: Prisma.IntNullableFilter<"price_list"> | number | null
+  id?: Prisma.UuidFilter<"price_list"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  product_id?: Prisma.UuidFilter<"price_list"> | string
+  group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
@@ -284,7 +280,8 @@ export type price_listWhereInput = {
 }
 
 export type price_listOrderByWithRelationInput = {
-  price_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -303,13 +300,14 @@ export type price_listOrderByWithRelationInput = {
 }
 
 export type price_listWhereUniqueInput = Prisma.AtLeast<{
-  price_id?: number
+  id?: string
   product_id_group_id?: Prisma.price_listProduct_idGroup_idCompoundUniqueInput
   AND?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
   OR?: Prisma.price_listWhereInput[]
   NOT?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
-  product_id?: Prisma.IntFilter<"price_list"> | number
-  group_id?: Prisma.IntNullableFilter<"price_list"> | number | null
+  tenant_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  product_id?: Prisma.UuidFilter<"price_list"> | string
+  group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
@@ -323,10 +321,11 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   price_list_items?: Prisma.Price_list_itemsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
-}, "price_id" | "product_id_group_id">
+}, "id" | "product_id_group_id">
 
 export type price_listOrderByWithAggregationInput = {
-  price_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -348,9 +347,10 @@ export type price_listScalarWhereWithAggregatesInput = {
   AND?: Prisma.price_listScalarWhereWithAggregatesInput | Prisma.price_listScalarWhereWithAggregatesInput[]
   OR?: Prisma.price_listScalarWhereWithAggregatesInput[]
   NOT?: Prisma.price_listScalarWhereWithAggregatesInput | Prisma.price_listScalarWhereWithAggregatesInput[]
-  price_id?: Prisma.IntWithAggregatesFilter<"price_list"> | number
-  product_id?: Prisma.IntWithAggregatesFilter<"price_list"> | number
-  group_id?: Prisma.IntNullableWithAggregatesFilter<"price_list"> | number | null
+  id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  product_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
+  group_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   price?: Prisma.DecimalWithAggregatesFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeWithAggregatesFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"price_list"> | Date | string | null
@@ -362,6 +362,8 @@ export type price_listScalarWhereWithAggregatesInput = {
 }
 
 export type price_listCreateInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -377,9 +379,10 @@ export type price_listCreateInput = {
 }
 
 export type price_listUncheckedCreateInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -393,6 +396,8 @@ export type price_listUncheckedCreateInput = {
 }
 
 export type price_listUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -408,9 +413,10 @@ export type price_listUpdateInput = {
 }
 
 export type price_listUncheckedUpdateInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -424,9 +430,10 @@ export type price_listUncheckedUpdateInput = {
 }
 
 export type price_listCreateManyInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -438,6 +445,8 @@ export type price_listCreateManyInput = {
 }
 
 export type price_listUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -448,9 +457,10 @@ export type price_listUpdateManyMutationInput = {
 }
 
 export type price_listUncheckedUpdateManyInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -472,12 +482,13 @@ export type price_listOrderByRelationAggregateInput = {
 }
 
 export type price_listProduct_idGroup_idCompoundUniqueInput = {
-  product_id: number
-  group_id: number
+  product_id: string
+  group_id: string
 }
 
 export type price_listCountOrderByAggregateInput = {
-  price_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -491,14 +502,12 @@ export type price_listCountOrderByAggregateInput = {
 }
 
 export type price_listAvgOrderByAggregateInput = {
-  price_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
   price?: Prisma.SortOrder
 }
 
 export type price_listMaxOrderByAggregateInput = {
-  price_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -512,7 +521,8 @@ export type price_listMaxOrderByAggregateInput = {
 }
 
 export type price_listMinOrderByAggregateInput = {
-  price_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -526,9 +536,6 @@ export type price_listMinOrderByAggregateInput = {
 }
 
 export type price_listSumOrderByAggregateInput = {
-  price_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
   price?: Prisma.SortOrder
 }
 
@@ -703,6 +710,8 @@ export type price_listUncheckedUpdateManyWithoutStoresNestedInput = {
 }
 
 export type price_listCreateWithoutCustomer_groupsInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -717,8 +726,9 @@ export type price_listCreateWithoutCustomer_groupsInput = {
 }
 
 export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
-  price_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -761,9 +771,10 @@ export type price_listScalarWhereInput = {
   AND?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
   OR?: Prisma.price_listScalarWhereInput[]
   NOT?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
-  price_id?: Prisma.IntFilter<"price_list"> | number
-  product_id?: Prisma.IntFilter<"price_list"> | number
-  group_id?: Prisma.IntNullableFilter<"price_list"> | number | null
+  id?: Prisma.UuidFilter<"price_list"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  product_id?: Prisma.UuidFilter<"price_list"> | string
+  group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
@@ -775,6 +786,8 @@ export type price_listScalarWhereInput = {
 }
 
 export type price_listCreateWithoutPrice_list_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -789,9 +802,10 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -820,6 +834,8 @@ export type price_listUpdateToOneWithWhereWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUpdateWithoutPrice_list_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -834,9 +850,10 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -849,6 +866,8 @@ export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
 }
 
 export type price_listCreateWithoutProductsInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -863,8 +882,9 @@ export type price_listCreateWithoutProductsInput = {
 }
 
 export type price_listUncheckedCreateWithoutProductsInput = {
-  price_id?: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -904,6 +924,8 @@ export type price_listUpdateManyWithWhereWithoutProductsInput = {
 }
 
 export type price_listCreateWithoutSales_invoicesInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -918,9 +940,10 @@ export type price_listCreateWithoutSales_invoicesInput = {
 }
 
 export type price_listUncheckedCreateWithoutSales_invoicesInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -949,6 +972,8 @@ export type price_listUpdateToOneWithWhereWithoutSales_invoicesInput = {
 }
 
 export type price_listUpdateWithoutSales_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -963,9 +988,10 @@ export type price_listUpdateWithoutSales_invoicesInput = {
 }
 
 export type price_listUncheckedUpdateWithoutSales_invoicesInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -978,6 +1004,8 @@ export type price_listUncheckedUpdateWithoutSales_invoicesInput = {
 }
 
 export type price_listCreateWithoutStoresInput = {
+  id?: string
+  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -992,9 +1020,10 @@ export type price_listCreateWithoutStoresInput = {
 }
 
 export type price_listUncheckedCreateWithoutStoresInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -1033,8 +1062,9 @@ export type price_listUpdateManyWithWhereWithoutStoresInput = {
 }
 
 export type price_listCreateManyCustomer_groupsInput = {
-  price_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -1046,6 +1076,8 @@ export type price_listCreateManyCustomer_groupsInput = {
 }
 
 export type price_listUpdateWithoutCustomer_groupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1060,8 +1092,9 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1075,8 +1108,9 @@ export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
 }
 
 export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1088,8 +1122,9 @@ export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
 }
 
 export type price_listCreateManyProductsInput = {
-  price_id?: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -1101,6 +1136,8 @@ export type price_listCreateManyProductsInput = {
 }
 
 export type price_listUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1115,8 +1152,9 @@ export type price_listUpdateWithoutProductsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutProductsInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1130,8 +1168,9 @@ export type price_listUncheckedUpdateWithoutProductsInput = {
 }
 
 export type price_listUncheckedUpdateManyWithoutProductsInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1143,9 +1182,10 @@ export type price_listUncheckedUpdateManyWithoutProductsInput = {
 }
 
 export type price_listCreateManyStoresInput = {
-  price_id?: number
-  product_id: number
-  group_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  product_id: string
+  group_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Date | string
   end_date?: Date | string | null
@@ -1156,6 +1196,8 @@ export type price_listCreateManyStoresInput = {
 }
 
 export type price_listUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1170,9 +1212,10 @@ export type price_listUpdateWithoutStoresInput = {
 }
 
 export type price_listUncheckedUpdateWithoutStoresInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1185,9 +1228,10 @@ export type price_listUncheckedUpdateWithoutStoresInput = {
 }
 
 export type price_listUncheckedUpdateManyWithoutStoresInput = {
-  price_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1238,7 +1282,8 @@ export type Price_listCountOutputTypeCountSales_invoicesArgs<ExtArgs extends run
 
 
 export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  price_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
   price?: boolean
@@ -1258,7 +1303,8 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  price_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
   price?: boolean
@@ -1275,7 +1321,8 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  price_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
   price?: boolean
@@ -1292,7 +1339,8 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectScalar = {
-  price_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
   price?: boolean
@@ -1305,7 +1353,7 @@ export type price_listSelectScalar = {
   store_id?: boolean
 }
 
-export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"price_id" | "product_id" | "group_id" | "price" | "start_date" | "end_date" | "is_active" | "auth_user_id" | "description" | "type" | "store_id", ExtArgs["result"]["price_list"]>
+export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_id" | "group_id" | "price" | "start_date" | "end_date" | "is_active" | "auth_user_id" | "description" | "type" | "store_id", ExtArgs["result"]["price_list"]>
 export type price_listInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
@@ -1335,9 +1383,10 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    price_id: number
-    product_id: number
-    group_id: number | null
+    id: string
+    tenant_id: string | null
+    product_id: string
+    group_id: string | null
     price: runtime.Decimal
     start_date: Date
     end_date: Date | null
@@ -1429,8 +1478,8 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 Price_lists
    * const price_lists = await prisma.price_list.findMany({ take: 10 })
    * 
-   * // Only select the `price_id`
-   * const price_listWithPrice_idOnly = await prisma.price_list.findMany({ select: { price_id: true } })
+   * // Only select the `id`
+   * const price_listWithIdOnly = await prisma.price_list.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends price_listFindManyArgs>(args?: Prisma.SelectSubset<T, price_listFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1474,9 +1523,9 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many Price_lists and only return the `price_id`
-   * const price_listWithPrice_idOnly = await prisma.price_list.createManyAndReturn({
-   *   select: { price_id: true },
+   * // Create many Price_lists and only return the `id`
+   * const price_listWithIdOnly = await prisma.price_list.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1565,9 +1614,9 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more Price_lists and only return the `price_id`
-   * const price_listWithPrice_idOnly = await prisma.price_list.updateManyAndReturn({
-   *   select: { price_id: true },
+   * // Update zero or more Price_lists and only return the `id`
+   * const price_listWithIdOnly = await prisma.price_list.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1774,9 +1823,10 @@ export interface Prisma__price_listClient<T, Null = never, ExtArgs extends runti
  * Fields of the price_list model
  */
 export interface price_listFieldRefs {
-  readonly price_id: Prisma.FieldRef<"price_list", 'Int'>
-  readonly product_id: Prisma.FieldRef<"price_list", 'Int'>
-  readonly group_id: Prisma.FieldRef<"price_list", 'Int'>
+  readonly id: Prisma.FieldRef<"price_list", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly product_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly group_id: Prisma.FieldRef<"price_list", 'String'>
   readonly price: Prisma.FieldRef<"price_list", 'Decimal'>
   readonly start_date: Prisma.FieldRef<"price_list", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"price_list", 'DateTime'>

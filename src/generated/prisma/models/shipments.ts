@@ -14,32 +14,20 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model shipments
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type shipmentsModel = runtime.Types.Result.DefaultSelection<Prisma.$shipmentsPayload>
 
 export type AggregateShipments = {
   _count: ShipmentsCountAggregateOutputType | null
-  _avg: ShipmentsAvgAggregateOutputType | null
-  _sum: ShipmentsSumAggregateOutputType | null
   _min: ShipmentsMinAggregateOutputType | null
   _max: ShipmentsMaxAggregateOutputType | null
 }
 
-export type ShipmentsAvgAggregateOutputType = {
-  shipment_id: number | null
-  order_id: number | null
-}
-
-export type ShipmentsSumAggregateOutputType = {
-  shipment_id: number | null
-  order_id: number | null
-}
-
 export type ShipmentsMinAggregateOutputType = {
-  shipment_id: number | null
-  order_id: number | null
+  id: string | null
+  tenant_id: string | null
+  order_id: string | null
   tracking_number: string | null
   shipped_date: Date | null
   delivered_date: Date | null
@@ -50,8 +38,9 @@ export type ShipmentsMinAggregateOutputType = {
 }
 
 export type ShipmentsMaxAggregateOutputType = {
-  shipment_id: number | null
-  order_id: number | null
+  id: string | null
+  tenant_id: string | null
+  order_id: string | null
   tracking_number: string | null
   shipped_date: Date | null
   delivered_date: Date | null
@@ -62,7 +51,8 @@ export type ShipmentsMaxAggregateOutputType = {
 }
 
 export type ShipmentsCountAggregateOutputType = {
-  shipment_id: number
+  id: number
+  tenant_id: number
   order_id: number
   tracking_number: number
   shipped_date: number
@@ -75,18 +65,9 @@ export type ShipmentsCountAggregateOutputType = {
 }
 
 
-export type ShipmentsAvgAggregateInputType = {
-  shipment_id?: true
-  order_id?: true
-}
-
-export type ShipmentsSumAggregateInputType = {
-  shipment_id?: true
-  order_id?: true
-}
-
 export type ShipmentsMinAggregateInputType = {
-  shipment_id?: true
+  id?: true
+  tenant_id?: true
   order_id?: true
   tracking_number?: true
   shipped_date?: true
@@ -98,7 +79,8 @@ export type ShipmentsMinAggregateInputType = {
 }
 
 export type ShipmentsMaxAggregateInputType = {
-  shipment_id?: true
+  id?: true
+  tenant_id?: true
   order_id?: true
   tracking_number?: true
   shipped_date?: true
@@ -110,7 +92,8 @@ export type ShipmentsMaxAggregateInputType = {
 }
 
 export type ShipmentsCountAggregateInputType = {
-  shipment_id?: true
+  id?: true
+  tenant_id?: true
   order_id?: true
   tracking_number?: true
   shipped_date?: true
@@ -160,18 +143,6 @@ export type ShipmentsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ShipmentsAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ShipmentsSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ShipmentsMinAggregateInputType
@@ -202,15 +173,14 @@ export type shipmentsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: ShipmentsCountAggregateInputType | true
-  _avg?: ShipmentsAvgAggregateInputType
-  _sum?: ShipmentsSumAggregateInputType
   _min?: ShipmentsMinAggregateInputType
   _max?: ShipmentsMaxAggregateInputType
 }
 
 export type ShipmentsGroupByOutputType = {
-  shipment_id: number
-  order_id: number
+  id: string
+  tenant_id: string | null
+  order_id: string
   tracking_number: string | null
   shipped_date: Date | null
   delivered_date: Date | null
@@ -219,8 +189,6 @@ export type ShipmentsGroupByOutputType = {
   notes: string | null
   auth_user_id: string | null
   _count: ShipmentsCountAggregateOutputType | null
-  _avg: ShipmentsAvgAggregateOutputType | null
-  _sum: ShipmentsSumAggregateOutputType | null
   _min: ShipmentsMinAggregateOutputType | null
   _max: ShipmentsMaxAggregateOutputType | null
 }
@@ -244,8 +212,9 @@ export type shipmentsWhereInput = {
   AND?: Prisma.shipmentsWhereInput | Prisma.shipmentsWhereInput[]
   OR?: Prisma.shipmentsWhereInput[]
   NOT?: Prisma.shipmentsWhereInput | Prisma.shipmentsWhereInput[]
-  shipment_id?: Prisma.IntFilter<"shipments"> | number
-  order_id?: Prisma.IntFilter<"shipments"> | number
+  id?: Prisma.UuidFilter<"shipments"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
+  order_id?: Prisma.UuidFilter<"shipments"> | string
   tracking_number?: Prisma.StringNullableFilter<"shipments"> | string | null
   shipped_date?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
   delivered_date?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
@@ -256,7 +225,8 @@ export type shipmentsWhereInput = {
 }
 
 export type shipmentsOrderByWithRelationInput = {
-  shipment_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -268,11 +238,12 @@ export type shipmentsOrderByWithRelationInput = {
 }
 
 export type shipmentsWhereUniqueInput = Prisma.AtLeast<{
-  shipment_id?: number
+  id?: string
   AND?: Prisma.shipmentsWhereInput | Prisma.shipmentsWhereInput[]
   OR?: Prisma.shipmentsWhereInput[]
   NOT?: Prisma.shipmentsWhereInput | Prisma.shipmentsWhereInput[]
-  order_id?: Prisma.IntFilter<"shipments"> | number
+  tenant_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
+  order_id?: Prisma.UuidFilter<"shipments"> | string
   tracking_number?: Prisma.StringNullableFilter<"shipments"> | string | null
   shipped_date?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
   delivered_date?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
@@ -280,10 +251,11 @@ export type shipmentsWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.Enumshipment_status_enumFilter<"shipments"> | $Enums.shipment_status_enum
   notes?: Prisma.StringNullableFilter<"shipments"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
-}, "shipment_id">
+}, "id">
 
 export type shipmentsOrderByWithAggregationInput = {
-  shipment_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -293,18 +265,17 @@ export type shipmentsOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipmentsCountOrderByAggregateInput
-  _avg?: Prisma.shipmentsAvgOrderByAggregateInput
   _max?: Prisma.shipmentsMaxOrderByAggregateInput
   _min?: Prisma.shipmentsMinOrderByAggregateInput
-  _sum?: Prisma.shipmentsSumOrderByAggregateInput
 }
 
 export type shipmentsScalarWhereWithAggregatesInput = {
   AND?: Prisma.shipmentsScalarWhereWithAggregatesInput | Prisma.shipmentsScalarWhereWithAggregatesInput[]
   OR?: Prisma.shipmentsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.shipmentsScalarWhereWithAggregatesInput | Prisma.shipmentsScalarWhereWithAggregatesInput[]
-  shipment_id?: Prisma.IntWithAggregatesFilter<"shipments"> | number
-  order_id?: Prisma.IntWithAggregatesFilter<"shipments"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"shipments"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipments"> | string | null
+  order_id?: Prisma.UuidWithAggregatesFilter<"shipments"> | string
   tracking_number?: Prisma.StringNullableWithAggregatesFilter<"shipments"> | string | null
   shipped_date?: Prisma.DateTimeNullableWithAggregatesFilter<"shipments"> | Date | string | null
   delivered_date?: Prisma.DateTimeNullableWithAggregatesFilter<"shipments"> | Date | string | null
@@ -315,7 +286,9 @@ export type shipmentsScalarWhereWithAggregatesInput = {
 }
 
 export type shipmentsCreateInput = {
-  order_id: number
+  id?: string
+  tenant_id?: string | null
+  order_id: string
   tracking_number?: string | null
   shipped_date?: Date | string | null
   delivered_date?: Date | string | null
@@ -326,8 +299,9 @@ export type shipmentsCreateInput = {
 }
 
 export type shipmentsUncheckedCreateInput = {
-  shipment_id?: number
-  order_id: number
+  id?: string
+  tenant_id?: string | null
+  order_id: string
   tracking_number?: string | null
   shipped_date?: Date | string | null
   delivered_date?: Date | string | null
@@ -338,7 +312,9 @@ export type shipmentsUncheckedCreateInput = {
 }
 
 export type shipmentsUpdateInput = {
-  order_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   delivered_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -349,8 +325,9 @@ export type shipmentsUpdateInput = {
 }
 
 export type shipmentsUncheckedUpdateInput = {
-  shipment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  order_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   delivered_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -361,8 +338,9 @@ export type shipmentsUncheckedUpdateInput = {
 }
 
 export type shipmentsCreateManyInput = {
-  shipment_id?: number
-  order_id: number
+  id?: string
+  tenant_id?: string | null
+  order_id: string
   tracking_number?: string | null
   shipped_date?: Date | string | null
   delivered_date?: Date | string | null
@@ -373,7 +351,9 @@ export type shipmentsCreateManyInput = {
 }
 
 export type shipmentsUpdateManyMutationInput = {
-  order_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   delivered_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -384,8 +364,9 @@ export type shipmentsUpdateManyMutationInput = {
 }
 
 export type shipmentsUncheckedUpdateManyInput = {
-  shipment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  order_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   delivered_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -396,7 +377,8 @@ export type shipmentsUncheckedUpdateManyInput = {
 }
 
 export type shipmentsCountOrderByAggregateInput = {
-  shipment_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   shipped_date?: Prisma.SortOrder
@@ -407,13 +389,9 @@ export type shipmentsCountOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
-export type shipmentsAvgOrderByAggregateInput = {
-  shipment_id?: Prisma.SortOrder
-  order_id?: Prisma.SortOrder
-}
-
 export type shipmentsMaxOrderByAggregateInput = {
-  shipment_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   shipped_date?: Prisma.SortOrder
@@ -425,7 +403,8 @@ export type shipmentsMaxOrderByAggregateInput = {
 }
 
 export type shipmentsMinOrderByAggregateInput = {
-  shipment_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   shipped_date?: Prisma.SortOrder
@@ -436,19 +415,11 @@ export type shipmentsMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
-export type shipmentsSumOrderByAggregateInput = {
-  shipment_id?: Prisma.SortOrder
-  order_id?: Prisma.SortOrder
-}
-
-export type Enumshipment_status_enumFieldUpdateOperationsInput = {
-  set?: $Enums.shipment_status_enum
-}
-
 
 
 export type shipmentsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  shipment_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   order_id?: boolean
   tracking_number?: boolean
   shipped_date?: boolean
@@ -460,7 +431,8 @@ export type shipmentsSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 }, ExtArgs["result"]["shipments"]>
 
 export type shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  shipment_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   order_id?: boolean
   tracking_number?: boolean
   shipped_date?: boolean
@@ -472,7 +444,8 @@ export type shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["shipments"]>
 
 export type shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  shipment_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   order_id?: boolean
   tracking_number?: boolean
   shipped_date?: boolean
@@ -484,7 +457,8 @@ export type shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["shipments"]>
 
 export type shipmentsSelectScalar = {
-  shipment_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   order_id?: boolean
   tracking_number?: boolean
   shipped_date?: boolean
@@ -495,14 +469,15 @@ export type shipmentsSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"shipment_id" | "order_id" | "tracking_number" | "shipped_date" | "delivered_date" | "carrier" | "status" | "notes" | "auth_user_id", ExtArgs["result"]["shipments"]>
+export type shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "order_id" | "tracking_number" | "shipped_date" | "delivered_date" | "carrier" | "status" | "notes" | "auth_user_id", ExtArgs["result"]["shipments"]>
 
 export type $shipmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipments"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    shipment_id: number
-    order_id: number
+    id: string
+    tenant_id: string | null
+    order_id: string
     tracking_number: string | null
     shipped_date: Date | null
     delivered_date: Date | null
@@ -593,8 +568,8 @@ export interface shipmentsDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Shipments
    * const shipments = await prisma.shipments.findMany({ take: 10 })
    * 
-   * // Only select the `shipment_id`
-   * const shipmentsWithShipment_idOnly = await prisma.shipments.findMany({ select: { shipment_id: true } })
+   * // Only select the `id`
+   * const shipmentsWithIdOnly = await prisma.shipments.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends shipmentsFindManyArgs>(args?: Prisma.SelectSubset<T, shipmentsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -638,9 +613,9 @@ export interface shipmentsDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Shipments and only return the `shipment_id`
-   * const shipmentsWithShipment_idOnly = await prisma.shipments.createManyAndReturn({
-   *   select: { shipment_id: true },
+   * // Create many Shipments and only return the `id`
+   * const shipmentsWithIdOnly = await prisma.shipments.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -729,9 +704,9 @@ export interface shipmentsDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Shipments and only return the `shipment_id`
-   * const shipmentsWithShipment_idOnly = await prisma.shipments.updateManyAndReturn({
-   *   select: { shipment_id: true },
+   * // Update zero or more Shipments and only return the `id`
+   * const shipmentsWithIdOnly = await prisma.shipments.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -933,8 +908,9 @@ export interface Prisma__shipmentsClient<T, Null = never, ExtArgs extends runtim
  * Fields of the shipments model
  */
 export interface shipmentsFieldRefs {
-  readonly shipment_id: Prisma.FieldRef<"shipments", 'Int'>
-  readonly order_id: Prisma.FieldRef<"shipments", 'Int'>
+  readonly id: Prisma.FieldRef<"shipments", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"shipments", 'String'>
+  readonly order_id: Prisma.FieldRef<"shipments", 'String'>
   readonly tracking_number: Prisma.FieldRef<"shipments", 'String'>
   readonly shipped_date: Prisma.FieldRef<"shipments", 'DateTime'>
   readonly delivered_date: Prisma.FieldRef<"shipments", 'DateTime'>

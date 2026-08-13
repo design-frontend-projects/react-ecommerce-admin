@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model stock_by_location
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type stock_by_locationModel = runtime.Types.Result.DefaultSelection<Prisma.$stock_by_locationPayload>
 

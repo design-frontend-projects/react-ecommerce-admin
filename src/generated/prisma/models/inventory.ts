@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model inventory
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type inventoryModel = runtime.Types.Result.DefaultSelection<Prisma.$inventoryPayload>
 
@@ -28,24 +27,21 @@ export type AggregateInventory = {
 }
 
 export type InventoryAvgAggregateOutputType = {
-  inventory_id: number | null
-  product_id: number | null
   quantity: number | null
   reorder_level: number | null
   max_stock_level: number | null
 }
 
 export type InventorySumAggregateOutputType = {
-  inventory_id: number | null
-  product_id: number | null
   quantity: number | null
   reorder_level: number | null
   max_stock_level: number | null
 }
 
 export type InventoryMinAggregateOutputType = {
-  inventory_id: number | null
-  product_id: number | null
+  id: string | null
+  tenant_id: string | null
+  product_id: string | null
   quantity: number | null
   reorder_level: number | null
   max_stock_level: number | null
@@ -57,8 +53,9 @@ export type InventoryMinAggregateOutputType = {
 }
 
 export type InventoryMaxAggregateOutputType = {
-  inventory_id: number | null
-  product_id: number | null
+  id: string | null
+  tenant_id: string | null
+  product_id: string | null
   quantity: number | null
   reorder_level: number | null
   max_stock_level: number | null
@@ -70,7 +67,8 @@ export type InventoryMaxAggregateOutputType = {
 }
 
 export type InventoryCountAggregateOutputType = {
-  inventory_id: number
+  id: number
+  tenant_id: number
   product_id: number
   quantity: number
   reorder_level: number
@@ -85,23 +83,20 @@ export type InventoryCountAggregateOutputType = {
 
 
 export type InventoryAvgAggregateInputType = {
-  inventory_id?: true
-  product_id?: true
   quantity?: true
   reorder_level?: true
   max_stock_level?: true
 }
 
 export type InventorySumAggregateInputType = {
-  inventory_id?: true
-  product_id?: true
   quantity?: true
   reorder_level?: true
   max_stock_level?: true
 }
 
 export type InventoryMinAggregateInputType = {
-  inventory_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   quantity?: true
   reorder_level?: true
@@ -114,7 +109,8 @@ export type InventoryMinAggregateInputType = {
 }
 
 export type InventoryMaxAggregateInputType = {
-  inventory_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   quantity?: true
   reorder_level?: true
@@ -127,7 +123,8 @@ export type InventoryMaxAggregateInputType = {
 }
 
 export type InventoryCountAggregateInputType = {
-  inventory_id?: true
+  id?: true
+  tenant_id?: true
   product_id?: true
   quantity?: true
   reorder_level?: true
@@ -227,8 +224,9 @@ export type inventoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type InventoryGroupByOutputType = {
-  inventory_id: number
-  product_id: number
+  id: string
+  tenant_id: string | null
+  product_id: string
   quantity: number
   reorder_level: number | null
   max_stock_level: number | null
@@ -263,8 +261,9 @@ export type inventoryWhereInput = {
   AND?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
-  inventory_id?: Prisma.IntFilter<"inventory"> | number
-  product_id?: Prisma.IntFilter<"inventory"> | number
+  id?: Prisma.UuidFilter<"inventory"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  product_id?: Prisma.UuidFilter<"inventory"> | string
   quantity?: Prisma.IntFilter<"inventory"> | number
   reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
   max_stock_level?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -278,7 +277,8 @@ export type inventoryWhereInput = {
 }
 
 export type inventoryOrderByWithRelationInput = {
-  inventory_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -293,11 +293,12 @@ export type inventoryOrderByWithRelationInput = {
 }
 
 export type inventoryWhereUniqueInput = Prisma.AtLeast<{
-  inventory_id?: number
-  product_id?: number
+  id?: string
+  product_id?: string
   AND?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   quantity?: Prisma.IntFilter<"inventory"> | number
   reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
   max_stock_level?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -308,10 +309,11 @@ export type inventoryWhereUniqueInput = Prisma.AtLeast<{
   is_marketplace?: Prisma.BoolNullableFilter<"inventory"> | boolean | null
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-}, "inventory_id" | "product_id">
+}, "id" | "product_id">
 
 export type inventoryOrderByWithAggregationInput = {
-  inventory_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -332,8 +334,9 @@ export type inventoryScalarWhereWithAggregatesInput = {
   AND?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
   OR?: Prisma.inventoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
-  inventory_id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
-  product_id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"inventory"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  product_id?: Prisma.UuidWithAggregatesFilter<"inventory"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"inventory"> | number
   reorder_level?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   max_stock_level?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
@@ -345,6 +348,8 @@ export type inventoryScalarWhereWithAggregatesInput = {
 }
 
 export type inventoryCreateInput = {
+  id?: string
+  tenant_id?: string | null
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -357,8 +362,9 @@ export type inventoryCreateInput = {
 }
 
 export type inventoryUncheckedCreateInput = {
-  inventory_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -370,6 +376,8 @@ export type inventoryUncheckedCreateInput = {
 }
 
 export type inventoryUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -382,8 +390,9 @@ export type inventoryUpdateInput = {
 }
 
 export type inventoryUncheckedUpdateInput = {
-  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -395,8 +404,9 @@ export type inventoryUncheckedUpdateInput = {
 }
 
 export type inventoryCreateManyInput = {
-  inventory_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -408,6 +418,8 @@ export type inventoryCreateManyInput = {
 }
 
 export type inventoryUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -418,8 +430,9 @@ export type inventoryUpdateManyMutationInput = {
 }
 
 export type inventoryUncheckedUpdateManyInput = {
-  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -431,7 +444,8 @@ export type inventoryUncheckedUpdateManyInput = {
 }
 
 export type inventoryCountOrderByAggregateInput = {
-  inventory_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
@@ -444,15 +458,14 @@ export type inventoryCountOrderByAggregateInput = {
 }
 
 export type inventoryAvgOrderByAggregateInput = {
-  inventory_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   max_stock_level?: Prisma.SortOrder
 }
 
 export type inventoryMaxOrderByAggregateInput = {
-  inventory_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
@@ -465,7 +478,8 @@ export type inventoryMaxOrderByAggregateInput = {
 }
 
 export type inventoryMinOrderByAggregateInput = {
-  inventory_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
@@ -478,8 +492,6 @@ export type inventoryMinOrderByAggregateInput = {
 }
 
 export type inventorySumOrderByAggregateInput = {
-  inventory_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   max_stock_level?: Prisma.SortOrder
@@ -575,6 +587,8 @@ export type inventoryUncheckedUpdateManyWithoutStoresNestedInput = {
 }
 
 export type inventoryCreateWithoutProductsInput = {
+  id?: string
+  tenant_id?: string | null
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -586,7 +600,8 @@ export type inventoryCreateWithoutProductsInput = {
 }
 
 export type inventoryUncheckedCreateWithoutProductsInput = {
-  inventory_id?: number
+  id?: string
+  tenant_id?: string | null
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -614,6 +629,8 @@ export type inventoryUpdateToOneWithWhereWithoutProductsInput = {
 }
 
 export type inventoryUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -625,7 +642,8 @@ export type inventoryUpdateWithoutProductsInput = {
 }
 
 export type inventoryUncheckedUpdateWithoutProductsInput = {
-  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -637,6 +655,8 @@ export type inventoryUncheckedUpdateWithoutProductsInput = {
 }
 
 export type inventoryCreateWithoutStoresInput = {
+  id?: string
+  tenant_id?: string | null
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -648,8 +668,9 @@ export type inventoryCreateWithoutStoresInput = {
 }
 
 export type inventoryUncheckedCreateWithoutStoresInput = {
-  inventory_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -689,8 +710,9 @@ export type inventoryScalarWhereInput = {
   AND?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
   OR?: Prisma.inventoryScalarWhereInput[]
   NOT?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
-  inventory_id?: Prisma.IntFilter<"inventory"> | number
-  product_id?: Prisma.IntFilter<"inventory"> | number
+  id?: Prisma.UuidFilter<"inventory"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  product_id?: Prisma.UuidFilter<"inventory"> | string
   quantity?: Prisma.IntFilter<"inventory"> | number
   reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
   max_stock_level?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -702,8 +724,9 @@ export type inventoryScalarWhereInput = {
 }
 
 export type inventoryCreateManyStoresInput = {
-  inventory_id?: number
-  product_id: number
+  id?: string
+  tenant_id?: string | null
+  product_id: string
   quantity?: number
   reorder_level?: number | null
   max_stock_level?: number | null
@@ -714,6 +737,8 @@ export type inventoryCreateManyStoresInput = {
 }
 
 export type inventoryUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -725,8 +750,9 @@ export type inventoryUpdateWithoutStoresInput = {
 }
 
 export type inventoryUncheckedUpdateWithoutStoresInput = {
-  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -737,8 +763,9 @@ export type inventoryUncheckedUpdateWithoutStoresInput = {
 }
 
 export type inventoryUncheckedUpdateManyWithoutStoresInput = {
-  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   max_stock_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -751,7 +778,8 @@ export type inventoryUncheckedUpdateManyWithoutStoresInput = {
 
 
 export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  inventory_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   quantity?: boolean
   reorder_level?: boolean
@@ -766,7 +794,8 @@ export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  inventory_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   quantity?: boolean
   reorder_level?: boolean
@@ -781,7 +810,8 @@ export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  inventory_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   quantity?: boolean
   reorder_level?: boolean
@@ -796,7 +826,8 @@ export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectScalar = {
-  inventory_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   product_id?: boolean
   quantity?: boolean
   reorder_level?: boolean
@@ -808,7 +839,7 @@ export type inventorySelectScalar = {
   is_marketplace?: boolean
 }
 
-export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "product_id" | "quantity" | "reorder_level" | "max_stock_level" | "location" | "last_restocked" | "auth_user_id" | "store_id" | "is_marketplace", ExtArgs["result"]["inventory"]>
+export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_id" | "quantity" | "reorder_level" | "max_stock_level" | "location" | "last_restocked" | "auth_user_id" | "store_id" | "is_marketplace", ExtArgs["result"]["inventory"]>
 export type inventoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
@@ -829,8 +860,9 @@ export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     stores: Prisma.$storesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    inventory_id: number
-    product_id: number
+    id: string
+    tenant_id: string | null
+    product_id: string
     quantity: number
     reorder_level: number | null
     max_stock_level: number | null
@@ -922,8 +954,8 @@ export interface inventoryDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Inventories
    * const inventories = await prisma.inventory.findMany({ take: 10 })
    * 
-   * // Only select the `inventory_id`
-   * const inventoryWithInventory_idOnly = await prisma.inventory.findMany({ select: { inventory_id: true } })
+   * // Only select the `id`
+   * const inventoryWithIdOnly = await prisma.inventory.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends inventoryFindManyArgs>(args?: Prisma.SelectSubset<T, inventoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -967,9 +999,9 @@ export interface inventoryDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Inventories and only return the `inventory_id`
-   * const inventoryWithInventory_idOnly = await prisma.inventory.createManyAndReturn({
-   *   select: { inventory_id: true },
+   * // Create many Inventories and only return the `id`
+   * const inventoryWithIdOnly = await prisma.inventory.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1058,9 +1090,9 @@ export interface inventoryDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Inventories and only return the `inventory_id`
-   * const inventoryWithInventory_idOnly = await prisma.inventory.updateManyAndReturn({
-   *   select: { inventory_id: true },
+   * // Update zero or more Inventories and only return the `id`
+   * const inventoryWithIdOnly = await prisma.inventory.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1264,8 +1296,9 @@ export interface Prisma__inventoryClient<T, Null = never, ExtArgs extends runtim
  * Fields of the inventory model
  */
 export interface inventoryFieldRefs {
-  readonly inventory_id: Prisma.FieldRef<"inventory", 'Int'>
-  readonly product_id: Prisma.FieldRef<"inventory", 'Int'>
+  readonly id: Prisma.FieldRef<"inventory", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"inventory", 'String'>
+  readonly product_id: Prisma.FieldRef<"inventory", 'String'>
   readonly quantity: Prisma.FieldRef<"inventory", 'Int'>
   readonly reorder_level: Prisma.FieldRef<"inventory", 'Int'>
   readonly max_stock_level: Prisma.FieldRef<"inventory", 'Int'>

@@ -28,67 +28,73 @@ export type activity_types = Prisma.activity_typesModel
  */
 export type audit_logs = Prisma.audit_logsModel
 /**
+ * Model addresses
+ * 
+ */
+export type addresses = Prisma.addressesModel
+/**
+ * Model res_addresses
+ * 
+ */
+export type res_addresses = Prisma.res_addressesModel
+/**
  * Model branches
- * Append-only RBAC change log (feature 027, Part 8). Never cascade-deleted; retains history
- * of who changed roles/permissions/screens/overrides, when, and the before/after diff.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type branches = Prisma.branchesModel
 /**
  * Model categories
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type categories = Prisma.categoriesModel
 /**
  * Model cities
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type cities = Prisma.citiesModel
 /**
  * Model countries
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type countries = Prisma.countriesModel
 /**
  * Model currencies
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type currencies = Prisma.currenciesModel
 /**
  * Model customer_cards
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type customer_cards = Prisma.customer_cardsModel
 /**
  * Model customer_groups
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type customer_groups = Prisma.customer_groupsModel
 /**
  * Model customers
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type customers = Prisma.customersModel
 /**
  * Model inventory
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type inventory = Prisma.inventoryModel
 /**
  * Model payment_types
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type payment_types = Prisma.payment_typesModel
 /**
  * Model permissions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type permissions = Prisma.permissionsModel
 /**
  * Model pos_sales
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type pos_sales = Prisma.pos_salesModel
 /**
@@ -98,55 +104,52 @@ export type pos_sales = Prisma.pos_salesModel
 export type pos_terminals = Prisma.pos_terminalsModel
 /**
  * Model price_list
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type price_list = Prisma.price_listModel
 /**
  * Model price_list_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type price_list_items = Prisma.price_list_itemsModel
 /**
  * Model product_variants
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type product_variants = Prisma.product_variantsModel
 /**
  * Model products
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type products = Prisma.productsModel
 /**
  * Model pos_reorder_requests
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type pos_reorder_requests = Prisma.pos_reorder_requestsModel
 /**
  * Model profiles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type profiles = Prisma.profilesModel
 /**
  * Model promotion_usage
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type promotion_usage = Prisma.promotion_usageModel
 /**
  * Model promotions
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type promotions = Prisma.promotionsModel
 /**
  * Model promotion_menu_scopes
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type promotion_menu_scopes = Prisma.promotion_menu_scopesModel
 /**
  * Model purchase_invoice_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type purchase_invoice_items = Prisma.purchase_invoice_itemsModel
 /**
@@ -156,19 +159,17 @@ export type purchase_invoice_items = Prisma.purchase_invoice_itemsModel
 export type purchase_invoices = Prisma.purchase_invoicesModel
 /**
  * Model purchase_order_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type purchase_order_items = Prisma.purchase_order_itemsModel
 /**
  * Model purchase_orders
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type purchase_orders = Prisma.purchase_ordersModel
 /**
  * Model purchase_return_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type purchase_return_items = Prisma.purchase_return_itemsModel
 /**
@@ -178,132 +179,112 @@ export type purchase_return_items = Prisma.purchase_return_itemsModel
 export type purchase_returns = Prisma.purchase_returnsModel
 /**
  * Model refunds
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type refunds = Prisma.refundsModel
 /**
  * Model res_events
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_events = Prisma.res_eventsModel
 /**
  * Model res_floors
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_floors = Prisma.res_floorsModel
 /**
  * Model res_item_properties
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_item_properties = Prisma.res_item_propertiesModel
 /**
  * Model res_item_variants
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_item_variants = Prisma.res_item_variantsModel
 /**
  * Model res_menu_categories
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_menu_categories = Prisma.res_menu_categoriesModel
 /**
  * Model res_menu_items
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_menu_items = Prisma.res_menu_itemsModel
 /**
  * Model res_notifications
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_notifications = Prisma.res_notificationsModel
 /**
  * Model res_order_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_order_items = Prisma.res_order_itemsModel
 /**
  * Model res_orders
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_orders = Prisma.res_ordersModel
 /**
  * Model res_shipments
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_shipments = Prisma.res_shipmentsModel
 /**
  * Model res_payment_methods
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_payment_methods = Prisma.res_payment_methodsModel
 /**
  * Model res_promotion_usage
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_promotion_usage = Prisma.res_promotion_usageModel
 /**
  * Model res_promotions
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_promotions = Prisma.res_promotionsModel
 /**
  * Model res_reservations
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_reservations = Prisma.res_reservationsModel
 /**
- * Model res_roles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- * DEPRECATED — unused, superseded by the active RBAC set (roles/permissions/role_permissions/user_roles).
- */
-export type res_roles = Prisma.res_rolesModel
-/**
  * Model res_shifts
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_shifts = Prisma.res_shiftsModel
 /**
  * Model res_tables
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_tables = Prisma.res_tablesModel
 /**
  * Model res_void_requests
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_void_requests = Prisma.res_void_requestsModel
 /**
  * Model role_permissions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type role_permissions = Prisma.role_permissionsModel
 /**
  * Model roles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type roles = Prisma.rolesModel
 /**
- * Model employee_roles
- * DEPRECATED — unused, superseded by the active RBAC set (roles/permissions/role_permissions/user_roles).
- */
-export type employee_roles = Prisma.employee_rolesModel
-/**
  * Model sale_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type sale_items = Prisma.sale_itemsModel
 /**
  * Model sales_invoice_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type sales_invoice_items = Prisma.sales_invoice_itemsModel
 /**
@@ -313,7 +294,7 @@ export type sales_invoice_items = Prisma.sales_invoice_itemsModel
 export type sales_invoices = Prisma.sales_invoicesModel
 /**
  * Model sales_return_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type sales_return_items = Prisma.sales_return_itemsModel
 /**
@@ -323,70 +304,67 @@ export type sales_return_items = Prisma.sales_return_itemsModel
 export type sales_returns = Prisma.sales_returnsModel
 /**
  * Model shipments
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type shipments = Prisma.shipmentsModel
 /**
  * Model shipping_methods
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type shipping_methods = Prisma.shipping_methodsModel
 /**
  * Model shipping_rates
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type shipping_rates = Prisma.shipping_ratesModel
 /**
  * Model stores
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type stores = Prisma.storesModel
 /**
  * Model subscriptions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type subscriptions = Prisma.subscriptionsModel
 /**
  * Model suppliers
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type suppliers = Prisma.suppliersModel
 /**
  * Model tax_rates
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tax_rates = Prisma.tax_ratesModel
 /**
  * Model tenant_subscriptions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tenant_subscriptions = Prisma.tenant_subscriptionsModel
 /**
  * Model tenants
- * Stores the organizations/companies that use the SaaS platform. A tenant represents an isolated business account and owns its users, branches, modules, settings, subscriptions, and business data.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tenants = Prisma.tenantsModel
 /**
  * Model tenant_users
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tenant_users = Prisma.tenant_usersModel
 /**
  * Model transaction_details
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type transaction_details = Prisma.transaction_detailsModel
 /**
  * Model transactions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type transactions = Prisma.transactionsModel
 /**
  * Model user_roles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type user_roles = Prisma.user_rolesModel
 /**
@@ -441,19 +419,17 @@ export type screen_buttons = Prisma.screen_buttonsModel
 export type user_permissions = Prisma.user_permissionsModel
 /**
  * Model inventory_movements
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type inventory_movements = Prisma.inventory_movementsModel
 /**
  * Model stock_balances
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type stock_balances = Prisma.stock_balancesModel
 /**
  * Model stock_transfers
- * Inter-store stock transfer header. Applied atomically via the apply_stock_transfer() RPC,
- * which writes paired transfer_out/transfer_in rows to inventory_movements.
+ * 
  */
 export type stock_transfers = Prisma.stock_transfersModel
 /**
@@ -463,8 +439,7 @@ export type stock_transfers = Prisma.stock_transfersModel
 export type stock_transfer_items = Prisma.stock_transfer_itemsModel
 /**
  * Model stock_adjustments
- * Batch stock adjustment header (manual entry / damaged-expired / stocktake).
- * Applied atomically via the apply_stock_adjustment() RPC. See specs/023-stock-adjustments.
+ * 
  */
 export type stock_adjustments = Prisma.stock_adjustmentsModel
 /**
@@ -474,8 +449,7 @@ export type stock_adjustments = Prisma.stock_adjustmentsModel
 export type stock_adjustment_items = Prisma.stock_adjustment_itemsModel
 /**
  * Model app_settings
- * Global system settings stored as key-value pairs with JSON values.
- * Supports multi-tenancy via auth_user_id and grouping for UI organization.
+ * 
  */
 export type app_settings = Prisma.app_settingsModel
 /**
@@ -485,12 +459,12 @@ export type app_settings = Prisma.app_settingsModel
 export type warehouses = Prisma.warehousesModel
 /**
  * Model warehouse_locations
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type warehouse_locations = Prisma.warehouse_locationsModel
 /**
  * Model stock_by_location
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type stock_by_location = Prisma.stock_by_locationModel
 /**
@@ -505,7 +479,7 @@ export type brands = Prisma.brandsModel
 export type uoms = Prisma.uomsModel
 /**
  * Model unit_conversions
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type unit_conversions = Prisma.unit_conversionsModel
 /**
@@ -575,7 +549,7 @@ export type stock_reservations = Prisma.stock_reservationsModel
 export type stock_counts = Prisma.stock_countsModel
 /**
  * Model stock_count_items
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type stock_count_items = Prisma.stock_count_itemsModel
 /**
@@ -590,26 +564,22 @@ export type reorder_rules = Prisma.reorder_rulesModel
 export type reorder_suggestions = Prisma.reorder_suggestionsModel
 /**
  * Model rbac_audit
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type rbac_audit = Prisma.rbac_auditModel
 /**
  * Model res_cash_movements
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_cash_movements = Prisma.res_cash_movementsModel
 /**
  * Model res_shift_audit
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_shift_audit = Prisma.res_shift_auditModel
 /**
  * Model res_shift_settings
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type res_shift_settings = Prisma.res_shift_settingsModel
 /**

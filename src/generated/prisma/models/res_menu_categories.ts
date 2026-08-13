@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_menu_categories
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_menu_categoriesModel = runtime.Types.Result.DefaultSelection<Prisma.$res_menu_categoriesPayload>
 
@@ -36,6 +36,7 @@ export type Res_menu_categoriesSumAggregateOutputType = {
 
 export type Res_menu_categoriesMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   name_ar: string | null
   icon: string | null
@@ -47,6 +48,7 @@ export type Res_menu_categoriesMinAggregateOutputType = {
 
 export type Res_menu_categoriesMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   name_ar: string | null
   icon: string | null
@@ -58,6 +60,7 @@ export type Res_menu_categoriesMaxAggregateOutputType = {
 
 export type Res_menu_categoriesCountAggregateOutputType = {
   id: number
+  tenant_id: number
   name: number
   name_ar: number
   icon: number
@@ -79,6 +82,7 @@ export type Res_menu_categoriesSumAggregateInputType = {
 
 export type Res_menu_categoriesMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   name_ar?: true
   icon?: true
@@ -90,6 +94,7 @@ export type Res_menu_categoriesMinAggregateInputType = {
 
 export type Res_menu_categoriesMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   name_ar?: true
   icon?: true
@@ -101,6 +106,7 @@ export type Res_menu_categoriesMaxAggregateInputType = {
 
 export type Res_menu_categoriesCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   name_ar?: true
   icon?: true
@@ -199,6 +205,7 @@ export type res_menu_categoriesGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Res_menu_categoriesGroupByOutputType = {
   id: string
+  tenant_id: string | null
   name: string
   name_ar: string | null
   icon: string | null
@@ -233,6 +240,7 @@ export type res_menu_categoriesWhereInput = {
   OR?: Prisma.res_menu_categoriesWhereInput[]
   NOT?: Prisma.res_menu_categoriesWhereInput | Prisma.res_menu_categoriesWhereInput[]
   id?: Prisma.UuidFilter<"res_menu_categories"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_menu_categories"> | string | null
   name?: Prisma.StringFilter<"res_menu_categories"> | string
   name_ar?: Prisma.StringNullableFilter<"res_menu_categories"> | string | null
   icon?: Prisma.StringNullableFilter<"res_menu_categories"> | string | null
@@ -246,6 +254,7 @@ export type res_menu_categoriesWhereInput = {
 
 export type res_menu_categoriesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -262,6 +271,7 @@ export type res_menu_categoriesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_menu_categoriesWhereInput | Prisma.res_menu_categoriesWhereInput[]
   OR?: Prisma.res_menu_categoriesWhereInput[]
   NOT?: Prisma.res_menu_categoriesWhereInput | Prisma.res_menu_categoriesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_menu_categories"> | string | null
   name?: Prisma.StringFilter<"res_menu_categories"> | string
   name_ar?: Prisma.StringNullableFilter<"res_menu_categories"> | string | null
   icon?: Prisma.StringNullableFilter<"res_menu_categories"> | string | null
@@ -275,6 +285,7 @@ export type res_menu_categoriesWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_menu_categoriesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -294,6 +305,7 @@ export type res_menu_categoriesScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_menu_categoriesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_menu_categoriesScalarWhereWithAggregatesInput | Prisma.res_menu_categoriesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_menu_categories"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_menu_categories"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_menu_categories"> | string
   name_ar?: Prisma.StringNullableWithAggregatesFilter<"res_menu_categories"> | string | null
   icon?: Prisma.StringNullableWithAggregatesFilter<"res_menu_categories"> | string | null
@@ -305,6 +317,7 @@ export type res_menu_categoriesScalarWhereWithAggregatesInput = {
 
 export type res_menu_categoriesCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -318,6 +331,7 @@ export type res_menu_categoriesCreateInput = {
 
 export type res_menu_categoriesUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -331,6 +345,7 @@ export type res_menu_categoriesUncheckedCreateInput = {
 
 export type res_menu_categoriesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -344,6 +359,7 @@ export type res_menu_categoriesUpdateInput = {
 
 export type res_menu_categoriesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -357,6 +373,7 @@ export type res_menu_categoriesUncheckedUpdateInput = {
 
 export type res_menu_categoriesCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -368,6 +385,7 @@ export type res_menu_categoriesCreateManyInput = {
 
 export type res_menu_categoriesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -379,6 +397,7 @@ export type res_menu_categoriesUpdateManyMutationInput = {
 
 export type res_menu_categoriesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -395,6 +414,7 @@ export type Res_menu_categoriesNullableScalarRelationFilter = {
 
 export type res_menu_categoriesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   name_ar?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -410,6 +430,7 @@ export type res_menu_categoriesAvgOrderByAggregateInput = {
 
 export type res_menu_categoriesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   name_ar?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -421,6 +442,7 @@ export type res_menu_categoriesMaxOrderByAggregateInput = {
 
 export type res_menu_categoriesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   name_ar?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -468,6 +490,7 @@ export type res_menu_categoriesUpdateOneWithoutRes_menu_itemsNestedInput = {
 
 export type res_menu_categoriesCreateWithoutPromotion_menu_scopesInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -480,6 +503,7 @@ export type res_menu_categoriesCreateWithoutPromotion_menu_scopesInput = {
 
 export type res_menu_categoriesUncheckedCreateWithoutPromotion_menu_scopesInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -508,6 +532,7 @@ export type res_menu_categoriesUpdateToOneWithWhereWithoutPromotion_menu_scopesI
 
 export type res_menu_categoriesUpdateWithoutPromotion_menu_scopesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -520,6 +545,7 @@ export type res_menu_categoriesUpdateWithoutPromotion_menu_scopesInput = {
 
 export type res_menu_categoriesUncheckedUpdateWithoutPromotion_menu_scopesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -532,6 +558,7 @@ export type res_menu_categoriesUncheckedUpdateWithoutPromotion_menu_scopesInput 
 
 export type res_menu_categoriesCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -544,6 +571,7 @@ export type res_menu_categoriesCreateWithoutRes_menu_itemsInput = {
 
 export type res_menu_categoriesUncheckedCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   name_ar?: string | null
   icon?: string | null
@@ -572,6 +600,7 @@ export type res_menu_categoriesUpdateToOneWithWhereWithoutRes_menu_itemsInput = 
 
 export type res_menu_categoriesUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -584,6 +613,7 @@ export type res_menu_categoriesUpdateWithoutRes_menu_itemsInput = {
 
 export type res_menu_categoriesUncheckedUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -636,6 +666,7 @@ export type Res_menu_categoriesCountOutputTypeCountRes_menu_itemsArgs<ExtArgs ex
 
 export type res_menu_categoriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   name_ar?: boolean
   icon?: boolean
@@ -650,6 +681,7 @@ export type res_menu_categoriesSelect<ExtArgs extends runtime.Types.Extensions.I
 
 export type res_menu_categoriesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   name_ar?: boolean
   icon?: boolean
@@ -661,6 +693,7 @@ export type res_menu_categoriesSelectCreateManyAndReturn<ExtArgs extends runtime
 
 export type res_menu_categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   name_ar?: boolean
   icon?: boolean
@@ -672,6 +705,7 @@ export type res_menu_categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime
 
 export type res_menu_categoriesSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   name_ar?: boolean
   icon?: boolean
@@ -681,7 +715,7 @@ export type res_menu_categoriesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type res_menu_categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "name_ar" | "icon" | "sort_order" | "is_active" | "created_at" | "auth_user_id", ExtArgs["result"]["res_menu_categories"]>
+export type res_menu_categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "name_ar" | "icon" | "sort_order" | "is_active" | "created_at" | "auth_user_id", ExtArgs["result"]["res_menu_categories"]>
 export type res_menu_categoriesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   promotion_menu_scopes?: boolean | Prisma.res_menu_categories$promotion_menu_scopesArgs<ExtArgs>
   res_menu_items?: boolean | Prisma.res_menu_categories$res_menu_itemsArgs<ExtArgs>
@@ -698,6 +732,7 @@ export type $res_menu_categoriesPayload<ExtArgs extends runtime.Types.Extensions
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     name: string
     name_ar: string | null
     icon: string | null
@@ -1131,6 +1166,7 @@ export interface Prisma__res_menu_categoriesClient<T, Null = never, ExtArgs exte
  */
 export interface res_menu_categoriesFieldRefs {
   readonly id: Prisma.FieldRef<"res_menu_categories", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_menu_categories", 'String'>
   readonly name: Prisma.FieldRef<"res_menu_categories", 'String'>
   readonly name_ar: Prisma.FieldRef<"res_menu_categories", 'String'>
   readonly icon: Prisma.FieldRef<"res_menu_categories", 'String'>

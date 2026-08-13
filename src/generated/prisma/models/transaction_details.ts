@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model transaction_details
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type transaction_detailsModel = runtime.Types.Result.DefaultSelection<Prisma.$transaction_detailsPayload>
 
@@ -27,7 +27,6 @@ export type AggregateTransaction_details = {
 }
 
 export type Transaction_detailsAvgAggregateOutputType = {
-  product_id: number | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -36,7 +35,6 @@ export type Transaction_detailsAvgAggregateOutputType = {
 }
 
 export type Transaction_detailsSumAggregateOutputType = {
-  product_id: number | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -48,7 +46,7 @@ export type Transaction_detailsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transaction_id: string | null
-  product_id: number | null
+  product_id: string | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -63,7 +61,7 @@ export type Transaction_detailsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transaction_id: string | null
-  product_id: number | null
+  product_id: string | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -92,7 +90,6 @@ export type Transaction_detailsCountAggregateOutputType = {
 
 
 export type Transaction_detailsAvgAggregateInputType = {
-  product_id?: true
   quantity?: true
   unit_price?: true
   discount_amount?: true
@@ -101,7 +98,6 @@ export type Transaction_detailsAvgAggregateInputType = {
 }
 
 export type Transaction_detailsSumAggregateInputType = {
-  product_id?: true
   quantity?: true
   unit_price?: true
   discount_amount?: true
@@ -245,7 +241,7 @@ export type Transaction_detailsGroupByOutputType = {
   id: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal
   unit_price: runtime.Decimal
   discount_amount: runtime.Decimal | null
@@ -283,7 +279,7 @@ export type transaction_detailsWhereInput = {
   id?: Prisma.UuidFilter<"transaction_details"> | string
   tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.IntFilter<"transaction_details"> | number
+  product_id?: Prisma.UuidFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -324,7 +320,7 @@ export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.transaction_detailsWhereInput | Prisma.transaction_detailsWhereInput[]
   tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.IntFilter<"transaction_details"> | number
+  product_id?: Prisma.UuidFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -366,7 +362,7 @@ export type transaction_detailsScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
-  product_id?: Prisma.IntWithAggregatesFilter<"transaction_details"> | number
+  product_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -396,7 +392,7 @@ export type transaction_detailsUncheckedCreateInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -426,7 +422,7 @@ export type transaction_detailsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -441,7 +437,7 @@ export type transaction_detailsCreateManyInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -467,7 +463,7 @@ export type transaction_detailsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -504,7 +500,6 @@ export type transaction_detailsCountOrderByAggregateInput = {
 }
 
 export type transaction_detailsAvgOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -543,7 +538,6 @@ export type transaction_detailsMinOrderByAggregateInput = {
 }
 
 export type transaction_detailsSumOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -780,7 +774,7 @@ export type transaction_detailsScalarWhereInput = {
   id?: Prisma.UuidFilter<"transaction_details"> | string
   tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.IntFilter<"transaction_details"> | number
+  product_id?: Prisma.UuidFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -809,7 +803,7 @@ export type transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput = 
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -863,7 +857,7 @@ export type transaction_detailsUncheckedCreateWithoutSales_return_itemsInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -916,7 +910,7 @@ export type transaction_detailsCreateWithoutTransactionsInput = {
 export type transaction_detailsUncheckedCreateWithoutTransactionsInput = {
   id?: string
   tenant_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1013,7 +1007,7 @@ export type transaction_detailsCreateManySales_invoice_itemsInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1041,7 +1035,7 @@ export type transaction_detailsUncheckedUpdateWithoutSales_invoice_itemsInput = 
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1055,7 +1049,7 @@ export type transaction_detailsUncheckedUpdateManyWithoutSales_invoice_itemsInpu
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1069,7 +1063,7 @@ export type transaction_detailsCreateManySales_return_itemsInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1097,7 +1091,7 @@ export type transaction_detailsUncheckedUpdateWithoutSales_return_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1111,7 +1105,7 @@ export type transaction_detailsUncheckedUpdateManyWithoutSales_return_itemsInput
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1124,7 +1118,7 @@ export type transaction_detailsUncheckedUpdateManyWithoutSales_return_itemsInput
 export type transaction_detailsCreateManyTransactionsInput = {
   id?: string
   tenant_id: string
-  product_id: number
+  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1152,7 +1146,7 @@ export type transaction_detailsUpdateWithoutTransactionsInput = {
 export type transaction_detailsUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1166,7 +1160,7 @@ export type transaction_detailsUncheckedUpdateWithoutTransactionsInput = {
 export type transaction_detailsUncheckedUpdateManyWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1283,7 +1277,7 @@ export type $transaction_detailsPayload<ExtArgs extends runtime.Types.Extensions
     id: string
     tenant_id: string
     transaction_id: string
-    product_id: number
+    product_id: string
     quantity: runtime.Decimal
     unit_price: runtime.Decimal
     discount_amount: runtime.Decimal | null
@@ -1722,7 +1716,7 @@ export interface transaction_detailsFieldRefs {
   readonly id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly tenant_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly transaction_id: Prisma.FieldRef<"transaction_details", 'String'>
-  readonly product_id: Prisma.FieldRef<"transaction_details", 'Int'>
+  readonly product_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly quantity: Prisma.FieldRef<"transaction_details", 'Decimal'>
   readonly unit_price: Prisma.FieldRef<"transaction_details", 'Decimal'>
   readonly discount_amount: Prisma.FieldRef<"transaction_details", 'Decimal'>

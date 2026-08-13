@@ -28,12 +28,9 @@ BEGIN
             'company',
             'restaurant',
             'retail',
-            'warehouse',
-            'hospital',
-            'clinic',
-            'school',
-            'hotel',
-            'courier',
+            'market',
+            'pharmacy',
+            'service',
             'other'
         );
     END IF;

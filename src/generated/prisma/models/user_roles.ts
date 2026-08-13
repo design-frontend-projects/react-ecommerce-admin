@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model user_roles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type user_rolesModel = runtime.Types.Result.DefaultSelection<Prisma.$user_rolesPayload>
 
@@ -502,10 +502,6 @@ export type $user_rolesPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     role_id: string
-    /**
-     * FKs tenant_users.id (the row PK), NOT the Supabase auth uid. Physical column stays `auth_user_id`
-     * (renamed at the Prisma level only to fix the code-level misnomer — no DB migration).
-     */
     tenant_user_id: string
   }, ExtArgs["result"]["user_roles"]>
   composites: {}

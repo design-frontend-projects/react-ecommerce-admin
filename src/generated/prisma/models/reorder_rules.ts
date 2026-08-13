@@ -34,7 +34,6 @@ export type Reorder_rulesAvgAggregateOutputType = {
   reorder_qty: runtime.Decimal | null
   eoq: runtime.Decimal | null
   lead_time_days: number | null
-  preferred_supplier_id: number | null
 }
 
 export type Reorder_rulesSumAggregateOutputType = {
@@ -45,7 +44,6 @@ export type Reorder_rulesSumAggregateOutputType = {
   reorder_qty: runtime.Decimal | null
   eoq: runtime.Decimal | null
   lead_time_days: number | null
-  preferred_supplier_id: number | null
 }
 
 export type Reorder_rulesMinAggregateOutputType = {
@@ -60,7 +58,7 @@ export type Reorder_rulesMinAggregateOutputType = {
   reorder_qty: runtime.Decimal | null
   eoq: runtime.Decimal | null
   lead_time_days: number | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -79,7 +77,7 @@ export type Reorder_rulesMaxAggregateOutputType = {
   reorder_qty: runtime.Decimal | null
   eoq: runtime.Decimal | null
   lead_time_days: number | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -115,7 +113,6 @@ export type Reorder_rulesAvgAggregateInputType = {
   reorder_qty?: true
   eoq?: true
   lead_time_days?: true
-  preferred_supplier_id?: true
 }
 
 export type Reorder_rulesSumAggregateInputType = {
@@ -126,7 +123,6 @@ export type Reorder_rulesSumAggregateInputType = {
   reorder_qty?: true
   eoq?: true
   lead_time_days?: true
-  preferred_supplier_id?: true
 }
 
 export type Reorder_rulesMinAggregateInputType = {
@@ -285,7 +281,7 @@ export type Reorder_rulesGroupByOutputType = {
   reorder_qty: runtime.Decimal | null
   eoq: runtime.Decimal | null
   lead_time_days: number | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   is_active: boolean
   created_at: Date
   updated_at: Date
@@ -327,7 +323,7 @@ export type reorder_rulesWhereInput = {
   reorder_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
   is_active?: Prisma.BoolFilter<"reorder_rules"> | boolean
   created_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
@@ -377,7 +373,7 @@ export type reorder_rulesWhereUniqueInput = Prisma.AtLeast<{
   reorder_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
   is_active?: Prisma.BoolFilter<"reorder_rules"> | boolean
   created_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
@@ -427,7 +423,7 @@ export type reorder_rulesScalarWhereWithAggregatesInput = {
   reorder_qty?: Prisma.DecimalNullableWithAggregatesFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.DecimalNullableWithAggregatesFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.IntNullableWithAggregatesFilter<"reorder_rules"> | number | null
-  preferred_supplier_id?: Prisma.IntNullableWithAggregatesFilter<"reorder_rules"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_rules"> | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"reorder_rules"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"reorder_rules"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"reorder_rules"> | Date | string
@@ -466,7 +462,7 @@ export type reorder_rulesUncheckedCreateInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -506,7 +502,7 @@ export type reorder_rulesUncheckedUpdateInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -526,7 +522,7 @@ export type reorder_rulesCreateManyInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -561,7 +557,7 @@ export type reorder_rulesUncheckedUpdateManyInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -610,7 +606,6 @@ export type reorder_rulesAvgOrderByAggregateInput = {
   reorder_qty?: Prisma.SortOrder
   eoq?: Prisma.SortOrder
   lead_time_days?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
 }
 
 export type reorder_rulesMaxOrderByAggregateInput = {
@@ -659,7 +654,6 @@ export type reorder_rulesSumOrderByAggregateInput = {
   reorder_qty?: Prisma.SortOrder
   eoq?: Prisma.SortOrder
   lead_time_days?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
 }
 
 export type Reorder_rulesScalarRelationFilter = {
@@ -837,7 +831,7 @@ export type reorder_rulesUncheckedCreateWithoutProduct_variantsInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -886,7 +880,7 @@ export type reorder_rulesScalarWhereInput = {
   reorder_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_rules"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
   is_active?: Prisma.BoolFilter<"reorder_rules"> | boolean
   created_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"reorder_rules"> | Date | string
@@ -923,7 +917,7 @@ export type reorder_rulesUncheckedCreateWithoutStoresInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1052,7 +1046,7 @@ export type reorder_rulesUncheckedCreateWithoutReorder_suggestionsInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1106,7 +1100,7 @@ export type reorder_rulesUncheckedUpdateWithoutReorder_suggestionsInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1124,7 +1118,7 @@ export type reorder_rulesCreateManyProduct_variantsInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1161,7 +1155,7 @@ export type reorder_rulesUncheckedUpdateWithoutProduct_variantsInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1180,7 +1174,7 @@ export type reorder_rulesUncheckedUpdateManyWithoutProduct_variantsInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1198,7 +1192,7 @@ export type reorder_rulesCreateManyStoresInput = {
   reorder_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: number | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1235,7 +1229,7 @@ export type reorder_rulesUncheckedUpdateWithoutStoresInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1254,7 +1248,7 @@ export type reorder_rulesUncheckedUpdateManyWithoutStoresInput = {
   reorder_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   eoq?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1461,7 +1455,7 @@ export type $reorder_rulesPayload<ExtArgs extends runtime.Types.Extensions.Inter
     reorder_qty: runtime.Decimal | null
     eoq: runtime.Decimal | null
     lead_time_days: number | null
-    preferred_supplier_id: number | null
+    preferred_supplier_id: string | null
     is_active: boolean
     created_at: Date
     updated_at: Date
@@ -1904,7 +1898,7 @@ export interface reorder_rulesFieldRefs {
   readonly reorder_qty: Prisma.FieldRef<"reorder_rules", 'Decimal'>
   readonly eoq: Prisma.FieldRef<"reorder_rules", 'Decimal'>
   readonly lead_time_days: Prisma.FieldRef<"reorder_rules", 'Int'>
-  readonly preferred_supplier_id: Prisma.FieldRef<"reorder_rules", 'Int'>
+  readonly preferred_supplier_id: Prisma.FieldRef<"reorder_rules", 'String'>
   readonly is_active: Prisma.FieldRef<"reorder_rules", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"reorder_rules", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"reorder_rules", 'DateTime'>

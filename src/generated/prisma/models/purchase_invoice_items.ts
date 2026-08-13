@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model purchase_invoice_items
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type purchase_invoice_itemsModel = runtime.Types.Result.DefaultSelection<Prisma.$purchase_invoice_itemsPayload>
 
@@ -27,7 +27,6 @@ export type AggregatePurchase_invoice_items = {
 }
 
 export type Purchase_invoice_itemsAvgAggregateOutputType = {
-  tax_rate_id: number | null
   line_no: number | null
   quantity: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
@@ -39,7 +38,6 @@ export type Purchase_invoice_itemsAvgAggregateOutputType = {
 }
 
 export type Purchase_invoice_itemsSumAggregateOutputType = {
-  tax_rate_id: number | null
   line_no: number | null
   quantity: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
@@ -54,7 +52,7 @@ export type Purchase_invoice_itemsMinAggregateOutputType = {
   id: string | null
   purchase_invoice_id: string | null
   product_variant_id: string | null
-  tax_rate_id: number | null
+  tax_rate_id: string | null
   line_no: number | null
   description: string | null
   quantity: runtime.Decimal | null
@@ -72,7 +70,7 @@ export type Purchase_invoice_itemsMaxAggregateOutputType = {
   id: string | null
   purchase_invoice_id: string | null
   product_variant_id: string | null
-  tax_rate_id: number | null
+  tax_rate_id: string | null
   line_no: number | null
   description: string | null
   quantity: runtime.Decimal | null
@@ -107,7 +105,6 @@ export type Purchase_invoice_itemsCountAggregateOutputType = {
 
 
 export type Purchase_invoice_itemsAvgAggregateInputType = {
-  tax_rate_id?: true
   line_no?: true
   quantity?: true
   unit_cost?: true
@@ -119,7 +116,6 @@ export type Purchase_invoice_itemsAvgAggregateInputType = {
 }
 
 export type Purchase_invoice_itemsSumAggregateInputType = {
-  tax_rate_id?: true
   line_no?: true
   quantity?: true
   unit_cost?: true
@@ -275,7 +271,7 @@ export type Purchase_invoice_itemsGroupByOutputType = {
   id: string
   purchase_invoice_id: string
   product_variant_id: string
-  tax_rate_id: number | null
+  tax_rate_id: string | null
   line_no: number
   description: string | null
   quantity: runtime.Decimal
@@ -316,7 +312,7 @@ export type purchase_invoice_itemsWhereInput = {
   id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
   purchase_invoice_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
   product_variant_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
-  tax_rate_id?: Prisma.IntNullableFilter<"purchase_invoice_items"> | number | null
+  tax_rate_id?: Prisma.UuidNullableFilter<"purchase_invoice_items"> | string | null
   line_no?: Prisma.IntFilter<"purchase_invoice_items"> | number
   description?: Prisma.StringNullableFilter<"purchase_invoice_items"> | string | null
   quantity?: Prisma.DecimalFilter<"purchase_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -363,7 +359,7 @@ export type purchase_invoice_itemsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.purchase_invoice_itemsWhereInput | Prisma.purchase_invoice_itemsWhereInput[]
   purchase_invoice_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
   product_variant_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
-  tax_rate_id?: Prisma.IntNullableFilter<"purchase_invoice_items"> | number | null
+  tax_rate_id?: Prisma.UuidNullableFilter<"purchase_invoice_items"> | string | null
   line_no?: Prisma.IntFilter<"purchase_invoice_items"> | number
   description?: Prisma.StringNullableFilter<"purchase_invoice_items"> | string | null
   quantity?: Prisma.DecimalFilter<"purchase_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -411,7 +407,7 @@ export type purchase_invoice_itemsScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"purchase_invoice_items"> | string
   purchase_invoice_id?: Prisma.UuidWithAggregatesFilter<"purchase_invoice_items"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"purchase_invoice_items"> | string
-  tax_rate_id?: Prisma.IntNullableWithAggregatesFilter<"purchase_invoice_items"> | number | null
+  tax_rate_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_invoice_items"> | string | null
   line_no?: Prisma.IntWithAggregatesFilter<"purchase_invoice_items"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"purchase_invoice_items"> | string | null
   quantity?: Prisma.DecimalWithAggregatesFilter<"purchase_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -448,7 +444,7 @@ export type purchase_invoice_itemsUncheckedCreateInput = {
   id?: string
   purchase_invoice_id: string
   product_variant_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -486,7 +482,7 @@ export type purchase_invoice_itemsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -505,7 +501,7 @@ export type purchase_invoice_itemsCreateManyInput = {
   id?: string
   purchase_invoice_id: string
   product_variant_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -538,7 +534,7 @@ export type purchase_invoice_itemsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -581,7 +577,6 @@ export type purchase_invoice_itemsCountOrderByAggregateInput = {
 }
 
 export type purchase_invoice_itemsAvgOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
   line_no?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
@@ -629,7 +624,6 @@ export type purchase_invoice_itemsMinOrderByAggregateInput = {
 }
 
 export type purchase_invoice_itemsSumOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
   line_no?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
@@ -685,10 +679,6 @@ export type purchase_invoice_itemsUncheckedUpdateManyWithoutProduct_variantsNest
   update?: Prisma.purchase_invoice_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.purchase_invoice_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
   updateMany?: Prisma.purchase_invoice_itemsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.purchase_invoice_itemsUpdateManyWithWhereWithoutProduct_variantsInput[]
   deleteMany?: Prisma.purchase_invoice_itemsScalarWhereInput | Prisma.purchase_invoice_itemsScalarWhereInput[]
-}
-
-export type NullableEnumdiscount_type_enumFieldUpdateOperationsInput = {
-  set?: $Enums.discount_type_enum | null
 }
 
 export type purchase_invoice_itemsCreateNestedManyWithoutPurchase_invoicesInput = {
@@ -812,7 +802,7 @@ export type purchase_invoice_itemsCreateWithoutProduct_variantsInput = {
 export type purchase_invoice_itemsUncheckedCreateWithoutProduct_variantsInput = {
   id?: string
   purchase_invoice_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -860,7 +850,7 @@ export type purchase_invoice_itemsScalarWhereInput = {
   id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
   purchase_invoice_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
   product_variant_id?: Prisma.UuidFilter<"purchase_invoice_items"> | string
-  tax_rate_id?: Prisma.IntNullableFilter<"purchase_invoice_items"> | number | null
+  tax_rate_id?: Prisma.UuidNullableFilter<"purchase_invoice_items"> | string | null
   line_no?: Prisma.IntFilter<"purchase_invoice_items"> | number
   description?: Prisma.StringNullableFilter<"purchase_invoice_items"> | string | null
   quantity?: Prisma.DecimalFilter<"purchase_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -895,7 +885,7 @@ export type purchase_invoice_itemsCreateWithoutPurchase_invoicesInput = {
 export type purchase_invoice_itemsUncheckedCreateWithoutPurchase_invoicesInput = {
   id?: string
   product_variant_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -958,7 +948,7 @@ export type purchase_invoice_itemsUncheckedCreateWithoutPurchase_return_itemsInp
   id?: string
   purchase_invoice_id: string
   product_variant_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1010,7 +1000,7 @@ export type purchase_invoice_itemsUncheckedUpdateWithoutPurchase_return_itemsInp
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1089,7 +1079,7 @@ export type purchase_invoice_itemsUpdateManyWithWhereWithoutTax_ratesInput = {
 export type purchase_invoice_itemsCreateManyProduct_variantsInput = {
   id?: string
   purchase_invoice_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1124,7 +1114,7 @@ export type purchase_invoice_itemsUpdateWithoutProduct_variantsInput = {
 export type purchase_invoice_itemsUncheckedUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1142,7 +1132,7 @@ export type purchase_invoice_itemsUncheckedUpdateWithoutProduct_variantsInput = 
 export type purchase_invoice_itemsUncheckedUpdateManyWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1159,7 +1149,7 @@ export type purchase_invoice_itemsUncheckedUpdateManyWithoutProduct_variantsInpu
 export type purchase_invoice_itemsCreateManyPurchase_invoicesInput = {
   id?: string
   product_variant_id: string
-  tax_rate_id?: number | null
+  tax_rate_id?: string | null
   line_no?: number
   description?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1194,7 +1184,7 @@ export type purchase_invoice_itemsUpdateWithoutPurchase_invoicesInput = {
 export type purchase_invoice_itemsUncheckedUpdateWithoutPurchase_invoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1212,7 +1202,7 @@ export type purchase_invoice_itemsUncheckedUpdateWithoutPurchase_invoicesInput =
 export type purchase_invoice_itemsUncheckedUpdateManyWithoutPurchase_invoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tax_rate_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line_no?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1441,7 +1431,7 @@ export type $purchase_invoice_itemsPayload<ExtArgs extends runtime.Types.Extensi
     id: string
     purchase_invoice_id: string
     product_variant_id: string
-    tax_rate_id: number | null
+    tax_rate_id: string | null
     line_no: number
     description: string | null
     quantity: runtime.Decimal
@@ -1883,7 +1873,7 @@ export interface purchase_invoice_itemsFieldRefs {
   readonly id: Prisma.FieldRef<"purchase_invoice_items", 'String'>
   readonly purchase_invoice_id: Prisma.FieldRef<"purchase_invoice_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"purchase_invoice_items", 'String'>
-  readonly tax_rate_id: Prisma.FieldRef<"purchase_invoice_items", 'Int'>
+  readonly tax_rate_id: Prisma.FieldRef<"purchase_invoice_items", 'String'>
   readonly line_no: Prisma.FieldRef<"purchase_invoice_items", 'Int'>
   readonly description: Prisma.FieldRef<"purchase_invoice_items", 'String'>
   readonly quantity: Prisma.FieldRef<"purchase_invoice_items", 'Decimal'>

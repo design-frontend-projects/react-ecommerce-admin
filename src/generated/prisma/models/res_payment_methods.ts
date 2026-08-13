@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_payment_methods
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_payment_methodsModel = runtime.Types.Result.DefaultSelection<Prisma.$res_payment_methodsPayload>
 
@@ -36,6 +36,7 @@ export type Res_payment_methodsSumAggregateOutputType = {
 
 export type Res_payment_methodsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   icon: string | null
   is_enabled: boolean | null
@@ -48,6 +49,7 @@ export type Res_payment_methodsMinAggregateOutputType = {
 
 export type Res_payment_methodsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   icon: string | null
   is_enabled: boolean | null
@@ -60,6 +62,7 @@ export type Res_payment_methodsMaxAggregateOutputType = {
 
 export type Res_payment_methodsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   name: number
   icon: number
   is_enabled: number
@@ -82,6 +85,7 @@ export type Res_payment_methodsSumAggregateInputType = {
 
 export type Res_payment_methodsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   icon?: true
   is_enabled?: true
@@ -94,6 +98,7 @@ export type Res_payment_methodsMinAggregateInputType = {
 
 export type Res_payment_methodsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   icon?: true
   is_enabled?: true
@@ -106,6 +111,7 @@ export type Res_payment_methodsMaxAggregateInputType = {
 
 export type Res_payment_methodsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   icon?: true
   is_enabled?: true
@@ -205,6 +211,7 @@ export type res_payment_methodsGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Res_payment_methodsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   name: string
   icon: string | null
   is_enabled: boolean | null
@@ -240,6 +247,7 @@ export type res_payment_methodsWhereInput = {
   OR?: Prisma.res_payment_methodsWhereInput[]
   NOT?: Prisma.res_payment_methodsWhereInput | Prisma.res_payment_methodsWhereInput[]
   id?: Prisma.UuidFilter<"res_payment_methods"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
   name?: Prisma.StringFilter<"res_payment_methods"> | string
   icon?: Prisma.StringNullableFilter<"res_payment_methods"> | string | null
   is_enabled?: Prisma.BoolNullableFilter<"res_payment_methods"> | boolean | null
@@ -252,6 +260,7 @@ export type res_payment_methodsWhereInput = {
 
 export type res_payment_methodsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -267,6 +276,7 @@ export type res_payment_methodsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_payment_methodsWhereInput | Prisma.res_payment_methodsWhereInput[]
   OR?: Prisma.res_payment_methodsWhereInput[]
   NOT?: Prisma.res_payment_methodsWhereInput | Prisma.res_payment_methodsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
   name?: Prisma.StringFilter<"res_payment_methods"> | string
   icon?: Prisma.StringNullableFilter<"res_payment_methods"> | string | null
   is_enabled?: Prisma.BoolNullableFilter<"res_payment_methods"> | boolean | null
@@ -279,6 +289,7 @@ export type res_payment_methodsWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_payment_methodsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -299,6 +310,7 @@ export type res_payment_methodsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_payment_methodsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_payment_methodsScalarWhereWithAggregatesInput | Prisma.res_payment_methodsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_payment_methods"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_payment_methods"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_payment_methods"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"res_payment_methods"> | string | null
   is_enabled?: Prisma.BoolNullableWithAggregatesFilter<"res_payment_methods"> | boolean | null
@@ -311,6 +323,7 @@ export type res_payment_methodsScalarWhereWithAggregatesInput = {
 
 export type res_payment_methodsCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   icon?: string | null
   is_enabled?: boolean | null
@@ -323,6 +336,7 @@ export type res_payment_methodsCreateInput = {
 
 export type res_payment_methodsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   icon?: string | null
   is_enabled?: boolean | null
@@ -335,6 +349,7 @@ export type res_payment_methodsUncheckedCreateInput = {
 
 export type res_payment_methodsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -347,6 +362,7 @@ export type res_payment_methodsUpdateInput = {
 
 export type res_payment_methodsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -359,6 +375,7 @@ export type res_payment_methodsUncheckedUpdateInput = {
 
 export type res_payment_methodsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   icon?: string | null
   is_enabled?: boolean | null
@@ -371,6 +388,7 @@ export type res_payment_methodsCreateManyInput = {
 
 export type res_payment_methodsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -383,6 +401,7 @@ export type res_payment_methodsUpdateManyMutationInput = {
 
 export type res_payment_methodsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -395,6 +414,7 @@ export type res_payment_methodsUncheckedUpdateManyInput = {
 
 export type res_payment_methodsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
@@ -411,6 +431,7 @@ export type res_payment_methodsAvgOrderByAggregateInput = {
 
 export type res_payment_methodsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
@@ -423,6 +444,7 @@ export type res_payment_methodsMaxOrderByAggregateInput = {
 
 export type res_payment_methodsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
@@ -441,6 +463,7 @@ export type res_payment_methodsSumOrderByAggregateInput = {
 
 export type res_payment_methodsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   icon?: boolean
   is_enabled?: boolean
@@ -453,6 +476,7 @@ export type res_payment_methodsSelect<ExtArgs extends runtime.Types.Extensions.I
 
 export type res_payment_methodsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   icon?: boolean
   is_enabled?: boolean
@@ -465,6 +489,7 @@ export type res_payment_methodsSelectCreateManyAndReturn<ExtArgs extends runtime
 
 export type res_payment_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   icon?: boolean
   is_enabled?: boolean
@@ -477,6 +502,7 @@ export type res_payment_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime
 
 export type res_payment_methodsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   icon?: boolean
   is_enabled?: boolean
@@ -487,13 +513,14 @@ export type res_payment_methodsSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type res_payment_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "icon" | "is_enabled" | "sort_order" | "created_at" | "is_default" | "updated_at" | "auth_user_id", ExtArgs["result"]["res_payment_methods"]>
+export type res_payment_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "icon" | "is_enabled" | "sort_order" | "created_at" | "is_default" | "updated_at" | "auth_user_id", ExtArgs["result"]["res_payment_methods"]>
 
 export type $res_payment_methodsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_payment_methods"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     name: string
     icon: string | null
     is_enabled: boolean | null
@@ -926,6 +953,7 @@ export interface Prisma__res_payment_methodsClient<T, Null = never, ExtArgs exte
  */
 export interface res_payment_methodsFieldRefs {
   readonly id: Prisma.FieldRef<"res_payment_methods", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_payment_methods", 'String'>
   readonly name: Prisma.FieldRef<"res_payment_methods", 'String'>
   readonly icon: Prisma.FieldRef<"res_payment_methods", 'String'>
   readonly is_enabled: Prisma.FieldRef<"res_payment_methods", 'Boolean'>

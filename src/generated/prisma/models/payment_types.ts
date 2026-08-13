@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model payment_types
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type payment_typesModel = runtime.Types.Result.DefaultSelection<Prisma.$payment_typesPayload>
 
@@ -26,6 +26,7 @@ export type AggregatePayment_types = {
 
 export type Payment_typesMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   is_enabled: boolean | null
   created_at: Date | null
@@ -35,6 +36,7 @@ export type Payment_typesMinAggregateOutputType = {
 
 export type Payment_typesMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   name: string | null
   is_enabled: boolean | null
   created_at: Date | null
@@ -44,6 +46,7 @@ export type Payment_typesMaxAggregateOutputType = {
 
 export type Payment_typesCountAggregateOutputType = {
   id: number
+  tenant_id: number
   name: number
   is_enabled: number
   created_at: number
@@ -55,6 +58,7 @@ export type Payment_typesCountAggregateOutputType = {
 
 export type Payment_typesMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   is_enabled?: true
   created_at?: true
@@ -64,6 +68,7 @@ export type Payment_typesMinAggregateInputType = {
 
 export type Payment_typesMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   is_enabled?: true
   created_at?: true
@@ -73,6 +78,7 @@ export type Payment_typesMaxAggregateInputType = {
 
 export type Payment_typesCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   name?: true
   is_enabled?: true
   created_at?: true
@@ -155,6 +161,7 @@ export type payment_typesGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type Payment_typesGroupByOutputType = {
   id: string
+  tenant_id: string | null
   name: string
   is_enabled: boolean
   created_at: Date | null
@@ -185,6 +192,7 @@ export type payment_typesWhereInput = {
   OR?: Prisma.payment_typesWhereInput[]
   NOT?: Prisma.payment_typesWhereInput | Prisma.payment_typesWhereInput[]
   id?: Prisma.UuidFilter<"payment_types"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"payment_types"> | string | null
   name?: Prisma.StringFilter<"payment_types"> | string
   is_enabled?: Prisma.BoolFilter<"payment_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"payment_types"> | Date | string | null
@@ -194,6 +202,7 @@ export type payment_typesWhereInput = {
 
 export type payment_typesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -207,6 +216,7 @@ export type payment_typesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.payment_typesWhereInput | Prisma.payment_typesWhereInput[]
   OR?: Prisma.payment_typesWhereInput[]
   NOT?: Prisma.payment_typesWhereInput | Prisma.payment_typesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"payment_types"> | string | null
   is_enabled?: Prisma.BoolFilter<"payment_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"payment_types"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"payment_types"> | Date | string | null
@@ -215,6 +225,7 @@ export type payment_typesWhereUniqueInput = Prisma.AtLeast<{
 
 export type payment_typesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -230,6 +241,7 @@ export type payment_typesScalarWhereWithAggregatesInput = {
   OR?: Prisma.payment_typesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.payment_typesScalarWhereWithAggregatesInput | Prisma.payment_typesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"payment_types"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"payment_types"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"payment_types"> | string
   is_enabled?: Prisma.BoolWithAggregatesFilter<"payment_types"> | boolean
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"payment_types"> | Date | string | null
@@ -239,6 +251,7 @@ export type payment_typesScalarWhereWithAggregatesInput = {
 
 export type payment_typesCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   is_enabled?: boolean
   created_at?: Date | string | null
@@ -248,6 +261,7 @@ export type payment_typesCreateInput = {
 
 export type payment_typesUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   is_enabled?: boolean
   created_at?: Date | string | null
@@ -257,6 +271,7 @@ export type payment_typesUncheckedCreateInput = {
 
 export type payment_typesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -266,6 +281,7 @@ export type payment_typesUpdateInput = {
 
 export type payment_typesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -275,6 +291,7 @@ export type payment_typesUncheckedUpdateInput = {
 
 export type payment_typesCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   is_enabled?: boolean
   created_at?: Date | string | null
@@ -284,6 +301,7 @@ export type payment_typesCreateManyInput = {
 
 export type payment_typesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -293,6 +311,7 @@ export type payment_typesUpdateManyMutationInput = {
 
 export type payment_typesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -302,6 +321,7 @@ export type payment_typesUncheckedUpdateManyInput = {
 
 export type payment_typesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -311,6 +331,7 @@ export type payment_typesCountOrderByAggregateInput = {
 
 export type payment_typesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -320,6 +341,7 @@ export type payment_typesMaxOrderByAggregateInput = {
 
 export type payment_typesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -331,6 +353,7 @@ export type payment_typesMinOrderByAggregateInput = {
 
 export type payment_typesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   is_enabled?: boolean
   created_at?: boolean
@@ -340,6 +363,7 @@ export type payment_typesSelect<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type payment_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   is_enabled?: boolean
   created_at?: boolean
@@ -349,6 +373,7 @@ export type payment_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types
 
 export type payment_typesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   is_enabled?: boolean
   created_at?: boolean
@@ -358,6 +383,7 @@ export type payment_typesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
 
 export type payment_typesSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   name?: boolean
   is_enabled?: boolean
   created_at?: boolean
@@ -365,13 +391,14 @@ export type payment_typesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type payment_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "is_enabled" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["payment_types"]>
+export type payment_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "is_enabled" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["payment_types"]>
 
 export type $payment_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "payment_types"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     name: string
     is_enabled: boolean
     created_at: Date | null
@@ -801,6 +828,7 @@ export interface Prisma__payment_typesClient<T, Null = never, ExtArgs extends ru
  */
 export interface payment_typesFieldRefs {
   readonly id: Prisma.FieldRef<"payment_types", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"payment_types", 'String'>
   readonly name: Prisma.FieldRef<"payment_types", 'String'>
   readonly is_enabled: Prisma.FieldRef<"payment_types", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"payment_types", 'DateTime'>

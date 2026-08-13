@@ -27,12 +27,10 @@ export type AggregateProduct_batches = {
 }
 
 export type Product_batchesAvgAggregateOutputType = {
-  supplier_id: number | null
   unit_cost: runtime.Decimal | null
 }
 
 export type Product_batchesSumAggregateOutputType = {
-  supplier_id: number | null
   unit_cost: runtime.Decimal | null
 }
 
@@ -41,7 +39,7 @@ export type Product_batchesMinAggregateOutputType = {
   tenant_id: string | null
   product_variant_id: string | null
   batch_number: string | null
-  supplier_id: number | null
+  supplier_id: string | null
   manufacture_date: Date | null
   expiry_date: Date | null
   unit_cost: runtime.Decimal | null
@@ -59,7 +57,7 @@ export type Product_batchesMaxAggregateOutputType = {
   tenant_id: string | null
   product_variant_id: string | null
   batch_number: string | null
-  supplier_id: number | null
+  supplier_id: string | null
   manufacture_date: Date | null
   expiry_date: Date | null
   unit_cost: runtime.Decimal | null
@@ -93,12 +91,10 @@ export type Product_batchesCountAggregateOutputType = {
 
 
 export type Product_batchesAvgAggregateInputType = {
-  supplier_id?: true
   unit_cost?: true
 }
 
 export type Product_batchesSumAggregateInputType = {
-  supplier_id?: true
   unit_cost?: true
 }
 
@@ -248,7 +244,7 @@ export type Product_batchesGroupByOutputType = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id: number | null
+  supplier_id: string | null
   manufacture_date: Date | null
   expiry_date: Date | null
   unit_cost: runtime.Decimal
@@ -289,7 +285,7 @@ export type product_batchesWhereInput = {
   tenant_id?: Prisma.UuidFilter<"product_batches"> | string
   product_variant_id?: Prisma.UuidFilter<"product_batches"> | string
   batch_number?: Prisma.StringFilter<"product_batches"> | string
-  supplier_id?: Prisma.IntNullableFilter<"product_batches"> | number | null
+  supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   manufacture_date?: Prisma.DateTimeNullableFilter<"product_batches"> | Date | string | null
   expiry_date?: Prisma.DateTimeNullableFilter<"product_batches"> | Date | string | null
   unit_cost?: Prisma.DecimalFilter<"product_batches"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -351,7 +347,7 @@ export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
   tenant_id?: Prisma.UuidFilter<"product_batches"> | string
   product_variant_id?: Prisma.UuidFilter<"product_batches"> | string
   batch_number?: Prisma.StringFilter<"product_batches"> | string
-  supplier_id?: Prisma.IntNullableFilter<"product_batches"> | number | null
+  supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   manufacture_date?: Prisma.DateTimeNullableFilter<"product_batches"> | Date | string | null
   expiry_date?: Prisma.DateTimeNullableFilter<"product_batches"> | Date | string | null
   unit_cost?: Prisma.DecimalFilter<"product_batches"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -406,7 +402,7 @@ export type product_batchesScalarWhereWithAggregatesInput = {
   tenant_id?: Prisma.UuidWithAggregatesFilter<"product_batches"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"product_batches"> | string
   batch_number?: Prisma.StringWithAggregatesFilter<"product_batches"> | string
-  supplier_id?: Prisma.IntNullableWithAggregatesFilter<"product_batches"> | number | null
+  supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"product_batches"> | string | null
   manufacture_date?: Prisma.DateTimeNullableWithAggregatesFilter<"product_batches"> | Date | string | null
   expiry_date?: Prisma.DateTimeNullableWithAggregatesFilter<"product_batches"> | Date | string | null
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"product_batches"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -424,7 +420,7 @@ export type product_batchesCreateInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -453,7 +449,7 @@ export type product_batchesUncheckedCreateInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -482,7 +478,7 @@ export type product_batchesUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -511,7 +507,7 @@ export type product_batchesUncheckedUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -540,7 +536,7 @@ export type product_batchesCreateManyInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -558,7 +554,7 @@ export type product_batchesUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -576,7 +572,7 @@ export type product_batchesUncheckedUpdateManyInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -619,7 +615,6 @@ export type product_batchesCountOrderByAggregateInput = {
 }
 
 export type product_batchesAvgOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
 
@@ -660,7 +655,6 @@ export type product_batchesMinOrderByAggregateInput = {
 }
 
 export type product_batchesSumOrderByAggregateInput = {
-  supplier_id?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
 
@@ -849,7 +843,7 @@ export type product_batchesCreateWithoutPurchase_return_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -877,7 +871,7 @@ export type product_batchesUncheckedCreateWithoutPurchase_return_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -921,7 +915,7 @@ export type product_batchesUpdateWithoutPurchase_return_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -949,7 +943,7 @@ export type product_batchesUncheckedUpdateWithoutPurchase_return_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -977,7 +971,7 @@ export type product_batchesCreateWithoutSales_invoice_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1005,7 +999,7 @@ export type product_batchesUncheckedCreateWithoutSales_invoice_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1049,7 +1043,7 @@ export type product_batchesUpdateWithoutSales_invoice_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1077,7 +1071,7 @@ export type product_batchesUncheckedUpdateWithoutSales_invoice_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1105,7 +1099,7 @@ export type product_batchesCreateWithoutSales_return_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1133,7 +1127,7 @@ export type product_batchesUncheckedCreateWithoutSales_return_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1177,7 +1171,7 @@ export type product_batchesUpdateWithoutSales_return_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1205,7 +1199,7 @@ export type product_batchesUncheckedUpdateWithoutSales_return_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1233,7 +1227,7 @@ export type product_batchesCreateWithoutInventory_movementsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1261,7 +1255,7 @@ export type product_batchesUncheckedCreateWithoutInventory_movementsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1305,7 +1299,7 @@ export type product_batchesUpdateWithoutInventory_movementsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1333,7 +1327,7 @@ export type product_batchesUncheckedUpdateWithoutInventory_movementsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1361,7 +1355,7 @@ export type product_batchesCreateWithoutStock_transfer_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1389,7 +1383,7 @@ export type product_batchesUncheckedCreateWithoutStock_transfer_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1433,7 +1427,7 @@ export type product_batchesUpdateWithoutStock_transfer_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1461,7 +1455,7 @@ export type product_batchesUncheckedUpdateWithoutStock_transfer_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1489,7 +1483,7 @@ export type product_batchesCreateWithoutStock_adjustment_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1517,7 +1511,7 @@ export type product_batchesUncheckedCreateWithoutStock_adjustment_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1561,7 +1555,7 @@ export type product_batchesUpdateWithoutStock_adjustment_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1589,7 +1583,7 @@ export type product_batchesUncheckedUpdateWithoutStock_adjustment_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1617,7 +1611,7 @@ export type product_batchesCreateWithoutStock_by_locationInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1645,7 +1639,7 @@ export type product_batchesUncheckedCreateWithoutStock_by_locationInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1689,7 +1683,7 @@ export type product_batchesUpdateWithoutStock_by_locationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1717,7 +1711,7 @@ export type product_batchesUncheckedUpdateWithoutStock_by_locationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1745,7 +1739,7 @@ export type product_batchesCreateWithoutGoods_receipt_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1773,7 +1767,7 @@ export type product_batchesUncheckedCreateWithoutGoods_receipt_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1817,7 +1811,7 @@ export type product_batchesUpdateWithoutGoods_receipt_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1845,7 +1839,7 @@ export type product_batchesUncheckedUpdateWithoutGoods_receipt_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1873,7 +1867,7 @@ export type product_batchesCreateWithoutSales_order_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1901,7 +1895,7 @@ export type product_batchesUncheckedCreateWithoutSales_order_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1945,7 +1939,7 @@ export type product_batchesUpdateWithoutSales_order_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1973,7 +1967,7 @@ export type product_batchesUncheckedUpdateWithoutSales_order_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2001,7 +1995,7 @@ export type product_batchesCreateWithoutStock_reservationsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2029,7 +2023,7 @@ export type product_batchesUncheckedCreateWithoutStock_reservationsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2073,7 +2067,7 @@ export type product_batchesUpdateWithoutStock_reservationsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2101,7 +2095,7 @@ export type product_batchesUncheckedUpdateWithoutStock_reservationsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2129,7 +2123,7 @@ export type product_batchesCreateWithoutStock_count_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2157,7 +2151,7 @@ export type product_batchesUncheckedCreateWithoutStock_count_itemsInput = {
   tenant_id: string
   product_variant_id: string
   batch_number: string
-  supplier_id?: number | null
+  supplier_id?: string | null
   manufacture_date?: Date | string | null
   expiry_date?: Date | string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2201,7 +2195,7 @@ export type product_batchesUpdateWithoutStock_count_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2229,7 +2223,7 @@ export type product_batchesUncheckedUpdateWithoutStock_count_itemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_number?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2495,7 +2489,7 @@ export type $product_batchesPayload<ExtArgs extends runtime.Types.Extensions.Int
     tenant_id: string
     product_variant_id: string
     batch_number: string
-    supplier_id: number | null
+    supplier_id: string | null
     manufacture_date: Date | null
     expiry_date: Date | null
     unit_cost: runtime.Decimal
@@ -2944,7 +2938,7 @@ export interface product_batchesFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"product_batches", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"product_batches", 'String'>
   readonly batch_number: Prisma.FieldRef<"product_batches", 'String'>
-  readonly supplier_id: Prisma.FieldRef<"product_batches", 'Int'>
+  readonly supplier_id: Prisma.FieldRef<"product_batches", 'String'>
   readonly manufacture_date: Prisma.FieldRef<"product_batches", 'DateTime'>
   readonly expiry_date: Prisma.FieldRef<"product_batches", 'DateTime'>
   readonly unit_cost: Prisma.FieldRef<"product_batches", 'Decimal'>

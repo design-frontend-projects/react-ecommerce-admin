@@ -34,14 +34,6 @@ export const cash_movement_type_enum = {
 export type cash_movement_type_enum = (typeof cash_movement_type_enum)[keyof typeof cash_movement_type_enum]
 
 
-export const discount_type = {
-  percentage: 'percentage',
-  fixed: 'fixed'
-} as const
-
-export type discount_type = (typeof discount_type)[keyof typeof discount_type]
-
-
 export const discount_type_enum = {
   fixed: 'fixed',
   percentage: 'percentage'
@@ -481,12 +473,9 @@ export const tenant_type = {
   company: 'company',
   restaurant: 'restaurant',
   retail: 'retail',
-  warehouse: 'warehouse',
-  hospital: 'hospital',
-  clinic: 'clinic',
-  school: 'school',
-  hotel: 'hotel',
-  courier: 'courier',
+  market: 'market',
+  pharmacy: 'pharmacy',
+  service: 'service',
   other: 'other'
 } as const
 

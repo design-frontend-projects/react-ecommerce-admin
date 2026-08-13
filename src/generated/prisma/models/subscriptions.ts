@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model subscriptions
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type subscriptionsModel = runtime.Types.Result.DefaultSelection<Prisma.$subscriptionsPayload>
 
@@ -27,19 +27,17 @@ export type AggregateSubscriptions = {
 }
 
 export type SubscriptionsAvgAggregateOutputType = {
-  id: number | null
   duration_months: number | null
   price: runtime.Decimal | null
 }
 
 export type SubscriptionsSumAggregateOutputType = {
-  id: number | null
   duration_months: number | null
   price: runtime.Decimal | null
 }
 
 export type SubscriptionsMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
   duration_months: number | null
   price: runtime.Decimal | null
@@ -47,7 +45,7 @@ export type SubscriptionsMinAggregateOutputType = {
 }
 
 export type SubscriptionsMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   name: string | null
   duration_months: number | null
   price: runtime.Decimal | null
@@ -65,13 +63,11 @@ export type SubscriptionsCountAggregateOutputType = {
 
 
 export type SubscriptionsAvgAggregateInputType = {
-  id?: true
   duration_months?: true
   price?: true
 }
 
 export type SubscriptionsSumAggregateInputType = {
-  id?: true
   duration_months?: true
   price?: true
 }
@@ -188,7 +184,7 @@ export type subscriptionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 export type SubscriptionsGroupByOutputType = {
-  id: number
+  id: string
   name: string
   duration_months: number
   price: runtime.Decimal
@@ -219,7 +215,7 @@ export type subscriptionsWhereInput = {
   AND?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   OR?: Prisma.subscriptionsWhereInput[]
   NOT?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
-  id?: Prisma.IntFilter<"subscriptions"> | number
+  id?: Prisma.UuidFilter<"subscriptions"> | string
   name?: Prisma.StringFilter<"subscriptions"> | string
   duration_months?: Prisma.IntFilter<"subscriptions"> | number
   price?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -237,7 +233,7 @@ export type subscriptionsOrderByWithRelationInput = {
 }
 
 export type subscriptionsWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   OR?: Prisma.subscriptionsWhereInput[]
   NOT?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
@@ -265,7 +261,7 @@ export type subscriptionsScalarWhereWithAggregatesInput = {
   AND?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   OR?: Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"subscriptions"> | string
   name?: Prisma.StringWithAggregatesFilter<"subscriptions"> | string
   duration_months?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
   price?: Prisma.DecimalWithAggregatesFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -273,6 +269,7 @@ export type subscriptionsScalarWhereWithAggregatesInput = {
 }
 
 export type subscriptionsCreateInput = {
+  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -281,7 +278,7 @@ export type subscriptionsCreateInput = {
 }
 
 export type subscriptionsUncheckedCreateInput = {
-  id?: number
+  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -290,6 +287,7 @@ export type subscriptionsUncheckedCreateInput = {
 }
 
 export type subscriptionsUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -298,7 +296,7 @@ export type subscriptionsUpdateInput = {
 }
 
 export type subscriptionsUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -307,7 +305,7 @@ export type subscriptionsUncheckedUpdateInput = {
 }
 
 export type subscriptionsCreateManyInput = {
-  id?: number
+  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -315,6 +313,7 @@ export type subscriptionsCreateManyInput = {
 }
 
 export type subscriptionsUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -322,7 +321,7 @@ export type subscriptionsUpdateManyMutationInput = {
 }
 
 export type subscriptionsUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -338,7 +337,6 @@ export type subscriptionsCountOrderByAggregateInput = {
 }
 
 export type subscriptionsAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
 }
@@ -360,7 +358,6 @@ export type subscriptionsMinOrderByAggregateInput = {
 }
 
 export type subscriptionsSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
 }
@@ -385,6 +382,7 @@ export type subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
 }
 
 export type subscriptionsCreateWithoutTenant_subscriptionsInput = {
+  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -392,7 +390,7 @@ export type subscriptionsCreateWithoutTenant_subscriptionsInput = {
 }
 
 export type subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput = {
-  id?: number
+  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -416,6 +414,7 @@ export type subscriptionsUpdateToOneWithWhereWithoutTenant_subscriptionsInput = 
 }
 
 export type subscriptionsUpdateWithoutTenant_subscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -423,7 +422,7 @@ export type subscriptionsUpdateWithoutTenant_subscriptionsInput = {
 }
 
 export type subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -509,7 +508,7 @@ export type $subscriptionsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     tenant_subscriptions: Prisma.$tenant_subscriptionsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     name: string
     duration_months: number
     price: runtime.Decimal
@@ -938,7 +937,7 @@ export interface Prisma__subscriptionsClient<T, Null = never, ExtArgs extends ru
  * Fields of the subscriptions model
  */
 export interface subscriptionsFieldRefs {
-  readonly id: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly id: Prisma.FieldRef<"subscriptions", 'String'>
   readonly name: Prisma.FieldRef<"subscriptions", 'String'>
   readonly duration_months: Prisma.FieldRef<"subscriptions", 'Int'>
   readonly price: Prisma.FieldRef<"subscriptions", 'Decimal'>

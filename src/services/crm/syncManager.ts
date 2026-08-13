@@ -2,7 +2,7 @@ import { Temporal } from '@js-temporal/polyfill'
 import prisma from '@/lib/prisma'
 
 export interface SyncPayload {
-  orderId: number
+  orderId: string | number
   customer: {
     firstName: string
     lastName: string
@@ -39,7 +39,7 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
   if (existingCustomer) {
     // Update existing customer
     customerRecord = await prisma.customers.update({
-      where: { customer_id: existingCustomer.customer_id },
+      where: { id: existingCustomer.id },
       data: {
         first_name: customer.firstName || existingCustomer.first_name,
         last_name: customer.lastName || existingCustomer.last_name,
@@ -60,10 +60,10 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
     })
   }
 
-  // Link the POS sale to the customer
-  await prisma.pos_sales.update({
-    where: { sale_id: orderId },
-    data: { customer_id: customerRecord.customer_id },
+  // Link the sale invoice to the customer
+  await prisma.sales_invoices.update({
+    where: { id: String(orderId) },
+    data: { customer_id: customerRecord.id },
   })
 
   return customerRecord

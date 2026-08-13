@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model warehouse_locations
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ * 
  */
 export type warehouse_locationsModel = runtime.Types.Result.DefaultSelection<Prisma.$warehouse_locationsPayload>
 

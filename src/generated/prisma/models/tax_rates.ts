@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model tax_rates
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tax_ratesModel = runtime.Types.Result.DefaultSelection<Prisma.$tax_ratesPayload>
 
@@ -28,17 +27,16 @@ export type AggregateTax_rates = {
 }
 
 export type Tax_ratesAvgAggregateOutputType = {
-  tax_rate_id: number | null
   rate: runtime.Decimal | null
 }
 
 export type Tax_ratesSumAggregateOutputType = {
-  tax_rate_id: number | null
   rate: runtime.Decimal | null
 }
 
 export type Tax_ratesMinAggregateOutputType = {
-  tax_rate_id: number | null
+  id: string | null
+  tenant_id: string | null
   tax_type: string | null
   rate: runtime.Decimal | null
   description: string | null
@@ -52,7 +50,8 @@ export type Tax_ratesMinAggregateOutputType = {
 }
 
 export type Tax_ratesMaxAggregateOutputType = {
-  tax_rate_id: number | null
+  id: string | null
+  tenant_id: string | null
   tax_type: string | null
   rate: runtime.Decimal | null
   description: string | null
@@ -66,7 +65,8 @@ export type Tax_ratesMaxAggregateOutputType = {
 }
 
 export type Tax_ratesCountAggregateOutputType = {
-  tax_rate_id: number
+  id: number
+  tenant_id: number
   tax_type: number
   rate: number
   description: number
@@ -82,17 +82,16 @@ export type Tax_ratesCountAggregateOutputType = {
 
 
 export type Tax_ratesAvgAggregateInputType = {
-  tax_rate_id?: true
   rate?: true
 }
 
 export type Tax_ratesSumAggregateInputType = {
-  tax_rate_id?: true
   rate?: true
 }
 
 export type Tax_ratesMinAggregateInputType = {
-  tax_rate_id?: true
+  id?: true
+  tenant_id?: true
   tax_type?: true
   rate?: true
   description?: true
@@ -106,7 +105,8 @@ export type Tax_ratesMinAggregateInputType = {
 }
 
 export type Tax_ratesMaxAggregateInputType = {
-  tax_rate_id?: true
+  id?: true
+  tenant_id?: true
   tax_type?: true
   rate?: true
   description?: true
@@ -120,7 +120,8 @@ export type Tax_ratesMaxAggregateInputType = {
 }
 
 export type Tax_ratesCountAggregateInputType = {
-  tax_rate_id?: true
+  id?: true
+  tenant_id?: true
   tax_type?: true
   rate?: true
   description?: true
@@ -221,7 +222,8 @@ export type tax_ratesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type Tax_ratesGroupByOutputType = {
-  tax_rate_id: number
+  id: string
+  tenant_id: string | null
   tax_type: string
   rate: runtime.Decimal
   description: string | null
@@ -258,7 +260,8 @@ export type tax_ratesWhereInput = {
   AND?: Prisma.tax_ratesWhereInput | Prisma.tax_ratesWhereInput[]
   OR?: Prisma.tax_ratesWhereInput[]
   NOT?: Prisma.tax_ratesWhereInput | Prisma.tax_ratesWhereInput[]
-  tax_rate_id?: Prisma.IntFilter<"tax_rates"> | number
+  id?: Prisma.UuidFilter<"tax_rates"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   tax_type?: Prisma.StringFilter<"tax_rates"> | string
   rate?: Prisma.DecimalFilter<"tax_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"tax_rates"> | string | null
@@ -275,7 +278,8 @@ export type tax_ratesWhereInput = {
 }
 
 export type tax_ratesOrderByWithRelationInput = {
-  tax_rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_type?: Prisma.SortOrder
   rate?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,10 +296,11 @@ export type tax_ratesOrderByWithRelationInput = {
 }
 
 export type tax_ratesWhereUniqueInput = Prisma.AtLeast<{
-  tax_rate_id?: number
+  id?: string
   AND?: Prisma.tax_ratesWhereInput | Prisma.tax_ratesWhereInput[]
   OR?: Prisma.tax_ratesWhereInput[]
   NOT?: Prisma.tax_ratesWhereInput | Prisma.tax_ratesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   tax_type?: Prisma.StringFilter<"tax_rates"> | string
   rate?: Prisma.DecimalFilter<"tax_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"tax_rates"> | string | null
@@ -309,10 +314,11 @@ export type tax_ratesWhereUniqueInput = Prisma.AtLeast<{
   purchase_invoice_items?: Prisma.Purchase_invoice_itemsListRelationFilter
   sales_invoice_items?: Prisma.Sales_invoice_itemsListRelationFilter
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
-}, "tax_rate_id">
+}, "id">
 
 export type tax_ratesOrderByWithAggregationInput = {
-  tax_rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_type?: Prisma.SortOrder
   rate?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -334,7 +340,8 @@ export type tax_ratesScalarWhereWithAggregatesInput = {
   AND?: Prisma.tax_ratesScalarWhereWithAggregatesInput | Prisma.tax_ratesScalarWhereWithAggregatesInput[]
   OR?: Prisma.tax_ratesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.tax_ratesScalarWhereWithAggregatesInput | Prisma.tax_ratesScalarWhereWithAggregatesInput[]
-  tax_rate_id?: Prisma.IntWithAggregatesFilter<"tax_rates"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"tax_rates"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
   tax_type?: Prisma.StringWithAggregatesFilter<"tax_rates"> | string
   rate?: Prisma.DecimalWithAggregatesFilter<"tax_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableWithAggregatesFilter<"tax_rates"> | string | null
@@ -348,6 +355,8 @@ export type tax_ratesScalarWhereWithAggregatesInput = {
 }
 
 export type tax_ratesCreateInput = {
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -363,7 +372,8 @@ export type tax_ratesCreateInput = {
 }
 
 export type tax_ratesUncheckedCreateInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -379,6 +389,8 @@ export type tax_ratesUncheckedCreateInput = {
 }
 
 export type tax_ratesUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -394,7 +406,8 @@ export type tax_ratesUpdateInput = {
 }
 
 export type tax_ratesUncheckedUpdateInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -410,7 +423,8 @@ export type tax_ratesUncheckedUpdateInput = {
 }
 
 export type tax_ratesCreateManyInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -424,6 +438,8 @@ export type tax_ratesCreateManyInput = {
 }
 
 export type tax_ratesUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -436,7 +452,8 @@ export type tax_ratesUpdateManyMutationInput = {
 }
 
 export type tax_ratesUncheckedUpdateManyInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -465,7 +482,8 @@ export type Tax_ratesNullableScalarRelationFilter = {
 }
 
 export type tax_ratesCountOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   tax_type?: Prisma.SortOrder
   rate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -479,12 +497,12 @@ export type tax_ratesCountOrderByAggregateInput = {
 }
 
 export type tax_ratesAvgOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
   rate?: Prisma.SortOrder
 }
 
 export type tax_ratesMaxOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   tax_type?: Prisma.SortOrder
   rate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -498,7 +516,8 @@ export type tax_ratesMaxOrderByAggregateInput = {
 }
 
 export type tax_ratesMinOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   tax_type?: Prisma.SortOrder
   rate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -512,7 +531,6 @@ export type tax_ratesMinOrderByAggregateInput = {
 }
 
 export type tax_ratesSumOrderByAggregateInput = {
-  tax_rate_id?: Prisma.SortOrder
   rate?: Prisma.SortOrder
 }
 
@@ -591,6 +609,8 @@ export type tax_ratesUpdateOneWithoutSales_invoice_itemsNestedInput = {
 }
 
 export type tax_ratesCreateWithoutCountriesInput = {
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -605,7 +625,8 @@ export type tax_ratesCreateWithoutCountriesInput = {
 }
 
 export type tax_ratesUncheckedCreateWithoutCountriesInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -649,7 +670,8 @@ export type tax_ratesScalarWhereInput = {
   AND?: Prisma.tax_ratesScalarWhereInput | Prisma.tax_ratesScalarWhereInput[]
   OR?: Prisma.tax_ratesScalarWhereInput[]
   NOT?: Prisma.tax_ratesScalarWhereInput | Prisma.tax_ratesScalarWhereInput[]
-  tax_rate_id?: Prisma.IntFilter<"tax_rates"> | number
+  id?: Prisma.UuidFilter<"tax_rates"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   tax_type?: Prisma.StringFilter<"tax_rates"> | string
   rate?: Prisma.DecimalFilter<"tax_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"tax_rates"> | string | null
@@ -663,6 +685,8 @@ export type tax_ratesScalarWhereInput = {
 }
 
 export type tax_ratesCreateWithoutPurchase_invoice_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -677,7 +701,8 @@ export type tax_ratesCreateWithoutPurchase_invoice_itemsInput = {
 }
 
 export type tax_ratesUncheckedCreateWithoutPurchase_invoice_itemsInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -708,6 +733,8 @@ export type tax_ratesUpdateToOneWithWhereWithoutPurchase_invoice_itemsInput = {
 }
 
 export type tax_ratesUpdateWithoutPurchase_invoice_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -722,7 +749,8 @@ export type tax_ratesUpdateWithoutPurchase_invoice_itemsInput = {
 }
 
 export type tax_ratesUncheckedUpdateWithoutPurchase_invoice_itemsInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -737,6 +765,8 @@ export type tax_ratesUncheckedUpdateWithoutPurchase_invoice_itemsInput = {
 }
 
 export type tax_ratesCreateWithoutSales_invoice_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -751,7 +781,8 @@ export type tax_ratesCreateWithoutSales_invoice_itemsInput = {
 }
 
 export type tax_ratesUncheckedCreateWithoutSales_invoice_itemsInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -782,6 +813,8 @@ export type tax_ratesUpdateToOneWithWhereWithoutSales_invoice_itemsInput = {
 }
 
 export type tax_ratesUpdateWithoutSales_invoice_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -796,7 +829,8 @@ export type tax_ratesUpdateWithoutSales_invoice_itemsInput = {
 }
 
 export type tax_ratesUncheckedUpdateWithoutSales_invoice_itemsInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -811,7 +845,8 @@ export type tax_ratesUncheckedUpdateWithoutSales_invoice_itemsInput = {
 }
 
 export type tax_ratesCreateManyCountriesInput = {
-  tax_rate_id?: number
+  id?: string
+  tenant_id?: string | null
   tax_type: string
   rate: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
@@ -824,6 +859,8 @@ export type tax_ratesCreateManyCountriesInput = {
 }
 
 export type tax_ratesUpdateWithoutCountriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -838,7 +875,8 @@ export type tax_ratesUpdateWithoutCountriesInput = {
 }
 
 export type tax_ratesUncheckedUpdateWithoutCountriesInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -853,7 +891,8 @@ export type tax_ratesUncheckedUpdateWithoutCountriesInput = {
 }
 
 export type tax_ratesUncheckedUpdateManyWithoutCountriesInput = {
-  tax_rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_type?: Prisma.StringFieldUpdateOperationsInput | string
   rate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -906,7 +945,8 @@ export type Tax_ratesCountOutputTypeCountSales_invoice_itemsArgs<ExtArgs extends
 
 
 export type tax_ratesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  tax_rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   tax_type?: boolean
   rate?: boolean
   description?: boolean
@@ -924,7 +964,8 @@ export type tax_ratesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 }, ExtArgs["result"]["tax_rates"]>
 
 export type tax_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  tax_rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   tax_type?: boolean
   rate?: boolean
   description?: boolean
@@ -939,7 +980,8 @@ export type tax_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["tax_rates"]>
 
 export type tax_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  tax_rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   tax_type?: boolean
   rate?: boolean
   description?: boolean
@@ -954,7 +996,8 @@ export type tax_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 }, ExtArgs["result"]["tax_rates"]>
 
 export type tax_ratesSelectScalar = {
-  tax_rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   tax_type?: boolean
   rate?: boolean
   description?: boolean
@@ -967,7 +1010,7 @@ export type tax_ratesSelectScalar = {
   country_id?: boolean
 }
 
-export type tax_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tax_rate_id" | "tax_type" | "rate" | "description" | "effective_from" | "effective_to" | "is_active" | "created_at" | "is_inclusive" | "auth_user_id" | "country_id", ExtArgs["result"]["tax_rates"]>
+export type tax_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "tax_type" | "rate" | "description" | "effective_from" | "effective_to" | "is_active" | "created_at" | "is_inclusive" | "auth_user_id" | "country_id", ExtArgs["result"]["tax_rates"]>
 export type tax_ratesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   purchase_invoice_items?: boolean | Prisma.tax_rates$purchase_invoice_itemsArgs<ExtArgs>
   sales_invoice_items?: boolean | Prisma.tax_rates$sales_invoice_itemsArgs<ExtArgs>
@@ -989,7 +1032,8 @@ export type $tax_ratesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     countries: Prisma.$countriesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    tax_rate_id: number
+    id: string
+    tenant_id: string | null
     tax_type: string
     rate: runtime.Decimal
     description: string | null
@@ -1083,8 +1127,8 @@ export interface tax_ratesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Tax_rates
    * const tax_rates = await prisma.tax_rates.findMany({ take: 10 })
    * 
-   * // Only select the `tax_rate_id`
-   * const tax_ratesWithTax_rate_idOnly = await prisma.tax_rates.findMany({ select: { tax_rate_id: true } })
+   * // Only select the `id`
+   * const tax_ratesWithIdOnly = await prisma.tax_rates.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends tax_ratesFindManyArgs>(args?: Prisma.SelectSubset<T, tax_ratesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tax_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1128,9 +1172,9 @@ export interface tax_ratesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Tax_rates and only return the `tax_rate_id`
-   * const tax_ratesWithTax_rate_idOnly = await prisma.tax_rates.createManyAndReturn({
-   *   select: { tax_rate_id: true },
+   * // Create many Tax_rates and only return the `id`
+   * const tax_ratesWithIdOnly = await prisma.tax_rates.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1219,9 +1263,9 @@ export interface tax_ratesDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Tax_rates and only return the `tax_rate_id`
-   * const tax_ratesWithTax_rate_idOnly = await prisma.tax_rates.updateManyAndReturn({
-   *   select: { tax_rate_id: true },
+   * // Update zero or more Tax_rates and only return the `id`
+   * const tax_ratesWithIdOnly = await prisma.tax_rates.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1426,7 +1470,8 @@ export interface Prisma__tax_ratesClient<T, Null = never, ExtArgs extends runtim
  * Fields of the tax_rates model
  */
 export interface tax_ratesFieldRefs {
-  readonly tax_rate_id: Prisma.FieldRef<"tax_rates", 'Int'>
+  readonly id: Prisma.FieldRef<"tax_rates", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"tax_rates", 'String'>
   readonly tax_type: Prisma.FieldRef<"tax_rates", 'String'>
   readonly rate: Prisma.FieldRef<"tax_rates", 'Decimal'>
   readonly description: Prisma.FieldRef<"tax_rates", 'String'>

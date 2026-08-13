@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model customer_groups
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type customer_groupsModel = runtime.Types.Result.DefaultSelection<Prisma.$customer_groupsPayload>
 
@@ -27,19 +27,18 @@ export type AggregateCustomer_groups = {
 }
 
 export type Customer_groupsAvgAggregateOutputType = {
-  group_id: number | null
   minimum_order_amount: runtime.Decimal | null
   discount_percentage: runtime.Decimal | null
 }
 
 export type Customer_groupsSumAggregateOutputType = {
-  group_id: number | null
   minimum_order_amount: runtime.Decimal | null
   discount_percentage: runtime.Decimal | null
 }
 
 export type Customer_groupsMinAggregateOutputType = {
-  group_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
   minimum_order_amount: runtime.Decimal | null
@@ -49,7 +48,8 @@ export type Customer_groupsMinAggregateOutputType = {
 }
 
 export type Customer_groupsMaxAggregateOutputType = {
-  group_id: number | null
+  id: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
   minimum_order_amount: runtime.Decimal | null
@@ -59,7 +59,8 @@ export type Customer_groupsMaxAggregateOutputType = {
 }
 
 export type Customer_groupsCountAggregateOutputType = {
-  group_id: number
+  id: number
+  tenant_id: number
   name: number
   description: number
   minimum_order_amount: number
@@ -71,19 +72,18 @@ export type Customer_groupsCountAggregateOutputType = {
 
 
 export type Customer_groupsAvgAggregateInputType = {
-  group_id?: true
   minimum_order_amount?: true
   discount_percentage?: true
 }
 
 export type Customer_groupsSumAggregateInputType = {
-  group_id?: true
   minimum_order_amount?: true
   discount_percentage?: true
 }
 
 export type Customer_groupsMinAggregateInputType = {
-  group_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   minimum_order_amount?: true
@@ -93,7 +93,8 @@ export type Customer_groupsMinAggregateInputType = {
 }
 
 export type Customer_groupsMaxAggregateInputType = {
-  group_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   minimum_order_amount?: true
@@ -103,7 +104,8 @@ export type Customer_groupsMaxAggregateInputType = {
 }
 
 export type Customer_groupsCountAggregateInputType = {
-  group_id?: true
+  id?: true
+  tenant_id?: true
   name?: true
   description?: true
   minimum_order_amount?: true
@@ -200,7 +202,8 @@ export type customer_groupsGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 export type Customer_groupsGroupByOutputType = {
-  group_id: number
+  id: string
+  tenant_id: string | null
   name: string
   description: string | null
   minimum_order_amount: runtime.Decimal | null
@@ -233,7 +236,8 @@ export type customer_groupsWhereInput = {
   AND?: Prisma.customer_groupsWhereInput | Prisma.customer_groupsWhereInput[]
   OR?: Prisma.customer_groupsWhereInput[]
   NOT?: Prisma.customer_groupsWhereInput | Prisma.customer_groupsWhereInput[]
-  group_id?: Prisma.IntFilter<"customer_groups"> | number
+  id?: Prisma.UuidFilter<"customer_groups"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   name?: Prisma.StringFilter<"customer_groups"> | string
   description?: Prisma.StringNullableFilter<"customer_groups"> | string | null
   minimum_order_amount?: Prisma.DecimalNullableFilter<"customer_groups"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -245,7 +249,8 @@ export type customer_groupsWhereInput = {
 }
 
 export type customer_groupsOrderByWithRelationInput = {
-  group_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -257,10 +262,11 @@ export type customer_groupsOrderByWithRelationInput = {
 }
 
 export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
-  group_id?: number
+  id?: string
   AND?: Prisma.customer_groupsWhereInput | Prisma.customer_groupsWhereInput[]
   OR?: Prisma.customer_groupsWhereInput[]
   NOT?: Prisma.customer_groupsWhereInput | Prisma.customer_groupsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   name?: Prisma.StringFilter<"customer_groups"> | string
   description?: Prisma.StringNullableFilter<"customer_groups"> | string | null
   minimum_order_amount?: Prisma.DecimalNullableFilter<"customer_groups"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -269,10 +275,11 @@ export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
   auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   customers?: Prisma.CustomersListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
-}, "group_id">
+}, "id">
 
 export type customer_groupsOrderByWithAggregationInput = {
-  group_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -290,7 +297,8 @@ export type customer_groupsScalarWhereWithAggregatesInput = {
   AND?: Prisma.customer_groupsScalarWhereWithAggregatesInput | Prisma.customer_groupsScalarWhereWithAggregatesInput[]
   OR?: Prisma.customer_groupsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.customer_groupsScalarWhereWithAggregatesInput | Prisma.customer_groupsScalarWhereWithAggregatesInput[]
-  group_id?: Prisma.IntWithAggregatesFilter<"customer_groups"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"customer_groups"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"customer_groups"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"customer_groups"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"customer_groups"> | string | null
   minimum_order_amount?: Prisma.DecimalNullableWithAggregatesFilter<"customer_groups"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -300,6 +308,8 @@ export type customer_groupsScalarWhereWithAggregatesInput = {
 }
 
 export type customer_groupsCreateInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -311,7 +321,8 @@ export type customer_groupsCreateInput = {
 }
 
 export type customer_groupsUncheckedCreateInput = {
-  group_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -323,6 +334,8 @@ export type customer_groupsUncheckedCreateInput = {
 }
 
 export type customer_groupsUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -334,7 +347,8 @@ export type customer_groupsUpdateInput = {
 }
 
 export type customer_groupsUncheckedUpdateInput = {
-  group_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -346,7 +360,8 @@ export type customer_groupsUncheckedUpdateInput = {
 }
 
 export type customer_groupsCreateManyInput = {
-  group_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -356,6 +371,8 @@ export type customer_groupsCreateManyInput = {
 }
 
 export type customer_groupsUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -365,7 +382,8 @@ export type customer_groupsUpdateManyMutationInput = {
 }
 
 export type customer_groupsUncheckedUpdateManyInput = {
-  group_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -375,7 +393,8 @@ export type customer_groupsUncheckedUpdateManyInput = {
 }
 
 export type customer_groupsCountOrderByAggregateInput = {
-  group_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrder
@@ -385,13 +404,13 @@ export type customer_groupsCountOrderByAggregateInput = {
 }
 
 export type customer_groupsAvgOrderByAggregateInput = {
-  group_id?: Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrder
   discount_percentage?: Prisma.SortOrder
 }
 
 export type customer_groupsMaxOrderByAggregateInput = {
-  group_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrder
@@ -401,7 +420,8 @@ export type customer_groupsMaxOrderByAggregateInput = {
 }
 
 export type customer_groupsMinOrderByAggregateInput = {
-  group_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrder
@@ -411,7 +431,6 @@ export type customer_groupsMinOrderByAggregateInput = {
 }
 
 export type customer_groupsSumOrderByAggregateInput = {
-  group_id?: Prisma.SortOrder
   minimum_order_amount?: Prisma.SortOrder
   discount_percentage?: Prisma.SortOrder
 }
@@ -419,14 +438,6 @@ export type customer_groupsSumOrderByAggregateInput = {
 export type Customer_groupsNullableScalarRelationFilter = {
   is?: Prisma.customer_groupsWhereInput | null
   isNot?: Prisma.customer_groupsWhereInput | null
-}
-
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type customer_groupsCreateNestedOneWithoutCustomersInput = {
@@ -462,6 +473,8 @@ export type customer_groupsUpdateOneWithoutPrice_listNestedInput = {
 }
 
 export type customer_groupsCreateWithoutCustomersInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -472,7 +485,8 @@ export type customer_groupsCreateWithoutCustomersInput = {
 }
 
 export type customer_groupsUncheckedCreateWithoutCustomersInput = {
-  group_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -499,6 +513,8 @@ export type customer_groupsUpdateToOneWithWhereWithoutCustomersInput = {
 }
 
 export type customer_groupsUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -509,7 +525,8 @@ export type customer_groupsUpdateWithoutCustomersInput = {
 }
 
 export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
-  group_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -520,6 +537,8 @@ export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
 }
 
 export type customer_groupsCreateWithoutPrice_listInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -530,7 +549,8 @@ export type customer_groupsCreateWithoutPrice_listInput = {
 }
 
 export type customer_groupsUncheckedCreateWithoutPrice_listInput = {
-  group_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -557,6 +577,8 @@ export type customer_groupsUpdateToOneWithWhereWithoutPrice_listInput = {
 }
 
 export type customer_groupsUpdateWithoutPrice_listInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -567,7 +589,8 @@ export type customer_groupsUpdateWithoutPrice_listInput = {
 }
 
 export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
-  group_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -618,7 +641,8 @@ export type Customer_groupsCountOutputTypeCountPrice_listArgs<ExtArgs extends ru
 
 
 export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  group_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   minimum_order_amount?: boolean
@@ -631,7 +655,8 @@ export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.Inter
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  group_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   minimum_order_amount?: boolean
@@ -641,7 +666,8 @@ export type customer_groupsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  group_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   minimum_order_amount?: boolean
@@ -651,7 +677,8 @@ export type customer_groupsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectScalar = {
-  group_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
   minimum_order_amount?: boolean
@@ -660,7 +687,7 @@ export type customer_groupsSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type customer_groupsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"group_id" | "name" | "description" | "minimum_order_amount" | "discount_percentage" | "created_at" | "auth_user_id", ExtArgs["result"]["customer_groups"]>
+export type customer_groupsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "description" | "minimum_order_amount" | "discount_percentage" | "created_at" | "auth_user_id", ExtArgs["result"]["customer_groups"]>
 export type customer_groupsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
   price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
@@ -676,7 +703,8 @@ export type $customer_groupsPayload<ExtArgs extends runtime.Types.Extensions.Int
     price_list: Prisma.$price_listPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    group_id: number
+    id: string
+    tenant_id: string | null
     name: string
     description: string | null
     minimum_order_amount: runtime.Decimal | null
@@ -766,8 +794,8 @@ export interface customer_groupsDelegate<ExtArgs extends runtime.Types.Extension
    * // Get first 10 Customer_groups
    * const customer_groups = await prisma.customer_groups.findMany({ take: 10 })
    * 
-   * // Only select the `group_id`
-   * const customer_groupsWithGroup_idOnly = await prisma.customer_groups.findMany({ select: { group_id: true } })
+   * // Only select the `id`
+   * const customer_groupsWithIdOnly = await prisma.customer_groups.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends customer_groupsFindManyArgs>(args?: Prisma.SelectSubset<T, customer_groupsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customer_groupsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -811,9 +839,9 @@ export interface customer_groupsDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Create many Customer_groups and only return the `group_id`
-   * const customer_groupsWithGroup_idOnly = await prisma.customer_groups.createManyAndReturn({
-   *   select: { group_id: true },
+   * // Create many Customer_groups and only return the `id`
+   * const customer_groupsWithIdOnly = await prisma.customer_groups.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -902,9 +930,9 @@ export interface customer_groupsDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Update zero or more Customer_groups and only return the `group_id`
-   * const customer_groupsWithGroup_idOnly = await prisma.customer_groups.updateManyAndReturn({
-   *   select: { group_id: true },
+   * // Update zero or more Customer_groups and only return the `id`
+   * const customer_groupsWithIdOnly = await prisma.customer_groups.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1108,7 +1136,8 @@ export interface Prisma__customer_groupsClient<T, Null = never, ExtArgs extends 
  * Fields of the customer_groups model
  */
 export interface customer_groupsFieldRefs {
-  readonly group_id: Prisma.FieldRef<"customer_groups", 'Int'>
+  readonly id: Prisma.FieldRef<"customer_groups", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"customer_groups", 'String'>
   readonly name: Prisma.FieldRef<"customer_groups", 'String'>
   readonly description: Prisma.FieldRef<"customer_groups", 'String'>
   readonly minimum_order_amount: Prisma.FieldRef<"customer_groups", 'Decimal'>

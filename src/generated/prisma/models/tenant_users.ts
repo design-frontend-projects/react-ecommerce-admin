@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model tenant_users
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type tenant_usersModel = runtime.Types.Result.DefaultSelection<Prisma.$tenant_usersPayload>
 

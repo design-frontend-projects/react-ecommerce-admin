@@ -14,8 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_tables
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_tablesModel = runtime.Types.Result.DefaultSelection<Prisma.$res_tablesPayload>
 
@@ -41,10 +40,11 @@ export type Res_tablesSumAggregateOutputType = {
 
 export type Res_tablesMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   floor_id: string | null
   table_number: string | null
   seats: number | null
-  status: string | null
+  status: $Enums.table_status | null
   position_x: number | null
   position_y: number | null
   shape: string | null
@@ -55,10 +55,11 @@ export type Res_tablesMinAggregateOutputType = {
 
 export type Res_tablesMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   floor_id: string | null
   table_number: string | null
   seats: number | null
-  status: string | null
+  status: $Enums.table_status | null
   position_x: number | null
   position_y: number | null
   shape: string | null
@@ -69,6 +70,7 @@ export type Res_tablesMaxAggregateOutputType = {
 
 export type Res_tablesCountAggregateOutputType = {
   id: number
+  tenant_id: number
   floor_id: number
   table_number: number
   seats: number
@@ -97,6 +99,7 @@ export type Res_tablesSumAggregateInputType = {
 
 export type Res_tablesMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   floor_id?: true
   table_number?: true
   seats?: true
@@ -111,6 +114,7 @@ export type Res_tablesMinAggregateInputType = {
 
 export type Res_tablesMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   floor_id?: true
   table_number?: true
   seats?: true
@@ -125,6 +129,7 @@ export type Res_tablesMaxAggregateInputType = {
 
 export type Res_tablesCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   floor_id?: true
   table_number?: true
   seats?: true
@@ -226,10 +231,11 @@ export type res_tablesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type Res_tablesGroupByOutputType = {
   id: string
+  tenant_id: string | null
   floor_id: string | null
   table_number: string
   seats: number | null
-  status: string | null
+  status: $Enums.table_status | null
   position_x: number | null
   position_y: number | null
   shape: string | null
@@ -263,10 +269,11 @@ export type res_tablesWhereInput = {
   OR?: Prisma.res_tablesWhereInput[]
   NOT?: Prisma.res_tablesWhereInput | Prisma.res_tablesWhereInput[]
   id?: Prisma.UuidFilter<"res_tables"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   floor_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   table_number?: Prisma.StringFilter<"res_tables"> | string
   seats?: Prisma.IntNullableFilter<"res_tables"> | number | null
-  status?: Prisma.StringNullableFilter<"res_tables"> | string | null
+  status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
   position_x?: Prisma.IntNullableFilter<"res_tables"> | number | null
   position_y?: Prisma.IntNullableFilter<"res_tables"> | number | null
   shape?: Prisma.StringNullableFilter<"res_tables"> | string | null
@@ -280,6 +287,7 @@ export type res_tablesWhereInput = {
 
 export type res_tablesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   floor_id?: Prisma.SortOrderInput | Prisma.SortOrder
   table_number?: Prisma.SortOrder
   seats?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -300,10 +308,11 @@ export type res_tablesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_tablesWhereInput | Prisma.res_tablesWhereInput[]
   OR?: Prisma.res_tablesWhereInput[]
   NOT?: Prisma.res_tablesWhereInput | Prisma.res_tablesWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   floor_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   table_number?: Prisma.StringFilter<"res_tables"> | string
   seats?: Prisma.IntNullableFilter<"res_tables"> | number | null
-  status?: Prisma.StringNullableFilter<"res_tables"> | string | null
+  status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
   position_x?: Prisma.IntNullableFilter<"res_tables"> | number | null
   position_y?: Prisma.IntNullableFilter<"res_tables"> | number | null
   shape?: Prisma.StringNullableFilter<"res_tables"> | string | null
@@ -317,6 +326,7 @@ export type res_tablesWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_tablesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   floor_id?: Prisma.SortOrderInput | Prisma.SortOrder
   table_number?: Prisma.SortOrder
   seats?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -339,10 +349,11 @@ export type res_tablesScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_tablesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_tablesScalarWhereWithAggregatesInput | Prisma.res_tablesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_tables"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
   floor_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
   table_number?: Prisma.StringWithAggregatesFilter<"res_tables"> | string
   seats?: Prisma.IntNullableWithAggregatesFilter<"res_tables"> | number | null
-  status?: Prisma.StringNullableWithAggregatesFilter<"res_tables"> | string | null
+  status?: Prisma.Enumtable_statusNullableWithAggregatesFilter<"res_tables"> | $Enums.table_status | null
   position_x?: Prisma.IntNullableWithAggregatesFilter<"res_tables"> | number | null
   position_y?: Prisma.IntNullableWithAggregatesFilter<"res_tables"> | number | null
   shape?: Prisma.StringNullableWithAggregatesFilter<"res_tables"> | string | null
@@ -353,9 +364,10 @@ export type res_tablesScalarWhereWithAggregatesInput = {
 
 export type res_tablesCreateInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -369,10 +381,11 @@ export type res_tablesCreateInput = {
 
 export type res_tablesUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   floor_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -385,9 +398,10 @@ export type res_tablesUncheckedCreateInput = {
 
 export type res_tablesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -401,10 +415,11 @@ export type res_tablesUpdateInput = {
 
 export type res_tablesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,10 +432,11 @@ export type res_tablesUncheckedUpdateInput = {
 
 export type res_tablesCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   floor_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -431,9 +447,10 @@ export type res_tablesCreateManyInput = {
 
 export type res_tablesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -444,10 +461,11 @@ export type res_tablesUpdateManyMutationInput = {
 
 export type res_tablesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -473,6 +491,7 @@ export type Res_tablesNullableScalarRelationFilter = {
 
 export type res_tablesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   floor_id?: Prisma.SortOrder
   table_number?: Prisma.SortOrder
   seats?: Prisma.SortOrder
@@ -493,6 +512,7 @@ export type res_tablesAvgOrderByAggregateInput = {
 
 export type res_tablesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   floor_id?: Prisma.SortOrder
   table_number?: Prisma.SortOrder
   seats?: Prisma.SortOrder
@@ -507,6 +527,7 @@ export type res_tablesMaxOrderByAggregateInput = {
 
 export type res_tablesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   floor_id?: Prisma.SortOrder
   table_number?: Prisma.SortOrder
   seats?: Prisma.SortOrder
@@ -599,11 +620,16 @@ export type res_tablesUpdateOneWithoutRes_reservationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.res_tablesUpdateToOneWithWhereWithoutRes_reservationsInput, Prisma.res_tablesUpdateWithoutRes_reservationsInput>, Prisma.res_tablesUncheckedUpdateWithoutRes_reservationsInput>
 }
 
+export type NullableEnumtable_statusFieldUpdateOperationsInput = {
+  set?: $Enums.table_status | null
+}
+
 export type res_tablesCreateWithoutRes_floorsInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -616,9 +642,10 @@ export type res_tablesCreateWithoutRes_floorsInput = {
 
 export type res_tablesUncheckedCreateWithoutRes_floorsInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -660,10 +687,11 @@ export type res_tablesScalarWhereInput = {
   OR?: Prisma.res_tablesScalarWhereInput[]
   NOT?: Prisma.res_tablesScalarWhereInput | Prisma.res_tablesScalarWhereInput[]
   id?: Prisma.UuidFilter<"res_tables"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   floor_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   table_number?: Prisma.StringFilter<"res_tables"> | string
   seats?: Prisma.IntNullableFilter<"res_tables"> | number | null
-  status?: Prisma.StringNullableFilter<"res_tables"> | string | null
+  status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
   position_x?: Prisma.IntNullableFilter<"res_tables"> | number | null
   position_y?: Prisma.IntNullableFilter<"res_tables"> | number | null
   shape?: Prisma.StringNullableFilter<"res_tables"> | string | null
@@ -674,9 +702,10 @@ export type res_tablesScalarWhereInput = {
 
 export type res_tablesCreateWithoutRes_ordersInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -689,10 +718,11 @@ export type res_tablesCreateWithoutRes_ordersInput = {
 
 export type res_tablesUncheckedCreateWithoutRes_ordersInput = {
   id?: string
+  tenant_id?: string | null
   floor_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -720,9 +750,10 @@ export type res_tablesUpdateToOneWithWhereWithoutRes_ordersInput = {
 
 export type res_tablesUpdateWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -735,10 +766,11 @@ export type res_tablesUpdateWithoutRes_ordersInput = {
 
 export type res_tablesUncheckedUpdateWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -750,9 +782,10 @@ export type res_tablesUncheckedUpdateWithoutRes_ordersInput = {
 
 export type res_tablesCreateWithoutRes_reservationsInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -765,10 +798,11 @@ export type res_tablesCreateWithoutRes_reservationsInput = {
 
 export type res_tablesUncheckedCreateWithoutRes_reservationsInput = {
   id?: string
+  tenant_id?: string | null
   floor_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -796,9 +830,10 @@ export type res_tablesUpdateToOneWithWhereWithoutRes_reservationsInput = {
 
 export type res_tablesUpdateWithoutRes_reservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -811,10 +846,11 @@ export type res_tablesUpdateWithoutRes_reservationsInput = {
 
 export type res_tablesUncheckedUpdateWithoutRes_reservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -826,9 +862,10 @@ export type res_tablesUncheckedUpdateWithoutRes_reservationsInput = {
 
 export type res_tablesCreateManyRes_floorsInput = {
   id?: string
+  tenant_id?: string | null
   table_number: string
   seats?: number | null
-  status?: string | null
+  status?: $Enums.table_status | null
   position_x?: number | null
   position_y?: number | null
   shape?: string | null
@@ -839,9 +876,10 @@ export type res_tablesCreateManyRes_floorsInput = {
 
 export type res_tablesUpdateWithoutRes_floorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -854,9 +892,10 @@ export type res_tablesUpdateWithoutRes_floorsInput = {
 
 export type res_tablesUncheckedUpdateWithoutRes_floorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -869,9 +908,10 @@ export type res_tablesUncheckedUpdateWithoutRes_floorsInput = {
 
 export type res_tablesUncheckedUpdateManyWithoutRes_floorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   table_number?: Prisma.StringFieldUpdateOperationsInput | string
   seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
   position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -922,6 +962,7 @@ export type Res_tablesCountOutputTypeCountRes_reservationsArgs<ExtArgs extends r
 
 export type res_tablesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   floor_id?: boolean
   table_number?: boolean
   seats?: boolean
@@ -940,6 +981,7 @@ export type res_tablesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type res_tablesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   floor_id?: boolean
   table_number?: boolean
   seats?: boolean
@@ -955,6 +997,7 @@ export type res_tablesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type res_tablesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   floor_id?: boolean
   table_number?: boolean
   seats?: boolean
@@ -970,6 +1013,7 @@ export type res_tablesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type res_tablesSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   floor_id?: boolean
   table_number?: boolean
   seats?: boolean
@@ -982,7 +1026,7 @@ export type res_tablesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type res_tablesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "floor_id" | "table_number" | "seats" | "status" | "position_x" | "position_y" | "shape" | "is_active" | "created_at" | "auth_user_id", ExtArgs["result"]["res_tables"]>
+export type res_tablesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "floor_id" | "table_number" | "seats" | "status" | "position_x" | "position_y" | "shape" | "is_active" | "created_at" | "auth_user_id", ExtArgs["result"]["res_tables"]>
 export type res_tablesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_orders?: boolean | Prisma.res_tables$res_ordersArgs<ExtArgs>
   res_reservations?: boolean | Prisma.res_tables$res_reservationsArgs<ExtArgs>
@@ -1005,10 +1049,11 @@ export type $res_tablesPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     floor_id: string | null
     table_number: string
     seats: number | null
-    status: string | null
+    status: $Enums.table_status | null
     position_x: number | null
     position_y: number | null
     shape: string | null
@@ -1442,10 +1487,11 @@ export interface Prisma__res_tablesClient<T, Null = never, ExtArgs extends runti
  */
 export interface res_tablesFieldRefs {
   readonly id: Prisma.FieldRef<"res_tables", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_tables", 'String'>
   readonly floor_id: Prisma.FieldRef<"res_tables", 'String'>
   readonly table_number: Prisma.FieldRef<"res_tables", 'String'>
   readonly seats: Prisma.FieldRef<"res_tables", 'Int'>
-  readonly status: Prisma.FieldRef<"res_tables", 'String'>
+  readonly status: Prisma.FieldRef<"res_tables", 'table_status'>
   readonly position_x: Prisma.FieldRef<"res_tables", 'Int'>
   readonly position_y: Prisma.FieldRef<"res_tables", 'Int'>
   readonly shape: Prisma.FieldRef<"res_tables", 'String'>

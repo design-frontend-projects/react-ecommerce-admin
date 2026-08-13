@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model products
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type productsModel = runtime.Types.Result.DefaultSelection<Prisma.$productsPayload>
 
@@ -27,36 +27,32 @@ export type AggregateProducts = {
 }
 
 export type ProductsAvgAggregateOutputType = {
-  product_id: number | null
-  supplier_id: number | null
-  category_id: number | null
   weight: runtime.Decimal | null
   reorder_level: runtime.Decimal | null
   base_price: runtime.Decimal | null
 }
 
 export type ProductsSumAggregateOutputType = {
-  product_id: number | null
-  supplier_id: number | null
-  category_id: number | null
   weight: runtime.Decimal | null
   reorder_level: runtime.Decimal | null
   base_price: runtime.Decimal | null
 }
 
 export type ProductsMinAggregateOutputType = {
-  product_id: number | null
-  supplier_id: number | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
   name: string | null
   description: string | null
   sku: string | null
   barcode: string | null
-  category_id: number | null
+  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
+  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -74,18 +70,20 @@ export type ProductsMinAggregateOutputType = {
 }
 
 export type ProductsMaxAggregateOutputType = {
-  product_id: number | null
-  supplier_id: number | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
   name: string | null
   description: string | null
   sku: string | null
   barcode: string | null
-  category_id: number | null
+  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
+  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -103,7 +101,8 @@ export type ProductsMaxAggregateOutputType = {
 }
 
 export type ProductsCountAggregateOutputType = {
-  product_id: number
+  id: number
+  tenant_id: number
   supplier_id: number
   name: number
   description: number
@@ -115,6 +114,7 @@ export type ProductsCountAggregateOutputType = {
   is_active: number
   created_at: number
   updated_at: number
+  deleted_at: number
   reorder_level: number
   auth_user_id: number
   store_id: number
@@ -134,25 +134,20 @@ export type ProductsCountAggregateOutputType = {
 
 
 export type ProductsAvgAggregateInputType = {
-  product_id?: true
-  supplier_id?: true
-  category_id?: true
   weight?: true
   reorder_level?: true
   base_price?: true
 }
 
 export type ProductsSumAggregateInputType = {
-  product_id?: true
-  supplier_id?: true
-  category_id?: true
   weight?: true
   reorder_level?: true
   base_price?: true
 }
 
 export type ProductsMinAggregateInputType = {
-  product_id?: true
+  id?: true
+  tenant_id?: true
   supplier_id?: true
   name?: true
   description?: true
@@ -164,6 +159,7 @@ export type ProductsMinAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
+  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -181,7 +177,8 @@ export type ProductsMinAggregateInputType = {
 }
 
 export type ProductsMaxAggregateInputType = {
-  product_id?: true
+  id?: true
+  tenant_id?: true
   supplier_id?: true
   name?: true
   description?: true
@@ -193,6 +190,7 @@ export type ProductsMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
+  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -210,7 +208,8 @@ export type ProductsMaxAggregateInputType = {
 }
 
 export type ProductsCountAggregateInputType = {
-  product_id?: true
+  id?: true
+  tenant_id?: true
   supplier_id?: true
   name?: true
   description?: true
@@ -222,6 +221,7 @@ export type ProductsCountAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
+  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -326,18 +326,20 @@ export type productsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type ProductsGroupByOutputType = {
-  product_id: number
-  supplier_id: number | null
+  id: string
+  tenant_id: string | null
+  supplier_id: string | null
   name: string
   description: string | null
   sku: string
   barcode: string | null
-  category_id: number | null
+  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
+  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -378,18 +380,20 @@ export type productsWhereInput = {
   AND?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
   OR?: Prisma.productsWhereInput[]
   NOT?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
-  product_id?: Prisma.IntFilter<"products"> | number
-  supplier_id?: Prisma.IntNullableFilter<"products"> | number | null
+  id?: Prisma.UuidFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
   name?: Prisma.StringFilter<"products"> | string
   description?: Prisma.StringNullableFilter<"products"> | string | null
   sku?: Prisma.StringFilter<"products"> | string
   barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.IntNullableFilter<"products"> | number | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
   store_id?: Prisma.StringNullableFilter<"products"> | string | null
@@ -418,7 +422,8 @@ export type productsWhereInput = {
 }
 
 export type productsOrderByWithRelationInput = {
-  product_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -430,6 +435,7 @@ export type productsOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -458,21 +464,23 @@ export type productsOrderByWithRelationInput = {
 }
 
 export type productsWhereUniqueInput = Prisma.AtLeast<{
-  product_id?: number
+  id?: string
   sku?: string
   AND?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
   OR?: Prisma.productsWhereInput[]
   NOT?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
-  supplier_id?: Prisma.IntNullableFilter<"products"> | number | null
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
   name?: Prisma.StringFilter<"products"> | string
   description?: Prisma.StringNullableFilter<"products"> | string | null
   barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.IntNullableFilter<"products"> | number | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
   store_id?: Prisma.StringNullableFilter<"products"> | string | null
@@ -498,10 +506,11 @@ export type productsWhereUniqueInput = Prisma.AtLeast<{
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
   sale_items?: Prisma.Sale_itemsListRelationFilter
   transaction_details?: Prisma.Transaction_detailsListRelationFilter
-}, "product_id" | "sku">
+}, "id" | "sku">
 
 export type productsOrderByWithAggregationInput = {
-  product_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -513,6 +522,7 @@ export type productsOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -538,18 +548,20 @@ export type productsScalarWhereWithAggregatesInput = {
   AND?: Prisma.productsScalarWhereWithAggregatesInput | Prisma.productsScalarWhereWithAggregatesInput[]
   OR?: Prisma.productsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.productsScalarWhereWithAggregatesInput | Prisma.productsScalarWhereWithAggregatesInput[]
-  product_id?: Prisma.IntWithAggregatesFilter<"products"> | number
-  supplier_id?: Prisma.IntNullableWithAggregatesFilter<"products"> | number | null
+  id?: Prisma.UuidWithAggregatesFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"products"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
   sku?: Prisma.StringWithAggregatesFilter<"products"> | string
   barcode?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
-  category_id?: Prisma.IntNullableWithAggregatesFilter<"products"> | number | null
+  category_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableWithAggregatesFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableWithAggregatesFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   store_id?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
@@ -567,6 +579,8 @@ export type productsScalarWhereWithAggregatesInput = {
 }
 
 export type productsCreateInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -576,6 +590,7 @@ export type productsCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -602,18 +617,20 @@ export type productsCreateInput = {
 }
 
 export type productsUncheckedCreateInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -638,6 +655,8 @@ export type productsUncheckedCreateInput = {
 }
 
 export type productsUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -647,6 +666,7 @@ export type productsUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -673,18 +693,20 @@ export type productsUpdateInput = {
 }
 
 export type productsUncheckedUpdateInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -709,18 +731,20 @@ export type productsUncheckedUpdateInput = {
 }
 
 export type productsCreateManyInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -738,6 +762,8 @@ export type productsCreateManyInput = {
 }
 
 export type productsUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -747,6 +773,7 @@ export type productsUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -762,18 +789,20 @@ export type productsUpdateManyMutationInput = {
 }
 
 export type productsUncheckedUpdateManyInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -806,7 +835,8 @@ export type ProductsScalarRelationFilter = {
 }
 
 export type productsCountOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -818,6 +848,7 @@ export type productsCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -835,16 +866,14 @@ export type productsCountOrderByAggregateInput = {
 }
 
 export type productsAvgOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
-  category_id?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   base_price?: Prisma.SortOrder
 }
 
 export type productsMaxOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -856,6 +885,7 @@ export type productsMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -873,7 +903,8 @@ export type productsMaxOrderByAggregateInput = {
 }
 
 export type productsMinOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -885,6 +916,7 @@ export type productsMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -902,9 +934,6 @@ export type productsMinOrderByAggregateInput = {
 }
 
 export type productsSumOrderByAggregateInput = {
-  product_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
-  category_id?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   reorder_level?: Prisma.SortOrder
   base_price?: Prisma.SortOrder
@@ -1181,6 +1210,8 @@ export type productsUncheckedUpdateManyWithoutBase_uomNestedInput = {
 }
 
 export type productsCreateWithoutCategoriesInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1190,6 +1221,7 @@ export type productsCreateWithoutCategoriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1215,8 +1247,9 @@ export type productsCreateWithoutCategoriesInput = {
 }
 
 export type productsUncheckedCreateWithoutCategoriesInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1226,6 +1259,7 @@ export type productsUncheckedCreateWithoutCategoriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1279,18 +1313,20 @@ export type productsScalarWhereInput = {
   AND?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
   OR?: Prisma.productsScalarWhereInput[]
   NOT?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-  product_id?: Prisma.IntFilter<"products"> | number
-  supplier_id?: Prisma.IntNullableFilter<"products"> | number | null
+  id?: Prisma.UuidFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
   name?: Prisma.StringFilter<"products"> | string
   description?: Prisma.StringNullableFilter<"products"> | string | null
   sku?: Prisma.StringFilter<"products"> | string
   barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.IntNullableFilter<"products"> | number | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
   store_id?: Prisma.StringNullableFilter<"products"> | string | null
@@ -1308,6 +1344,8 @@ export type productsScalarWhereInput = {
 }
 
 export type productsCreateWithoutInventoryInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1317,6 +1355,7 @@ export type productsCreateWithoutInventoryInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1342,18 +1381,20 @@ export type productsCreateWithoutInventoryInput = {
 }
 
 export type productsUncheckedCreateWithoutInventoryInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1393,6 +1434,8 @@ export type productsUpdateToOneWithWhereWithoutInventoryInput = {
 }
 
 export type productsUpdateWithoutInventoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1402,6 +1445,7 @@ export type productsUpdateWithoutInventoryInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1427,18 +1471,20 @@ export type productsUpdateWithoutInventoryInput = {
 }
 
 export type productsUncheckedUpdateWithoutInventoryInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1462,6 +1508,8 @@ export type productsUncheckedUpdateWithoutInventoryInput = {
 }
 
 export type productsCreateWithoutPrice_listInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1471,6 +1519,7 @@ export type productsCreateWithoutPrice_listInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1496,18 +1545,20 @@ export type productsCreateWithoutPrice_listInput = {
 }
 
 export type productsUncheckedCreateWithoutPrice_listInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1547,6 +1598,8 @@ export type productsUpdateToOneWithWhereWithoutPrice_listInput = {
 }
 
 export type productsUpdateWithoutPrice_listInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1556,6 +1609,7 @@ export type productsUpdateWithoutPrice_listInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1581,18 +1635,20 @@ export type productsUpdateWithoutPrice_listInput = {
 }
 
 export type productsUncheckedUpdateWithoutPrice_listInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1616,6 +1672,8 @@ export type productsUncheckedUpdateWithoutPrice_listInput = {
 }
 
 export type productsCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1625,6 +1683,7 @@ export type productsCreateWithoutProduct_variantsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1650,18 +1709,20 @@ export type productsCreateWithoutProduct_variantsInput = {
 }
 
 export type productsUncheckedCreateWithoutProduct_variantsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1701,6 +1762,8 @@ export type productsUpdateToOneWithWhereWithoutProduct_variantsInput = {
 }
 
 export type productsUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1710,6 +1773,7 @@ export type productsUpdateWithoutProduct_variantsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1735,18 +1799,20 @@ export type productsUpdateWithoutProduct_variantsInput = {
 }
 
 export type productsUncheckedUpdateWithoutProduct_variantsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1770,6 +1836,8 @@ export type productsUncheckedUpdateWithoutProduct_variantsInput = {
 }
 
 export type productsCreateWithoutPos_reorder_requestsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1779,6 +1847,7 @@ export type productsCreateWithoutPos_reorder_requestsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1804,18 +1873,20 @@ export type productsCreateWithoutPos_reorder_requestsInput = {
 }
 
 export type productsUncheckedCreateWithoutPos_reorder_requestsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1855,6 +1926,8 @@ export type productsUpdateToOneWithWhereWithoutPos_reorder_requestsInput = {
 }
 
 export type productsUpdateWithoutPos_reorder_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1864,6 +1937,7 @@ export type productsUpdateWithoutPos_reorder_requestsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1889,18 +1963,20 @@ export type productsUpdateWithoutPos_reorder_requestsInput = {
 }
 
 export type productsUncheckedUpdateWithoutPos_reorder_requestsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1924,6 +2000,8 @@ export type productsUncheckedUpdateWithoutPos_reorder_requestsInput = {
 }
 
 export type productsCreateWithoutPurchase_order_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -1933,6 +2011,7 @@ export type productsCreateWithoutPurchase_order_itemsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -1958,18 +2037,20 @@ export type productsCreateWithoutPurchase_order_itemsInput = {
 }
 
 export type productsUncheckedCreateWithoutPurchase_order_itemsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2009,6 +2090,8 @@ export type productsUpdateToOneWithWhereWithoutPurchase_order_itemsInput = {
 }
 
 export type productsUpdateWithoutPurchase_order_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2018,6 +2101,7 @@ export type productsUpdateWithoutPurchase_order_itemsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2043,18 +2127,20 @@ export type productsUpdateWithoutPurchase_order_itemsInput = {
 }
 
 export type productsUncheckedUpdateWithoutPurchase_order_itemsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2078,6 +2164,8 @@ export type productsUncheckedUpdateWithoutPurchase_order_itemsInput = {
 }
 
 export type productsCreateWithoutSale_itemsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2087,6 +2175,7 @@ export type productsCreateWithoutSale_itemsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2112,18 +2201,20 @@ export type productsCreateWithoutSale_itemsInput = {
 }
 
 export type productsUncheckedCreateWithoutSale_itemsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2163,6 +2254,8 @@ export type productsUpdateToOneWithWhereWithoutSale_itemsInput = {
 }
 
 export type productsUpdateWithoutSale_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2172,6 +2265,7 @@ export type productsUpdateWithoutSale_itemsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2197,18 +2291,20 @@ export type productsUpdateWithoutSale_itemsInput = {
 }
 
 export type productsUncheckedUpdateWithoutSale_itemsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2232,6 +2328,8 @@ export type productsUncheckedUpdateWithoutSale_itemsInput = {
 }
 
 export type productsCreateWithoutSuppliersInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2241,6 +2339,7 @@ export type productsCreateWithoutSuppliersInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2266,17 +2365,19 @@ export type productsCreateWithoutSuppliersInput = {
 }
 
 export type productsUncheckedCreateWithoutSuppliersInput = {
-  product_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2327,6 +2428,8 @@ export type productsUpdateManyWithWhereWithoutSuppliersInput = {
 }
 
 export type productsCreateWithoutTransaction_detailsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2336,6 +2439,7 @@ export type productsCreateWithoutTransaction_detailsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2361,18 +2465,20 @@ export type productsCreateWithoutTransaction_detailsInput = {
 }
 
 export type productsUncheckedCreateWithoutTransaction_detailsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2412,6 +2518,8 @@ export type productsUpdateToOneWithWhereWithoutTransaction_detailsInput = {
 }
 
 export type productsUpdateWithoutTransaction_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2421,6 +2529,7 @@ export type productsUpdateWithoutTransaction_detailsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2446,18 +2555,20 @@ export type productsUpdateWithoutTransaction_detailsInput = {
 }
 
 export type productsUncheckedUpdateWithoutTransaction_detailsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2481,6 +2592,8 @@ export type productsUncheckedUpdateWithoutTransaction_detailsInput = {
 }
 
 export type productsCreateWithoutBrandsInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2490,6 +2603,7 @@ export type productsCreateWithoutBrandsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2515,18 +2629,20 @@ export type productsCreateWithoutBrandsInput = {
 }
 
 export type productsUncheckedCreateWithoutBrandsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2576,6 +2692,8 @@ export type productsUpdateManyWithWhereWithoutBrandsInput = {
 }
 
 export type productsCreateWithoutBase_uomInput = {
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2585,6 +2703,7 @@ export type productsCreateWithoutBase_uomInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2610,18 +2729,20 @@ export type productsCreateWithoutBase_uomInput = {
 }
 
 export type productsUncheckedCreateWithoutBase_uomInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2671,8 +2792,9 @@ export type productsUpdateManyWithWhereWithoutBase_uomInput = {
 }
 
 export type productsCreateManyCategoriesInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
@@ -2682,6 +2804,7 @@ export type productsCreateManyCategoriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2699,6 +2822,8 @@ export type productsCreateManyCategoriesInput = {
 }
 
 export type productsUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2708,6 +2833,7 @@ export type productsUpdateWithoutCategoriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2733,8 +2859,9 @@ export type productsUpdateWithoutCategoriesInput = {
 }
 
 export type productsUncheckedUpdateWithoutCategoriesInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2744,6 +2871,7 @@ export type productsUncheckedUpdateWithoutCategoriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2768,8 +2896,9 @@ export type productsUncheckedUpdateWithoutCategoriesInput = {
 }
 
 export type productsUncheckedUpdateManyWithoutCategoriesInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2779,6 +2908,7 @@ export type productsUncheckedUpdateManyWithoutCategoriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2796,17 +2926,19 @@ export type productsUncheckedUpdateManyWithoutCategoriesInput = {
 }
 
 export type productsCreateManySuppliersInput = {
-  product_id?: number
+  id?: string
+  tenant_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2824,6 +2956,8 @@ export type productsCreateManySuppliersInput = {
 }
 
 export type productsUpdateWithoutSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2833,6 +2967,7 @@ export type productsUpdateWithoutSuppliersInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2858,17 +2993,19 @@ export type productsUpdateWithoutSuppliersInput = {
 }
 
 export type productsUncheckedUpdateWithoutSuppliersInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2893,17 +3030,19 @@ export type productsUncheckedUpdateWithoutSuppliersInput = {
 }
 
 export type productsUncheckedUpdateManyWithoutSuppliersInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2921,18 +3060,20 @@ export type productsUncheckedUpdateManyWithoutSuppliersInput = {
 }
 
 export type productsCreateManyBrandsInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2949,6 +3090,8 @@ export type productsCreateManyBrandsInput = {
 }
 
 export type productsUpdateWithoutBrandsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2958,6 +3101,7 @@ export type productsUpdateWithoutBrandsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2983,18 +3127,20 @@ export type productsUpdateWithoutBrandsInput = {
 }
 
 export type productsUncheckedUpdateWithoutBrandsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3018,18 +3164,20 @@ export type productsUncheckedUpdateWithoutBrandsInput = {
 }
 
 export type productsUncheckedUpdateManyWithoutBrandsInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3046,18 +3194,20 @@ export type productsUncheckedUpdateManyWithoutBrandsInput = {
 }
 
 export type productsCreateManyBase_uomInput = {
-  product_id?: number
-  supplier_id?: number | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: number | null
+  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -3074,6 +3224,8 @@ export type productsCreateManyBase_uomInput = {
 }
 
 export type productsUpdateWithoutBase_uomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3083,6 +3235,7 @@ export type productsUpdateWithoutBase_uomInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3108,18 +3261,20 @@ export type productsUpdateWithoutBase_uomInput = {
 }
 
 export type productsUncheckedUpdateWithoutBase_uomInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3143,18 +3298,20 @@ export type productsUncheckedUpdateWithoutBase_uomInput = {
 }
 
 export type productsUncheckedUpdateManyWithoutBase_uomInput = {
-  product_id?: Prisma.IntFieldUpdateOperationsInput | number
-  supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3247,7 +3404,8 @@ export type ProductsCountOutputTypeCountTransaction_detailsArgs<ExtArgs extends 
 
 
 export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  product_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   supplier_id?: boolean
   name?: boolean
   description?: boolean
@@ -3259,6 +3417,7 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3288,7 +3447,8 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  product_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   supplier_id?: boolean
   name?: boolean
   description?: boolean
@@ -3300,6 +3460,7 @@ export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3321,7 +3482,8 @@ export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  product_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   supplier_id?: boolean
   name?: boolean
   description?: boolean
@@ -3333,6 +3495,7 @@ export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3354,7 +3517,8 @@ export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectScalar = {
-  product_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   supplier_id?: boolean
   name?: boolean
   description?: boolean
@@ -3366,6 +3530,7 @@ export type productsSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3382,7 +3547,7 @@ export type productsSelectScalar = {
   product_type?: boolean
 }
 
-export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"product_id" | "supplier_id" | "name" | "description" | "sku" | "barcode" | "category_id" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "reorder_level" | "auth_user_id" | "store_id" | "has_variants" | "is_deleted" | "base_price" | "has_expiration" | "expiration_date" | "is_marketplace" | "base_uom_id" | "brand_id" | "is_batch_tracked" | "is_serial_tracked" | "product_type", ExtArgs["result"]["products"]>
+export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "supplier_id" | "name" | "description" | "sku" | "barcode" | "category_id" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "reorder_level" | "auth_user_id" | "store_id" | "has_variants" | "is_deleted" | "base_price" | "has_expiration" | "expiration_date" | "is_marketplace" | "base_uom_id" | "brand_id" | "is_batch_tracked" | "is_serial_tracked" | "product_type", ExtArgs["result"]["products"]>
 export type productsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
   pos_reorder_requests?: boolean | Prisma.products$pos_reorder_requestsArgs<ExtArgs>
@@ -3426,18 +3591,20 @@ export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     transaction_details: Prisma.$transaction_detailsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    product_id: number
-    supplier_id: number | null
+    id: string
+    tenant_id: string | null
+    supplier_id: string | null
     name: string
     description: string | null
     sku: string
     barcode: string | null
-    category_id: number | null
+    category_id: string | null
     weight: runtime.Decimal | null
     dimensions: string | null
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
+    deleted_at: Date | null
     reorder_level: runtime.Decimal | null
     auth_user_id: string | null
     store_id: string | null
@@ -3535,8 +3702,8 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 Products
    * const products = await prisma.products.findMany({ take: 10 })
    * 
-   * // Only select the `product_id`
-   * const productsWithProduct_idOnly = await prisma.products.findMany({ select: { product_id: true } })
+   * // Only select the `id`
+   * const productsWithIdOnly = await prisma.products.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends productsFindManyArgs>(args?: Prisma.SelectSubset<T, productsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3580,9 +3747,9 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Create many Products and only return the `product_id`
-   * const productsWithProduct_idOnly = await prisma.products.createManyAndReturn({
-   *   select: { product_id: true },
+   * // Create many Products and only return the `id`
+   * const productsWithIdOnly = await prisma.products.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -3671,9 +3838,9 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Update zero or more Products and only return the `product_id`
-   * const productsWithProduct_idOnly = await prisma.products.updateManyAndReturn({
-   *   select: { product_id: true },
+   * // Update zero or more Products and only return the `id`
+   * const productsWithIdOnly = await prisma.products.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -3886,18 +4053,20 @@ export interface Prisma__productsClient<T, Null = never, ExtArgs extends runtime
  * Fields of the products model
  */
 export interface productsFieldRefs {
-  readonly product_id: Prisma.FieldRef<"products", 'Int'>
-  readonly supplier_id: Prisma.FieldRef<"products", 'Int'>
+  readonly id: Prisma.FieldRef<"products", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"products", 'String'>
+  readonly supplier_id: Prisma.FieldRef<"products", 'String'>
   readonly name: Prisma.FieldRef<"products", 'String'>
   readonly description: Prisma.FieldRef<"products", 'String'>
   readonly sku: Prisma.FieldRef<"products", 'String'>
   readonly barcode: Prisma.FieldRef<"products", 'String'>
-  readonly category_id: Prisma.FieldRef<"products", 'Int'>
+  readonly category_id: Prisma.FieldRef<"products", 'String'>
   readonly weight: Prisma.FieldRef<"products", 'Decimal'>
   readonly dimensions: Prisma.FieldRef<"products", 'String'>
   readonly is_active: Prisma.FieldRef<"products", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"products", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"products", 'DateTime'>
+  readonly deleted_at: Prisma.FieldRef<"products", 'DateTime'>
   readonly reorder_level: Prisma.FieldRef<"products", 'Decimal'>
   readonly auth_user_id: Prisma.FieldRef<"products", 'String'>
   readonly store_id: Prisma.FieldRef<"products", 'String'>

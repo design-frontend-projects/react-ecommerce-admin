@@ -14,32 +14,19 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model promotion_menu_scopes
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type promotion_menu_scopesModel = runtime.Types.Result.DefaultSelection<Prisma.$promotion_menu_scopesPayload>
 
 export type AggregatePromotion_menu_scopes = {
   _count: Promotion_menu_scopesCountAggregateOutputType | null
-  _avg: Promotion_menu_scopesAvgAggregateOutputType | null
-  _sum: Promotion_menu_scopesSumAggregateOutputType | null
   _min: Promotion_menu_scopesMinAggregateOutputType | null
   _max: Promotion_menu_scopesMaxAggregateOutputType | null
 }
 
-export type Promotion_menu_scopesAvgAggregateOutputType = {
-  scope_id: number | null
-  promotion_id: number | null
-}
-
-export type Promotion_menu_scopesSumAggregateOutputType = {
-  scope_id: number | null
-  promotion_id: number | null
-}
-
 export type Promotion_menu_scopesMinAggregateOutputType = {
-  scope_id: number | null
-  promotion_id: number | null
+  id: string | null
+  promotion_id: string | null
   menu_item_id: string | null
   menu_category_id: string | null
   scope_role: string | null
@@ -48,8 +35,8 @@ export type Promotion_menu_scopesMinAggregateOutputType = {
 }
 
 export type Promotion_menu_scopesMaxAggregateOutputType = {
-  scope_id: number | null
-  promotion_id: number | null
+  id: string | null
+  promotion_id: string | null
   menu_item_id: string | null
   menu_category_id: string | null
   scope_role: string | null
@@ -58,7 +45,7 @@ export type Promotion_menu_scopesMaxAggregateOutputType = {
 }
 
 export type Promotion_menu_scopesCountAggregateOutputType = {
-  scope_id: number
+  id: number
   promotion_id: number
   menu_item_id: number
   menu_category_id: number
@@ -69,18 +56,8 @@ export type Promotion_menu_scopesCountAggregateOutputType = {
 }
 
 
-export type Promotion_menu_scopesAvgAggregateInputType = {
-  scope_id?: true
-  promotion_id?: true
-}
-
-export type Promotion_menu_scopesSumAggregateInputType = {
-  scope_id?: true
-  promotion_id?: true
-}
-
 export type Promotion_menu_scopesMinAggregateInputType = {
-  scope_id?: true
+  id?: true
   promotion_id?: true
   menu_item_id?: true
   menu_category_id?: true
@@ -90,7 +67,7 @@ export type Promotion_menu_scopesMinAggregateInputType = {
 }
 
 export type Promotion_menu_scopesMaxAggregateInputType = {
-  scope_id?: true
+  id?: true
   promotion_id?: true
   menu_item_id?: true
   menu_category_id?: true
@@ -100,7 +77,7 @@ export type Promotion_menu_scopesMaxAggregateInputType = {
 }
 
 export type Promotion_menu_scopesCountAggregateInputType = {
-  scope_id?: true
+  id?: true
   promotion_id?: true
   menu_item_id?: true
   menu_category_id?: true
@@ -148,18 +125,6 @@ export type Promotion_menu_scopesAggregateArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: Promotion_menu_scopesAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: Promotion_menu_scopesSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: Promotion_menu_scopesMinAggregateInputType
@@ -190,23 +155,19 @@ export type promotion_menu_scopesGroupByArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   _count?: Promotion_menu_scopesCountAggregateInputType | true
-  _avg?: Promotion_menu_scopesAvgAggregateInputType
-  _sum?: Promotion_menu_scopesSumAggregateInputType
   _min?: Promotion_menu_scopesMinAggregateInputType
   _max?: Promotion_menu_scopesMaxAggregateInputType
 }
 
 export type Promotion_menu_scopesGroupByOutputType = {
-  scope_id: number
-  promotion_id: number
+  id: string
+  promotion_id: string
   menu_item_id: string | null
   menu_category_id: string | null
   scope_role: string
   created_at: Date | null
   updated_at: Date | null
   _count: Promotion_menu_scopesCountAggregateOutputType | null
-  _avg: Promotion_menu_scopesAvgAggregateOutputType | null
-  _sum: Promotion_menu_scopesSumAggregateOutputType | null
   _min: Promotion_menu_scopesMinAggregateOutputType | null
   _max: Promotion_menu_scopesMaxAggregateOutputType | null
 }
@@ -230,8 +191,8 @@ export type promotion_menu_scopesWhereInput = {
   AND?: Prisma.promotion_menu_scopesWhereInput | Prisma.promotion_menu_scopesWhereInput[]
   OR?: Prisma.promotion_menu_scopesWhereInput[]
   NOT?: Prisma.promotion_menu_scopesWhereInput | Prisma.promotion_menu_scopesWhereInput[]
-  scope_id?: Prisma.IntFilter<"promotion_menu_scopes"> | number
-  promotion_id?: Prisma.IntFilter<"promotion_menu_scopes"> | number
+  id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
+  promotion_id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
   menu_item_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   menu_category_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   scope_role?: Prisma.StringFilter<"promotion_menu_scopes"> | string
@@ -243,7 +204,7 @@ export type promotion_menu_scopesWhereInput = {
 }
 
 export type promotion_menu_scopesOrderByWithRelationInput = {
-  scope_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   menu_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   menu_category_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -256,11 +217,11 @@ export type promotion_menu_scopesOrderByWithRelationInput = {
 }
 
 export type promotion_menu_scopesWhereUniqueInput = Prisma.AtLeast<{
-  scope_id?: number
+  id?: string
   AND?: Prisma.promotion_menu_scopesWhereInput | Prisma.promotion_menu_scopesWhereInput[]
   OR?: Prisma.promotion_menu_scopesWhereInput[]
   NOT?: Prisma.promotion_menu_scopesWhereInput | Prisma.promotion_menu_scopesWhereInput[]
-  promotion_id?: Prisma.IntFilter<"promotion_menu_scopes"> | number
+  promotion_id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
   menu_item_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   menu_category_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   scope_role?: Prisma.StringFilter<"promotion_menu_scopes"> | string
@@ -269,10 +230,10 @@ export type promotion_menu_scopesWhereUniqueInput = Prisma.AtLeast<{
   res_menu_categories?: Prisma.XOR<Prisma.Res_menu_categoriesNullableScalarRelationFilter, Prisma.res_menu_categoriesWhereInput> | null
   res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
   promotions?: Prisma.XOR<Prisma.PromotionsScalarRelationFilter, Prisma.promotionsWhereInput>
-}, "scope_id">
+}, "id">
 
 export type promotion_menu_scopesOrderByWithAggregationInput = {
-  scope_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   menu_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   menu_category_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -280,18 +241,16 @@ export type promotion_menu_scopesOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.promotion_menu_scopesCountOrderByAggregateInput
-  _avg?: Prisma.promotion_menu_scopesAvgOrderByAggregateInput
   _max?: Prisma.promotion_menu_scopesMaxOrderByAggregateInput
   _min?: Prisma.promotion_menu_scopesMinOrderByAggregateInput
-  _sum?: Prisma.promotion_menu_scopesSumOrderByAggregateInput
 }
 
 export type promotion_menu_scopesScalarWhereWithAggregatesInput = {
   AND?: Prisma.promotion_menu_scopesScalarWhereWithAggregatesInput | Prisma.promotion_menu_scopesScalarWhereWithAggregatesInput[]
   OR?: Prisma.promotion_menu_scopesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.promotion_menu_scopesScalarWhereWithAggregatesInput | Prisma.promotion_menu_scopesScalarWhereWithAggregatesInput[]
-  scope_id?: Prisma.IntWithAggregatesFilter<"promotion_menu_scopes"> | number
-  promotion_id?: Prisma.IntWithAggregatesFilter<"promotion_menu_scopes"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"promotion_menu_scopes"> | string
+  promotion_id?: Prisma.UuidWithAggregatesFilter<"promotion_menu_scopes"> | string
   menu_item_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_menu_scopes"> | string | null
   menu_category_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_menu_scopes"> | string | null
   scope_role?: Prisma.StringWithAggregatesFilter<"promotion_menu_scopes"> | string
@@ -300,6 +259,7 @@ export type promotion_menu_scopesScalarWhereWithAggregatesInput = {
 }
 
 export type promotion_menu_scopesCreateInput = {
+  id?: string
   scope_role?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -309,8 +269,8 @@ export type promotion_menu_scopesCreateInput = {
 }
 
 export type promotion_menu_scopesUncheckedCreateInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_item_id?: string | null
   menu_category_id?: string | null
   scope_role?: string
@@ -319,6 +279,7 @@ export type promotion_menu_scopesUncheckedCreateInput = {
 }
 
 export type promotion_menu_scopesUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -328,8 +289,8 @@ export type promotion_menu_scopesUpdateInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
@@ -338,8 +299,8 @@ export type promotion_menu_scopesUncheckedUpdateInput = {
 }
 
 export type promotion_menu_scopesCreateManyInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_item_id?: string | null
   menu_category_id?: string | null
   scope_role?: string
@@ -348,14 +309,15 @@ export type promotion_menu_scopesCreateManyInput = {
 }
 
 export type promotion_menu_scopesUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type promotion_menu_scopesUncheckedUpdateManyInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
@@ -374,7 +336,7 @@ export type promotion_menu_scopesOrderByRelationAggregateInput = {
 }
 
 export type promotion_menu_scopesCountOrderByAggregateInput = {
-  scope_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   menu_item_id?: Prisma.SortOrder
   menu_category_id?: Prisma.SortOrder
@@ -383,13 +345,8 @@ export type promotion_menu_scopesCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
 }
 
-export type promotion_menu_scopesAvgOrderByAggregateInput = {
-  scope_id?: Prisma.SortOrder
-  promotion_id?: Prisma.SortOrder
-}
-
 export type promotion_menu_scopesMaxOrderByAggregateInput = {
-  scope_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   menu_item_id?: Prisma.SortOrder
   menu_category_id?: Prisma.SortOrder
@@ -399,18 +356,13 @@ export type promotion_menu_scopesMaxOrderByAggregateInput = {
 }
 
 export type promotion_menu_scopesMinOrderByAggregateInput = {
-  scope_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   menu_item_id?: Prisma.SortOrder
   menu_category_id?: Prisma.SortOrder
   scope_role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-}
-
-export type promotion_menu_scopesSumOrderByAggregateInput = {
-  scope_id?: Prisma.SortOrder
-  promotion_id?: Prisma.SortOrder
 }
 
 export type promotion_menu_scopesCreateNestedManyWithoutPromotionsInput = {
@@ -540,6 +492,7 @@ export type promotion_menu_scopesUncheckedUpdateManyWithoutRes_menu_itemsNestedI
 }
 
 export type promotion_menu_scopesCreateWithoutPromotionsInput = {
+  id?: string
   scope_role?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -548,7 +501,7 @@ export type promotion_menu_scopesCreateWithoutPromotionsInput = {
 }
 
 export type promotion_menu_scopesUncheckedCreateWithoutPromotionsInput = {
-  scope_id?: number
+  id?: string
   menu_item_id?: string | null
   menu_category_id?: string | null
   scope_role?: string
@@ -586,8 +539,8 @@ export type promotion_menu_scopesScalarWhereInput = {
   AND?: Prisma.promotion_menu_scopesScalarWhereInput | Prisma.promotion_menu_scopesScalarWhereInput[]
   OR?: Prisma.promotion_menu_scopesScalarWhereInput[]
   NOT?: Prisma.promotion_menu_scopesScalarWhereInput | Prisma.promotion_menu_scopesScalarWhereInput[]
-  scope_id?: Prisma.IntFilter<"promotion_menu_scopes"> | number
-  promotion_id?: Prisma.IntFilter<"promotion_menu_scopes"> | number
+  id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
+  promotion_id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
   menu_item_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   menu_category_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   scope_role?: Prisma.StringFilter<"promotion_menu_scopes"> | string
@@ -596,6 +549,7 @@ export type promotion_menu_scopesScalarWhereInput = {
 }
 
 export type promotion_menu_scopesCreateWithoutRes_menu_categoriesInput = {
+  id?: string
   scope_role?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -604,8 +558,8 @@ export type promotion_menu_scopesCreateWithoutRes_menu_categoriesInput = {
 }
 
 export type promotion_menu_scopesUncheckedCreateWithoutRes_menu_categoriesInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_item_id?: string | null
   scope_role?: string
   created_at?: Date | string | null
@@ -639,6 +593,7 @@ export type promotion_menu_scopesUpdateManyWithWhereWithoutRes_menu_categoriesIn
 }
 
 export type promotion_menu_scopesCreateWithoutRes_menu_itemsInput = {
+  id?: string
   scope_role?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -647,8 +602,8 @@ export type promotion_menu_scopesCreateWithoutRes_menu_itemsInput = {
 }
 
 export type promotion_menu_scopesUncheckedCreateWithoutRes_menu_itemsInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_category_id?: string | null
   scope_role?: string
   created_at?: Date | string | null
@@ -682,7 +637,7 @@ export type promotion_menu_scopesUpdateManyWithWhereWithoutRes_menu_itemsInput =
 }
 
 export type promotion_menu_scopesCreateManyPromotionsInput = {
-  scope_id?: number
+  id?: string
   menu_item_id?: string | null
   menu_category_id?: string | null
   scope_role?: string
@@ -691,6 +646,7 @@ export type promotion_menu_scopesCreateManyPromotionsInput = {
 }
 
 export type promotion_menu_scopesUpdateWithoutPromotionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -699,7 +655,7 @@ export type promotion_menu_scopesUpdateWithoutPromotionsInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateWithoutPromotionsInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
@@ -708,7 +664,7 @@ export type promotion_menu_scopesUncheckedUpdateWithoutPromotionsInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
@@ -717,8 +673,8 @@ export type promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsInput = {
 }
 
 export type promotion_menu_scopesCreateManyRes_menu_categoriesInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_item_id?: string | null
   scope_role?: string
   created_at?: Date | string | null
@@ -726,6 +682,7 @@ export type promotion_menu_scopesCreateManyRes_menu_categoriesInput = {
 }
 
 export type promotion_menu_scopesUpdateWithoutRes_menu_categoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -734,8 +691,8 @@ export type promotion_menu_scopesUpdateWithoutRes_menu_categoriesInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateWithoutRes_menu_categoriesInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -743,8 +700,8 @@ export type promotion_menu_scopesUncheckedUpdateWithoutRes_menu_categoriesInput 
 }
 
 export type promotion_menu_scopesUncheckedUpdateManyWithoutRes_menu_categoriesInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -752,8 +709,8 @@ export type promotion_menu_scopesUncheckedUpdateManyWithoutRes_menu_categoriesIn
 }
 
 export type promotion_menu_scopesCreateManyRes_menu_itemsInput = {
-  scope_id?: number
-  promotion_id: number
+  id?: string
+  promotion_id: string
   menu_category_id?: string | null
   scope_role?: string
   created_at?: Date | string | null
@@ -761,6 +718,7 @@ export type promotion_menu_scopesCreateManyRes_menu_itemsInput = {
 }
 
 export type promotion_menu_scopesUpdateWithoutRes_menu_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -769,8 +727,8 @@ export type promotion_menu_scopesUpdateWithoutRes_menu_itemsInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateWithoutRes_menu_itemsInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -778,8 +736,8 @@ export type promotion_menu_scopesUncheckedUpdateWithoutRes_menu_itemsInput = {
 }
 
 export type promotion_menu_scopesUncheckedUpdateManyWithoutRes_menu_itemsInput = {
-  scope_id?: Prisma.IntFieldUpdateOperationsInput | number
-  promotion_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   menu_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope_role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -789,7 +747,7 @@ export type promotion_menu_scopesUncheckedUpdateManyWithoutRes_menu_itemsInput =
 
 
 export type promotion_menu_scopesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  scope_id?: boolean
+  id?: boolean
   promotion_id?: boolean
   menu_item_id?: boolean
   menu_category_id?: boolean
@@ -802,7 +760,7 @@ export type promotion_menu_scopesSelect<ExtArgs extends runtime.Types.Extensions
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  scope_id?: boolean
+  id?: boolean
   promotion_id?: boolean
   menu_item_id?: boolean
   menu_category_id?: boolean
@@ -815,7 +773,7 @@ export type promotion_menu_scopesSelectCreateManyAndReturn<ExtArgs extends runti
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  scope_id?: boolean
+  id?: boolean
   promotion_id?: boolean
   menu_item_id?: boolean
   menu_category_id?: boolean
@@ -828,7 +786,7 @@ export type promotion_menu_scopesSelectUpdateManyAndReturn<ExtArgs extends runti
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectScalar = {
-  scope_id?: boolean
+  id?: boolean
   promotion_id?: boolean
   menu_item_id?: boolean
   menu_category_id?: boolean
@@ -837,7 +795,7 @@ export type promotion_menu_scopesSelectScalar = {
   updated_at?: boolean
 }
 
-export type promotion_menu_scopesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"scope_id" | "promotion_id" | "menu_item_id" | "menu_category_id" | "scope_role" | "created_at" | "updated_at", ExtArgs["result"]["promotion_menu_scopes"]>
+export type promotion_menu_scopesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "promotion_id" | "menu_item_id" | "menu_category_id" | "scope_role" | "created_at" | "updated_at", ExtArgs["result"]["promotion_menu_scopes"]>
 export type promotion_menu_scopesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_menu_categories?: boolean | Prisma.promotion_menu_scopes$res_menu_categoriesArgs<ExtArgs>
   res_menu_items?: boolean | Prisma.promotion_menu_scopes$res_menu_itemsArgs<ExtArgs>
@@ -862,8 +820,8 @@ export type $promotion_menu_scopesPayload<ExtArgs extends runtime.Types.Extensio
     promotions: Prisma.$promotionsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    scope_id: number
-    promotion_id: number
+    id: string
+    promotion_id: string
     menu_item_id: string | null
     menu_category_id: string | null
     scope_role: string
@@ -952,8 +910,8 @@ export interface promotion_menu_scopesDelegate<ExtArgs extends runtime.Types.Ext
    * // Get first 10 Promotion_menu_scopes
    * const promotion_menu_scopes = await prisma.promotion_menu_scopes.findMany({ take: 10 })
    * 
-   * // Only select the `scope_id`
-   * const promotion_menu_scopesWithScope_idOnly = await prisma.promotion_menu_scopes.findMany({ select: { scope_id: true } })
+   * // Only select the `id`
+   * const promotion_menu_scopesWithIdOnly = await prisma.promotion_menu_scopes.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends promotion_menu_scopesFindManyArgs>(args?: Prisma.SelectSubset<T, promotion_menu_scopesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotion_menu_scopesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -997,9 +955,9 @@ export interface promotion_menu_scopesDelegate<ExtArgs extends runtime.Types.Ext
    *   ]
    * })
    * 
-   * // Create many Promotion_menu_scopes and only return the `scope_id`
-   * const promotion_menu_scopesWithScope_idOnly = await prisma.promotion_menu_scopes.createManyAndReturn({
-   *   select: { scope_id: true },
+   * // Create many Promotion_menu_scopes and only return the `id`
+   * const promotion_menu_scopesWithIdOnly = await prisma.promotion_menu_scopes.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1088,9 +1046,9 @@ export interface promotion_menu_scopesDelegate<ExtArgs extends runtime.Types.Ext
    *   ]
    * })
    * 
-   * // Update zero or more Promotion_menu_scopes and only return the `scope_id`
-   * const promotion_menu_scopesWithScope_idOnly = await prisma.promotion_menu_scopes.updateManyAndReturn({
-   *   select: { scope_id: true },
+   * // Update zero or more Promotion_menu_scopes and only return the `id`
+   * const promotion_menu_scopesWithIdOnly = await prisma.promotion_menu_scopes.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1295,8 +1253,8 @@ export interface Prisma__promotion_menu_scopesClient<T, Null = never, ExtArgs ex
  * Fields of the promotion_menu_scopes model
  */
 export interface promotion_menu_scopesFieldRefs {
-  readonly scope_id: Prisma.FieldRef<"promotion_menu_scopes", 'Int'>
-  readonly promotion_id: Prisma.FieldRef<"promotion_menu_scopes", 'Int'>
+  readonly id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
+  readonly promotion_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
   readonly menu_item_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
   readonly menu_category_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
   readonly scope_role: Prisma.FieldRef<"promotion_menu_scopes", 'String'>

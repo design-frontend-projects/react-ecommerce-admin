@@ -18,8 +18,8 @@ export function determineSegment(customer: any, sales: any[]): string {
 
   const recentSales = sales.filter(
     (s) =>
-      s.sale_date &&
-      Temporal.PlainDate.compare(toPlainDate(s.sale_date), thirtyDaysAgo) >= 0
+      (s.invoice_date || s.sale_date) &&
+      Temporal.PlainDate.compare(toPlainDate(s.invoice_date || s.sale_date), thirtyDaysAgo) >= 0
   )
 
   if (recentSales.length > 0) {
@@ -50,14 +50,14 @@ export function determineSegment(customer: any, sales: any[]): string {
 export async function classifySegments() {
   const customers = await prisma.customers.findMany({
     include: {
-      pos_sales: true,
+      sales_invoices: true,
     },
   })
 
   const updates = customers.map((customer: any) => {
-    const segment = determineSegment(customer, customer.pos_sales)
+    const segment = determineSegment(customer, customer.sales_invoices || [])
     return {
-      customer_id: customer.customer_id,
+      id: customer.id,
       segment,
     }
   })

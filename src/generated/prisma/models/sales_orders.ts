@@ -27,7 +27,6 @@ export type AggregateSales_orders = {
 }
 
 export type Sales_ordersAvgAggregateOutputType = {
-  customer_id: number | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
@@ -35,7 +34,6 @@ export type Sales_ordersAvgAggregateOutputType = {
 }
 
 export type Sales_ordersSumAggregateOutputType = {
-  customer_id: number | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
@@ -46,7 +44,7 @@ export type Sales_ordersMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   order_number: string | null
-  customer_id: number | null
+  customer_id: string | null
   branch_id: string | null
   store_id: string | null
   warehouse_id: string | null
@@ -71,7 +69,7 @@ export type Sales_ordersMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   order_number: string | null
-  customer_id: number | null
+  customer_id: string | null
   branch_id: string | null
   store_id: string | null
   warehouse_id: string | null
@@ -120,7 +118,6 @@ export type Sales_ordersCountAggregateOutputType = {
 
 
 export type Sales_ordersAvgAggregateInputType = {
-  customer_id?: true
   subtotal?: true
   discount_amount?: true
   tax_amount?: true
@@ -128,7 +125,6 @@ export type Sales_ordersAvgAggregateInputType = {
 }
 
 export type Sales_ordersSumAggregateInputType = {
-  customer_id?: true
   subtotal?: true
   discount_amount?: true
   tax_amount?: true
@@ -301,7 +297,7 @@ export type Sales_ordersGroupByOutputType = {
   id: string
   tenant_id: string
   order_number: string
-  customer_id: number | null
+  customer_id: string | null
   branch_id: string | null
   store_id: string
   warehouse_id: string | null
@@ -349,7 +345,7 @@ export type sales_ordersWhereInput = {
   id?: Prisma.UuidFilter<"sales_orders"> | string
   tenant_id?: Prisma.UuidFilter<"sales_orders"> | string
   order_number?: Prisma.StringFilter<"sales_orders"> | string
-  customer_id?: Prisma.IntNullableFilter<"sales_orders"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   store_id?: Prisma.UuidFilter<"sales_orders"> | string
   warehouse_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
@@ -415,7 +411,7 @@ export type sales_ordersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.sales_ordersWhereInput | Prisma.sales_ordersWhereInput[]
   tenant_id?: Prisma.UuidFilter<"sales_orders"> | string
   order_number?: Prisma.StringFilter<"sales_orders"> | string
-  customer_id?: Prisma.IntNullableFilter<"sales_orders"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   store_id?: Prisma.UuidFilter<"sales_orders"> | string
   warehouse_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
@@ -479,7 +475,7 @@ export type sales_ordersScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"sales_orders"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"sales_orders"> | string
   order_number?: Prisma.StringWithAggregatesFilter<"sales_orders"> | string
-  customer_id?: Prisma.IntNullableWithAggregatesFilter<"sales_orders"> | number | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_orders"> | string | null
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_orders"> | string | null
   store_id?: Prisma.UuidWithAggregatesFilter<"sales_orders"> | string
   warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_orders"> | string | null
@@ -530,7 +526,7 @@ export type sales_ordersUncheckedCreateInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   warehouse_id?: string | null
@@ -582,7 +578,7 @@ export type sales_ordersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -608,7 +604,7 @@ export type sales_ordersCreateManyInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   warehouse_id?: string | null
@@ -653,7 +649,7 @@ export type sales_ordersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -715,7 +711,6 @@ export type sales_ordersCountOrderByAggregateInput = {
 }
 
 export type sales_ordersAvgOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -773,7 +768,6 @@ export type sales_ordersMinOrderByAggregateInput = {
 }
 
 export type sales_ordersSumOrderByAggregateInput = {
-  customer_id?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -1042,7 +1036,7 @@ export type sales_ordersUncheckedCreateWithoutBranchesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   store_id: string
   warehouse_id?: string | null
   status?: $Enums.sales_order_status_enum
@@ -1096,7 +1090,7 @@ export type sales_ordersScalarWhereInput = {
   id?: Prisma.UuidFilter<"sales_orders"> | string
   tenant_id?: Prisma.UuidFilter<"sales_orders"> | string
   order_number?: Prisma.StringFilter<"sales_orders"> | string
-  customer_id?: Prisma.IntNullableFilter<"sales_orders"> | number | null
+  customer_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
   store_id?: Prisma.UuidFilter<"sales_orders"> | string
   warehouse_id?: Prisma.UuidNullableFilter<"sales_orders"> | string | null
@@ -1222,7 +1216,7 @@ export type sales_ordersUncheckedCreateWithoutSales_invoicesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   warehouse_id?: string | null
@@ -1298,7 +1292,7 @@ export type sales_ordersUncheckedCreateWithoutStoresInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   warehouse_id?: string | null
   status?: $Enums.sales_order_status_enum
@@ -1374,7 +1368,7 @@ export type sales_ordersUncheckedCreateWithoutWarehousesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   status?: $Enums.sales_order_status_enum
@@ -1450,7 +1444,7 @@ export type sales_ordersUncheckedCreateWithoutSales_order_itemsInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   warehouse_id?: string | null
@@ -1516,7 +1510,7 @@ export type sales_ordersUncheckedUpdateWithoutSales_order_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1541,7 +1535,7 @@ export type sales_ordersCreateManyBranchesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   store_id: string
   warehouse_id?: string | null
   status?: $Enums.sales_order_status_enum
@@ -1590,7 +1584,7 @@ export type sales_ordersUncheckedUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -1615,7 +1609,7 @@ export type sales_ordersUncheckedUpdateManyWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -1737,7 +1731,7 @@ export type sales_ordersCreateManySales_invoicesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   warehouse_id?: string | null
@@ -1786,7 +1780,7 @@ export type sales_ordersUncheckedUpdateWithoutSales_invoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1811,7 +1805,7 @@ export type sales_ordersUncheckedUpdateManyWithoutSales_invoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1835,7 +1829,7 @@ export type sales_ordersCreateManyStoresInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   warehouse_id?: string | null
   status?: $Enums.sales_order_status_enum
@@ -1884,7 +1878,7 @@ export type sales_ordersUncheckedUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -1909,7 +1903,7 @@ export type sales_ordersUncheckedUpdateManyWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -1933,7 +1927,7 @@ export type sales_ordersCreateManyWarehousesInput = {
   id?: string
   tenant_id: string
   order_number?: string
-  customer_id?: number | null
+  customer_id?: string | null
   branch_id?: string | null
   store_id: string
   status?: $Enums.sales_order_status_enum
@@ -1982,7 +1976,7 @@ export type sales_ordersUncheckedUpdateWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -2007,7 +2001,7 @@ export type sales_ordersUncheckedUpdateManyWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -2214,7 +2208,7 @@ export type $sales_ordersPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     tenant_id: string
     order_number: string
-    customer_id: number | null
+    customer_id: string | null
     branch_id: string | null
     store_id: string
     warehouse_id: string | null
@@ -2665,7 +2659,7 @@ export interface sales_ordersFieldRefs {
   readonly id: Prisma.FieldRef<"sales_orders", 'String'>
   readonly tenant_id: Prisma.FieldRef<"sales_orders", 'String'>
   readonly order_number: Prisma.FieldRef<"sales_orders", 'String'>
-  readonly customer_id: Prisma.FieldRef<"sales_orders", 'Int'>
+  readonly customer_id: Prisma.FieldRef<"sales_orders", 'String'>
   readonly branch_id: Prisma.FieldRef<"sales_orders", 'String'>
   readonly store_id: Prisma.FieldRef<"sales_orders", 'String'>
   readonly warehouse_id: Prisma.FieldRef<"sales_orders", 'String'>

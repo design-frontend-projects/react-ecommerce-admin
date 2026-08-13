@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model shipping_rates
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type shipping_ratesModel = runtime.Types.Result.DefaultSelection<Prisma.$shipping_ratesPayload>
 
@@ -27,8 +27,6 @@ export type AggregateShipping_rates = {
 }
 
 export type Shipping_ratesAvgAggregateOutputType = {
-  rate_id: number | null
-  method_id: number | null
   min_weight: runtime.Decimal | null
   max_weight: runtime.Decimal | null
   min_order_amount: runtime.Decimal | null
@@ -37,8 +35,6 @@ export type Shipping_ratesAvgAggregateOutputType = {
 }
 
 export type Shipping_ratesSumAggregateOutputType = {
-  rate_id: number | null
-  method_id: number | null
   min_weight: runtime.Decimal | null
   max_weight: runtime.Decimal | null
   min_order_amount: runtime.Decimal | null
@@ -47,8 +43,9 @@ export type Shipping_ratesSumAggregateOutputType = {
 }
 
 export type Shipping_ratesMinAggregateOutputType = {
-  rate_id: number | null
-  method_id: number | null
+  id: string | null
+  tenant_id: string | null
+  method_id: string | null
   destination_country: string | null
   destination_state: string | null
   destination_postal_code: string | null
@@ -62,8 +59,9 @@ export type Shipping_ratesMinAggregateOutputType = {
 }
 
 export type Shipping_ratesMaxAggregateOutputType = {
-  rate_id: number | null
-  method_id: number | null
+  id: string | null
+  tenant_id: string | null
+  method_id: string | null
   destination_country: string | null
   destination_state: string | null
   destination_postal_code: string | null
@@ -77,7 +75,8 @@ export type Shipping_ratesMaxAggregateOutputType = {
 }
 
 export type Shipping_ratesCountAggregateOutputType = {
-  rate_id: number
+  id: number
+  tenant_id: number
   method_id: number
   destination_country: number
   destination_state: number
@@ -94,8 +93,6 @@ export type Shipping_ratesCountAggregateOutputType = {
 
 
 export type Shipping_ratesAvgAggregateInputType = {
-  rate_id?: true
-  method_id?: true
   min_weight?: true
   max_weight?: true
   min_order_amount?: true
@@ -104,8 +101,6 @@ export type Shipping_ratesAvgAggregateInputType = {
 }
 
 export type Shipping_ratesSumAggregateInputType = {
-  rate_id?: true
-  method_id?: true
   min_weight?: true
   max_weight?: true
   min_order_amount?: true
@@ -114,7 +109,8 @@ export type Shipping_ratesSumAggregateInputType = {
 }
 
 export type Shipping_ratesMinAggregateInputType = {
-  rate_id?: true
+  id?: true
+  tenant_id?: true
   method_id?: true
   destination_country?: true
   destination_state?: true
@@ -129,7 +125,8 @@ export type Shipping_ratesMinAggregateInputType = {
 }
 
 export type Shipping_ratesMaxAggregateInputType = {
-  rate_id?: true
+  id?: true
+  tenant_id?: true
   method_id?: true
   destination_country?: true
   destination_state?: true
@@ -144,7 +141,8 @@ export type Shipping_ratesMaxAggregateInputType = {
 }
 
 export type Shipping_ratesCountAggregateInputType = {
-  rate_id?: true
+  id?: true
+  tenant_id?: true
   method_id?: true
   destination_country?: true
   destination_state?: true
@@ -246,8 +244,9 @@ export type shipping_ratesGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 export type Shipping_ratesGroupByOutputType = {
-  rate_id: number
-  method_id: number
+  id: string
+  tenant_id: string | null
+  method_id: string
   destination_country: string | null
   destination_state: string | null
   destination_postal_code: string | null
@@ -284,8 +283,9 @@ export type shipping_ratesWhereInput = {
   AND?: Prisma.shipping_ratesWhereInput | Prisma.shipping_ratesWhereInput[]
   OR?: Prisma.shipping_ratesWhereInput[]
   NOT?: Prisma.shipping_ratesWhereInput | Prisma.shipping_ratesWhereInput[]
-  rate_id?: Prisma.IntFilter<"shipping_rates"> | number
-  method_id?: Prisma.IntFilter<"shipping_rates"> | number
+  id?: Prisma.UuidFilter<"shipping_rates"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  method_id?: Prisma.UuidFilter<"shipping_rates"> | string
   destination_country?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_state?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_postal_code?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
@@ -300,7 +300,8 @@ export type shipping_ratesWhereInput = {
 }
 
 export type shipping_ratesOrderByWithRelationInput = {
-  rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   method_id?: Prisma.SortOrder
   destination_country?: Prisma.SortOrderInput | Prisma.SortOrder
   destination_state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -316,12 +317,13 @@ export type shipping_ratesOrderByWithRelationInput = {
 }
 
 export type shipping_ratesWhereUniqueInput = Prisma.AtLeast<{
-  rate_id?: number
+  id?: string
   method_id_destination_country_destination_state_destination_postal_code_min_weight?: Prisma.shipping_ratesMethod_idDestination_countryDestination_stateDestination_postal_codeMin_weightCompoundUniqueInput
   AND?: Prisma.shipping_ratesWhereInput | Prisma.shipping_ratesWhereInput[]
   OR?: Prisma.shipping_ratesWhereInput[]
   NOT?: Prisma.shipping_ratesWhereInput | Prisma.shipping_ratesWhereInput[]
-  method_id?: Prisma.IntFilter<"shipping_rates"> | number
+  tenant_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  method_id?: Prisma.UuidFilter<"shipping_rates"> | string
   destination_country?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_state?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_postal_code?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
@@ -333,10 +335,11 @@ export type shipping_ratesWhereUniqueInput = Prisma.AtLeast<{
   is_free?: Prisma.BoolNullableFilter<"shipping_rates"> | boolean | null
   auth_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
   shipping_methods?: Prisma.XOR<Prisma.Shipping_methodsScalarRelationFilter, Prisma.shipping_methodsWhereInput>
-}, "rate_id" | "method_id_destination_country_destination_state_destination_postal_code_min_weight">
+}, "id" | "method_id_destination_country_destination_state_destination_postal_code_min_weight">
 
 export type shipping_ratesOrderByWithAggregationInput = {
-  rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   method_id?: Prisma.SortOrder
   destination_country?: Prisma.SortOrderInput | Prisma.SortOrder
   destination_state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,8 +362,9 @@ export type shipping_ratesScalarWhereWithAggregatesInput = {
   AND?: Prisma.shipping_ratesScalarWhereWithAggregatesInput | Prisma.shipping_ratesScalarWhereWithAggregatesInput[]
   OR?: Prisma.shipping_ratesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.shipping_ratesScalarWhereWithAggregatesInput | Prisma.shipping_ratesScalarWhereWithAggregatesInput[]
-  rate_id?: Prisma.IntWithAggregatesFilter<"shipping_rates"> | number
-  method_id?: Prisma.IntWithAggregatesFilter<"shipping_rates"> | number
+  id?: Prisma.UuidWithAggregatesFilter<"shipping_rates"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_rates"> | string | null
+  method_id?: Prisma.UuidWithAggregatesFilter<"shipping_rates"> | string
   destination_country?: Prisma.StringNullableWithAggregatesFilter<"shipping_rates"> | string | null
   destination_state?: Prisma.StringNullableWithAggregatesFilter<"shipping_rates"> | string | null
   destination_postal_code?: Prisma.StringNullableWithAggregatesFilter<"shipping_rates"> | string | null
@@ -374,6 +378,8 @@ export type shipping_ratesScalarWhereWithAggregatesInput = {
 }
 
 export type shipping_ratesCreateInput = {
+  id?: string
+  tenant_id?: string | null
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -388,8 +394,9 @@ export type shipping_ratesCreateInput = {
 }
 
 export type shipping_ratesUncheckedCreateInput = {
-  rate_id?: number
-  method_id: number
+  id?: string
+  tenant_id?: string | null
+  method_id: string
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -403,6 +410,8 @@ export type shipping_ratesUncheckedCreateInput = {
 }
 
 export type shipping_ratesUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,8 +426,9 @@ export type shipping_ratesUpdateInput = {
 }
 
 export type shipping_ratesUncheckedUpdateInput = {
-  rate_id?: Prisma.IntFieldUpdateOperationsInput | number
-  method_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method_id?: Prisma.StringFieldUpdateOperationsInput | string
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -432,8 +442,9 @@ export type shipping_ratesUncheckedUpdateInput = {
 }
 
 export type shipping_ratesCreateManyInput = {
-  rate_id?: number
-  method_id: number
+  id?: string
+  tenant_id?: string | null
+  method_id: string
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -447,6 +458,8 @@ export type shipping_ratesCreateManyInput = {
 }
 
 export type shipping_ratesUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -460,8 +473,9 @@ export type shipping_ratesUpdateManyMutationInput = {
 }
 
 export type shipping_ratesUncheckedUpdateManyInput = {
-  rate_id?: Prisma.IntFieldUpdateOperationsInput | number
-  method_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method_id?: Prisma.StringFieldUpdateOperationsInput | string
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -485,7 +499,7 @@ export type shipping_ratesOrderByRelationAggregateInput = {
 }
 
 export type shipping_ratesMethod_idDestination_countryDestination_stateDestination_postal_codeMin_weightCompoundUniqueInput = {
-  method_id: number
+  method_id: string
   destination_country: string
   destination_state: string
   destination_postal_code: string
@@ -493,7 +507,8 @@ export type shipping_ratesMethod_idDestination_countryDestination_stateDestinati
 }
 
 export type shipping_ratesCountOrderByAggregateInput = {
-  rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
   destination_country?: Prisma.SortOrder
   destination_state?: Prisma.SortOrder
@@ -508,8 +523,6 @@ export type shipping_ratesCountOrderByAggregateInput = {
 }
 
 export type shipping_ratesAvgOrderByAggregateInput = {
-  rate_id?: Prisma.SortOrder
-  method_id?: Prisma.SortOrder
   min_weight?: Prisma.SortOrder
   max_weight?: Prisma.SortOrder
   min_order_amount?: Prisma.SortOrder
@@ -518,7 +531,8 @@ export type shipping_ratesAvgOrderByAggregateInput = {
 }
 
 export type shipping_ratesMaxOrderByAggregateInput = {
-  rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
   destination_country?: Prisma.SortOrder
   destination_state?: Prisma.SortOrder
@@ -533,7 +547,8 @@ export type shipping_ratesMaxOrderByAggregateInput = {
 }
 
 export type shipping_ratesMinOrderByAggregateInput = {
-  rate_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
   destination_country?: Prisma.SortOrder
   destination_state?: Prisma.SortOrder
@@ -548,8 +563,6 @@ export type shipping_ratesMinOrderByAggregateInput = {
 }
 
 export type shipping_ratesSumOrderByAggregateInput = {
-  rate_id?: Prisma.SortOrder
-  method_id?: Prisma.SortOrder
   min_weight?: Prisma.SortOrder
   max_weight?: Prisma.SortOrder
   min_order_amount?: Prisma.SortOrder
@@ -600,6 +613,8 @@ export type shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput 
 }
 
 export type shipping_ratesCreateWithoutShipping_methodsInput = {
+  id?: string
+  tenant_id?: string | null
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -613,7 +628,8 @@ export type shipping_ratesCreateWithoutShipping_methodsInput = {
 }
 
 export type shipping_ratesUncheckedCreateWithoutShipping_methodsInput = {
-  rate_id?: number
+  id?: string
+  tenant_id?: string | null
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -656,8 +672,9 @@ export type shipping_ratesScalarWhereInput = {
   AND?: Prisma.shipping_ratesScalarWhereInput | Prisma.shipping_ratesScalarWhereInput[]
   OR?: Prisma.shipping_ratesScalarWhereInput[]
   NOT?: Prisma.shipping_ratesScalarWhereInput | Prisma.shipping_ratesScalarWhereInput[]
-  rate_id?: Prisma.IntFilter<"shipping_rates"> | number
-  method_id?: Prisma.IntFilter<"shipping_rates"> | number
+  id?: Prisma.UuidFilter<"shipping_rates"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  method_id?: Prisma.UuidFilter<"shipping_rates"> | string
   destination_country?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_state?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
   destination_postal_code?: Prisma.StringNullableFilter<"shipping_rates"> | string | null
@@ -671,7 +688,8 @@ export type shipping_ratesScalarWhereInput = {
 }
 
 export type shipping_ratesCreateManyShipping_methodsInput = {
-  rate_id?: number
+  id?: string
+  tenant_id?: string | null
   destination_country?: string | null
   destination_state?: string | null
   destination_postal_code?: string | null
@@ -685,6 +703,8 @@ export type shipping_ratesCreateManyShipping_methodsInput = {
 }
 
 export type shipping_ratesUpdateWithoutShipping_methodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -698,7 +718,8 @@ export type shipping_ratesUpdateWithoutShipping_methodsInput = {
 }
 
 export type shipping_ratesUncheckedUpdateWithoutShipping_methodsInput = {
-  rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -712,7 +733,8 @@ export type shipping_ratesUncheckedUpdateWithoutShipping_methodsInput = {
 }
 
 export type shipping_ratesUncheckedUpdateManyWithoutShipping_methodsInput = {
-  rate_id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -728,7 +750,8 @@ export type shipping_ratesUncheckedUpdateManyWithoutShipping_methodsInput = {
 
 
 export type shipping_ratesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   method_id?: boolean
   destination_country?: boolean
   destination_state?: boolean
@@ -744,7 +767,8 @@ export type shipping_ratesSelect<ExtArgs extends runtime.Types.Extensions.Intern
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   method_id?: boolean
   destination_country?: boolean
   destination_state?: boolean
@@ -760,7 +784,8 @@ export type shipping_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   method_id?: boolean
   destination_country?: boolean
   destination_state?: boolean
@@ -776,7 +801,8 @@ export type shipping_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectScalar = {
-  rate_id?: boolean
+  id?: boolean
+  tenant_id?: boolean
   method_id?: boolean
   destination_country?: boolean
   destination_state?: boolean
@@ -790,7 +816,7 @@ export type shipping_ratesSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type shipping_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"rate_id" | "method_id" | "destination_country" | "destination_state" | "destination_postal_code" | "min_weight" | "max_weight" | "min_order_amount" | "max_order_amount" | "cost" | "is_free" | "auth_user_id", ExtArgs["result"]["shipping_rates"]>
+export type shipping_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "method_id" | "destination_country" | "destination_state" | "destination_postal_code" | "min_weight" | "max_weight" | "min_order_amount" | "max_order_amount" | "cost" | "is_free" | "auth_user_id", ExtArgs["result"]["shipping_rates"]>
 export type shipping_ratesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipping_methods?: boolean | Prisma.shipping_methodsDefaultArgs<ExtArgs>
 }
@@ -807,8 +833,9 @@ export type $shipping_ratesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     shipping_methods: Prisma.$shipping_methodsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    rate_id: number
-    method_id: number
+    id: string
+    tenant_id: string | null
+    method_id: string
     destination_country: string | null
     destination_state: string | null
     destination_postal_code: string | null
@@ -902,8 +929,8 @@ export interface shipping_ratesDelegate<ExtArgs extends runtime.Types.Extensions
    * // Get first 10 Shipping_rates
    * const shipping_rates = await prisma.shipping_rates.findMany({ take: 10 })
    * 
-   * // Only select the `rate_id`
-   * const shipping_ratesWithRate_idOnly = await prisma.shipping_rates.findMany({ select: { rate_id: true } })
+   * // Only select the `id`
+   * const shipping_ratesWithIdOnly = await prisma.shipping_rates.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends shipping_ratesFindManyArgs>(args?: Prisma.SelectSubset<T, shipping_ratesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipping_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -947,9 +974,9 @@ export interface shipping_ratesDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Create many Shipping_rates and only return the `rate_id`
-   * const shipping_ratesWithRate_idOnly = await prisma.shipping_rates.createManyAndReturn({
-   *   select: { rate_id: true },
+   * // Create many Shipping_rates and only return the `id`
+   * const shipping_ratesWithIdOnly = await prisma.shipping_rates.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1038,9 +1065,9 @@ export interface shipping_ratesDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Update zero or more Shipping_rates and only return the `rate_id`
-   * const shipping_ratesWithRate_idOnly = await prisma.shipping_rates.updateManyAndReturn({
-   *   select: { rate_id: true },
+   * // Update zero or more Shipping_rates and only return the `id`
+   * const shipping_ratesWithIdOnly = await prisma.shipping_rates.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1243,8 +1270,9 @@ export interface Prisma__shipping_ratesClient<T, Null = never, ExtArgs extends r
  * Fields of the shipping_rates model
  */
 export interface shipping_ratesFieldRefs {
-  readonly rate_id: Prisma.FieldRef<"shipping_rates", 'Int'>
-  readonly method_id: Prisma.FieldRef<"shipping_rates", 'Int'>
+  readonly id: Prisma.FieldRef<"shipping_rates", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"shipping_rates", 'String'>
+  readonly method_id: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly destination_country: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly destination_state: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly destination_postal_code: Prisma.FieldRef<"shipping_rates", 'String'>

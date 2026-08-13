@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_item_variants
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type res_item_variantsModel = runtime.Types.Result.DefaultSelection<Prisma.$res_item_variantsPayload>
 
@@ -36,6 +36,7 @@ export type Res_item_variantsSumAggregateOutputType = {
 
 export type Res_item_variantsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   item_id: string | null
   name: string | null
   price_adjustment: runtime.Decimal | null
@@ -46,6 +47,7 @@ export type Res_item_variantsMinAggregateOutputType = {
 
 export type Res_item_variantsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   item_id: string | null
   name: string | null
   price_adjustment: runtime.Decimal | null
@@ -56,6 +58,7 @@ export type Res_item_variantsMaxAggregateOutputType = {
 
 export type Res_item_variantsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   item_id: number
   name: number
   price_adjustment: number
@@ -76,6 +79,7 @@ export type Res_item_variantsSumAggregateInputType = {
 
 export type Res_item_variantsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
@@ -86,6 +90,7 @@ export type Res_item_variantsMinAggregateInputType = {
 
 export type Res_item_variantsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
@@ -96,6 +101,7 @@ export type Res_item_variantsMaxAggregateInputType = {
 
 export type Res_item_variantsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
@@ -193,6 +199,7 @@ export type res_item_variantsGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type Res_item_variantsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   item_id: string | null
   name: string
   price_adjustment: runtime.Decimal | null
@@ -226,6 +233,7 @@ export type res_item_variantsWhereInput = {
   OR?: Prisma.res_item_variantsWhereInput[]
   NOT?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
   id?: Prisma.UuidFilter<"res_item_variants"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   name?: Prisma.StringFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -238,6 +246,7 @@ export type res_item_variantsWhereInput = {
 
 export type res_item_variantsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -253,6 +262,7 @@ export type res_item_variantsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
   OR?: Prisma.res_item_variantsWhereInput[]
   NOT?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   name?: Prisma.StringFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -265,6 +275,7 @@ export type res_item_variantsWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_item_variantsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -283,6 +294,7 @@ export type res_item_variantsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_item_variantsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_item_variantsScalarWhereWithAggregatesInput | Prisma.res_item_variantsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_item_variants"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableWithAggregatesFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -293,6 +305,7 @@ export type res_item_variantsScalarWhereWithAggregatesInput = {
 
 export type res_item_variantsCreateInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
@@ -304,6 +317,7 @@ export type res_item_variantsCreateInput = {
 
 export type res_item_variantsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -315,6 +329,7 @@ export type res_item_variantsUncheckedCreateInput = {
 
 export type res_item_variantsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -326,6 +341,7 @@ export type res_item_variantsUpdateInput = {
 
 export type res_item_variantsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -337,6 +353,7 @@ export type res_item_variantsUncheckedUpdateInput = {
 
 export type res_item_variantsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -347,6 +364,7 @@ export type res_item_variantsCreateManyInput = {
 
 export type res_item_variantsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -356,6 +374,7 @@ export type res_item_variantsUpdateManyMutationInput = {
 
 export type res_item_variantsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -366,6 +385,7 @@ export type res_item_variantsUncheckedUpdateManyInput = {
 
 export type res_item_variantsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
@@ -380,6 +400,7 @@ export type res_item_variantsAvgOrderByAggregateInput = {
 
 export type res_item_variantsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
@@ -390,6 +411,7 @@ export type res_item_variantsMaxOrderByAggregateInput = {
 
 export type res_item_variantsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
@@ -477,6 +499,7 @@ export type res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput = {
 
 export type res_item_variantsCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
@@ -487,6 +510,7 @@ export type res_item_variantsCreateWithoutRes_menu_itemsInput = {
 
 export type res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
@@ -526,6 +550,7 @@ export type res_item_variantsScalarWhereInput = {
   OR?: Prisma.res_item_variantsScalarWhereInput[]
   NOT?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
   id?: Prisma.UuidFilter<"res_item_variants"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   name?: Prisma.StringFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -536,6 +561,7 @@ export type res_item_variantsScalarWhereInput = {
 
 export type res_item_variantsCreateWithoutRes_order_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
@@ -546,6 +572,7 @@ export type res_item_variantsCreateWithoutRes_order_itemsInput = {
 
 export type res_item_variantsUncheckedCreateWithoutRes_order_itemsInput = {
   id?: string
+  tenant_id?: string | null
   item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -572,6 +599,7 @@ export type res_item_variantsUpdateToOneWithWhereWithoutRes_order_itemsInput = {
 
 export type res_item_variantsUpdateWithoutRes_order_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -582,6 +610,7 @@ export type res_item_variantsUpdateWithoutRes_order_itemsInput = {
 
 export type res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -592,6 +621,7 @@ export type res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput = {
 
 export type res_item_variantsCreateManyRes_menu_itemsInput = {
   id?: string
+  tenant_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
@@ -601,6 +631,7 @@ export type res_item_variantsCreateManyRes_menu_itemsInput = {
 
 export type res_item_variantsUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -611,6 +642,7 @@ export type res_item_variantsUpdateWithoutRes_menu_itemsInput = {
 
 export type res_item_variantsUncheckedUpdateWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -621,6 +653,7 @@ export type res_item_variantsUncheckedUpdateWithoutRes_menu_itemsInput = {
 
 export type res_item_variantsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -661,6 +694,7 @@ export type Res_item_variantsCountOutputTypeCountRes_order_itemsArgs<ExtArgs ext
 
 export type res_item_variantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
@@ -674,6 +708,7 @@ export type res_item_variantsSelect<ExtArgs extends runtime.Types.Extensions.Int
 
 export type res_item_variantsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
@@ -685,6 +720,7 @@ export type res_item_variantsSelectCreateManyAndReturn<ExtArgs extends runtime.T
 
 export type res_item_variantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
@@ -696,6 +732,7 @@ export type res_item_variantsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
 
 export type res_item_variantsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
@@ -704,7 +741,7 @@ export type res_item_variantsSelectScalar = {
   auth_user_id?: boolean
 }
 
-export type res_item_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "name" | "price_adjustment" | "is_default" | "created_at" | "auth_user_id", ExtArgs["result"]["res_item_variants"]>
+export type res_item_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "item_id" | "name" | "price_adjustment" | "is_default" | "created_at" | "auth_user_id", ExtArgs["result"]["res_item_variants"]>
 export type res_item_variantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
   res_order_items?: boolean | Prisma.res_item_variants$res_order_itemsArgs<ExtArgs>
@@ -725,6 +762,7 @@ export type $res_item_variantsPayload<ExtArgs extends runtime.Types.Extensions.I
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     item_id: string | null
     name: string
     price_adjustment: runtime.Decimal | null
@@ -1157,6 +1195,7 @@ export interface Prisma__res_item_variantsClient<T, Null = never, ExtArgs extend
  */
 export interface res_item_variantsFieldRefs {
   readonly id: Prisma.FieldRef<"res_item_variants", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly item_id: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly name: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly price_adjustment: Prisma.FieldRef<"res_item_variants", 'Decimal'>

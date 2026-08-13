@@ -28,13 +28,11 @@ export type AggregatePurchase_requisition_items = {
 
 export type Purchase_requisition_itemsAvgAggregateOutputType = {
   qty_requested: runtime.Decimal | null
-  preferred_supplier_id: number | null
   est_unit_cost: runtime.Decimal | null
 }
 
 export type Purchase_requisition_itemsSumAggregateOutputType = {
   qty_requested: runtime.Decimal | null
-  preferred_supplier_id: number | null
   est_unit_cost: runtime.Decimal | null
 }
 
@@ -44,7 +42,7 @@ export type Purchase_requisition_itemsMinAggregateOutputType = {
   product_variant_id: string | null
   qty_requested: runtime.Decimal | null
   uom_id: string | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   est_unit_cost: runtime.Decimal | null
   reason: string | null
   created_at: Date | null
@@ -56,7 +54,7 @@ export type Purchase_requisition_itemsMaxAggregateOutputType = {
   product_variant_id: string | null
   qty_requested: runtime.Decimal | null
   uom_id: string | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   est_unit_cost: runtime.Decimal | null
   reason: string | null
   created_at: Date | null
@@ -78,13 +76,11 @@ export type Purchase_requisition_itemsCountAggregateOutputType = {
 
 export type Purchase_requisition_itemsAvgAggregateInputType = {
   qty_requested?: true
-  preferred_supplier_id?: true
   est_unit_cost?: true
 }
 
 export type Purchase_requisition_itemsSumAggregateInputType = {
   qty_requested?: true
-  preferred_supplier_id?: true
   est_unit_cost?: true
 }
 
@@ -217,7 +213,7 @@ export type Purchase_requisition_itemsGroupByOutputType = {
   product_variant_id: string
   qty_requested: runtime.Decimal
   uom_id: string | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   est_unit_cost: runtime.Decimal
   reason: string | null
   created_at: Date
@@ -252,7 +248,7 @@ export type purchase_requisition_itemsWhereInput = {
   product_variant_id?: Prisma.UuidFilter<"purchase_requisition_items"> | string
   qty_requested?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"purchase_requisition_items"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
   est_unit_cost?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"purchase_requisition_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisition_items"> | Date | string
@@ -287,7 +283,7 @@ export type purchase_requisition_itemsWhereUniqueInput = Prisma.AtLeast<{
   product_variant_id?: Prisma.UuidFilter<"purchase_requisition_items"> | string
   qty_requested?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"purchase_requisition_items"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
   est_unit_cost?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"purchase_requisition_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisition_items"> | Date | string
@@ -323,7 +319,7 @@ export type purchase_requisition_itemsScalarWhereWithAggregatesInput = {
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"purchase_requisition_items"> | string
   qty_requested?: Prisma.DecimalWithAggregatesFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_requisition_items"> | string | null
-  preferred_supplier_id?: Prisma.IntNullableWithAggregatesFilter<"purchase_requisition_items"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_requisition_items"> | string | null
   est_unit_cost?: Prisma.DecimalWithAggregatesFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableWithAggregatesFilter<"purchase_requisition_items"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"purchase_requisition_items"> | Date | string
@@ -347,7 +343,7 @@ export type purchase_requisition_itemsUncheckedCreateInput = {
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -371,7 +367,7 @@ export type purchase_requisition_itemsUncheckedUpdateInput = {
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,7 +379,7 @@ export type purchase_requisition_itemsCreateManyInput = {
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -403,7 +399,7 @@ export type purchase_requisition_itemsUncheckedUpdateManyInput = {
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -433,7 +429,6 @@ export type purchase_requisition_itemsCountOrderByAggregateInput = {
 
 export type purchase_requisition_itemsAvgOrderByAggregateInput = {
   qty_requested?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
   est_unit_cost?: Prisma.SortOrder
 }
 
@@ -463,7 +458,6 @@ export type purchase_requisition_itemsMinOrderByAggregateInput = {
 
 export type purchase_requisition_itemsSumOrderByAggregateInput = {
   qty_requested?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
   est_unit_cost?: Prisma.SortOrder
 }
 
@@ -651,7 +645,7 @@ export type purchase_requisition_itemsUncheckedCreateWithoutProduct_variantsInpu
   requisition_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -692,7 +686,7 @@ export type purchase_requisition_itemsScalarWhereInput = {
   product_variant_id?: Prisma.UuidFilter<"purchase_requisition_items"> | string
   qty_requested?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
-  preferred_supplier_id?: Prisma.IntNullableFilter<"purchase_requisition_items"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"purchase_requisition_items"> | string | null
   est_unit_cost?: Prisma.DecimalFilter<"purchase_requisition_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"purchase_requisition_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisition_items"> | Date | string
@@ -762,7 +756,7 @@ export type purchase_requisition_itemsUncheckedCreateWithoutUomsInput = {
   requisition_id: string
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -810,7 +804,7 @@ export type purchase_requisition_itemsUncheckedCreateWithoutPurchase_requisition
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -847,7 +841,7 @@ export type purchase_requisition_itemsCreateManyProduct_variantsInput = {
   requisition_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -869,7 +863,7 @@ export type purchase_requisition_itemsUncheckedUpdateWithoutProduct_variantsInpu
   requisition_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -880,7 +874,7 @@ export type purchase_requisition_itemsUncheckedUpdateManyWithoutProduct_variants
   requisition_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -935,7 +929,7 @@ export type purchase_requisition_itemsCreateManyUomsInput = {
   requisition_id: string
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -957,7 +951,7 @@ export type purchase_requisition_itemsUncheckedUpdateWithoutUomsInput = {
   requisition_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -968,7 +962,7 @@ export type purchase_requisition_itemsUncheckedUpdateManyWithoutUomsInput = {
   requisition_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -979,7 +973,7 @@ export type purchase_requisition_itemsCreateManyPurchase_requisitionsInput = {
   product_variant_id: string
   qty_requested: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   est_unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
   created_at?: Date | string
@@ -1001,7 +995,7 @@ export type purchase_requisition_itemsUncheckedUpdateWithoutPurchase_requisition
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1012,7 +1006,7 @@ export type purchase_requisition_itemsUncheckedUpdateManyWithoutPurchase_requisi
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_requested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   est_unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1114,7 +1108,7 @@ export type $purchase_requisition_itemsPayload<ExtArgs extends runtime.Types.Ext
     product_variant_id: string
     qty_requested: runtime.Decimal
     uom_id: string | null
-    preferred_supplier_id: number | null
+    preferred_supplier_id: string | null
     est_unit_cost: runtime.Decimal
     reason: string | null
     created_at: Date
@@ -1550,7 +1544,7 @@ export interface purchase_requisition_itemsFieldRefs {
   readonly product_variant_id: Prisma.FieldRef<"purchase_requisition_items", 'String'>
   readonly qty_requested: Prisma.FieldRef<"purchase_requisition_items", 'Decimal'>
   readonly uom_id: Prisma.FieldRef<"purchase_requisition_items", 'String'>
-  readonly preferred_supplier_id: Prisma.FieldRef<"purchase_requisition_items", 'Int'>
+  readonly preferred_supplier_id: Prisma.FieldRef<"purchase_requisition_items", 'String'>
   readonly est_unit_cost: Prisma.FieldRef<"purchase_requisition_items", 'Decimal'>
   readonly reason: Prisma.FieldRef<"purchase_requisition_items", 'String'>
   readonly created_at: Prisma.FieldRef<"purchase_requisition_items", 'DateTime'>

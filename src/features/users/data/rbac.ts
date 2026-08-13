@@ -64,6 +64,10 @@ export const BASE_PERMISSION_DEFINITIONS = [
     description: 'Create new orders and draft transactions.',
   },
   {
+    name: 'restaurant.shifts.use',
+    description: 'Open, manage, and close restaurant shifts.',
+  },
+  {
     name: 'general.reports.view',
     description: 'View reporting and operational analytics.',
   },
@@ -150,6 +154,7 @@ export const LEGACY_PERMISSION_ALIASES: Record<string, string> = {
   'stock_transfers.approve': 'inventory.stock_transfers.approve',
   'stock_adjustments.create': 'inventory.stock_adjustments.create',
   'stock_adjustments.approve': 'inventory.stock_adjustments.approve',
+  'shifts.use': 'restaurant.shifts.use',
 }
 
 /** Canonical 3-part name → old 2-part alias (reverse of the map above). */
@@ -224,7 +229,7 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'restaurant.orders.view',
     'restaurant.orders.create',
     'general.pos.access',
-
+    'restaurant.shifts.use',
   ],
   [UserRole.Captain]: [
     'general.dashboard.view',

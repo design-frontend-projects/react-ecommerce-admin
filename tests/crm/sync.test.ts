@@ -7,7 +7,7 @@ const mockPrisma = vi.hoisted(() => ({
     create: vi.fn(),
     update: vi.fn(),
   },
-  pos_sales: {
+  sales_invoices: {
     update: vi.fn(),
   },
 }));
@@ -24,7 +24,7 @@ describe('CRM SyncManager', () => {
   it('should create a new customer profile if customer is not found', async () => {
     mockPrisma.customers.findFirst.mockResolvedValueOnce(null);
     mockPrisma.customers.create.mockResolvedValueOnce({
-      customer_id: 1,
+      id: 'cust-uuid-1',
       first_name: 'John',
       last_name: 'Doe',
       email: 'john@example.com',
@@ -32,7 +32,7 @@ describe('CRM SyncManager', () => {
     });
 
     const payload = {
-      orderId: 101,
+      orderId: 'inv-uuid-101',
       customer: {
         firstName: 'John',
         lastName: 'Doe',
@@ -46,22 +46,22 @@ describe('CRM SyncManager', () => {
 
     expect(mockPrisma.customers.findFirst).toHaveBeenCalled();
     expect(mockPrisma.customers.create).toHaveBeenCalled();
-    expect(result.customer_id).toBe(1);
-    expect(mockPrisma.pos_sales.update).toHaveBeenCalledWith({
-      where: { sale_id: 101 },
-      data: { customer_id: 1 },
+    expect(result.id).toBe('cust-uuid-1');
+    expect(mockPrisma.sales_invoices.update).toHaveBeenCalledWith({
+      where: { id: 'inv-uuid-101' },
+      data: { customer_id: 'cust-uuid-1' },
     });
   });
 
   it('should update existing customer profile if customer is found', async () => {
     mockPrisma.customers.findFirst.mockResolvedValueOnce({
-      customer_id: 2,
+      id: 'cust-uuid-2',
       first_name: 'Jane',
       last_name: 'Smith',
       email: 'jane@example.com',
     });
     mockPrisma.customers.update.mockResolvedValueOnce({
-      customer_id: 2,
+      id: 'cust-uuid-2',
       first_name: 'Jane',
       last_name: 'Smith',
       email: 'jane@example.com',
@@ -69,7 +69,7 @@ describe('CRM SyncManager', () => {
     });
 
     const payload = {
-      orderId: 102,
+      orderId: 'inv-uuid-102',
       customer: {
         firstName: 'Jane',
         lastName: 'Smith',
@@ -83,10 +83,10 @@ describe('CRM SyncManager', () => {
 
     expect(mockPrisma.customers.findFirst).toHaveBeenCalled();
     expect(mockPrisma.customers.update).toHaveBeenCalled();
-    expect(result.customer_id).toBe(2);
-    expect(mockPrisma.pos_sales.update).toHaveBeenCalledWith({
-      where: { sale_id: 102 },
-      data: { customer_id: 2 },
+    expect(result.id).toBe('cust-uuid-2');
+    expect(mockPrisma.sales_invoices.update).toHaveBeenCalledWith({
+      where: { id: 'inv-uuid-102' },
+      data: { customer_id: 'cust-uuid-2' },
     });
   });
 });

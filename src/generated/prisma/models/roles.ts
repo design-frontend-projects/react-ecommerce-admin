@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model roles
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type rolesModel = runtime.Types.Result.DefaultSelection<Prisma.$rolesPayload>
 
@@ -198,7 +198,6 @@ export type rolesWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
   is_active?: Prisma.BoolFilter<"roles"> | boolean
   is_system?: Prisma.BoolFilter<"roles"> | boolean
-  employee_roles?: Prisma.Employee_rolesListRelationFilter
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_roles?: Prisma.Screen_rolesListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
@@ -212,7 +211,6 @@ export type rolesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
-  employee_roles?: Prisma.employee_rolesOrderByRelationAggregateInput
   role_permissions?: Prisma.role_permissionsOrderByRelationAggregateInput
   screen_roles?: Prisma.screen_rolesOrderByRelationAggregateInput
   user_roles?: Prisma.user_rolesOrderByRelationAggregateInput
@@ -229,7 +227,6 @@ export type rolesWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
   is_active?: Prisma.BoolFilter<"roles"> | boolean
   is_system?: Prisma.BoolFilter<"roles"> | boolean
-  employee_roles?: Prisma.Employee_rolesListRelationFilter
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_roles?: Prisma.Screen_rolesListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
@@ -269,7 +266,6 @@ export type rolesCreateInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
@@ -283,7 +279,6 @@ export type rolesUncheckedCreateInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesUncheckedCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
@@ -297,7 +292,6 @@ export type rolesUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
@@ -311,7 +305,6 @@ export type rolesUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUncheckedUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
@@ -396,20 +389,6 @@ export type rolesUpdateOneRequiredWithoutRole_permissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutRole_permissionsInput, Prisma.rolesUpdateWithoutRole_permissionsInput>, Prisma.rolesUncheckedUpdateWithoutRole_permissionsInput>
 }
 
-export type rolesCreateNestedOneWithoutEmployee_rolesInput = {
-  create?: Prisma.XOR<Prisma.rolesCreateWithoutEmployee_rolesInput, Prisma.rolesUncheckedCreateWithoutEmployee_rolesInput>
-  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutEmployee_rolesInput
-  connect?: Prisma.rolesWhereUniqueInput
-}
-
-export type rolesUpdateOneRequiredWithoutEmployee_rolesNestedInput = {
-  create?: Prisma.XOR<Prisma.rolesCreateWithoutEmployee_rolesInput, Prisma.rolesUncheckedCreateWithoutEmployee_rolesInput>
-  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutEmployee_rolesInput
-  upsert?: Prisma.rolesUpsertWithoutEmployee_rolesInput
-  connect?: Prisma.rolesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutEmployee_rolesInput, Prisma.rolesUpdateWithoutEmployee_rolesInput>, Prisma.rolesUncheckedUpdateWithoutEmployee_rolesInput>
-}
-
 export type rolesCreateNestedOneWithoutUser_rolesInput = {
   create?: Prisma.XOR<Prisma.rolesCreateWithoutUser_rolesInput, Prisma.rolesUncheckedCreateWithoutUser_rolesInput>
   connectOrCreate?: Prisma.rolesCreateOrConnectWithoutUser_rolesInput
@@ -446,7 +425,6 @@ export type rolesCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
 }
@@ -459,7 +437,6 @@ export type rolesUncheckedCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
 }
@@ -488,7 +465,6 @@ export type rolesUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
 }
@@ -501,75 +477,6 @@ export type rolesUncheckedUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUncheckedUpdateManyWithoutRolesNestedInput
-  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
-  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
-}
-
-export type rolesCreateWithoutEmployee_rolesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  is_active?: boolean
-  is_system?: boolean
-  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
-  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
-  user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
-}
-
-export type rolesUncheckedCreateWithoutEmployee_rolesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  is_active?: boolean
-  is_system?: boolean
-  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
-  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
-  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
-}
-
-export type rolesCreateOrConnectWithoutEmployee_rolesInput = {
-  where: Prisma.rolesWhereUniqueInput
-  create: Prisma.XOR<Prisma.rolesCreateWithoutEmployee_rolesInput, Prisma.rolesUncheckedCreateWithoutEmployee_rolesInput>
-}
-
-export type rolesUpsertWithoutEmployee_rolesInput = {
-  update: Prisma.XOR<Prisma.rolesUpdateWithoutEmployee_rolesInput, Prisma.rolesUncheckedUpdateWithoutEmployee_rolesInput>
-  create: Prisma.XOR<Prisma.rolesCreateWithoutEmployee_rolesInput, Prisma.rolesUncheckedCreateWithoutEmployee_rolesInput>
-  where?: Prisma.rolesWhereInput
-}
-
-export type rolesUpdateToOneWithWhereWithoutEmployee_rolesInput = {
-  where?: Prisma.rolesWhereInput
-  data: Prisma.XOR<Prisma.rolesUpdateWithoutEmployee_rolesInput, Prisma.rolesUncheckedUpdateWithoutEmployee_rolesInput>
-}
-
-export type rolesUpdateWithoutEmployee_rolesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
-  screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
-  user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
-}
-
-export type rolesUncheckedUpdateWithoutEmployee_rolesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
 }
@@ -582,7 +489,6 @@ export type rolesCreateWithoutUser_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
 }
@@ -595,7 +501,6 @@ export type rolesUncheckedCreateWithoutUser_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesUncheckedCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
 }
@@ -624,7 +529,6 @@ export type rolesUpdateWithoutUser_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
 }
@@ -637,7 +541,6 @@ export type rolesUncheckedUpdateWithoutUser_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUncheckedUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
 }
@@ -650,7 +553,6 @@ export type rolesCreateWithoutScreen_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
 }
@@ -663,7 +565,6 @@ export type rolesUncheckedCreateWithoutScreen_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: Prisma.employee_rolesUncheckedCreateNestedManyWithoutRolesInput
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
 }
@@ -692,7 +593,6 @@ export type rolesUpdateWithoutScreen_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
 }
@@ -705,7 +605,6 @@ export type rolesUncheckedUpdateWithoutScreen_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  employee_roles?: Prisma.employee_rolesUncheckedUpdateManyWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
 }
@@ -716,14 +615,12 @@ export type rolesUncheckedUpdateWithoutScreen_rolesInput = {
  */
 
 export type RolesCountOutputType = {
-  employee_roles: number
   role_permissions: number
   screen_roles: number
   user_roles: number
 }
 
 export type RolesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  employee_roles?: boolean | RolesCountOutputTypeCountEmployee_rolesArgs
   role_permissions?: boolean | RolesCountOutputTypeCountRole_permissionsArgs
   screen_roles?: boolean | RolesCountOutputTypeCountScreen_rolesArgs
   user_roles?: boolean | RolesCountOutputTypeCountUser_rolesArgs
@@ -737,13 +634,6 @@ export type RolesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the RolesCountOutputType
    */
   select?: Prisma.RolesCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * RolesCountOutputType without action
- */
-export type RolesCountOutputTypeCountEmployee_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.employee_rolesWhereInput
 }
 
 /**
@@ -776,7 +666,6 @@ export type rolesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updated_at?: boolean
   is_active?: boolean
   is_system?: boolean
-  employee_roles?: boolean | Prisma.roles$employee_rolesArgs<ExtArgs>
   role_permissions?: boolean | Prisma.roles$role_permissionsArgs<ExtArgs>
   screen_roles?: boolean | Prisma.roles$screen_rolesArgs<ExtArgs>
   user_roles?: boolean | Prisma.roles$user_rolesArgs<ExtArgs>
@@ -815,7 +704,6 @@ export type rolesSelectScalar = {
 
 export type rolesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "is_active" | "is_system", ExtArgs["result"]["roles"]>
 export type rolesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  employee_roles?: boolean | Prisma.roles$employee_rolesArgs<ExtArgs>
   role_permissions?: boolean | Prisma.roles$role_permissionsArgs<ExtArgs>
   screen_roles?: boolean | Prisma.roles$screen_rolesArgs<ExtArgs>
   user_roles?: boolean | Prisma.roles$user_rolesArgs<ExtArgs>
@@ -827,7 +715,6 @@ export type rolesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $rolesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "roles"
   objects: {
-    employee_roles: Prisma.$employee_rolesPayload<ExtArgs>[]
     role_permissions: Prisma.$role_permissionsPayload<ExtArgs>[]
     screen_roles: Prisma.$screen_rolesPayload<ExtArgs>[]
     user_roles: Prisma.$user_rolesPayload<ExtArgs>[]
@@ -839,9 +726,6 @@ export type $rolesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     created_at: Date | null
     updated_at: Date | null
     is_active: boolean
-    /**
-     * Protects the 7 seeded roles from deletion (backfilled by migration).
-     */
     is_system: boolean
   }, ExtArgs["result"]["roles"]>
   composites: {}
@@ -1237,7 +1121,6 @@ readonly fields: rolesFieldRefs;
  */
 export interface Prisma__rolesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  employee_roles<T extends Prisma.roles$employee_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$employee_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$employee_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   role_permissions<T extends Prisma.roles$role_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$role_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$role_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   screen_roles<T extends Prisma.roles$screen_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$screen_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_roles<T extends Prisma.roles$user_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$user_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1667,30 +1550,6 @@ export type rolesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many roles to delete.
    */
   limit?: number
-}
-
-/**
- * roles.employee_roles
- */
-export type roles$employee_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the employee_roles
-   */
-  select?: Prisma.employee_rolesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the employee_roles
-   */
-  omit?: Prisma.employee_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.employee_rolesInclude<ExtArgs> | null
-  where?: Prisma.employee_rolesWhereInput
-  orderBy?: Prisma.employee_rolesOrderByWithRelationInput | Prisma.employee_rolesOrderByWithRelationInput[]
-  cursor?: Prisma.employee_rolesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Employee_rolesScalarFieldEnum | Prisma.Employee_rolesScalarFieldEnum[]
 }
 
 /**

@@ -30,14 +30,12 @@ export type Reorder_suggestionsAvgAggregateOutputType = {
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
   suggested_qty: runtime.Decimal | null
-  preferred_supplier_id: number | null
 }
 
 export type Reorder_suggestionsSumAggregateOutputType = {
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
   suggested_qty: runtime.Decimal | null
-  preferred_supplier_id: number | null
 }
 
 export type Reorder_suggestionsMinAggregateOutputType = {
@@ -49,7 +47,7 @@ export type Reorder_suggestionsMinAggregateOutputType = {
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
   suggested_qty: runtime.Decimal | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   status: $Enums.reorder_suggestion_status_enum | null
   converted_requisition_id: string | null
   run_at: Date | null
@@ -67,7 +65,7 @@ export type Reorder_suggestionsMaxAggregateOutputType = {
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
   suggested_qty: runtime.Decimal | null
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   status: $Enums.reorder_suggestion_status_enum | null
   converted_requisition_id: string | null
   run_at: Date | null
@@ -100,14 +98,12 @@ export type Reorder_suggestionsAvgAggregateInputType = {
   qty_available_at_run?: true
   qty_on_order_at_run?: true
   suggested_qty?: true
-  preferred_supplier_id?: true
 }
 
 export type Reorder_suggestionsSumAggregateInputType = {
   qty_available_at_run?: true
   qty_on_order_at_run?: true
   suggested_qty?: true
-  preferred_supplier_id?: true
 }
 
 export type Reorder_suggestionsMinAggregateInputType = {
@@ -260,7 +256,7 @@ export type Reorder_suggestionsGroupByOutputType = {
   qty_available_at_run: runtime.Decimal
   qty_on_order_at_run: runtime.Decimal
   suggested_qty: runtime.Decimal
-  preferred_supplier_id: number | null
+  preferred_supplier_id: string | null
   status: $Enums.reorder_suggestion_status_enum
   converted_requisition_id: string | null
   run_at: Date
@@ -301,7 +297,7 @@ export type reorder_suggestionsWhereInput = {
   qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_suggestions"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFilter<"reorder_suggestions"> | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   run_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
@@ -350,7 +346,7 @@ export type reorder_suggestionsWhereUniqueInput = Prisma.AtLeast<{
   qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_suggestions"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFilter<"reorder_suggestions"> | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   run_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
@@ -399,7 +395,7 @@ export type reorder_suggestionsScalarWhereWithAggregatesInput = {
   qty_available_at_run?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.IntNullableWithAggregatesFilter<"reorder_suggestions"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_suggestions"> | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumWithAggregatesFilter<"reorder_suggestions"> | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_suggestions"> | string | null
   run_at?: Prisma.DateTimeWithAggregatesFilter<"reorder_suggestions"> | Date | string
@@ -435,7 +431,7 @@ export type reorder_suggestionsUncheckedCreateInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -471,7 +467,7 @@ export type reorder_suggestionsUncheckedUpdateInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -489,7 +485,7 @@ export type reorder_suggestionsCreateManyInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -520,7 +516,7 @@ export type reorder_suggestionsUncheckedUpdateManyInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -566,7 +562,6 @@ export type reorder_suggestionsAvgOrderByAggregateInput = {
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
   suggested_qty?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
 }
 
 export type reorder_suggestionsMaxOrderByAggregateInput = {
@@ -609,7 +604,6 @@ export type reorder_suggestionsSumOrderByAggregateInput = {
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
   suggested_qty?: Prisma.SortOrder
-  preferred_supplier_id?: Prisma.SortOrder
 }
 
 export type reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput = {
@@ -841,7 +835,7 @@ export type reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -888,7 +882,7 @@ export type reorder_suggestionsScalarWhereInput = {
   qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.IntNullableFilter<"reorder_suggestions"> | number | null
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFilter<"reorder_suggestions"> | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   run_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
@@ -922,7 +916,7 @@ export type reorder_suggestionsUncheckedCreateWithoutStoresInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -1043,7 +1037,7 @@ export type reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput 
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   run_at?: Date | string
   created_at?: Date | string
@@ -1102,7 +1096,7 @@ export type reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -1152,7 +1146,7 @@ export type reorder_suggestionsUncheckedUpdateWithoutReorder_rulesInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1169,7 +1163,7 @@ export type reorder_suggestionsCreateManyProduct_variantsInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -1203,7 +1197,7 @@ export type reorder_suggestionsUncheckedUpdateWithoutProduct_variantsInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1220,7 +1214,7 @@ export type reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsInput =
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1237,7 +1231,7 @@ export type reorder_suggestionsCreateManyStoresInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: string | null
   run_at?: Date | string
@@ -1271,7 +1265,7 @@ export type reorder_suggestionsUncheckedUpdateWithoutStoresInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1288,7 +1282,7 @@ export type reorder_suggestionsUncheckedUpdateManyWithoutStoresInput = {
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1374,7 +1368,7 @@ export type reorder_suggestionsCreateManyPurchase_requisitionsInput = {
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: number | null
+  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
   run_at?: Date | string
   created_at?: Date | string
@@ -1408,7 +1402,7 @@ export type reorder_suggestionsUncheckedUpdateWithoutPurchase_requisitionsInput 
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1425,7 +1419,7 @@ export type reorder_suggestionsUncheckedUpdateManyWithoutPurchase_requisitionsIn
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1563,7 +1557,7 @@ export type $reorder_suggestionsPayload<ExtArgs extends runtime.Types.Extensions
     qty_available_at_run: runtime.Decimal
     qty_on_order_at_run: runtime.Decimal
     suggested_qty: runtime.Decimal
-    preferred_supplier_id: number | null
+    preferred_supplier_id: string | null
     status: $Enums.reorder_suggestion_status_enum
     converted_requisition_id: string | null
     run_at: Date
@@ -2006,7 +2000,7 @@ export interface reorder_suggestionsFieldRefs {
   readonly qty_available_at_run: Prisma.FieldRef<"reorder_suggestions", 'Decimal'>
   readonly qty_on_order_at_run: Prisma.FieldRef<"reorder_suggestions", 'Decimal'>
   readonly suggested_qty: Prisma.FieldRef<"reorder_suggestions", 'Decimal'>
-  readonly preferred_supplier_id: Prisma.FieldRef<"reorder_suggestions", 'Int'>
+  readonly preferred_supplier_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly status: Prisma.FieldRef<"reorder_suggestions", 'reorder_suggestion_status_enum'>
   readonly converted_requisition_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly run_at: Prisma.FieldRef<"reorder_suggestions", 'DateTime'>

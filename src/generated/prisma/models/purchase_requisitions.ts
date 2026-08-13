@@ -20,18 +20,8 @@ export type purchase_requisitionsModel = runtime.Types.Result.DefaultSelection<P
 
 export type AggregatePurchase_requisitions = {
   _count: Purchase_requisitionsCountAggregateOutputType | null
-  _avg: Purchase_requisitionsAvgAggregateOutputType | null
-  _sum: Purchase_requisitionsSumAggregateOutputType | null
   _min: Purchase_requisitionsMinAggregateOutputType | null
   _max: Purchase_requisitionsMaxAggregateOutputType | null
-}
-
-export type Purchase_requisitionsAvgAggregateOutputType = {
-  converted_purchase_order_id: number | null
-}
-
-export type Purchase_requisitionsSumAggregateOutputType = {
-  converted_purchase_order_id: number | null
 }
 
 export type Purchase_requisitionsMinAggregateOutputType = {
@@ -45,7 +35,7 @@ export type Purchase_requisitionsMinAggregateOutputType = {
   requested_by: string | null
   approved_by: string | null
   approved_at: Date | null
-  converted_purchase_order_id: number | null
+  converted_purchase_order_id: string | null
   needed_by: Date | null
   notes: string | null
   created_at: Date | null
@@ -64,7 +54,7 @@ export type Purchase_requisitionsMaxAggregateOutputType = {
   requested_by: string | null
   approved_by: string | null
   approved_at: Date | null
-  converted_purchase_order_id: number | null
+  converted_purchase_order_id: string | null
   needed_by: Date | null
   notes: string | null
   created_at: Date | null
@@ -92,14 +82,6 @@ export type Purchase_requisitionsCountAggregateOutputType = {
   _all: number
 }
 
-
-export type Purchase_requisitionsAvgAggregateInputType = {
-  converted_purchase_order_id?: true
-}
-
-export type Purchase_requisitionsSumAggregateInputType = {
-  converted_purchase_order_id?: true
-}
 
 export type Purchase_requisitionsMinAggregateInputType = {
   id?: true
@@ -197,18 +179,6 @@ export type Purchase_requisitionsAggregateArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: Purchase_requisitionsAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: Purchase_requisitionsSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: Purchase_requisitionsMinAggregateInputType
@@ -239,8 +209,6 @@ export type purchase_requisitionsGroupByArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   _count?: Purchase_requisitionsCountAggregateInputType | true
-  _avg?: Purchase_requisitionsAvgAggregateInputType
-  _sum?: Purchase_requisitionsSumAggregateInputType
   _min?: Purchase_requisitionsMinAggregateInputType
   _max?: Purchase_requisitionsMaxAggregateInputType
 }
@@ -256,15 +224,13 @@ export type Purchase_requisitionsGroupByOutputType = {
   requested_by: string | null
   approved_by: string | null
   approved_at: Date | null
-  converted_purchase_order_id: number | null
+  converted_purchase_order_id: string | null
   needed_by: Date | null
   notes: string | null
   created_at: Date
   updated_at: Date
   auth_user_id: string | null
   _count: Purchase_requisitionsCountAggregateOutputType | null
-  _avg: Purchase_requisitionsAvgAggregateOutputType | null
-  _sum: Purchase_requisitionsSumAggregateOutputType | null
   _min: Purchase_requisitionsMinAggregateOutputType | null
   _max: Purchase_requisitionsMaxAggregateOutputType | null
 }
@@ -298,7 +264,7 @@ export type purchase_requisitionsWhereInput = {
   requested_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
-  converted_purchase_order_id?: Prisma.IntNullableFilter<"purchase_requisitions"> | number | null
+  converted_purchase_order_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
   needed_by?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisitions"> | Date | string
@@ -350,7 +316,7 @@ export type purchase_requisitionsWhereUniqueInput = Prisma.AtLeast<{
   requested_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
-  converted_purchase_order_id?: Prisma.IntNullableFilter<"purchase_requisitions"> | number | null
+  converted_purchase_order_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
   needed_by?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisitions"> | Date | string
@@ -381,10 +347,8 @@ export type purchase_requisitionsOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.purchase_requisitionsCountOrderByAggregateInput
-  _avg?: Prisma.purchase_requisitionsAvgOrderByAggregateInput
   _max?: Prisma.purchase_requisitionsMaxOrderByAggregateInput
   _min?: Prisma.purchase_requisitionsMinOrderByAggregateInput
-  _sum?: Prisma.purchase_requisitionsSumOrderByAggregateInput
 }
 
 export type purchase_requisitionsScalarWhereWithAggregatesInput = {
@@ -401,7 +365,7 @@ export type purchase_requisitionsScalarWhereWithAggregatesInput = {
   requested_by?: Prisma.StringNullableWithAggregatesFilter<"purchase_requisitions"> | string | null
   approved_by?: Prisma.StringNullableWithAggregatesFilter<"purchase_requisitions"> | string | null
   approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_requisitions"> | Date | string | null
-  converted_purchase_order_id?: Prisma.IntNullableWithAggregatesFilter<"purchase_requisitions"> | number | null
+  converted_purchase_order_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_requisitions"> | string | null
   needed_by?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_requisitions"> | Date | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"purchase_requisitions"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"purchase_requisitions"> | Date | string
@@ -441,7 +405,7 @@ export type purchase_requisitionsUncheckedCreateInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -483,7 +447,7 @@ export type purchase_requisitionsUncheckedUpdateInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -504,7 +468,7 @@ export type purchase_requisitionsCreateManyInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -539,7 +503,7 @@ export type purchase_requisitionsUncheckedUpdateManyInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,10 +545,6 @@ export type purchase_requisitionsCountOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
-export type purchase_requisitionsAvgOrderByAggregateInput = {
-  converted_purchase_order_id?: Prisma.SortOrder
-}
-
 export type purchase_requisitionsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -621,10 +581,6 @@ export type purchase_requisitionsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-}
-
-export type purchase_requisitionsSumOrderByAggregateInput = {
-  converted_purchase_order_id?: Prisma.SortOrder
 }
 
 export type Purchase_requisitionsScalarRelationFilter = {
@@ -827,7 +783,7 @@ export type purchase_requisitionsUncheckedCreateWithoutBranchesInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -877,7 +833,7 @@ export type purchase_requisitionsScalarWhereInput = {
   requested_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_by?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
-  converted_purchase_order_id?: Prisma.IntNullableFilter<"purchase_requisitions"> | number | null
+  converted_purchase_order_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
   needed_by?: Prisma.DateTimeNullableFilter<"purchase_requisitions"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"purchase_requisitions"> | string | null
   created_at?: Prisma.DateTimeFilter<"purchase_requisitions"> | Date | string
@@ -981,7 +937,7 @@ export type purchase_requisitionsUncheckedCreateWithoutStoresInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -1048,7 +1004,7 @@ export type purchase_requisitionsUncheckedCreateWithoutPurchase_requisition_item
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -1104,7 +1060,7 @@ export type purchase_requisitionsUncheckedUpdateWithoutPurchase_requisition_item
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1144,7 +1100,7 @@ export type purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput 
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -1200,7 +1156,7 @@ export type purchase_requisitionsUncheckedUpdateWithoutReorder_suggestionsInput 
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1219,7 +1175,7 @@ export type purchase_requisitionsCreateManyBranchesInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -1257,7 +1213,7 @@ export type purchase_requisitionsUncheckedUpdateWithoutBranchesInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1277,7 +1233,7 @@ export type purchase_requisitionsUncheckedUpdateManyWithoutBranchesInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1371,7 +1327,7 @@ export type purchase_requisitionsCreateManyStoresInput = {
   requested_by?: string | null
   approved_by?: string | null
   approved_at?: Date | string | null
-  converted_purchase_order_id?: number | null
+  converted_purchase_order_id?: string | null
   needed_by?: Date | string | null
   notes?: string | null
   created_at?: Date | string
@@ -1409,7 +1365,7 @@ export type purchase_requisitionsUncheckedUpdateWithoutStoresInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1429,7 +1385,7 @@ export type purchase_requisitionsUncheckedUpdateManyWithoutStoresInput = {
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  converted_purchase_order_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1605,7 +1561,7 @@ export type $purchase_requisitionsPayload<ExtArgs extends runtime.Types.Extensio
     requested_by: string | null
     approved_by: string | null
     approved_at: Date | null
-    converted_purchase_order_id: number | null
+    converted_purchase_order_id: string | null
     needed_by: Date | null
     notes: string | null
     created_at: Date
@@ -2049,7 +2005,7 @@ export interface purchase_requisitionsFieldRefs {
   readonly requested_by: Prisma.FieldRef<"purchase_requisitions", 'String'>
   readonly approved_by: Prisma.FieldRef<"purchase_requisitions", 'String'>
   readonly approved_at: Prisma.FieldRef<"purchase_requisitions", 'DateTime'>
-  readonly converted_purchase_order_id: Prisma.FieldRef<"purchase_requisitions", 'Int'>
+  readonly converted_purchase_order_id: Prisma.FieldRef<"purchase_requisitions", 'String'>
   readonly needed_by: Prisma.FieldRef<"purchase_requisitions", 'DateTime'>
   readonly notes: Prisma.FieldRef<"purchase_requisitions", 'String'>
   readonly created_at: Prisma.FieldRef<"purchase_requisitions", 'DateTime'>
