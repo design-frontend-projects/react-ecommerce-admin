@@ -23,6 +23,7 @@ export interface OnboardingUserInput {
 
 export interface CreateOnboardingUsersCaller {
   authUserId: string
+  tenantId?: string
 }
 
 export interface CreatedOnboardingUser {
@@ -210,6 +211,7 @@ export async function createOnboardingUsers(
             modules,
             primary_module: modules[0] ?? null,
             parent_tenant_id: parentTenantId,
+            tenant_id: caller.tenantId ?? null,
             onboarding_complete: true, // Staff users don't need to onboard
           },
         })

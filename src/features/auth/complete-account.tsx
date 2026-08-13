@@ -6,11 +6,14 @@ import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Banknote,
+  Building2,
+  Check,
   CheckCircle2,
   ChevronRight,
   Copy,
   CreditCard,
   GitBranchPlus,
+  Globe,
   Laptop,
   Loader2Icon,
   MapPin,
@@ -19,6 +22,7 @@ import {
   Shirt,
   SkipForward,
   Smartphone,
+  Sparkles,
   Store,
   Trash2,
   User,
@@ -69,6 +73,10 @@ const onboardingSchema = z
     firstName: z.string().trim().min(1, 'First name is required'),
     lastName: z.string().trim().min(1, 'Last name is required'),
     phone: z.string().trim().optional(),
+    businessName: z.string().trim().min(1, 'Business name is required'),
+    displayName: z.string().trim().optional(),
+    legalName: z.string().trim().optional(),
+    countryId: z.string().min(1, 'Country selection is required'),
     activity: z.enum(
       ['market', 'pharmacy', 'restuarant', 'clothes', 'electronic'],
       { message: 'Please select a business activity' }
@@ -77,6 +85,7 @@ const onboardingSchema = z
       message: 'Please select a payment method',
     }),
     transferRef: z.string().trim().optional(),
+    subscriptionId: z.number({ required_error: 'Please select a subscription plan' }),
     branches: z.array(branchSchema).optional(),
     users: z.array(onboardingUserSchema).optional(),
   })
@@ -137,7 +146,7 @@ const PAYMENT_METHODS = [
   },
 ] as const
 
-const TOTAL_STEPS = 5
+const TOTAL_STEPS = 7
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -150,6 +159,44 @@ export function CompleteAccountFeature() {
     Array<{ email: string; password: string }>
   >([])
   const [showTempPasswords, setShowTempPasswords] = useState(false)
+
+  // Fetch countries with default currency relation
+  const { data: countries = [] } = useQuery({
+    queryKey: ['countries', 'onboarding'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('countries')
+        .select('id, name, code, currency_id, currencies(id, name, code, symbol)')
+        .eq('is_active', true)
+        .order('name')
+      if (error) throw error
+      return (data ?? []) as Array<{
+        id: string
+        name: string
+        code: string
+        currency_id: string | null
+        currencies: { id: string; name: string; code: string; symbol: string } | null
+      }>
+    },
+  })
+
+  // Fetch subscription plans for step 5
+  const { data: subscriptionPlans = [] } = useQuery({
+    queryKey: ['subscriptions', 'onboarding'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .order('price', { ascending: true })
+      if (error) throw error
+      return (data ?? []) as Array<{
+        id: number
+        name: string
+        duration_months: number
+        price: number
+      }>
+    },
+  })
 
   // Fetch cities for branch creation
   const { data: cities = [] } = useQuery({
@@ -189,14 +236,22 @@ export function CompleteAccountFeature() {
       firstName: user?.user_metadata?.firstName || '',
       lastName: user?.user_metadata?.lastName || '',
       phone: user?.phone || '',
+      businessName: '',
+      displayName: '',
+      legalName: '',
+      countryId: '',
       activity: undefined,
       paymentMethod: undefined,
       transferRef: '',
+      subscriptionId: undefined,
       branches: [],
       users: [],
     },
     mode: 'onChange',
   })
+
+  const selectedCountryId = form.watch('countryId')
+  const selectedCountry = countries.find((c) => c.id === selectedCountryId)
 
   const {
     fields: branchFields,
@@ -225,9 +280,14 @@ export function CompleteAccountFeature() {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
+        businessName: values.businessName,
+        displayName: values.displayName,
+        legalName: values.legalName,
+        countryId: values.countryId,
         activity: values.activity,
         paymentMethod: values.paymentMethod,
         transferRef: values.transferRef,
+        subscriptionId: values.subscriptionId,
         branches:
           values.branches && values.branches.length > 0
             ? values.branches
@@ -256,13 +316,19 @@ export function CompleteAccountFeature() {
       const isValid = await form.trigger(['firstName', 'lastName', 'phone'])
       if (isValid) setStep(2)
     } else if (step === 2) {
-      const isValid = await form.trigger(['activity'])
+      const isValid = await form.trigger(['businessName', 'countryId'])
       if (isValid) setStep(3)
     } else if (step === 3) {
-      const isValid = await form.trigger(['paymentMethod', 'transferRef'])
+      const isValid = await form.trigger(['activity'])
       if (isValid) setStep(4)
     } else if (step === 4) {
-      setStep(5)
+      const isValid = await form.trigger(['paymentMethod', 'transferRef'])
+      if (isValid) setStep(5)
+    } else if (step === 5) {
+      const isValid = await form.trigger(['subscriptionId'])
+      if (isValid) setStep(6)
+    } else if (step === 6) {
+      setStep(7)
     }
   }
 
@@ -294,7 +360,7 @@ export function CompleteAccountFeature() {
         }}
       />
 
-      {/* Temp passwords modal for all created users */}
+      {/* Temp passwords modal for created users */}
       {showTempPasswords && tempPasswords.length > 0 && (
         <div className='fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm'>
           <motion.div
@@ -359,19 +425,19 @@ export function CompleteAccountFeature() {
             </div>
             <div className='space-y-1'>
               <h2 className='text-2xl font-bold tracking-tight'>
-                {t('completeAccount.title')}
+                {t('completeAccount.title', 'Complete Account Setup')}
               </h2>
               <p className='text-sm text-muted-foreground'>
-                {t('completeAccount.subtitle')}
+                {t('completeAccount.subtitle', 'Configure your organization and start managing your business')}
               </p>
             </div>
 
-            {/* Stepper — 5 steps */}
+            {/* Stepper — 7 steps */}
             <div className='mt-4 flex items-center justify-center gap-2'>
               {Array.from({ length: TOTAL_STEPS }, (_, i) => (
                 <div
                   key={i}
-                  className={`h-2 w-8 rounded-full transition-colors duration-500 ${
+                  className={`h-2 w-6 rounded-full transition-colors duration-500 ${
                     step >= i + 1 ? 'bg-primary' : 'bg-primary/20'
                   }`}
                 />
@@ -399,7 +465,7 @@ export function CompleteAccountFeature() {
                     >
                       <div className='flex items-center gap-2 text-lg font-medium'>
                         <User className='h-5 w-5 text-primary' />
-                        {t('completeAccount.personalInfo')}
+                        {t('completeAccount.personalInfo', 'Personal Details')}
                       </div>
                       <FormField
                         control={form.control}
@@ -407,7 +473,7 @@ export function CompleteAccountFeature() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {t('completeAccount.firstName')}
+                              {t('completeAccount.firstName', 'First Name')}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -426,7 +492,7 @@ export function CompleteAccountFeature() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {t('completeAccount.lastName')}
+                              {t('completeAccount.lastName', 'Last Name')}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -445,7 +511,7 @@ export function CompleteAccountFeature() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {t('completeAccount.phoneOptional')}
+                              {t('completeAccount.phoneOptional', 'Phone Number (Optional)')}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -467,16 +533,150 @@ export function CompleteAccountFeature() {
                           !form.watch('firstName') || !form.watch('lastName')
                         }
                       >
-                        {t('completeAccount.continue')}
+                        {t('completeAccount.continue', 'Continue')}
                         <ChevronRight className='ml-2 h-5 w-5' />
                       </Button>
                     </motion.div>
                   )}
 
-                  {/* ─── Step 2: Activity Selection ─── */}
+                  {/* ─── Step 2: Business Info ─── */}
                   {step === 2 && (
                     <motion.div
                       key='step2'
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className='space-y-4'
+                    >
+                      <div className='flex items-center gap-2 text-lg font-medium'>
+                        <Building2 className='h-5 w-5 text-primary' />
+                        {t('completeAccount.businessInfo', 'Organization Information')}
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name='businessName'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t('completeAccount.businessName', 'Business / Organization Name *')}
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder='Acme Foods & Retail'
+                                className='h-12 bg-background/50 text-lg'
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name='countryId'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className='flex items-center gap-1.5'>
+                              <Globe className='h-4 w-4 text-primary' />
+                              {t('completeAccount.country', 'Country & Currency *')}
+                            </FormLabel>
+                            <SelectDropdown
+                              defaultValue={field.value}
+                              onValueChange={field.onChange}
+                              placeholder={t('completeAccount.selectCountry', 'Select Country')}
+                              className='h-12 text-base'
+                              items={countries.map((c) => ({
+                                label: `${c.name} (${c.code})${c.currencies ? ` — Currency: ${c.currencies.code} (${c.currencies.symbol})` : ''}`,
+                                value: c.id,
+                              }))}
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {selectedCountry && (
+                        <div className='rounded-xl border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground flex items-center gap-2'>
+                          <Globe className='h-4 w-4 shrink-0 text-primary' />
+                          <span>
+                            Selected Country: <strong className='text-foreground'>{selectedCountry.name} ({selectedCountry.code})</strong>. 
+                            Default Currency: <strong className='text-foreground'>{selectedCountry.currencies?.code ?? 'USD'} ({selectedCountry.currencies?.symbol ?? '$'})</strong>.
+                          </span>
+                        </div>
+                      )}
+
+                      <div className='grid grid-cols-2 gap-3'>
+                        <FormField
+                          control={form.control}
+                          name='displayName'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                {t('completeAccount.displayName', 'Display Name')}
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder='Acme Brand'
+                                  className='h-10 bg-background/50'
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name='legalName'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                {t('completeAccount.legalName', 'Legal Name')}
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder='Acme LLC'
+                                  className='h-10 bg-background/50'
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className='flex gap-3 pt-4'>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='lg'
+                          className='w-1/3 text-base'
+                          onClick={prevStep}
+                        >
+                          {t('completeAccount.back', 'Back')}
+                        </Button>
+                        <Button
+                          type='button'
+                          size='lg'
+                          className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
+                          onClick={nextStep}
+                          disabled={
+                            !form.watch('businessName') || !form.watch('countryId')
+                          }
+                        >
+                          {t('completeAccount.continue', 'Continue')}
+                          <ChevronRight className='ml-2 h-5 w-5' />
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ─── Step 3: Activity Selection ─── */}
+                  {step === 3 && (
+                    <motion.div
+                      key='step3'
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
@@ -490,7 +690,7 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <Store className='h-5 w-5 text-primary' />
-                              {t('completeAccount.selectActivity')}
+                              {t('completeAccount.selectActivity', 'Select Business Category')}
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-2 gap-3 sm:grid-cols-2'>
@@ -540,7 +740,8 @@ export function CompleteAccountFeature() {
                                         )}
                                       >
                                         {t(
-                                          `completeAccount.activities.${act.id}`
+                                          `completeAccount.activities.${act.id}`,
+                                          act.name
                                         )}
                                       </span>
                                     </button>
@@ -560,7 +761,7 @@ export function CompleteAccountFeature() {
                           className='w-1/3 text-base'
                           onClick={prevStep}
                         >
-                          {t('completeAccount.back')}
+                          {t('completeAccount.back', 'Back')}
                         </Button>
                         <Button
                           type='button'
@@ -569,17 +770,17 @@ export function CompleteAccountFeature() {
                           onClick={nextStep}
                           disabled={!form.watch('activity')}
                         >
-                          {t('completeAccount.continue')}
+                          {t('completeAccount.continue', 'Continue')}
                           <ChevronRight className='ml-2 h-5 w-5' />
                         </Button>
                       </div>
                     </motion.div>
                   )}
 
-                  {/* ─── Step 3: Payment Method ─── */}
-                  {step === 3 && (
+                  {/* ─── Step 4: Payment Method ─── */}
+                  {step === 4 && (
                     <motion.div
-                      key='step3'
+                      key='step4'
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
@@ -593,7 +794,7 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <CreditCard className='h-5 w-5 text-primary' />
-                              {t('completeAccount.selectPayment')}
+                              {t('completeAccount.selectPayment', 'Preferred Payment Method')}
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-3 gap-3'>
@@ -649,7 +850,8 @@ export function CompleteAccountFeature() {
                                         )}
                                       >
                                         {t(
-                                          `completeAccount.paymentMethods.${method.id}`
+                                          `completeAccount.paymentMethods.${method.id}`,
+                                          method.id.replace('_', ' ')
                                         )}
                                       </span>
                                     </button>
@@ -675,13 +877,14 @@ export function CompleteAccountFeature() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  {t('completeAccount.transferRef')}
+                                  {t('completeAccount.transferRef', 'Transfer Reference Number *')}
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     {...field}
                                     placeholder={t(
-                                      'completeAccount.transferRefPlaceholder'
+                                      'completeAccount.transferRefPlaceholder',
+                                      'TRX-12345678'
                                     )}
                                     className='h-12 bg-background/50 text-lg'
                                   />
@@ -701,7 +904,7 @@ export function CompleteAccountFeature() {
                           className='w-1/3 text-base'
                           onClick={prevStep}
                         >
-                          {t('completeAccount.back')}
+                          {t('completeAccount.back', 'Back')}
                         </Button>
                         <Button
                           type='button'
@@ -710,17 +913,126 @@ export function CompleteAccountFeature() {
                           onClick={nextStep}
                           disabled={!form.watch('paymentMethod')}
                         >
-                          {t('completeAccount.continue')}
+                          {t('completeAccount.continue', 'Continue')}
                           <ChevronRight className='ml-2 h-5 w-5' />
                         </Button>
                       </div>
                     </motion.div>
                   )}
 
-                  {/* ─── Step 4: Branch Setup ─── */}
-                  {step === 4 && (
+                  {/* ─── Step 5: Subscription Plan Selection ─── */}
+                  {step === 5 && (
                     <motion.div
-                      key='step4'
+                      key='step5'
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className='space-y-4'
+                    >
+                      <FormField
+                        control={form.control}
+                        name='subscriptionId'
+                        render={({ field }) => (
+                          <FormItem className='space-y-4'>
+                            <FormLabel className='flex items-center gap-2 text-lg font-medium'>
+                              <Sparkles className='h-5 w-5 text-primary' />
+                              {t('completeAccount.selectPlan', 'Select Subscription Plan')}
+                            </FormLabel>
+                            <FormControl>
+                              <div className='grid gap-3'>
+                                {subscriptionPlans.length === 0 ? (
+                                  <div className='flex flex-col items-center justify-center p-6 border rounded-xl bg-muted/20 text-center'>
+                                    <Loader2Icon className='h-6 w-6 animate-spin text-primary mb-2' />
+                                    <p className='text-sm text-muted-foreground'>Loading available plans...</p>
+                                  </div>
+                                ) : (
+                                  subscriptionPlans.map((plan) => {
+                                    const isSelected = field.value === plan.id
+                                    return (
+                                      <button
+                                        key={plan.id}
+                                        type='button'
+                                        onClick={() => field.onChange(plan.id)}
+                                        className={cn(
+                                          'relative flex items-center justify-between rounded-2xl border p-4 text-left transition-all duration-300 hover:border-primary/50',
+                                          isSelected
+                                            ? 'border-primary bg-primary/5 shadow-md ring-1 ring-primary'
+                                            : 'border-border/50 bg-background/30 hover:bg-background/50'
+                                        )}
+                                      >
+                                        <div className='space-y-1'>
+                                          <div className='flex items-center gap-2'>
+                                            <span className='font-bold text-base text-foreground'>
+                                              {plan.name}
+                                            </span>
+                                            {plan.price === 0 && (
+                                              <span className='rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-500'>
+                                                Free Trial
+                                              </span>
+                                            )}
+                                          </div>
+                                          <p className='text-xs text-muted-foreground'>
+                                            {plan.duration_months} {plan.duration_months === 1 ? 'Month' : 'Months'} duration
+                                          </p>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
+                                          <div className='text-right'>
+                                            <span className='text-lg font-extrabold text-foreground'>
+                                              ${Number(plan.price).toFixed(2)}
+                                            </span>
+                                            <p className='text-[10px] text-muted-foreground'>/ cycle</p>
+                                          </div>
+                                          <div
+                                            className={cn(
+                                              'flex h-6 w-6 items-center justify-center rounded-full border transition-colors',
+                                              isSelected
+                                                ? 'border-primary bg-primary text-primary-foreground'
+                                                : 'border-border bg-background'
+                                            )}
+                                          >
+                                            {isSelected && <Check className='h-3.5 w-3.5' />}
+                                          </div>
+                                        </div>
+                                      </button>
+                                    )
+                                  })
+                                )}
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className='flex gap-3 pt-4'>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='lg'
+                          className='w-1/3 text-base'
+                          onClick={prevStep}
+                        >
+                          {t('completeAccount.back', 'Back')}
+                        </Button>
+                        <Button
+                          type='button'
+                          size='lg'
+                          className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
+                          onClick={nextStep}
+                          disabled={!form.watch('subscriptionId')}
+                        >
+                          {t('completeAccount.continue', 'Continue')}
+                          <ChevronRight className='ml-2 h-5 w-5' />
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ─── Step 6: Branch Setup ─── */}
+                  {step === 6 && (
+                    <motion.div
+                      key='step6'
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
@@ -730,10 +1042,7 @@ export function CompleteAccountFeature() {
                       <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-2 text-lg font-medium'>
                           <GitBranchPlus className='h-5 w-5 text-primary' />
-                          {t(
-                            'completeAccount.branchSetup',
-                            'Define Your Branches'
-                          )}
+                          {t('completeAccount.branchSetup', 'Define Initial Branches')}
                         </div>
                         <Button
                           type='button'
@@ -756,7 +1065,7 @@ export function CompleteAccountFeature() {
                       <p className='text-sm text-muted-foreground'>
                         {t(
                           'completeAccount.branchDesc',
-                          'Add your business locations. You can also do this later from settings.'
+                          'Add your business locations now, or skip and manage them later in settings.'
                         )}
                       </p>
 
@@ -764,10 +1073,7 @@ export function CompleteAccountFeature() {
                         <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
                           <MapPin className='h-10 w-10 text-muted-foreground/40' />
                           <p className='text-sm text-muted-foreground'>
-                            {t(
-                              'completeAccount.noBranches',
-                              'No branches added yet'
-                            )}
+                            {t('completeAccount.noBranches', 'No branches added yet')}
                           </p>
                           <Button
                             type='button'
@@ -783,10 +1089,7 @@ export function CompleteAccountFeature() {
                             }
                           >
                             <Plus className='mr-1 h-4 w-4' />
-                            {t(
-                              'completeAccount.addFirst',
-                              'Add your first branch'
-                            )}
+                            {t('completeAccount.addFirst', 'Add your first branch')}
                           </Button>
                         </div>
                       )}
@@ -802,8 +1105,7 @@ export function CompleteAccountFeature() {
                           >
                             <div className='flex items-center justify-between'>
                               <span className='text-sm font-medium text-muted-foreground'>
-                                {t('completeAccount.branch', 'Branch')} #
-                                {index + 1}
+                                Branch #{index + 1}
                               </span>
                               <Button
                                 type='button'
@@ -824,10 +1126,7 @@ export function CompleteAccountFeature() {
                                     <FormControl>
                                       <Input
                                         {...f}
-                                        placeholder={t(
-                                          'completeAccount.branchName',
-                                          'Branch name'
-                                        )}
+                                        placeholder='Branch name'
                                         className='h-10 bg-background/50'
                                       />
                                     </FormControl>
@@ -843,10 +1142,7 @@ export function CompleteAccountFeature() {
                                     <SelectDropdown
                                       defaultValue={f.value}
                                       onValueChange={f.onChange}
-                                      placeholder={t(
-                                        'completeAccount.selectCity',
-                                        'Select city'
-                                      )}
+                                      placeholder='Select city'
                                       className='h-10'
                                       items={cities.map((c) => ({
                                         label: `${c.name}${c.countries ? ` (${c.countries.name})` : ''}`,
@@ -867,10 +1163,7 @@ export function CompleteAccountFeature() {
                                     <FormControl>
                                       <Input
                                         {...f}
-                                        placeholder={t(
-                                          'completeAccount.address',
-                                          'Address'
-                                        )}
+                                        placeholder='Address'
                                         className='h-10 bg-background/50'
                                       />
                                     </FormControl>
@@ -885,10 +1178,7 @@ export function CompleteAccountFeature() {
                                     <FormControl>
                                       <Input
                                         {...f}
-                                        placeholder={t(
-                                          'completeAccount.branchPhone',
-                                          'Phone'
-                                        )}
+                                        placeholder='Phone'
                                         className='h-10 bg-background/50'
                                       />
                                     </FormControl>
@@ -908,7 +1198,7 @@ export function CompleteAccountFeature() {
                           className='w-1/3 text-base'
                           onClick={prevStep}
                         >
-                          {t('completeAccount.back')}
+                          {t('completeAccount.back', 'Back')}
                         </Button>
                         <Button
                           type='button'
@@ -923,7 +1213,7 @@ export function CompleteAccountFeature() {
                             </>
                           ) : (
                             <>
-                              {t('completeAccount.continue')}
+                              {t('completeAccount.continue', 'Continue')}
                               <ChevronRight className='ml-2 h-5 w-5' />
                             </>
                           )}
@@ -932,10 +1222,10 @@ export function CompleteAccountFeature() {
                     </motion.div>
                   )}
 
-                  {/* ─── Step 5: Team Setup ─── */}
-                  {step === 5 && (
+                  {/* ─── Step 7: Team Setup & Final Submission ─── */}
+                  {step === 7 && (
                     <motion.div
-                      key='step5'
+                      key='step7'
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
@@ -969,7 +1259,7 @@ export function CompleteAccountFeature() {
                       <p className='text-sm text-muted-foreground'>
                         {t(
                           'completeAccount.teamDesc',
-                          'Create accounts for your team. A temporary password will be generated for each user that you can share with them.'
+                          'Create accounts for your team. Temporary credentials will be generated.'
                         )}
                       </p>
 
@@ -977,10 +1267,7 @@ export function CompleteAccountFeature() {
                         <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
                           <UserPlus className='h-10 w-10 text-muted-foreground/40' />
                           <p className='text-sm text-muted-foreground'>
-                            {t(
-                              'completeAccount.noUsers',
-                              'No team members added yet'
-                            )}
+                            {t('completeAccount.noUsers', 'No team members added yet')}
                           </p>
                           <Button
                             type='button'
@@ -997,17 +1284,13 @@ export function CompleteAccountFeature() {
                             }
                           >
                             <Plus className='mr-1 h-4 w-4' />
-                            {t(
-                              'completeAccount.addFirstUser',
-                              'Add your first team member'
-                            )}
+                            {t('completeAccount.addFirstUser', 'Add team member')}
                           </Button>
                         </div>
                       )}
 
                       <div className='max-h-52 space-y-3 overflow-y-auto'>
                         {userFields.map((field, index) => {
-                          // Get branches for dropdown: combine form branches + existing branches
                           const formBranches = form.watch('branches') ?? []
 
                           return (
@@ -1020,11 +1303,7 @@ export function CompleteAccountFeature() {
                             >
                               <div className='flex items-center justify-between'>
                                 <span className='text-sm font-medium text-muted-foreground'>
-                                  {t(
-                                    'completeAccount.teamMember',
-                                    'Team Member'
-                                  )}{' '}
-                                  #{index + 1}
+                                  Team Member #{index + 1}
                                 </span>
                                 <Button
                                   type='button'
@@ -1045,10 +1324,7 @@ export function CompleteAccountFeature() {
                                       <Input
                                         {...f}
                                         type='email'
-                                        placeholder={t(
-                                          'completeAccount.userEmail',
-                                          'Email address'
-                                        )}
+                                        placeholder='Email address'
                                         className='h-10 bg-background/50'
                                       />
                                     </FormControl>
@@ -1065,10 +1341,7 @@ export function CompleteAccountFeature() {
                                       <FormControl>
                                         <Input
                                           {...f}
-                                          placeholder={t(
-                                            'completeAccount.userFirstName',
-                                            'First name'
-                                          )}
+                                          placeholder='First name'
                                           className='h-10 bg-background/50'
                                         />
                                       </FormControl>
@@ -1083,10 +1356,7 @@ export function CompleteAccountFeature() {
                                       <FormControl>
                                         <Input
                                           {...f}
-                                          placeholder={t(
-                                            'completeAccount.userLastName',
-                                            'Last name'
-                                          )}
+                                          placeholder='Last name'
                                           className='h-10 bg-background/50'
                                         />
                                       </FormControl>
@@ -1103,10 +1373,7 @@ export function CompleteAccountFeature() {
                                       <SelectDropdown
                                         defaultValue={f.value}
                                         onValueChange={f.onChange}
-                                        placeholder={t(
-                                          'completeAccount.selectRole',
-                                          'Select role'
-                                        )}
+                                        placeholder='Select role'
                                         className='h-10'
                                         items={roles.map((r) => ({
                                           label: r.name,
@@ -1125,16 +1392,12 @@ export function CompleteAccountFeature() {
                                       <SelectDropdown
                                         defaultValue={f.value ?? ''}
                                         onValueChange={f.onChange}
-                                        placeholder={t(
-                                          'completeAccount.selectBranch',
-                                          'Select branch'
-                                        )}
+                                        placeholder='Select branch'
                                         className='h-10'
                                         items={formBranches
                                           .filter((b) => b.name)
                                           .map((b, bIdx) => ({
                                             label: b.name,
-                                            // Use index-based key since branches don't have IDs yet
                                             value: `pending_branch_${bIdx}`,
                                           }))}
                                       />
@@ -1155,7 +1418,7 @@ export function CompleteAccountFeature() {
                           className='w-1/3 text-base'
                           onClick={prevStep}
                         >
-                          {t('completeAccount.back')}
+                          {t('completeAccount.back', 'Back')}
                         </Button>
                         <Button
                           type='submit'
@@ -1168,7 +1431,7 @@ export function CompleteAccountFeature() {
                           ) : (
                             <CheckCircle2 className='mr-2 h-5 w-5' />
                           )}
-                          {t('completeAccount.completeSetup')}
+                          {t('completeAccount.completeSetup', 'Complete Setup')}
                         </Button>
                       </div>
                     </motion.div>

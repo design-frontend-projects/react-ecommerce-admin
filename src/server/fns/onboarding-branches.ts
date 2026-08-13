@@ -15,6 +15,7 @@ export interface CreateOnboardingBranchesInput {
 
 export interface CreateOnboardingBranchesCaller {
   authUserId: string
+  tenantId?: string
 }
 
 export interface CreatedBranch {
@@ -70,6 +71,7 @@ export async function createOnboardingBranches(
           address: branch.address ?? null,
           phone: branch.phone ?? null,
           auth_user_id: caller.authUserId,
+          tenant_id: caller.tenantId ?? null,
           is_active: true,
         },
         select: {

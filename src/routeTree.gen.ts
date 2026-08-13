@@ -86,7 +86,6 @@ import { Route as AuthenticatedBatchesIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedAccessControlIndexRouteImport } from './routes/_authenticated/access-control/index'
 import { Route as ApiUsersRolesRouteImport } from './routes/api/users/roles'
 import { Route as ApiUsersPermissionsRouteImport } from './routes/api/users/permissions'
-import { Route as ApiUsersOnboardingRouteImport } from './routes/api/users/onboarding'
 import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
 import { Route as ApiUsersCreateTenantRouteImport } from './routes/api/users/create-tenant'
 import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
@@ -99,6 +98,7 @@ import { Route as ApiRbacAuditRouteImport } from './routes/api/rbac/audit'
 import { Route as ApiPosCheckoutRouteImport } from './routes/api/pos/checkout'
 import { Route as ApiOnboardingUsersRouteImport } from './routes/api/onboarding/users'
 import { Route as ApiOnboardingTenantUsersRouteImport } from './routes/api/onboarding/tenant-users'
+import { Route as ApiOnboardingCompleteRouteImport } from './routes/api/onboarding/complete'
 import { Route as ApiOnboardingBranchesRouteImport } from './routes/api/onboarding/branches'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
@@ -608,11 +608,6 @@ const ApiUsersPermissionsRoute = ApiUsersPermissionsRouteImport.update({
   path: '/permissions',
   getParentRoute: () => ApiUsersRoute,
 } as any)
-const ApiUsersOnboardingRoute = ApiUsersOnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => ApiUsersRoute,
-} as any)
 const ApiUsersInviteRoute = ApiUsersInviteRouteImport.update({
   id: '/invite',
   path: '/invite',
@@ -674,6 +669,11 @@ const ApiOnboardingTenantUsersRoute =
     path: '/api/onboarding/tenant-users',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOnboardingCompleteRoute = ApiOnboardingCompleteRouteImport.update({
+  id: '/api/onboarding/complete',
+  path: '/api/onboarding/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOnboardingBranchesRoute = ApiOnboardingBranchesRouteImport.update({
   id: '/api/onboarding/branches',
   path: '/api/onboarding/branches',
@@ -1129,6 +1129,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
@@ -1141,7 +1142,6 @@ export interface FileRoutesByFullPath {
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
-  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
   '/access-control/': typeof AuthenticatedAccessControlIndexRoute
@@ -1282,6 +1282,7 @@ export interface FileRoutesByTo {
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
@@ -1294,7 +1295,6 @@ export interface FileRoutesByTo {
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
-  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
   '/access-control': typeof AuthenticatedAccessControlIndexRoute
@@ -1440,6 +1440,7 @@ export interface FileRoutesById {
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
@@ -1452,7 +1453,6 @@ export interface FileRoutesById {
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
-  '/api/users/onboarding': typeof ApiUsersOnboardingRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
   '/_authenticated/access-control/': typeof AuthenticatedAccessControlIndexRoute
@@ -1597,6 +1597,7 @@ export interface FileRouteTypes {
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
     | '/api/onboarding/branches'
+    | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
@@ -1609,7 +1610,6 @@ export interface FileRouteTypes {
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
     | '/api/users/invite'
-    | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
     | '/access-control/'
@@ -1750,6 +1750,7 @@ export interface FileRouteTypes {
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
     | '/api/onboarding/branches'
+    | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
@@ -1762,7 +1763,6 @@ export interface FileRouteTypes {
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
     | '/api/users/invite'
-    | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
     | '/access-control'
@@ -1907,6 +1907,7 @@ export interface FileRouteTypes {
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
     | '/api/onboarding/branches'
+    | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
@@ -1919,7 +1920,6 @@ export interface FileRouteTypes {
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
     | '/api/users/invite'
-    | '/api/users/onboarding'
     | '/api/users/permissions'
     | '/api/users/roles'
     | '/_authenticated/access-control/'
@@ -2015,6 +2015,7 @@ export interface RootRouteChildren {
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
   ApiOnboardingBranchesRoute: typeof ApiOnboardingBranchesRoute
+  ApiOnboardingCompleteRoute: typeof ApiOnboardingCompleteRoute
   ApiOnboardingTenantUsersRoute: typeof ApiOnboardingTenantUsersRoute
   ApiOnboardingUsersRoute: typeof ApiOnboardingUsersRoute
   ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
@@ -2580,13 +2581,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUsersPermissionsRouteImport
       parentRoute: typeof ApiUsersRoute
     }
-    '/api/users/onboarding': {
-      id: '/api/users/onboarding'
-      path: '/onboarding'
-      fullPath: '/api/users/onboarding'
-      preLoaderRoute: typeof ApiUsersOnboardingRouteImport
-      parentRoute: typeof ApiUsersRoute
-    }
     '/api/users/invite': {
       id: '/api/users/invite'
       path: '/invite'
@@ -2669,6 +2663,13 @@ declare module '@tanstack/react-router' {
       path: '/api/onboarding/tenant-users'
       fullPath: '/api/onboarding/tenant-users'
       preLoaderRoute: typeof ApiOnboardingTenantUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/onboarding/complete': {
+      id: '/api/onboarding/complete'
+      path: '/api/onboarding/complete'
+      fullPath: '/api/onboarding/complete'
+      preLoaderRoute: typeof ApiOnboardingCompleteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/onboarding/branches': {
@@ -3362,7 +3363,6 @@ const ApiRbacRouteWithChildren =
 interface ApiUsersRouteChildren {
   ApiUsersCreateTenantRoute: typeof ApiUsersCreateTenantRoute
   ApiUsersInviteRoute: typeof ApiUsersInviteRoute
-  ApiUsersOnboardingRoute: typeof ApiUsersOnboardingRoute
   ApiUsersPermissionsRoute: typeof ApiUsersPermissionsRoute
   ApiUsersRolesRoute: typeof ApiUsersRolesRoute
 }
@@ -3370,7 +3370,6 @@ interface ApiUsersRouteChildren {
 const ApiUsersRouteChildren: ApiUsersRouteChildren = {
   ApiUsersCreateTenantRoute: ApiUsersCreateTenantRoute,
   ApiUsersInviteRoute: ApiUsersInviteRoute,
-  ApiUsersOnboardingRoute: ApiUsersOnboardingRoute,
   ApiUsersPermissionsRoute: ApiUsersPermissionsRoute,
   ApiUsersRolesRoute: ApiUsersRolesRoute,
 }
@@ -3565,6 +3564,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
   ApiOnboardingBranchesRoute: ApiOnboardingBranchesRoute,
+  ApiOnboardingCompleteRoute: ApiOnboardingCompleteRoute,
   ApiOnboardingTenantUsersRoute: ApiOnboardingTenantUsersRoute,
   ApiOnboardingUsersRoute: ApiOnboardingUsersRoute,
   ApiPosCheckoutRoute: ApiPosCheckoutRoute,
@@ -3577,12 +3577,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

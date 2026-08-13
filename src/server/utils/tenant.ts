@@ -11,15 +11,16 @@ export async function resolveTenantId(
 ): Promise<string | null> {
   const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
-    select: { parent_tenant_id: true },
-  })) as { parent_tenant_id: string | null } | null
+    select: { tenant_id: true, parent_tenant_id: true },
+  })) as { tenant_id: string | null; parent_tenant_id: string | null } | null
+  if (tenantUser?.tenant_id) return tenantUser.tenant_id
   if (tenantUser?.parent_tenant_id) return tenantUser.parent_tenant_id
 
   const subscription = (await prisma.tenant_subscriptions.findFirst({
     where: { auth_user_id: authUserId },
-    select: { id: true },
-  })) as { id: string } | null
-  return subscription?.id ?? null
+    select: { tenant_id: true, id: true },
+  })) as { tenant_id: string | null; id: string } | null
+  return subscription?.tenant_id ?? subscription?.id ?? null
 }
 
 export async function requireTenantId(authUserId: string): Promise<string> {
@@ -45,11 +46,15 @@ export async function getTenantAuthUserIds(
   if (!tenantId) return [...authUserIds]
 
   const members = (await prisma.tenant_users.findMany({
-    where: { parent_tenant_id: tenantId },
+    where: {
+      OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }],
+    },
     select: { auth_user_id: true },
-  })) as Array<{ auth_user_id: string }>
+  })) as Array<{ auth_user_id: string | null }>
   for (const member of members) {
-    authUserIds.add(member.auth_user_id)
+    if (member.auth_user_id) {
+      authUserIds.add(member.auth_user_id)
+    }
   }
 
   // The tenant id may reference either the owner profile or the owner's

@@ -9219,7 +9219,8 @@ export const CountriesScalarFieldEnum = {
   phone_code: 'phone_code',
   is_active: 'is_active',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  currency_id: 'currency_id'
 } as const
 
 export type CountriesScalarFieldEnum = (typeof CountriesScalarFieldEnum)[keyof typeof CountriesScalarFieldEnum]
@@ -10330,6 +10331,8 @@ export const TenantsScalarFieldEnum = {
   locale: 'locale',
   currency_code: 'currency_code',
   country_code: 'country_code',
+  country_id: 'country_id',
+  currency_id: 'currency_id',
   default_branch_id: 'default_branch_id',
   current_subscription_id: 'current_subscription_id',
   created_by: 'created_by',

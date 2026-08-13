@@ -7,6 +7,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 const prismaMock = {
   tenant_users: {
+    findFirst: vi.fn(),
     findUnique: vi.fn(),
     findMany: vi.fn(),
     updateMany: vi.fn(),
@@ -128,6 +129,9 @@ describe('requireUserAccess (server/fns/users.ts)', async () => {
     prismaMock.tenant_users.findUnique.mockResolvedValue({
       parent_tenant_id: 'tenant-1',
     })
+    prismaMock.tenant_users.findFirst.mockResolvedValue({
+      parent_tenant_id: 'tenant-1',
+    })
     prismaMock.tenant_users.findMany.mockResolvedValue([
       { auth_user_id: 'caller-1' },
       { auth_user_id: 'teammate-1' },
@@ -164,6 +168,7 @@ describe('getTenantAuthUserIds (server/utils/tenant.ts)', async () => {
 
   it('returns only the caller when no tenant can be resolved', async () => {
     prismaMock.tenant_users.findUnique.mockResolvedValue(null)
+    prismaMock.tenant_users.findFirst.mockResolvedValue(null)
     prismaMock.tenant_subscriptions.findFirst.mockResolvedValue(null)
 
     const ids = await getTenantAuthUserIds('lonely-user')
@@ -172,6 +177,9 @@ describe('getTenantAuthUserIds (server/utils/tenant.ts)', async () => {
 
   it('includes tenant members and the owning account', async () => {
     prismaMock.tenant_users.findUnique.mockResolvedValue({
+      parent_tenant_id: 'tenant-1',
+    })
+    prismaMock.tenant_users.findFirst.mockResolvedValue({
       parent_tenant_id: 'tenant-1',
     })
     prismaMock.tenant_users.findMany.mockResolvedValue([
