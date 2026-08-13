@@ -179,7 +179,7 @@ export type Permission_buttonsGroupByOutputType = {
   _max: Permission_buttonsMaxAggregateOutputType | null
 }
 
-export type GetPermission_buttonsGroupByPayload<T extends permission_buttonsGroupByArgs> = Prisma.PrismaPromise<
+type GetPermission_buttonsGroupByPayload<T extends permission_buttonsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Permission_buttonsGroupByOutputType, T['by']> &
       {

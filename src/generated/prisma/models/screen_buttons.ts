@@ -165,7 +165,7 @@ export type Screen_buttonsGroupByOutputType = {
   _max: Screen_buttonsMaxAggregateOutputType | null
 }
 
-export type GetScreen_buttonsGroupByPayload<T extends screen_buttonsGroupByArgs> = Prisma.PrismaPromise<
+type GetScreen_buttonsGroupByPayload<T extends screen_buttonsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Screen_buttonsGroupByOutputType, T['by']> &
       {

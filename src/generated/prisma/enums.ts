@@ -464,6 +464,35 @@ export const reorder_suggestion_status_enum = {
 export type reorder_suggestion_status_enum = (typeof reorder_suggestion_status_enum)[keyof typeof reorder_suggestion_status_enum]
 
 
+export const tenant_status = {
+  pending: 'pending',
+  trial: 'trial',
+  active: 'active',
+  past_due: 'past_due',
+  suspended: 'suspended',
+  cancelled: 'cancelled',
+  archived: 'archived'
+} as const
+
+export type tenant_status = (typeof tenant_status)[keyof typeof tenant_status]
+
+
+export const tenant_type = {
+  company: 'company',
+  restaurant: 'restaurant',
+  retail: 'retail',
+  warehouse: 'warehouse',
+  hospital: 'hospital',
+  clinic: 'clinic',
+  school: 'school',
+  hotel: 'hotel',
+  courier: 'courier',
+  other: 'other'
+} as const
+
+export type tenant_type = (typeof tenant_type)[keyof typeof tenant_type]
+
+
 export const notification_severity = {
   INFO: 'INFO',
   WARNING: 'WARNING',

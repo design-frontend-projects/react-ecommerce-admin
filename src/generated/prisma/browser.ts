@@ -364,6 +364,12 @@ export type tax_rates = Prisma.tax_ratesModel
  */
 export type tenant_subscriptions = Prisma.tenant_subscriptionsModel
 /**
+ * Model tenants
+ * Stores the organizations/companies that use the SaaS platform. A tenant represents an isolated business account and owns its users, branches, modules, settings, subscriptions, and business data.
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type tenants = Prisma.tenantsModel
+/**
  * Model tenant_users
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */

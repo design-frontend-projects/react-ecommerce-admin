@@ -294,7 +294,7 @@ export type Stock_reservationsGroupByOutputType = {
   _max: Stock_reservationsMaxAggregateOutputType | null
 }
 
-export type GetStock_reservationsGroupByPayload<T extends stock_reservationsGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_reservationsGroupByPayload<T extends stock_reservationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_reservationsGroupByOutputType, T['by']> &
       {

@@ -55,7 +55,10 @@ model branches {
   created_at            DateTime?               @default(now()) @db.Timestamptz(6)
   updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
   auth_user_id          String?                 @db.Uuid
+  tenant_id             String?                 @db.Uuid
   cities                cities                  @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tenants               tenants?                @relation("tenant_branches", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  default_for_tenants   tenants[]               @relation("tenant_default_branch")
   inventory_movements   inventory_movements[]
   profiles              profiles[]
   purchase_invoices     purchase_invoices[]
@@ -73,6 +76,7 @@ model branches {
   warehouses            warehouses[]
 
   @@index([city_id], map: "idx_branches_city_id")
+  @@index([tenant_id], map: "idx_branches_tenant_id")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1414,6 +1418,7 @@ model tenant_subscriptions {
   auth_user_id          String                       @db.Uuid
   email                 String                       @db.VarChar(255)
   subscription_id       Int
+  tenant_id             String?                      @db.Uuid
   status                subscription_status          @default(new)
   first_use             Boolean                      @default(true)
   start_date            DateTime?                    @db.Timestamp(6)
@@ -1427,8 +1432,48 @@ model tenant_subscriptions {
   is_owner              Boolean?
   tenant_activity_types tenant_activity_types[]
   subscriptions         subscriptions                @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenants               tenants?                     @relation("tenant_subscriptions_relation", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  current_for_tenants   tenants[]                    @relation("tenant_current_subscription")
 
   @@index([status], map: "idx_tenant_subscriptions_status")
+  @@index([tenant_id], map: "idx_tenant_subscriptions_tenant_id")
+}
+
+/// Stores the organizations/companies that use the SaaS platform. A tenant represents an isolated business account and owns its users, branches, modules, settings, subscriptions, and business data.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tenants {
+  id                      String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_code             String                 @unique @db.VarChar(50)
+  name                    String                 @db.VarChar(255)
+  slug                    String                 @unique @db.VarChar(150)
+  display_name            String?                @db.VarChar(255)
+  legal_name              String?                @db.VarChar(255)
+  type                    tenant_type            @default(company)
+  status                  tenant_status          @default(pending)
+  logo_url                String?
+  domain                  String?                @unique @db.VarChar(255)
+  timezone                String                 @default("UTC") @db.VarChar(100)
+  locale                  String                 @default("en-US") @db.VarChar(20)
+  currency_code           String                 @default("USD") @db.Char(3)
+  country_code            String?                @db.Char(2)
+  default_branch_id       String?                @db.Uuid
+  current_subscription_id String?                @db.Uuid
+  created_by              String?                @db.Uuid
+  created_at              DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime               @default(now()) @db.Timestamptz(6)
+  deleted_at              DateTime?              @db.Timestamptz(6)
+  metadata                Json                   @default("{}")
+  default_branch          branches?              @relation("tenant_default_branch", fields: [default_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  current_subscription    tenant_subscriptions?  @relation("tenant_current_subscription", fields: [current_subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  branches                branches[]             @relation("tenant_branches")
+  tenant_users            tenant_users[]         @relation("tenant_tenant_users")
+  tenant_subscriptions    tenant_subscriptions[] @relation("tenant_subscriptions_relation")
+
+  @@index([status], map: "idx_tenants_status")
+  @@index([type], map: "idx_tenants_type")
+  @@index([created_at], map: "idx_tenants_created_at")
+  @@index([deleted_at], map: "idx_tenants_deleted_at")
+  @@index([country_code], map: "idx_tenants_country_code")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1449,13 +1494,16 @@ model tenant_users {
   onboarding_complete Boolean            @default(false)
   is_restuarant_user  Boolean?           @default(false)
   parent_tenant_id    String?            @db.Uuid
+  tenant_id           String?            @db.Uuid
   refund_pin_code     Decimal?           @db.Decimal
   id_number           String?
   owner_profile       profiles?          @relation(fields: [parent_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenants             tenants?           @relation("tenant_tenant_users", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_permissions    user_permissions[]
   user_roles          user_roles[]
 
   @@index([primary_module], map: "idx_users_primary_module")
+  @@index([tenant_id], map: "idx_tenant_users_tenant_id")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -2799,6 +2847,29 @@ enum reorder_suggestion_status_enum {
   converted
   dismissed
   expired
+}
+
+enum tenant_status {
+  pending
+  trial
+  active
+  past_due
+  suspended
+  cancelled
+  archived
+}
+
+enum tenant_type {
+  company
+  restaurant
+  retail
+  warehouse
+  hospital
+  clinic
+  school
+  hotel
+  courier
+  other
 }
 
 enum notification_severity {

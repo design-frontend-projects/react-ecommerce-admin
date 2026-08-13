@@ -36,6 +36,7 @@ export type BranchesMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type BranchesMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type BranchesMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type BranchesCountAggregateOutputType = {
@@ -60,6 +62,7 @@ export type BranchesCountAggregateOutputType = {
   created_at: number
   updated_at: number
   auth_user_id: number
+  tenant_id: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type BranchesMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type BranchesMaxAggregateInputType = {
@@ -86,6 +90,7 @@ export type BranchesMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type BranchesCountAggregateInputType = {
@@ -98,6 +103,7 @@ export type BranchesCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -183,12 +189,13 @@ export type BranchesGroupByOutputType = {
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
   _count: BranchesCountAggregateOutputType | null
   _min: BranchesMinAggregateOutputType | null
   _max: BranchesMaxAggregateOutputType | null
 }
 
-export type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
+type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BranchesGroupByOutputType, T['by']> &
       {
@@ -216,7 +223,10 @@ export type branchesWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  default_for_tenants?: Prisma.TenantsListRelationFilter
   inventory_movements?: Prisma.Inventory_movementsListRelationFilter
   profiles?: Prisma.ProfilesListRelationFilter
   purchase_invoices?: Prisma.Purchase_invoicesListRelationFilter
@@ -244,7 +254,10 @@ export type branchesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   cities?: Prisma.citiesOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
+  default_for_tenants?: Prisma.tenantsOrderByRelationAggregateInput
   inventory_movements?: Prisma.inventory_movementsOrderByRelationAggregateInput
   profiles?: Prisma.profilesOrderByRelationAggregateInput
   purchase_invoices?: Prisma.purchase_invoicesOrderByRelationAggregateInput
@@ -275,7 +288,10 @@ export type branchesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  default_for_tenants?: Prisma.TenantsListRelationFilter
   inventory_movements?: Prisma.Inventory_movementsListRelationFilter
   profiles?: Prisma.ProfilesListRelationFilter
   purchase_invoices?: Prisma.Purchase_invoicesListRelationFilter
@@ -303,6 +319,7 @@ export type branchesOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.branchesCountOrderByAggregateInput
   _max?: Prisma.branchesMaxOrderByAggregateInput
   _min?: Prisma.branchesMinOrderByAggregateInput
@@ -321,6 +338,7 @@ export type branchesScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
 }
 
 export type branchesCreateInput = {
@@ -333,6 +351,8 @@ export type branchesCreateInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -360,6 +380,8 @@ export type branchesUncheckedCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -387,6 +409,8 @@ export type branchesUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -414,6 +438,8 @@ export type branchesUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -441,6 +467,7 @@ export type branchesCreateManyInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type branchesUpdateManyMutationInput = {
@@ -464,6 +491,7 @@ export type branchesUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type branchesCountOrderByAggregateInput = {
@@ -476,6 +504,7 @@ export type branchesCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type branchesMaxOrderByAggregateInput = {
@@ -488,6 +517,7 @@ export type branchesMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type branchesMinOrderByAggregateInput = {
@@ -500,6 +530,7 @@ export type branchesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type BranchesListRelationFilter = {
@@ -704,6 +735,64 @@ export type branchesUpdateOneWithoutStoresNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.branchesUpdateToOneWithWhereWithoutStoresInput, Prisma.branchesUpdateWithoutStoresInput>, Prisma.branchesUncheckedUpdateWithoutStoresInput>
 }
 
+export type branchesCreateNestedOneWithoutDefault_for_tenantsInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedCreateWithoutDefault_for_tenantsInput>
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutDefault_for_tenantsInput
+  connect?: Prisma.branchesWhereUniqueInput
+}
+
+export type branchesCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput> | Prisma.branchesCreateWithoutTenantsInput[] | Prisma.branchesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutTenantsInput | Prisma.branchesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.branchesCreateManyTenantsInputEnvelope
+  connect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+}
+
+export type branchesUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput> | Prisma.branchesCreateWithoutTenantsInput[] | Prisma.branchesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutTenantsInput | Prisma.branchesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.branchesCreateManyTenantsInputEnvelope
+  connect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+}
+
+export type branchesUpdateOneWithoutDefault_for_tenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedCreateWithoutDefault_for_tenantsInput>
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutDefault_for_tenantsInput
+  upsert?: Prisma.branchesUpsertWithoutDefault_for_tenantsInput
+  disconnect?: Prisma.branchesWhereInput | boolean
+  delete?: Prisma.branchesWhereInput | boolean
+  connect?: Prisma.branchesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.branchesUpdateToOneWithWhereWithoutDefault_for_tenantsInput, Prisma.branchesUpdateWithoutDefault_for_tenantsInput>, Prisma.branchesUncheckedUpdateWithoutDefault_for_tenantsInput>
+}
+
+export type branchesUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput> | Prisma.branchesCreateWithoutTenantsInput[] | Prisma.branchesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutTenantsInput | Prisma.branchesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.branchesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.branchesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.branchesCreateManyTenantsInputEnvelope
+  set?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  disconnect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  delete?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  connect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  update?: Prisma.branchesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.branchesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.branchesUpdateManyWithWhereWithoutTenantsInput | Prisma.branchesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.branchesScalarWhereInput | Prisma.branchesScalarWhereInput[]
+}
+
+export type branchesUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput> | Prisma.branchesCreateWithoutTenantsInput[] | Prisma.branchesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.branchesCreateOrConnectWithoutTenantsInput | Prisma.branchesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.branchesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.branchesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.branchesCreateManyTenantsInputEnvelope
+  set?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  disconnect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  delete?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  connect?: Prisma.branchesWhereUniqueInput | Prisma.branchesWhereUniqueInput[]
+  update?: Prisma.branchesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.branchesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.branchesUpdateManyWithWhereWithoutTenantsInput | Prisma.branchesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.branchesScalarWhereInput | Prisma.branchesScalarWhereInput[]
+}
+
 export type branchesCreateNestedOneWithoutInventory_movementsInput = {
   create?: Prisma.XOR<Prisma.branchesCreateWithoutInventory_movementsInput, Prisma.branchesUncheckedCreateWithoutInventory_movementsInput>
   connectOrCreate?: Prisma.branchesCreateOrConnectWithoutInventory_movementsInput
@@ -807,6 +896,8 @@ export type branchesCreateWithoutCitiesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -833,6 +924,8 @@ export type branchesUncheckedCreateWithoutCitiesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -889,6 +982,7 @@ export type branchesScalarWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
 }
 
 export type branchesCreateWithoutProfilesInput = {
@@ -901,6 +995,8 @@ export type branchesCreateWithoutProfilesInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutBranchesInput
@@ -927,6 +1023,8 @@ export type branchesUncheckedCreateWithoutProfilesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput
@@ -969,6 +1067,8 @@ export type branchesUpdateWithoutProfilesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutBranchesNestedInput
@@ -995,6 +1095,8 @@ export type branchesUncheckedUpdateWithoutProfilesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1021,6 +1123,8 @@ export type branchesCreateWithoutPurchase_invoicesInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutBranchesInput
@@ -1047,6 +1151,8 @@ export type branchesUncheckedCreateWithoutPurchase_invoicesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput
@@ -1089,6 +1195,8 @@ export type branchesUpdateWithoutPurchase_invoicesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutBranchesNestedInput
@@ -1115,6 +1223,8 @@ export type branchesUncheckedUpdateWithoutPurchase_invoicesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1141,6 +1251,8 @@ export type branchesCreateWithoutPurchase_ordersInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1167,6 +1279,8 @@ export type branchesUncheckedCreateWithoutPurchase_ordersInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1209,6 +1323,8 @@ export type branchesUpdateWithoutPurchase_ordersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1235,6 +1351,8 @@ export type branchesUncheckedUpdateWithoutPurchase_ordersInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1261,6 +1379,8 @@ export type branchesCreateWithoutPurchase_returnsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1287,6 +1407,8 @@ export type branchesUncheckedCreateWithoutPurchase_returnsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1329,6 +1451,8 @@ export type branchesUpdateWithoutPurchase_returnsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1355,6 +1479,8 @@ export type branchesUncheckedUpdateWithoutPurchase_returnsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1381,6 +1507,8 @@ export type branchesCreateWithoutRefundsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1407,6 +1535,8 @@ export type branchesUncheckedCreateWithoutRefundsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1449,6 +1579,8 @@ export type branchesUpdateWithoutRefundsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1475,6 +1607,8 @@ export type branchesUncheckedUpdateWithoutRefundsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1501,6 +1635,8 @@ export type branchesCreateWithoutRes_shiftsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1527,6 +1663,8 @@ export type branchesUncheckedCreateWithoutRes_shiftsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1569,6 +1707,8 @@ export type branchesUpdateWithoutRes_shiftsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1595,6 +1735,8 @@ export type branchesUncheckedUpdateWithoutRes_shiftsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1621,6 +1763,8 @@ export type branchesCreateWithoutSales_invoicesInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1647,6 +1791,8 @@ export type branchesUncheckedCreateWithoutSales_invoicesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1689,6 +1835,8 @@ export type branchesUpdateWithoutSales_invoicesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1715,6 +1863,8 @@ export type branchesUncheckedUpdateWithoutSales_invoicesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1741,6 +1891,8 @@ export type branchesCreateWithoutSales_returnsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1767,6 +1919,8 @@ export type branchesUncheckedCreateWithoutSales_returnsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1809,6 +1963,8 @@ export type branchesUpdateWithoutSales_returnsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1835,6 +1991,8 @@ export type branchesUncheckedUpdateWithoutSales_returnsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1861,6 +2019,8 @@ export type branchesCreateWithoutStoresInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -1887,6 +2047,8 @@ export type branchesUncheckedCreateWithoutStoresInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -1929,6 +2091,8 @@ export type branchesUpdateWithoutStoresInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -1955,6 +2119,8 @@ export type branchesUncheckedUpdateWithoutStoresInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -1971,6 +2137,216 @@ export type branchesUncheckedUpdateWithoutStoresInput = {
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
 }
 
+export type branchesCreateWithoutDefault_for_tenantsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
+  profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
+  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutBranchesInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutBranchesInput
+  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutBranchesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutBranchesInput
+  res_shifts?: Prisma.res_shiftsCreateNestedManyWithoutBranchesInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutBranchesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutBranchesInput
+  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutBranchesInput
+  stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutFrom_branchInput
+  stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutTo_branchInput
+  stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutBranchesInput
+}
+
+export type branchesUncheckedCreateWithoutDefault_for_tenantsInput = {
+  id?: string
+  name: string
+  city_id: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  tenant_id?: string | null
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
+  profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutBranchesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutBranchesInput
+  res_shifts?: Prisma.res_shiftsUncheckedCreateNestedManyWithoutBranchesInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutBranchesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutBranchesInput
+  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutBranchesInput
+  stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutFrom_branchInput
+  stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutTo_branchInput
+  stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
+}
+
+export type branchesCreateOrConnectWithoutDefault_for_tenantsInput = {
+  where: Prisma.branchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.branchesCreateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedCreateWithoutDefault_for_tenantsInput>
+}
+
+export type branchesCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
+  inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
+  profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
+  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutBranchesInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutBranchesInput
+  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutBranchesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutBranchesInput
+  res_shifts?: Prisma.res_shiftsCreateNestedManyWithoutBranchesInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutBranchesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutBranchesInput
+  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutBranchesInput
+  stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutFrom_branchInput
+  stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutTo_branchInput
+  stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutBranchesInput
+}
+
+export type branchesUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  city_id: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
+  profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutBranchesInput
+  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutBranchesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutBranchesInput
+  res_shifts?: Prisma.res_shiftsUncheckedCreateNestedManyWithoutBranchesInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutBranchesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutBranchesInput
+  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutBranchesInput
+  stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutFrom_branchInput
+  stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutTo_branchInput
+  stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
+}
+
+export type branchesCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.branchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput>
+}
+
+export type branchesCreateManyTenantsInputEnvelope = {
+  data: Prisma.branchesCreateManyTenantsInput | Prisma.branchesCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type branchesUpsertWithoutDefault_for_tenantsInput = {
+  update: Prisma.XOR<Prisma.branchesUpdateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedUpdateWithoutDefault_for_tenantsInput>
+  create: Prisma.XOR<Prisma.branchesCreateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedCreateWithoutDefault_for_tenantsInput>
+  where?: Prisma.branchesWhereInput
+}
+
+export type branchesUpdateToOneWithWhereWithoutDefault_for_tenantsInput = {
+  where?: Prisma.branchesWhereInput
+  data: Prisma.XOR<Prisma.branchesUpdateWithoutDefault_for_tenantsInput, Prisma.branchesUncheckedUpdateWithoutDefault_for_tenantsInput>
+}
+
+export type branchesUpdateWithoutDefault_for_tenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
+  profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
+  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutBranchesNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutBranchesNestedInput
+  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutBranchesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutBranchesNestedInput
+  res_shifts?: Prisma.res_shiftsUpdateManyWithoutBranchesNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutBranchesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutBranchesNestedInput
+  sales_returns?: Prisma.sales_returnsUpdateManyWithoutBranchesNestedInput
+  stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutFrom_branchNestedInput
+  stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutTo_branchNestedInput
+  stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutBranchesNestedInput
+}
+
+export type branchesUncheckedUpdateWithoutDefault_for_tenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutBranchesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutBranchesNestedInput
+  res_shifts?: Prisma.res_shiftsUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutBranchesNestedInput
+  stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutFrom_branchNestedInput
+  stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutTo_branchNestedInput
+  stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
+}
+
+export type branchesUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.branchesWhereUniqueInput
+  update: Prisma.XOR<Prisma.branchesUpdateWithoutTenantsInput, Prisma.branchesUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.branchesCreateWithoutTenantsInput, Prisma.branchesUncheckedCreateWithoutTenantsInput>
+}
+
+export type branchesUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.branchesWhereUniqueInput
+  data: Prisma.XOR<Prisma.branchesUpdateWithoutTenantsInput, Prisma.branchesUncheckedUpdateWithoutTenantsInput>
+}
+
+export type branchesUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.branchesScalarWhereInput
+  data: Prisma.XOR<Prisma.branchesUpdateManyMutationInput, Prisma.branchesUncheckedUpdateManyWithoutTenantsInput>
+}
+
 export type branchesCreateWithoutInventory_movementsInput = {
   id?: string
   name: string
@@ -1981,6 +2357,8 @@ export type branchesCreateWithoutInventory_movementsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutBranchesInput
@@ -2007,6 +2385,8 @@ export type branchesUncheckedCreateWithoutInventory_movementsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput
@@ -2049,6 +2429,8 @@ export type branchesUpdateWithoutInventory_movementsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutBranchesNestedInput
@@ -2075,6 +2457,8 @@ export type branchesUncheckedUpdateWithoutInventory_movementsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2101,6 +2485,8 @@ export type branchesCreateWithoutStock_transfers_fromInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -2127,6 +2513,8 @@ export type branchesUncheckedCreateWithoutStock_transfers_fromInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -2158,6 +2546,8 @@ export type branchesCreateWithoutStock_transfers_toInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -2184,6 +2574,8 @@ export type branchesUncheckedCreateWithoutStock_transfers_toInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -2226,6 +2618,8 @@ export type branchesUpdateWithoutStock_transfers_fromInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2252,6 +2646,8 @@ export type branchesUncheckedUpdateWithoutStock_transfers_fromInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2289,6 +2685,8 @@ export type branchesUpdateWithoutStock_transfers_toInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2315,6 +2713,8 @@ export type branchesUncheckedUpdateWithoutStock_transfers_toInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2341,6 +2741,8 @@ export type branchesCreateWithoutWarehousesInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -2367,6 +2769,8 @@ export type branchesUncheckedCreateWithoutWarehousesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -2409,6 +2813,8 @@ export type branchesUpdateWithoutWarehousesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2435,6 +2841,8 @@ export type branchesUncheckedUpdateWithoutWarehousesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2461,6 +2869,8 @@ export type branchesCreateWithoutPurchase_requisitionsInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -2487,6 +2897,8 @@ export type branchesUncheckedCreateWithoutPurchase_requisitionsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -2529,6 +2941,8 @@ export type branchesUpdateWithoutPurchase_requisitionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2555,6 +2969,8 @@ export type branchesUncheckedUpdateWithoutPurchase_requisitionsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2581,6 +2997,8 @@ export type branchesCreateWithoutSales_ordersInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutBranchesInput
@@ -2607,6 +3025,8 @@ export type branchesUncheckedCreateWithoutSales_ordersInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   inventory_movements?: Prisma.inventory_movementsUncheckedCreateNestedManyWithoutBranchesInput
   profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBranchesInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutBranchesInput
@@ -2649,6 +3069,8 @@ export type branchesUpdateWithoutSales_ordersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2675,6 +3097,8 @@ export type branchesUncheckedUpdateWithoutSales_ordersInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2700,6 +3124,7 @@ export type branchesCreateManyCitiesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type branchesUpdateWithoutCitiesInput = {
@@ -2711,6 +3136,8 @@ export type branchesUpdateWithoutCitiesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
@@ -2737,6 +3164,8 @@ export type branchesUncheckedUpdateWithoutCitiesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
   profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
   purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -2763,6 +3192,87 @@ export type branchesUncheckedUpdateManyWithoutCitiesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type branchesCreateManyTenantsInput = {
+  id?: string
+  name: string
+  city_id: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type branchesUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
+  inventory_movements?: Prisma.inventory_movementsUpdateManyWithoutBranchesNestedInput
+  profiles?: Prisma.profilesUpdateManyWithoutBranchesNestedInput
+  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutBranchesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutBranchesNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutBranchesNestedInput
+  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutBranchesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutBranchesNestedInput
+  res_shifts?: Prisma.res_shiftsUpdateManyWithoutBranchesNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutBranchesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutBranchesNestedInput
+  sales_returns?: Prisma.sales_returnsUpdateManyWithoutBranchesNestedInput
+  stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutFrom_branchNestedInput
+  stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutTo_branchNestedInput
+  stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutBranchesNestedInput
+}
+
+export type branchesUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
+  inventory_movements?: Prisma.inventory_movementsUncheckedUpdateManyWithoutBranchesNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutBranchesNestedInput
+  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutBranchesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutBranchesNestedInput
+  res_shifts?: Prisma.res_shiftsUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutBranchesNestedInput
+  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutBranchesNestedInput
+  stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutFrom_branchNestedInput
+  stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutTo_branchNestedInput
+  stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
+}
+
+export type branchesUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -2771,6 +3281,7 @@ export type branchesUncheckedUpdateManyWithoutCitiesInput = {
  */
 
 export type BranchesCountOutputType = {
+  default_for_tenants: number
   inventory_movements: number
   profiles: number
   purchase_invoices: number
@@ -2789,6 +3300,7 @@ export type BranchesCountOutputType = {
 }
 
 export type BranchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  default_for_tenants?: boolean | BranchesCountOutputTypeCountDefault_for_tenantsArgs
   inventory_movements?: boolean | BranchesCountOutputTypeCountInventory_movementsArgs
   profiles?: boolean | BranchesCountOutputTypeCountProfilesArgs
   purchase_invoices?: boolean | BranchesCountOutputTypeCountPurchase_invoicesArgs
@@ -2814,6 +3326,13 @@ export type BranchesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Select specific fields to fetch from the BranchesCountOutputType
    */
   select?: Prisma.BranchesCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BranchesCountOutputType without action
+ */
+export type BranchesCountOutputTypeCountDefault_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenantsWhereInput
 }
 
 /**
@@ -2932,7 +3451,10 @@ export type branchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
+  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   inventory_movements?: boolean | Prisma.branches$inventory_movementsArgs<ExtArgs>
   profiles?: boolean | Prisma.branches$profilesArgs<ExtArgs>
   purchase_invoices?: boolean | Prisma.branches$purchase_invoicesArgs<ExtArgs>
@@ -2961,7 +3483,9 @@ export type branchesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
 
 export type branchesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2974,7 +3498,9 @@ export type branchesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
 
 export type branchesSelectScalar = {
@@ -2987,11 +3513,14 @@ export type branchesSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
 }
 
-export type branchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "city_id" | "address" | "phone" | "is_active" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["branches"]>
+export type branchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "city_id" | "address" | "phone" | "is_active" | "created_at" | "updated_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["branches"]>
 export type branchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
+  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   inventory_movements?: boolean | Prisma.branches$inventory_movementsArgs<ExtArgs>
   profiles?: boolean | Prisma.branches$profilesArgs<ExtArgs>
   purchase_invoices?: boolean | Prisma.branches$purchase_invoicesArgs<ExtArgs>
@@ -3011,15 +3540,19 @@ export type branchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 export type branchesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
 }
 export type branchesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.branches$tenantsArgs<ExtArgs>
 }
 
 export type $branchesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "branches"
   objects: {
     cities: Prisma.$citiesPayload<ExtArgs>
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
+    default_for_tenants: Prisma.$tenantsPayload<ExtArgs>[]
     inventory_movements: Prisma.$inventory_movementsPayload<ExtArgs>[]
     profiles: Prisma.$profilesPayload<ExtArgs>[]
     purchase_invoices: Prisma.$purchase_invoicesPayload<ExtArgs>[]
@@ -3046,6 +3579,7 @@ export type $branchesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     created_at: Date | null
     updated_at: Date | null
     auth_user_id: string | null
+    tenant_id: string | null
   }, ExtArgs["result"]["branches"]>
   composites: {}
 }
@@ -3441,6 +3975,8 @@ readonly fields: branchesFieldRefs;
 export interface Prisma__branchesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cities<T extends Prisma.citiesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.citiesDefaultArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.branches$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  default_for_tenants<T extends Prisma.branches$default_for_tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$default_for_tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory_movements<T extends Prisma.branches$inventory_movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$inventory_movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   profiles<T extends Prisma.branches$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   purchase_invoices<T extends Prisma.branches$purchase_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$purchase_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3494,6 +4030,7 @@ export interface branchesFieldRefs {
   readonly created_at: Prisma.FieldRef<"branches", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"branches", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"branches", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"branches", 'String'>
 }
     
 
@@ -3892,6 +4429,49 @@ export type branchesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many branches to delete.
    */
   limit?: number
+}
+
+/**
+ * branches.tenants
+ */
+export type branches$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+}
+
+/**
+ * branches.default_for_tenants
+ */
+export type branches$default_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+  orderBy?: Prisma.tenantsOrderByWithRelationInput | Prisma.tenantsOrderByWithRelationInput[]
+  cursor?: Prisma.tenantsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
 }
 
 /**

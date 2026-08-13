@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.9.1
- * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.9.1",
-  engine: "e922089b7d7502aff4249d5da3420f6fa55fc6ad"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 /**
@@ -156,19 +156,6 @@ export type Subset<T, U> = {
 };
 
 /**
- * Resolved type of the argument passed to the `PrismaClient` constructor.
- *
- * When called without a narrower options type (the common case), this resolves
- * to `PrismaClientOptions` directly, which produces a clear TypeScript error
- * message (`not assignable to parameter of type 'PrismaClientOptions'`) when
- * the argument is missing or incomplete. When the user supplies a narrower
- * options type (e.g. via a literal), it falls back to `Subset` to keep
- * filtering out unknown properties.
- */
-export type PrismaClientConstructorArgs<Options extends PrismaClientOptions> =
-  [PrismaClientOptions] extends [Options] ? PrismaClientOptions : Subset<Options, PrismaClientOptions>;
-
-/**
  * SelectSubset
  * @desc From `T` pick properties that exist in `U`. Simple version of Intersection.
  * Additionally, it validates, if both select and include are present. If the case, it errors.
@@ -200,7 +187,7 @@ type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 export type XOR<T, U> =
   T extends object ?
   U extends object ?
-    ((Without<T, U> & U) | (Without<U, T> & T)) & object
+    (Without<T, U> & U) | (Without<U, T> & T)
   : U : T
 
 
@@ -462,6 +449,7 @@ export const ModelName = {
   suppliers: 'suppliers',
   tax_rates: 'tax_rates',
   tenant_subscriptions: 'tenant_subscriptions',
+  tenants: 'tenants',
   tenant_users: 'tenant_users',
   transaction_details: 'transaction_details',
   transactions: 'transactions',
@@ -527,7 +515,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_roles" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "employee_roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings" | "notifications" | "user_notifications" | "notification_templates"
+    modelProps: "activity_types" | "audit_logs" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "inventory" | "payment_types" | "permissions" | "pos_sales" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "pos_reorder_requests" | "profiles" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_promotion_usage" | "res_promotions" | "res_reservations" | "res_roles" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "employee_roles" | "sale_items" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "stock_reservations" | "stock_counts" | "stock_count_items" | "reorder_rules" | "reorder_suggestions" | "rbac_audit" | "res_cash_movements" | "res_shift_audit" | "res_shift_settings" | "notifications" | "user_notifications" | "notification_templates"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5341,6 +5329,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    tenants: {
+      payload: Prisma.$tenantsPayload<ExtArgs>
+      fields: Prisma.tenantsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.tenantsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.tenantsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        findFirst: {
+          args: Prisma.tenantsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.tenantsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        findMany: {
+          args: Prisma.tenantsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>[]
+        }
+        create: {
+          args: Prisma.tenantsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        createMany: {
+          args: Prisma.tenantsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.tenantsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>[]
+        }
+        delete: {
+          args: Prisma.tenantsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        update: {
+          args: Prisma.tenantsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        deleteMany: {
+          args: Prisma.tenantsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.tenantsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.tenantsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>[]
+        }
+        upsert: {
+          args: Prisma.tenantsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenantsPayload>
+        }
+        aggregate: {
+          args: Prisma.TenantsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenants>
+        }
+        groupBy: {
+          args: Prisma.tenantsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.tenantsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantsCountAggregateOutputType> | number
+        }
+      }
+    }
     tenant_users: {
       payload: Prisma.$tenant_usersPayload<ExtArgs>
       fields: Prisma.tenant_usersFieldRefs
@@ -9119,7 +9181,8 @@ export const BranchesScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typeof BranchesScalarFieldEnum]
@@ -10235,6 +10298,7 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   email: 'email',
   subscription_id: 'subscription_id',
+  tenant_id: 'tenant_id',
   status: 'status',
   first_use: 'first_use',
   start_date: 'start_date',
@@ -10249,6 +10313,33 @@ export const Tenant_subscriptionsScalarFieldEnum = {
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
+
+
+export const TenantsScalarFieldEnum = {
+  id: 'id',
+  tenant_code: 'tenant_code',
+  name: 'name',
+  slug: 'slug',
+  display_name: 'display_name',
+  legal_name: 'legal_name',
+  type: 'type',
+  status: 'status',
+  logo_url: 'logo_url',
+  domain: 'domain',
+  timezone: 'timezone',
+  locale: 'locale',
+  currency_code: 'currency_code',
+  country_code: 'country_code',
+  default_branch_id: 'default_branch_id',
+  current_subscription_id: 'current_subscription_id',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  metadata: 'metadata'
+} as const
+
+export type TenantsScalarFieldEnum = (typeof TenantsScalarFieldEnum)[keyof typeof TenantsScalarFieldEnum]
 
 
 export const Tenant_usersScalarFieldEnum = {
@@ -10268,6 +10359,7 @@ export const Tenant_usersScalarFieldEnum = {
   onboarding_complete: 'onboarding_complete',
   is_restuarant_user: 'is_restuarant_user',
   parent_tenant_id: 'parent_tenant_id',
+  tenant_id: 'tenant_id',
   refund_pin_code: 'refund_pin_code',
   id_number: 'id_number'
 } as const
@@ -11438,6 +11530,34 @@ export type ListEnumsubscription_commission_typeFieldRefInput<$PrismaModel> = Fi
 
 
 /**
+ * Reference to a field of type 'tenant_type'
+ */
+export type Enumtenant_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_type'>
+    
+
+
+/**
+ * Reference to a field of type 'tenant_type[]'
+ */
+export type ListEnumtenant_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_type[]'>
+    
+
+
+/**
+ * Reference to a field of type 'tenant_status'
+ */
+export type Enumtenant_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_status'>
+    
+
+
+/**
+ * Reference to a field of type 'tenant_status[]'
+ */
+export type ListEnumtenant_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_status[]'>
+    
+
+
+/**
  * Reference to a field of type 'user_module'
  */
 export type Enumuser_moduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'user_module'>
@@ -11740,10 +11860,19 @@ export type BatchPayload = {
 export const defineExtension = runtime.Extensions.defineExtension as unknown as runtime.Types.Extensions.ExtendsHook<"define", TypeMapCb, runtime.Types.Extensions.DefaultArgs>
 export type DefaultPrismaClient = PrismaClient
 export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
-/**
- * Options common to all variants of `PrismaClientOptions`, regardless of whether you connect to your database through a driver adapter or through Prisma Accelerate.
- */
-export interface PrismaClientBaseOptions {
+export type PrismaClientOptions = ({
+  /**
+   * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-pg`.
+   */
+  adapter: runtime.SqlDriverAdapterFactory
+  accelerateUrl?: never
+} | {
+  /**
+   * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+   */
+  accelerateUrl: string
+  adapter?: never
+}) & {
   /**
    * @default "colorless"
    */
@@ -11814,72 +11943,7 @@ export interface PrismaClientBaseOptions {
    * ```
    */
   comments?: runtime.SqlCommenterPlugin[]
-  /**
-   * Optional maximum size for the query plan cache. If not provided, a default size will be used.
-   * A value of `0` can be used to disable the cache entirely. A higher cache size can improve
-   * performance for applications that execute a large number of unique queries, while a smaller
-   * cache size can reduce memory usage.
-   * 
-   * @example
-   * ```
-   * const prisma = new PrismaClient({
-   *   adapter,
-   *   queryPlanCacheMaxSize: 100,
-   * })
-   * ```
-   */
-  queryPlanCacheMaxSize?: number
 }
-
-/**
- * `PrismaClient` options for connecting to your database through Prisma Accelerate instead of a driver adapter.
- * 
- * Learn more: https://pris.ly/d/accelerate
- */
-export interface PrismaClientOptionsWithAccelerateUrl extends PrismaClientBaseOptions {
-  /**
-   * The Prisma Accelerate connection URL. Use this option to connect to your database through Prisma Accelerate instead of using a driver adapter to connect directly.
-   * 
-   * Learn more: https://pris.ly/d/accelerate
-   */
-  accelerateUrl: string
-  adapter?: never
-}
-
-/**
- * `PrismaClient` options for connecting to your database through a driver adapter. This is the common case in Prisma 7.
- * 
- * Learn more: https://pris.ly/d/driver-adapters
- */
-export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions {
-  /**
-   * A driver adapter that PrismaClient uses to connect to your database, such as the ones provided by `@prisma/adapter-pg`, `@prisma/adapter-libsql`, `@prisma/adapter-planetscale`, etc.
-   * 
-   * A driver adapter is **required** unless you connect to your database through Prisma Accelerate (in which case use `accelerateUrl` instead).
-   * 
-   * Learn more: https://pris.ly/d/driver-adapters
-   * 
-   * @example
-   * ```ts
-   * import { PrismaPg } from '@prisma/adapter-pg'
-   * import { PrismaClient } from './generated/prisma/client'
-   * 
-   * const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
-   * const prisma = new PrismaClient({ adapter })
-   * ```
-   */
-  adapter: runtime.SqlDriverAdapterFactory
-  accelerateUrl?: never
-}
-
-/**
- * Options passed to the `PrismaClient` constructor.
- * 
- * A driver adapter (or, alternatively, a Prisma Accelerate URL) is **required**. See {@link PrismaClientOptionsWithAdapter} and {@link PrismaClientOptionsWithAccelerateUrl} for the two variants. All other properties live in {@link PrismaClientBaseOptions} and are optional.
- * 
- * Learn more about driver adapters: https://pris.ly/d/driver-adapters
- */
-export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   activity_types?: Prisma.activity_typesOmit
   audit_logs?: Prisma.audit_logsOmit
@@ -11946,6 +12010,7 @@ export type GlobalOmitConfig = {
   suppliers?: Prisma.suppliersOmit
   tax_rates?: Prisma.tax_ratesOmit
   tenant_subscriptions?: Prisma.tenant_subscriptionsOmit
+  tenants?: Prisma.tenantsOmit
   tenant_users?: Prisma.tenant_usersOmit
   transaction_details?: Prisma.transaction_detailsOmit
   transactions?: Prisma.transactionsOmit

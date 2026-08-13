@@ -116,6 +116,7 @@ export const ModelName = {
   suppliers: 'suppliers',
   tax_rates: 'tax_rates',
   tenant_subscriptions: 'tenant_subscriptions',
+  tenants: 'tenants',
   tenant_users: 'tenant_users',
   transaction_details: 'transaction_details',
   transactions: 'transactions',
@@ -223,7 +224,8 @@ export const BranchesScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typeof BranchesScalarFieldEnum]
@@ -1339,6 +1341,7 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   email: 'email',
   subscription_id: 'subscription_id',
+  tenant_id: 'tenant_id',
   status: 'status',
   first_use: 'first_use',
   start_date: 'start_date',
@@ -1353,6 +1356,33 @@ export const Tenant_subscriptionsScalarFieldEnum = {
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
+
+
+export const TenantsScalarFieldEnum = {
+  id: 'id',
+  tenant_code: 'tenant_code',
+  name: 'name',
+  slug: 'slug',
+  display_name: 'display_name',
+  legal_name: 'legal_name',
+  type: 'type',
+  status: 'status',
+  logo_url: 'logo_url',
+  domain: 'domain',
+  timezone: 'timezone',
+  locale: 'locale',
+  currency_code: 'currency_code',
+  country_code: 'country_code',
+  default_branch_id: 'default_branch_id',
+  current_subscription_id: 'current_subscription_id',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  metadata: 'metadata'
+} as const
+
+export type TenantsScalarFieldEnum = (typeof TenantsScalarFieldEnum)[keyof typeof TenantsScalarFieldEnum]
 
 
 export const Tenant_usersScalarFieldEnum = {
@@ -1372,6 +1402,7 @@ export const Tenant_usersScalarFieldEnum = {
   onboarding_complete: 'onboarding_complete',
   is_restuarant_user: 'is_restuarant_user',
   parent_tenant_id: 'parent_tenant_id',
+  tenant_id: 'tenant_id',
   refund_pin_code: 'refund_pin_code',
   id_number: 'id_number'
 } as const

@@ -227,7 +227,7 @@ export type Sale_itemsGroupByOutputType = {
   _max: Sale_itemsMaxAggregateOutputType | null
 }
 
-export type GetSale_itemsGroupByPayload<T extends sale_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetSale_itemsGroupByPayload<T extends sale_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Sale_itemsGroupByOutputType, T['by']> &
       {

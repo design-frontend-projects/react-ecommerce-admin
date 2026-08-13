@@ -213,7 +213,7 @@ export type Res_menu_categoriesGroupByOutputType = {
   _max: Res_menu_categoriesMaxAggregateOutputType | null
 }
 
-export type GetRes_menu_categoriesGroupByPayload<T extends res_menu_categoriesGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_menu_categoriesGroupByPayload<T extends res_menu_categoriesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_menu_categoriesGroupByOutputType, T['by']> &
       {

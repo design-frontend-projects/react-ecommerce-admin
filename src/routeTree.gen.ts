@@ -97,6 +97,9 @@ import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permis
 import { Route as ApiRbacButtonsRouteImport } from './routes/api/rbac/buttons'
 import { Route as ApiRbacAuditRouteImport } from './routes/api/rbac/audit'
 import { Route as ApiPosCheckoutRouteImport } from './routes/api/pos/checkout'
+import { Route as ApiOnboardingUsersRouteImport } from './routes/api/onboarding/users'
+import { Route as ApiOnboardingTenantUsersRouteImport } from './routes/api/onboarding/tenant-users'
+import { Route as ApiOnboardingBranchesRouteImport } from './routes/api/onboarding/branches'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
@@ -660,6 +663,22 @@ const ApiPosCheckoutRoute = ApiPosCheckoutRouteImport.update({
   path: '/api/pos/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOnboardingUsersRoute = ApiOnboardingUsersRouteImport.update({
+  id: '/api/onboarding/users',
+  path: '/api/onboarding/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOnboardingTenantUsersRoute =
+  ApiOnboardingTenantUsersRouteImport.update({
+    id: '/api/onboarding/tenant-users',
+    path: '/api/onboarding/tenant-users',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiOnboardingBranchesRoute = ApiOnboardingBranchesRouteImport.update({
+  id: '/api/onboarding/branches',
+  path: '/api/onboarding/branches',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
   id: '/api/inventory/warehouses',
   path: '/api/inventory/warehouses',
@@ -1109,6 +1128,9 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
+  '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
@@ -1259,6 +1281,9 @@ export interface FileRoutesByTo {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
+  '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
@@ -1414,6 +1439,9 @@ export interface FileRoutesById {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
+  '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
+  '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
@@ -1568,6 +1596,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/onboarding/branches'
+    | '/api/onboarding/tenant-users'
+    | '/api/onboarding/users'
     | '/api/pos/checkout'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
@@ -1718,6 +1749,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/onboarding/branches'
+    | '/api/onboarding/tenant-users'
+    | '/api/onboarding/users'
     | '/api/pos/checkout'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
@@ -1872,6 +1906,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/onboarding/branches'
+    | '/api/onboarding/tenant-users'
+    | '/api/onboarding/users'
     | '/api/pos/checkout'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
@@ -1977,6 +2014,9 @@ export interface RootRouteChildren {
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
+  ApiOnboardingBranchesRoute: typeof ApiOnboardingBranchesRoute
+  ApiOnboardingTenantUsersRoute: typeof ApiOnboardingTenantUsersRoute
+  ApiOnboardingUsersRoute: typeof ApiOnboardingUsersRoute
   ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
   ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
   ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
@@ -2615,6 +2655,27 @@ declare module '@tanstack/react-router' {
       path: '/api/pos/checkout'
       fullPath: '/api/pos/checkout'
       preLoaderRoute: typeof ApiPosCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/onboarding/users': {
+      id: '/api/onboarding/users'
+      path: '/api/onboarding/users'
+      fullPath: '/api/onboarding/users'
+      preLoaderRoute: typeof ApiOnboardingUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/onboarding/tenant-users': {
+      id: '/api/onboarding/tenant-users'
+      path: '/api/onboarding/tenant-users'
+      fullPath: '/api/onboarding/tenant-users'
+      preLoaderRoute: typeof ApiOnboardingTenantUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/onboarding/branches': {
+      id: '/api/onboarding/branches'
+      path: '/api/onboarding/branches'
+      fullPath: '/api/onboarding/branches'
+      preLoaderRoute: typeof ApiOnboardingBranchesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/warehouses': {
@@ -3503,6 +3564,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
+  ApiOnboardingBranchesRoute: ApiOnboardingBranchesRoute,
+  ApiOnboardingTenantUsersRoute: ApiOnboardingTenantUsersRoute,
+  ApiOnboardingUsersRoute: ApiOnboardingUsersRoute,
   ApiPosCheckoutRoute: ApiPosCheckoutRoute,
   ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
   ApiTenantOnboardRoute: ApiTenantOnboardRoute,

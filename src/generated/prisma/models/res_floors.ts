@@ -206,7 +206,7 @@ export type Res_floorsGroupByOutputType = {
   _max: Res_floorsMaxAggregateOutputType | null
 }
 
-export type GetRes_floorsGroupByPayload<T extends res_floorsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_floorsGroupByPayload<T extends res_floorsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_floorsGroupByOutputType, T['by']> &
       {

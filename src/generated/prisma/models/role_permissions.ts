@@ -137,7 +137,7 @@ export type Role_permissionsGroupByOutputType = {
   _max: Role_permissionsMaxAggregateOutputType | null
 }
 
-export type GetRole_permissionsGroupByPayload<T extends role_permissionsGroupByArgs> = Prisma.PrismaPromise<
+type GetRole_permissionsGroupByPayload<T extends role_permissionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Role_permissionsGroupByOutputType, T['by']> &
       {
