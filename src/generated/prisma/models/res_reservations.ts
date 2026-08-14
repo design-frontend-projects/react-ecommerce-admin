@@ -301,6 +301,7 @@ export type res_reservationsWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"res_reservations"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
   res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type res_reservationsOrderByWithRelationInput = {
@@ -320,6 +321,7 @@ export type res_reservationsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   res_tables?: Prisma.res_tablesOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type res_reservationsWhereUniqueInput = Prisma.AtLeast<{
@@ -342,6 +344,7 @@ export type res_reservationsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"res_reservations"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
   res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type res_reservationsOrderByWithAggregationInput = {
@@ -390,7 +393,6 @@ export type res_reservationsScalarWhereWithAggregatesInput = {
 
 export type res_reservationsCreateInput = {
   id?: string
-  tenant_id?: string | null
   customer_name: string
   customer_phone?: string | null
   customer_email?: string | null
@@ -404,6 +406,7 @@ export type res_reservationsCreateInput = {
   created_at?: Date | string | null
   auth_user_id?: string | null
   res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_reservationsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_reservationsInput
 }
 
 export type res_reservationsUncheckedCreateInput = {
@@ -426,7 +429,6 @@ export type res_reservationsUncheckedCreateInput = {
 
 export type res_reservationsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.StringFieldUpdateOperationsInput | string
   customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -440,6 +442,7 @@ export type res_reservationsUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_tables?: Prisma.res_tablesUpdateOneWithoutRes_reservationsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutRes_reservationsNestedInput
 }
 
 export type res_reservationsUncheckedUpdateInput = {
@@ -480,7 +483,6 @@ export type res_reservationsCreateManyInput = {
 
 export type res_reservationsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.StringFieldUpdateOperationsInput | string
   customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -633,9 +635,50 @@ export type res_reservationsUncheckedUpdateManyWithoutRes_tablesNestedInput = {
   deleteMany?: Prisma.res_reservationsScalarWhereInput | Prisma.res_reservationsScalarWhereInput[]
 }
 
+export type res_reservationsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput> | Prisma.res_reservationsCreateWithoutTenantsInput[] | Prisma.res_reservationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_reservationsCreateOrConnectWithoutTenantsInput | Prisma.res_reservationsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_reservationsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+}
+
+export type res_reservationsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput> | Prisma.res_reservationsCreateWithoutTenantsInput[] | Prisma.res_reservationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_reservationsCreateOrConnectWithoutTenantsInput | Prisma.res_reservationsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_reservationsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+}
+
+export type res_reservationsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput> | Prisma.res_reservationsCreateWithoutTenantsInput[] | Prisma.res_reservationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_reservationsCreateOrConnectWithoutTenantsInput | Prisma.res_reservationsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_reservationsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_reservationsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_reservationsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  disconnect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  delete?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  connect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  update?: Prisma.res_reservationsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_reservationsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_reservationsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_reservationsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_reservationsScalarWhereInput | Prisma.res_reservationsScalarWhereInput[]
+}
+
+export type res_reservationsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput> | Prisma.res_reservationsCreateWithoutTenantsInput[] | Prisma.res_reservationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_reservationsCreateOrConnectWithoutTenantsInput | Prisma.res_reservationsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_reservationsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_reservationsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_reservationsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  disconnect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  delete?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  connect?: Prisma.res_reservationsWhereUniqueInput | Prisma.res_reservationsWhereUniqueInput[]
+  update?: Prisma.res_reservationsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_reservationsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_reservationsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_reservationsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_reservationsScalarWhereInput | Prisma.res_reservationsScalarWhereInput[]
+}
+
 export type res_reservationsCreateWithoutRes_tablesInput = {
   id?: string
-  tenant_id?: string | null
   customer_name: string
   customer_phone?: string | null
   customer_email?: string | null
@@ -648,6 +691,7 @@ export type res_reservationsCreateWithoutRes_tablesInput = {
   created_by?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_reservationsInput
 }
 
 export type res_reservationsUncheckedCreateWithoutRes_tablesInput = {
@@ -714,6 +758,66 @@ export type res_reservationsScalarWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
 }
 
+export type res_reservationsCreateWithoutTenantsInput = {
+  id?: string
+  customer_name: string
+  customer_phone?: string | null
+  customer_email?: string | null
+  party_size?: number | null
+  reservation_date: Date | string
+  reservation_time: Date | string
+  duration_minutes?: number | null
+  status?: $Enums.reservation_status | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_reservationsInput
+}
+
+export type res_reservationsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  table_id?: string | null
+  customer_name: string
+  customer_phone?: string | null
+  customer_email?: string | null
+  party_size?: number | null
+  reservation_date: Date | string
+  reservation_time: Date | string
+  duration_minutes?: number | null
+  status?: $Enums.reservation_status | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_reservationsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.res_reservationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_reservationsCreateManyTenantsInputEnvelope = {
+  data: Prisma.res_reservationsCreateManyTenantsInput | Prisma.res_reservationsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type res_reservationsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_reservationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.res_reservationsUpdateWithoutTenantsInput, Prisma.res_reservationsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.res_reservationsCreateWithoutTenantsInput, Prisma.res_reservationsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_reservationsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_reservationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.res_reservationsUpdateWithoutTenantsInput, Prisma.res_reservationsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type res_reservationsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.res_reservationsScalarWhereInput
+  data: Prisma.XOR<Prisma.res_reservationsUpdateManyMutationInput, Prisma.res_reservationsUncheckedUpdateManyWithoutTenantsInput>
+}
+
 export type res_reservationsCreateManyRes_tablesInput = {
   id?: string
   tenant_id?: string | null
@@ -733,7 +837,6 @@ export type res_reservationsCreateManyRes_tablesInput = {
 
 export type res_reservationsUpdateWithoutRes_tablesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.StringFieldUpdateOperationsInput | string
   customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -746,6 +849,7 @@ export type res_reservationsUpdateWithoutRes_tablesInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutRes_reservationsNestedInput
 }
 
 export type res_reservationsUncheckedUpdateWithoutRes_tablesInput = {
@@ -782,6 +886,74 @@ export type res_reservationsUncheckedUpdateManyWithoutRes_tablesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type res_reservationsCreateManyTenantsInput = {
+  id?: string
+  table_id?: string | null
+  customer_name: string
+  customer_phone?: string | null
+  customer_email?: string | null
+  party_size?: number | null
+  reservation_date: Date | string
+  reservation_time: Date | string
+  duration_minutes?: number | null
+  status?: $Enums.reservation_status | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_reservationsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_name?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  party_size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reservation_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservation_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  duration_minutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_reservationsNestedInput
+}
+
+export type res_reservationsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  party_size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reservation_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservation_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  duration_minutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_reservationsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  party_size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reservation_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservation_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  duration_minutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type res_reservationsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -801,6 +973,7 @@ export type res_reservationsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   created_at?: boolean
   auth_user_id?: boolean
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -820,6 +993,7 @@ export type res_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   auth_user_id?: boolean
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -839,6 +1013,7 @@ export type res_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   auth_user_id?: boolean
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectScalar = {
@@ -862,18 +1037,22 @@ export type res_reservationsSelectScalar = {
 export type res_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "table_id" | "customer_name" | "customer_phone" | "customer_email" | "party_size" | "reservation_date" | "reservation_time" | "duration_minutes" | "status" | "notes" | "created_by" | "created_at" | "auth_user_id", ExtArgs["result"]["res_reservations"]>
 export type res_reservationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }
 export type res_reservationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }
 export type res_reservationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_tables?: boolean | Prisma.res_reservations$res_tablesArgs<ExtArgs>
+  tenants?: boolean | Prisma.res_reservations$tenantsArgs<ExtArgs>
 }
 
 export type $res_reservationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_reservations"
   objects: {
     res_tables: Prisma.$res_tablesPayload<ExtArgs> | null
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1286,6 +1465,7 @@ readonly fields: res_reservationsFieldRefs;
 export interface Prisma__res_reservationsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   res_tables<T extends Prisma.res_reservations$res_tablesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_reservations$res_tablesArgs<ExtArgs>>): Prisma.Prisma__res_tablesClient<runtime.Types.Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.res_reservations$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_reservations$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1747,6 +1927,25 @@ export type res_reservations$res_tablesArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.res_tablesInclude<ExtArgs> | null
   where?: Prisma.res_tablesWhereInput
+}
+
+/**
+ * res_reservations.tenants
+ */
+export type res_reservations$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

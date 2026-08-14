@@ -26,6 +26,7 @@ export type AggregateRes_shift_audit = {
 
 export type Res_shift_auditMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   shift_id: string | null
   actor_user_id: string | null
   action: string | null
@@ -35,6 +36,7 @@ export type Res_shift_auditMinAggregateOutputType = {
 
 export type Res_shift_auditMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   shift_id: string | null
   actor_user_id: string | null
   action: string | null
@@ -44,6 +46,7 @@ export type Res_shift_auditMaxAggregateOutputType = {
 
 export type Res_shift_auditCountAggregateOutputType = {
   id: number
+  tenant_id: number
   shift_id: number
   actor_user_id: number
   action: number
@@ -57,6 +60,7 @@ export type Res_shift_auditCountAggregateOutputType = {
 
 export type Res_shift_auditMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   actor_user_id?: true
   action?: true
@@ -66,6 +70,7 @@ export type Res_shift_auditMinAggregateInputType = {
 
 export type Res_shift_auditMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   actor_user_id?: true
   action?: true
@@ -75,6 +80,7 @@ export type Res_shift_auditMaxAggregateInputType = {
 
 export type Res_shift_auditCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   actor_user_id?: true
   action?: true
@@ -159,6 +165,7 @@ export type res_shift_auditGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type Res_shift_auditGroupByOutputType = {
   id: string
+  tenant_id: string | null
   shift_id: string
   actor_user_id: string | null
   action: string
@@ -191,6 +198,7 @@ export type res_shift_auditWhereInput = {
   OR?: Prisma.res_shift_auditWhereInput[]
   NOT?: Prisma.res_shift_auditWhereInput | Prisma.res_shift_auditWhereInput[]
   id?: Prisma.UuidFilter<"res_shift_audit"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   shift_id?: Prisma.UuidFilter<"res_shift_audit"> | string
   actor_user_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   action?: Prisma.StringFilter<"res_shift_audit"> | string
@@ -203,6 +211,7 @@ export type res_shift_auditWhereInput = {
 
 export type res_shift_auditOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   actor_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
@@ -218,6 +227,7 @@ export type res_shift_auditWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_shift_auditWhereInput | Prisma.res_shift_auditWhereInput[]
   OR?: Prisma.res_shift_auditWhereInput[]
   NOT?: Prisma.res_shift_auditWhereInput | Prisma.res_shift_auditWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   shift_id?: Prisma.UuidFilter<"res_shift_audit"> | string
   actor_user_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   action?: Prisma.StringFilter<"res_shift_audit"> | string
@@ -230,6 +240,7 @@ export type res_shift_auditWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_shift_auditOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   actor_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrder
@@ -247,6 +258,7 @@ export type res_shift_auditScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_shift_auditScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_shift_auditScalarWhereWithAggregatesInput | Prisma.res_shift_auditScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_shift_audit"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shift_audit"> | string | null
   shift_id?: Prisma.UuidWithAggregatesFilter<"res_shift_audit"> | string
   actor_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shift_audit"> | string | null
   action?: Prisma.StringWithAggregatesFilter<"res_shift_audit"> | string
@@ -258,6 +270,7 @@ export type res_shift_auditScalarWhereWithAggregatesInput = {
 
 export type res_shift_auditCreateInput = {
   id?: string
+  tenant_id?: string | null
   actor_user_id?: string | null
   action: string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -269,6 +282,7 @@ export type res_shift_auditCreateInput = {
 
 export type res_shift_auditUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   actor_user_id?: string | null
   action: string
@@ -280,6 +294,7 @@ export type res_shift_auditUncheckedCreateInput = {
 
 export type res_shift_auditUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -291,6 +306,7 @@ export type res_shift_auditUpdateInput = {
 
 export type res_shift_auditUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
@@ -302,6 +318,7 @@ export type res_shift_auditUncheckedUpdateInput = {
 
 export type res_shift_auditCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   actor_user_id?: string | null
   action: string
@@ -313,6 +330,7 @@ export type res_shift_auditCreateManyInput = {
 
 export type res_shift_auditUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -323,6 +341,7 @@ export type res_shift_auditUpdateManyMutationInput = {
 
 export type res_shift_auditUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
@@ -344,6 +363,7 @@ export type res_shift_auditOrderByRelationAggregateInput = {
 
 export type res_shift_auditCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   actor_user_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
@@ -355,6 +375,7 @@ export type res_shift_auditCountOrderByAggregateInput = {
 
 export type res_shift_auditMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   actor_user_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
@@ -364,6 +385,7 @@ export type res_shift_auditMaxOrderByAggregateInput = {
 
 export type res_shift_auditMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   actor_user_id?: Prisma.SortOrder
   action?: Prisma.SortOrder
@@ -415,6 +437,7 @@ export type res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput = {
 
 export type res_shift_auditCreateWithoutRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   actor_user_id?: string | null
   action: string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -425,6 +448,7 @@ export type res_shift_auditCreateWithoutRes_shiftsInput = {
 
 export type res_shift_auditUncheckedCreateWithoutRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   actor_user_id?: string | null
   action: string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -464,6 +488,7 @@ export type res_shift_auditScalarWhereInput = {
   OR?: Prisma.res_shift_auditScalarWhereInput[]
   NOT?: Prisma.res_shift_auditScalarWhereInput | Prisma.res_shift_auditScalarWhereInput[]
   id?: Prisma.UuidFilter<"res_shift_audit"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   shift_id?: Prisma.UuidFilter<"res_shift_audit"> | string
   actor_user_id?: Prisma.UuidNullableFilter<"res_shift_audit"> | string | null
   action?: Prisma.StringFilter<"res_shift_audit"> | string
@@ -475,6 +500,7 @@ export type res_shift_auditScalarWhereInput = {
 
 export type res_shift_auditCreateManyRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   actor_user_id?: string | null
   action: string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -485,6 +511,7 @@ export type res_shift_auditCreateManyRes_shiftsInput = {
 
 export type res_shift_auditUpdateWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -495,6 +522,7 @@ export type res_shift_auditUpdateWithoutRes_shiftsInput = {
 
 export type res_shift_auditUncheckedUpdateWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -505,6 +533,7 @@ export type res_shift_auditUncheckedUpdateWithoutRes_shiftsInput = {
 
 export type res_shift_auditUncheckedUpdateManyWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actor_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   action?: Prisma.StringFieldUpdateOperationsInput | string
   old_values?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -517,6 +546,7 @@ export type res_shift_auditUncheckedUpdateManyWithoutRes_shiftsInput = {
 
 export type res_shift_auditSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   actor_user_id?: boolean
   action?: boolean
@@ -529,6 +559,7 @@ export type res_shift_auditSelect<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type res_shift_auditSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   actor_user_id?: boolean
   action?: boolean
@@ -541,6 +572,7 @@ export type res_shift_auditSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 
 export type res_shift_auditSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   actor_user_id?: boolean
   action?: boolean
@@ -553,6 +585,7 @@ export type res_shift_auditSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 
 export type res_shift_auditSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   actor_user_id?: boolean
   action?: boolean
@@ -562,7 +595,7 @@ export type res_shift_auditSelectScalar = {
   created_at?: boolean
 }
 
-export type res_shift_auditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shift_id" | "actor_user_id" | "action" | "old_values" | "new_values" | "reason" | "created_at", ExtArgs["result"]["res_shift_audit"]>
+export type res_shift_auditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "shift_id" | "actor_user_id" | "action" | "old_values" | "new_values" | "reason" | "created_at", ExtArgs["result"]["res_shift_audit"]>
 export type res_shift_auditInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_shifts?: boolean | Prisma.res_shiftsDefaultArgs<ExtArgs>
 }
@@ -580,6 +613,7 @@ export type $res_shift_auditPayload<ExtArgs extends runtime.Types.Extensions.Int
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     shift_id: string
     actor_user_id: string | null
     action: string
@@ -1012,6 +1046,7 @@ export interface Prisma__res_shift_auditClient<T, Null = never, ExtArgs extends 
  */
 export interface res_shift_auditFieldRefs {
   readonly id: Prisma.FieldRef<"res_shift_audit", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_shift_audit", 'String'>
   readonly shift_id: Prisma.FieldRef<"res_shift_audit", 'String'>
   readonly actor_user_id: Prisma.FieldRef<"res_shift_audit", 'String'>
   readonly action: Prisma.FieldRef<"res_shift_audit", 'String'>

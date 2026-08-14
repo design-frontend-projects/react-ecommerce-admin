@@ -52,8 +52,7 @@ export async function getPosProducts(): Promise<PosProduct[]> {
       base_price,
       is_active,
       has_variants,
-      product_variants ( id, sku, barcode, price, dimensions, stock_quantity, min_stock, is_active ),
-      inventory ( quantity )
+      product_variants ( id, sku, barcode, price, dimensions, stock_quantity, min_stock, is_active )
     `
     )
     .eq('is_active', true)
@@ -493,8 +492,8 @@ type PosSaleItemWithProductRow = {
 }
 
 export type NonRestaurantShipmentOrderItem = {
-  sale_item_id: number
-  product_id: number
+  sale_item_id: number | string
+  product_id: number | string
   product_name: string | null
   product_sku: string | null
   quantity: number
@@ -503,7 +502,7 @@ export type NonRestaurantShipmentOrderItem = {
 }
 
 export type NonRestaurantShipmentOrderDetails = {
-  sale_id: number
+  sale_id: number | string
   sale_date: string | null
   status: string | null
   payment_method: string | null
@@ -531,70 +530,85 @@ export async function getNonRestaurantShipmentDetails(
   const { data: shipmentRow, error: shipmentError } = await supabase
     .from('shipments')
     .select(
-      'shipment_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes'
+      'id, sales_invoice_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes'
     )
-    .eq('shipment_id', numericShipmentId)
+    .eq('id', numericShipmentId)
     .single()
 
   if (shipmentError) throw shipmentError
 
   const shipment = mapNonRestaurantShipmentRow(shipmentRow as ShipmentsRow)
 
-  const { data: orderRow, error: orderError } = await supabase
-    .from('pos_sales')
-    .select(
-      'sale_id, sale_date, status, payment_method, subtotal, discount_amount, tax_amount, total_amount'
-    )
-    .eq('sale_id', shipment.order_id)
-    .maybeSingle()
+  const invoiceId = (shipmentRow as any).sales_invoice_id
+  if (invoiceId) {
+    const { data: invoiceRow, error: invoiceError } = await supabase
+      .from('sales_invoices')
+      .select(
+        'id, invoice_date, status, subtotal, discount_amount, tax_amount, total_amount'
+      )
+      .eq('id', invoiceId)
+      .maybeSingle()
 
-  if (orderError) throw orderError
+    if (invoiceError) throw invoiceError
 
-  if (!orderRow) {
+    if (!invoiceRow) {
+      return {
+        shipment,
+        order: null,
+      }
+    }
+
+    const { data: invoiceItems, error: itemsError } = await supabase
+      .from('sales_invoice_items')
+      .select(
+        'id, product_variant_id, quantity, unit_price, line_subtotal, product_variants(products(name, sku))'
+      )
+      .eq('invoice_id', invoiceRow.id)
+      .order('line_no', { ascending: true })
+
+    if (itemsError) throw itemsError
+
+    const mappedItems: NonRestaurantShipmentOrderItem[] =
+      ((invoiceItems as any[]) || []).map((item) => {
+        const product = Array.isArray(item.product_variants?.products)
+          ? item.product_variants?.products[0]
+          : item.product_variants?.products
+        const quantity = Number(item.quantity || 0)
+        const unitPrice = Number(item.unit_price || 0)
+
+        return {
+          sale_item_id: item.id,
+          product_id: item.product_variant_id,
+          product_name: product?.name || null,
+          product_sku: product?.sku || null,
+          quantity,
+          unit_price: unitPrice,
+          line_subtotal:
+            item.line_subtotal !== null && item.line_subtotal !== undefined
+              ? Number(item.line_subtotal)
+              : quantity * unitPrice,
+        }
+      })
+
     return {
       shipment,
-      order: null,
+      order: {
+        sale_id: invoiceRow.id,
+        sale_date: invoiceRow.invoice_date,
+        status: invoiceRow.status,
+        payment_method: 'sale',
+        subtotal: invoiceRow.subtotal,
+        discount_amount: invoiceRow.discount_amount,
+        tax_amount: invoiceRow.tax_amount,
+        total_amount: invoiceRow.total_amount,
+        items: mappedItems,
+      },
     }
   }
 
-  const { data: saleItems, error: saleItemsError } = await supabase
-    .from('sale_items')
-    .select(
-      'sale_item_id, product_id, quantity, unit_price, subtotal, products(name, sku)'
-    )
-    .eq('sale_id', orderRow.sale_id)
-    .order('sale_item_id', { ascending: true })
-
-  if (saleItemsError) throw saleItemsError
-
-  const mappedItems: NonRestaurantShipmentOrderItem[] =
-    (saleItems as PosSaleItemWithProductRow[] | null)?.map((item) => {
-      const product = Array.isArray(item.products)
-        ? (item.products[0] ?? null)
-        : item.products
-      const quantity = Number(item.quantity || 0)
-      const unitPrice = Number(item.unit_price || 0)
-
-      return {
-        sale_item_id: item.sale_item_id,
-        product_id: item.product_id,
-        product_name: product?.name || null,
-        product_sku: product?.sku || null,
-        quantity,
-        unit_price: unitPrice,
-        line_subtotal:
-          item.subtotal !== null && item.subtotal !== undefined
-            ? Number(item.subtotal)
-            : quantity * unitPrice,
-      }
-    }) ?? []
-
   return {
     shipment,
-    order: {
-      ...(orderRow as PosSalesOrderRow),
-      items: mappedItems,
-    },
+    order: null,
   }
 }
 
@@ -740,45 +754,6 @@ export async function createPosTransaction(
         if (shipmentError)
           throw new Error(`Shipment creation failed: ${shipmentError.message}`)
       } else {
-        // `shipments.order_id` is Int, so link it to a minimal `pos_sales.sale_id` record.
-        const { data: posSale, error: posSaleError } = await supabase
-          .from('pos_sales')
-          .insert({
-            customer_id: payload.customerId,
-            subtotal: payload.subtotal,
-            discount_amount: payload.discountTotal || 0,
-            tax_amount: payload.taxTotal || 0,
-            total_amount: payload.totalAmount,
-            payment_method: payload.paymentMethod,
-            status: 'completed',
-          })
-          .select('sale_id')
-          .single()
-
-        if (posSaleError)
-          throw new Error(`POS sale creation failed: ${posSaleError.message}`)
-
-        // If not a restaurant, we link the promotion usage to the newly created pos_sales record
-        if (payload.promotionId && !isRestaurant) {
-          // Find the most recently inserted usage for this promo and link it to sale_id
-          const { data: recentUsage } = await supabase
-            .from('promotion_usage')
-            .select('usage_id')
-            .eq('promotion_id', payload.promotionId)
-            .is('sale_id', null)
-            .is('res_order_id', null)
-            .order('usage_id', { ascending: false })
-            .limit(1)
-            .single()
-
-          if (recentUsage) {
-            await supabase
-              .from('promotion_usage')
-              .update({ sale_id: posSale.sale_id })
-              .eq('usage_id', recentUsage.usage_id)
-          }
-        }
-
         const serializedShipment = JSON.stringify({
           recipientName: payload.shipment.recipientName,
           recipientPhone: payload.shipment.recipientPhone,
@@ -792,7 +767,7 @@ export async function createPosTransaction(
         const { error: shipmentError } = await supabase
           .from('shipments')
           .insert({
-            order_id: posSale.sale_id,
+            sales_invoice_id: invoice.id,
             status: 'prepared',
             notes: serializedShipment,
           })

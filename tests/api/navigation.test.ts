@@ -87,6 +87,50 @@ describe('buildNavGroupsFromNavigation (db-sidebar.ts)', () => {
       expect(item.icon).toBeTruthy()
     }
   })
+
+  it('translates module and screen titles when translation function t is provided', () => {
+    const t = (key: string, defaultVal?: string | Record<string, unknown>) => {
+      if (key === 'sidebar.general') return 'العامة'
+      if (key === 'sidebar.dashboard') return 'لوحة التحكم'
+      if (key === 'sidebar.products') return 'المنتجات'
+      return typeof defaultVal === 'string' ? defaultVal : key
+    }
+
+    const groups = buildNavGroupsFromNavigation(
+      {
+        modules: [
+          {
+            code: 'general',
+            name: 'General',
+            sortOrder: 1,
+            screens: [
+              {
+                code: 'dashboard',
+                name: 'Dashboard',
+                route: '/',
+                icon: 'dashboard',
+                sortOrder: 1,
+              },
+              {
+                code: 'products',
+                name: 'Products',
+                route: '/products',
+                icon: 'products',
+                sortOrder: 2,
+              },
+            ],
+          },
+        ],
+        screens: { '/': true, '/products': true },
+        buttons: {},
+      },
+      t
+    )
+
+    expect(groups[0]!.title).toBe('العامة')
+    expect(groups[0]!.items[0]!.title).toBe('لوحة التحكم')
+    expect(groups[0]!.items[1]!.title).toBe('المنتجات')
+  })
 })
 
 describe('screens catalog seed consistency', () => {
@@ -128,3 +172,4 @@ describe('screens catalog seed consistency', () => {
     }
   })
 })
+

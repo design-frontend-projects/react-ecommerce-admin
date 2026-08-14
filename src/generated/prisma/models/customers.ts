@@ -338,11 +338,11 @@ export type customersWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   customer_cards?: Prisma.Customer_cardsListRelationFilter
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
-  pos_sales?: Prisma.Pos_salesListRelationFilter
   promotion_usage?: Prisma.Promotion_usageListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_returns?: Prisma.Sales_returnsListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type customersOrderByWithRelationInput = {
@@ -368,11 +368,11 @@ export type customersOrderByWithRelationInput = {
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_cards?: Prisma.customer_cardsOrderByRelationAggregateInput
   customer_groups?: Prisma.customer_groupsOrderByWithRelationInput
-  pos_sales?: Prisma.pos_salesOrderByRelationAggregateInput
   promotion_usage?: Prisma.promotion_usageOrderByRelationAggregateInput
   sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
   sales_returns?: Prisma.sales_returnsOrderByRelationAggregateInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type customersWhereUniqueInput = Prisma.AtLeast<{
@@ -401,11 +401,11 @@ export type customersWhereUniqueInput = Prisma.AtLeast<{
   auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   customer_cards?: Prisma.Customer_cardsListRelationFilter
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
-  pos_sales?: Prisma.Pos_salesListRelationFilter
   promotion_usage?: Prisma.Promotion_usageListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_returns?: Prisma.Sales_returnsListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id" | "email">
 
 export type customersOrderByWithAggregationInput = {
@@ -464,7 +464,6 @@ export type customersScalarWhereWithAggregatesInput = {
 
 export type customersCreateInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -484,11 +483,11 @@ export type customersCreateInput = {
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateInput = {
@@ -513,7 +512,6 @@ export type customersUncheckedCreateInput = {
   group_id?: string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
@@ -522,7 +520,6 @@ export type customersUncheckedCreateInput = {
 
 export type customersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -542,11 +539,11 @@ export type customersUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateInput = {
@@ -571,7 +568,6 @@ export type customersUncheckedUpdateInput = {
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
@@ -603,7 +599,6 @@ export type customersCreateManyInput = {
 
 export type customersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -807,22 +802,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type customersCreateNestedOneWithoutPos_salesInput = {
-  create?: Prisma.XOR<Prisma.customersCreateWithoutPos_salesInput, Prisma.customersUncheckedCreateWithoutPos_salesInput>
-  connectOrCreate?: Prisma.customersCreateOrConnectWithoutPos_salesInput
-  connect?: Prisma.customersWhereUniqueInput
-}
-
-export type customersUpdateOneWithoutPos_salesNestedInput = {
-  create?: Prisma.XOR<Prisma.customersCreateWithoutPos_salesInput, Prisma.customersUncheckedCreateWithoutPos_salesInput>
-  connectOrCreate?: Prisma.customersCreateOrConnectWithoutPos_salesInput
-  upsert?: Prisma.customersUpsertWithoutPos_salesInput
-  disconnect?: Prisma.customersWhereInput | boolean
-  delete?: Prisma.customersWhereInput | boolean
-  connect?: Prisma.customersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.customersUpdateToOneWithWhereWithoutPos_salesInput, Prisma.customersUpdateWithoutPos_salesInput>, Prisma.customersUncheckedUpdateWithoutPos_salesInput>
-}
-
 export type customersCreateNestedOneWithoutPromotion_usageInput = {
   create?: Prisma.XOR<Prisma.customersCreateWithoutPromotion_usageInput, Prisma.customersUncheckedCreateWithoutPromotion_usageInput>
   connectOrCreate?: Prisma.customersCreateOrConnectWithoutPromotion_usageInput
@@ -871,6 +850,48 @@ export type customersUpdateOneWithoutSales_returnsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.customersUpdateToOneWithWhereWithoutSales_returnsInput, Prisma.customersUpdateWithoutSales_returnsInput>, Prisma.customersUncheckedUpdateWithoutSales_returnsInput>
 }
 
+export type customersCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput> | Prisma.customersCreateWithoutTenantsInput[] | Prisma.customersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutTenantsInput | Prisma.customersCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.customersCreateManyTenantsInputEnvelope
+  connect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+}
+
+export type customersUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput> | Prisma.customersCreateWithoutTenantsInput[] | Prisma.customersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutTenantsInput | Prisma.customersCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.customersCreateManyTenantsInputEnvelope
+  connect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+}
+
+export type customersUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput> | Prisma.customersCreateWithoutTenantsInput[] | Prisma.customersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutTenantsInput | Prisma.customersCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.customersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.customersUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.customersCreateManyTenantsInputEnvelope
+  set?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  disconnect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  delete?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  connect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  update?: Prisma.customersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.customersUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.customersUpdateManyWithWhereWithoutTenantsInput | Prisma.customersUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.customersScalarWhereInput | Prisma.customersScalarWhereInput[]
+}
+
+export type customersUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput> | Prisma.customersCreateWithoutTenantsInput[] | Prisma.customersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutTenantsInput | Prisma.customersCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.customersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.customersUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.customersCreateManyTenantsInputEnvelope
+  set?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  disconnect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  delete?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  connect?: Prisma.customersWhereUniqueInput | Prisma.customersWhereUniqueInput[]
+  update?: Prisma.customersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.customersUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.customersUpdateManyWithWhereWithoutTenantsInput | Prisma.customersUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.customersScalarWhereInput | Prisma.customersScalarWhereInput[]
+}
+
 export type customersCreateNestedOneWithoutSales_ordersInput = {
   create?: Prisma.XOR<Prisma.customersCreateWithoutSales_ordersInput, Prisma.customersUncheckedCreateWithoutSales_ordersInput>
   connectOrCreate?: Prisma.customersCreateOrConnectWithoutSales_ordersInput
@@ -889,7 +910,6 @@ export type customersUpdateOneWithoutSales_ordersNestedInput = {
 
 export type customersCreateWithoutCustomer_cardsInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -908,11 +928,11 @@ export type customersCreateWithoutCustomer_cardsInput = {
   deleted_at?: Date | string | null
   auth_user_id?: string | null
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutCustomer_cardsInput = {
@@ -936,7 +956,6 @@ export type customersUncheckedCreateWithoutCustomer_cardsInput = {
   deleted_at?: Date | string | null
   group_id?: string | null
   auth_user_id?: string | null
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
@@ -961,7 +980,6 @@ export type customersUpdateToOneWithWhereWithoutCustomer_cardsInput = {
 
 export type customersUpdateWithoutCustomer_cardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -980,11 +998,11 @@ export type customersUpdateWithoutCustomer_cardsInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutCustomer_cardsInput = {
@@ -1008,7 +1026,6 @@ export type customersUncheckedUpdateWithoutCustomer_cardsInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
@@ -1017,7 +1034,6 @@ export type customersUncheckedUpdateWithoutCustomer_cardsInput = {
 
 export type customersCreateWithoutCustomer_groupsInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -1036,11 +1052,11 @@ export type customersCreateWithoutCustomer_groupsInput = {
   deleted_at?: Date | string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutCustomer_groupsInput = {
@@ -1064,7 +1080,6 @@ export type customersUncheckedCreateWithoutCustomer_groupsInput = {
   deleted_at?: Date | string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
@@ -1123,137 +1138,8 @@ export type customersScalarWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
 }
 
-export type customersCreateWithoutPos_salesInput = {
-  id?: string
-  tenant_id?: string | null
-  first_name: string
-  last_name: string
-  email?: string | null
-  phone?: string | null
-  address_line1?: string | null
-  address_line2?: string | null
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  country?: string | null
-  date_of_birth?: Date | string | null
-  loyalty_points?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  auth_user_id?: string | null
-  customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
-  customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
-  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
-  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
-}
-
-export type customersUncheckedCreateWithoutPos_salesInput = {
-  id?: string
-  tenant_id?: string | null
-  first_name: string
-  last_name: string
-  email?: string | null
-  phone?: string | null
-  address_line1?: string | null
-  address_line2?: string | null
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  country?: string | null
-  date_of_birth?: Date | string | null
-  loyalty_points?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  group_id?: string | null
-  auth_user_id?: string | null
-  customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
-  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
-  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
-  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutCustomersInput
-}
-
-export type customersCreateOrConnectWithoutPos_salesInput = {
-  where: Prisma.customersWhereUniqueInput
-  create: Prisma.XOR<Prisma.customersCreateWithoutPos_salesInput, Prisma.customersUncheckedCreateWithoutPos_salesInput>
-}
-
-export type customersUpsertWithoutPos_salesInput = {
-  update: Prisma.XOR<Prisma.customersUpdateWithoutPos_salesInput, Prisma.customersUncheckedUpdateWithoutPos_salesInput>
-  create: Prisma.XOR<Prisma.customersCreateWithoutPos_salesInput, Prisma.customersUncheckedCreateWithoutPos_salesInput>
-  where?: Prisma.customersWhereInput
-}
-
-export type customersUpdateToOneWithWhereWithoutPos_salesInput = {
-  where?: Prisma.customersWhereInput
-  data: Prisma.XOR<Prisma.customersUpdateWithoutPos_salesInput, Prisma.customersUncheckedUpdateWithoutPos_salesInput>
-}
-
-export type customersUpdateWithoutPos_salesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address_line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address_line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  loyalty_points?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
-  customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
-  sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
-}
-
-export type customersUncheckedUpdateWithoutPos_salesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address_line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address_line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  loyalty_points?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
-  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
-  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
-  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutCustomersNestedInput
-}
-
 export type customersCreateWithoutPromotion_usageInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -1273,10 +1159,10 @@ export type customersCreateWithoutPromotion_usageInput = {
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutPromotion_usageInput = {
@@ -1301,7 +1187,6 @@ export type customersUncheckedCreateWithoutPromotion_usageInput = {
   group_id?: string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutCustomersInput
@@ -1325,7 +1210,6 @@ export type customersUpdateToOneWithWhereWithoutPromotion_usageInput = {
 
 export type customersUpdateWithoutPromotion_usageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1345,10 +1229,10 @@ export type customersUpdateWithoutPromotion_usageInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutPromotion_usageInput = {
@@ -1373,7 +1257,6 @@ export type customersUncheckedUpdateWithoutPromotion_usageInput = {
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -1381,7 +1264,6 @@ export type customersUncheckedUpdateWithoutPromotion_usageInput = {
 
 export type customersCreateWithoutSales_invoicesInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -1401,10 +1283,10 @@ export type customersCreateWithoutSales_invoicesInput = {
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutSales_invoicesInput = {
@@ -1429,7 +1311,6 @@ export type customersUncheckedCreateWithoutSales_invoicesInput = {
   group_id?: string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutCustomersInput
@@ -1453,7 +1334,6 @@ export type customersUpdateToOneWithWhereWithoutSales_invoicesInput = {
 
 export type customersUpdateWithoutSales_invoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1473,10 +1353,10 @@ export type customersUpdateWithoutSales_invoicesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutSales_invoicesInput = {
@@ -1501,7 +1381,6 @@ export type customersUncheckedUpdateWithoutSales_invoicesInput = {
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -1509,7 +1388,6 @@ export type customersUncheckedUpdateWithoutSales_invoicesInput = {
 
 export type customersCreateWithoutSales_returnsInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -1529,10 +1407,10 @@ export type customersCreateWithoutSales_returnsInput = {
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutSales_returnsInput = {
@@ -1557,7 +1435,6 @@ export type customersUncheckedCreateWithoutSales_returnsInput = {
   group_id?: string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
@@ -1581,7 +1458,6 @@ export type customersUpdateToOneWithWhereWithoutSales_returnsInput = {
 
 export type customersUpdateWithoutSales_returnsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1601,10 +1477,10 @@ export type customersUpdateWithoutSales_returnsInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutSales_returnsInput = {
@@ -1629,15 +1505,13 @@ export type customersUncheckedUpdateWithoutSales_returnsInput = {
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
 }
 
-export type customersCreateWithoutSales_ordersInput = {
+export type customersCreateWithoutTenantsInput = {
   id?: string
-  tenant_id?: string | null
   first_name: string
   last_name: string
   email?: string | null
@@ -1657,10 +1531,90 @@ export type customersCreateWithoutSales_ordersInput = {
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesCreateNestedManyWithoutCustomersInput
+  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutCustomersInput
+  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+}
+
+export type customersUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  first_name: string
+  last_name: string
+  email?: string | null
+  phone?: string | null
+  address_line1?: string | null
+  address_line2?: string | null
+  city?: string | null
+  state?: string | null
+  postal_code?: string | null
+  country?: string | null
+  date_of_birth?: Date | string | null
+  loyalty_points?: number | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  group_id?: string | null
+  auth_user_id?: string | null
+  customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
+  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutCustomersInput
+  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutCustomersInput
+}
+
+export type customersCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.customersWhereUniqueInput
+  create: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput>
+}
+
+export type customersCreateManyTenantsInputEnvelope = {
+  data: Prisma.customersCreateManyTenantsInput | Prisma.customersCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type customersUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.customersWhereUniqueInput
+  update: Prisma.XOR<Prisma.customersUpdateWithoutTenantsInput, Prisma.customersUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.customersCreateWithoutTenantsInput, Prisma.customersUncheckedCreateWithoutTenantsInput>
+}
+
+export type customersUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.customersWhereUniqueInput
+  data: Prisma.XOR<Prisma.customersUpdateWithoutTenantsInput, Prisma.customersUncheckedUpdateWithoutTenantsInput>
+}
+
+export type customersUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.customersScalarWhereInput
+  data: Prisma.XOR<Prisma.customersUpdateManyMutationInput, Prisma.customersUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type customersCreateWithoutSales_ordersInput = {
+  id?: string
+  first_name: string
+  last_name: string
+  email?: string | null
+  phone?: string | null
+  address_line1?: string | null
+  address_line2?: string | null
+  city?: string | null
+  state?: string | null
+  postal_code?: string | null
+  country?: string | null
+  date_of_birth?: Date | string | null
+  loyalty_points?: number | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  auth_user_id?: string | null
+  customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
+  customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutCustomersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomersInput
 }
 
 export type customersUncheckedCreateWithoutSales_ordersInput = {
@@ -1685,7 +1639,6 @@ export type customersUncheckedCreateWithoutSales_ordersInput = {
   group_id?: string | null
   auth_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
-  pos_sales?: Prisma.pos_salesUncheckedCreateNestedManyWithoutCustomersInput
   promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutCustomersInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutCustomersInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutCustomersInput
@@ -1709,7 +1662,6 @@ export type customersUpdateToOneWithWhereWithoutSales_ordersInput = {
 
 export type customersUpdateWithoutSales_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1729,10 +1681,10 @@ export type customersUpdateWithoutSales_ordersInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutSales_ordersInput = {
@@ -1757,7 +1709,6 @@ export type customersUncheckedUpdateWithoutSales_ordersInput = {
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutCustomersNestedInput
@@ -1787,7 +1738,6 @@ export type customersCreateManyCustomer_groupsInput = {
 
 export type customersUpdateWithoutCustomer_groupsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1806,11 +1756,11 @@ export type customersUpdateWithoutCustomer_groupsInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateWithoutCustomer_groupsInput = {
@@ -1834,7 +1784,6 @@ export type customersUncheckedUpdateWithoutCustomer_groupsInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
-  pos_sales?: Prisma.pos_salesUncheckedUpdateManyWithoutCustomersNestedInput
   promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
@@ -1863,6 +1812,104 @@ export type customersUncheckedUpdateManyWithoutCustomer_groupsInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type customersCreateManyTenantsInput = {
+  id?: string
+  first_name: string
+  last_name: string
+  email?: string | null
+  phone?: string | null
+  address_line1?: string | null
+  address_line2?: string | null
+  city?: string | null
+  state?: string | null
+  postal_code?: string | null
+  country?: string | null
+  date_of_birth?: Date | string | null
+  loyalty_points?: number | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  group_id?: string | null
+  auth_user_id?: string | null
+}
+
+export type customersUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyalty_points?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
+  customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
+  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutCustomersNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutCustomersNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutCustomersNestedInput
+  sales_returns?: Prisma.sales_returnsUpdateManyWithoutCustomersNestedInput
+}
+
+export type customersUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyalty_points?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
+  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutCustomersNestedInput
+  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutCustomersNestedInput
+}
+
+export type customersUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyalty_points?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 /**
  * Count Type CustomersCountOutputType
@@ -1870,7 +1917,6 @@ export type customersUncheckedUpdateManyWithoutCustomer_groupsInput = {
 
 export type CustomersCountOutputType = {
   customer_cards: number
-  pos_sales: number
   promotion_usage: number
   sales_invoices: number
   sales_orders: number
@@ -1879,7 +1925,6 @@ export type CustomersCountOutputType = {
 
 export type CustomersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_cards?: boolean | CustomersCountOutputTypeCountCustomer_cardsArgs
-  pos_sales?: boolean | CustomersCountOutputTypeCountPos_salesArgs
   promotion_usage?: boolean | CustomersCountOutputTypeCountPromotion_usageArgs
   sales_invoices?: boolean | CustomersCountOutputTypeCountSales_invoicesArgs
   sales_orders?: boolean | CustomersCountOutputTypeCountSales_ordersArgs
@@ -1901,13 +1946,6 @@ export type CustomersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type CustomersCountOutputTypeCountCustomer_cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.customer_cardsWhereInput
-}
-
-/**
- * CustomersCountOutputType without action
- */
-export type CustomersCountOutputTypeCountPos_salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.pos_salesWhereInput
 }
 
 /**
@@ -1962,11 +2000,11 @@ export type customersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   auth_user_id?: boolean
   customer_cards?: boolean | Prisma.customers$customer_cardsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.customers$pos_salesArgs<ExtArgs>
   promotion_usage?: boolean | Prisma.customers$promotion_usageArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.customers$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.customers$sales_ordersArgs<ExtArgs>
   sales_returns?: boolean | Prisma.customers$sales_returnsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
@@ -1992,6 +2030,7 @@ export type customersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   group_id?: boolean
   auth_user_id?: boolean
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
 export type customersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2016,6 +2055,7 @@ export type customersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   group_id?: boolean
   auth_user_id?: boolean
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
 export type customersSelectScalar = {
@@ -2045,18 +2085,20 @@ export type customersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type customersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_cards?: boolean | Prisma.customers$customer_cardsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.customers$pos_salesArgs<ExtArgs>
   promotion_usage?: boolean | Prisma.customers$promotion_usageArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.customers$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.customers$sales_ordersArgs<ExtArgs>
   sales_returns?: boolean | Prisma.customers$sales_returnsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type customersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
 }
 export type customersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
+  tenants?: boolean | Prisma.customers$tenantsArgs<ExtArgs>
 }
 
 export type $customersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2064,11 +2106,11 @@ export type $customersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     customer_cards: Prisma.$customer_cardsPayload<ExtArgs>[]
     customer_groups: Prisma.$customer_groupsPayload<ExtArgs> | null
-    pos_sales: Prisma.$pos_salesPayload<ExtArgs>[]
     promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
     sales_returns: Prisma.$sales_returnsPayload<ExtArgs>[]
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2487,11 +2529,11 @@ export interface Prisma__customersClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customer_cards<T extends Prisma.customers$customer_cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$customer_cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customer_cardsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   customer_groups<T extends Prisma.customers$customer_groupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$customer_groupsArgs<ExtArgs>>): Prisma.Prisma__customer_groupsClient<runtime.Types.Result.GetResult<Prisma.$customer_groupsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  pos_sales<T extends Prisma.customers$pos_salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$pos_salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   promotion_usage<T extends Prisma.customers$promotion_usageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoices<T extends Prisma.customers$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.customers$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_returns<T extends Prisma.customers$sales_returnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$sales_returnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_returnsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenants<T extends Prisma.customers$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2985,30 +3027,6 @@ export type customers$customer_groupsArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * customers.pos_sales
- */
-export type customers$pos_salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the pos_sales
-   */
-  select?: Prisma.pos_salesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the pos_sales
-   */
-  omit?: Prisma.pos_salesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_salesInclude<ExtArgs> | null
-  where?: Prisma.pos_salesWhereInput
-  orderBy?: Prisma.pos_salesOrderByWithRelationInput | Prisma.pos_salesOrderByWithRelationInput[]
-  cursor?: Prisma.pos_salesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Pos_salesScalarFieldEnum | Prisma.Pos_salesScalarFieldEnum[]
-}
-
-/**
  * customers.promotion_usage
  */
 export type customers$promotion_usageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3102,6 +3120,25 @@ export type customers$sales_returnsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.Sales_returnsScalarFieldEnum | Prisma.Sales_returnsScalarFieldEnum[]
+}
+
+/**
+ * customers.tenants
+ */
+export type customers$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

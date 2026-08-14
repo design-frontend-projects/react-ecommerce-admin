@@ -40,6 +40,7 @@ export type Res_shift_settingsSumAggregateOutputType = {
 
 export type Res_shift_settingsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   restaurant_id: string | null
   branch_id: string | null
   variance_threshold: runtime.Decimal | null
@@ -53,6 +54,7 @@ export type Res_shift_settingsMinAggregateOutputType = {
 
 export type Res_shift_settingsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   restaurant_id: string | null
   branch_id: string | null
   variance_threshold: runtime.Decimal | null
@@ -66,6 +68,7 @@ export type Res_shift_settingsMaxAggregateOutputType = {
 
 export type Res_shift_settingsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   restaurant_id: number
   branch_id: number
   variance_threshold: number
@@ -93,6 +96,7 @@ export type Res_shift_settingsSumAggregateInputType = {
 
 export type Res_shift_settingsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   restaurant_id?: true
   branch_id?: true
   variance_threshold?: true
@@ -106,6 +110,7 @@ export type Res_shift_settingsMinAggregateInputType = {
 
 export type Res_shift_settingsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   restaurant_id?: true
   branch_id?: true
   variance_threshold?: true
@@ -119,6 +124,7 @@ export type Res_shift_settingsMaxAggregateInputType = {
 
 export type Res_shift_settingsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   restaurant_id?: true
   branch_id?: true
   variance_threshold?: true
@@ -219,6 +225,7 @@ export type res_shift_settingsGroupByArgs<ExtArgs extends runtime.Types.Extensio
 
 export type Res_shift_settingsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   restaurant_id: string
   branch_id: string | null
   variance_threshold: runtime.Decimal
@@ -255,6 +262,7 @@ export type res_shift_settingsWhereInput = {
   OR?: Prisma.res_shift_settingsWhereInput[]
   NOT?: Prisma.res_shift_settingsWhereInput | Prisma.res_shift_settingsWhereInput[]
   id?: Prisma.UuidFilter<"res_shift_settings"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_shift_settings"> | string | null
   restaurant_id?: Prisma.StringFilter<"res_shift_settings"> | string
   branch_id?: Prisma.UuidNullableFilter<"res_shift_settings"> | string | null
   variance_threshold?: Prisma.DecimalFilter<"res_shift_settings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -268,6 +276,7 @@ export type res_shift_settingsWhereInput = {
 
 export type res_shift_settingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   variance_threshold?: Prisma.SortOrder
@@ -284,6 +293,7 @@ export type res_shift_settingsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_shift_settingsWhereInput | Prisma.res_shift_settingsWhereInput[]
   OR?: Prisma.res_shift_settingsWhereInput[]
   NOT?: Prisma.res_shift_settingsWhereInput | Prisma.res_shift_settingsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_shift_settings"> | string | null
   restaurant_id?: Prisma.StringFilter<"res_shift_settings"> | string
   branch_id?: Prisma.UuidNullableFilter<"res_shift_settings"> | string | null
   variance_threshold?: Prisma.DecimalFilter<"res_shift_settings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -297,6 +307,7 @@ export type res_shift_settingsWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_shift_settingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   variance_threshold?: Prisma.SortOrder
@@ -318,6 +329,7 @@ export type res_shift_settingsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_shift_settingsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_shift_settingsScalarWhereWithAggregatesInput | Prisma.res_shift_settingsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_shift_settings"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shift_settings"> | string | null
   restaurant_id?: Prisma.StringWithAggregatesFilter<"res_shift_settings"> | string
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shift_settings"> | string | null
   variance_threshold?: Prisma.DecimalWithAggregatesFilter<"res_shift_settings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -331,6 +343,7 @@ export type res_shift_settingsScalarWhereWithAggregatesInput = {
 
 export type res_shift_settingsCreateInput = {
   id?: string
+  tenant_id?: string | null
   restaurant_id: string
   branch_id?: string | null
   variance_threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -344,6 +357,7 @@ export type res_shift_settingsCreateInput = {
 
 export type res_shift_settingsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   restaurant_id: string
   branch_id?: string | null
   variance_threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -357,6 +371,7 @@ export type res_shift_settingsUncheckedCreateInput = {
 
 export type res_shift_settingsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   restaurant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variance_threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -370,6 +385,7 @@ export type res_shift_settingsUpdateInput = {
 
 export type res_shift_settingsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   restaurant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variance_threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -383,6 +399,7 @@ export type res_shift_settingsUncheckedUpdateInput = {
 
 export type res_shift_settingsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   restaurant_id: string
   branch_id?: string | null
   variance_threshold?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -396,6 +413,7 @@ export type res_shift_settingsCreateManyInput = {
 
 export type res_shift_settingsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   restaurant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variance_threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -409,6 +427,7 @@ export type res_shift_settingsUpdateManyMutationInput = {
 
 export type res_shift_settingsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   restaurant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variance_threshold?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -422,6 +441,7 @@ export type res_shift_settingsUncheckedUpdateManyInput = {
 
 export type res_shift_settingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   variance_threshold?: Prisma.SortOrder
@@ -441,6 +461,7 @@ export type res_shift_settingsAvgOrderByAggregateInput = {
 
 export type res_shift_settingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   variance_threshold?: Prisma.SortOrder
@@ -454,6 +475,7 @@ export type res_shift_settingsMaxOrderByAggregateInput = {
 
 export type res_shift_settingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   variance_threshold?: Prisma.SortOrder
@@ -475,6 +497,7 @@ export type res_shift_settingsSumOrderByAggregateInput = {
 
 export type res_shift_settingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   restaurant_id?: boolean
   branch_id?: boolean
   variance_threshold?: boolean
@@ -488,6 +511,7 @@ export type res_shift_settingsSelect<ExtArgs extends runtime.Types.Extensions.In
 
 export type res_shift_settingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   restaurant_id?: boolean
   branch_id?: boolean
   variance_threshold?: boolean
@@ -501,6 +525,7 @@ export type res_shift_settingsSelectCreateManyAndReturn<ExtArgs extends runtime.
 
 export type res_shift_settingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   restaurant_id?: boolean
   branch_id?: boolean
   variance_threshold?: boolean
@@ -514,6 +539,7 @@ export type res_shift_settingsSelectUpdateManyAndReturn<ExtArgs extends runtime.
 
 export type res_shift_settingsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   restaurant_id?: boolean
   branch_id?: boolean
   variance_threshold?: boolean
@@ -525,13 +551,14 @@ export type res_shift_settingsSelectScalar = {
   updated_at?: boolean
 }
 
-export type res_shift_settingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "restaurant_id" | "branch_id" | "variance_threshold" | "require_comment_over_threshold" | "stale_shift_hours" | "auto_close_hours" | "updated_by" | "created_at" | "updated_at", ExtArgs["result"]["res_shift_settings"]>
+export type res_shift_settingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "restaurant_id" | "branch_id" | "variance_threshold" | "require_comment_over_threshold" | "stale_shift_hours" | "auto_close_hours" | "updated_by" | "created_at" | "updated_at", ExtArgs["result"]["res_shift_settings"]>
 
 export type $res_shift_settingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_shift_settings"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     restaurant_id: string
     branch_id: string | null
     variance_threshold: runtime.Decimal
@@ -965,6 +992,7 @@ export interface Prisma__res_shift_settingsClient<T, Null = never, ExtArgs exten
  */
 export interface res_shift_settingsFieldRefs {
   readonly id: Prisma.FieldRef<"res_shift_settings", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_shift_settings", 'String'>
   readonly restaurant_id: Prisma.FieldRef<"res_shift_settings", 'String'>
   readonly branch_id: Prisma.FieldRef<"res_shift_settings", 'String'>
   readonly variance_threshold: Prisma.FieldRef<"res_shift_settings", 'Decimal'>

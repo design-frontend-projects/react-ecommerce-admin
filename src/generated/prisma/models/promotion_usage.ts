@@ -241,7 +241,7 @@ export type promotion_usageWhereInput = {
   customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
   promotions?: Prisma.XOR<Prisma.PromotionsScalarRelationFilter, Prisma.promotionsWhereInput>
   res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  pos_sales?: Prisma.XOR<Prisma.Pos_salesNullableScalarRelationFilter, Prisma.pos_salesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type promotion_usageOrderByWithRelationInput = {
@@ -260,7 +260,7 @@ export type promotion_usageOrderByWithRelationInput = {
   customers?: Prisma.customersOrderByWithRelationInput
   promotions?: Prisma.promotionsOrderByWithRelationInput
   res_orders?: Prisma.res_ordersOrderByWithRelationInput
-  pos_sales?: Prisma.pos_salesOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type promotion_usageWhereUniqueInput = Prisma.AtLeast<{
@@ -282,7 +282,7 @@ export type promotion_usageWhereUniqueInput = Prisma.AtLeast<{
   customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
   promotions?: Prisma.XOR<Prisma.PromotionsScalarRelationFilter, Prisma.promotionsWhereInput>
   res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  pos_sales?: Prisma.XOR<Prisma.Pos_salesNullableScalarRelationFilter, Prisma.pos_salesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type promotion_usageOrderByWithAggregationInput = {
@@ -323,7 +323,7 @@ export type promotion_usageScalarWhereWithAggregatesInput = {
 
 export type promotion_usageCreateInput = {
   id?: string
-  tenant_id?: string | null
+  sale_id?: string | null
   used_at?: Date | string | null
   order_id?: string | null
   auth_user_id?: string | null
@@ -333,7 +333,7 @@ export type promotion_usageCreateInput = {
   customers?: Prisma.customersCreateNestedOneWithoutPromotion_usageInput
   promotions: Prisma.promotionsCreateNestedOneWithoutPromotion_usageInput
   res_orders?: Prisma.res_ordersCreateNestedOneWithoutPromotion_usageInput
-  pos_sales?: Prisma.pos_salesCreateNestedOneWithoutPromotion_usageInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotion_usageInput
 }
 
 export type promotion_usageUncheckedCreateInput = {
@@ -353,7 +353,7 @@ export type promotion_usageUncheckedCreateInput = {
 
 export type promotion_usageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -363,7 +363,7 @@ export type promotion_usageUpdateInput = {
   customers?: Prisma.customersUpdateOneWithoutPromotion_usageNestedInput
   promotions?: Prisma.promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
   res_orders?: Prisma.res_ordersUpdateOneWithoutPromotion_usageNestedInput
-  pos_sales?: Prisma.pos_salesUpdateOneWithoutPromotion_usageNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPromotion_usageNestedInput
 }
 
 export type promotion_usageUncheckedUpdateInput = {
@@ -398,7 +398,7 @@ export type promotion_usageCreateManyInput = {
 
 export type promotion_usageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -519,48 +519,6 @@ export type promotion_usageUncheckedUpdateManyWithoutCustomersNestedInput = {
   deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
 }
 
-export type promotion_usageCreateNestedManyWithoutPos_salesInput = {
-  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput> | Prisma.promotion_usageCreateWithoutPos_salesInput[] | Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput[]
-  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput | Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput[]
-  createMany?: Prisma.promotion_usageCreateManyPos_salesInputEnvelope
-  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-}
-
-export type promotion_usageUncheckedCreateNestedManyWithoutPos_salesInput = {
-  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput> | Prisma.promotion_usageCreateWithoutPos_salesInput[] | Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput[]
-  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput | Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput[]
-  createMany?: Prisma.promotion_usageCreateManyPos_salesInputEnvelope
-  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-}
-
-export type promotion_usageUpdateManyWithoutPos_salesNestedInput = {
-  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput> | Prisma.promotion_usageCreateWithoutPos_salesInput[] | Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput[]
-  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput | Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput[]
-  upsert?: Prisma.promotion_usageUpsertWithWhereUniqueWithoutPos_salesInput | Prisma.promotion_usageUpsertWithWhereUniqueWithoutPos_salesInput[]
-  createMany?: Prisma.promotion_usageCreateManyPos_salesInputEnvelope
-  set?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  disconnect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  delete?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  update?: Prisma.promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput | Prisma.promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput[]
-  updateMany?: Prisma.promotion_usageUpdateManyWithWhereWithoutPos_salesInput | Prisma.promotion_usageUpdateManyWithWhereWithoutPos_salesInput[]
-  deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
-}
-
-export type promotion_usageUncheckedUpdateManyWithoutPos_salesNestedInput = {
-  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput> | Prisma.promotion_usageCreateWithoutPos_salesInput[] | Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput[]
-  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput | Prisma.promotion_usageCreateOrConnectWithoutPos_salesInput[]
-  upsert?: Prisma.promotion_usageUpsertWithWhereUniqueWithoutPos_salesInput | Prisma.promotion_usageUpsertWithWhereUniqueWithoutPos_salesInput[]
-  createMany?: Prisma.promotion_usageCreateManyPos_salesInputEnvelope
-  set?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  disconnect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  delete?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
-  update?: Prisma.promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput | Prisma.promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput[]
-  updateMany?: Prisma.promotion_usageUpdateManyWithWhereWithoutPos_salesInput | Prisma.promotion_usageUpdateManyWithWhereWithoutPos_salesInput[]
-  deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
-}
-
 export type promotion_usageCreateNestedManyWithoutPromotionsInput = {
   create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutPromotionsInput, Prisma.promotion_usageUncheckedCreateWithoutPromotionsInput> | Prisma.promotion_usageCreateWithoutPromotionsInput[] | Prisma.promotion_usageUncheckedCreateWithoutPromotionsInput[]
   connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutPromotionsInput | Prisma.promotion_usageCreateOrConnectWithoutPromotionsInput[]
@@ -645,9 +603,51 @@ export type promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput = {
   deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
 }
 
+export type promotion_usageCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput> | Prisma.promotion_usageCreateWithoutTenantsInput[] | Prisma.promotion_usageUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutTenantsInput | Prisma.promotion_usageCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.promotion_usageCreateManyTenantsInputEnvelope
+  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+}
+
+export type promotion_usageUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput> | Prisma.promotion_usageCreateWithoutTenantsInput[] | Prisma.promotion_usageUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutTenantsInput | Prisma.promotion_usageCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.promotion_usageCreateManyTenantsInputEnvelope
+  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+}
+
+export type promotion_usageUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput> | Prisma.promotion_usageCreateWithoutTenantsInput[] | Prisma.promotion_usageUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutTenantsInput | Prisma.promotion_usageCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.promotion_usageUpsertWithWhereUniqueWithoutTenantsInput | Prisma.promotion_usageUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.promotion_usageCreateManyTenantsInputEnvelope
+  set?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  disconnect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  delete?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  update?: Prisma.promotion_usageUpdateWithWhereUniqueWithoutTenantsInput | Prisma.promotion_usageUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.promotion_usageUpdateManyWithWhereWithoutTenantsInput | Prisma.promotion_usageUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
+}
+
+export type promotion_usageUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput> | Prisma.promotion_usageCreateWithoutTenantsInput[] | Prisma.promotion_usageUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.promotion_usageCreateOrConnectWithoutTenantsInput | Prisma.promotion_usageCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.promotion_usageUpsertWithWhereUniqueWithoutTenantsInput | Prisma.promotion_usageUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.promotion_usageCreateManyTenantsInputEnvelope
+  set?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  disconnect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  delete?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  connect?: Prisma.promotion_usageWhereUniqueInput | Prisma.promotion_usageWhereUniqueInput[]
+  update?: Prisma.promotion_usageUpdateWithWhereUniqueWithoutTenantsInput | Prisma.promotion_usageUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.promotion_usageUpdateManyWithWhereWithoutTenantsInput | Prisma.promotion_usageUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.promotion_usageScalarWhereInput | Prisma.promotion_usageScalarWhereInput[]
+}
+
 export type promotion_usageCreateWithoutCustomersInput = {
   id?: string
-  tenant_id?: string | null
+  sale_id?: string | null
   used_at?: Date | string | null
   order_id?: string | null
   auth_user_id?: string | null
@@ -656,7 +656,7 @@ export type promotion_usageCreateWithoutCustomersInput = {
   updated_at?: Date | string | null
   promotions: Prisma.promotionsCreateNestedOneWithoutPromotion_usageInput
   res_orders?: Prisma.res_ordersCreateNestedOneWithoutPromotion_usageInput
-  pos_sales?: Prisma.pos_salesCreateNestedOneWithoutPromotion_usageInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotion_usageInput
 }
 
 export type promotion_usageUncheckedCreateWithoutCustomersInput = {
@@ -717,63 +717,9 @@ export type promotion_usageScalarWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
 }
 
-export type promotion_usageCreateWithoutPos_salesInput = {
-  id?: string
-  tenant_id?: string | null
-  used_at?: Date | string | null
-  order_id?: string | null
-  auth_user_id?: string | null
-  created_at?: Date | string | null
-  customer_mobile?: string | null
-  updated_at?: Date | string | null
-  customers?: Prisma.customersCreateNestedOneWithoutPromotion_usageInput
-  promotions: Prisma.promotionsCreateNestedOneWithoutPromotion_usageInput
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutPromotion_usageInput
-}
-
-export type promotion_usageUncheckedCreateWithoutPos_salesInput = {
-  id?: string
-  tenant_id?: string | null
-  promotion_id: string
-  customer_id?: string | null
-  used_at?: Date | string | null
-  order_id?: string | null
-  auth_user_id?: string | null
-  created_at?: Date | string | null
-  customer_mobile?: string | null
-  res_order_id?: string | null
-  updated_at?: Date | string | null
-}
-
-export type promotion_usageCreateOrConnectWithoutPos_salesInput = {
-  where: Prisma.promotion_usageWhereUniqueInput
-  create: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput>
-}
-
-export type promotion_usageCreateManyPos_salesInputEnvelope = {
-  data: Prisma.promotion_usageCreateManyPos_salesInput | Prisma.promotion_usageCreateManyPos_salesInput[]
-  skipDuplicates?: boolean
-}
-
-export type promotion_usageUpsertWithWhereUniqueWithoutPos_salesInput = {
-  where: Prisma.promotion_usageWhereUniqueInput
-  update: Prisma.XOR<Prisma.promotion_usageUpdateWithoutPos_salesInput, Prisma.promotion_usageUncheckedUpdateWithoutPos_salesInput>
-  create: Prisma.XOR<Prisma.promotion_usageCreateWithoutPos_salesInput, Prisma.promotion_usageUncheckedCreateWithoutPos_salesInput>
-}
-
-export type promotion_usageUpdateWithWhereUniqueWithoutPos_salesInput = {
-  where: Prisma.promotion_usageWhereUniqueInput
-  data: Prisma.XOR<Prisma.promotion_usageUpdateWithoutPos_salesInput, Prisma.promotion_usageUncheckedUpdateWithoutPos_salesInput>
-}
-
-export type promotion_usageUpdateManyWithWhereWithoutPos_salesInput = {
-  where: Prisma.promotion_usageScalarWhereInput
-  data: Prisma.XOR<Prisma.promotion_usageUpdateManyMutationInput, Prisma.promotion_usageUncheckedUpdateManyWithoutPos_salesInput>
-}
-
 export type promotion_usageCreateWithoutPromotionsInput = {
   id?: string
-  tenant_id?: string | null
+  sale_id?: string | null
   used_at?: Date | string | null
   order_id?: string | null
   auth_user_id?: string | null
@@ -782,7 +728,7 @@ export type promotion_usageCreateWithoutPromotionsInput = {
   updated_at?: Date | string | null
   customers?: Prisma.customersCreateNestedOneWithoutPromotion_usageInput
   res_orders?: Prisma.res_ordersCreateNestedOneWithoutPromotion_usageInput
-  pos_sales?: Prisma.pos_salesCreateNestedOneWithoutPromotion_usageInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotion_usageInput
 }
 
 export type promotion_usageUncheckedCreateWithoutPromotionsInput = {
@@ -827,7 +773,7 @@ export type promotion_usageUpdateManyWithWhereWithoutPromotionsInput = {
 
 export type promotion_usageCreateWithoutRes_ordersInput = {
   id?: string
-  tenant_id?: string | null
+  sale_id?: string | null
   used_at?: Date | string | null
   order_id?: string | null
   auth_user_id?: string | null
@@ -836,7 +782,7 @@ export type promotion_usageCreateWithoutRes_ordersInput = {
   updated_at?: Date | string | null
   customers?: Prisma.customersCreateNestedOneWithoutPromotion_usageInput
   promotions: Prisma.promotionsCreateNestedOneWithoutPromotion_usageInput
-  pos_sales?: Prisma.pos_salesCreateNestedOneWithoutPromotion_usageInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotion_usageInput
 }
 
 export type promotion_usageUncheckedCreateWithoutRes_ordersInput = {
@@ -879,6 +825,60 @@ export type promotion_usageUpdateManyWithWhereWithoutRes_ordersInput = {
   data: Prisma.XOR<Prisma.promotion_usageUpdateManyMutationInput, Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersInput>
 }
 
+export type promotion_usageCreateWithoutTenantsInput = {
+  id?: string
+  sale_id?: string | null
+  used_at?: Date | string | null
+  order_id?: string | null
+  auth_user_id?: string | null
+  created_at?: Date | string | null
+  customer_mobile?: string | null
+  updated_at?: Date | string | null
+  customers?: Prisma.customersCreateNestedOneWithoutPromotion_usageInput
+  promotions: Prisma.promotionsCreateNestedOneWithoutPromotion_usageInput
+  res_orders?: Prisma.res_ordersCreateNestedOneWithoutPromotion_usageInput
+}
+
+export type promotion_usageUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  promotion_id: string
+  customer_id?: string | null
+  sale_id?: string | null
+  used_at?: Date | string | null
+  order_id?: string | null
+  auth_user_id?: string | null
+  created_at?: Date | string | null
+  customer_mobile?: string | null
+  res_order_id?: string | null
+  updated_at?: Date | string | null
+}
+
+export type promotion_usageCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.promotion_usageWhereUniqueInput
+  create: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput>
+}
+
+export type promotion_usageCreateManyTenantsInputEnvelope = {
+  data: Prisma.promotion_usageCreateManyTenantsInput | Prisma.promotion_usageCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type promotion_usageUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.promotion_usageWhereUniqueInput
+  update: Prisma.XOR<Prisma.promotion_usageUpdateWithoutTenantsInput, Prisma.promotion_usageUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.promotion_usageCreateWithoutTenantsInput, Prisma.promotion_usageUncheckedCreateWithoutTenantsInput>
+}
+
+export type promotion_usageUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.promotion_usageWhereUniqueInput
+  data: Prisma.XOR<Prisma.promotion_usageUpdateWithoutTenantsInput, Prisma.promotion_usageUncheckedUpdateWithoutTenantsInput>
+}
+
+export type promotion_usageUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.promotion_usageScalarWhereInput
+  data: Prisma.XOR<Prisma.promotion_usageUpdateManyMutationInput, Prisma.promotion_usageUncheckedUpdateManyWithoutTenantsInput>
+}
+
 export type promotion_usageCreateManyCustomersInput = {
   id?: string
   tenant_id?: string | null
@@ -895,7 +895,7 @@ export type promotion_usageCreateManyCustomersInput = {
 
 export type promotion_usageUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -904,7 +904,7 @@ export type promotion_usageUpdateWithoutCustomersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   promotions?: Prisma.promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
   res_orders?: Prisma.res_ordersUpdateOneWithoutPromotion_usageNestedInput
-  pos_sales?: Prisma.pos_salesUpdateOneWithoutPromotion_usageNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPromotion_usageNestedInput
 }
 
 export type promotion_usageUncheckedUpdateWithoutCustomersInput = {
@@ -935,62 +935,6 @@ export type promotion_usageUncheckedUpdateManyWithoutCustomersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type promotion_usageCreateManyPos_salesInput = {
-  id?: string
-  tenant_id?: string | null
-  promotion_id: string
-  customer_id?: string | null
-  used_at?: Date | string | null
-  order_id?: string | null
-  auth_user_id?: string | null
-  created_at?: Date | string | null
-  customer_mobile?: string | null
-  res_order_id?: string | null
-  updated_at?: Date | string | null
-}
-
-export type promotion_usageUpdateWithoutPos_salesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  customers?: Prisma.customersUpdateOneWithoutPromotion_usageNestedInput
-  promotions?: Prisma.promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
-  res_orders?: Prisma.res_ordersUpdateOneWithoutPromotion_usageNestedInput
-}
-
-export type promotion_usageUncheckedUpdateWithoutPos_salesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type promotion_usageUncheckedUpdateManyWithoutPos_salesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
 export type promotion_usageCreateManyPromotionsInput = {
   id?: string
   tenant_id?: string | null
@@ -1007,7 +951,7 @@ export type promotion_usageCreateManyPromotionsInput = {
 
 export type promotion_usageUpdateWithoutPromotionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1016,7 +960,7 @@ export type promotion_usageUpdateWithoutPromotionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customers?: Prisma.customersUpdateOneWithoutPromotion_usageNestedInput
   res_orders?: Prisma.res_ordersUpdateOneWithoutPromotion_usageNestedInput
-  pos_sales?: Prisma.pos_salesUpdateOneWithoutPromotion_usageNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPromotion_usageNestedInput
 }
 
 export type promotion_usageUncheckedUpdateWithoutPromotionsInput = {
@@ -1063,7 +1007,7 @@ export type promotion_usageCreateManyRes_ordersInput = {
 
 export type promotion_usageUpdateWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1072,7 +1016,7 @@ export type promotion_usageUpdateWithoutRes_ordersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customers?: Prisma.customersUpdateOneWithoutPromotion_usageNestedInput
   promotions?: Prisma.promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
-  pos_sales?: Prisma.pos_salesUpdateOneWithoutPromotion_usageNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPromotion_usageNestedInput
 }
 
 export type promotion_usageUncheckedUpdateWithoutRes_ordersInput = {
@@ -1103,6 +1047,62 @@ export type promotion_usageUncheckedUpdateManyWithoutRes_ordersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type promotion_usageCreateManyTenantsInput = {
+  id?: string
+  promotion_id: string
+  customer_id?: string | null
+  sale_id?: string | null
+  used_at?: Date | string | null
+  order_id?: string | null
+  auth_user_id?: string | null
+  created_at?: Date | string | null
+  customer_mobile?: string | null
+  res_order_id?: string | null
+  updated_at?: Date | string | null
+}
+
+export type promotion_usageUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customers?: Prisma.customersUpdateOneWithoutPromotion_usageNestedInput
+  promotions?: Prisma.promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput
+  res_orders?: Prisma.res_ordersUpdateOneWithoutPromotion_usageNestedInput
+}
+
+export type promotion_usageUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type promotion_usageUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 
 
 export type promotion_usageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1121,7 +1121,7 @@ export type promotion_usageSelect<ExtArgs extends runtime.Types.Extensions.Inter
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1140,7 +1140,7 @@ export type promotion_usageSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1159,7 +1159,7 @@ export type promotion_usageSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectScalar = {
@@ -1182,19 +1182,19 @@ export type promotion_usageInclude<ExtArgs extends runtime.Types.Extensions.Inte
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }
 export type promotion_usageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }
 export type promotion_usageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Prisma.promotion_usage$customersArgs<ExtArgs>
   promotions?: boolean | Prisma.promotionsDefaultArgs<ExtArgs>
   res_orders?: boolean | Prisma.promotion_usage$res_ordersArgs<ExtArgs>
-  pos_sales?: boolean | Prisma.promotion_usage$pos_salesArgs<ExtArgs>
+  tenants?: boolean | Prisma.promotion_usage$tenantsArgs<ExtArgs>
 }
 
 export type $promotion_usagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1203,7 +1203,7 @@ export type $promotion_usagePayload<ExtArgs extends runtime.Types.Extensions.Int
     customers: Prisma.$customersPayload<ExtArgs> | null
     promotions: Prisma.$promotionsPayload<ExtArgs>
     res_orders: Prisma.$res_ordersPayload<ExtArgs> | null
-    pos_sales: Prisma.$pos_salesPayload<ExtArgs> | null
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1615,7 +1615,7 @@ export interface Prisma__promotion_usageClient<T, Null = never, ExtArgs extends 
   customers<T extends Prisma.promotion_usage$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotion_usage$customersArgs<ExtArgs>>): Prisma.Prisma__customersClient<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   promotions<T extends Prisma.promotionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotionsDefaultArgs<ExtArgs>>): Prisma.Prisma__promotionsClient<runtime.Types.Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   res_orders<T extends Prisma.promotion_usage$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotion_usage$res_ordersArgs<ExtArgs>>): Prisma.Prisma__res_ordersClient<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  pos_sales<T extends Prisma.promotion_usage$pos_salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotion_usage$pos_salesArgs<ExtArgs>>): Prisma.Prisma__pos_salesClient<runtime.Types.Result.GetResult<Prisma.$pos_salesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.promotion_usage$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotion_usage$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2096,22 +2096,22 @@ export type promotion_usage$res_ordersArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * promotion_usage.pos_sales
+ * promotion_usage.tenants
  */
-export type promotion_usage$pos_salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type promotion_usage$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the pos_sales
+   * Select specific fields to fetch from the tenants
    */
-  select?: Prisma.pos_salesSelect<ExtArgs> | null
+  select?: Prisma.tenantsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the pos_sales
+   * Omit specific fields from the tenants
    */
-  omit?: Prisma.pos_salesOmit<ExtArgs> | null
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.pos_salesInclude<ExtArgs> | null
-  where?: Prisma.pos_salesWhereInput
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

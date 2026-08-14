@@ -3,6 +3,7 @@
 import { supabaseAdmin } from '@/server/supabase-admin'
 import { ADMIN_ROLES } from '@/types/user-role.enum'
 import prisma from '@/lib/prisma'
+import { resolveTenantId } from '@/server/utils/tenant'
 import {
   getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
@@ -108,12 +109,9 @@ export async function createUser(
     throw new Error('At least one role is required.')
   }
 
-  const callerTenantUser = (await prisma.tenant_users.findFirst({
-    where: { auth_user_id: caller.authUserId },
-    select: { parent_tenant_id: true },
-  })) as { parent_tenant_id: string | null } | null
-  if (!callerTenantUser) {
-    throw new Error('Caller not found in tenant users.')
+  const callerTenantId = await resolveTenantId(caller.authUserId)
+  if (!callerTenantId) {
+    throw new Error('Caller not found in tenant users or tenant subscriptions.')
   }
 
   // Validate every role exists and is active.
@@ -139,7 +137,7 @@ export async function createUser(
     throw new Error('A user with this email already exists.')
   }
 
-  const modules = await deriveTenantModules(callerTenantUser.parent_tenant_id)
+  const modules = await deriveTenantModules(callerTenantId)
   const isOwner = roleNames.some((name) =>
     ADMIN_ROLES.includes(normalizeRoleName(name) as any)
   )
@@ -191,7 +189,8 @@ export async function createUser(
           is_restuarant_user: true,
           modules,
           primary_module: modules[0] ?? null,
-          parent_tenant_id: callerTenantUser.parent_tenant_id,
+          tenant_id: callerTenantId,
+          parent_tenant_id: callerTenantId,
           onboarding_complete: false,
         },
       })

@@ -13,6 +13,11 @@ const mockResposState = {
   clearCart: vi.fn(),
 }
 
+vi.mock('react-i18next', () => ({
+  Trans: ({ i18nKey }: { i18nKey: string }) => i18nKey,
+  useTranslation: () => ({ t: (key: string) => key }),
+}))
+
 vi.mock('@tanstack/react-router', () => ({
   useNavigate: () => mockNavigate,
   useLocation: () => ({ href: '/respos/pos' }),
@@ -50,7 +55,7 @@ describe('SignOutDialog', () => {
     render(<SignOutDialog open onOpenChange={vi.fn()} />)
 
     // Should show the sign-out confirmation
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('alertdialog')).toBeInTheDocument()
   })
 
   it('signs out and navigates to sign-in on confirm', async () => {
@@ -58,7 +63,9 @@ describe('SignOutDialog', () => {
     render(<SignOutDialog open onOpenChange={onOpenChange} />)
 
     // Find and click the confirm/destructive button
-    const confirmButton = screen.getByRole('button', { name: /sign out|confirm/i })
+    const confirmButton = screen.getByRole('button', {
+      name: /sign out|confirm|signOutDialog\.confirmText/i,
+    })
     await userEvent.click(confirmButton)
 
     await waitFor(() => expect(mockSignOut).toHaveBeenCalledTimes(1))

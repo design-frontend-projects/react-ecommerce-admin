@@ -36,6 +36,7 @@ export type Res_cash_movementsSumAggregateOutputType = {
 
 export type Res_cash_movementsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   shift_id: string | null
   branch_id: string | null
   movement_type: $Enums.cash_movement_type_enum | null
@@ -50,6 +51,7 @@ export type Res_cash_movementsMinAggregateOutputType = {
 
 export type Res_cash_movementsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   shift_id: string | null
   branch_id: string | null
   movement_type: $Enums.cash_movement_type_enum | null
@@ -64,6 +66,7 @@ export type Res_cash_movementsMaxAggregateOutputType = {
 
 export type Res_cash_movementsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   shift_id: number
   branch_id: number
   movement_type: number
@@ -88,6 +91,7 @@ export type Res_cash_movementsSumAggregateInputType = {
 
 export type Res_cash_movementsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   branch_id?: true
   movement_type?: true
@@ -102,6 +106,7 @@ export type Res_cash_movementsMinAggregateInputType = {
 
 export type Res_cash_movementsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   branch_id?: true
   movement_type?: true
@@ -116,6 +121,7 @@ export type Res_cash_movementsMaxAggregateInputType = {
 
 export type Res_cash_movementsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   shift_id?: true
   branch_id?: true
   movement_type?: true
@@ -217,6 +223,7 @@ export type res_cash_movementsGroupByArgs<ExtArgs extends runtime.Types.Extensio
 
 export type Res_cash_movementsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   shift_id: string
   branch_id: string | null
   movement_type: $Enums.cash_movement_type_enum
@@ -254,6 +261,7 @@ export type res_cash_movementsWhereInput = {
   OR?: Prisma.res_cash_movementsWhereInput[]
   NOT?: Prisma.res_cash_movementsWhereInput | Prisma.res_cash_movementsWhereInput[]
   id?: Prisma.UuidFilter<"res_cash_movements"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   shift_id?: Prisma.UuidFilter<"res_cash_movements"> | string
   branch_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFilter<"res_cash_movements"> | $Enums.cash_movement_type_enum
@@ -270,6 +278,7 @@ export type res_cash_movementsWhereInput = {
 
 export type res_cash_movementsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   movement_type?: Prisma.SortOrder
@@ -289,6 +298,7 @@ export type res_cash_movementsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_cash_movementsWhereInput | Prisma.res_cash_movementsWhereInput[]
   OR?: Prisma.res_cash_movementsWhereInput[]
   NOT?: Prisma.res_cash_movementsWhereInput | Prisma.res_cash_movementsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   shift_id?: Prisma.UuidFilter<"res_cash_movements"> | string
   branch_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFilter<"res_cash_movements"> | $Enums.cash_movement_type_enum
@@ -305,6 +315,7 @@ export type res_cash_movementsWhereUniqueInput = Prisma.AtLeast<{
 
 export type res_cash_movementsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   movement_type?: Prisma.SortOrder
@@ -327,6 +338,7 @@ export type res_cash_movementsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_cash_movementsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_cash_movementsScalarWhereWithAggregatesInput | Prisma.res_cash_movementsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_cash_movements"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_cash_movements"> | string | null
   shift_id?: Prisma.UuidWithAggregatesFilter<"res_cash_movements"> | string
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"res_cash_movements"> | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumWithAggregatesFilter<"res_cash_movements"> | $Enums.cash_movement_type_enum
@@ -341,6 +353,7 @@ export type res_cash_movementsScalarWhereWithAggregatesInput = {
 
 export type res_cash_movementsCreateInput = {
   id?: string
+  tenant_id?: string | null
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
   reason: $Enums.cash_movement_reason_enum
@@ -355,6 +368,7 @@ export type res_cash_movementsCreateInput = {
 
 export type res_cash_movementsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
@@ -369,6 +383,7 @@ export type res_cash_movementsUncheckedCreateInput = {
 
 export type res_cash_movementsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -383,6 +398,7 @@ export type res_cash_movementsUpdateInput = {
 
 export type res_cash_movementsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
@@ -397,6 +413,7 @@ export type res_cash_movementsUncheckedUpdateInput = {
 
 export type res_cash_movementsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
@@ -411,6 +428,7 @@ export type res_cash_movementsCreateManyInput = {
 
 export type res_cash_movementsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -423,6 +441,7 @@ export type res_cash_movementsUpdateManyMutationInput = {
 
 export type res_cash_movementsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
@@ -447,6 +466,7 @@ export type res_cash_movementsOrderByRelationAggregateInput = {
 
 export type res_cash_movementsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
@@ -465,6 +485,7 @@ export type res_cash_movementsAvgOrderByAggregateInput = {
 
 export type res_cash_movementsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
@@ -479,6 +500,7 @@ export type res_cash_movementsMaxOrderByAggregateInput = {
 
 export type res_cash_movementsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
@@ -589,6 +611,7 @@ export type Enumcash_movement_reason_enumFieldUpdateOperationsInput = {
 
 export type res_cash_movementsCreateWithoutRes_ordersInput = {
   id?: string
+  tenant_id?: string | null
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
   reason: $Enums.cash_movement_reason_enum
@@ -602,6 +625,7 @@ export type res_cash_movementsCreateWithoutRes_ordersInput = {
 
 export type res_cash_movementsUncheckedCreateWithoutRes_ordersInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
@@ -644,6 +668,7 @@ export type res_cash_movementsScalarWhereInput = {
   OR?: Prisma.res_cash_movementsScalarWhereInput[]
   NOT?: Prisma.res_cash_movementsScalarWhereInput | Prisma.res_cash_movementsScalarWhereInput[]
   id?: Prisma.UuidFilter<"res_cash_movements"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   shift_id?: Prisma.UuidFilter<"res_cash_movements"> | string
   branch_id?: Prisma.UuidNullableFilter<"res_cash_movements"> | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFilter<"res_cash_movements"> | $Enums.cash_movement_type_enum
@@ -658,6 +683,7 @@ export type res_cash_movementsScalarWhereInput = {
 
 export type res_cash_movementsCreateWithoutRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
   reason: $Enums.cash_movement_reason_enum
@@ -671,6 +697,7 @@ export type res_cash_movementsCreateWithoutRes_shiftsInput = {
 
 export type res_cash_movementsUncheckedCreateWithoutRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
   reason: $Enums.cash_movement_reason_enum
@@ -710,6 +737,7 @@ export type res_cash_movementsUpdateManyWithWhereWithoutRes_shiftsInput = {
 
 export type res_cash_movementsCreateManyRes_ordersInput = {
   id?: string
+  tenant_id?: string | null
   shift_id: string
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
@@ -723,6 +751,7 @@ export type res_cash_movementsCreateManyRes_ordersInput = {
 
 export type res_cash_movementsUpdateWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -736,6 +765,7 @@ export type res_cash_movementsUpdateWithoutRes_ordersInput = {
 
 export type res_cash_movementsUncheckedUpdateWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
@@ -749,6 +779,7 @@ export type res_cash_movementsUncheckedUpdateWithoutRes_ordersInput = {
 
 export type res_cash_movementsUncheckedUpdateManyWithoutRes_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
@@ -762,6 +793,7 @@ export type res_cash_movementsUncheckedUpdateManyWithoutRes_ordersInput = {
 
 export type res_cash_movementsCreateManyRes_shiftsInput = {
   id?: string
+  tenant_id?: string | null
   branch_id?: string | null
   movement_type: $Enums.cash_movement_type_enum
   reason: $Enums.cash_movement_reason_enum
@@ -775,6 +807,7 @@ export type res_cash_movementsCreateManyRes_shiftsInput = {
 
 export type res_cash_movementsUpdateWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -788,6 +821,7 @@ export type res_cash_movementsUpdateWithoutRes_shiftsInput = {
 
 export type res_cash_movementsUncheckedUpdateWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -801,6 +835,7 @@ export type res_cash_movementsUncheckedUpdateWithoutRes_shiftsInput = {
 
 export type res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   movement_type?: Prisma.Enumcash_movement_type_enumFieldUpdateOperationsInput | $Enums.cash_movement_type_enum
   reason?: Prisma.Enumcash_movement_reason_enumFieldUpdateOperationsInput | $Enums.cash_movement_reason_enum
@@ -816,6 +851,7 @@ export type res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsInput = {
 
 export type res_cash_movementsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   branch_id?: boolean
   movement_type?: boolean
@@ -832,6 +868,7 @@ export type res_cash_movementsSelect<ExtArgs extends runtime.Types.Extensions.In
 
 export type res_cash_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   branch_id?: boolean
   movement_type?: boolean
@@ -848,6 +885,7 @@ export type res_cash_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.
 
 export type res_cash_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   branch_id?: boolean
   movement_type?: boolean
@@ -864,6 +902,7 @@ export type res_cash_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.
 
 export type res_cash_movementsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   shift_id?: boolean
   branch_id?: boolean
   movement_type?: boolean
@@ -876,7 +915,7 @@ export type res_cash_movementsSelectScalar = {
   created_at?: boolean
 }
 
-export type res_cash_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shift_id" | "branch_id" | "movement_type" | "reason" | "amount" | "note" | "order_id" | "created_by" | "auth_user_id" | "created_at", ExtArgs["result"]["res_cash_movements"]>
+export type res_cash_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "shift_id" | "branch_id" | "movement_type" | "reason" | "amount" | "note" | "order_id" | "created_by" | "auth_user_id" | "created_at", ExtArgs["result"]["res_cash_movements"]>
 export type res_cash_movementsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_orders?: boolean | Prisma.res_cash_movements$res_ordersArgs<ExtArgs>
   res_shifts?: boolean | Prisma.res_shiftsDefaultArgs<ExtArgs>
@@ -898,6 +937,7 @@ export type $res_cash_movementsPayload<ExtArgs extends runtime.Types.Extensions.
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     shift_id: string
     branch_id: string | null
     movement_type: $Enums.cash_movement_type_enum
@@ -1334,6 +1374,7 @@ export interface Prisma__res_cash_movementsClient<T, Null = never, ExtArgs exten
  */
 export interface res_cash_movementsFieldRefs {
   readonly id: Prisma.FieldRef<"res_cash_movements", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_cash_movements", 'String'>
   readonly shift_id: Prisma.FieldRef<"res_cash_movements", 'String'>
   readonly branch_id: Prisma.FieldRef<"res_cash_movements", 'String'>
   readonly movement_type: Prisma.FieldRef<"res_cash_movements", 'cash_movement_type_enum'>

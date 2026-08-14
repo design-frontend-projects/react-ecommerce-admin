@@ -218,6 +218,7 @@ export type res_notificationsWhereInput = {
   is_read?: Prisma.BoolNullableFilter<"res_notifications"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_notifications"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type res_notificationsOrderByWithRelationInput = {
@@ -231,6 +232,7 @@ export type res_notificationsOrderByWithRelationInput = {
   is_read?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type res_notificationsWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +249,7 @@ export type res_notificationsWhereUniqueInput = Prisma.AtLeast<{
   is_read?: Prisma.BoolNullableFilter<"res_notifications"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_notifications"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type res_notificationsOrderByWithAggregationInput = {
@@ -283,7 +286,6 @@ export type res_notificationsScalarWhereWithAggregatesInput = {
 
 export type res_notificationsCreateInput = {
   id?: string
-  tenant_id?: string | null
   recipient_id?: string | null
   type: string
   title: string
@@ -292,6 +294,7 @@ export type res_notificationsCreateInput = {
   is_read?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_notificationsInput
 }
 
 export type res_notificationsUncheckedCreateInput = {
@@ -309,7 +312,6 @@ export type res_notificationsUncheckedCreateInput = {
 
 export type res_notificationsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recipient_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -318,6 +320,7 @@ export type res_notificationsUpdateInput = {
   is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutRes_notificationsNestedInput
 }
 
 export type res_notificationsUncheckedUpdateInput = {
@@ -348,7 +351,6 @@ export type res_notificationsCreateManyInput = {
 
 export type res_notificationsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recipient_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -409,6 +411,172 @@ export type res_notificationsMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
+export type Res_notificationsListRelationFilter = {
+  every?: Prisma.res_notificationsWhereInput
+  some?: Prisma.res_notificationsWhereInput
+  none?: Prisma.res_notificationsWhereInput
+}
+
+export type res_notificationsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type res_notificationsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput> | Prisma.res_notificationsCreateWithoutTenantsInput[] | Prisma.res_notificationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_notificationsCreateOrConnectWithoutTenantsInput | Prisma.res_notificationsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_notificationsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+}
+
+export type res_notificationsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput> | Prisma.res_notificationsCreateWithoutTenantsInput[] | Prisma.res_notificationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_notificationsCreateOrConnectWithoutTenantsInput | Prisma.res_notificationsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_notificationsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+}
+
+export type res_notificationsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput> | Prisma.res_notificationsCreateWithoutTenantsInput[] | Prisma.res_notificationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_notificationsCreateOrConnectWithoutTenantsInput | Prisma.res_notificationsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_notificationsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_notificationsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_notificationsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  disconnect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  delete?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  connect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  update?: Prisma.res_notificationsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_notificationsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_notificationsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_notificationsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_notificationsScalarWhereInput | Prisma.res_notificationsScalarWhereInput[]
+}
+
+export type res_notificationsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput> | Prisma.res_notificationsCreateWithoutTenantsInput[] | Prisma.res_notificationsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_notificationsCreateOrConnectWithoutTenantsInput | Prisma.res_notificationsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_notificationsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_notificationsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_notificationsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  disconnect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  delete?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  connect?: Prisma.res_notificationsWhereUniqueInput | Prisma.res_notificationsWhereUniqueInput[]
+  update?: Prisma.res_notificationsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_notificationsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_notificationsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_notificationsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_notificationsScalarWhereInput | Prisma.res_notificationsScalarWhereInput[]
+}
+
+export type res_notificationsCreateWithoutTenantsInput = {
+  id?: string
+  recipient_id?: string | null
+  type: string
+  title: string
+  message?: string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: boolean | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_notificationsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  recipient_id?: string | null
+  type: string
+  title: string
+  message?: string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: boolean | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_notificationsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.res_notificationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_notificationsCreateManyTenantsInputEnvelope = {
+  data: Prisma.res_notificationsCreateManyTenantsInput | Prisma.res_notificationsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type res_notificationsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_notificationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.res_notificationsUpdateWithoutTenantsInput, Prisma.res_notificationsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.res_notificationsCreateWithoutTenantsInput, Prisma.res_notificationsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_notificationsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_notificationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.res_notificationsUpdateWithoutTenantsInput, Prisma.res_notificationsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type res_notificationsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.res_notificationsScalarWhereInput
+  data: Prisma.XOR<Prisma.res_notificationsUpdateManyMutationInput, Prisma.res_notificationsUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type res_notificationsScalarWhereInput = {
+  AND?: Prisma.res_notificationsScalarWhereInput | Prisma.res_notificationsScalarWhereInput[]
+  OR?: Prisma.res_notificationsScalarWhereInput[]
+  NOT?: Prisma.res_notificationsScalarWhereInput | Prisma.res_notificationsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"res_notifications"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  recipient_id?: Prisma.StringNullableFilter<"res_notifications"> | string | null
+  type?: Prisma.StringFilter<"res_notifications"> | string
+  title?: Prisma.StringFilter<"res_notifications"> | string
+  message?: Prisma.StringNullableFilter<"res_notifications"> | string | null
+  data?: Prisma.JsonNullableFilter<"res_notifications">
+  is_read?: Prisma.BoolNullableFilter<"res_notifications"> | boolean | null
+  created_at?: Prisma.DateTimeNullableFilter<"res_notifications"> | Date | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+}
+
+export type res_notificationsCreateManyTenantsInput = {
+  id?: string
+  recipient_id?: string | null
+  type: string
+  title: string
+  message?: string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: boolean | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_notificationsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_notificationsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_notificationsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type res_notificationsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -422,6 +590,7 @@ export type res_notificationsSelect<ExtArgs extends runtime.Types.Extensions.Int
   is_read?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -435,6 +604,7 @@ export type res_notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   is_read?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -448,6 +618,7 @@ export type res_notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   is_read?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectScalar = {
@@ -464,10 +635,21 @@ export type res_notificationsSelectScalar = {
 }
 
 export type res_notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "recipient_id" | "type" | "title" | "message" | "data" | "is_read" | "created_at" | "auth_user_id", ExtArgs["result"]["res_notifications"]>
+export type res_notificationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
+}
+export type res_notificationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
+}
+export type res_notificationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_notifications$tenantsArgs<ExtArgs>
+}
 
 export type $res_notificationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_notifications"
-  objects: {}
+  objects: {
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string | null
@@ -873,6 +1055,7 @@ readonly fields: res_notificationsFieldRefs;
  */
 export interface Prisma__res_notificationsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tenants<T extends Prisma.res_notifications$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_notifications$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -929,6 +1112,10 @@ export type res_notificationsFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which res_notifications to fetch.
    */
   where: Prisma.res_notificationsWhereUniqueInput
@@ -947,6 +1134,10 @@ export type res_notificationsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which res_notifications to fetch.
    */
   where: Prisma.res_notificationsWhereUniqueInput
@@ -964,6 +1155,10 @@ export type res_notificationsFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the res_notifications
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
   /**
    * Filter, which res_notifications to fetch.
    */
@@ -1013,6 +1208,10 @@ export type res_notificationsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which res_notifications to fetch.
    */
   where?: Prisma.res_notificationsWhereInput
@@ -1060,6 +1259,10 @@ export type res_notificationsFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_notifications
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
   /**
    * Filter, which res_notifications to fetch.
    */
@@ -1109,6 +1312,10 @@ export type res_notificationsCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
+  /**
    * The data needed to create a res_notifications.
    */
   data: Prisma.XOR<Prisma.res_notificationsCreateInput, Prisma.res_notificationsUncheckedCreateInput>
@@ -1142,6 +1349,10 @@ export type res_notificationsCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.res_notificationsCreateManyInput | Prisma.res_notificationsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1156,6 +1367,10 @@ export type res_notificationsUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_notifications
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_notifications.
    */
@@ -1208,6 +1423,10 @@ export type res_notificationsUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many res_notifications to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1222,6 +1441,10 @@ export type res_notificationsUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_notifications
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_notifications to update in case it exists.
    */
@@ -1249,6 +1472,10 @@ export type res_notificationsDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
+  /**
    * Filter which res_notifications to delete.
    */
   where: Prisma.res_notificationsWhereUniqueInput
@@ -1269,6 +1496,25 @@ export type res_notificationsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * res_notifications.tenants
+ */
+export type res_notifications$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+}
+
+/**
  * res_notifications without action
  */
 export type res_notificationsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1280,4 +1526,8 @@ export type res_notificationsDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the res_notifications
    */
   omit?: Prisma.res_notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_notificationsInclude<ExtArgs> | null
 }

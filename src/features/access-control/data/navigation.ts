@@ -8,7 +8,7 @@ export const navigationScreenSchema = z.object({
   code: z.string(),
   name: z.string(),
   route: z.string(),
-  icon: z.string().nullable(),
+  icon: z.string().nullable().optional(),
   sortOrder: z.number(),
 })
 

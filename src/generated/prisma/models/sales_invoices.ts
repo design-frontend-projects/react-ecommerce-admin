@@ -446,6 +446,8 @@ export type sales_invoicesWhereInput = {
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_returns?: Prisma.Sales_returnsListRelationFilter
   transactions?: Prisma.TransactionsListRelationFilter
+  shipments?: Prisma.ShipmentsListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type sales_invoicesOrderByWithRelationInput = {
@@ -488,6 +490,8 @@ export type sales_invoicesOrderByWithRelationInput = {
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
   sales_returns?: Prisma.sales_returnsOrderByRelationAggregateInput
   transactions?: Prisma.transactionsOrderByRelationAggregateInput
+  shipments?: Prisma.shipmentsOrderByRelationAggregateInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
@@ -533,6 +537,8 @@ export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_returns?: Prisma.Sales_returnsListRelationFilter
   transactions?: Prisma.TransactionsListRelationFilter
+  shipments?: Prisma.ShipmentsListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type sales_invoicesOrderByWithAggregationInput = {
@@ -609,7 +615,6 @@ export type sales_invoicesScalarWhereWithAggregatesInput = {
 
 export type sales_invoicesCreateInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -642,6 +647,8 @@ export type sales_invoicesCreateInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateInput = {
@@ -679,11 +686,11 @@ export type sales_invoicesUncheckedCreateInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -716,6 +723,8 @@ export type sales_invoicesUpdateInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateInput = {
@@ -753,6 +762,7 @@ export type sales_invoicesUncheckedUpdateInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateManyInput = {
@@ -789,7 +799,6 @@ export type sales_invoicesCreateManyInput = {
 
 export type sales_invoicesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1198,6 +1207,22 @@ export type sales_invoicesUpdateOneWithoutSales_returnsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.sales_invoicesUpdateToOneWithWhereWithoutSales_returnsInput, Prisma.sales_invoicesUpdateWithoutSales_returnsInput>, Prisma.sales_invoicesUncheckedUpdateWithoutSales_returnsInput>
 }
 
+export type sales_invoicesCreateNestedOneWithoutShipmentsInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedCreateWithoutShipmentsInput>
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutShipmentsInput
+  connect?: Prisma.sales_invoicesWhereUniqueInput
+}
+
+export type sales_invoicesUpdateOneWithoutShipmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedCreateWithoutShipmentsInput>
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutShipmentsInput
+  upsert?: Prisma.sales_invoicesUpsertWithoutShipmentsInput
+  disconnect?: Prisma.sales_invoicesWhereInput | boolean
+  delete?: Prisma.sales_invoicesWhereInput | boolean
+  connect?: Prisma.sales_invoicesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.sales_invoicesUpdateToOneWithWhereWithoutShipmentsInput, Prisma.sales_invoicesUpdateWithoutShipmentsInput>, Prisma.sales_invoicesUncheckedUpdateWithoutShipmentsInput>
+}
+
 export type sales_invoicesCreateNestedManyWithoutStoresInput = {
   create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutStoresInput, Prisma.sales_invoicesUncheckedCreateWithoutStoresInput> | Prisma.sales_invoicesCreateWithoutStoresInput[] | Prisma.sales_invoicesUncheckedCreateWithoutStoresInput[]
   connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutStoresInput | Prisma.sales_invoicesCreateOrConnectWithoutStoresInput[]
@@ -1240,6 +1265,48 @@ export type sales_invoicesUncheckedUpdateManyWithoutStoresNestedInput = {
   deleteMany?: Prisma.sales_invoicesScalarWhereInput | Prisma.sales_invoicesScalarWhereInput[]
 }
 
+export type sales_invoicesCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput> | Prisma.sales_invoicesCreateWithoutTenantsInput[] | Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput | Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.sales_invoicesCreateManyTenantsInputEnvelope
+  connect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+}
+
+export type sales_invoicesUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput> | Prisma.sales_invoicesCreateWithoutTenantsInput[] | Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput | Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.sales_invoicesCreateManyTenantsInputEnvelope
+  connect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+}
+
+export type sales_invoicesUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput> | Prisma.sales_invoicesCreateWithoutTenantsInput[] | Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput | Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.sales_invoicesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.sales_invoicesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.sales_invoicesCreateManyTenantsInputEnvelope
+  set?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  disconnect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  delete?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  connect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  update?: Prisma.sales_invoicesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.sales_invoicesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.sales_invoicesUpdateManyWithWhereWithoutTenantsInput | Prisma.sales_invoicesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.sales_invoicesScalarWhereInput | Prisma.sales_invoicesScalarWhereInput[]
+}
+
+export type sales_invoicesUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput> | Prisma.sales_invoicesCreateWithoutTenantsInput[] | Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput | Prisma.sales_invoicesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.sales_invoicesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.sales_invoicesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.sales_invoicesCreateManyTenantsInputEnvelope
+  set?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  disconnect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  delete?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  connect?: Prisma.sales_invoicesWhereUniqueInput | Prisma.sales_invoicesWhereUniqueInput[]
+  update?: Prisma.sales_invoicesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.sales_invoicesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.sales_invoicesUpdateManyWithWhereWithoutTenantsInput | Prisma.sales_invoicesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.sales_invoicesScalarWhereInput | Prisma.sales_invoicesScalarWhereInput[]
+}
+
 export type sales_invoicesCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTransactionsInput, Prisma.sales_invoicesUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutTransactionsInput
@@ -1274,7 +1341,6 @@ export type sales_invoicesUpdateOneWithoutSales_ordersNestedInput = {
 
 export type sales_invoicesCreateWithoutBranchesInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1306,6 +1372,8 @@ export type sales_invoicesCreateWithoutBranchesInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutBranchesInput = {
@@ -1342,6 +1410,7 @@ export type sales_invoicesUncheckedCreateWithoutBranchesInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutBranchesInput = {
@@ -1407,7 +1476,6 @@ export type sales_invoicesScalarWhereInput = {
 
 export type sales_invoicesCreateWithoutCustomersInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1439,6 +1507,8 @@ export type sales_invoicesCreateWithoutCustomersInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutCustomersInput = {
@@ -1475,6 +1545,7 @@ export type sales_invoicesUncheckedCreateWithoutCustomersInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutCustomersInput = {
@@ -1505,7 +1576,6 @@ export type sales_invoicesUpdateManyWithWhereWithoutCustomersInput = {
 
 export type sales_invoicesCreateWithoutPos_terminalsInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1537,6 +1607,8 @@ export type sales_invoicesCreateWithoutPos_terminalsInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutPos_terminalsInput = {
@@ -1573,6 +1645,7 @@ export type sales_invoicesUncheckedCreateWithoutPos_terminalsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutPos_terminalsInput = {
@@ -1603,7 +1676,6 @@ export type sales_invoicesUpdateManyWithWhereWithoutPos_terminalsInput = {
 
 export type sales_invoicesCreateWithoutPrice_listInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1635,6 +1707,8 @@ export type sales_invoicesCreateWithoutPrice_listInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutPrice_listInput = {
@@ -1671,6 +1745,7 @@ export type sales_invoicesUncheckedCreateWithoutPrice_listInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutPrice_listInput = {
@@ -1701,7 +1776,6 @@ export type sales_invoicesUpdateManyWithWhereWithoutPrice_listInput = {
 
 export type sales_invoicesCreateWithoutRefundsInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1733,6 +1807,8 @@ export type sales_invoicesCreateWithoutRefundsInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutRefundsInput = {
@@ -1769,6 +1845,7 @@ export type sales_invoicesUncheckedCreateWithoutRefundsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutRefundsInput = {
@@ -1789,7 +1866,6 @@ export type sales_invoicesUpdateToOneWithWhereWithoutRefundsInput = {
 
 export type sales_invoicesUpdateWithoutRefundsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1821,6 +1897,8 @@ export type sales_invoicesUpdateWithoutRefundsInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutRefundsInput = {
@@ -1857,11 +1935,11 @@ export type sales_invoicesUncheckedUpdateWithoutRefundsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -1893,6 +1971,8 @@ export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutSales_invoice_itemsInput = {
@@ -1929,6 +2009,7 @@ export type sales_invoicesUncheckedCreateWithoutSales_invoice_itemsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutSales_invoice_itemsInput = {
@@ -1949,7 +2030,6 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_invoice_itemsInput = 
 
 export type sales_invoicesUpdateWithoutSales_invoice_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1981,6 +2061,8 @@ export type sales_invoicesUpdateWithoutSales_invoice_itemsInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutSales_invoice_itemsInput = {
@@ -2017,11 +2099,11 @@ export type sales_invoicesUncheckedUpdateWithoutSales_invoice_itemsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateWithoutSales_returnsInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -2053,6 +2135,8 @@ export type sales_invoicesCreateWithoutSales_returnsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutSales_invoicesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutSales_returnsInput = {
@@ -2089,6 +2173,7 @@ export type sales_invoicesUncheckedCreateWithoutSales_returnsInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutSales_returnsInput = {
@@ -2109,7 +2194,6 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_returnsInput = {
 
 export type sales_invoicesUpdateWithoutSales_returnsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2141,6 +2225,8 @@ export type sales_invoicesUpdateWithoutSales_returnsInput = {
   stores?: Prisma.storesUpdateOneWithoutSales_invoicesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutSales_returnsInput = {
@@ -2177,11 +2263,175 @@ export type sales_invoicesUncheckedUpdateWithoutSales_returnsInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+}
+
+export type sales_invoicesCreateWithoutShipmentsInput = {
+  id?: string
+  auth_user_id?: string
+  channel?: string | null
+  invoice_no: string
+  external_reference?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
+  branches: Prisma.branchesCreateNestedOneWithoutSales_invoicesInput
+  customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
+  pos_terminals?: Prisma.pos_terminalsCreateNestedOneWithoutSales_invoicesInput
+  price_list?: Prisma.price_listCreateNestedOneWithoutSales_invoicesInput
+  stores?: Prisma.storesCreateNestedOneWithoutSales_invoicesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
+  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
+  transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
+}
+
+export type sales_invoicesUncheckedCreateWithoutShipmentsInput = {
+  id?: string
+  tenant_id?: string | null
+  auth_user_id?: string
+  branch_id: string
+  store_id?: string | null
+  customer_id?: string | null
+  pos_terminal_id?: string | null
+  price_list_id?: string | null
+  channel?: string | null
+  invoice_no: string
+  external_reference?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+}
+
+export type sales_invoicesCreateOrConnectWithoutShipmentsInput = {
+  where: Prisma.sales_invoicesWhereUniqueInput
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedCreateWithoutShipmentsInput>
+}
+
+export type sales_invoicesUpsertWithoutShipmentsInput = {
+  update: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedUpdateWithoutShipmentsInput>
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedCreateWithoutShipmentsInput>
+  where?: Prisma.sales_invoicesWhereInput
+}
+
+export type sales_invoicesUpdateToOneWithWhereWithoutShipmentsInput = {
+  where?: Prisma.sales_invoicesWhereInput
+  data: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutShipmentsInput, Prisma.sales_invoicesUncheckedUpdateWithoutShipmentsInput>
+}
+
+export type sales_invoicesUpdateWithoutShipmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
+  branches?: Prisma.branchesUpdateOneRequiredWithoutSales_invoicesNestedInput
+  customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
+  pos_terminals?: Prisma.pos_terminalsUpdateOneWithoutSales_invoicesNestedInput
+  price_list?: Prisma.price_listUpdateOneWithoutSales_invoicesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutSales_invoicesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
+  sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
+  transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
+}
+
+export type sales_invoicesUncheckedUpdateWithoutShipmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateWithoutStoresInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -2213,6 +2463,8 @@ export type sales_invoicesCreateWithoutStoresInput = {
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutStoresInput = {
@@ -2249,6 +2501,7 @@ export type sales_invoicesUncheckedCreateWithoutStoresInput = {
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutStoresInput = {
@@ -2277,9 +2530,8 @@ export type sales_invoicesUpdateManyWithWhereWithoutStoresInput = {
   data: Prisma.XOR<Prisma.sales_invoicesUpdateManyMutationInput, Prisma.sales_invoicesUncheckedUpdateManyWithoutStoresInput>
 }
 
-export type sales_invoicesCreateWithoutTransactionsInput = {
+export type sales_invoicesCreateWithoutTenantsInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -2311,6 +2563,108 @@ export type sales_invoicesCreateWithoutTransactionsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutSales_invoicesInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
+  transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+}
+
+export type sales_invoicesUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  auth_user_id?: string
+  branch_id: string
+  store_id?: string | null
+  customer_id?: string | null
+  pos_terminal_id?: string | null
+  price_list_id?: string | null
+  channel?: string | null
+  invoice_no: string
+  external_reference?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+}
+
+export type sales_invoicesCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.sales_invoicesWhereUniqueInput
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput>
+}
+
+export type sales_invoicesCreateManyTenantsInputEnvelope = {
+  data: Prisma.sales_invoicesCreateManyTenantsInput | Prisma.sales_invoicesCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type sales_invoicesUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.sales_invoicesWhereUniqueInput
+  update: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutTenantsInput, Prisma.sales_invoicesUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutTenantsInput, Prisma.sales_invoicesUncheckedCreateWithoutTenantsInput>
+}
+
+export type sales_invoicesUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.sales_invoicesWhereUniqueInput
+  data: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutTenantsInput, Prisma.sales_invoicesUncheckedUpdateWithoutTenantsInput>
+}
+
+export type sales_invoicesUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.sales_invoicesScalarWhereInput
+  data: Prisma.XOR<Prisma.sales_invoicesUpdateManyMutationInput, Prisma.sales_invoicesUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type sales_invoicesCreateWithoutTransactionsInput = {
+  id?: string
+  auth_user_id?: string
+  channel?: string | null
+  invoice_no: string
+  external_reference?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
+  branches: Prisma.branchesCreateNestedOneWithoutSales_invoicesInput
+  customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
+  pos_terminals?: Prisma.pos_terminalsCreateNestedOneWithoutSales_invoicesInput
+  price_list?: Prisma.price_listCreateNestedOneWithoutSales_invoicesInput
+  stores?: Prisma.storesCreateNestedOneWithoutSales_invoicesInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutSales_invoicesInput
+  sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutTransactionsInput = {
@@ -2347,6 +2701,7 @@ export type sales_invoicesUncheckedCreateWithoutTransactionsInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutTransactionsInput = {
@@ -2367,7 +2722,6 @@ export type sales_invoicesUpdateToOneWithWhereWithoutTransactionsInput = {
 
 export type sales_invoicesUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2399,6 +2753,8 @@ export type sales_invoicesUpdateWithoutTransactionsInput = {
   stores?: Prisma.storesUpdateOneWithoutSales_invoicesNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutTransactionsInput = {
@@ -2435,11 +2791,11 @@ export type sales_invoicesUncheckedUpdateWithoutTransactionsInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateWithoutSales_ordersInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   channel?: string | null
   invoice_no: string
@@ -2471,6 +2827,8 @@ export type sales_invoicesCreateWithoutSales_ordersInput = {
   stores?: Prisma.storesCreateNestedOneWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsCreateNestedManyWithoutSales_invoicesInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutSales_invoicesInput
 }
 
 export type sales_invoicesUncheckedCreateWithoutSales_ordersInput = {
@@ -2507,6 +2865,7 @@ export type sales_invoicesUncheckedCreateWithoutSales_ordersInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_returns?: Prisma.sales_returnsUncheckedCreateNestedManyWithoutSales_invoicesInput
   transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  shipments?: Prisma.shipmentsUncheckedCreateNestedManyWithoutSales_invoicesInput
 }
 
 export type sales_invoicesCreateOrConnectWithoutSales_ordersInput = {
@@ -2527,7 +2886,6 @@ export type sales_invoicesUpdateToOneWithWhereWithoutSales_ordersInput = {
 
 export type sales_invoicesUpdateWithoutSales_ordersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2559,6 +2917,8 @@ export type sales_invoicesUpdateWithoutSales_ordersInput = {
   stores?: Prisma.storesUpdateOneWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutSales_ordersInput = {
@@ -2595,6 +2955,7 @@ export type sales_invoicesUncheckedUpdateWithoutSales_ordersInput = {
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateManyBranchesInput = {
@@ -2630,7 +2991,6 @@ export type sales_invoicesCreateManyBranchesInput = {
 
 export type sales_invoicesUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2662,6 +3022,8 @@ export type sales_invoicesUpdateWithoutBranchesInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutBranchesInput = {
@@ -2698,6 +3060,7 @@ export type sales_invoicesUncheckedUpdateWithoutBranchesInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateManyWithoutBranchesInput = {
@@ -2764,7 +3127,6 @@ export type sales_invoicesCreateManyCustomersInput = {
 
 export type sales_invoicesUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2796,6 +3158,8 @@ export type sales_invoicesUpdateWithoutCustomersInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutCustomersInput = {
@@ -2832,6 +3196,7 @@ export type sales_invoicesUncheckedUpdateWithoutCustomersInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateManyWithoutCustomersInput = {
@@ -2898,7 +3263,6 @@ export type sales_invoicesCreateManyPos_terminalsInput = {
 
 export type sales_invoicesUpdateWithoutPos_terminalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2930,6 +3294,8 @@ export type sales_invoicesUpdateWithoutPos_terminalsInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutPos_terminalsInput = {
@@ -2966,6 +3332,7 @@ export type sales_invoicesUncheckedUpdateWithoutPos_terminalsInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateManyWithoutPos_terminalsInput = {
@@ -3032,7 +3399,6 @@ export type sales_invoicesCreateManyPrice_listInput = {
 
 export type sales_invoicesUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3064,6 +3430,8 @@ export type sales_invoicesUpdateWithoutPrice_listInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutPrice_listInput = {
@@ -3100,6 +3468,7 @@ export type sales_invoicesUncheckedUpdateWithoutPrice_listInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateManyWithoutPrice_listInput = {
@@ -3166,7 +3535,6 @@ export type sales_invoicesCreateManyStoresInput = {
 
 export type sales_invoicesUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3198,6 +3566,8 @@ export type sales_invoicesUpdateWithoutStoresInput = {
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateWithoutStoresInput = {
@@ -3234,6 +3604,7 @@ export type sales_invoicesUncheckedUpdateWithoutStoresInput = {
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesUncheckedUpdateManyWithoutStoresInput = {
@@ -3241,6 +3612,142 @@ export type sales_invoicesUncheckedUpdateManyWithoutStoresInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type sales_invoicesCreateManyTenantsInput = {
+  id?: string
+  auth_user_id?: string
+  branch_id: string
+  store_id?: string | null
+  customer_id?: string | null
+  pos_terminal_id?: string | null
+  price_list_id?: string | null
+  channel?: string | null
+  invoice_no: string
+  external_reference?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type sales_invoicesUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
+  branches?: Prisma.branchesUpdateOneRequiredWithoutSales_invoicesNestedInput
+  customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
+  pos_terminals?: Prisma.pos_terminalsUpdateOneWithoutSales_invoicesNestedInput
+  price_list?: Prisma.price_listUpdateOneWithoutSales_invoicesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutSales_invoicesNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutSales_invoicesNestedInput
+  sales_returns?: Prisma.sales_returnsUpdateManyWithoutSales_invoicesNestedInput
+  transactions?: Prisma.transactionsUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUpdateManyWithoutSales_invoicesNestedInput
+}
+
+export type sales_invoicesUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_returns?: Prisma.sales_returnsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  transactions?: Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  shipments?: Prisma.shipmentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+}
+
+export type sales_invoicesUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3278,6 +3785,7 @@ export type Sales_invoicesCountOutputType = {
   sales_orders: number
   sales_returns: number
   transactions: number
+  shipments: number
 }
 
 export type Sales_invoicesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3286,6 +3794,7 @@ export type Sales_invoicesCountOutputTypeSelect<ExtArgs extends runtime.Types.Ex
   sales_orders?: boolean | Sales_invoicesCountOutputTypeCountSales_ordersArgs
   sales_returns?: boolean | Sales_invoicesCountOutputTypeCountSales_returnsArgs
   transactions?: boolean | Sales_invoicesCountOutputTypeCountTransactionsArgs
+  shipments?: boolean | Sales_invoicesCountOutputTypeCountShipmentsArgs
 }
 
 /**
@@ -3333,6 +3842,13 @@ export type Sales_invoicesCountOutputTypeCountTransactionsArgs<ExtArgs extends r
   where?: Prisma.transactionsWhereInput
 }
 
+/**
+ * Sales_invoicesCountOutputType without action
+ */
+export type Sales_invoicesCountOutputTypeCountShipmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.shipmentsWhereInput
+}
+
 
 export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3374,6 +3890,8 @@ export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   sales_orders?: boolean | Prisma.sales_invoices$sales_ordersArgs<ExtArgs>
   sales_returns?: boolean | Prisma.sales_invoices$sales_returnsArgs<ExtArgs>
   transactions?: boolean | Prisma.sales_invoices$transactionsArgs<ExtArgs>
+  shipments?: boolean | Prisma.sales_invoices$shipmentsArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.Sales_invoicesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sales_invoices"]>
 
@@ -3412,6 +3930,7 @@ export type sales_invoicesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   pos_terminals?: boolean | Prisma.sales_invoices$pos_terminalsArgs<ExtArgs>
   price_list?: boolean | Prisma.sales_invoices$price_listArgs<ExtArgs>
   stores?: boolean | Prisma.sales_invoices$storesArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["sales_invoices"]>
 
 export type sales_invoicesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3449,6 +3968,7 @@ export type sales_invoicesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   pos_terminals?: boolean | Prisma.sales_invoices$pos_terminalsArgs<ExtArgs>
   price_list?: boolean | Prisma.sales_invoices$price_listArgs<ExtArgs>
   stores?: boolean | Prisma.sales_invoices$storesArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["sales_invoices"]>
 
 export type sales_invoicesSelectScalar = {
@@ -3495,6 +4015,8 @@ export type sales_invoicesInclude<ExtArgs extends runtime.Types.Extensions.Inter
   sales_orders?: boolean | Prisma.sales_invoices$sales_ordersArgs<ExtArgs>
   sales_returns?: boolean | Prisma.sales_invoices$sales_returnsArgs<ExtArgs>
   transactions?: boolean | Prisma.sales_invoices$transactionsArgs<ExtArgs>
+  shipments?: boolean | Prisma.sales_invoices$shipmentsArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.Sales_invoicesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type sales_invoicesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3503,6 +4025,7 @@ export type sales_invoicesIncludeCreateManyAndReturn<ExtArgs extends runtime.Typ
   pos_terminals?: boolean | Prisma.sales_invoices$pos_terminalsArgs<ExtArgs>
   price_list?: boolean | Prisma.sales_invoices$price_listArgs<ExtArgs>
   stores?: boolean | Prisma.sales_invoices$storesArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
 }
 export type sales_invoicesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.branchesDefaultArgs<ExtArgs>
@@ -3510,6 +4033,7 @@ export type sales_invoicesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
   pos_terminals?: boolean | Prisma.sales_invoices$pos_terminalsArgs<ExtArgs>
   price_list?: boolean | Prisma.sales_invoices$price_listArgs<ExtArgs>
   stores?: boolean | Prisma.sales_invoices$storesArgs<ExtArgs>
+  tenants?: boolean | Prisma.sales_invoices$tenantsArgs<ExtArgs>
 }
 
 export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3525,6 +4049,8 @@ export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
     sales_returns: Prisma.$sales_returnsPayload<ExtArgs>[]
     transactions: Prisma.$transactionsPayload<ExtArgs>[]
+    shipments: Prisma.$shipmentsPayload<ExtArgs>[]
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3960,6 +4486,8 @@ export interface Prisma__sales_invoicesClient<T, Null = never, ExtArgs extends r
   sales_orders<T extends Prisma.sales_invoices$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_returns<T extends Prisma.sales_invoices$sales_returnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$sales_returnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_returnsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.sales_invoices$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shipments<T extends Prisma.sales_invoices$shipmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenants<T extends Prisma.sales_invoices$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4612,6 +5140,49 @@ export type sales_invoices$transactionsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.TransactionsScalarFieldEnum | Prisma.TransactionsScalarFieldEnum[]
+}
+
+/**
+ * sales_invoices.shipments
+ */
+export type sales_invoices$shipmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the shipments
+   */
+  select?: Prisma.shipmentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the shipments
+   */
+  omit?: Prisma.shipmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.shipmentsInclude<ExtArgs> | null
+  where?: Prisma.shipmentsWhereInput
+  orderBy?: Prisma.shipmentsOrderByWithRelationInput | Prisma.shipmentsOrderByWithRelationInput[]
+  cursor?: Prisma.shipmentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShipmentsScalarFieldEnum | Prisma.ShipmentsScalarFieldEnum[]
+}
+
+/**
+ * sales_invoices.tenants
+ */
+export type sales_invoices$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

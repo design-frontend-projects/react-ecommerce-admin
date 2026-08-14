@@ -1,3 +1,4 @@
+import * as LucideIcons from 'lucide-react'
 import {
   ArrowLeftRight,
   Barcode,
@@ -6,7 +7,6 @@ import {
   Building2,
   CalendarClock,
   ChefHat,
-  Circle,
   ClipboardCheck,
   ClipboardList,
   CreditCard,
@@ -14,9 +14,10 @@ import {
   FileSpreadsheet,
   FileText,
   Grid3X3,
+  HelpCircle,
   History,
-  LayoutDashboard,
   Layers,
+  LayoutDashboard,
   LineChart,
   Lock,
   Map,
@@ -25,6 +26,7 @@ import {
   MonitorDot,
   Package,
   PackageCheck,
+  Palette,
   Receipt,
   Repeat,
   Ruler,
@@ -78,6 +80,7 @@ const ICONS: Record<string, React.ElementType> = {
   batches: Layers,
   serials: Barcode,
   uoms: Ruler,
+  units: Ruler,
   brands: Tags,
   shifts: Timer,
   reservations: CalendarClock,
@@ -92,6 +95,12 @@ const ICONS: Record<string, React.ElementType> = {
   cart: ShoppingCart,
   packagecheck: PackageCheck,
   access_control: ShieldCheck,
+  profile: UserCog,
+  account: Wrench,
+  appearance: Palette,
+  display: Monitor,
+  help: HelpCircle,
+  help_center: HelpCircle,
 
   // screen-code fallbacks (used when app_screens.icon is null)
   respos_dashboard: LayoutDashboard,
@@ -107,18 +116,26 @@ const ICONS: Record<string, React.ElementType> = {
   respos_payments: CreditCard,
   respos_shipments: Truck,
   inventory_shipments: Truck,
-  stock_balances: ClipboardCheck,
+  inventory_items: Boxes,
+  stock_balances: Boxes,
   purchase_orders: ShoppingCart,
+  purchase_requisitions: FileText,
+  goods_receipts: PackageCheck,
+  sales_orders: FileSpreadsheet,
+  warehouses: Warehouse,
+  stock_by_location: MapPin,
+  stock_counts: ClipboardCheck,
+  reorder_rules: Repeat,
   price_list: Tags,
   promotions: TrendingUp,
   transactions: Receipt,
   stock_transfers: ArrowLeftRight,
-  stock_adjustments: Wrench,
+  stock_adjustments: ClipboardList,
   inventory_movements: History,
   suppliers: Truck,
   stores: Building2,
-  categories: Layers,
-  tax_rates: FileSpreadsheet,
+  categories: Package,
+  tax_rates: Package,
   countries: Map,
   cities: MapPin,
   currencies: DollarSign,
@@ -127,24 +144,50 @@ const ICONS: Record<string, React.ElementType> = {
   customer_groups: Users,
   customer_cards: CreditCard,
   permissions: Lock,
-  system_management: Settings,
-  audit_logs: History,
+  system_management: Wrench,
+  audit_logs: LineChart,
 }
 
-const DEFAULT_ICON: React.ElementType = Circle
+const DEFAULT_ICON: React.ElementType = LayoutDashboard
+
+function toPascalCase(str: string): string {
+  return str
+    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
+    .replace(/^(.)/, (c) => c.toUpperCase())
+}
 
 /**
  * Resolve a navigation icon: the DB icon name first, the screen code as a
- * fallback, then a neutral default. Lookup is case-insensitive.
+ * fallback, then a dynamic PascalCase match from lucide-react, then a neutral default.
  */
 export function resolveNavIcon(
   iconName: string | null | undefined,
   screenCode?: string
 ): React.ElementType {
-  const byName = iconName ? ICONS[iconName.trim().toLowerCase()] : undefined
-  if (byName) return byName
-  const byCode = screenCode
-    ? ICONS[screenCode.trim().toLowerCase()]
-    : undefined
-  return byCode ?? DEFAULT_ICON
+  if (iconName) {
+    const cleanName = iconName.trim().toLowerCase()
+    if (ICONS[cleanName]) return ICONS[cleanName]
+
+    const pascalName = toPascalCase(cleanName)
+    const dynamicIcon = (LucideIcons as Record<string, unknown>)[pascalName]
+    if (typeof dynamicIcon === 'function' || typeof dynamicIcon === 'object') {
+      return dynamicIcon as React.ElementType
+    }
+  }
+
+  if (screenCode) {
+    const cleanCode = screenCode.trim().toLowerCase()
+    if (ICONS[cleanCode]) return ICONS[cleanCode]
+
+    const pascalCode = toPascalCase(cleanCode)
+    const dynamicCodeIcon = (LucideIcons as Record<string, unknown>)[pascalCode]
+    if (
+      typeof dynamicCodeIcon === 'function' ||
+      typeof dynamicCodeIcon === 'object'
+    ) {
+      return dynamicCodeIcon as React.ElementType
+    }
+  }
+
+  return DEFAULT_ICON
 }

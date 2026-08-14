@@ -54,7 +54,6 @@ export const ModelName = {
   activity_types: 'activity_types',
   audit_logs: 'audit_logs',
   addresses: 'addresses',
-  res_addresses: 'res_addresses',
   branches: 'branches',
   categories: 'categories',
   cities: 'cities',
@@ -63,15 +62,14 @@ export const ModelName = {
   customer_cards: 'customer_cards',
   customer_groups: 'customer_groups',
   customers: 'customers',
-  inventory: 'inventory',
   payment_types: 'payment_types',
   permissions: 'permissions',
-  pos_sales: 'pos_sales',
   pos_terminals: 'pos_terminals',
   price_list: 'price_list',
   price_list_items: 'price_list_items',
   product_variants: 'product_variants',
   products: 'products',
+  inventory: 'inventory',
   pos_reorder_requests: 'pos_reorder_requests',
   profiles: 'profiles',
   promotion_usage: 'promotion_usage',
@@ -95,15 +93,12 @@ export const ModelName = {
   res_orders: 'res_orders',
   res_shipments: 'res_shipments',
   res_payment_methods: 'res_payment_methods',
-  res_promotion_usage: 'res_promotion_usage',
-  res_promotions: 'res_promotions',
   res_reservations: 'res_reservations',
   res_shifts: 'res_shifts',
   res_tables: 'res_tables',
   res_void_requests: 'res_void_requests',
   role_permissions: 'role_permissions',
   roles: 'roles',
-  sale_items: 'sale_items',
   sales_invoice_items: 'sales_invoice_items',
   sales_invoices: 'sales_invoices',
   sales_return_items: 'sales_return_items',
@@ -237,24 +232,6 @@ export const AddressesScalarFieldEnum = {
 export type AddressesScalarFieldEnum = (typeof AddressesScalarFieldEnum)[keyof typeof AddressesScalarFieldEnum]
 
 
-export const Res_addressesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  address_type: 'address_type',
-  line1: 'line1',
-  line2: 'line2',
-  city: 'city',
-  state: 'state',
-  postal_code: 'postal_code',
-  country: 'country',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Res_addressesScalarFieldEnum = (typeof Res_addressesScalarFieldEnum)[keyof typeof Res_addressesScalarFieldEnum]
-
-
 export const BranchesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -384,23 +361,6 @@ export const CustomersScalarFieldEnum = {
 export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof typeof CustomersScalarFieldEnum]
 
 
-export const InventoryScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  product_id: 'product_id',
-  quantity: 'quantity',
-  reorder_level: 'reorder_level',
-  max_stock_level: 'max_stock_level',
-  location: 'location',
-  last_restocked: 'last_restocked',
-  auth_user_id: 'auth_user_id',
-  store_id: 'store_id',
-  is_marketplace: 'is_marketplace'
-} as const
-
-export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
-
-
 export const Payment_typesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
@@ -428,27 +388,9 @@ export const PermissionsScalarFieldEnum = {
 export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[keyof typeof PermissionsScalarFieldEnum]
 
 
-export const Pos_salesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  customer_id: 'customer_id',
-  promotion_id: 'promotion_id',
-  sale_date: 'sale_date',
-  subtotal: 'subtotal',
-  discount_amount: 'discount_amount',
-  tax_amount: 'tax_amount',
-  total_amount: 'total_amount',
-  payment_method: 'payment_method',
-  card_id: 'card_id',
-  status: 'status',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Pos_salesScalarFieldEnum = (typeof Pos_salesScalarFieldEnum)[keyof typeof Pos_salesScalarFieldEnum]
-
-
 export const Pos_terminalsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   store_id: 'store_id',
   name: 'name',
@@ -552,6 +494,24 @@ export const ProductsScalarFieldEnum = {
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
 
 
+export const InventoryScalarFieldEnum = {
+  inventory_id: 'inventory_id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  store_id: 'store_id',
+  quantity: 'quantity',
+  min_quantity: 'min_quantity',
+  max_quantity: 'max_quantity',
+  reorder_point: 'reorder_point',
+  last_count_date: 'last_count_date',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id'
+} as const
+
+export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
+
+
 export const Pos_reorder_requestsScalarFieldEnum = {
   id: 'id',
   auth_user_id: 'auth_user_id',
@@ -582,18 +542,13 @@ export const ProfilesScalarFieldEnum = {
   phone: 'phone',
   is_owner: 'is_owner',
   system_owner: 'system_owner',
-  onboarding_complete: 'onboarding_complete',
   created_at: 'created_at',
   updated_at: 'updated_at',
   activity: 'activity',
   auth_user_id: 'auth_user_id',
-  is_paid: 'is_paid',
-  is_user: 'is_user',
   branch_id: 'branch_id',
   role: 'role',
-  payment_method: 'payment_method',
-  transfer_ref: 'transfer_ref',
-  parent_auth_user_id: 'parent_auth_user_id'
+  payment_method: 'payment_method'
 } as const
 
 export type ProfilesScalarFieldEnum = (typeof ProfilesScalarFieldEnum)[keyof typeof ProfilesScalarFieldEnum]
@@ -737,7 +692,7 @@ export const Purchase_ordersScalarFieldEnum = {
   notes: 'notes',
   po_number: 'po_number',
   created_at: 'created_at',
-  discounnt_amount: 'discounnt_amount',
+  discount_amount: 'discount_amount',
   shipping_amount: 'shipping_amount',
   tax_amount: 'tax_amount',
   payment_status: 'payment_status',
@@ -809,6 +764,7 @@ export const RefundsScalarFieldEnum = {
   refund_status: 'refund_status',
   store_id: 'store_id',
   sales_invoice_id: 'sales_invoice_id',
+  res_order_id: 'res_order_id',
   branch_id: 'branch_id',
   created_by: 'created_by'
 } as const
@@ -971,7 +927,6 @@ export const Res_ordersScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   mobile_number: 'mobile_number',
-  promotion_id: 'promotion_id',
   promo_discount_amount: 'promo_discount_amount',
   received_amount: 'received_amount',
   change_amount: 'change_amount',
@@ -1022,38 +977,6 @@ export const Res_payment_methodsScalarFieldEnum = {
 } as const
 
 export type Res_payment_methodsScalarFieldEnum = (typeof Res_payment_methodsScalarFieldEnum)[keyof typeof Res_payment_methodsScalarFieldEnum]
-
-
-export const Res_promotion_usageScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  promotion_id: 'promotion_id',
-  order_id: 'order_id',
-  applied_at: 'applied_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Res_promotion_usageScalarFieldEnum = (typeof Res_promotion_usageScalarFieldEnum)[keyof typeof Res_promotion_usageScalarFieldEnum]
-
-
-export const Res_promotionsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  code: 'code',
-  description: 'description',
-  discount_type: 'discount_type',
-  discount_value: 'discount_value',
-  min_purchase: 'min_purchase',
-  max_usage: 'max_usage',
-  usage_count: 'usage_count',
-  is_active: 'is_active',
-  starts_at: 'starts_at',
-  expires_at: 'expires_at',
-  created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Res_promotionsScalarFieldEnum = (typeof Res_promotionsScalarFieldEnum)[keyof typeof Res_promotionsScalarFieldEnum]
 
 
 export const Res_reservationsScalarFieldEnum = {
@@ -1166,20 +1089,6 @@ export const RolesScalarFieldEnum = {
 export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
 
 
-export const Sale_itemsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  sale_id: 'sale_id',
-  product_id: 'product_id',
-  quantity: 'quantity',
-  unit_price: 'unit_price',
-  subtotal: 'subtotal',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Sale_itemsScalarFieldEnum = (typeof Sale_itemsScalarFieldEnum)[keyof typeof Sale_itemsScalarFieldEnum]
-
-
 export const Sales_invoice_itemsScalarFieldEnum = {
   id: 'id',
   invoice_id: 'invoice_id',
@@ -1284,6 +1193,7 @@ export const ShipmentsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   order_id: 'order_id',
+  sales_invoice_id: 'sales_invoice_id',
   tracking_number: 'tracking_number',
   shipped_date: 'shipped_date',
   delivered_date: 'delivered_date',
@@ -1330,6 +1240,8 @@ export type Shipping_ratesScalarFieldEnum = (typeof Shipping_ratesScalarFieldEnu
 
 
 export const StoresScalarFieldEnum = {
+  store_id: 'store_id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   phone: 'phone',
   email: 'email',
@@ -1341,7 +1253,6 @@ export const StoresScalarFieldEnum = {
   city_id: 'city_id',
   country_id: 'country_id',
   name: 'name',
-  store_id: 'store_id',
   status: 'status',
   branch_id: 'branch_id'
 } as const
@@ -1649,6 +1560,7 @@ export type User_permissionsScalarFieldEnum = (typeof User_permissionsScalarFiel
 
 export const Inventory_movementsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
@@ -2232,6 +2144,7 @@ export type Rbac_auditScalarFieldEnum = (typeof Rbac_auditScalarFieldEnum)[keyof
 
 export const Res_cash_movementsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   shift_id: 'shift_id',
   branch_id: 'branch_id',
   movement_type: 'movement_type',
@@ -2249,6 +2162,7 @@ export type Res_cash_movementsScalarFieldEnum = (typeof Res_cash_movementsScalar
 
 export const Res_shift_auditScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   shift_id: 'shift_id',
   actor_user_id: 'actor_user_id',
   action: 'action',
@@ -2263,6 +2177,7 @@ export type Res_shift_auditScalarFieldEnum = (typeof Res_shift_auditScalarFieldE
 
 export const Res_shift_settingsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   restaurant_id: 'restaurant_id',
   branch_id: 'branch_id',
   variance_threshold: 'variance_threshold',
@@ -2279,6 +2194,7 @@ export type Res_shift_settingsScalarFieldEnum = (typeof Res_shift_settingsScalar
 
 export const NotificationsScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   title: 'title',
   content: 'content',
   severity: 'severity',
@@ -2310,6 +2226,7 @@ export type User_notificationsScalarFieldEnum = (typeof User_notificationsScalar
 
 export const Notification_templatesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   name: 'name',
   header: 'header',
   content: 'content',

@@ -67,7 +67,7 @@ describe('useResposStore', () => {
   beforeEach(() => {
     const store = useResposStore.getState()
     store.clearCart()
-    store.setTaxConfig({ rate: 0.14, isInclusive: false })
+    store.setTaxConfig({ rate: 14, isInclusive: false })
     store.setOrderType('dine_in')
     vi.clearAllMocks()
   })
@@ -119,22 +119,23 @@ describe('useResposStore', () => {
   it('should surface structured errors from validation', async () => {
     vi.mocked(validatePromoCode).mockResolvedValue({
       valid: false,
-      discountAmount: 0,
-      error: { key: 'respos.promo.error.expired' },
+      error: { key: 'respos.promo.error.inactive' },
     })
 
     const store = useResposStore.getState()
     addItem('1', 100)
 
-    const result = await store.applyPromoCode('OLD')
+    const result = await store.applyPromoCode('INACTIVE')
+
     expect(result.success).toBe(false)
-    expect(result.error?.key).toBe('respos.promo.error.expired')
+    expect(result.error?.key).toBe('respos.promo.error.inactive')
+    expect(useResposStore.getState().cart.promoCode).toBeUndefined()
   })
 
-  it('should handle both manual and promo discounts (additive)', async () => {
+  it('should remove promo code and restore the cart totals', async () => {
     const promotion = makePromo({
       code: 'PROMO10',
-      discount_type: 'fixed',
+      discount_type: 'percentage',
       discount_value: 10,
     })
     vi.mocked(validatePromoCode).mockResolvedValue({
@@ -145,9 +146,36 @@ describe('useResposStore', () => {
 
     const store = useResposStore.getState()
     addItem('1', 100)
+    await store.applyPromoCode('PROMO10')
+
+    expect(useResposStore.getState().cart.promoDiscountAmount).toBe(10)
+
+    store.removePromoCode()
+
+    const cart = useResposStore.getState().cart
+    expect(cart.promoCode).toBeUndefined()
+    expect(cart.promotion).toBeUndefined()
+    expect(cart.promoDiscountAmount).toBe(0)
+    expect(cart.total).toBe(114) // 100 * 1.14
+  })
+
+  it('should handle both manual and promo discounts (additive)', async () => {
+    const promotion = makePromo({
+      code: 'FIXED10',
+      discount_type: 'fixed',
+      discount_value: 10,
+    })
+    vi.mocked(validatePromotion).mockReturnValue({
+      valid: true,
+      discountAmount: 10,
+      promotion,
+    })
+
+    const store = useResposStore.getState()
+    addItem('1', 100)
 
     store.setManualDiscount(5, 'percentage')
-    await store.applyPromoCode('PROMO10')
+    await store.applyPromotion(promotion)
 
     const cart = useResposStore.getState().cart
     // Taxable = 100 - (5 + 10) = 85; Total = 85 * 1.14 = 96.9
@@ -158,7 +186,7 @@ describe('useResposStore', () => {
     const store = useResposStore.getState()
     addItem('1', 100)
 
-    store.setPaymentMethod('Cash')
+    store.setPaymentMethod('cash')
     store.setReceivedAmount(150)
 
     const cart = useResposStore.getState().cart
@@ -168,7 +196,7 @@ describe('useResposStore', () => {
 
   it('should derive embedded tax when the rate is inclusive', () => {
     const store = useResposStore.getState()
-    store.setTaxConfig({ rate: 0.14, isInclusive: true })
+    store.setTaxConfig({ rate: 14, isInclusive: true })
     addItem('1', 114)
 
     const cart = useResposStore.getState().cart
@@ -181,7 +209,7 @@ describe('useResposStore', () => {
     addItem('1', 100)
     expect(useResposStore.getState().cart.total).toBe(114)
 
-    store.setTaxConfig({ rate: 0.1, isInclusive: false })
+    store.setTaxConfig({ rate: 10, isInclusive: false })
     expect(useResposStore.getState().cart.total).toBeCloseTo(110, 2)
   })
 

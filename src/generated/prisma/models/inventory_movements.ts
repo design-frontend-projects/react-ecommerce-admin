@@ -46,6 +46,7 @@ export type Inventory_movementsSumAggregateOutputType = {
 
 export type Inventory_movementsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
@@ -77,6 +78,7 @@ export type Inventory_movementsMinAggregateOutputType = {
 
 export type Inventory_movementsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
@@ -108,6 +110,7 @@ export type Inventory_movementsMaxAggregateOutputType = {
 
 export type Inventory_movementsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   auth_user_id: number
   branch_id: number
   store_id: number
@@ -159,6 +162,7 @@ export type Inventory_movementsSumAggregateInputType = {
 
 export type Inventory_movementsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
@@ -190,6 +194,7 @@ export type Inventory_movementsMinAggregateInputType = {
 
 export type Inventory_movementsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
@@ -221,6 +226,7 @@ export type Inventory_movementsMaxAggregateInputType = {
 
 export type Inventory_movementsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   auth_user_id?: true
   branch_id?: true
   store_id?: true
@@ -339,6 +345,7 @@ export type inventory_movementsGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Inventory_movementsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   auth_user_id: string
   branch_id: string
   store_id: string | null
@@ -393,6 +400,7 @@ export type inventory_movementsWhereInput = {
   OR?: Prisma.inventory_movementsWhereInput[]
   NOT?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
   id?: Prisma.UuidFilter<"inventory_movements"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   auth_user_id?: Prisma.UuidFilter<"inventory_movements"> | string
   branch_id?: Prisma.UuidFilter<"inventory_movements"> | string
   store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
@@ -427,10 +435,12 @@ export type inventory_movementsWhereInput = {
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type inventory_movementsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -465,6 +475,7 @@ export type inventory_movementsOrderByWithRelationInput = {
   stores?: Prisma.storesOrderByWithRelationInput
   warehouses?: Prisma.warehousesOrderByWithRelationInput
   warehouse_locations?: Prisma.warehouse_locationsOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
@@ -473,6 +484,7 @@ export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
   OR?: Prisma.inventory_movementsWhereInput[]
   NOT?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   auth_user_id?: Prisma.UuidFilter<"inventory_movements"> | string
   branch_id?: Prisma.UuidFilter<"inventory_movements"> | string
   store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
@@ -507,10 +519,12 @@ export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id" | "auth_user_id_idempotency_key">
 
 export type inventory_movementsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -550,6 +564,7 @@ export type inventory_movementsScalarWhereWithAggregatesInput = {
   OR?: Prisma.inventory_movementsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventory_movementsScalarWhereWithAggregatesInput | Prisma.inventory_movementsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
   branch_id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
@@ -608,10 +623,12 @@ export type inventory_movementsCreateInput = {
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -670,10 +687,12 @@ export type inventory_movementsUpdateInput = {
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -705,6 +724,7 @@ export type inventory_movementsUncheckedUpdateInput = {
 
 export type inventory_movementsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -760,6 +780,7 @@ export type inventory_movementsUpdateManyMutationInput = {
 
 export type inventory_movementsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -806,6 +827,7 @@ export type inventory_movementsAuth_user_idIdempotency_keyCompoundUniqueInput = 
 
 export type inventory_movementsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -846,6 +868,7 @@ export type inventory_movementsAvgOrderByAggregateInput = {
 
 export type inventory_movementsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -877,6 +900,7 @@ export type inventory_movementsMaxOrderByAggregateInput = {
 
 export type inventory_movementsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -1083,6 +1107,48 @@ export type inventory_movementsUncheckedUpdateManyWithoutStoresNestedInput = {
   deleteMany?: Prisma.inventory_movementsScalarWhereInput | Prisma.inventory_movementsScalarWhereInput[]
 }
 
+export type inventory_movementsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput> | Prisma.inventory_movementsCreateWithoutTenantsInput[] | Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput | Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.inventory_movementsCreateManyTenantsInputEnvelope
+  connect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+}
+
+export type inventory_movementsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput> | Prisma.inventory_movementsCreateWithoutTenantsInput[] | Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput | Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.inventory_movementsCreateManyTenantsInputEnvelope
+  connect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+}
+
+export type inventory_movementsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput> | Prisma.inventory_movementsCreateWithoutTenantsInput[] | Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput | Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.inventory_movementsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.inventory_movementsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.inventory_movementsCreateManyTenantsInputEnvelope
+  set?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  disconnect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  delete?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  connect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  update?: Prisma.inventory_movementsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.inventory_movementsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.inventory_movementsUpdateManyWithWhereWithoutTenantsInput | Prisma.inventory_movementsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.inventory_movementsScalarWhereInput | Prisma.inventory_movementsScalarWhereInput[]
+}
+
+export type inventory_movementsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput> | Prisma.inventory_movementsCreateWithoutTenantsInput[] | Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput | Prisma.inventory_movementsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.inventory_movementsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.inventory_movementsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.inventory_movementsCreateManyTenantsInputEnvelope
+  set?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  disconnect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  delete?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  connect?: Prisma.inventory_movementsWhereUniqueInput | Prisma.inventory_movementsWhereUniqueInput[]
+  update?: Prisma.inventory_movementsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.inventory_movementsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.inventory_movementsUpdateManyWithWhereWithoutTenantsInput | Prisma.inventory_movementsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.inventory_movementsScalarWhereInput | Prisma.inventory_movementsScalarWhereInput[]
+}
+
 export type Enummovement_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.movement_type_enum
 }
@@ -1241,10 +1307,12 @@ export type inventory_movementsCreateWithoutBranchesInput = {
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutBranchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   store_id?: string | null
   product_variant_id: string
@@ -1304,6 +1372,7 @@ export type inventory_movementsScalarWhereInput = {
   OR?: Prisma.inventory_movementsScalarWhereInput[]
   NOT?: Prisma.inventory_movementsScalarWhereInput | Prisma.inventory_movementsScalarWhereInput[]
   id?: Prisma.UuidFilter<"inventory_movements"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   auth_user_id?: Prisma.UuidFilter<"inventory_movements"> | string
   branch_id?: Prisma.UuidFilter<"inventory_movements"> | string
   store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
@@ -1361,10 +1430,12 @@ export type inventory_movementsCreateWithoutProduct_variantsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutProduct_variantsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -1447,10 +1518,12 @@ export type inventory_movementsCreateWithoutDest_storeInput = {
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutDest_storeInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -1517,10 +1590,12 @@ export type inventory_movementsCreateWithoutStoresInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutStoresInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   product_variant_id: string
@@ -1591,6 +1666,94 @@ export type inventory_movementsUpdateManyWithWhereWithoutStoresInput = {
   data: Prisma.XOR<Prisma.inventory_movementsUpdateManyMutationInput, Prisma.inventory_movementsUncheckedUpdateManyWithoutStoresInput>
 }
 
+export type inventory_movementsCreateWithoutTenantsInput = {
+  id?: string
+  auth_user_id: string
+  movement_type: $Enums.movement_type_enum
+  reference_type?: string | null
+  reference_id?: string | null
+  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Date | string
+  remarks?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  dest_warehouse_location_id?: string | null
+  idempotency_key?: string | null
+  movement_group_id?: string | null
+  qty_after?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: string | null
+  source_document_id?: string | null
+  source_document_type?: string | null
+  product_batches?: Prisma.product_batchesCreateNestedOneWithoutInventory_movementsInput
+  branches: Prisma.branchesCreateNestedOneWithoutInventory_movementsInput
+  dest_store?: Prisma.storesCreateNestedOneWithoutInventory_movements_destInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_movementsInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+}
+
+export type inventory_movementsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  auth_user_id: string
+  branch_id: string
+  store_id?: string | null
+  product_variant_id: string
+  movement_type: $Enums.movement_type_enum
+  reference_type?: string | null
+  reference_id?: string | null
+  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Date | string
+  remarks?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  batch_id?: string | null
+  dest_store_id?: string | null
+  dest_warehouse_location_id?: string | null
+  idempotency_key?: string | null
+  movement_group_id?: string | null
+  qty_after?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: string | null
+  source_document_id?: string | null
+  source_document_type?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
+}
+
+export type inventory_movementsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.inventory_movementsWhereUniqueInput
+  create: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput>
+}
+
+export type inventory_movementsCreateManyTenantsInputEnvelope = {
+  data: Prisma.inventory_movementsCreateManyTenantsInput | Prisma.inventory_movementsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type inventory_movementsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.inventory_movementsWhereUniqueInput
+  update: Prisma.XOR<Prisma.inventory_movementsUpdateWithoutTenantsInput, Prisma.inventory_movementsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.inventory_movementsCreateWithoutTenantsInput, Prisma.inventory_movementsUncheckedCreateWithoutTenantsInput>
+}
+
+export type inventory_movementsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.inventory_movementsWhereUniqueInput
+  data: Prisma.XOR<Prisma.inventory_movementsUpdateWithoutTenantsInput, Prisma.inventory_movementsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type inventory_movementsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.inventory_movementsScalarWhereInput
+  data: Prisma.XOR<Prisma.inventory_movementsUpdateManyMutationInput, Prisma.inventory_movementsUncheckedUpdateManyWithoutTenantsInput>
+}
+
 export type inventory_movementsCreateWithoutWarehousesInput = {
   id?: string
   auth_user_id: string
@@ -1619,10 +1782,12 @@ export type inventory_movementsCreateWithoutWarehousesInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_movementsInput
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutWarehousesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -1705,10 +1870,12 @@ export type inventory_movementsCreateWithoutWarehouse_locationsInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_movementsInput
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutWarehouse_locationsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -1791,10 +1958,12 @@ export type inventory_movementsCreateWithoutProduct_batchesInput = {
   stores?: Prisma.storesCreateNestedOneWithoutInventory_movementsInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutInventory_movementsInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventory_movementsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutInventory_movementsInput
 }
 
 export type inventory_movementsUncheckedCreateWithoutProduct_batchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -1851,6 +2020,7 @@ export type inventory_movementsUpdateManyWithWhereWithoutProduct_batchesInput = 
 
 export type inventory_movementsCreateManyBranchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   store_id?: string | null
   product_variant_id: string
@@ -1907,10 +2077,12 @@ export type inventory_movementsUpdateWithoutBranchesInput = {
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1941,6 +2113,7 @@ export type inventory_movementsUncheckedUpdateWithoutBranchesInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1971,6 +2144,7 @@ export type inventory_movementsUncheckedUpdateManyWithoutBranchesInput = {
 
 export type inventory_movementsCreateManyProduct_variantsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -2027,10 +2201,12 @@ export type inventory_movementsUpdateWithoutProduct_variantsInput = {
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2061,6 +2237,7 @@ export type inventory_movementsUncheckedUpdateWithoutProduct_variantsInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2091,6 +2268,7 @@ export type inventory_movementsUncheckedUpdateManyWithoutProduct_variantsInput =
 
 export type inventory_movementsCreateManyDest_storeInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -2121,6 +2299,7 @@ export type inventory_movementsCreateManyDest_storeInput = {
 
 export type inventory_movementsCreateManyStoresInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   product_variant_id: string
@@ -2177,10 +2356,12 @@ export type inventory_movementsUpdateWithoutDest_storeInput = {
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutDest_storeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2211,6 +2392,7 @@ export type inventory_movementsUncheckedUpdateWithoutDest_storeInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutDest_storeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2267,10 +2449,12 @@ export type inventory_movementsUpdateWithoutStoresInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2301,6 +2485,7 @@ export type inventory_movementsUncheckedUpdateWithoutStoresInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2329,8 +2514,133 @@ export type inventory_movementsUncheckedUpdateManyWithoutStoresInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type inventory_movementsCreateManyTenantsInput = {
+  id?: string
+  auth_user_id: string
+  branch_id: string
+  store_id?: string | null
+  product_variant_id: string
+  movement_type: $Enums.movement_type_enum
+  reference_type?: string | null
+  reference_id?: string | null
+  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Date | string
+  remarks?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  batch_id?: string | null
+  dest_store_id?: string | null
+  dest_warehouse_location_id?: string | null
+  idempotency_key?: string | null
+  movement_group_id?: string | null
+  qty_after?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: string | null
+  source_document_id?: string | null
+  source_document_type?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
+}
+
+export type inventory_movementsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  movement_group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_after?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_batches?: Prisma.product_batchesUpdateOneWithoutInventory_movementsNestedInput
+  branches?: Prisma.branchesUpdateOneRequiredWithoutInventory_movementsNestedInput
+  dest_store?: Prisma.storesUpdateOneWithoutInventory_movements_destNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_movementsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+}
+
+export type inventory_movementsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  movement_group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_after?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventory_movementsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  movement_group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_after?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_before?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 export type inventory_movementsCreateManyWarehousesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -2387,10 +2697,12 @@ export type inventory_movementsUpdateWithoutWarehousesInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_movementsNestedInput
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2421,6 +2733,7 @@ export type inventory_movementsUncheckedUpdateWithoutWarehousesInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2451,6 +2764,7 @@ export type inventory_movementsUncheckedUpdateManyWithoutWarehousesInput = {
 
 export type inventory_movementsCreateManyWarehouse_locationsInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -2507,10 +2821,12 @@ export type inventory_movementsUpdateWithoutWarehouse_locationsInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_movementsNestedInput
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutWarehouse_locationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2541,6 +2857,7 @@ export type inventory_movementsUncheckedUpdateWithoutWarehouse_locationsInput = 
 
 export type inventory_movementsUncheckedUpdateManyWithoutWarehouse_locationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2571,6 +2888,7 @@ export type inventory_movementsUncheckedUpdateManyWithoutWarehouse_locationsInpu
 
 export type inventory_movementsCreateManyProduct_batchesInput = {
   id?: string
+  tenant_id?: string | null
   auth_user_id: string
   branch_id: string
   store_id?: string | null
@@ -2627,10 +2945,12 @@ export type inventory_movementsUpdateWithoutProduct_batchesInput = {
   stores?: Prisma.storesUpdateOneWithoutInventory_movementsNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutInventory_movementsNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventory_movementsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutInventory_movementsNestedInput
 }
 
 export type inventory_movementsUncheckedUpdateWithoutProduct_batchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2661,6 +2981,7 @@ export type inventory_movementsUncheckedUpdateWithoutProduct_batchesInput = {
 
 export type inventory_movementsUncheckedUpdateManyWithoutProduct_batchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2693,6 +3014,7 @@ export type inventory_movementsUncheckedUpdateManyWithoutProduct_batchesInput = 
 
 export type inventory_movementsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
@@ -2727,10 +3049,12 @@ export type inventory_movementsSelect<ExtArgs extends runtime.Types.Extensions.I
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory_movements"]>
 
 export type inventory_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
@@ -2765,10 +3089,12 @@ export type inventory_movementsSelectCreateManyAndReturn<ExtArgs extends runtime
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory_movements"]>
 
 export type inventory_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
@@ -2803,10 +3129,12 @@ export type inventory_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory_movements"]>
 
 export type inventory_movementsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
@@ -2836,7 +3164,7 @@ export type inventory_movementsSelectScalar = {
   warehouse_location_id?: boolean
 }
 
-export type inventory_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "branch_id" | "store_id" | "product_variant_id" | "movement_type" | "reference_type" | "reference_id" | "qty_in" | "qty_out" | "unit_cost" | "total_cost" | "movement_date" | "remarks" | "created_by" | "created_at" | "batch_id" | "dest_store_id" | "dest_warehouse_location_id" | "idempotency_key" | "movement_group_id" | "qty_after" | "qty_before" | "reason_code" | "source_document_id" | "source_document_type" | "warehouse_id" | "warehouse_location_id", ExtArgs["result"]["inventory_movements"]>
+export type inventory_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "branch_id" | "store_id" | "product_variant_id" | "movement_type" | "reference_type" | "reference_id" | "qty_in" | "qty_out" | "unit_cost" | "total_cost" | "movement_date" | "remarks" | "created_by" | "created_at" | "batch_id" | "dest_store_id" | "dest_warehouse_location_id" | "idempotency_key" | "movement_group_id" | "qty_after" | "qty_before" | "reason_code" | "source_document_id" | "source_document_type" | "warehouse_id" | "warehouse_location_id", ExtArgs["result"]["inventory_movements"]>
 export type inventory_movementsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_batches?: boolean | Prisma.inventory_movements$product_batchesArgs<ExtArgs>
   branches?: boolean | Prisma.branchesDefaultArgs<ExtArgs>
@@ -2845,6 +3173,7 @@ export type inventory_movementsInclude<ExtArgs extends runtime.Types.Extensions.
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }
 export type inventory_movementsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_batches?: boolean | Prisma.inventory_movements$product_batchesArgs<ExtArgs>
@@ -2854,6 +3183,7 @@ export type inventory_movementsIncludeCreateManyAndReturn<ExtArgs extends runtim
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }
 export type inventory_movementsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_batches?: boolean | Prisma.inventory_movements$product_batchesArgs<ExtArgs>
@@ -2863,6 +3193,7 @@ export type inventory_movementsIncludeUpdateManyAndReturn<ExtArgs extends runtim
   stores?: boolean | Prisma.inventory_movements$storesArgs<ExtArgs>
   warehouses?: boolean | Prisma.inventory_movements$warehousesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>
+  tenants?: boolean | Prisma.inventory_movements$tenantsArgs<ExtArgs>
 }
 
 export type $inventory_movementsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2875,9 +3206,11 @@ export type $inventory_movementsPayload<ExtArgs extends runtime.Types.Extensions
     stores: Prisma.$storesPayload<ExtArgs> | null
     warehouses: Prisma.$warehousesPayload<ExtArgs> | null
     warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs> | null
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     auth_user_id: string
     branch_id: string
     store_id: string | null
@@ -3306,6 +3639,7 @@ export interface Prisma__inventory_movementsClient<T, Null = never, ExtArgs exte
   stores<T extends Prisma.inventory_movements$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_movements$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   warehouses<T extends Prisma.inventory_movements$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_movements$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   warehouse_locations<T extends Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_movements$warehouse_locationsArgs<ExtArgs>>): Prisma.Prisma__warehouse_locationsClient<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.inventory_movements$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_movements$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3336,6 +3670,7 @@ export interface Prisma__inventory_movementsClient<T, Null = never, ExtArgs exte
  */
 export interface inventory_movementsFieldRefs {
   readonly id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly branch_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly store_id: Prisma.FieldRef<"inventory_movements", 'String'>
@@ -3856,6 +4191,25 @@ export type inventory_movements$warehouse_locationsArgs<ExtArgs extends runtime.
    */
   include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
   where?: Prisma.warehouse_locationsWhereInput
+}
+
+/**
+ * inventory_movements.tenants
+ */
+export type inventory_movements$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

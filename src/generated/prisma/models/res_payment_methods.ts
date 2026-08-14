@@ -256,6 +256,7 @@ export type res_payment_methodsWhereInput = {
   is_default?: Prisma.BoolFilter<"res_payment_methods"> | boolean
   updated_at?: Prisma.DateTimeNullableFilter<"res_payment_methods"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type res_payment_methodsOrderByWithRelationInput = {
@@ -269,6 +270,7 @@ export type res_payment_methodsOrderByWithRelationInput = {
   is_default?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type res_payment_methodsWhereUniqueInput = Prisma.AtLeast<{
@@ -285,6 +287,7 @@ export type res_payment_methodsWhereUniqueInput = Prisma.AtLeast<{
   is_default?: Prisma.BoolFilter<"res_payment_methods"> | boolean
   updated_at?: Prisma.DateTimeNullableFilter<"res_payment_methods"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type res_payment_methodsOrderByWithAggregationInput = {
@@ -323,7 +326,6 @@ export type res_payment_methodsScalarWhereWithAggregatesInput = {
 
 export type res_payment_methodsCreateInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   icon?: string | null
   is_enabled?: boolean | null
@@ -332,6 +334,7 @@ export type res_payment_methodsCreateInput = {
   is_default?: boolean
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_payment_methodsInput
 }
 
 export type res_payment_methodsUncheckedCreateInput = {
@@ -349,7 +352,6 @@ export type res_payment_methodsUncheckedCreateInput = {
 
 export type res_payment_methodsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -358,6 +360,7 @@ export type res_payment_methodsUpdateInput = {
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutRes_payment_methodsNestedInput
 }
 
 export type res_payment_methodsUncheckedUpdateInput = {
@@ -388,7 +391,6 @@ export type res_payment_methodsCreateManyInput = {
 
 export type res_payment_methodsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -459,6 +461,172 @@ export type res_payment_methodsSumOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
 }
 
+export type Res_payment_methodsListRelationFilter = {
+  every?: Prisma.res_payment_methodsWhereInput
+  some?: Prisma.res_payment_methodsWhereInput
+  none?: Prisma.res_payment_methodsWhereInput
+}
+
+export type res_payment_methodsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type res_payment_methodsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput> | Prisma.res_payment_methodsCreateWithoutTenantsInput[] | Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput | Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_payment_methodsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+}
+
+export type res_payment_methodsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput> | Prisma.res_payment_methodsCreateWithoutTenantsInput[] | Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput | Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_payment_methodsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+}
+
+export type res_payment_methodsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput> | Prisma.res_payment_methodsCreateWithoutTenantsInput[] | Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput | Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_payment_methodsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_payment_methodsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_payment_methodsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  disconnect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  delete?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  connect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  update?: Prisma.res_payment_methodsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_payment_methodsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_payment_methodsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_payment_methodsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_payment_methodsScalarWhereInput | Prisma.res_payment_methodsScalarWhereInput[]
+}
+
+export type res_payment_methodsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput> | Prisma.res_payment_methodsCreateWithoutTenantsInput[] | Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput | Prisma.res_payment_methodsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_payment_methodsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_payment_methodsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_payment_methodsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  disconnect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  delete?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  connect?: Prisma.res_payment_methodsWhereUniqueInput | Prisma.res_payment_methodsWhereUniqueInput[]
+  update?: Prisma.res_payment_methodsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_payment_methodsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_payment_methodsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_payment_methodsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_payment_methodsScalarWhereInput | Prisma.res_payment_methodsScalarWhereInput[]
+}
+
+export type res_payment_methodsCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  icon?: string | null
+  is_enabled?: boolean | null
+  sort_order?: number | null
+  created_at?: Date | string | null
+  is_default?: boolean
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_payment_methodsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  icon?: string | null
+  is_enabled?: boolean | null
+  sort_order?: number | null
+  created_at?: Date | string | null
+  is_default?: boolean
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_payment_methodsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.res_payment_methodsWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_payment_methodsCreateManyTenantsInputEnvelope = {
+  data: Prisma.res_payment_methodsCreateManyTenantsInput | Prisma.res_payment_methodsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type res_payment_methodsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_payment_methodsWhereUniqueInput
+  update: Prisma.XOR<Prisma.res_payment_methodsUpdateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.res_payment_methodsCreateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_payment_methodsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_payment_methodsWhereUniqueInput
+  data: Prisma.XOR<Prisma.res_payment_methodsUpdateWithoutTenantsInput, Prisma.res_payment_methodsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type res_payment_methodsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.res_payment_methodsScalarWhereInput
+  data: Prisma.XOR<Prisma.res_payment_methodsUpdateManyMutationInput, Prisma.res_payment_methodsUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type res_payment_methodsScalarWhereInput = {
+  AND?: Prisma.res_payment_methodsScalarWhereInput | Prisma.res_payment_methodsScalarWhereInput[]
+  OR?: Prisma.res_payment_methodsScalarWhereInput[]
+  NOT?: Prisma.res_payment_methodsScalarWhereInput | Prisma.res_payment_methodsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"res_payment_methods"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
+  name?: Prisma.StringFilter<"res_payment_methods"> | string
+  icon?: Prisma.StringNullableFilter<"res_payment_methods"> | string | null
+  is_enabled?: Prisma.BoolNullableFilter<"res_payment_methods"> | boolean | null
+  sort_order?: Prisma.IntNullableFilter<"res_payment_methods"> | number | null
+  created_at?: Prisma.DateTimeNullableFilter<"res_payment_methods"> | Date | string | null
+  is_default?: Prisma.BoolFilter<"res_payment_methods"> | boolean
+  updated_at?: Prisma.DateTimeNullableFilter<"res_payment_methods"> | Date | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"res_payment_methods"> | string | null
+}
+
+export type res_payment_methodsCreateManyTenantsInput = {
+  id?: string
+  name: string
+  icon?: string | null
+  is_enabled?: boolean | null
+  sort_order?: number | null
+  created_at?: Date | string | null
+  is_default?: boolean
+  updated_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_payment_methodsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_payment_methodsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_payment_methodsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_enabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type res_payment_methodsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -472,6 +640,7 @@ export type res_payment_methodsSelect<ExtArgs extends runtime.Types.Extensions.I
   is_default?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_payment_methods"]>
 
 export type res_payment_methodsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -485,6 +654,7 @@ export type res_payment_methodsSelectCreateManyAndReturn<ExtArgs extends runtime
   is_default?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_payment_methods"]>
 
 export type res_payment_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -498,6 +668,7 @@ export type res_payment_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime
   is_default?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_payment_methods"]>
 
 export type res_payment_methodsSelectScalar = {
@@ -514,10 +685,21 @@ export type res_payment_methodsSelectScalar = {
 }
 
 export type res_payment_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "icon" | "is_enabled" | "sort_order" | "created_at" | "is_default" | "updated_at" | "auth_user_id", ExtArgs["result"]["res_payment_methods"]>
+export type res_payment_methodsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
+}
+export type res_payment_methodsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
+}
+export type res_payment_methodsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_payment_methods$tenantsArgs<ExtArgs>
+}
 
 export type $res_payment_methodsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_payment_methods"
-  objects: {}
+  objects: {
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string | null
@@ -923,6 +1105,7 @@ readonly fields: res_payment_methodsFieldRefs;
  */
 export interface Prisma__res_payment_methodsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tenants<T extends Prisma.res_payment_methods$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_payment_methods$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -979,6 +1162,10 @@ export type res_payment_methodsFindUniqueArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
+  /**
    * Filter, which res_payment_methods to fetch.
    */
   where: Prisma.res_payment_methodsWhereUniqueInput
@@ -997,6 +1184,10 @@ export type res_payment_methodsFindUniqueOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
+  /**
    * Filter, which res_payment_methods to fetch.
    */
   where: Prisma.res_payment_methodsWhereUniqueInput
@@ -1014,6 +1205,10 @@ export type res_payment_methodsFindFirstArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the res_payment_methods
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
   /**
    * Filter, which res_payment_methods to fetch.
    */
@@ -1063,6 +1258,10 @@ export type res_payment_methodsFindFirstOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
+  /**
    * Filter, which res_payment_methods to fetch.
    */
   where?: Prisma.res_payment_methodsWhereInput
@@ -1110,6 +1309,10 @@ export type res_payment_methodsFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the res_payment_methods
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
   /**
    * Filter, which res_payment_methods to fetch.
    */
@@ -1159,6 +1362,10 @@ export type res_payment_methodsCreateArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
+  /**
    * The data needed to create a res_payment_methods.
    */
   data: Prisma.XOR<Prisma.res_payment_methodsCreateInput, Prisma.res_payment_methodsUncheckedCreateInput>
@@ -1192,6 +1399,10 @@ export type res_payment_methodsCreateManyAndReturnArgs<ExtArgs extends runtime.T
    */
   data: Prisma.res_payment_methodsCreateManyInput | Prisma.res_payment_methodsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1206,6 +1417,10 @@ export type res_payment_methodsUpdateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_payment_methods
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_payment_methods.
    */
@@ -1258,6 +1473,10 @@ export type res_payment_methodsUpdateManyAndReturnArgs<ExtArgs extends runtime.T
    * Limit how many res_payment_methods to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1272,6 +1491,10 @@ export type res_payment_methodsUpsertArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_payment_methods
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_payment_methods to update in case it exists.
    */
@@ -1299,6 +1522,10 @@ export type res_payment_methodsDeleteArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
+  /**
    * Filter which res_payment_methods to delete.
    */
   where: Prisma.res_payment_methodsWhereUniqueInput
@@ -1319,6 +1546,25 @@ export type res_payment_methodsDeleteManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
+ * res_payment_methods.tenants
+ */
+export type res_payment_methods$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+}
+
+/**
  * res_payment_methods without action
  */
 export type res_payment_methodsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1330,4 +1576,8 @@ export type res_payment_methodsDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the res_payment_methods
    */
   omit?: Prisma.res_payment_methodsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_payment_methodsInclude<ExtArgs> | null
 }

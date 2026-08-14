@@ -2,6 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase-admin'
 import prisma from '@/lib/prisma'
+import { resolveTenantId } from '@/server/utils/tenant'
 import {
   getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
@@ -114,13 +115,9 @@ export async function createOnboardingUsers(
     throw new Error('Only tenant owners can create users during onboarding.')
   }
 
-  // Resolve parent_tenant_id from the caller's tenant_users row
-  const callerTenantUser = (await prisma.tenant_users.findFirst({
-    where: { auth_user_id: caller.authUserId },
-    select: { parent_tenant_id: true },
-  })) as { parent_tenant_id: string | null } | null
-
-  const parentTenantId = callerTenantUser?.parent_tenant_id ?? callerProfile.id
+  // Resolve tenant ID from context or via resolveTenantId helper
+  const tenantId = caller.tenantId ?? (await resolveTenantId(caller.authUserId)) ?? callerProfile.id
+  const parentTenantId = tenantId
 
   // Validate all roleIds
   const roleIds = [...new Set(input.users.map((u) => u.roleId))]
@@ -211,7 +208,7 @@ export async function createOnboardingUsers(
             modules,
             primary_module: modules[0] ?? null,
             parent_tenant_id: parentTenantId,
-            tenant_id: caller.tenantId ?? null,
+            tenant_id: tenantId,
             onboarding_complete: true, // Staff users don't need to onboard
           },
         })

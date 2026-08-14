@@ -246,6 +246,7 @@ export type customer_groupsWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   customers?: Prisma.CustomersListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type customer_groupsOrderByWithRelationInput = {
@@ -259,6 +260,7 @@ export type customer_groupsOrderByWithRelationInput = {
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customers?: Prisma.customersOrderByRelationAggregateInput
   price_list?: Prisma.price_listOrderByRelationAggregateInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
@@ -275,6 +277,7 @@ export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
   auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   customers?: Prisma.CustomersListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type customer_groupsOrderByWithAggregationInput = {
@@ -309,7 +312,6 @@ export type customer_groupsScalarWhereWithAggregatesInput = {
 
 export type customer_groupsCreateInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -318,6 +320,7 @@ export type customer_groupsCreateInput = {
   auth_user_id?: string | null
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateInput = {
@@ -335,7 +338,6 @@ export type customer_groupsUncheckedCreateInput = {
 
 export type customer_groupsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -344,6 +346,7 @@ export type customer_groupsUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateInput = {
@@ -372,7 +375,6 @@ export type customer_groupsCreateManyInput = {
 
 export type customer_groupsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -440,6 +442,16 @@ export type Customer_groupsNullableScalarRelationFilter = {
   isNot?: Prisma.customer_groupsWhereInput | null
 }
 
+export type Customer_groupsListRelationFilter = {
+  every?: Prisma.customer_groupsWhereInput
+  some?: Prisma.customer_groupsWhereInput
+  none?: Prisma.customer_groupsWhereInput
+}
+
+export type customer_groupsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type customer_groupsCreateNestedOneWithoutCustomersInput = {
   create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutCustomersInput, Prisma.customer_groupsUncheckedCreateWithoutCustomersInput>
   connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutCustomersInput
@@ -472,9 +484,50 @@ export type customer_groupsUpdateOneWithoutPrice_listNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutPrice_listInput, Prisma.customer_groupsUpdateWithoutPrice_listInput>, Prisma.customer_groupsUncheckedUpdateWithoutPrice_listInput>
 }
 
+export type customer_groupsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput> | Prisma.customer_groupsCreateWithoutTenantsInput[] | Prisma.customer_groupsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutTenantsInput | Prisma.customer_groupsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.customer_groupsCreateManyTenantsInputEnvelope
+  connect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+}
+
+export type customer_groupsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput> | Prisma.customer_groupsCreateWithoutTenantsInput[] | Prisma.customer_groupsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutTenantsInput | Prisma.customer_groupsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.customer_groupsCreateManyTenantsInputEnvelope
+  connect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+}
+
+export type customer_groupsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput> | Prisma.customer_groupsCreateWithoutTenantsInput[] | Prisma.customer_groupsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutTenantsInput | Prisma.customer_groupsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.customer_groupsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.customer_groupsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.customer_groupsCreateManyTenantsInputEnvelope
+  set?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  disconnect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  delete?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  connect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  update?: Prisma.customer_groupsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.customer_groupsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.customer_groupsUpdateManyWithWhereWithoutTenantsInput | Prisma.customer_groupsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.customer_groupsScalarWhereInput | Prisma.customer_groupsScalarWhereInput[]
+}
+
+export type customer_groupsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput> | Prisma.customer_groupsCreateWithoutTenantsInput[] | Prisma.customer_groupsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutTenantsInput | Prisma.customer_groupsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.customer_groupsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.customer_groupsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.customer_groupsCreateManyTenantsInputEnvelope
+  set?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  disconnect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  delete?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  connect?: Prisma.customer_groupsWhereUniqueInput | Prisma.customer_groupsWhereUniqueInput[]
+  update?: Prisma.customer_groupsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.customer_groupsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.customer_groupsUpdateManyWithWhereWithoutTenantsInput | Prisma.customer_groupsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.customer_groupsScalarWhereInput | Prisma.customer_groupsScalarWhereInput[]
+}
+
 export type customer_groupsCreateWithoutCustomersInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -482,6 +535,7 @@ export type customer_groupsCreateWithoutCustomersInput = {
   created_at?: Date | string | null
   auth_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateWithoutCustomersInput = {
@@ -514,7 +568,6 @@ export type customer_groupsUpdateToOneWithWhereWithoutCustomersInput = {
 
 export type customer_groupsUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -522,6 +575,7 @@ export type customer_groupsUpdateWithoutCustomersInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
@@ -538,7 +592,6 @@ export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
 
 export type customer_groupsCreateWithoutPrice_listInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -546,6 +599,7 @@ export type customer_groupsCreateWithoutPrice_listInput = {
   created_at?: Date | string | null
   auth_user_id?: string | null
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateWithoutPrice_listInput = {
@@ -578,7 +632,6 @@ export type customer_groupsUpdateToOneWithWhereWithoutPrice_listInput = {
 
 export type customer_groupsUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -586,6 +639,7 @@ export type customer_groupsUpdateWithoutPrice_listInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
@@ -598,6 +652,114 @@ export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput>
+}
+
+export type customer_groupsCreateManyTenantsInputEnvelope = {
+  data: Prisma.customer_groupsCreateManyTenantsInput | Prisma.customer_groupsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type customer_groupsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  update: Prisma.XOR<Prisma.customer_groupsUpdateWithoutTenantsInput, Prisma.customer_groupsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutTenantsInput, Prisma.customer_groupsUncheckedCreateWithoutTenantsInput>
+}
+
+export type customer_groupsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  data: Prisma.XOR<Prisma.customer_groupsUpdateWithoutTenantsInput, Prisma.customer_groupsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type customer_groupsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.customer_groupsScalarWhereInput
+  data: Prisma.XOR<Prisma.customer_groupsUpdateManyMutationInput, Prisma.customer_groupsUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type customer_groupsScalarWhereInput = {
+  AND?: Prisma.customer_groupsScalarWhereInput | Prisma.customer_groupsScalarWhereInput[]
+  OR?: Prisma.customer_groupsScalarWhereInput[]
+  NOT?: Prisma.customer_groupsScalarWhereInput | Prisma.customer_groupsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"customer_groups"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
+  name?: Prisma.StringFilter<"customer_groups"> | string
+  description?: Prisma.StringNullableFilter<"customer_groups"> | string | null
+  minimum_order_amount?: Prisma.DecimalNullableFilter<"customer_groups"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.DecimalNullableFilter<"customer_groups"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"customer_groups"> | Date | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
+}
+
+export type customer_groupsCreateManyTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type customer_groupsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -651,6 +813,7 @@ export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   auth_user_id?: boolean
   customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
   price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
@@ -663,6 +826,7 @@ export type customer_groupsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   discount_percentage?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -674,6 +838,7 @@ export type customer_groupsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   discount_percentage?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectScalar = {
@@ -691,16 +856,22 @@ export type customer_groupsOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type customer_groupsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
   price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type customer_groupsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type customer_groupsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type customer_groupsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
+}
+export type customer_groupsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.customer_groups$tenantsArgs<ExtArgs>
+}
 
 export type $customer_groupsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "customer_groups"
   objects: {
     customers: Prisma.$customersPayload<ExtArgs>[]
     price_list: Prisma.$price_listPayload<ExtArgs>[]
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1107,6 +1278,7 @@ export interface Prisma__customer_groupsClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customers<T extends Prisma.customer_groups$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   price_list<T extends Prisma.customer_groups$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenants<T extends Prisma.customer_groups$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1398,6 +1570,10 @@ export type customer_groupsCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.customer_groupsCreateManyInput | Prisma.customer_groupsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1468,6 +1644,10 @@ export type customer_groupsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many customer_groups to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1582,6 +1762,25 @@ export type customer_groups$price_listArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
+}
+
+/**
+ * customer_groups.tenants
+ */
+export type customer_groups$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**

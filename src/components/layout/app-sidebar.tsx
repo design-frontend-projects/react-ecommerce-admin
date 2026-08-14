@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useLayout } from '@/context/layout-provider'
 import { useAuth } from '@/hooks/use-auth'
 import {
@@ -19,7 +20,8 @@ import { NavGroup } from './nav-group'
 import { NavUser } from './nav-user'
 import type { NavItem } from './types'
 
-const DB_NAV_ENABLED = import.meta.env.VITE_DB_NAV === 'true'
+// Default to enabled unless explicitly set to false
+const DB_NAV_ENABLED = import.meta.env.VITE_DB_NAV !== 'false'
 
 function canAccessItem(
   item: { roles?: string[]; permissions?: string[]; isSystemOwner?: boolean },
@@ -54,7 +56,7 @@ function canAccessItem(
     return true
   }
 
-  // Alias/wildcard-aware permission match (shared with the server gate).
+  // Alias/wildcard-aware permission match
   if (hasPermissions && hasAnyPermission(permissionNames, item.permissions!)) {
     return true
   }
@@ -63,6 +65,7 @@ function canAccessItem(
 }
 
 export function AppSidebar() {
+  const { t } = useTranslation()
   const { collapsible, variant } = useLayout()
   const { isSignedIn } = useAuth()
   const { isSystemOwner, isSuperAdminOwner } = useSystemOwner()
@@ -75,85 +78,79 @@ export function AppSidebar() {
 
   const isRBACReady = !isSignedIn || lastSyncedAt !== null
 
-  // DB-driven navigation (feature-flagged). Falls back to the hardcoded
-  // sidebar while loading, on error, or when the catalog is empty.
-  const navigationQuery = useNavigation(DB_NAV_ENABLED)
+  // DB-driven dynamic RBAC + ABAC navigation
+  const navigationQuery = useNavigation(DB_NAV_ENABLED && !!isSignedIn)
   const dbNavGroups =
     DB_NAV_ENABLED && navigationQuery.data
-      ? buildNavGroupsFromNavigation(navigationQuery.data)
+      ? buildNavGroupsFromNavigation(navigationQuery.data, t)
       : null
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
-  console.log('normalizedRoleNames ', normalizedRoleNames)
-  console.log('currentPermissionNames ', currentPermissionNames)
-  const sourceNavGroups =
-    dbNavGroups && dbNavGroups.length > 0 ? dbNavGroups : sidebarData.navGroups
 
-  // Filter navigation items based on user roles and system ownership
-  const filteredNavGroups = sourceNavGroups
-    .map((group) => ({
-      ...group,
-      items: group.items
-        .filter((item) =>
-          canAccessItem(
-            item,
-            normalizedRoleNames,
-            currentPermissionNames,
-            isSystemOwner,
-            !!isSignedIn,
-            isSuperAdminOwner
-          )
-        )
-        .map((item): NavItem => {
-          // Filter nested sub-items for collapsible menus
-          if ('items' in item && item.items) {
-            return {
-              ...item,
-              items: item.items.filter((subItem) =>
+  // Use dynamic DB navigation if available; otherwise fallback to filtered static navigation
+  const renderedNavGroups =
+    dbNavGroups && dbNavGroups.length > 0
+      ? dbNavGroups
+      : sidebarData.navGroups
+          .map((group) => ({
+            ...group,
+            items: group.items
+              .filter((item) =>
                 canAccessItem(
-                  subItem,
+                  item,
                   normalizedRoleNames,
                   currentPermissionNames,
                   isSystemOwner,
                   !!isSignedIn,
                   isSuperAdminOwner
                 )
-              ),
-            }
-          }
-          return item
-        })
-        .filter((item) => {
-          // Remove collapsible items that have no accessible sub-items
-          if ('items' in item && item.items) {
-            return item.items.length > 0
-          }
-          return true
-        }),
-    }))
-    .filter((group) => group.items.length > 0)
+              )
+              .map((item): NavItem => {
+                if ('items' in item && item.items) {
+                  return {
+                    ...item,
+                    items: item.items.filter((subItem) =>
+                      canAccessItem(
+                        subItem,
+                        normalizedRoleNames,
+                        currentPermissionNames,
+                        isSystemOwner,
+                        !!isSignedIn,
+                        isSuperAdminOwner
+                      )
+                    ),
+                  }
+                }
+                return item
+              })
+              .filter((item) => {
+                if ('items' in item && item.items) {
+                  return item.items.length > 0
+                }
+                return true
+              }),
+          }))
+          .filter((group) => group.items.length > 0)
+
+  const isLoading = isSignedIn && navigationQuery.isLoading && !dbNavGroups
 
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
-        {/* <TeamSwitcher teams={sidebarData.teams} /> */}
-
-        {/* Replace <TeamSwitch /> with the following <AppTitle />
-         /* if you want to use the normal app title instead of TeamSwitch dropdown */}
         <AppTitle />
       </SidebarHeader>
       <SidebarContent>
-        {!isRBACReady ? (
+        {isLoading || !isRBACReady ? (
           <div className='flex flex-col gap-4 p-4'>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className='flex items-center gap-4'>
-                <Skeleton className='h-8 w-8 rounded-md' />
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className='flex items-center gap-3'>
+                <Skeleton className='h-7 w-7 rounded-md' />
                 <Skeleton className='h-4 w-32' />
               </div>
             ))}
           </div>
         ) : (
-          filteredNavGroups.map((props) => (
+          renderedNavGroups.map((props) => (
             <NavGroup key={props.title} {...props} />
           ))
         )}
@@ -165,3 +162,4 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
+

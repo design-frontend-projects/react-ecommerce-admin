@@ -26,11 +26,8 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const caller = await requireAuth(input.sessionToken, 'users.manage')
     const inviterAuthUserId = caller.userId
 
-    const inviter = await prisma.tenant_users.findFirst({
-      where: { auth_user_id: inviterAuthUserId },
-    })
-
-    if (!inviter) {
+    const tenantId = await resolveTenantId(inviterAuthUserId)
+    if (!tenantId) {
       throw new Error('Inviter tenant profile was not found')
     }
 
@@ -73,7 +70,8 @@ export const inviteUser = createServerFn({ method: 'POST' })
         where: { id: existingUser.id },
         data: {
           default_role: primaryRole,
-          parent_tenant_id: inviter.parent_tenant_id,
+          tenant_id: tenantId,
+          parent_tenant_id: tenantId,
           updated_at: new Date(),
         },
       })
@@ -116,7 +114,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
           roles: roleNames,
           onboardingComplete: false,
           invitedViaRbac: true,
-          tenantId: inviter.parent_tenant_id,
+          tenantId,
         },
         redirectTo:
           input.redirectUrl ??
@@ -139,7 +137,8 @@ export const inviteUser = createServerFn({ method: 'POST' })
         default_role: primaryRole,
         is_restuarant_user: true,
         modules: ['inventory', 'restaurant'],
-        parent_tenant_id: inviter.parent_tenant_id,
+        tenant_id: tenantId,
+        parent_tenant_id: tenantId,
         onboarding_complete: false,
       },
     })
@@ -196,7 +195,12 @@ export const listPendingInvitations = createServerFn({ method: 'GET' })
     // Only surface invitations that belong to the caller's tenant.
     const tenantMembers = (await prisma.tenant_users.findMany({
       where: tenantId
-        ? { parent_tenant_id: tenantId }
+        ? {
+            OR: [
+              { tenant_id: tenantId },
+              { parent_tenant_id: tenantId },
+            ],
+          }
         : { auth_user_id: caller.userId },
       select: { auth_user_id: true },
     })) as Array<{ auth_user_id: string }>
@@ -227,10 +231,14 @@ export const revokeInvitation = createServerFn({ method: 'POST' })
     // The invitation must belong to a pending user inside the caller's tenant.
     const pendingUser = (await prisma.tenant_users.findFirst({
       where: { auth_user_id: invitationId },
-      select: { parent_tenant_id: true },
-    })) as { parent_tenant_id: string | null } | null
+      select: { tenant_id: true, parent_tenant_id: true },
+    })) as { tenant_id: string | null; parent_tenant_id: string | null } | null
 
-    if (!pendingUser || !tenantId || pendingUser.parent_tenant_id !== tenantId) {
+    if (
+      !pendingUser ||
+      !tenantId ||
+      (pendingUser.tenant_id !== tenantId && pendingUser.parent_tenant_id !== tenantId)
+    ) {
       throw new Error('Forbidden: Invitation not found in your tenant')
     }
 

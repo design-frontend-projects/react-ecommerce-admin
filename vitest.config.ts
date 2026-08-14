@@ -27,7 +27,7 @@ export default defineConfig({
         'images/maskable-icon.png',
       ],
       manifest: {
-        name: 'Bluewave POS - Premium Restaurant Management',
+        name: 'Bluewave POS',
         short_name: 'Bluewave POS',
         description: 'Advanced Point of Sale and Restaurant Management System',
         theme_color: '#0f172a',

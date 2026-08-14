@@ -64,6 +64,7 @@ export async function getUsers(callerAuthUserId: string): Promise<User[]> {
     where: tenantId
       ? {
           OR: [
+            { tenant_id: tenantId },
             { parent_tenant_id: tenantId },
             { auth_user_id: callerAuthUserId },
           ],

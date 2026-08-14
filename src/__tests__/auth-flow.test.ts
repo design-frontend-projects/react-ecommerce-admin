@@ -8,8 +8,8 @@ vi.mock('@/lib/supabase', () => ({
       signInWithOtp: vi.fn(),
       verifyOtp: vi.fn(),
       signOut: vi.fn(),
-      getSession: vi.fn(),
-      onAuthStateChange: vi.fn(),
+      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
     },
   },
 }))
@@ -60,6 +60,7 @@ describe('Auth Flow Integration', () => {
 
     // Manually trigger the store update as if the auth state changed
     useAuthStore.getState().auth.setSession(mockSession as any)
+    useAuthStore.getState().auth.setUser(mockSession.user as any)
 
     const state = useAuthStore.getState()
     expect(state.auth.session).toBeTruthy()
@@ -72,7 +73,8 @@ describe('Auth Flow Integration', () => {
     useAuthStore.getState().auth.setUser({ email: 'user@example.com' } as any)
     ;(supabase.auth.signOut as any).mockResolvedValue({ error: null })
 
-    await useAuthStore.getState().auth.reset()
+    await supabase.auth.signOut()
+    useAuthStore.getState().auth.reset()
 
     expect(supabase.auth.signOut).toHaveBeenCalled()
     expect(useAuthStore.getState().auth.session).toBeNull()

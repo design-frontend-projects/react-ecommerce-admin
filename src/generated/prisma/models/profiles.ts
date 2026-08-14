@@ -32,18 +32,13 @@ export type ProfilesMinAggregateOutputType = {
   phone: string | null
   is_owner: boolean | null
   system_owner: boolean | null
-  onboarding_complete: boolean | null
   created_at: Date | null
   updated_at: Date | null
   activity: string | null
   auth_user_id: string | null
-  is_paid: boolean | null
-  is_user: boolean | null
   branch_id: string | null
   role: string | null
   payment_method: string | null
-  transfer_ref: string | null
-  parent_auth_user_id: string | null
 }
 
 export type ProfilesMaxAggregateOutputType = {
@@ -54,18 +49,13 @@ export type ProfilesMaxAggregateOutputType = {
   phone: string | null
   is_owner: boolean | null
   system_owner: boolean | null
-  onboarding_complete: boolean | null
   created_at: Date | null
   updated_at: Date | null
   activity: string | null
   auth_user_id: string | null
-  is_paid: boolean | null
-  is_user: boolean | null
   branch_id: string | null
   role: string | null
   payment_method: string | null
-  transfer_ref: string | null
-  parent_auth_user_id: string | null
 }
 
 export type ProfilesCountAggregateOutputType = {
@@ -76,18 +66,13 @@ export type ProfilesCountAggregateOutputType = {
   phone: number
   is_owner: number
   system_owner: number
-  onboarding_complete: number
   created_at: number
   updated_at: number
   activity: number
   auth_user_id: number
-  is_paid: number
-  is_user: number
   branch_id: number
   role: number
   payment_method: number
-  transfer_ref: number
-  parent_auth_user_id: number
   _all: number
 }
 
@@ -100,18 +85,13 @@ export type ProfilesMinAggregateInputType = {
   phone?: true
   is_owner?: true
   system_owner?: true
-  onboarding_complete?: true
   created_at?: true
   updated_at?: true
   activity?: true
   auth_user_id?: true
-  is_paid?: true
-  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
-  transfer_ref?: true
-  parent_auth_user_id?: true
 }
 
 export type ProfilesMaxAggregateInputType = {
@@ -122,18 +102,13 @@ export type ProfilesMaxAggregateInputType = {
   phone?: true
   is_owner?: true
   system_owner?: true
-  onboarding_complete?: true
   created_at?: true
   updated_at?: true
   activity?: true
   auth_user_id?: true
-  is_paid?: true
-  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
-  transfer_ref?: true
-  parent_auth_user_id?: true
 }
 
 export type ProfilesCountAggregateInputType = {
@@ -144,18 +119,13 @@ export type ProfilesCountAggregateInputType = {
   phone?: true
   is_owner?: true
   system_owner?: true
-  onboarding_complete?: true
   created_at?: true
   updated_at?: true
   activity?: true
   auth_user_id?: true
-  is_paid?: true
-  is_user?: true
   branch_id?: true
   role?: true
   payment_method?: true
-  transfer_ref?: true
-  parent_auth_user_id?: true
   _all?: true
 }
 
@@ -239,18 +209,13 @@ export type ProfilesGroupByOutputType = {
   phone: string | null
   is_owner: boolean
   system_owner: boolean
-  onboarding_complete: boolean
   created_at: Date | null
   updated_at: Date | null
   activity: string | null
   auth_user_id: string
-  is_paid: boolean
-  is_user: boolean
   branch_id: string | null
   role: string | null
   payment_method: string | null
-  transfer_ref: string | null
-  parent_auth_user_id: string
   _count: ProfilesCountAggregateOutputType | null
   _min: ProfilesMinAggregateOutputType | null
   _max: ProfilesMaxAggregateOutputType | null
@@ -282,21 +247,15 @@ export type profilesWhereInput = {
   phone?: Prisma.StringNullableFilter<"profiles"> | string | null
   is_owner?: Prisma.BoolFilter<"profiles"> | boolean
   system_owner?: Prisma.BoolFilter<"profiles"> | boolean
-  onboarding_complete?: Prisma.BoolFilter<"profiles"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
-  is_paid?: Prisma.BoolFilter<"profiles"> | boolean
-  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
-  transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
-  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   audit_logs?: Prisma.Audit_logsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  tenant_users?: Prisma.Tenant_usersListRelationFilter
 }
 
 export type profilesOrderByWithRelationInput = {
@@ -307,21 +266,15 @@ export type profilesOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   is_owner?: Prisma.SortOrder
   system_owner?: Prisma.SortOrder
-  onboarding_complete?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   activity?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-  is_paid?: Prisma.SortOrder
-  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
-  transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
-  parent_auth_user_id?: Prisma.SortOrder
   audit_logs?: Prisma.audit_logsOrderByRelationAggregateInput
   branches?: Prisma.branchesOrderByWithRelationInput
-  tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
 }
 
 export type profilesWhereUniqueInput = Prisma.AtLeast<{
@@ -335,21 +288,15 @@ export type profilesWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"profiles"> | string | null
   is_owner?: Prisma.BoolFilter<"profiles"> | boolean
   system_owner?: Prisma.BoolFilter<"profiles"> | boolean
-  onboarding_complete?: Prisma.BoolFilter<"profiles"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
-  is_paid?: Prisma.BoolFilter<"profiles"> | boolean
-  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
-  transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
-  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
   audit_logs?: Prisma.Audit_logsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  tenant_users?: Prisma.Tenant_usersListRelationFilter
 }, "id" | "email">
 
 export type profilesOrderByWithAggregationInput = {
@@ -360,18 +307,13 @@ export type profilesOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   is_owner?: Prisma.SortOrder
   system_owner?: Prisma.SortOrder
-  onboarding_complete?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   activity?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-  is_paid?: Prisma.SortOrder
-  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
-  transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
-  parent_auth_user_id?: Prisma.SortOrder
   _count?: Prisma.profilesCountOrderByAggregateInput
   _max?: Prisma.profilesMaxOrderByAggregateInput
   _min?: Prisma.profilesMinOrderByAggregateInput
@@ -388,18 +330,13 @@ export type profilesScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   is_owner?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
   system_owner?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
-  onboarding_complete?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"profiles"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"profiles"> | Date | string | null
   activity?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"profiles"> | string
-  is_paid?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
-  is_user?: Prisma.BoolWithAggregatesFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"profiles"> | string | null
   role?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
-  transfer_ref?: Prisma.StringNullableWithAggregatesFilter<"profiles"> | string | null
-  parent_auth_user_id?: Prisma.UuidWithAggregatesFilter<"profiles"> | string
 }
 
 export type profilesCreateInput = {
@@ -410,20 +347,14 @@ export type profilesCreateInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
   branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
-  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesUncheckedCreateInput = {
@@ -434,20 +365,14 @@ export type profilesUncheckedCreateInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
-  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesUpdateInput = {
@@ -458,20 +383,14 @@ export type profilesUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
-  tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesUncheckedUpdateInput = {
@@ -482,20 +401,14 @@ export type profilesUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
-  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesCreateManyInput = {
@@ -506,18 +419,13 @@ export type profilesCreateManyInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
 }
 
 export type profilesUpdateManyMutationInput = {
@@ -528,17 +436,12 @@ export type profilesUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type profilesUncheckedUpdateManyInput = {
@@ -549,18 +452,13 @@ export type profilesUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProfilesScalarRelationFilter = {
@@ -586,18 +484,13 @@ export type profilesCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
   system_owner?: Prisma.SortOrder
-  onboarding_complete?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-  is_paid?: Prisma.SortOrder
-  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
-  transfer_ref?: Prisma.SortOrder
-  parent_auth_user_id?: Prisma.SortOrder
 }
 
 export type profilesMaxOrderByAggregateInput = {
@@ -608,18 +501,13 @@ export type profilesMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
   system_owner?: Prisma.SortOrder
-  onboarding_complete?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-  is_paid?: Prisma.SortOrder
-  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
-  transfer_ref?: Prisma.SortOrder
-  parent_auth_user_id?: Prisma.SortOrder
 }
 
 export type profilesMinOrderByAggregateInput = {
@@ -630,23 +518,13 @@ export type profilesMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
   system_owner?: Prisma.SortOrder
-  onboarding_complete?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   activity?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
-  is_paid?: Prisma.SortOrder
-  is_user?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
-  transfer_ref?: Prisma.SortOrder
-  parent_auth_user_id?: Prisma.SortOrder
-}
-
-export type ProfilesNullableScalarRelationFilter = {
-  is?: Prisma.profilesWhereInput | null
-  isNot?: Prisma.profilesWhereInput | null
 }
 
 export type profilesCreateNestedOneWithoutAudit_logsInput = {
@@ -705,22 +583,6 @@ export type profilesUncheckedUpdateManyWithoutBranchesNestedInput = {
   deleteMany?: Prisma.profilesScalarWhereInput | Prisma.profilesScalarWhereInput[]
 }
 
-export type profilesCreateNestedOneWithoutTenant_usersInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutTenant_usersInput, Prisma.profilesUncheckedCreateWithoutTenant_usersInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutTenant_usersInput
-  connect?: Prisma.profilesWhereUniqueInput
-}
-
-export type profilesUpdateOneWithoutTenant_usersNestedInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutTenant_usersInput, Prisma.profilesUncheckedCreateWithoutTenant_usersInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutTenant_usersInput
-  upsert?: Prisma.profilesUpsertWithoutTenant_usersInput
-  disconnect?: Prisma.profilesWhereInput | boolean
-  delete?: Prisma.profilesWhereInput | boolean
-  connect?: Prisma.profilesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutTenant_usersInput, Prisma.profilesUpdateWithoutTenant_usersInput>, Prisma.profilesUncheckedUpdateWithoutTenant_usersInput>
-}
-
 export type profilesCreateWithoutAudit_logsInput = {
   id?: string
   email?: string | null
@@ -729,19 +591,13 @@ export type profilesCreateWithoutAudit_logsInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
   branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
-  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesUncheckedCreateWithoutAudit_logsInput = {
@@ -752,19 +608,13 @@ export type profilesUncheckedCreateWithoutAudit_logsInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: string | null
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
-  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesCreateOrConnectWithoutAudit_logsInput = {
@@ -791,19 +641,13 @@ export type profilesUpdateWithoutAudit_logsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
-  tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesUncheckedUpdateWithoutAudit_logsInput = {
@@ -814,19 +658,13 @@ export type profilesUncheckedUpdateWithoutAudit_logsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesCreateWithoutBranchesInput = {
@@ -837,19 +675,13 @@ export type profilesCreateWithoutBranchesInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
-  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesUncheckedCreateWithoutBranchesInput = {
@@ -860,19 +692,13 @@ export type profilesUncheckedCreateWithoutBranchesInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
   audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
-  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutOwner_profileInput
 }
 
 export type profilesCreateOrConnectWithoutBranchesInput = {
@@ -912,126 +738,13 @@ export type profilesScalarWhereInput = {
   phone?: Prisma.StringNullableFilter<"profiles"> | string | null
   is_owner?: Prisma.BoolFilter<"profiles"> | boolean
   system_owner?: Prisma.BoolFilter<"profiles"> | boolean
-  onboarding_complete?: Prisma.BoolFilter<"profiles"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   activity?: Prisma.StringNullableFilter<"profiles"> | string | null
   auth_user_id?: Prisma.UuidFilter<"profiles"> | string
-  is_paid?: Prisma.BoolFilter<"profiles"> | boolean
-  is_user?: Prisma.BoolFilter<"profiles"> | boolean
   branch_id?: Prisma.UuidNullableFilter<"profiles"> | string | null
   role?: Prisma.StringNullableFilter<"profiles"> | string | null
   payment_method?: Prisma.StringNullableFilter<"profiles"> | string | null
-  transfer_ref?: Prisma.StringNullableFilter<"profiles"> | string | null
-  parent_auth_user_id?: Prisma.UuidFilter<"profiles"> | string
-}
-
-export type profilesCreateWithoutTenant_usersInput = {
-  id?: string
-  email?: string | null
-  first_name?: string | null
-  last_name?: string | null
-  phone?: string | null
-  is_owner?: boolean
-  system_owner?: boolean
-  onboarding_complete?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  activity?: string | null
-  auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
-  role?: string | null
-  payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
-  audit_logs?: Prisma.audit_logsCreateNestedManyWithoutProfilesInput
-  branches?: Prisma.branchesCreateNestedOneWithoutProfilesInput
-}
-
-export type profilesUncheckedCreateWithoutTenant_usersInput = {
-  id?: string
-  email?: string | null
-  first_name?: string | null
-  last_name?: string | null
-  phone?: string | null
-  is_owner?: boolean
-  system_owner?: boolean
-  onboarding_complete?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  activity?: string | null
-  auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
-  branch_id?: string | null
-  role?: string | null
-  payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
-  audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutProfilesInput
-}
-
-export type profilesCreateOrConnectWithoutTenant_usersInput = {
-  where: Prisma.profilesWhereUniqueInput
-  create: Prisma.XOR<Prisma.profilesCreateWithoutTenant_usersInput, Prisma.profilesUncheckedCreateWithoutTenant_usersInput>
-}
-
-export type profilesUpsertWithoutTenant_usersInput = {
-  update: Prisma.XOR<Prisma.profilesUpdateWithoutTenant_usersInput, Prisma.profilesUncheckedUpdateWithoutTenant_usersInput>
-  create: Prisma.XOR<Prisma.profilesCreateWithoutTenant_usersInput, Prisma.profilesUncheckedCreateWithoutTenant_usersInput>
-  where?: Prisma.profilesWhereInput
-}
-
-export type profilesUpdateToOneWithWhereWithoutTenant_usersInput = {
-  where?: Prisma.profilesWhereInput
-  data: Prisma.XOR<Prisma.profilesUpdateWithoutTenant_usersInput, Prisma.profilesUncheckedUpdateWithoutTenant_usersInput>
-}
-
-export type profilesUpdateWithoutTenant_usersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutProfilesNestedInput
-}
-
-export type profilesUncheckedUpdateWithoutTenant_usersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
 }
 
 export type profilesCreateManyBranchesInput = {
@@ -1042,17 +755,12 @@ export type profilesCreateManyBranchesInput = {
   phone?: string | null
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
   activity?: string | null
   auth_user_id: string
-  is_paid?: boolean
-  is_user?: boolean
   role?: string | null
   payment_method?: string | null
-  transfer_ref?: string | null
-  parent_auth_user_id: string
 }
 
 export type profilesUpdateWithoutBranchesInput = {
@@ -1063,19 +771,13 @@ export type profilesUpdateWithoutBranchesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUpdateManyWithoutProfilesNestedInput
-  tenant_users?: Prisma.tenant_usersUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesUncheckedUpdateWithoutBranchesInput = {
@@ -1086,19 +788,13 @@ export type profilesUncheckedUpdateWithoutBranchesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutProfilesNestedInput
-  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutOwner_profileNestedInput
 }
 
 export type profilesUncheckedUpdateManyWithoutBranchesInput = {
@@ -1109,17 +805,12 @@ export type profilesUncheckedUpdateManyWithoutBranchesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
   system_owner?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_paid?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_user?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parent_auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -1129,12 +820,10 @@ export type profilesUncheckedUpdateManyWithoutBranchesInput = {
 
 export type ProfilesCountOutputType = {
   audit_logs: number
-  tenant_users: number
 }
 
 export type ProfilesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audit_logs?: boolean | ProfilesCountOutputTypeCountAudit_logsArgs
-  tenant_users?: boolean | ProfilesCountOutputTypeCountTenant_usersArgs
 }
 
 /**
@@ -1154,13 +843,6 @@ export type ProfilesCountOutputTypeCountAudit_logsArgs<ExtArgs extends runtime.T
   where?: Prisma.audit_logsWhereInput
 }
 
-/**
- * ProfilesCountOutputType without action
- */
-export type ProfilesCountOutputTypeCountTenant_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.tenant_usersWhereInput
-}
-
 
 export type profilesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1170,21 +852,15 @@ export type profilesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   phone?: boolean
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: boolean
   updated_at?: boolean
   activity?: boolean
   auth_user_id?: boolean
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
-  transfer_ref?: boolean
-  parent_auth_user_id?: boolean
   audit_logs?: boolean | Prisma.profiles$audit_logsArgs<ExtArgs>
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
-  tenant_users?: boolean | Prisma.profiles$tenant_usersArgs<ExtArgs>
   _count?: boolean | Prisma.ProfilesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
@@ -1196,18 +872,13 @@ export type profilesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   phone?: boolean
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: boolean
   updated_at?: boolean
   activity?: boolean
   auth_user_id?: boolean
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
-  transfer_ref?: boolean
-  parent_auth_user_id?: boolean
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
@@ -1219,18 +890,13 @@ export type profilesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   phone?: boolean
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: boolean
   updated_at?: boolean
   activity?: boolean
   auth_user_id?: boolean
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
-  transfer_ref?: boolean
-  parent_auth_user_id?: boolean
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
@@ -1242,25 +908,19 @@ export type profilesSelectScalar = {
   phone?: boolean
   is_owner?: boolean
   system_owner?: boolean
-  onboarding_complete?: boolean
   created_at?: boolean
   updated_at?: boolean
   activity?: boolean
   auth_user_id?: boolean
-  is_paid?: boolean
-  is_user?: boolean
   branch_id?: boolean
   role?: boolean
   payment_method?: boolean
-  transfer_ref?: boolean
-  parent_auth_user_id?: boolean
 }
 
-export type profilesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "first_name" | "last_name" | "phone" | "is_owner" | "system_owner" | "onboarding_complete" | "created_at" | "updated_at" | "activity" | "auth_user_id" | "is_paid" | "is_user" | "branch_id" | "role" | "payment_method" | "transfer_ref" | "parent_auth_user_id", ExtArgs["result"]["profiles"]>
+export type profilesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "first_name" | "last_name" | "phone" | "is_owner" | "system_owner" | "created_at" | "updated_at" | "activity" | "auth_user_id" | "branch_id" | "role" | "payment_method", ExtArgs["result"]["profiles"]>
 export type profilesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audit_logs?: boolean | Prisma.profiles$audit_logsArgs<ExtArgs>
   branches?: boolean | Prisma.profiles$branchesArgs<ExtArgs>
-  tenant_users?: boolean | Prisma.profiles$tenant_usersArgs<ExtArgs>
   _count?: boolean | Prisma.ProfilesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type profilesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1275,7 +935,6 @@ export type $profilesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     audit_logs: Prisma.$audit_logsPayload<ExtArgs>[]
     branches: Prisma.$branchesPayload<ExtArgs> | null
-    tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1285,18 +944,13 @@ export type $profilesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     phone: string | null
     is_owner: boolean
     system_owner: boolean
-    onboarding_complete: boolean
     created_at: Date | null
     updated_at: Date | null
     activity: string | null
     auth_user_id: string
-    is_paid: boolean
-    is_user: boolean
     branch_id: string | null
     role: string | null
     payment_method: string | null
-    transfer_ref: string | null
-    parent_auth_user_id: string
   }, ExtArgs["result"]["profiles"]>
   composites: {}
 }
@@ -1693,7 +1347,6 @@ export interface Prisma__profilesClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   audit_logs<T extends Prisma.profiles$audit_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.profiles$audit_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$audit_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branches<T extends Prisma.profiles$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.profiles$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenant_users<T extends Prisma.profiles$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.profiles$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1730,18 +1383,13 @@ export interface profilesFieldRefs {
   readonly phone: Prisma.FieldRef<"profiles", 'String'>
   readonly is_owner: Prisma.FieldRef<"profiles", 'Boolean'>
   readonly system_owner: Prisma.FieldRef<"profiles", 'Boolean'>
-  readonly onboarding_complete: Prisma.FieldRef<"profiles", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"profiles", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"profiles", 'DateTime'>
   readonly activity: Prisma.FieldRef<"profiles", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"profiles", 'String'>
-  readonly is_paid: Prisma.FieldRef<"profiles", 'Boolean'>
-  readonly is_user: Prisma.FieldRef<"profiles", 'Boolean'>
   readonly branch_id: Prisma.FieldRef<"profiles", 'String'>
   readonly role: Prisma.FieldRef<"profiles", 'String'>
   readonly payment_method: Prisma.FieldRef<"profiles", 'String'>
-  readonly transfer_ref: Prisma.FieldRef<"profiles", 'String'>
-  readonly parent_auth_user_id: Prisma.FieldRef<"profiles", 'String'>
 }
     
 
@@ -2183,30 +1831,6 @@ export type profiles$branchesArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.branchesInclude<ExtArgs> | null
   where?: Prisma.branchesWhereInput
-}
-
-/**
- * profiles.tenant_users
- */
-export type profiles$tenant_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenant_users
-   */
-  select?: Prisma.tenant_usersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenant_users
-   */
-  omit?: Prisma.tenant_usersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenant_usersInclude<ExtArgs> | null
-  where?: Prisma.tenant_usersWhereInput
-  orderBy?: Prisma.tenant_usersOrderByWithRelationInput | Prisma.tenant_usersOrderByWithRelationInput[]
-  cursor?: Prisma.tenant_usersWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Tenant_usersScalarFieldEnum | Prisma.Tenant_usersScalarFieldEnum[]
 }
 
 /**

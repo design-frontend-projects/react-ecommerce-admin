@@ -26,6 +26,7 @@ export type AggregateNotifications = {
 
 export type NotificationsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   title: string | null
   content: string | null
   severity: $Enums.notification_severity | null
@@ -41,6 +42,7 @@ export type NotificationsMinAggregateOutputType = {
 
 export type NotificationsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   title: string | null
   content: string | null
   severity: $Enums.notification_severity | null
@@ -56,6 +58,7 @@ export type NotificationsMaxAggregateOutputType = {
 
 export type NotificationsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   title: number
   content: number
   severity: number
@@ -73,6 +76,7 @@ export type NotificationsCountAggregateOutputType = {
 
 export type NotificationsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   title?: true
   content?: true
   severity?: true
@@ -88,6 +92,7 @@ export type NotificationsMinAggregateInputType = {
 
 export type NotificationsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   title?: true
   content?: true
   severity?: true
@@ -103,6 +108,7 @@ export type NotificationsMaxAggregateInputType = {
 
 export type NotificationsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   title?: true
   content?: true
   severity?: true
@@ -191,6 +197,7 @@ export type notificationsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type NotificationsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   title: string
   content: string
   severity: $Enums.notification_severity
@@ -227,6 +234,7 @@ export type notificationsWhereInput = {
   OR?: Prisma.notificationsWhereInput[]
   NOT?: Prisma.notificationsWhereInput | Prisma.notificationsWhereInput[]
   id?: Prisma.UuidFilter<"notifications"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"notifications"> | string | null
   title?: Prisma.StringFilter<"notifications"> | string
   content?: Prisma.StringFilter<"notifications"> | string
   severity?: Prisma.Enumnotification_severityFilter<"notifications"> | $Enums.notification_severity
@@ -244,6 +252,7 @@ export type notificationsWhereInput = {
 
 export type notificationsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
@@ -264,6 +273,7 @@ export type notificationsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.notificationsWhereInput | Prisma.notificationsWhereInput[]
   OR?: Prisma.notificationsWhereInput[]
   NOT?: Prisma.notificationsWhereInput | Prisma.notificationsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"notifications"> | string | null
   title?: Prisma.StringFilter<"notifications"> | string
   content?: Prisma.StringFilter<"notifications"> | string
   severity?: Prisma.Enumnotification_severityFilter<"notifications"> | $Enums.notification_severity
@@ -281,6 +291,7 @@ export type notificationsWhereUniqueInput = Prisma.AtLeast<{
 
 export type notificationsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
@@ -302,6 +313,7 @@ export type notificationsScalarWhereWithAggregatesInput = {
   OR?: Prisma.notificationsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.notificationsScalarWhereWithAggregatesInput | Prisma.notificationsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"notifications"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"notifications"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"notifications"> | string
   content?: Prisma.StringWithAggregatesFilter<"notifications"> | string
   severity?: Prisma.Enumnotification_severityWithAggregatesFilter<"notifications"> | $Enums.notification_severity
@@ -317,6 +329,7 @@ export type notificationsScalarWhereWithAggregatesInput = {
 
 export type notificationsCreateInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -333,6 +346,7 @@ export type notificationsCreateInput = {
 
 export type notificationsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -349,6 +363,7 @@ export type notificationsUncheckedCreateInput = {
 
 export type notificationsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -365,6 +380,7 @@ export type notificationsUpdateInput = {
 
 export type notificationsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -381,6 +397,7 @@ export type notificationsUncheckedUpdateInput = {
 
 export type notificationsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -396,6 +413,7 @@ export type notificationsCreateManyInput = {
 
 export type notificationsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -410,6 +428,7 @@ export type notificationsUpdateManyMutationInput = {
 
 export type notificationsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -425,6 +444,7 @@ export type notificationsUncheckedUpdateManyInput = {
 
 export type notificationsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
@@ -440,6 +460,7 @@ export type notificationsCountOrderByAggregateInput = {
 
 export type notificationsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
@@ -455,6 +476,7 @@ export type notificationsMaxOrderByAggregateInput = {
 
 export type notificationsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   severity?: Prisma.SortOrder
@@ -549,6 +571,7 @@ export type notificationsUncheckedUpdateManyWithoutNotification_templatesNestedI
 
 export type notificationsCreateWithoutUser_notificationsInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -564,6 +587,7 @@ export type notificationsCreateWithoutUser_notificationsInput = {
 
 export type notificationsUncheckedCreateWithoutUser_notificationsInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -595,6 +619,7 @@ export type notificationsUpdateToOneWithWhereWithoutUser_notificationsInput = {
 
 export type notificationsUpdateWithoutUser_notificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -610,6 +635,7 @@ export type notificationsUpdateWithoutUser_notificationsInput = {
 
 export type notificationsUncheckedUpdateWithoutUser_notificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -625,6 +651,7 @@ export type notificationsUncheckedUpdateWithoutUser_notificationsInput = {
 
 export type notificationsCreateWithoutNotification_templatesInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -640,6 +667,7 @@ export type notificationsCreateWithoutNotification_templatesInput = {
 
 export type notificationsUncheckedCreateWithoutNotification_templatesInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -684,6 +712,7 @@ export type notificationsScalarWhereInput = {
   OR?: Prisma.notificationsScalarWhereInput[]
   NOT?: Prisma.notificationsScalarWhereInput | Prisma.notificationsScalarWhereInput[]
   id?: Prisma.UuidFilter<"notifications"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"notifications"> | string | null
   title?: Prisma.StringFilter<"notifications"> | string
   content?: Prisma.StringFilter<"notifications"> | string
   severity?: Prisma.Enumnotification_severityFilter<"notifications"> | $Enums.notification_severity
@@ -699,6 +728,7 @@ export type notificationsScalarWhereInput = {
 
 export type notificationsCreateManyNotification_templatesInput = {
   id?: string
+  tenant_id?: string | null
   title: string
   content: string
   severity?: $Enums.notification_severity
@@ -713,6 +743,7 @@ export type notificationsCreateManyNotification_templatesInput = {
 
 export type notificationsUpdateWithoutNotification_templatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -728,6 +759,7 @@ export type notificationsUpdateWithoutNotification_templatesInput = {
 
 export type notificationsUncheckedUpdateWithoutNotification_templatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -743,6 +775,7 @@ export type notificationsUncheckedUpdateWithoutNotification_templatesInput = {
 
 export type notificationsUncheckedUpdateManyWithoutNotification_templatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.Enumnotification_severityFieldUpdateOperationsInput | $Enums.notification_severity
@@ -788,6 +821,7 @@ export type NotificationsCountOutputTypeCountUser_notificationsArgs<ExtArgs exte
 
 export type notificationsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   title?: boolean
   content?: boolean
   severity?: boolean
@@ -806,6 +840,7 @@ export type notificationsSelect<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   title?: boolean
   content?: boolean
   severity?: boolean
@@ -822,6 +857,7 @@ export type notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
 
 export type notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   title?: boolean
   content?: boolean
   severity?: boolean
@@ -838,6 +874,7 @@ export type notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
 
 export type notificationsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   title?: boolean
   content?: boolean
   severity?: boolean
@@ -851,7 +888,7 @@ export type notificationsSelectScalar = {
   updated_at?: boolean
 }
 
-export type notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "severity" | "target_type" | "target_role" | "sender_id" | "template_id" | "is_active" | "auth_user_id" | "created_at" | "updated_at", ExtArgs["result"]["notifications"]>
+export type notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "title" | "content" | "severity" | "target_type" | "target_role" | "sender_id" | "template_id" | "is_active" | "auth_user_id" | "created_at" | "updated_at", ExtArgs["result"]["notifications"]>
 export type notificationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   notification_templates?: boolean | Prisma.notifications$notification_templatesArgs<ExtArgs>
   user_notifications?: boolean | Prisma.notifications$user_notificationsArgs<ExtArgs>
@@ -872,6 +909,7 @@ export type $notificationsPayload<ExtArgs extends runtime.Types.Extensions.Inter
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     title: string
     content: string
     severity: $Enums.notification_severity
@@ -1309,6 +1347,7 @@ export interface Prisma__notificationsClient<T, Null = never, ExtArgs extends ru
  */
 export interface notificationsFieldRefs {
   readonly id: Prisma.FieldRef<"notifications", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"notifications", 'String'>
   readonly title: Prisma.FieldRef<"notifications", 'String'>
   readonly content: Prisma.FieldRef<"notifications", 'String'>
   readonly severity: Prisma.FieldRef<"notifications", 'notification_severity'>

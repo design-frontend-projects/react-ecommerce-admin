@@ -234,6 +234,7 @@ export type res_eventsWhereInput = {
   created_by?: Prisma.UuidNullableFilter<"res_events"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_events"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type res_eventsOrderByWithRelationInput = {
@@ -249,6 +250,7 @@ export type res_eventsOrderByWithRelationInput = {
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type res_eventsWhereUniqueInput = Prisma.AtLeast<{
@@ -267,6 +269,7 @@ export type res_eventsWhereUniqueInput = Prisma.AtLeast<{
   created_by?: Prisma.UuidNullableFilter<"res_events"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_events"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type res_eventsOrderByWithAggregationInput = {
@@ -307,7 +310,6 @@ export type res_eventsScalarWhereWithAggregatesInput = {
 
 export type res_eventsCreateInput = {
   id?: string
-  tenant_id?: string | null
   title: string
   description?: string | null
   event_date: Date | string
@@ -318,6 +320,7 @@ export type res_eventsCreateInput = {
   created_by?: string | null
   created_at?: Date | string | null
   auth_user_id?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_eventsInput
 }
 
 export type res_eventsUncheckedCreateInput = {
@@ -337,7 +340,6 @@ export type res_eventsUncheckedCreateInput = {
 
 export type res_eventsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   event_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,6 +350,7 @@ export type res_eventsUpdateInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutRes_eventsNestedInput
 }
 
 export type res_eventsUncheckedUpdateInput = {
@@ -382,7 +385,6 @@ export type res_eventsCreateManyInput = {
 
 export type res_eventsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   event_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -453,6 +455,16 @@ export type res_eventsMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
+export type Res_eventsListRelationFilter = {
+  every?: Prisma.res_eventsWhereInput
+  some?: Prisma.res_eventsWhereInput
+  none?: Prisma.res_eventsWhereInput
+}
+
+export type res_eventsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type res_eventsCreateblocked_tablesInput = {
   set: string[]
 }
@@ -460,6 +472,176 @@ export type res_eventsCreateblocked_tablesInput = {
 export type res_eventsUpdateblocked_tablesInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type res_eventsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput> | Prisma.res_eventsCreateWithoutTenantsInput[] | Prisma.res_eventsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_eventsCreateOrConnectWithoutTenantsInput | Prisma.res_eventsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_eventsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+}
+
+export type res_eventsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput> | Prisma.res_eventsCreateWithoutTenantsInput[] | Prisma.res_eventsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_eventsCreateOrConnectWithoutTenantsInput | Prisma.res_eventsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.res_eventsCreateManyTenantsInputEnvelope
+  connect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+}
+
+export type res_eventsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput> | Prisma.res_eventsCreateWithoutTenantsInput[] | Prisma.res_eventsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_eventsCreateOrConnectWithoutTenantsInput | Prisma.res_eventsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_eventsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_eventsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_eventsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  disconnect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  delete?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  connect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  update?: Prisma.res_eventsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_eventsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_eventsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_eventsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_eventsScalarWhereInput | Prisma.res_eventsScalarWhereInput[]
+}
+
+export type res_eventsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput> | Prisma.res_eventsCreateWithoutTenantsInput[] | Prisma.res_eventsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.res_eventsCreateOrConnectWithoutTenantsInput | Prisma.res_eventsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.res_eventsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_eventsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.res_eventsCreateManyTenantsInputEnvelope
+  set?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  disconnect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  delete?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  connect?: Prisma.res_eventsWhereUniqueInput | Prisma.res_eventsWhereUniqueInput[]
+  update?: Prisma.res_eventsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_eventsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.res_eventsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_eventsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.res_eventsScalarWhereInput | Prisma.res_eventsScalarWhereInput[]
+}
+
+export type res_eventsCreateWithoutTenantsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  event_date: Date | string
+  start_time: Date | string
+  end_time: Date | string
+  blocked_tables?: Prisma.res_eventsCreateblocked_tablesInput | string[]
+  is_active?: boolean | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_eventsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  event_date: Date | string
+  start_time: Date | string
+  end_time: Date | string
+  blocked_tables?: Prisma.res_eventsCreateblocked_tablesInput | string[]
+  is_active?: boolean | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_eventsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.res_eventsWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_eventsCreateManyTenantsInputEnvelope = {
+  data: Prisma.res_eventsCreateManyTenantsInput | Prisma.res_eventsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type res_eventsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_eventsWhereUniqueInput
+  update: Prisma.XOR<Prisma.res_eventsUpdateWithoutTenantsInput, Prisma.res_eventsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.res_eventsCreateWithoutTenantsInput, Prisma.res_eventsUncheckedCreateWithoutTenantsInput>
+}
+
+export type res_eventsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.res_eventsWhereUniqueInput
+  data: Prisma.XOR<Prisma.res_eventsUpdateWithoutTenantsInput, Prisma.res_eventsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type res_eventsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.res_eventsScalarWhereInput
+  data: Prisma.XOR<Prisma.res_eventsUpdateManyMutationInput, Prisma.res_eventsUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type res_eventsScalarWhereInput = {
+  AND?: Prisma.res_eventsScalarWhereInput | Prisma.res_eventsScalarWhereInput[]
+  OR?: Prisma.res_eventsScalarWhereInput[]
+  NOT?: Prisma.res_eventsScalarWhereInput | Prisma.res_eventsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"res_events"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  title?: Prisma.StringFilter<"res_events"> | string
+  description?: Prisma.StringNullableFilter<"res_events"> | string | null
+  event_date?: Prisma.DateTimeFilter<"res_events"> | Date | string
+  start_time?: Prisma.DateTimeFilter<"res_events"> | Date | string
+  end_time?: Prisma.DateTimeFilter<"res_events"> | Date | string
+  blocked_tables?: Prisma.StringNullableListFilter<"res_events">
+  is_active?: Prisma.BoolNullableFilter<"res_events"> | boolean | null
+  created_by?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"res_events"> | Date | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+}
+
+export type res_eventsCreateManyTenantsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  event_date: Date | string
+  start_time: Date | string
+  end_time: Date | string
+  blocked_tables?: Prisma.res_eventsCreateblocked_tablesInput | string[]
+  is_active?: boolean | null
+  created_by?: string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type res_eventsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  event_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_tables?: Prisma.res_eventsUpdateblocked_tablesInput | string[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_eventsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  event_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_tables?: Prisma.res_eventsUpdateblocked_tablesInput | string[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_eventsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  event_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_tables?: Prisma.res_eventsUpdateblocked_tablesInput | string[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -477,6 +659,7 @@ export type res_eventsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   created_by?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -492,6 +675,7 @@ export type res_eventsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   created_by?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -507,6 +691,7 @@ export type res_eventsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   created_by?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectScalar = {
@@ -525,10 +710,21 @@ export type res_eventsSelectScalar = {
 }
 
 export type res_eventsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "title" | "description" | "event_date" | "start_time" | "end_time" | "blocked_tables" | "is_active" | "created_by" | "created_at" | "auth_user_id", ExtArgs["result"]["res_events"]>
+export type res_eventsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
+}
+export type res_eventsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
+}
+export type res_eventsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.res_events$tenantsArgs<ExtArgs>
+}
 
 export type $res_eventsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_events"
-  objects: {}
+  objects: {
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string | null
@@ -936,6 +1132,7 @@ readonly fields: res_eventsFieldRefs;
  */
 export interface Prisma__res_eventsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tenants<T extends Prisma.res_events$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_events$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -994,6 +1191,10 @@ export type res_eventsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
+  /**
    * Filter, which res_events to fetch.
    */
   where: Prisma.res_eventsWhereUniqueInput
@@ -1012,6 +1213,10 @@ export type res_eventsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
+  /**
    * Filter, which res_events to fetch.
    */
   where: Prisma.res_eventsWhereUniqueInput
@@ -1029,6 +1234,10 @@ export type res_eventsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_events
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
   /**
    * Filter, which res_events to fetch.
    */
@@ -1078,6 +1287,10 @@ export type res_eventsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
+  /**
    * Filter, which res_events to fetch.
    */
   where?: Prisma.res_eventsWhereInput
@@ -1125,6 +1338,10 @@ export type res_eventsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_events
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
   /**
    * Filter, which res_events to fetch.
    */
@@ -1174,6 +1391,10 @@ export type res_eventsCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
+  /**
    * The data needed to create a res_events.
    */
   data: Prisma.XOR<Prisma.res_eventsCreateInput, Prisma.res_eventsUncheckedCreateInput>
@@ -1207,6 +1428,10 @@ export type res_eventsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.res_eventsCreateManyInput | Prisma.res_eventsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1221,6 +1446,10 @@ export type res_eventsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_events
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_events.
    */
@@ -1273,6 +1502,10 @@ export type res_eventsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many res_events to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1287,6 +1520,10 @@ export type res_eventsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_events
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_events to update in case it exists.
    */
@@ -1314,6 +1551,10 @@ export type res_eventsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
+  /**
    * Filter which res_events to delete.
    */
   where: Prisma.res_eventsWhereUniqueInput
@@ -1334,6 +1575,25 @@ export type res_eventsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * res_events.tenants
+ */
+export type res_events$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+}
+
+/**
  * res_events without action
  */
 export type res_eventsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1345,4 +1605,8 @@ export type res_eventsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_events
    */
   omit?: Prisma.res_eventsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_eventsInclude<ExtArgs> | null
 }

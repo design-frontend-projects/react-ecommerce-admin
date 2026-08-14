@@ -33,11 +33,6 @@ export type audit_logs = Prisma.audit_logsModel
  */
 export type addresses = Prisma.addressesModel
 /**
- * Model res_addresses
- * 
- */
-export type res_addresses = Prisma.res_addressesModel
-/**
  * Model branches
  * 
  */
@@ -78,11 +73,6 @@ export type customer_groups = Prisma.customer_groupsModel
  */
 export type customers = Prisma.customersModel
 /**
- * Model inventory
- * 
- */
-export type inventory = Prisma.inventoryModel
-/**
  * Model payment_types
  * 
  */
@@ -92,11 +82,6 @@ export type payment_types = Prisma.payment_typesModel
  * 
  */
 export type permissions = Prisma.permissionsModel
-/**
- * Model pos_sales
- * 
- */
-export type pos_sales = Prisma.pos_salesModel
 /**
  * Model pos_terminals
  * 
@@ -122,6 +107,11 @@ export type product_variants = Prisma.product_variantsModel
  * 
  */
 export type products = Prisma.productsModel
+/**
+ * Model inventory
+ * 
+ */
+export type inventory = Prisma.inventoryModel
 /**
  * Model pos_reorder_requests
  * 
@@ -238,16 +228,6 @@ export type res_shipments = Prisma.res_shipmentsModel
  */
 export type res_payment_methods = Prisma.res_payment_methodsModel
 /**
- * Model res_promotion_usage
- * 
- */
-export type res_promotion_usage = Prisma.res_promotion_usageModel
-/**
- * Model res_promotions
- * 
- */
-export type res_promotions = Prisma.res_promotionsModel
-/**
  * Model res_reservations
  * 
  */
@@ -277,11 +257,6 @@ export type role_permissions = Prisma.role_permissionsModel
  * 
  */
 export type roles = Prisma.rolesModel
-/**
- * Model sale_items
- * 
- */
-export type sale_items = Prisma.sale_itemsModel
 /**
  * Model sales_invoice_items
  * 

@@ -266,6 +266,7 @@ export type price_list_itemsWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
   price_list?: Prisma.XOR<Prisma.Price_listScalarRelationFilter, Prisma.price_listWhereInput>
   product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type price_list_itemsOrderByWithRelationInput = {
@@ -281,6 +282,7 @@ export type price_list_itemsOrderByWithRelationInput = {
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list?: Prisma.price_listOrderByWithRelationInput
   product_variants?: Prisma.product_variantsOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type price_list_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -300,6 +302,7 @@ export type price_list_itemsWhereUniqueInput = Prisma.AtLeast<{
   auth_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
   price_list?: Prisma.XOR<Prisma.Price_listScalarRelationFilter, Prisma.price_listWhereInput>
   product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id" | "price_list_id_product_variant_id">
 
 export type price_list_itemsOrderByWithAggregationInput = {
@@ -338,7 +341,6 @@ export type price_list_itemsScalarWhereWithAggregatesInput = {
 
 export type price_list_itemsCreateInput = {
   id?: string
-  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -347,6 +349,7 @@ export type price_list_itemsCreateInput = {
   auth_user_id?: string | null
   price_list: Prisma.price_listCreateNestedOneWithoutPrice_list_itemsInput
   product_variants: Prisma.product_variantsCreateNestedOneWithoutPrice_list_itemsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPrice_list_itemsInput
 }
 
 export type price_list_itemsUncheckedCreateInput = {
@@ -364,7 +367,6 @@ export type price_list_itemsUncheckedCreateInput = {
 
 export type price_list_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -373,6 +375,7 @@ export type price_list_itemsUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateOneRequiredWithoutPrice_list_itemsNestedInput
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutPrice_list_itemsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPrice_list_itemsNestedInput
 }
 
 export type price_list_itemsUncheckedUpdateInput = {
@@ -403,7 +406,6 @@ export type price_list_itemsCreateManyInput = {
 
 export type price_list_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -575,9 +577,50 @@ export type price_list_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInpu
   deleteMany?: Prisma.price_list_itemsScalarWhereInput | Prisma.price_list_itemsScalarWhereInput[]
 }
 
+export type price_list_itemsCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput> | Prisma.price_list_itemsCreateWithoutTenantsInput[] | Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput | Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.price_list_itemsCreateManyTenantsInputEnvelope
+  connect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+}
+
+export type price_list_itemsUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput> | Prisma.price_list_itemsCreateWithoutTenantsInput[] | Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput | Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.price_list_itemsCreateManyTenantsInputEnvelope
+  connect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+}
+
+export type price_list_itemsUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput> | Prisma.price_list_itemsCreateWithoutTenantsInput[] | Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput | Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.price_list_itemsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.price_list_itemsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.price_list_itemsCreateManyTenantsInputEnvelope
+  set?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  disconnect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  delete?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  connect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  update?: Prisma.price_list_itemsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.price_list_itemsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.price_list_itemsUpdateManyWithWhereWithoutTenantsInput | Prisma.price_list_itemsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.price_list_itemsScalarWhereInput | Prisma.price_list_itemsScalarWhereInput[]
+}
+
+export type price_list_itemsUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput> | Prisma.price_list_itemsCreateWithoutTenantsInput[] | Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput | Prisma.price_list_itemsCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.price_list_itemsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.price_list_itemsUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.price_list_itemsCreateManyTenantsInputEnvelope
+  set?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  disconnect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  delete?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  connect?: Prisma.price_list_itemsWhereUniqueInput | Prisma.price_list_itemsWhereUniqueInput[]
+  update?: Prisma.price_list_itemsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.price_list_itemsUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.price_list_itemsUpdateManyWithWhereWithoutTenantsInput | Prisma.price_list_itemsUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.price_list_itemsScalarWhereInput | Prisma.price_list_itemsScalarWhereInput[]
+}
+
 export type price_list_itemsCreateWithoutPrice_listInput = {
   id?: string
-  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -585,6 +628,7 @@ export type price_list_itemsCreateWithoutPrice_listInput = {
   updated_at?: Date | string
   auth_user_id?: string | null
   product_variants: Prisma.product_variantsCreateNestedOneWithoutPrice_list_itemsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPrice_list_itemsInput
 }
 
 export type price_list_itemsUncheckedCreateWithoutPrice_listInput = {
@@ -643,7 +687,6 @@ export type price_list_itemsScalarWhereInput = {
 
 export type price_list_itemsCreateWithoutProduct_variantsInput = {
   id?: string
-  tenant_id?: string | null
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -651,6 +694,7 @@ export type price_list_itemsCreateWithoutProduct_variantsInput = {
   updated_at?: Date | string
   auth_user_id?: string | null
   price_list: Prisma.price_listCreateNestedOneWithoutPrice_list_itemsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutPrice_list_itemsInput
 }
 
 export type price_list_itemsUncheckedCreateWithoutProduct_variantsInput = {
@@ -691,6 +735,56 @@ export type price_list_itemsUpdateManyWithWhereWithoutProduct_variantsInput = {
   data: Prisma.XOR<Prisma.price_list_itemsUpdateManyMutationInput, Prisma.price_list_itemsUncheckedUpdateManyWithoutProduct_variantsInput>
 }
 
+export type price_list_itemsCreateWithoutTenantsInput = {
+  id?: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+  price_list: Prisma.price_listCreateNestedOneWithoutPrice_list_itemsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutPrice_list_itemsInput
+}
+
+export type price_list_itemsUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  price_list_id: string
+  product_variant_id: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type price_list_itemsCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.price_list_itemsWhereUniqueInput
+  create: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput>
+}
+
+export type price_list_itemsCreateManyTenantsInputEnvelope = {
+  data: Prisma.price_list_itemsCreateManyTenantsInput | Prisma.price_list_itemsCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type price_list_itemsUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.price_list_itemsWhereUniqueInput
+  update: Prisma.XOR<Prisma.price_list_itemsUpdateWithoutTenantsInput, Prisma.price_list_itemsUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.price_list_itemsCreateWithoutTenantsInput, Prisma.price_list_itemsUncheckedCreateWithoutTenantsInput>
+}
+
+export type price_list_itemsUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.price_list_itemsWhereUniqueInput
+  data: Prisma.XOR<Prisma.price_list_itemsUpdateWithoutTenantsInput, Prisma.price_list_itemsUncheckedUpdateWithoutTenantsInput>
+}
+
+export type price_list_itemsUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.price_list_itemsScalarWhereInput
+  data: Prisma.XOR<Prisma.price_list_itemsUpdateManyMutationInput, Prisma.price_list_itemsUncheckedUpdateManyWithoutTenantsInput>
+}
+
 export type price_list_itemsCreateManyPrice_listInput = {
   id?: string
   tenant_id?: string | null
@@ -705,7 +799,6 @@ export type price_list_itemsCreateManyPrice_listInput = {
 
 export type price_list_itemsUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -713,6 +806,7 @@ export type price_list_itemsUpdateWithoutPrice_listInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutPrice_list_itemsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPrice_list_itemsNestedInput
 }
 
 export type price_list_itemsUncheckedUpdateWithoutPrice_listInput = {
@@ -753,7 +847,6 @@ export type price_list_itemsCreateManyProduct_variantsInput = {
 
 export type price_list_itemsUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -761,6 +854,7 @@ export type price_list_itemsUpdateWithoutProduct_variantsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateOneRequiredWithoutPrice_list_itemsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutPrice_list_itemsNestedInput
 }
 
 export type price_list_itemsUncheckedUpdateWithoutProduct_variantsInput = {
@@ -787,6 +881,54 @@ export type price_list_itemsUncheckedUpdateManyWithoutProduct_variantsInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type price_list_itemsCreateManyTenantsInput = {
+  id?: string
+  price_list_id: string
+  product_variant_id: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  auth_user_id?: string | null
+}
+
+export type price_list_itemsUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateOneRequiredWithoutPrice_list_itemsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutPrice_list_itemsNestedInput
+}
+
+export type price_list_itemsUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type price_list_itemsUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  min_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type price_list_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -802,6 +944,7 @@ export type price_list_itemsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   auth_user_id?: boolean
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -817,6 +960,7 @@ export type price_list_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   auth_user_id?: boolean
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -832,6 +976,7 @@ export type price_list_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   auth_user_id?: boolean
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectScalar = {
@@ -851,14 +996,17 @@ export type price_list_itemsOmit<ExtArgs extends runtime.Types.Extensions.Intern
 export type price_list_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }
 export type price_list_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }
 export type price_list_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | Prisma.price_listDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  tenants?: boolean | Prisma.price_list_items$tenantsArgs<ExtArgs>
 }
 
 export type $price_list_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -866,6 +1014,7 @@ export type $price_list_itemsPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     price_list: Prisma.$price_listPayload<ExtArgs>
     product_variants: Prisma.$product_variantsPayload<ExtArgs>
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1274,6 +1423,7 @@ export interface Prisma__price_list_itemsClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   price_list<T extends Prisma.price_listDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_listDefaultArgs<ExtArgs>>): Prisma.Prisma__price_listClient<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.price_list_items$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list_items$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1711,6 +1861,25 @@ export type price_list_itemsDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many price_list_items to delete.
    */
   limit?: number
+}
+
+/**
+ * price_list_items.tenants
+ */
+export type price_list_items$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**
