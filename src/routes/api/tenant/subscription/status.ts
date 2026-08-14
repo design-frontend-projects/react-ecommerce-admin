@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { jsonError } from '@/server/utils/http'
 import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 
@@ -10,10 +9,13 @@ const GET = withAuth(null, async ({ auth }) => {
   })
 
   if (!subscription) {
-    return jsonError(
-      'No tenant subscription record found for authenticated user',
-      404
-    )
+    return Response.json({
+      tenant_id: null,
+      status: 'none',
+      end_date: null,
+      is_active: false,
+      first_use: true,
+    })
   }
 
   const now = new Date()

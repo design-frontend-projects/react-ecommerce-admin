@@ -388,7 +388,7 @@ export type Sales_invoicesGroupByOutputType = {
   _max: Sales_invoicesMaxAggregateOutputType | null
 }
 
-type GetSales_invoicesGroupByPayload<T extends sales_invoicesGroupByArgs> = Prisma.PrismaPromise<
+export type GetSales_invoicesGroupByPayload<T extends sales_invoicesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Sales_invoicesGroupByOutputType, T['by']> &
       {

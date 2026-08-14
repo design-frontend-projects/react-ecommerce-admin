@@ -2,9 +2,54 @@ import { describe, expect, it } from 'vitest'
 import {
   buildNonRestaurantShipmentNotesUpdate,
   buildNonRestaurantShipmentStatusUpdates,
+  mapNonRestaurantShipmentRow,
   parseSerializedShipmentDetails,
   validateNonRestaurantShipmentStatus,
 } from '../api'
+
+describe('mapNonRestaurantShipmentRow', () => {
+  it('maps correctly when row has id and sales_invoice_id', () => {
+    const row = {
+      id: 101,
+      sales_invoice_id: 202,
+      order_id: 303,
+      tracking_number: 'TRK123',
+      shipped_date: '2026-08-14T10:00:00.000Z',
+      delivered_date: null,
+      carrier: 'DHL',
+      status: 'shipped',
+      notes: JSON.stringify({
+        recipientName: 'Alice',
+        deliveryAddress: '456 Street',
+      }),
+    }
+
+    const mapped = mapNonRestaurantShipmentRow(row)
+    expect(mapped.shipment_id).toBe(101)
+    expect(mapped.order_id).toBe(303)
+    expect(mapped.recipient_name).toBe('Alice')
+    expect(mapped.delivery_address).toBe('456 Street')
+    expect(mapped.status).toBe('shipped')
+  })
+
+  it('maps correctly when row has shipment_id', () => {
+    const row = {
+      shipment_id: 102,
+      order_id: 304,
+      tracking_number: 'TRK456',
+      shipped_date: null,
+      delivered_date: null,
+      carrier: 'FedEx',
+      status: 'prepared',
+      notes: null,
+    }
+
+    const mapped = mapNonRestaurantShipmentRow(row)
+    expect(mapped.shipment_id).toBe(102)
+    expect(mapped.order_id).toBe(304)
+    expect(mapped.status).toBe('prepared')
+  })
+})
 
 describe('parseSerializedShipmentDetails', () => {
   it('returns parsed recipient and address details when notes contain valid JSON', () => {

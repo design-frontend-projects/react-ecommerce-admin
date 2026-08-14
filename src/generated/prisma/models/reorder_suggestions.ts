@@ -270,7 +270,7 @@ export type Reorder_suggestionsGroupByOutputType = {
   _max: Reorder_suggestionsMaxAggregateOutputType | null
 }
 
-type GetReorder_suggestionsGroupByPayload<T extends reorder_suggestionsGroupByArgs> = Prisma.PrismaPromise<
+export type GetReorder_suggestionsGroupByPayload<T extends reorder_suggestionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Reorder_suggestionsGroupByOutputType, T['by']> &
       {

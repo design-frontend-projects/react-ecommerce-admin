@@ -8,7 +8,16 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('[Bluewave POS] Supabase credentials missing from .env')
 }
 
+const isBrowser = typeof window !== 'undefined'
+
 export const supabase = createClient(
   supabaseUrl || 'https://agpyqixxpwowlmtvrqh.supabase.co',
-  supabaseAnonKey || 'placeholder'
+  supabaseAnonKey || 'placeholder',
+  {
+    auth: {
+      persistSession: isBrowser,
+      autoRefreshToken: isBrowser,
+      detectSessionInUrl: isBrowser,
+    },
+  }
 )

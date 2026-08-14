@@ -1,6 +1,6 @@
 // ResPOS Store - Zustand state management
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { DEFAULT_TAX_RATE } from '@/features/respos/constants'
 import {
   computePromoDiscount,
@@ -473,6 +473,15 @@ export const useResposStore = create<ResposState>()(
     }),
     {
       name: 'respos-storage',
+      storage: createJSONStorage(() =>
+        typeof window !== 'undefined'
+          ? window.localStorage
+          : {
+              getItem: () => null,
+              setItem: () => {},
+              removeItem: () => {},
+            }
+      ),
       partialize: (state) => ({
         selectedFloorId: state.selectedFloorId,
         isSidebarOpen: state.isSidebarOpen,

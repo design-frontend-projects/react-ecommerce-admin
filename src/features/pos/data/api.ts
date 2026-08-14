@@ -290,8 +290,10 @@ export type NonRestaurantShipment = {
 }
 
 type ShipmentsRow = {
-  shipment_id: number
-  order_id: number
+  id?: number | string | null
+  shipment_id?: number | string | null
+  sales_invoice_id?: number | string | null
+  order_id?: number | string | null
   tracking_number: string | null
   shipped_date: string | null
   delivered_date: string | null
@@ -364,20 +366,22 @@ export function buildNonRestaurantShipmentStatusUpdates(params: {
   return updates
 }
 
-function mapNonRestaurantShipmentRow(
+export function mapNonRestaurantShipmentRow(
   shipment: ShipmentsRow
 ): NonRestaurantShipment {
   const details = parseSerializedShipmentDetails(shipment.notes)
+  const resolvedShipmentId = Number(shipment.shipment_id ?? shipment.id ?? 0)
+  const resolvedOrderId = Number(shipment.order_id ?? 0)
 
   return {
-    shipment_id: shipment.shipment_id,
-    order_id: shipment.order_id,
-    tracking_number: shipment.tracking_number,
-    shipped_date: shipment.shipped_date,
-    delivered_date: shipment.delivered_date,
-    carrier: shipment.carrier,
+    shipment_id: resolvedShipmentId,
+    order_id: resolvedOrderId,
+    tracking_number: shipment.tracking_number ?? null,
+    shipped_date: shipment.shipped_date ?? null,
+    delivered_date: shipment.delivered_date ?? null,
+    carrier: shipment.carrier ?? null,
     status: normalizeNonRestaurantShipmentStatus(shipment.status),
-    notes: extractShipmentNotes(shipment.notes, details),
+    notes: extractShipmentNotes(shipment.notes ?? null, details),
     recipient_name: details?.recipientName || null,
     recipient_phone: details?.recipientPhone || null,
     delivery_address: details?.deliveryAddress || null,
@@ -462,34 +466,6 @@ export async function updateNonRestaurantShipment(
   return { id: String(numericShipmentId), ...updates }
 }
 
-type PosSalesOrderRow = {
-  sale_id: number
-  sale_date: string | null
-  status: string | null
-  payment_method: string | null
-  subtotal: number | string | null
-  discount_amount: number | string | null
-  tax_amount: number | string | null
-  total_amount: number | string | null
-}
-
-type PosSaleItemWithProductRow = {
-  sale_item_id: number
-  product_id: number
-  quantity: number | string
-  unit_price: number | string
-  subtotal: number | string | null
-  products:
-    | {
-        name: string | null
-        sku: string | null
-      }
-    | Array<{
-        name: string | null
-        sku: string | null
-      }>
-    | null
-}
 
 export type NonRestaurantShipmentOrderItem = {
   sale_item_id: number | string

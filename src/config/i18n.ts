@@ -13,14 +13,21 @@ const resources = {
   },
 }
 
+const isBrowser = typeof window !== 'undefined'
+
 if (!i18n.isInitialized) {
+  if (isBrowser) {
+    i18n.use(LanguageDetector)
+  }
   i18n
-    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
       resources,
       fallbackLng: 'en',
       supportedLngs: ['en', 'ar'],
+      detection: {
+        caches: isBrowser ? ['localStorage', 'cookie'] : [],
+      },
       debug: false,
       interpolation: {
         escapeValue: false, // not needed for react as it escapes by default
