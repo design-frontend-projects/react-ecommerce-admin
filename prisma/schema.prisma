@@ -993,6 +993,8 @@ model tenant_subscriptions {
   first_name        String?
   last_name         String?
   is_owner          Boolean?
+  payment_method    String?                      @db.VarChar(50)
+  transfer_ref      String?                      @db.VarChar(100)
   tenant_id         String?                      @db.Uuid
   subscription_id   String                       @db.Uuid
   tenants           tenants?                     @relation("tenant_subscriptions_relation", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -1000,9 +1002,9 @@ model tenant_subscriptions {
 
 model tenants {
   id                      String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_code             String                 @db.VarChar(50)
+  tenant_code             String                 @unique @db.VarChar(50)
   name                    String                 @db.VarChar(255)
-  slug                    String                 @db.VarChar(150)
+  slug                    String                 @unique @db.VarChar(150)
   display_name            String?                @db.VarChar(255)
   legal_name              String?                @db.VarChar(255)
   type                    tenant_type            @default(company)
@@ -1011,8 +1013,8 @@ model tenants {
   domain                  String?                @db.VarChar(255)
   timezone                String                 @default("UTC") @db.VarChar(100)
   locale                  String                 @default("en-US") @db.VarChar(20)
-  currency_code           String                 @default("USD") @db.Char(3)
-  country_code            String?                @db.Char(2)
+  currency_code           String                 @default("LE") @db.Char(3)
+  country_code            String?                @db.VarChar(3)
   default_branch_id       String?                @db.Uuid
   current_subscription_id String?                @db.Uuid
   created_by              String?                @db.Uuid
@@ -1231,14 +1233,14 @@ model user_permissions {
 }
 
 model rbac_audit {
-  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  actor_auth_user_id String?   @db.Uuid
-  tenant_id          String?   @db.Uuid
-  action             String    @db.VarChar(100)
-  target_type        String    @db.VarChar(100)
-  target_id          String    @db.VarChar(255)
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actor_auth_user_id String?  @db.Uuid
+  tenant_id          String?  @db.Uuid
+  action             String   @db.VarChar(100)
+  target_type        String   @db.VarChar(100)
+  target_id          String   @db.VarChar(255)
   diff               Json?
-  created_at         DateTime  @default(now()) @db.Timestamptz(6)
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
 
   @@index([created_at(sort: Desc)], map: "idx_rbac_audit_created_at")
   @@index([target_type, target_id], map: "idx_rbac_audit_target")

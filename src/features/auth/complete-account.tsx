@@ -52,10 +52,7 @@ const onboardingSchema = z
     displayName: z.string().trim().optional(),
     legalName: z.string().trim().optional(),
     countryId: z.string().min(1, 'Country selection is required'),
-    activity: z.enum(
-      ['market', 'pharmacy', 'restuarant', 'clothes', 'electronic'],
-      { message: 'Please select a business activity' }
-    ),
+    activity: z.string().min(1, 'Please select a business activity'),
     paymentMethod: z.enum(['cash', 'visa', 'mobile_transfer'], {
       message: 'Please select a payment method',
     }),
@@ -76,40 +73,29 @@ const onboardingSchema = z
 
 type OnboardingFormValues = z.infer<typeof onboardingSchema>
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─── Constants & Helpers ──────────────────────────────────────────────────────
 
-const ACTIVITIES = [
-  {
-    id: 'market',
-    name: 'Market',
-    icon: Store,
-    color: 'from-emerald-500 to-teal-500',
-  },
-  {
-    id: 'pharmacy',
-    name: 'Pharmacy',
-    icon: Pill,
-    color: 'from-red-500 to-rose-500',
-  },
-  {
-    id: 'restuarant',
-    name: 'Restaurant',
-    icon: Utensils,
-    color: 'from-orange-500 to-red-500',
-  },
-  {
-    id: 'clothes',
-    name: 'Clothes Shop',
-    icon: Shirt,
-    color: 'from-purple-500 to-indigo-500',
-  },
-  {
-    id: 'electronic',
-    name: 'Electronics',
-    icon: Laptop,
-    color: 'from-blue-500 to-cyan-500',
-  },
-] as const
+const getActivityVisuals = (code: string) => {
+  switch (code.toLowerCase()) {
+    case 'market':
+      return { icon: Store, color: 'from-emerald-500 to-teal-500' }
+    case 'pharmacy':
+      return { icon: Pill, color: 'from-red-500 to-rose-500' }
+    case 'res':
+    case 'restaurant':
+    case 'restuarant':
+      return { icon: Utensils, color: 'from-orange-500 to-red-500' }
+    case 'electronic_shop':
+    case 'electronic':
+    case 'electronics':
+      return { icon: Laptop, color: 'from-blue-500 to-cyan-500' }
+    case 'clothes':
+    case 'fashion':
+      return { icon: Shirt, color: 'from-purple-500 to-indigo-500' }
+    default:
+      return { icon: Store, color: 'from-blue-500 to-cyan-500' }
+  }
+}
 
 const PAYMENT_METHODS = [
   { id: 'cash', icon: Banknote, color: 'from-emerald-500 to-green-500' },
@@ -132,7 +118,7 @@ export function CompleteAccountFeature() {
   const { t } = useTranslation()
 
   // Fetch countries with default currency
-  const { data: countries = [] } = useQuery({
+  const { data: countries = [], isLoading: isCountriesLoading } = useQuery({
     queryKey: ['countries', 'onboarding'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -140,30 +126,56 @@ export function CompleteAccountFeature() {
         .select(
           'id, name, code, phone_code, currency_id, currencies(id, name, code, symbol)'
         )
-        .eq('is_active', true)
         .order('name')
-      if (error) throw error
-      return ((data ?? []) as any[]).map((country) => ({
-        id: String(country.id),
-        name: String(country.name),
-        code: String(country.code),
-        phone_code: country.phone_code ?? null,
-        currency_id: country.currency_id ?? null,
-        currencies: Array.isArray(country.currencies)
-          ? (country.currencies[0] ?? null)
-          : (country.currencies ?? null),
-      })) as Array<{
-        id: string
-        name: string
-        code: string
-        phone_code?: string | null
-        currency_id: string | null
-        currencies: {
+      if (error) {
+        console.error('Failed to fetch countries:', error)
+        throw error
+      }
+      return ((data ?? []) as any[])
+        .filter((country) => country.is_active !== false)
+        .map((country) => ({
+          id: String(country.id),
+          name: String(country.name),
+          code: String(country.code),
+          phone_code: country.phone_code ?? null,
+          currency_id: country.currency_id ?? null,
+          currencies: Array.isArray(country.currencies)
+            ? (country.currencies[0] ?? null)
+            : (country.currencies ?? null),
+        })) as Array<{
           id: string
           name: string
           code: string
-          symbol: string
-        } | null
+          phone_code?: string | null
+          currency_id: string | null
+          currencies: {
+            id: string
+            name: string
+            code: string
+            symbol: string
+          } | null
+        }>
+    },
+  })
+
+  // Fetch dynamic activity types from activity_types table
+  const { data: activityTypes = [], isLoading: isActivityTypesLoading } = useQuery({
+    queryKey: ['activity_types', 'onboarding'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('activity_types')
+        .select('id, code, name, description')
+        .eq('is_active', true)
+        .order('created_at', { ascending: true })
+      if (error) {
+        console.error('Failed to fetch activity_types:', error)
+        throw error
+      }
+      return (data ?? []) as Array<{
+        id: string
+        code: string
+        name: string
+        description?: string | null
       }>
     },
   })
@@ -479,12 +491,14 @@ export function CompleteAccountFeature() {
                               )}
                             </FormLabel>
                             <SelectDropdown
+                              isControlled
                               defaultValue={field.value}
                               onValueChange={field.onChange}
                               placeholder={t(
                                 'completeAccount.selectCountry',
                                 'Select Country'
                               )}
+                              isPending={isCountriesLoading}
                               className='h-12 text-base'
                               items={countries.map((c) => ({
                                 label: `${c.name} (${c.code})${c.currencies ? ` — Currency: ${c.currencies.code} (${c.currencies.symbol})` : ''}`,
@@ -607,59 +621,70 @@ export function CompleteAccountFeature() {
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-2 gap-3 sm:grid-cols-2'>
-                                {ACTIVITIES.map((act) => {
-                                  const Icon = act.icon
-                                  const isSelected = field.value === act.id
-                                  return (
-                                    <button
-                                      key={act.id}
-                                      type='button'
-                                      onClick={() => field.onChange(act.id)}
-                                      className={cn(
-                                        'relative flex flex-col items-center justify-center gap-2 rounded-xl border p-4 text-center transition-all duration-300 hover:border-primary/50',
-                                        isSelected
-                                          ? 'border-primary bg-primary/5 text-foreground shadow-md ring-1 ring-primary'
-                                          : 'border-border/50 bg-background/30 text-muted-foreground hover:bg-background/50'
-                                      )}
-                                    >
-                                      {isSelected && (
-                                        <motion.div
-                                          layoutId='activeActivity'
-                                          className={cn(
-                                            'absolute inset-0 rounded-xl bg-linear-to-r opacity-5',
-                                            act.color
-                                          )}
-                                          transition={{
-                                            type: 'spring',
-                                            bounce: 0.2,
-                                            duration: 0.6,
-                                          }}
-                                        />
-                                      )}
-                                      <Icon
+                                {isActivityTypesLoading ? (
+                                  <div className='col-span-2 flex flex-col items-center justify-center rounded-xl border bg-muted/20 p-6 text-center'>
+                                    <Loader2Icon className='mb-2 h-6 w-6 animate-spin text-primary' />
+                                    <p className='text-sm text-muted-foreground'>
+                                      Loading business categories...
+                                    </p>
+                                  </div>
+                                ) : activityTypes.length === 0 ? (
+                                  <div className='col-span-2 p-4 text-center text-sm text-muted-foreground'>
+                                    No business categories available
+                                  </div>
+                                ) : (
+                                  activityTypes.map((act) => {
+                                    const visuals = getActivityVisuals(act.code)
+                                    const Icon = visuals.icon
+                                    const isSelected = field.value === act.code
+                                    return (
+                                      <button
+                                        key={act.id}
+                                        type='button'
+                                        onClick={() => field.onChange(act.code)}
                                         className={cn(
-                                          'h-8 w-8 transition-transform duration-300',
+                                          'relative flex flex-col items-center justify-center gap-2 rounded-xl border p-4 text-center transition-all duration-300 hover:border-primary/50',
                                           isSelected
-                                            ? 'scale-110 text-primary'
-                                            : 'scale-100'
-                                        )}
-                                      />
-                                      <span
-                                        className={cn(
-                                          'text-sm font-semibold',
-                                          isSelected
-                                            ? 'font-bold text-foreground'
-                                            : ''
+                                            ? 'border-primary bg-primary/5 text-foreground shadow-md ring-1 ring-primary'
+                                            : 'border-border/50 bg-background/30 text-muted-foreground hover:bg-background/50'
                                         )}
                                       >
-                                        {t(
-                                          `completeAccount.activities.${act.id}`,
-                                          act.name
+                                        {isSelected && (
+                                          <motion.div
+                                            layoutId='activeActivity'
+                                            className={cn(
+                                              'absolute inset-0 rounded-xl bg-linear-to-r opacity-5',
+                                              visuals.color
+                                            )}
+                                            transition={{
+                                              type: 'spring',
+                                              bounce: 0.2,
+                                              duration: 0.6,
+                                            }}
+                                          />
                                         )}
-                                      </span>
-                                    </button>
-                                  )
-                                })}
+                                        <Icon
+                                          className={cn(
+                                            'h-8 w-8 transition-transform duration-300',
+                                            isSelected
+                                              ? 'scale-110 text-primary'
+                                              : 'scale-100'
+                                          )}
+                                        />
+                                        <span
+                                          className={cn(
+                                            'text-sm font-semibold',
+                                            isSelected
+                                              ? 'font-bold text-foreground'
+                                              : ''
+                                          )}
+                                        >
+                                          {act.name}
+                                        </span>
+                                      </button>
+                                    )
+                                  })
+                                )}
                               </div>
                             </FormControl>
                             <FormMessage />

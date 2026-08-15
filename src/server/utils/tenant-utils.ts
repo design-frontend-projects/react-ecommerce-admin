@@ -63,6 +63,7 @@ export async function generateTenantSlug(name: string): Promise<string> {
  */
 export function mapActivityToTenantType(activity: string): tenant_type {
   switch (activity.toLowerCase()) {
+    case 'res':
     case 'restuarant':
     case 'restaurant':
       return 'restaurant'
@@ -70,6 +71,8 @@ export function mapActivityToTenantType(activity: string): tenant_type {
     case 'pharmacy':
     case 'clothes':
     case 'electronic':
+    case 'electronic_shop':
+    case 'electronics':
     case 'retail':
       return 'retail'
     default:

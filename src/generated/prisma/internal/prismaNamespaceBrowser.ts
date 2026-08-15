@@ -1287,6 +1287,8 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   first_name: 'first_name',
   last_name: 'last_name',
   is_owner: 'is_owner',
+  payment_method: 'payment_method',
+  transfer_ref: 'transfer_ref',
   tenant_id: 'tenant_id',
   subscription_id: 'subscription_id'
 } as const

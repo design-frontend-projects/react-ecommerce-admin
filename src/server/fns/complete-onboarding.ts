@@ -81,9 +81,6 @@ export async function completeTenantOnboarding(
     include: { currencies: true },
   })
 
-  console.log('selected country')
-  console.log(country)
-
   if (!country) {
     throw new Error('Selected country not found.')
   }
@@ -127,6 +124,8 @@ export async function completeTenantOnboarding(
         first_name: input.firstName,
         last_name: input.lastName,
         is_owner: true,
+        payment_method: input.paymentMethod,
+        transfer_ref: input.transferRef || null,
       },
     })
 

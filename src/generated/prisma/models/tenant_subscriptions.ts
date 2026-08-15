@@ -49,6 +49,8 @@ export type Tenant_subscriptionsMinAggregateOutputType = {
   first_name: string | null
   last_name: string | null
   is_owner: boolean | null
+  payment_method: string | null
+  transfer_ref: string | null
   tenant_id: string | null
   subscription_id: string | null
 }
@@ -68,6 +70,8 @@ export type Tenant_subscriptionsMaxAggregateOutputType = {
   first_name: string | null
   last_name: string | null
   is_owner: boolean | null
+  payment_method: string | null
+  transfer_ref: string | null
   tenant_id: string | null
   subscription_id: string | null
 }
@@ -87,6 +91,8 @@ export type Tenant_subscriptionsCountAggregateOutputType = {
   first_name: number
   last_name: number
   is_owner: number
+  payment_method: number
+  transfer_ref: number
   tenant_id: number
   subscription_id: number
   _all: number
@@ -116,6 +122,8 @@ export type Tenant_subscriptionsMinAggregateInputType = {
   first_name?: true
   last_name?: true
   is_owner?: true
+  payment_method?: true
+  transfer_ref?: true
   tenant_id?: true
   subscription_id?: true
 }
@@ -135,6 +143,8 @@ export type Tenant_subscriptionsMaxAggregateInputType = {
   first_name?: true
   last_name?: true
   is_owner?: true
+  payment_method?: true
+  transfer_ref?: true
   tenant_id?: true
   subscription_id?: true
 }
@@ -154,6 +164,8 @@ export type Tenant_subscriptionsCountAggregateInputType = {
   first_name?: true
   last_name?: true
   is_owner?: true
+  payment_method?: true
+  transfer_ref?: true
   tenant_id?: true
   subscription_id?: true
   _all?: true
@@ -260,6 +272,8 @@ export type Tenant_subscriptionsGroupByOutputType = {
   first_name: string | null
   last_name: string | null
   is_owner: boolean | null
+  payment_method: string | null
+  transfer_ref: string | null
   tenant_id: string | null
   subscription_id: string
   _count: Tenant_subscriptionsCountAggregateOutputType | null
@@ -302,6 +316,8 @@ export type tenant_subscriptionsWhereInput = {
   first_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   last_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableFilter<"tenant_subscriptions"> | boolean | null
+  payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_subscriptions"> | string | null
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
@@ -322,6 +338,8 @@ export type tenant_subscriptionsOrderByWithRelationInput = {
   first_name?: Prisma.SortOrderInput | Prisma.SortOrder
   last_name?: Prisma.SortOrderInput | Prisma.SortOrder
   is_owner?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   subscription_id?: Prisma.SortOrder
   tenants?: Prisma.tenantsOrderByWithRelationInput
@@ -345,6 +363,8 @@ export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   first_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   last_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableFilter<"tenant_subscriptions"> | boolean | null
+  payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_subscriptions"> | string | null
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
@@ -365,6 +385,8 @@ export type tenant_subscriptionsOrderByWithAggregationInput = {
   first_name?: Prisma.SortOrderInput | Prisma.SortOrder
   last_name?: Prisma.SortOrderInput | Prisma.SortOrder
   is_owner?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   subscription_id?: Prisma.SortOrder
   _count?: Prisma.tenant_subscriptionsCountOrderByAggregateInput
@@ -392,6 +414,8 @@ export type tenant_subscriptionsScalarWhereWithAggregatesInput = {
   first_name?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
   last_name?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableWithAggregatesFilter<"tenant_subscriptions"> | boolean | null
+  payment_method?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
+  transfer_ref?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
   tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
   subscription_id?: Prisma.UuidWithAggregatesFilter<"tenant_subscriptions"> | string
 }
@@ -411,6 +435,8 @@ export type tenant_subscriptionsCreateInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   subscription_id: string
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_subscriptionsInput
 }
@@ -430,6 +456,8 @@ export type tenant_subscriptionsUncheckedCreateInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   tenant_id?: string | null
   subscription_id: string
 }
@@ -449,6 +477,8 @@ export type tenant_subscriptionsUpdateInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_subscriptionsNestedInput
 }
@@ -468,6 +498,8 @@ export type tenant_subscriptionsUncheckedUpdateInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -487,6 +519,8 @@ export type tenant_subscriptionsCreateManyInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   tenant_id?: string | null
   subscription_id: string
 }
@@ -506,6 +540,8 @@ export type tenant_subscriptionsUpdateManyMutationInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -524,6 +560,8 @@ export type tenant_subscriptionsUncheckedUpdateManyInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -543,6 +581,8 @@ export type tenant_subscriptionsCountOrderByAggregateInput = {
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
+  payment_method?: Prisma.SortOrder
+  transfer_ref?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   subscription_id?: Prisma.SortOrder
 }
@@ -566,6 +606,8 @@ export type tenant_subscriptionsMaxOrderByAggregateInput = {
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
+  payment_method?: Prisma.SortOrder
+  transfer_ref?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   subscription_id?: Prisma.SortOrder
 }
@@ -585,6 +627,8 @@ export type tenant_subscriptionsMinOrderByAggregateInput = {
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
   is_owner?: Prisma.SortOrder
+  payment_method?: Prisma.SortOrder
+  transfer_ref?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   subscription_id?: Prisma.SortOrder
 }
@@ -668,6 +712,8 @@ export type tenant_subscriptionsCreateWithoutTenantsInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   subscription_id: string
 }
 
@@ -686,6 +732,8 @@ export type tenant_subscriptionsUncheckedCreateWithoutTenantsInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   subscription_id: string
 }
 
@@ -733,6 +781,8 @@ export type tenant_subscriptionsScalarWhereInput = {
   first_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   last_name?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   is_owner?: Prisma.BoolNullableFilter<"tenant_subscriptions"> | boolean | null
+  payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_subscriptions"> | string | null
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
 }
@@ -752,6 +802,8 @@ export type tenant_subscriptionsCreateManyTenantsInput = {
   first_name?: string | null
   last_name?: string | null
   is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
   subscription_id: string
 }
 
@@ -770,6 +822,8 @@ export type tenant_subscriptionsUpdateWithoutTenantsInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -788,6 +842,8 @@ export type tenant_subscriptionsUncheckedUpdateWithoutTenantsInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -806,6 +862,8 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutTenantsInput = {
   first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -826,6 +884,8 @@ export type tenant_subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.
   first_name?: boolean
   last_name?: boolean
   is_owner?: boolean
+  payment_method?: boolean
+  transfer_ref?: boolean
   tenant_id?: boolean
   subscription_id?: boolean
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
@@ -846,6 +906,8 @@ export type tenant_subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtim
   first_name?: boolean
   last_name?: boolean
   is_owner?: boolean
+  payment_method?: boolean
+  transfer_ref?: boolean
   tenant_id?: boolean
   subscription_id?: boolean
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
@@ -866,6 +928,8 @@ export type tenant_subscriptionsSelectUpdateManyAndReturn<ExtArgs extends runtim
   first_name?: boolean
   last_name?: boolean
   is_owner?: boolean
+  payment_method?: boolean
+  transfer_ref?: boolean
   tenant_id?: boolean
   subscription_id?: boolean
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
@@ -886,11 +950,13 @@ export type tenant_subscriptionsSelectScalar = {
   first_name?: boolean
   last_name?: boolean
   is_owner?: boolean
+  payment_method?: boolean
+  transfer_ref?: boolean
   tenant_id?: boolean
   subscription_id?: boolean
 }
 
-export type tenant_subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "status" | "first_use" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner" | "tenant_id" | "subscription_id", ExtArgs["result"]["tenant_subscriptions"]>
+export type tenant_subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "status" | "first_use" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner" | "payment_method" | "transfer_ref" | "tenant_id" | "subscription_id", ExtArgs["result"]["tenant_subscriptions"]>
 export type tenant_subscriptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
 }
@@ -921,6 +987,8 @@ export type $tenant_subscriptionsPayload<ExtArgs extends runtime.Types.Extension
     first_name: string | null
     last_name: string | null
     is_owner: boolean | null
+    payment_method: string | null
+    transfer_ref: string | null
     tenant_id: string | null
     subscription_id: string
   }, ExtArgs["result"]["tenant_subscriptions"]>
@@ -1361,6 +1429,8 @@ export interface tenant_subscriptionsFieldRefs {
   readonly first_name: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly last_name: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly is_owner: Prisma.FieldRef<"tenant_subscriptions", 'Boolean'>
+  readonly payment_method: Prisma.FieldRef<"tenant_subscriptions", 'String'>
+  readonly transfer_ref: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly tenant_id: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly subscription_id: Prisma.FieldRef<"tenant_subscriptions", 'String'>
 }

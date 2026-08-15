@@ -371,12 +371,12 @@ export type tenantsOrderByWithRelationInput = {
 
 export type tenantsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  tenant_code?: string
+  slug?: string
   AND?: Prisma.tenantsWhereInput | Prisma.tenantsWhereInput[]
   OR?: Prisma.tenantsWhereInput[]
   NOT?: Prisma.tenantsWhereInput | Prisma.tenantsWhereInput[]
-  tenant_code?: Prisma.StringFilter<"tenants"> | string
   name?: Prisma.StringFilter<"tenants"> | string
-  slug?: Prisma.StringFilter<"tenants"> | string
   display_name?: Prisma.StringNullableFilter<"tenants"> | string | null
   legal_name?: Prisma.StringNullableFilter<"tenants"> | string | null
   type?: Prisma.Enumtenant_typeFilter<"tenants"> | $Enums.tenant_type
@@ -402,7 +402,7 @@ export type tenantsWhereUniqueInput = Prisma.AtLeast<{
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   default_branch?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   tenant_users?: Prisma.Tenant_usersListRelationFilter
-}, "id">
+}, "id" | "tenant_code" | "slug">
 
 export type tenantsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
