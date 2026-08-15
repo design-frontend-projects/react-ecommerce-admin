@@ -4,26 +4,27 @@
  * to prevent compilation/runtime errors while allowing server-side execution.
  */
 
+import 'dotenv/config'
+
 let prisma: any
 
 if (typeof window === 'undefined') {
   // Use dynamic import to prevent browser bundlers from resolving this statically
   const { PrismaClient } = await import('../generated/prisma/client')
-  const { Pool } = await import('pg')
   const { PrismaPg } = await import('@prisma/adapter-pg')
-
-  const connectionString = process.env.DATABASE_URL!
-  const pool = new Pool({ connectionString })
-  const adapter = new PrismaPg(pool as any)
+  const connectionString =
+    process.env.DATABASE_URL ||
+    'postgresql://postgres.qihgtllyfkoynorwazfn:qinuIGJW49YV2MHa@aws-1-eu-west-2.pooler.supabase.com:5432/postgres'
+  const adapter = new PrismaPg({ connectionString })
 
   if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient({ adapter })
   } else {
-    // Prevent multiple instances in development
-    if (!(global as any).prisma) {
-      ;(global as any).prisma = new PrismaClient({ adapter })
+    // Force refresh or initialize singleton on globalThis
+    if (!(globalThis as any).prisma) {
+      ;(globalThis as any).prisma = new PrismaClient({ adapter })
     }
-    prisma = (global as any).prisma
+    prisma = (globalThis as any).prisma
   }
 } else {
   // Browser fallback

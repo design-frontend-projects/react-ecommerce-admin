@@ -39,18 +39,20 @@ const POST = withAuth(null, async ({ request, auth }) => {
 
   try {
     const result = await completeTenantOnboarding({
-      authUserId: body.authUserId,
-      firstName: body.firstName.trim(),
-      lastName: body.lastName.trim(),
-      phone: body.phone?.trim(),
-      businessName: body.businessName.trim(),
-      displayName: body.displayName?.trim(),
-      legalName: body.legalName?.trim(),
-      countryId: body.countryId.trim(),
-      activity: body.activity.trim(),
-      paymentMethod: body.paymentMethod.trim(),
-      transferRef: body.transferRef?.trim(),
-      subscriptionId: body.subscriptionId.trim(),
+      data: {
+        authUserId: body.authUserId,
+        firstName: body.firstName.trim(),
+        lastName: body.lastName.trim(),
+        phone: body.phone?.trim(),
+        businessName: body.businessName.trim(),
+        displayName: body.displayName?.trim(),
+        legalName: body.legalName?.trim(),
+        countryId: body.countryId.trim(),
+        activity: body.activity.trim(),
+        paymentMethod: body.paymentMethod.trim(),
+        transferRef: body.transferRef?.trim(),
+        subscriptionId: body.subscriptionId.trim(),
+      }
     })
 
     return Response.json({

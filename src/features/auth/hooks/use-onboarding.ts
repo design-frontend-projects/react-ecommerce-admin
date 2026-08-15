@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/hooks/use-auth'
+import { completeTenantOnboarding } from '@/server/fns/complete-onboarding'
 
 export interface CompleteOnboardingData {
   userId: string
@@ -46,13 +47,8 @@ export function useCompleteOnboarding() {
         throw new Error('No active session')
       }
 
-      const res = await fetch('/api/onboarding/complete', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify({
+      const result = await completeTenantOnboarding({
+        data: {
           authUserId: input.userId,
           firstName: input.firstName,
           lastName: input.lastName,
@@ -65,25 +61,8 @@ export function useCompleteOnboarding() {
           paymentMethod: input.paymentMethod,
           transferRef: input.transferRef,
           subscriptionId: input.subscriptionId,
-        }),
+        },
       })
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}))
-        throw new Error(
-          (body as { error?: string }).error ??
-            'Failed to complete tenant setup.'
-        )
-      }
-
-      const result = (await res.json()) as {
-        success: boolean
-        data: {
-          success: boolean
-          tenantId: string
-          tenantCode: string
-        }
-      }
 
       // Refresh Supabase Auth user session/user state
       const { data: authData } = await supabase.auth.getUser()
@@ -93,8 +72,8 @@ export function useCompleteOnboarding() {
 
       return {
         success: true,
-        tenantId: result.data.tenantId,
-        tenantCode: result.data.tenantCode,
+        tenantId: result.tenantId,
+        tenantCode: result.tenantCode,
       }
     },
     onSuccess: () => {
