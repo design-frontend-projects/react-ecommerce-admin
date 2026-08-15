@@ -206,7 +206,6 @@ export type permission_buttonsWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"permission_buttons"> | string | null
-  screen_buttons?: Prisma.Screen_buttonsListRelationFilter
 }
 
 export type permission_buttonsOrderByWithRelationInput = {
@@ -218,23 +217,21 @@ export type permission_buttonsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  screen_buttons?: Prisma.screen_buttonsOrderByRelationAggregateInput
 }
 
 export type permission_buttonsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.permission_buttonsWhereInput | Prisma.permission_buttonsWhereInput[]
   OR?: Prisma.permission_buttonsWhereInput[]
   NOT?: Prisma.permission_buttonsWhereInput | Prisma.permission_buttonsWhereInput[]
+  code?: Prisma.StringFilter<"permission_buttons"> | string
   name?: Prisma.StringFilter<"permission_buttons"> | string
   description?: Prisma.StringNullableFilter<"permission_buttons"> | string | null
   is_system?: Prisma.BoolFilter<"permission_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"permission_buttons"> | string | null
-  screen_buttons?: Prisma.Screen_buttonsListRelationFilter
-}, "id" | "code">
+}, "id">
 
 export type permission_buttonsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -273,7 +270,6 @@ export type permission_buttonsCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
-  screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermission_buttonsInput
 }
 
 export type permission_buttonsUncheckedCreateInput = {
@@ -285,7 +281,6 @@ export type permission_buttonsUncheckedCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
-  screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermission_buttonsInput
 }
 
 export type permission_buttonsUpdateInput = {
@@ -297,7 +292,6 @@ export type permission_buttonsUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermission_buttonsNestedInput
 }
 
 export type permission_buttonsUncheckedUpdateInput = {
@@ -309,7 +303,6 @@ export type permission_buttonsUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermission_buttonsNestedInput
 }
 
 export type permission_buttonsCreateManyInput = {
@@ -378,114 +371,6 @@ export type permission_buttonsMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
-export type Permission_buttonsScalarRelationFilter = {
-  is?: Prisma.permission_buttonsWhereInput
-  isNot?: Prisma.permission_buttonsWhereInput
-}
-
-export type permission_buttonsCreateNestedOneWithoutScreen_buttonsInput = {
-  create?: Prisma.XOR<Prisma.permission_buttonsCreateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedCreateWithoutScreen_buttonsInput>
-  connectOrCreate?: Prisma.permission_buttonsCreateOrConnectWithoutScreen_buttonsInput
-  connect?: Prisma.permission_buttonsWhereUniqueInput
-}
-
-export type permission_buttonsUpdateOneRequiredWithoutScreen_buttonsNestedInput = {
-  create?: Prisma.XOR<Prisma.permission_buttonsCreateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedCreateWithoutScreen_buttonsInput>
-  connectOrCreate?: Prisma.permission_buttonsCreateOrConnectWithoutScreen_buttonsInput
-  upsert?: Prisma.permission_buttonsUpsertWithoutScreen_buttonsInput
-  connect?: Prisma.permission_buttonsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.permission_buttonsUpdateToOneWithWhereWithoutScreen_buttonsInput, Prisma.permission_buttonsUpdateWithoutScreen_buttonsInput>, Prisma.permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput>
-}
-
-export type permission_buttonsCreateWithoutScreen_buttonsInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_system?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type permission_buttonsUncheckedCreateWithoutScreen_buttonsInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_system?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type permission_buttonsCreateOrConnectWithoutScreen_buttonsInput = {
-  where: Prisma.permission_buttonsWhereUniqueInput
-  create: Prisma.XOR<Prisma.permission_buttonsCreateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedCreateWithoutScreen_buttonsInput>
-}
-
-export type permission_buttonsUpsertWithoutScreen_buttonsInput = {
-  update: Prisma.XOR<Prisma.permission_buttonsUpdateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput>
-  create: Prisma.XOR<Prisma.permission_buttonsCreateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedCreateWithoutScreen_buttonsInput>
-  where?: Prisma.permission_buttonsWhereInput
-}
-
-export type permission_buttonsUpdateToOneWithWhereWithoutScreen_buttonsInput = {
-  where?: Prisma.permission_buttonsWhereInput
-  data: Prisma.XOR<Prisma.permission_buttonsUpdateWithoutScreen_buttonsInput, Prisma.permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput>
-}
-
-export type permission_buttonsUpdateWithoutScreen_buttonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type Permission_buttonsCountOutputType
- */
-
-export type Permission_buttonsCountOutputType = {
-  screen_buttons: number
-}
-
-export type Permission_buttonsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  screen_buttons?: boolean | Permission_buttonsCountOutputTypeCountScreen_buttonsArgs
-}
-
-/**
- * Permission_buttonsCountOutputType without action
- */
-export type Permission_buttonsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Permission_buttonsCountOutputType
-   */
-  select?: Prisma.Permission_buttonsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Permission_buttonsCountOutputType without action
- */
-export type Permission_buttonsCountOutputTypeCountScreen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.screen_buttonsWhereInput
-}
 
 
 export type permission_buttonsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -497,8 +382,6 @@ export type permission_buttonsSelect<ExtArgs extends runtime.Types.Extensions.In
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  screen_buttons?: boolean | Prisma.permission_buttons$screen_buttonsArgs<ExtArgs>
-  _count?: boolean | Prisma.Permission_buttonsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permission_buttons"]>
 
 export type permission_buttonsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -535,18 +418,10 @@ export type permission_buttonsSelectScalar = {
 }
 
 export type permission_buttonsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "is_system" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["permission_buttons"]>
-export type permission_buttonsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  screen_buttons?: boolean | Prisma.permission_buttons$screen_buttonsArgs<ExtArgs>
-  _count?: boolean | Prisma.Permission_buttonsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type permission_buttonsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type permission_buttonsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $permission_buttonsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "permission_buttons"
-  objects: {
-    screen_buttons: Prisma.$screen_buttonsPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     code: string
@@ -950,7 +825,6 @@ readonly fields: permission_buttonsFieldRefs;
  */
 export interface Prisma__permission_buttonsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  screen_buttons<T extends Prisma.permission_buttons$screen_buttonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permission_buttons$screen_buttonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_buttonsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1005,10 +879,6 @@ export type permission_buttonsFindUniqueArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * Filter, which permission_buttons to fetch.
    */
   where: Prisma.permission_buttonsWhereUniqueInput
@@ -1027,10 +897,6 @@ export type permission_buttonsFindUniqueOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * Filter, which permission_buttons to fetch.
    */
   where: Prisma.permission_buttonsWhereUniqueInput
@@ -1048,10 +914,6 @@ export type permission_buttonsFindFirstArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the permission_buttons
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
   /**
    * Filter, which permission_buttons to fetch.
    */
@@ -1101,10 +963,6 @@ export type permission_buttonsFindFirstOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * Filter, which permission_buttons to fetch.
    */
   where?: Prisma.permission_buttonsWhereInput
@@ -1152,10 +1010,6 @@ export type permission_buttonsFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the permission_buttons
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
   /**
    * Filter, which permission_buttons to fetch.
    */
@@ -1205,10 +1059,6 @@ export type permission_buttonsCreateArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * The data needed to create a permission_buttons.
    */
   data: Prisma.XOR<Prisma.permission_buttonsCreateInput, Prisma.permission_buttonsUncheckedCreateInput>
@@ -1256,10 +1106,6 @@ export type permission_buttonsUpdateArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the permission_buttons
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
   /**
    * The data needed to update a permission_buttons.
    */
@@ -1327,10 +1173,6 @@ export type permission_buttonsUpsertArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * The filter to search for the permission_buttons to update in case it exists.
    */
   where: Prisma.permission_buttonsWhereUniqueInput
@@ -1357,10 +1199,6 @@ export type permission_buttonsDeleteArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
-  /**
    * Filter which permission_buttons to delete.
    */
   where: Prisma.permission_buttonsWhereUniqueInput
@@ -1381,30 +1219,6 @@ export type permission_buttonsDeleteManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * permission_buttons.screen_buttons
- */
-export type permission_buttons$screen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the screen_buttons
-   */
-  select?: Prisma.screen_buttonsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the screen_buttons
-   */
-  omit?: Prisma.screen_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_buttonsInclude<ExtArgs> | null
-  where?: Prisma.screen_buttonsWhereInput
-  orderBy?: Prisma.screen_buttonsOrderByWithRelationInput | Prisma.screen_buttonsOrderByWithRelationInput[]
-  cursor?: Prisma.screen_buttonsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Screen_buttonsScalarFieldEnum | Prisma.Screen_buttonsScalarFieldEnum[]
-}
-
-/**
  * permission_buttons without action
  */
 export type permission_buttonsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1416,8 +1230,4 @@ export type permission_buttonsDefaultArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the permission_buttons
    */
   omit?: Prisma.permission_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permission_buttonsInclude<ExtArgs> | null
 }

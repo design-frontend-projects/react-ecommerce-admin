@@ -216,18 +216,18 @@ export type currenciesOrderByWithRelationInput = {
 
 export type currenciesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.currenciesWhereInput | Prisma.currenciesWhereInput[]
   OR?: Prisma.currenciesWhereInput[]
   NOT?: Prisma.currenciesWhereInput | Prisma.currenciesWhereInput[]
   name?: Prisma.StringFilter<"currencies"> | string
+  code?: Prisma.StringFilter<"currencies"> | string
   symbol?: Prisma.StringFilter<"currencies"> | string
   is_active?: Prisma.BoolNullableFilter<"currencies"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
-}, "id" | "code">
+}, "id">
 
 export type currenciesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

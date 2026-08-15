@@ -198,8 +198,6 @@ export type business_activity_typesWhereInput = {
   is_active?: Prisma.BoolFilter<"business_activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"business_activity_types"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"business_activity_types"> | Date | string | null
-  module_activity_types?: Prisma.Module_activity_typesListRelationFilter
-  tenant_activity_types?: Prisma.Tenant_activity_typesListRelationFilter
 }
 
 export type business_activity_typesOrderByWithRelationInput = {
@@ -210,24 +208,20 @@ export type business_activity_typesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  module_activity_types?: Prisma.module_activity_typesOrderByRelationAggregateInput
-  tenant_activity_types?: Prisma.tenant_activity_typesOrderByRelationAggregateInput
 }
 
 export type business_activity_typesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.business_activity_typesWhereInput | Prisma.business_activity_typesWhereInput[]
   OR?: Prisma.business_activity_typesWhereInput[]
   NOT?: Prisma.business_activity_typesWhereInput | Prisma.business_activity_typesWhereInput[]
+  code?: Prisma.StringFilter<"business_activity_types"> | string
   name?: Prisma.StringFilter<"business_activity_types"> | string
   description?: Prisma.StringNullableFilter<"business_activity_types"> | string | null
   is_active?: Prisma.BoolFilter<"business_activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"business_activity_types"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"business_activity_types"> | Date | string | null
-  module_activity_types?: Prisma.Module_activity_typesListRelationFilter
-  tenant_activity_types?: Prisma.Tenant_activity_typesListRelationFilter
-}, "id" | "code">
+}, "id">
 
 export type business_activity_typesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -263,8 +257,6 @@ export type business_activity_typesCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput
-  tenant_activity_types?: Prisma.tenant_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput
 }
 
 export type business_activity_typesUncheckedCreateInput = {
@@ -275,8 +267,6 @@ export type business_activity_typesUncheckedCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput
 }
 
 export type business_activity_typesUpdateInput = {
@@ -287,8 +277,6 @@ export type business_activity_typesUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput
-  tenant_activity_types?: Prisma.tenant_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput
 }
 
 export type business_activity_typesUncheckedUpdateInput = {
@@ -299,8 +287,6 @@ export type business_activity_typesUncheckedUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput
 }
 
 export type business_activity_typesCreateManyInput = {
@@ -363,197 +349,6 @@ export type business_activity_typesMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
 }
 
-export type Business_activity_typesScalarRelationFilter = {
-  is?: Prisma.business_activity_typesWhereInput
-  isNot?: Prisma.business_activity_typesWhereInput
-}
-
-export type business_activity_typesCreateNestedOneWithoutTenant_activity_typesInput = {
-  create?: Prisma.XOR<Prisma.business_activity_typesCreateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutTenant_activity_typesInput>
-  connectOrCreate?: Prisma.business_activity_typesCreateOrConnectWithoutTenant_activity_typesInput
-  connect?: Prisma.business_activity_typesWhereUniqueInput
-}
-
-export type business_activity_typesUpdateOneRequiredWithoutTenant_activity_typesNestedInput = {
-  create?: Prisma.XOR<Prisma.business_activity_typesCreateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutTenant_activity_typesInput>
-  connectOrCreate?: Prisma.business_activity_typesCreateOrConnectWithoutTenant_activity_typesInput
-  upsert?: Prisma.business_activity_typesUpsertWithoutTenant_activity_typesInput
-  connect?: Prisma.business_activity_typesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.business_activity_typesUpdateToOneWithWhereWithoutTenant_activity_typesInput, Prisma.business_activity_typesUpdateWithoutTenant_activity_typesInput>, Prisma.business_activity_typesUncheckedUpdateWithoutTenant_activity_typesInput>
-}
-
-export type business_activity_typesCreateNestedOneWithoutModule_activity_typesInput = {
-  create?: Prisma.XOR<Prisma.business_activity_typesCreateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutModule_activity_typesInput>
-  connectOrCreate?: Prisma.business_activity_typesCreateOrConnectWithoutModule_activity_typesInput
-  connect?: Prisma.business_activity_typesWhereUniqueInput
-}
-
-export type business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput = {
-  create?: Prisma.XOR<Prisma.business_activity_typesCreateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutModule_activity_typesInput>
-  connectOrCreate?: Prisma.business_activity_typesCreateOrConnectWithoutModule_activity_typesInput
-  upsert?: Prisma.business_activity_typesUpsertWithoutModule_activity_typesInput
-  connect?: Prisma.business_activity_typesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.business_activity_typesUpdateToOneWithWhereWithoutModule_activity_typesInput, Prisma.business_activity_typesUpdateWithoutModule_activity_typesInput>, Prisma.business_activity_typesUncheckedUpdateWithoutModule_activity_typesInput>
-}
-
-export type business_activity_typesCreateWithoutTenant_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput
-}
-
-export type business_activity_typesUncheckedCreateWithoutTenant_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput
-}
-
-export type business_activity_typesCreateOrConnectWithoutTenant_activity_typesInput = {
-  where: Prisma.business_activity_typesWhereUniqueInput
-  create: Prisma.XOR<Prisma.business_activity_typesCreateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutTenant_activity_typesInput>
-}
-
-export type business_activity_typesUpsertWithoutTenant_activity_typesInput = {
-  update: Prisma.XOR<Prisma.business_activity_typesUpdateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedUpdateWithoutTenant_activity_typesInput>
-  create: Prisma.XOR<Prisma.business_activity_typesCreateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutTenant_activity_typesInput>
-  where?: Prisma.business_activity_typesWhereInput
-}
-
-export type business_activity_typesUpdateToOneWithWhereWithoutTenant_activity_typesInput = {
-  where?: Prisma.business_activity_typesWhereInput
-  data: Prisma.XOR<Prisma.business_activity_typesUpdateWithoutTenant_activity_typesInput, Prisma.business_activity_typesUncheckedUpdateWithoutTenant_activity_typesInput>
-}
-
-export type business_activity_typesUpdateWithoutTenant_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput
-}
-
-export type business_activity_typesUncheckedUpdateWithoutTenant_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput
-}
-
-export type business_activity_typesCreateWithoutModule_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  tenant_activity_types?: Prisma.tenant_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput
-}
-
-export type business_activity_typesUncheckedCreateWithoutModule_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput
-}
-
-export type business_activity_typesCreateOrConnectWithoutModule_activity_typesInput = {
-  where: Prisma.business_activity_typesWhereUniqueInput
-  create: Prisma.XOR<Prisma.business_activity_typesCreateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutModule_activity_typesInput>
-}
-
-export type business_activity_typesUpsertWithoutModule_activity_typesInput = {
-  update: Prisma.XOR<Prisma.business_activity_typesUpdateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedUpdateWithoutModule_activity_typesInput>
-  create: Prisma.XOR<Prisma.business_activity_typesCreateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedCreateWithoutModule_activity_typesInput>
-  where?: Prisma.business_activity_typesWhereInput
-}
-
-export type business_activity_typesUpdateToOneWithWhereWithoutModule_activity_typesInput = {
-  where?: Prisma.business_activity_typesWhereInput
-  data: Prisma.XOR<Prisma.business_activity_typesUpdateWithoutModule_activity_typesInput, Prisma.business_activity_typesUncheckedUpdateWithoutModule_activity_typesInput>
-}
-
-export type business_activity_typesUpdateWithoutModule_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput
-}
-
-export type business_activity_typesUncheckedUpdateWithoutModule_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant_activity_types?: Prisma.tenant_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput
-}
-
-
-/**
- * Count Type Business_activity_typesCountOutputType
- */
-
-export type Business_activity_typesCountOutputType = {
-  module_activity_types: number
-  tenant_activity_types: number
-}
-
-export type Business_activity_typesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  module_activity_types?: boolean | Business_activity_typesCountOutputTypeCountModule_activity_typesArgs
-  tenant_activity_types?: boolean | Business_activity_typesCountOutputTypeCountTenant_activity_typesArgs
-}
-
-/**
- * Business_activity_typesCountOutputType without action
- */
-export type Business_activity_typesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Business_activity_typesCountOutputType
-   */
-  select?: Prisma.Business_activity_typesCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Business_activity_typesCountOutputType without action
- */
-export type Business_activity_typesCountOutputTypeCountModule_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.module_activity_typesWhereInput
-}
-
-/**
- * Business_activity_typesCountOutputType without action
- */
-export type Business_activity_typesCountOutputTypeCountTenant_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.tenant_activity_typesWhereInput
-}
 
 
 export type business_activity_typesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -564,9 +359,6 @@ export type business_activity_typesSelect<ExtArgs extends runtime.Types.Extensio
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  module_activity_types?: boolean | Prisma.business_activity_types$module_activity_typesArgs<ExtArgs>
-  tenant_activity_types?: boolean | Prisma.business_activity_types$tenant_activity_typesArgs<ExtArgs>
-  _count?: boolean | Prisma.Business_activity_typesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["business_activity_types"]>
 
 export type business_activity_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -600,20 +392,10 @@ export type business_activity_typesSelectScalar = {
 }
 
 export type business_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["business_activity_types"]>
-export type business_activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  module_activity_types?: boolean | Prisma.business_activity_types$module_activity_typesArgs<ExtArgs>
-  tenant_activity_types?: boolean | Prisma.business_activity_types$tenant_activity_typesArgs<ExtArgs>
-  _count?: boolean | Prisma.Business_activity_typesCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type business_activity_typesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type business_activity_typesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $business_activity_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "business_activity_types"
-  objects: {
-    module_activity_types: Prisma.$module_activity_typesPayload<ExtArgs>[]
-    tenant_activity_types: Prisma.$tenant_activity_typesPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     code: string
@@ -1016,8 +798,6 @@ readonly fields: business_activity_typesFieldRefs;
  */
 export interface Prisma__business_activity_typesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  module_activity_types<T extends Prisma.business_activity_types$module_activity_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.business_activity_types$module_activity_typesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$module_activity_typesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenant_activity_types<T extends Prisma.business_activity_types$tenant_activity_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.business_activity_types$tenant_activity_typesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_activity_typesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1071,10 +851,6 @@ export type business_activity_typesFindUniqueArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which business_activity_types to fetch.
    */
   where: Prisma.business_activity_typesWhereUniqueInput
@@ -1093,10 +869,6 @@ export type business_activity_typesFindUniqueOrThrowArgs<ExtArgs extends runtime
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which business_activity_types to fetch.
    */
   where: Prisma.business_activity_typesWhereUniqueInput
@@ -1114,10 +886,6 @@ export type business_activity_typesFindFirstArgs<ExtArgs extends runtime.Types.E
    * Omit specific fields from the business_activity_types
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which business_activity_types to fetch.
    */
@@ -1167,10 +935,6 @@ export type business_activity_typesFindFirstOrThrowArgs<ExtArgs extends runtime.
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which business_activity_types to fetch.
    */
   where?: Prisma.business_activity_typesWhereInput
@@ -1218,10 +982,6 @@ export type business_activity_typesFindManyArgs<ExtArgs extends runtime.Types.Ex
    * Omit specific fields from the business_activity_types
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which business_activity_types to fetch.
    */
@@ -1271,10 +1031,6 @@ export type business_activity_typesCreateArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * The data needed to create a business_activity_types.
    */
   data: Prisma.XOR<Prisma.business_activity_typesCreateInput, Prisma.business_activity_typesUncheckedCreateInput>
@@ -1322,10 +1078,6 @@ export type business_activity_typesUpdateArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the business_activity_types
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
   /**
    * The data needed to update a business_activity_types.
    */
@@ -1393,10 +1145,6 @@ export type business_activity_typesUpsertArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * The filter to search for the business_activity_types to update in case it exists.
    */
   where: Prisma.business_activity_typesWhereUniqueInput
@@ -1423,10 +1171,6 @@ export type business_activity_typesDeleteArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
-  /**
    * Filter which business_activity_types to delete.
    */
   where: Prisma.business_activity_typesWhereUniqueInput
@@ -1447,54 +1191,6 @@ export type business_activity_typesDeleteManyArgs<ExtArgs extends runtime.Types.
 }
 
 /**
- * business_activity_types.module_activity_types
- */
-export type business_activity_types$module_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the module_activity_types
-   */
-  select?: Prisma.module_activity_typesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the module_activity_types
-   */
-  omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
-  where?: Prisma.module_activity_typesWhereInput
-  orderBy?: Prisma.module_activity_typesOrderByWithRelationInput | Prisma.module_activity_typesOrderByWithRelationInput[]
-  cursor?: Prisma.module_activity_typesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Module_activity_typesScalarFieldEnum | Prisma.Module_activity_typesScalarFieldEnum[]
-}
-
-/**
- * business_activity_types.tenant_activity_types
- */
-export type business_activity_types$tenant_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenant_activity_types
-   */
-  select?: Prisma.tenant_activity_typesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenant_activity_types
-   */
-  omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
-  where?: Prisma.tenant_activity_typesWhereInput
-  orderBy?: Prisma.tenant_activity_typesOrderByWithRelationInput | Prisma.tenant_activity_typesOrderByWithRelationInput[]
-  cursor?: Prisma.tenant_activity_typesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Tenant_activity_typesScalarFieldEnum | Prisma.Tenant_activity_typesScalarFieldEnum[]
-}
-
-/**
  * business_activity_types without action
  */
 export type business_activity_typesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1506,8 +1202,4 @@ export type business_activity_typesDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the business_activity_types
    */
   omit?: Prisma.business_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.business_activity_typesInclude<ExtArgs> | null
 }

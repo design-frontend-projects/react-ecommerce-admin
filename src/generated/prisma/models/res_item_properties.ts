@@ -38,7 +38,6 @@ export type Res_item_propertiesSumAggregateOutputType = {
 
 export type Res_item_propertiesMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   item_id: string | null
   name: string | null
   is_required: boolean | null
@@ -46,11 +45,11 @@ export type Res_item_propertiesMinAggregateOutputType = {
   created_at: Date | null
   price: runtime.Decimal | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_item_propertiesMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   item_id: string | null
   name: string | null
   is_required: boolean | null
@@ -58,11 +57,11 @@ export type Res_item_propertiesMaxAggregateOutputType = {
   created_at: Date | null
   price: runtime.Decimal | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_item_propertiesCountAggregateOutputType = {
   id: number
-  tenant_id: number
   item_id: number
   name: number
   options: number
@@ -71,6 +70,7 @@ export type Res_item_propertiesCountAggregateOutputType = {
   created_at: number
   price: number
   auth_user_id: number
+  tenant_id: number
   _all: number
 }
 
@@ -87,7 +87,6 @@ export type Res_item_propertiesSumAggregateInputType = {
 
 export type Res_item_propertiesMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   is_required?: true
@@ -95,11 +94,11 @@ export type Res_item_propertiesMinAggregateInputType = {
   created_at?: true
   price?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_item_propertiesMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   is_required?: true
@@ -107,11 +106,11 @@ export type Res_item_propertiesMaxAggregateInputType = {
   created_at?: true
   price?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_item_propertiesCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   options?: true
@@ -120,6 +119,7 @@ export type Res_item_propertiesCountAggregateInputType = {
   created_at?: true
   price?: true
   auth_user_id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -211,7 +211,6 @@ export type res_item_propertiesGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Res_item_propertiesGroupByOutputType = {
   id: string
-  tenant_id: string | null
   item_id: string | null
   name: string
   options: runtime.JsonValue | null
@@ -220,6 +219,7 @@ export type Res_item_propertiesGroupByOutputType = {
   created_at: Date | null
   price: runtime.Decimal | null
   auth_user_id: string | null
+  tenant_id: string | null
   _count: Res_item_propertiesCountAggregateOutputType | null
   _avg: Res_item_propertiesAvgAggregateOutputType | null
   _sum: Res_item_propertiesSumAggregateOutputType | null
@@ -247,7 +247,6 @@ export type res_item_propertiesWhereInput = {
   OR?: Prisma.res_item_propertiesWhereInput[]
   NOT?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
   id?: Prisma.UuidFilter<"res_item_properties"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   name?: Prisma.StringFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableFilter<"res_item_properties">
@@ -256,13 +255,11 @@ export type res_item_propertiesWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"res_item_properties"> | Date | string | null
   price?: Prisma.DecimalNullableFilter<"res_item_properties"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
 }
 
 export type res_item_propertiesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -271,8 +268,7 @@ export type res_item_propertiesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_menu_items?: Prisma.res_menu_itemsOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_item_propertiesWhereUniqueInput = Prisma.AtLeast<{
@@ -280,7 +276,6 @@ export type res_item_propertiesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
   OR?: Prisma.res_item_propertiesWhereInput[]
   NOT?: Prisma.res_item_propertiesWhereInput | Prisma.res_item_propertiesWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
   name?: Prisma.StringFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableFilter<"res_item_properties">
@@ -289,13 +284,11 @@ export type res_item_propertiesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"res_item_properties"> | Date | string | null
   price?: Prisma.DecimalNullableFilter<"res_item_properties"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
 }, "id">
 
 export type res_item_propertiesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -304,6 +297,7 @@ export type res_item_propertiesOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_item_propertiesCountOrderByAggregateInput
   _avg?: Prisma.res_item_propertiesAvgOrderByAggregateInput
   _max?: Prisma.res_item_propertiesMaxOrderByAggregateInput
@@ -316,7 +310,6 @@ export type res_item_propertiesScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_item_propertiesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_item_propertiesScalarWhereWithAggregatesInput | Prisma.res_item_propertiesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_item_properties"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
   item_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_item_properties"> | string
   options?: Prisma.JsonNullableWithAggregatesFilter<"res_item_properties">
@@ -325,10 +318,12 @@ export type res_item_propertiesScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_item_properties"> | Date | string | null
   price?: Prisma.DecimalNullableWithAggregatesFilter<"res_item_properties"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_properties"> | string | null
 }
 
 export type res_item_propertiesCreateInput = {
   id?: string
+  item_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_required?: boolean | null
@@ -336,13 +331,11 @@ export type res_item_propertiesCreateInput = {
   created_at?: Date | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_item_propertiesInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_item_propertiesInput
+  tenant_id?: string | null
 }
 
 export type res_item_propertiesUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   item_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -351,24 +344,11 @@ export type res_item_propertiesUncheckedCreateInput = {
   created_at?: Date | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type res_item_propertiesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_item_propertiesNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_item_propertiesNestedInput
-}
-
-export type res_item_propertiesUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -377,11 +357,24 @@ export type res_item_propertiesUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_item_propertiesUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_item_propertiesCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   item_id?: string | null
   name: string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -390,22 +383,11 @@ export type res_item_propertiesCreateManyInput = {
   created_at?: Date | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type res_item_propertiesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_propertiesUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -414,11 +396,24 @@ export type res_item_propertiesUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_item_propertiesUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_item_propertiesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   options?: Prisma.SortOrder
@@ -427,6 +422,7 @@ export type res_item_propertiesCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   price?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_propertiesAvgOrderByAggregateInput = {
@@ -436,7 +432,6 @@ export type res_item_propertiesAvgOrderByAggregateInput = {
 
 export type res_item_propertiesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_required?: Prisma.SortOrder
@@ -444,11 +439,11 @@ export type res_item_propertiesMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   price?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_propertiesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_required?: Prisma.SortOrder
@@ -456,6 +451,7 @@ export type res_item_propertiesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   price?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_propertiesSumOrderByAggregateInput = {
@@ -463,317 +459,10 @@ export type res_item_propertiesSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
-export type Res_item_propertiesListRelationFilter = {
-  every?: Prisma.res_item_propertiesWhereInput
-  some?: Prisma.res_item_propertiesWhereInput
-  none?: Prisma.res_item_propertiesWhereInput
-}
-
-export type res_item_propertiesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type res_item_propertiesCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-}
-
-export type res_item_propertiesUncheckedCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-}
-
-export type res_item_propertiesUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  disconnect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  delete?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  update?: Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_item_propertiesUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-}
-
-export type res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  disconnect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  delete?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  update?: Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_item_propertiesUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_item_propertiesUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-}
-
-export type res_item_propertiesCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput> | Prisma.res_item_propertiesCreateWithoutTenantsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput | Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-}
-
-export type res_item_propertiesUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput> | Prisma.res_item_propertiesCreateWithoutTenantsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput | Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-}
-
-export type res_item_propertiesUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput> | Prisma.res_item_propertiesCreateWithoutTenantsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput | Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyTenantsInputEnvelope
-  set?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  disconnect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  delete?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  update?: Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_item_propertiesUpdateManyWithWhereWithoutTenantsInput | Prisma.res_item_propertiesUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-}
-
-export type res_item_propertiesUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput> | Prisma.res_item_propertiesCreateWithoutTenantsInput[] | Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput | Prisma.res_item_propertiesCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_item_propertiesUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_item_propertiesCreateManyTenantsInputEnvelope
-  set?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  disconnect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  delete?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  connect?: Prisma.res_item_propertiesWhereUniqueInput | Prisma.res_item_propertiesWhereUniqueInput[]
-  update?: Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_item_propertiesUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_item_propertiesUpdateManyWithWhereWithoutTenantsInput | Prisma.res_item_propertiesUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-}
-
-export type res_item_propertiesCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_item_propertiesInput
-}
-
-export type res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_propertiesCreateOrConnectWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_propertiesCreateManyRes_menu_itemsInputEnvelope = {
-  data: Prisma.res_item_propertiesCreateManyRes_menu_itemsInput | Prisma.res_item_propertiesCreateManyRes_menu_itemsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_item_propertiesUpsertWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_item_propertiesUpdateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedUpdateWithoutRes_menu_itemsInput>
-  create: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_propertiesUpdateWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_item_propertiesUpdateWithoutRes_menu_itemsInput, Prisma.res_item_propertiesUncheckedUpdateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_propertiesUpdateManyWithWhereWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_propertiesScalarWhereInput
-  data: Prisma.XOR<Prisma.res_item_propertiesUpdateManyMutationInput, Prisma.res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsInput>
-}
-
-export type res_item_propertiesScalarWhereInput = {
-  AND?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-  OR?: Prisma.res_item_propertiesScalarWhereInput[]
-  NOT?: Prisma.res_item_propertiesScalarWhereInput | Prisma.res_item_propertiesScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_item_properties"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
-  item_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
-  name?: Prisma.StringFilter<"res_item_properties"> | string
-  options?: Prisma.JsonNullableFilter<"res_item_properties">
-  is_required?: Prisma.BoolNullableFilter<"res_item_properties"> | boolean | null
-  max_selections?: Prisma.IntNullableFilter<"res_item_properties"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_item_properties"> | Date | string | null
-  price?: Prisma.DecimalNullableFilter<"res_item_properties"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_item_properties"> | string | null
-}
-
-export type res_item_propertiesCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_item_propertiesInput
-}
-
-export type res_item_propertiesUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  item_id?: string | null
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_propertiesCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_item_propertiesCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_item_propertiesCreateManyTenantsInput | Prisma.res_item_propertiesCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_item_propertiesUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_item_propertiesUpdateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_item_propertiesCreateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_item_propertiesUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_item_propertiesWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_item_propertiesUpdateWithoutTenantsInput, Prisma.res_item_propertiesUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_item_propertiesUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_item_propertiesScalarWhereInput
-  data: Prisma.XOR<Prisma.res_item_propertiesUpdateManyMutationInput, Prisma.res_item_propertiesUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_item_propertiesCreateManyRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_propertiesUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_item_propertiesNestedInput
-}
-
-export type res_item_propertiesUncheckedUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_propertiesUncheckedUpdateManyWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_propertiesCreateManyTenantsInput = {
-  id?: string
-  item_id?: string | null
-  name: string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: boolean | null
-  max_selections?: number | null
-  created_at?: Date | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_propertiesUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_item_propertiesNestedInput
-}
-
-export type res_item_propertiesUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_propertiesUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  is_required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  max_selections?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
 
 
 export type res_item_propertiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -782,13 +471,11 @@ export type res_item_propertiesSelect<ExtArgs extends runtime.Types.Extensions.I
   created_at?: boolean
   price?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_properties"]>
 
 export type res_item_propertiesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -797,13 +484,11 @@ export type res_item_propertiesSelectCreateManyAndReturn<ExtArgs extends runtime
   created_at?: boolean
   price?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_properties"]>
 
 export type res_item_propertiesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -812,13 +497,11 @@ export type res_item_propertiesSelectUpdateManyAndReturn<ExtArgs extends runtime
   created_at?: boolean
   price?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_properties"]>
 
 export type res_item_propertiesSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   options?: boolean
@@ -827,31 +510,16 @@ export type res_item_propertiesSelectScalar = {
   created_at?: boolean
   price?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
 }
 
-export type res_item_propertiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "item_id" | "name" | "options" | "is_required" | "max_selections" | "created_at" | "price" | "auth_user_id", ExtArgs["result"]["res_item_properties"]>
-export type res_item_propertiesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
-}
-export type res_item_propertiesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
-}
-export type res_item_propertiesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_properties$tenantsArgs<ExtArgs>
-}
+export type res_item_propertiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "name" | "options" | "is_required" | "max_selections" | "created_at" | "price" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_item_properties"]>
 
 export type $res_item_propertiesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_item_properties"
-  objects: {
-    res_menu_items: Prisma.$res_menu_itemsPayload<ExtArgs> | null
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     item_id: string | null
     name: string
     options: runtime.JsonValue | null
@@ -860,6 +528,7 @@ export type $res_item_propertiesPayload<ExtArgs extends runtime.Types.Extensions
     created_at: Date | null
     price: runtime.Decimal | null
     auth_user_id: string | null
+    tenant_id: string | null
   }, ExtArgs["result"]["res_item_properties"]>
   composites: {}
 }
@@ -1254,8 +923,6 @@ readonly fields: res_item_propertiesFieldRefs;
  */
 export interface Prisma__res_item_propertiesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_menu_items<T extends Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_item_properties$res_menu_itemsArgs<ExtArgs>>): Prisma.Prisma__res_menu_itemsClient<runtime.Types.Result.GetResult<Prisma.$res_menu_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.res_item_properties$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_item_properties$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1286,7 +953,6 @@ export interface Prisma__res_item_propertiesClient<T, Null = never, ExtArgs exte
  */
 export interface res_item_propertiesFieldRefs {
   readonly id: Prisma.FieldRef<"res_item_properties", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly item_id: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly name: Prisma.FieldRef<"res_item_properties", 'String'>
   readonly options: Prisma.FieldRef<"res_item_properties", 'Json'>
@@ -1295,6 +961,7 @@ export interface res_item_propertiesFieldRefs {
   readonly created_at: Prisma.FieldRef<"res_item_properties", 'DateTime'>
   readonly price: Prisma.FieldRef<"res_item_properties", 'Decimal'>
   readonly auth_user_id: Prisma.FieldRef<"res_item_properties", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_item_properties", 'String'>
 }
     
 
@@ -1311,10 +978,6 @@ export type res_item_propertiesFindUniqueArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
   /**
    * Filter, which res_item_properties to fetch.
    */
@@ -1334,10 +997,6 @@ export type res_item_propertiesFindUniqueOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
-  /**
    * Filter, which res_item_properties to fetch.
    */
   where: Prisma.res_item_propertiesWhereUniqueInput
@@ -1355,10 +1014,6 @@ export type res_item_propertiesFindFirstArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
   /**
    * Filter, which res_item_properties to fetch.
    */
@@ -1408,10 +1063,6 @@ export type res_item_propertiesFindFirstOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
-  /**
    * Filter, which res_item_properties to fetch.
    */
   where?: Prisma.res_item_propertiesWhereInput
@@ -1459,10 +1110,6 @@ export type res_item_propertiesFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
   /**
    * Filter, which res_item_properties to fetch.
    */
@@ -1512,10 +1159,6 @@ export type res_item_propertiesCreateArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_item_properties.
    */
   data: Prisma.XOR<Prisma.res_item_propertiesCreateInput, Prisma.res_item_propertiesUncheckedCreateInput>
@@ -1549,10 +1192,6 @@ export type res_item_propertiesCreateManyAndReturnArgs<ExtArgs extends runtime.T
    */
   data: Prisma.res_item_propertiesCreateManyInput | Prisma.res_item_propertiesCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1567,10 +1206,6 @@ export type res_item_propertiesUpdateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
   /**
    * The data needed to update a res_item_properties.
    */
@@ -1623,10 +1258,6 @@ export type res_item_propertiesUpdateManyAndReturnArgs<ExtArgs extends runtime.T
    * Limit how many res_item_properties to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1641,10 +1272,6 @@ export type res_item_propertiesUpsertArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
   /**
    * The filter to search for the res_item_properties to update in case it exists.
    */
@@ -1672,10 +1299,6 @@ export type res_item_propertiesDeleteArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
-  /**
    * Filter which res_item_properties to delete.
    */
   where: Prisma.res_item_propertiesWhereUniqueInput
@@ -1696,44 +1319,6 @@ export type res_item_propertiesDeleteManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
- * res_item_properties.res_menu_items
- */
-export type res_item_properties$res_menu_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_menu_items
-   */
-  select?: Prisma.res_menu_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_menu_items
-   */
-  omit?: Prisma.res_menu_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_menu_itemsInclude<ExtArgs> | null
-  where?: Prisma.res_menu_itemsWhereInput
-}
-
-/**
- * res_item_properties.tenants
- */
-export type res_item_properties$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_item_properties without action
  */
 export type res_item_propertiesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1745,8 +1330,4 @@ export type res_item_propertiesDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the res_item_properties
    */
   omit?: Prisma.res_item_propertiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_propertiesInclude<ExtArgs> | null
 }

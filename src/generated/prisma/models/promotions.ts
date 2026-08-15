@@ -47,12 +47,9 @@ export type PromotionsSumAggregateOutputType = {
 }
 
 export type PromotionsMinAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   code: string | null
   name: string | null
   description: string | null
-  discount_type: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal | null
   minimum_purchase: runtime.Decimal | null
   start_date: Date | null
@@ -67,15 +64,15 @@ export type PromotionsMinAggregateOutputType = {
   get_quantity: number | null
   promo_type: string | null
   updated_at: Date | null
+  id: string | null
+  tenant_id: string | null
+  discount_type: $Enums.discount_type_enum | null
 }
 
 export type PromotionsMaxAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   code: string | null
   name: string | null
   description: string | null
-  discount_type: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal | null
   minimum_purchase: runtime.Decimal | null
   start_date: Date | null
@@ -90,15 +87,15 @@ export type PromotionsMaxAggregateOutputType = {
   get_quantity: number | null
   promo_type: string | null
   updated_at: Date | null
+  id: string | null
+  tenant_id: string | null
+  discount_type: $Enums.discount_type_enum | null
 }
 
 export type PromotionsCountAggregateOutputType = {
-  id: number
-  tenant_id: number
   code: number
   name: number
   description: number
-  discount_type: number
   discount_value: number
   minimum_purchase: number
   start_date: number
@@ -114,6 +111,9 @@ export type PromotionsCountAggregateOutputType = {
   get_quantity: number
   promo_type: number
   updated_at: number
+  id: number
+  tenant_id: number
+  discount_type: number
   _all: number
 }
 
@@ -139,12 +139,9 @@ export type PromotionsSumAggregateInputType = {
 }
 
 export type PromotionsMinAggregateInputType = {
-  id?: true
-  tenant_id?: true
   code?: true
   name?: true
   description?: true
-  discount_type?: true
   discount_value?: true
   minimum_purchase?: true
   start_date?: true
@@ -159,15 +156,15 @@ export type PromotionsMinAggregateInputType = {
   get_quantity?: true
   promo_type?: true
   updated_at?: true
+  id?: true
+  tenant_id?: true
+  discount_type?: true
 }
 
 export type PromotionsMaxAggregateInputType = {
-  id?: true
-  tenant_id?: true
   code?: true
   name?: true
   description?: true
-  discount_type?: true
   discount_value?: true
   minimum_purchase?: true
   start_date?: true
@@ -182,15 +179,15 @@ export type PromotionsMaxAggregateInputType = {
   get_quantity?: true
   promo_type?: true
   updated_at?: true
+  id?: true
+  tenant_id?: true
+  discount_type?: true
 }
 
 export type PromotionsCountAggregateInputType = {
-  id?: true
-  tenant_id?: true
   code?: true
   name?: true
   description?: true
-  discount_type?: true
   discount_value?: true
   minimum_purchase?: true
   start_date?: true
@@ -206,6 +203,9 @@ export type PromotionsCountAggregateInputType = {
   get_quantity?: true
   promo_type?: true
   updated_at?: true
+  id?: true
+  tenant_id?: true
+  discount_type?: true
   _all?: true
 }
 
@@ -296,12 +296,9 @@ export type promotionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 export type PromotionsGroupByOutputType = {
-  id: string
-  tenant_id: string | null
   code: string | null
   name: string
   description: string | null
-  discount_type: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal
   minimum_purchase: runtime.Decimal | null
   start_date: Date
@@ -317,6 +314,9 @@ export type PromotionsGroupByOutputType = {
   get_quantity: number | null
   promo_type: string
   updated_at: Date | null
+  id: string
+  tenant_id: string | null
+  discount_type: $Enums.discount_type_enum | null
   _count: PromotionsCountAggregateOutputType | null
   _avg: PromotionsAvgAggregateOutputType | null
   _sum: PromotionsSumAggregateOutputType | null
@@ -343,12 +343,9 @@ export type promotionsWhereInput = {
   AND?: Prisma.promotionsWhereInput | Prisma.promotionsWhereInput[]
   OR?: Prisma.promotionsWhereInput[]
   NOT?: Prisma.promotionsWhereInput | Prisma.promotionsWhereInput[]
-  id?: Prisma.UuidFilter<"promotions"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
   code?: Prisma.StringNullableFilter<"promotions"> | string | null
   name?: Prisma.StringFilter<"promotions"> | string
   description?: Prisma.StringNullableFilter<"promotions"> | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFilter<"promotions"> | Date | string
@@ -364,19 +361,15 @@ export type promotionsWhereInput = {
   get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   promo_type?: Prisma.StringFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  promotion_menu_scopes?: Prisma.Promotion_menu_scopesListRelationFilter
-  promotion_usage?: Prisma.Promotion_usageListRelationFilter
-  res_orders?: Prisma.Res_ordersListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  id?: Prisma.UuidFilter<"promotions"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
 }
 
 export type promotionsOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   minimum_purchase?: Prisma.SortOrderInput | Prisma.SortOrder
   start_date?: Prisma.SortOrder
@@ -392,22 +385,19 @@ export type promotionsOrderByWithRelationInput = {
   get_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesOrderByRelationAggregateInput
-  promotion_usage?: Prisma.promotion_usageOrderByRelationAggregateInput
-  res_orders?: Prisma.res_ordersOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type promotionsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.promotionsWhereInput | Prisma.promotionsWhereInput[]
   OR?: Prisma.promotionsWhereInput[]
   NOT?: Prisma.promotionsWhereInput | Prisma.promotionsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  code?: Prisma.StringNullableFilter<"promotions"> | string | null
   name?: Prisma.StringFilter<"promotions"> | string
   description?: Prisma.StringNullableFilter<"promotions"> | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFilter<"promotions"> | Date | string
@@ -423,19 +413,14 @@ export type promotionsWhereUniqueInput = Prisma.AtLeast<{
   get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   promo_type?: Prisma.StringFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  promotion_menu_scopes?: Prisma.Promotion_menu_scopesListRelationFilter
-  promotion_usage?: Prisma.Promotion_usageListRelationFilter
-  res_orders?: Prisma.Res_ordersListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
-}, "id" | "code">
+  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
+}, "id">
 
 export type promotionsOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   minimum_purchase?: Prisma.SortOrderInput | Prisma.SortOrder
   start_date?: Prisma.SortOrder
@@ -451,6 +436,9 @@ export type promotionsOrderByWithAggregationInput = {
   get_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.promotionsCountOrderByAggregateInput
   _avg?: Prisma.promotionsAvgOrderByAggregateInput
   _max?: Prisma.promotionsMaxOrderByAggregateInput
@@ -462,12 +450,9 @@ export type promotionsScalarWhereWithAggregatesInput = {
   AND?: Prisma.promotionsScalarWhereWithAggregatesInput | Prisma.promotionsScalarWhereWithAggregatesInput[]
   OR?: Prisma.promotionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.promotionsScalarWhereWithAggregatesInput | Prisma.promotionsScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
   code?: Prisma.StringNullableWithAggregatesFilter<"promotions"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"promotions"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"promotions"> | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableWithAggregatesFilter<"promotions"> | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalWithAggregatesFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.DecimalNullableWithAggregatesFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeWithAggregatesFilter<"promotions"> | Date | string
@@ -483,14 +468,15 @@ export type promotionsScalarWhereWithAggregatesInput = {
   get_quantity?: Prisma.IntNullableWithAggregatesFilter<"promotions"> | number | null
   promo_type?: Prisma.StringWithAggregatesFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotions"> | Date | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableWithAggregatesFilter<"promotions"> | $Enums.discount_type_enum | null
 }
 
 export type promotionsCreateInput = {
-  id?: string
   code?: string | null
   name: string
   description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date: Date | string
@@ -506,19 +492,15 @@ export type promotionsCreateInput = {
   get_quantity?: number | null
   promo_type?: string
   updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutPromotionsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotionsInput
+  id?: string
+  tenant_id?: string | null
+  discount_type?: $Enums.discount_type_enum | null
 }
 
 export type promotionsUncheckedCreateInput = {
-  id?: string
-  tenant_id?: string | null
   code?: string | null
   name: string
   description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date: Date | string
@@ -534,17 +516,15 @@ export type promotionsUncheckedCreateInput = {
   get_quantity?: number | null
   promo_type?: string
   updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutPromotionsInput
+  id?: string
+  tenant_id?: string | null
+  discount_type?: $Enums.discount_type_enum | null
 }
 
 export type promotionsUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -560,19 +540,15 @@ export type promotionsUpdateInput = {
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutPromotionsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPromotionsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
 }
 
 export type promotionsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -588,18 +564,15 @@ export type promotionsUncheckedUpdateInput = {
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutPromotionsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
 }
 
 export type promotionsCreateManyInput = {
-  id?: string
-  tenant_id?: string | null
   code?: string | null
   name: string
   description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
   discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date: Date | string
@@ -615,14 +588,15 @@ export type promotionsCreateManyInput = {
   get_quantity?: number | null
   promo_type?: string
   updated_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  discount_type?: $Enums.discount_type_enum | null
 }
 
 export type promotionsUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -638,15 +612,15 @@ export type promotionsUpdateManyMutationInput = {
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
 }
 
 export type promotionsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -662,11 +636,9 @@ export type promotionsUncheckedUpdateManyInput = {
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type PromotionsScalarRelationFilter = {
-  is?: Prisma.promotionsWhereInput
-  isNot?: Prisma.promotionsWhereInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
 }
 
 export type StringNullableListFilter<$PrismaModel = never> = {
@@ -678,12 +650,9 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 }
 
 export type promotionsCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   minimum_purchase?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
@@ -699,6 +668,9 @@ export type promotionsCountOrderByAggregateInput = {
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
 }
 
 export type promotionsAvgOrderByAggregateInput = {
@@ -712,12 +684,9 @@ export type promotionsAvgOrderByAggregateInput = {
 }
 
 export type promotionsMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   minimum_purchase?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
@@ -732,15 +701,15 @@ export type promotionsMaxOrderByAggregateInput = {
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
 }
 
 export type promotionsMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   discount_value?: Prisma.SortOrder
   minimum_purchase?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
@@ -755,6 +724,9 @@ export type promotionsMinOrderByAggregateInput = {
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
 }
 
 export type promotionsSumOrderByAggregateInput = {
@@ -767,41 +739,8 @@ export type promotionsSumOrderByAggregateInput = {
   get_quantity?: Prisma.SortOrder
 }
 
-export type PromotionsNullableScalarRelationFilter = {
-  is?: Prisma.promotionsWhereInput | null
-  isNot?: Prisma.promotionsWhereInput | null
-}
-
-export type PromotionsListRelationFilter = {
-  every?: Prisma.promotionsWhereInput
-  some?: Prisma.promotionsWhereInput
-  none?: Prisma.promotionsWhereInput
-}
-
-export type promotionsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type promotionsCreateNestedOneWithoutPromotion_usageInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_usageInput, Prisma.promotionsUncheckedCreateWithoutPromotion_usageInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutPromotion_usageInput
-  connect?: Prisma.promotionsWhereUniqueInput
-}
-
-export type promotionsUpdateOneRequiredWithoutPromotion_usageNestedInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_usageInput, Prisma.promotionsUncheckedCreateWithoutPromotion_usageInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutPromotion_usageInput
-  upsert?: Prisma.promotionsUpsertWithoutPromotion_usageInput
-  connect?: Prisma.promotionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.promotionsUpdateToOneWithWhereWithoutPromotion_usageInput, Prisma.promotionsUpdateWithoutPromotion_usageInput>, Prisma.promotionsUncheckedUpdateWithoutPromotion_usageInput>
-}
-
 export type promotionsCreateactivitiesInput = {
   set: string[]
-}
-
-export type NullableEnumdiscount_type_enumFieldUpdateOperationsInput = {
-  set?: $Enums.discount_type_enum | null
 }
 
 export type promotionsUpdateactivitiesInput = {
@@ -809,697 +748,16 @@ export type promotionsUpdateactivitiesInput = {
   push?: string | string[]
 }
 
-export type promotionsCreateNestedOneWithoutPromotion_menu_scopesInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedCreateWithoutPromotion_menu_scopesInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutPromotion_menu_scopesInput
-  connect?: Prisma.promotionsWhereUniqueInput
+export type NullableEnumdiscount_type_enumFieldUpdateOperationsInput = {
+  set?: $Enums.discount_type_enum | null
 }
 
-export type promotionsUpdateOneRequiredWithoutPromotion_menu_scopesNestedInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedCreateWithoutPromotion_menu_scopesInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutPromotion_menu_scopesInput
-  upsert?: Prisma.promotionsUpsertWithoutPromotion_menu_scopesInput
-  connect?: Prisma.promotionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.promotionsUpdateToOneWithWhereWithoutPromotion_menu_scopesInput, Prisma.promotionsUpdateWithoutPromotion_menu_scopesInput>, Prisma.promotionsUncheckedUpdateWithoutPromotion_menu_scopesInput>
-}
-
-export type promotionsCreateNestedOneWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutRes_ordersInput, Prisma.promotionsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutRes_ordersInput
-  connect?: Prisma.promotionsWhereUniqueInput
-}
-
-export type promotionsUpdateOneWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutRes_ordersInput, Prisma.promotionsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutRes_ordersInput
-  upsert?: Prisma.promotionsUpsertWithoutRes_ordersInput
-  disconnect?: Prisma.promotionsWhereInput | boolean
-  delete?: Prisma.promotionsWhereInput | boolean
-  connect?: Prisma.promotionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.promotionsUpdateToOneWithWhereWithoutRes_ordersInput, Prisma.promotionsUpdateWithoutRes_ordersInput>, Prisma.promotionsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type promotionsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput> | Prisma.promotionsCreateWithoutTenantsInput[] | Prisma.promotionsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutTenantsInput | Prisma.promotionsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.promotionsCreateManyTenantsInputEnvelope
-  connect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-}
-
-export type promotionsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput> | Prisma.promotionsCreateWithoutTenantsInput[] | Prisma.promotionsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutTenantsInput | Prisma.promotionsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.promotionsCreateManyTenantsInputEnvelope
-  connect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-}
-
-export type promotionsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput> | Prisma.promotionsCreateWithoutTenantsInput[] | Prisma.promotionsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutTenantsInput | Prisma.promotionsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.promotionsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.promotionsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.promotionsCreateManyTenantsInputEnvelope
-  set?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  disconnect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  delete?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  connect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  update?: Prisma.promotionsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.promotionsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.promotionsUpdateManyWithWhereWithoutTenantsInput | Prisma.promotionsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.promotionsScalarWhereInput | Prisma.promotionsScalarWhereInput[]
-}
-
-export type promotionsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput> | Prisma.promotionsCreateWithoutTenantsInput[] | Prisma.promotionsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.promotionsCreateOrConnectWithoutTenantsInput | Prisma.promotionsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.promotionsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.promotionsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.promotionsCreateManyTenantsInputEnvelope
-  set?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  disconnect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  delete?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  connect?: Prisma.promotionsWhereUniqueInput | Prisma.promotionsWhereUniqueInput[]
-  update?: Prisma.promotionsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.promotionsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.promotionsUpdateManyWithWhereWithoutTenantsInput | Prisma.promotionsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.promotionsScalarWhereInput | Prisma.promotionsScalarWhereInput[]
-}
-
-export type promotionsCreateWithoutPromotion_usageInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutPromotionsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotionsInput
-}
-
-export type promotionsUncheckedCreateWithoutPromotion_usageInput = {
-  id?: string
-  tenant_id?: string | null
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutPromotionsInput
-}
-
-export type promotionsCreateOrConnectWithoutPromotion_usageInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_usageInput, Prisma.promotionsUncheckedCreateWithoutPromotion_usageInput>
-}
-
-export type promotionsUpsertWithoutPromotion_usageInput = {
-  update: Prisma.XOR<Prisma.promotionsUpdateWithoutPromotion_usageInput, Prisma.promotionsUncheckedUpdateWithoutPromotion_usageInput>
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_usageInput, Prisma.promotionsUncheckedCreateWithoutPromotion_usageInput>
-  where?: Prisma.promotionsWhereInput
-}
-
-export type promotionsUpdateToOneWithWhereWithoutPromotion_usageInput = {
-  where?: Prisma.promotionsWhereInput
-  data: Prisma.XOR<Prisma.promotionsUpdateWithoutPromotion_usageInput, Prisma.promotionsUncheckedUpdateWithoutPromotion_usageInput>
-}
-
-export type promotionsUpdateWithoutPromotion_usageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutPromotionsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPromotionsNestedInput
-}
-
-export type promotionsUncheckedUpdateWithoutPromotion_usageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutPromotionsNestedInput
-}
-
-export type promotionsCreateWithoutPromotion_menu_scopesInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutPromotionsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotionsInput
-}
-
-export type promotionsUncheckedCreateWithoutPromotion_menu_scopesInput = {
-  id?: string
-  tenant_id?: string | null
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutPromotionsInput
-}
-
-export type promotionsCreateOrConnectWithoutPromotion_menu_scopesInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedCreateWithoutPromotion_menu_scopesInput>
-}
-
-export type promotionsUpsertWithoutPromotion_menu_scopesInput = {
-  update: Prisma.XOR<Prisma.promotionsUpdateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedUpdateWithoutPromotion_menu_scopesInput>
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedCreateWithoutPromotion_menu_scopesInput>
-  where?: Prisma.promotionsWhereInput
-}
-
-export type promotionsUpdateToOneWithWhereWithoutPromotion_menu_scopesInput = {
-  where?: Prisma.promotionsWhereInput
-  data: Prisma.XOR<Prisma.promotionsUpdateWithoutPromotion_menu_scopesInput, Prisma.promotionsUncheckedUpdateWithoutPromotion_menu_scopesInput>
-}
-
-export type promotionsUpdateWithoutPromotion_menu_scopesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutPromotionsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPromotionsNestedInput
-}
-
-export type promotionsUncheckedUpdateWithoutPromotion_menu_scopesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutPromotionsNestedInput
-}
-
-export type promotionsCreateWithoutRes_ordersInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutPromotionsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPromotionsInput
-}
-
-export type promotionsUncheckedCreateWithoutRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
-}
-
-export type promotionsCreateOrConnectWithoutRes_ordersInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutRes_ordersInput, Prisma.promotionsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type promotionsUpsertWithoutRes_ordersInput = {
-  update: Prisma.XOR<Prisma.promotionsUpdateWithoutRes_ordersInput, Prisma.promotionsUncheckedUpdateWithoutRes_ordersInput>
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutRes_ordersInput, Prisma.promotionsUncheckedCreateWithoutRes_ordersInput>
-  where?: Prisma.promotionsWhereInput
-}
-
-export type promotionsUpdateToOneWithWhereWithoutRes_ordersInput = {
-  where?: Prisma.promotionsWhereInput
-  data: Prisma.XOR<Prisma.promotionsUpdateWithoutRes_ordersInput, Prisma.promotionsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type promotionsUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutPromotionsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPromotionsNestedInput
-}
-
-export type promotionsUncheckedUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
-}
-
-export type promotionsCreateWithoutTenantsInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutPromotionsInput
-}
-
-export type promotionsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedCreateNestedManyWithoutPromotionsInput
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutPromotionsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutPromotionsInput
-}
-
-export type promotionsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput>
-}
-
-export type promotionsCreateManyTenantsInputEnvelope = {
-  data: Prisma.promotionsCreateManyTenantsInput | Prisma.promotionsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type promotionsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.promotionsUpdateWithoutTenantsInput, Prisma.promotionsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.promotionsCreateWithoutTenantsInput, Prisma.promotionsUncheckedCreateWithoutTenantsInput>
-}
-
-export type promotionsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.promotionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.promotionsUpdateWithoutTenantsInput, Prisma.promotionsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type promotionsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.promotionsScalarWhereInput
-  data: Prisma.XOR<Prisma.promotionsUpdateManyMutationInput, Prisma.promotionsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type promotionsScalarWhereInput = {
-  AND?: Prisma.promotionsScalarWhereInput | Prisma.promotionsScalarWhereInput[]
-  OR?: Prisma.promotionsScalarWhereInput[]
-  NOT?: Prisma.promotionsScalarWhereInput | Prisma.promotionsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"promotions"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
-  code?: Prisma.StringNullableFilter<"promotions"> | string | null
-  name?: Prisma.StringFilter<"promotions"> | string
-  description?: Prisma.StringNullableFilter<"promotions"> | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFilter<"promotions"> | Date | string
-  end_date?: Prisma.DateTimeFilter<"promotions"> | Date | string
-  usage_limit?: Prisma.IntNullableFilter<"promotions"> | number | null
-  usage_per_customer?: Prisma.IntNullableFilter<"promotions"> | number | null
-  is_active?: Prisma.BoolNullableFilter<"promotions"> | boolean | null
-  created_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
-  activities?: Prisma.StringNullableListFilter<"promotions">
-  buy_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
-  get_discount_value?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
-  promo_type?: Prisma.StringFilter<"promotions"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-}
-
-export type promotionsCreateManyTenantsInput = {
-  id?: string
-  code?: string | null
-  name: string
-  description?: string | null
-  discount_type?: $Enums.discount_type_enum | null
-  discount_value: runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date: Date | string
-  end_date: Date | string
-  usage_limit?: number | null
-  usage_per_customer?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  activities?: Prisma.promotionsCreateactivitiesInput | string[]
-  buy_quantity?: number | null
-  get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: number | null
-  promo_type?: string
-  updated_at?: Date | string | null
-}
-
-export type promotionsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutPromotionsNestedInput
-}
-
-export type promotionsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  promotion_menu_scopes?: Prisma.promotion_menu_scopesUncheckedUpdateManyWithoutPromotionsNestedInput
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutPromotionsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutPromotionsNestedInput
-}
-
-export type promotionsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  minimum_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  usage_limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activities?: Prisma.promotionsUpdateactivitiesInput | string[]
-  buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  promo_type?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-
-/**
- * Count Type PromotionsCountOutputType
- */
-
-export type PromotionsCountOutputType = {
-  promotion_menu_scopes: number
-  promotion_usage: number
-  res_orders: number
-}
-
-export type PromotionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotion_menu_scopes?: boolean | PromotionsCountOutputTypeCountPromotion_menu_scopesArgs
-  promotion_usage?: boolean | PromotionsCountOutputTypeCountPromotion_usageArgs
-  res_orders?: boolean | PromotionsCountOutputTypeCountRes_ordersArgs
-}
-
-/**
- * PromotionsCountOutputType without action
- */
-export type PromotionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PromotionsCountOutputType
-   */
-  select?: Prisma.PromotionsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * PromotionsCountOutputType without action
- */
-export type PromotionsCountOutputTypeCountPromotion_menu_scopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.promotion_menu_scopesWhereInput
-}
-
-/**
- * PromotionsCountOutputType without action
- */
-export type PromotionsCountOutputTypeCountPromotion_usageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.promotion_usageWhereInput
-}
-
-/**
- * PromotionsCountOutputType without action
- */
-export type PromotionsCountOutputTypeCountRes_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_ordersWhereInput
-}
 
 
 export type promotionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
-  discount_type?: boolean
   discount_value?: boolean
   minimum_purchase?: boolean
   start_date?: boolean
@@ -1515,20 +773,15 @@ export type promotionsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   get_quantity?: boolean
   promo_type?: boolean
   updated_at?: boolean
-  promotion_menu_scopes?: boolean | Prisma.promotions$promotion_menu_scopesArgs<ExtArgs>
-  promotion_usage?: boolean | Prisma.promotions$promotion_usageArgs<ExtArgs>
-  res_orders?: boolean | Prisma.promotions$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.PromotionsCountOutputTypeDefaultArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
+  discount_type?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
-  discount_type?: boolean
   discount_value?: boolean
   minimum_purchase?: boolean
   start_date?: boolean
@@ -1544,16 +797,15 @@ export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   get_quantity?: boolean
   promo_type?: boolean
   updated_at?: boolean
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
+  discount_type?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
-  discount_type?: boolean
   discount_value?: boolean
   minimum_purchase?: boolean
   start_date?: boolean
@@ -1569,16 +821,15 @@ export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   get_quantity?: boolean
   promo_type?: boolean
   updated_at?: boolean
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
+  discount_type?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectScalar = {
-  id?: boolean
-  tenant_id?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
-  discount_type?: boolean
   discount_value?: boolean
   minimum_purchase?: boolean
   start_date?: boolean
@@ -1594,38 +845,20 @@ export type promotionsSelectScalar = {
   get_quantity?: boolean
   promo_type?: boolean
   updated_at?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  discount_type?: boolean
 }
 
-export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "code" | "name" | "description" | "discount_type" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "auth_user_id" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "updated_at", ExtArgs["result"]["promotions"]>
-export type promotionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotion_menu_scopes?: boolean | Prisma.promotions$promotion_menu_scopesArgs<ExtArgs>
-  promotion_usage?: boolean | Prisma.promotions$promotion_usageArgs<ExtArgs>
-  res_orders?: boolean | Prisma.promotions$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.PromotionsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type promotionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
-}
-export type promotionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.promotions$tenantsArgs<ExtArgs>
-}
+export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "description" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "auth_user_id" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "updated_at" | "id" | "tenant_id" | "discount_type", ExtArgs["result"]["promotions"]>
 
 export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "promotions"
-  objects: {
-    promotion_menu_scopes: Prisma.$promotion_menu_scopesPayload<ExtArgs>[]
-    promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
-    res_orders: Prisma.$res_ordersPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    tenant_id: string | null
     code: string | null
     name: string
     description: string | null
-    discount_type: $Enums.discount_type_enum | null
     discount_value: runtime.Decimal
     minimum_purchase: runtime.Decimal | null
     start_date: Date
@@ -1641,6 +874,9 @@ export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     get_quantity: number | null
     promo_type: string
     updated_at: Date | null
+    id: string
+    tenant_id: string | null
+    discount_type: $Enums.discount_type_enum | null
   }, ExtArgs["result"]["promotions"]>
   composites: {}
 }
@@ -1724,8 +960,8 @@ export interface promotionsDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 Promotions
    * const promotions = await prisma.promotions.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const promotionsWithIdOnly = await prisma.promotions.findMany({ select: { id: true } })
+   * // Only select the `code`
+   * const promotionsWithCodeOnly = await prisma.promotions.findMany({ select: { code: true } })
    * 
    */
   findMany<T extends promotionsFindManyArgs>(args?: Prisma.SelectSubset<T, promotionsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1769,9 +1005,9 @@ export interface promotionsDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many Promotions and only return the `id`
-   * const promotionsWithIdOnly = await prisma.promotions.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Promotions and only return the `code`
+   * const promotionsWithCodeOnly = await prisma.promotions.createManyAndReturn({
+   *   select: { code: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1860,9 +1096,9 @@ export interface promotionsDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more Promotions and only return the `id`
-   * const promotionsWithIdOnly = await prisma.promotions.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Promotions and only return the `code`
+   * const promotionsWithCodeOnly = await prisma.promotions.updateManyAndReturn({
+   *   select: { code: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2035,10 +1271,6 @@ readonly fields: promotionsFieldRefs;
  */
 export interface Prisma__promotionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  promotion_menu_scopes<T extends Prisma.promotions$promotion_menu_scopesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotions$promotion_menu_scopesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotion_menu_scopesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  promotion_usage<T extends Prisma.promotions$promotion_usageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotions$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  res_orders<T extends Prisma.promotions$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotions$res_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.promotions$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.promotions$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2068,12 +1300,9 @@ export interface Prisma__promotionsClient<T, Null = never, ExtArgs extends runti
  * Fields of the promotions model
  */
 export interface promotionsFieldRefs {
-  readonly id: Prisma.FieldRef<"promotions", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"promotions", 'String'>
   readonly code: Prisma.FieldRef<"promotions", 'String'>
   readonly name: Prisma.FieldRef<"promotions", 'String'>
   readonly description: Prisma.FieldRef<"promotions", 'String'>
-  readonly discount_type: Prisma.FieldRef<"promotions", 'discount_type_enum'>
   readonly discount_value: Prisma.FieldRef<"promotions", 'Decimal'>
   readonly minimum_purchase: Prisma.FieldRef<"promotions", 'Decimal'>
   readonly start_date: Prisma.FieldRef<"promotions", 'DateTime'>
@@ -2089,6 +1318,9 @@ export interface promotionsFieldRefs {
   readonly get_quantity: Prisma.FieldRef<"promotions", 'Int'>
   readonly promo_type: Prisma.FieldRef<"promotions", 'String'>
   readonly updated_at: Prisma.FieldRef<"promotions", 'DateTime'>
+  readonly id: Prisma.FieldRef<"promotions", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"promotions", 'String'>
+  readonly discount_type: Prisma.FieldRef<"promotions", 'discount_type_enum'>
 }
     
 
@@ -2105,10 +1337,6 @@ export type promotionsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
   /**
    * Filter, which promotions to fetch.
    */
@@ -2128,10 +1356,6 @@ export type promotionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
-  /**
    * Filter, which promotions to fetch.
    */
   where: Prisma.promotionsWhereUniqueInput
@@ -2149,10 +1373,6 @@ export type promotionsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
   /**
    * Filter, which promotions to fetch.
    */
@@ -2202,10 +1422,6 @@ export type promotionsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
-  /**
    * Filter, which promotions to fetch.
    */
   where?: Prisma.promotionsWhereInput
@@ -2253,10 +1469,6 @@ export type promotionsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
   /**
    * Filter, which promotions to fetch.
    */
@@ -2306,10 +1518,6 @@ export type promotionsCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
-  /**
    * The data needed to create a promotions.
    */
   data: Prisma.XOR<Prisma.promotionsCreateInput, Prisma.promotionsUncheckedCreateInput>
@@ -2343,10 +1551,6 @@ export type promotionsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.promotionsCreateManyInput | Prisma.promotionsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2361,10 +1565,6 @@ export type promotionsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
   /**
    * The data needed to update a promotions.
    */
@@ -2417,10 +1617,6 @@ export type promotionsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many promotions to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2435,10 +1631,6 @@ export type promotionsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
   /**
    * The filter to search for the promotions to update in case it exists.
    */
@@ -2466,10 +1658,6 @@ export type promotionsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
-  /**
    * Filter which promotions to delete.
    */
   where: Prisma.promotionsWhereUniqueInput
@@ -2490,97 +1678,6 @@ export type promotionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * promotions.promotion_menu_scopes
- */
-export type promotions$promotion_menu_scopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the promotion_menu_scopes
-   */
-  select?: Prisma.promotion_menu_scopesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the promotion_menu_scopes
-   */
-  omit?: Prisma.promotion_menu_scopesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotion_menu_scopesInclude<ExtArgs> | null
-  where?: Prisma.promotion_menu_scopesWhereInput
-  orderBy?: Prisma.promotion_menu_scopesOrderByWithRelationInput | Prisma.promotion_menu_scopesOrderByWithRelationInput[]
-  cursor?: Prisma.promotion_menu_scopesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Promotion_menu_scopesScalarFieldEnum | Prisma.Promotion_menu_scopesScalarFieldEnum[]
-}
-
-/**
- * promotions.promotion_usage
- */
-export type promotions$promotion_usageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the promotion_usage
-   */
-  select?: Prisma.promotion_usageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the promotion_usage
-   */
-  omit?: Prisma.promotion_usageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotion_usageInclude<ExtArgs> | null
-  where?: Prisma.promotion_usageWhereInput
-  orderBy?: Prisma.promotion_usageOrderByWithRelationInput | Prisma.promotion_usageOrderByWithRelationInput[]
-  cursor?: Prisma.promotion_usageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Promotion_usageScalarFieldEnum | Prisma.Promotion_usageScalarFieldEnum[]
-}
-
-/**
- * promotions.res_orders
- */
-export type promotions$res_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_orders
-   */
-  select?: Prisma.res_ordersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_orders
-   */
-  omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  where?: Prisma.res_ordersWhereInput
-  orderBy?: Prisma.res_ordersOrderByWithRelationInput | Prisma.res_ordersOrderByWithRelationInput[]
-  cursor?: Prisma.res_ordersWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_ordersScalarFieldEnum | Prisma.Res_ordersScalarFieldEnum[]
-}
-
-/**
- * promotions.tenants
- */
-export type promotions$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * promotions without action
  */
 export type promotionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2592,8 +1689,4 @@ export type promotionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the promotions
    */
   omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
 }

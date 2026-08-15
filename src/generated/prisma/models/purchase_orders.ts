@@ -29,23 +29,20 @@ export type AggregatePurchase_orders = {
 export type Purchase_ordersAvgAggregateOutputType = {
   total_amount: runtime.Decimal | null
   po_number: number | null
-  discount_amount: runtime.Decimal | null
   shipping_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
+  discount_amount: runtime.Decimal | null
 }
 
 export type Purchase_ordersSumAggregateOutputType = {
   total_amount: runtime.Decimal | null
   po_number: number | null
-  discount_amount: runtime.Decimal | null
   shipping_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
+  discount_amount: runtime.Decimal | null
 }
 
 export type Purchase_ordersMinAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
-  supplier_id: string | null
   order_date: Date | null
   expected_delivery_date: Date | null
   total_amount: runtime.Decimal | null
@@ -53,7 +50,6 @@ export type Purchase_ordersMinAggregateOutputType = {
   notes: string | null
   po_number: number | null
   created_at: Date | null
-  discount_amount: runtime.Decimal | null
   shipping_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   payment_status: string | null
@@ -66,12 +62,13 @@ export type Purchase_ordersMinAggregateOutputType = {
   sent_at: Date | null
   store_id: string | null
   warehouse_id: string | null
+  discount_amount: runtime.Decimal | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
 }
 
 export type Purchase_ordersMaxAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
-  supplier_id: string | null
   order_date: Date | null
   expected_delivery_date: Date | null
   total_amount: runtime.Decimal | null
@@ -79,7 +76,6 @@ export type Purchase_ordersMaxAggregateOutputType = {
   notes: string | null
   po_number: number | null
   created_at: Date | null
-  discount_amount: runtime.Decimal | null
   shipping_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   payment_status: string | null
@@ -92,12 +88,13 @@ export type Purchase_ordersMaxAggregateOutputType = {
   sent_at: Date | null
   store_id: string | null
   warehouse_id: string | null
+  discount_amount: runtime.Decimal | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
 }
 
 export type Purchase_ordersCountAggregateOutputType = {
-  id: number
-  tenant_id: number
-  supplier_id: number
   order_date: number
   expected_delivery_date: number
   total_amount: number
@@ -105,7 +102,6 @@ export type Purchase_ordersCountAggregateOutputType = {
   notes: number
   po_number: number
   created_at: number
-  discount_amount: number
   shipping_amount: number
   tax_amount: number
   payment_status: number
@@ -118,6 +114,10 @@ export type Purchase_ordersCountAggregateOutputType = {
   sent_at: number
   store_id: number
   warehouse_id: number
+  discount_amount: number
+  id: number
+  tenant_id: number
+  supplier_id: number
   _all: number
 }
 
@@ -125,23 +125,20 @@ export type Purchase_ordersCountAggregateOutputType = {
 export type Purchase_ordersAvgAggregateInputType = {
   total_amount?: true
   po_number?: true
-  discount_amount?: true
   shipping_amount?: true
   tax_amount?: true
+  discount_amount?: true
 }
 
 export type Purchase_ordersSumAggregateInputType = {
   total_amount?: true
   po_number?: true
-  discount_amount?: true
   shipping_amount?: true
   tax_amount?: true
+  discount_amount?: true
 }
 
 export type Purchase_ordersMinAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   order_date?: true
   expected_delivery_date?: true
   total_amount?: true
@@ -149,7 +146,6 @@ export type Purchase_ordersMinAggregateInputType = {
   notes?: true
   po_number?: true
   created_at?: true
-  discount_amount?: true
   shipping_amount?: true
   tax_amount?: true
   payment_status?: true
@@ -162,12 +158,13 @@ export type Purchase_ordersMinAggregateInputType = {
   sent_at?: true
   store_id?: true
   warehouse_id?: true
+  discount_amount?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
 }
 
 export type Purchase_ordersMaxAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   order_date?: true
   expected_delivery_date?: true
   total_amount?: true
@@ -175,7 +172,6 @@ export type Purchase_ordersMaxAggregateInputType = {
   notes?: true
   po_number?: true
   created_at?: true
-  discount_amount?: true
   shipping_amount?: true
   tax_amount?: true
   payment_status?: true
@@ -188,12 +184,13 @@ export type Purchase_ordersMaxAggregateInputType = {
   sent_at?: true
   store_id?: true
   warehouse_id?: true
+  discount_amount?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
 }
 
 export type Purchase_ordersCountAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   order_date?: true
   expected_delivery_date?: true
   total_amount?: true
@@ -201,7 +198,6 @@ export type Purchase_ordersCountAggregateInputType = {
   notes?: true
   po_number?: true
   created_at?: true
-  discount_amount?: true
   shipping_amount?: true
   tax_amount?: true
   payment_status?: true
@@ -214,6 +210,10 @@ export type Purchase_ordersCountAggregateInputType = {
   sent_at?: true
   store_id?: true
   warehouse_id?: true
+  discount_amount?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
   _all?: true
 }
 
@@ -304,9 +304,6 @@ export type purchase_ordersGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 export type Purchase_ordersGroupByOutputType = {
-  id: string
-  tenant_id: string | null
-  supplier_id: string
   order_date: Date | null
   expected_delivery_date: Date | null
   total_amount: runtime.Decimal | null
@@ -314,7 +311,6 @@ export type Purchase_ordersGroupByOutputType = {
   notes: string | null
   po_number: number | null
   created_at: Date | null
-  discount_amount: runtime.Decimal | null
   shipping_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   payment_status: string | null
@@ -327,6 +323,10 @@ export type Purchase_ordersGroupByOutputType = {
   sent_at: Date | null
   store_id: string | null
   warehouse_id: string | null
+  discount_amount: runtime.Decimal | null
+  id: string
+  tenant_id: string | null
+  supplier_id: string
   _count: Purchase_ordersCountAggregateOutputType | null
   _avg: Purchase_ordersAvgAggregateOutputType | null
   _sum: Purchase_ordersSumAggregateOutputType | null
@@ -353,9 +353,6 @@ export type purchase_ordersWhereInput = {
   AND?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
   OR?: Prisma.purchase_ordersWhereInput[]
   NOT?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
-  id?: Prisma.UuidFilter<"purchase_orders"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  supplier_id?: Prisma.UuidFilter<"purchase_orders"> | string
   order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -363,7 +360,6 @@ export type purchase_ordersWhereInput = {
   notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
   po_number?: Prisma.IntNullableFilter<"purchase_orders"> | number | null
   created_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
@@ -376,20 +372,13 @@ export type purchase_ordersWhereInput = {
   sent_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   store_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  goods_receipts?: Prisma.Goods_receiptsListRelationFilter
-  purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
-  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  suppliers?: Prisma.XOR<Prisma.SuppliersScalarRelationFilter, Prisma.suppliersWhereInput>
-  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
-  purchase_requisitions?: Prisma.Purchase_requisitionsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  discount_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.UuidFilter<"purchase_orders"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
+  supplier_id?: Prisma.UuidFilter<"purchase_orders"> | string
 }
 
 export type purchase_ordersOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
   order_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -397,7 +386,6 @@ export type purchase_ordersOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   po_number?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   shipping_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_status?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -410,14 +398,10 @@ export type purchase_ordersOrderByWithRelationInput = {
   sent_at?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  goods_receipts?: Prisma.goods_receiptsOrderByRelationAggregateInput
-  purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
-  branches?: Prisma.branchesOrderByWithRelationInput
-  stores?: Prisma.storesOrderByWithRelationInput
-  suppliers?: Prisma.suppliersOrderByWithRelationInput
-  warehouses?: Prisma.warehousesOrderByWithRelationInput
-  purchase_requisitions?: Prisma.purchase_requisitionsOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
 }
 
 export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
@@ -425,8 +409,6 @@ export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
   OR?: Prisma.purchase_ordersWhereInput[]
   NOT?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  supplier_id?: Prisma.UuidFilter<"purchase_orders"> | string
   order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -434,7 +416,6 @@ export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
   po_number?: Prisma.IntNullableFilter<"purchase_orders"> | number | null
   created_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
@@ -447,20 +428,12 @@ export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
   sent_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   store_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  goods_receipts?: Prisma.Goods_receiptsListRelationFilter
-  purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
-  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  suppliers?: Prisma.XOR<Prisma.SuppliersScalarRelationFilter, Prisma.suppliersWhereInput>
-  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
-  purchase_requisitions?: Prisma.Purchase_requisitionsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  discount_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
+  supplier_id?: Prisma.UuidFilter<"purchase_orders"> | string
 }, "id">
 
 export type purchase_ordersOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
   order_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -468,7 +441,6 @@ export type purchase_ordersOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   po_number?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   shipping_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_status?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -481,6 +453,10 @@ export type purchase_ordersOrderByWithAggregationInput = {
   sent_at?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
   _count?: Prisma.purchase_ordersCountOrderByAggregateInput
   _avg?: Prisma.purchase_ordersAvgOrderByAggregateInput
   _max?: Prisma.purchase_ordersMaxOrderByAggregateInput
@@ -492,9 +468,6 @@ export type purchase_ordersScalarWhereWithAggregatesInput = {
   AND?: Prisma.purchase_ordersScalarWhereWithAggregatesInput | Prisma.purchase_ordersScalarWhereWithAggregatesInput[]
   OR?: Prisma.purchase_ordersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.purchase_ordersScalarWhereWithAggregatesInput | Prisma.purchase_ordersScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"purchase_orders"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_orders"> | string | null
-  supplier_id?: Prisma.UuidWithAggregatesFilter<"purchase_orders"> | string
   order_date?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
   total_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -502,7 +475,6 @@ export type purchase_ordersScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
   po_number?: Prisma.IntNullableWithAggregatesFilter<"purchase_orders"> | number | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
-  discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: Prisma.StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
@@ -515,10 +487,13 @@ export type purchase_ordersScalarWhereWithAggregatesInput = {
   sent_at?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_orders"> | string | null
   warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_orders"> | string | null
+  discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"purchase_orders"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_orders"> | string | null
+  supplier_id?: Prisma.UuidWithAggregatesFilter<"purchase_orders"> | string
 }
 
 export type purchase_ordersCreateInput = {
-  id?: string
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -526,30 +501,25 @@ export type purchase_ordersCreateInput = {
   notes?: string | null
   po_number?: number | null
   created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: string | null
   auth_user_id?: string | null
   approved_at?: Date | string | null
   approved_by?: string | null
+  branch_id?: string | null
   closed_at?: Date | string | null
   lifecycle_status?: $Enums.po_lifecycle_status_enum | null
   sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
+  store_id?: string | null
+  warehouse_id?: string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id: string
 }
 
 export type purchase_ordersUncheckedCreateInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -557,7 +527,6 @@ export type purchase_ordersUncheckedCreateInput = {
   notes?: string | null
   po_number?: number | null
   created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: string | null
@@ -570,13 +539,13 @@ export type purchase_ordersUncheckedCreateInput = {
   sent_at?: Date | string | null
   store_id?: string | null
   warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id: string
 }
 
 export type purchase_ordersUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -584,38 +553,6 @@ export type purchase_ordersUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -628,15 +565,39 @@ export type purchase_ordersUncheckedUpdateInput = {
   sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type purchase_ordersUncheckedUpdateInput = {
+  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
+  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type purchase_ordersCreateManyInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -644,7 +605,6 @@ export type purchase_ordersCreateManyInput = {
   notes?: string | null
   po_number?: number | null
   created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: string | null
@@ -657,10 +617,13 @@ export type purchase_ordersCreateManyInput = {
   sent_at?: Date | string | null
   store_id?: string | null
   warehouse_id?: string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id: string
 }
 
 export type purchase_ordersUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -668,30 +631,6 @@ export type purchase_ordersUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type purchase_ordersUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -704,27 +643,39 @@ export type purchase_ordersUncheckedUpdateManyInput = {
   sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type Purchase_ordersListRelationFilter = {
-  every?: Prisma.purchase_ordersWhereInput
-  some?: Prisma.purchase_ordersWhereInput
-  none?: Prisma.purchase_ordersWhereInput
-}
-
-export type purchase_ordersOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type Purchase_ordersScalarRelationFilter = {
-  is?: Prisma.purchase_ordersWhereInput
-  isNot?: Prisma.purchase_ordersWhereInput
+export type purchase_ordersUncheckedUpdateManyInput = {
+  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
+  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type purchase_ordersCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -732,7 +683,6 @@ export type purchase_ordersCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  discount_amount?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   payment_status?: Prisma.SortOrder
@@ -745,20 +695,21 @@ export type purchase_ordersCountOrderByAggregateInput = {
   sent_at?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
+  discount_amount?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
 }
 
 export type purchase_ordersAvgOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
-  discount_amount?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
+  discount_amount?: Prisma.SortOrder
 }
 
 export type purchase_ordersMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -766,7 +717,6 @@ export type purchase_ordersMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  discount_amount?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   payment_status?: Prisma.SortOrder
@@ -779,12 +729,13 @@ export type purchase_ordersMaxOrderByAggregateInput = {
   sent_at?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
+  discount_amount?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
 }
 
 export type purchase_ordersMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -792,7 +743,6 @@ export type purchase_ordersMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  discount_amount?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   payment_status?: Prisma.SortOrder
@@ -805,1687 +755,27 @@ export type purchase_ordersMinOrderByAggregateInput = {
   sent_at?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   warehouse_id?: Prisma.SortOrder
+  discount_amount?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
 }
 
 export type purchase_ordersSumOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
-  discount_amount?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
-}
-
-export type Purchase_ordersNullableScalarRelationFilter = {
-  is?: Prisma.purchase_ordersWhereInput | null
-  isNot?: Prisma.purchase_ordersWhereInput | null
-}
-
-export type purchase_ordersCreateNestedManyWithoutBranchesInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput> | Prisma.purchase_ordersCreateWithoutBranchesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput | Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyBranchesInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUncheckedCreateNestedManyWithoutBranchesInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput> | Prisma.purchase_ordersCreateWithoutBranchesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput | Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyBranchesInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUpdateManyWithoutBranchesNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput> | Prisma.purchase_ordersCreateWithoutBranchesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput | Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutBranchesInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutBranchesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyBranchesInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutBranchesInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutBranchesInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutBranchesInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutBranchesInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutBranchesNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput> | Prisma.purchase_ordersCreateWithoutBranchesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput | Prisma.purchase_ordersCreateOrConnectWithoutBranchesInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutBranchesInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutBranchesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyBranchesInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutBranchesInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutBranchesInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutBranchesInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutBranchesInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutPurchase_order_itemsInput
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-}
-
-export type purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutPurchase_order_itemsInput
-  upsert?: Prisma.purchase_ordersUpsertWithoutPurchase_order_itemsInput
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.purchase_ordersUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUpdateWithoutPurchase_order_itemsInput>, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput>
+  discount_amount?: Prisma.SortOrder
 }
 
 export type NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.po_lifecycle_status_enum | null
 }
 
-export type purchase_ordersCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput> | Prisma.purchase_ordersCreateWithoutStoresInput[] | Prisma.purchase_ordersUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutStoresInput | Prisma.purchase_ordersCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.purchase_ordersCreateManyStoresInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUncheckedCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput> | Prisma.purchase_ordersCreateWithoutStoresInput[] | Prisma.purchase_ordersUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutStoresInput | Prisma.purchase_ordersCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.purchase_ordersCreateManyStoresInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput> | Prisma.purchase_ordersCreateWithoutStoresInput[] | Prisma.purchase_ordersUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutStoresInput | Prisma.purchase_ordersCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutStoresInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.purchase_ordersCreateManyStoresInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutStoresInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutStoresInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput> | Prisma.purchase_ordersCreateWithoutStoresInput[] | Prisma.purchase_ordersUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutStoresInput | Prisma.purchase_ordersCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutStoresInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.purchase_ordersCreateManyStoresInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutStoresInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutStoresInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersCreateNestedManyWithoutSuppliersInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput> | Prisma.purchase_ordersCreateWithoutSuppliersInput[] | Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput | Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput[]
-  createMany?: Prisma.purchase_ordersCreateManySuppliersInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput> | Prisma.purchase_ordersCreateWithoutSuppliersInput[] | Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput | Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput[]
-  createMany?: Prisma.purchase_ordersCreateManySuppliersInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUpdateManyWithoutSuppliersNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput> | Prisma.purchase_ordersCreateWithoutSuppliersInput[] | Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput | Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutSuppliersInput[]
-  createMany?: Prisma.purchase_ordersCreateManySuppliersInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutSuppliersInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutSuppliersInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutSuppliersInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput> | Prisma.purchase_ordersCreateWithoutSuppliersInput[] | Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput | Prisma.purchase_ordersCreateOrConnectWithoutSuppliersInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutSuppliersInput[]
-  createMany?: Prisma.purchase_ordersCreateManySuppliersInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutSuppliersInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutSuppliersInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutSuppliersInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput> | Prisma.purchase_ordersCreateWithoutTenantsInput[] | Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput | Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.purchase_ordersCreateManyTenantsInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput> | Prisma.purchase_ordersCreateWithoutTenantsInput[] | Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput | Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.purchase_ordersCreateManyTenantsInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput> | Prisma.purchase_ordersCreateWithoutTenantsInput[] | Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput | Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.purchase_ordersCreateManyTenantsInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutTenantsInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput> | Prisma.purchase_ordersCreateWithoutTenantsInput[] | Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput | Prisma.purchase_ordersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.purchase_ordersCreateManyTenantsInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutTenantsInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersCreateNestedManyWithoutWarehousesInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput> | Prisma.purchase_ordersCreateWithoutWarehousesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput | Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyWarehousesInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput> | Prisma.purchase_ordersCreateWithoutWarehousesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput | Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyWarehousesInputEnvelope
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-}
-
-export type purchase_ordersUpdateManyWithoutWarehousesNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput> | Prisma.purchase_ordersCreateWithoutWarehousesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput | Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutWarehousesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyWarehousesInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutWarehousesInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutWarehousesInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutWarehousesInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput> | Prisma.purchase_ordersCreateWithoutWarehousesInput[] | Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput | Prisma.purchase_ordersCreateOrConnectWithoutWarehousesInput[]
-  upsert?: Prisma.purchase_ordersUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.purchase_ordersUpsertWithWhereUniqueWithoutWarehousesInput[]
-  createMany?: Prisma.purchase_ordersCreateManyWarehousesInputEnvelope
-  set?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  disconnect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  delete?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  connect?: Prisma.purchase_ordersWhereUniqueInput | Prisma.purchase_ordersWhereUniqueInput[]
-  update?: Prisma.purchase_ordersUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.purchase_ordersUpdateWithWhereUniqueWithoutWarehousesInput[]
-  updateMany?: Prisma.purchase_ordersUpdateManyWithWhereWithoutWarehousesInput | Prisma.purchase_ordersUpdateManyWithWhereWithoutWarehousesInput[]
-  deleteMany?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-}
-
-export type purchase_ordersCreateNestedOneWithoutGoods_receiptsInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedCreateWithoutGoods_receiptsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutGoods_receiptsInput
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-}
-
-export type purchase_ordersUpdateOneWithoutGoods_receiptsNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedCreateWithoutGoods_receiptsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutGoods_receiptsInput
-  upsert?: Prisma.purchase_ordersUpsertWithoutGoods_receiptsInput
-  disconnect?: Prisma.purchase_ordersWhereInput | boolean
-  delete?: Prisma.purchase_ordersWhereInput | boolean
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.purchase_ordersUpdateToOneWithWhereWithoutGoods_receiptsInput, Prisma.purchase_ordersUpdateWithoutGoods_receiptsInput>, Prisma.purchase_ordersUncheckedUpdateWithoutGoods_receiptsInput>
-}
-
-export type purchase_ordersCreateNestedOneWithoutPurchase_requisitionsInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_requisitionsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutPurchase_requisitionsInput
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-}
-
-export type purchase_ordersUpdateOneWithoutPurchase_requisitionsNestedInput = {
-  create?: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_requisitionsInput>
-  connectOrCreate?: Prisma.purchase_ordersCreateOrConnectWithoutPurchase_requisitionsInput
-  upsert?: Prisma.purchase_ordersUpsertWithoutPurchase_requisitionsInput
-  disconnect?: Prisma.purchase_ordersWhereInput | boolean
-  delete?: Prisma.purchase_ordersWhereInput | boolean
-  connect?: Prisma.purchase_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.purchase_ordersUpdateToOneWithWhereWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUpdateWithoutPurchase_requisitionsInput>, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_requisitionsInput>
-}
-
-export type purchase_ordersCreateWithoutBranchesInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutBranchesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutBranchesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput>
-}
-
-export type purchase_ordersCreateManyBranchesInputEnvelope = {
-  data: Prisma.purchase_ordersCreateManyBranchesInput | Prisma.purchase_ordersCreateManyBranchesInput[]
-  skipDuplicates?: boolean
-}
-
-export type purchase_ordersUpsertWithWhereUniqueWithoutBranchesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutBranchesInput, Prisma.purchase_ordersUncheckedUpdateWithoutBranchesInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutBranchesInput, Prisma.purchase_ordersUncheckedCreateWithoutBranchesInput>
-}
-
-export type purchase_ordersUpdateWithWhereUniqueWithoutBranchesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutBranchesInput, Prisma.purchase_ordersUncheckedUpdateWithoutBranchesInput>
-}
-
-export type purchase_ordersUpdateManyWithWhereWithoutBranchesInput = {
-  where: Prisma.purchase_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateManyMutationInput, Prisma.purchase_ordersUncheckedUpdateManyWithoutBranchesInput>
-}
-
-export type purchase_ordersScalarWhereInput = {
-  AND?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-  OR?: Prisma.purchase_ordersScalarWhereInput[]
-  NOT?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
-  id?: Prisma.UuidFilter<"purchase_orders"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  supplier_id?: Prisma.UuidFilter<"purchase_orders"> | string
-  order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
-  notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
-  po_number?: Prisma.IntNullableFilter<"purchase_orders"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  approved_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  approved_by?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
-  branch_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  closed_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  lifecycle_status?: Prisma.Enumpo_lifecycle_status_enumNullableFilter<"purchase_orders"> | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
-  store_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-  warehouse_id?: Prisma.UuidNullableFilter<"purchase_orders"> | string | null
-}
-
-export type purchase_ordersCreateWithoutPurchase_order_itemsInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutPurchase_order_itemsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput>
-}
-
-export type purchase_ordersUpsertWithoutPurchase_order_itemsInput = {
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput>
-  where?: Prisma.purchase_ordersWhereInput
-}
-
-export type purchase_ordersUpdateToOneWithWhereWithoutPurchase_order_itemsInput = {
-  where?: Prisma.purchase_ordersWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutPurchase_order_itemsInput, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput>
-}
-
-export type purchase_ordersUpdateWithoutPurchase_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersCreateWithoutStoresInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutStoresInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutStoresInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput>
-}
-
-export type purchase_ordersCreateManyStoresInputEnvelope = {
-  data: Prisma.purchase_ordersCreateManyStoresInput | Prisma.purchase_ordersCreateManyStoresInput[]
-  skipDuplicates?: boolean
-}
-
-export type purchase_ordersUpsertWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutStoresInput, Prisma.purchase_ordersUncheckedUpdateWithoutStoresInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutStoresInput, Prisma.purchase_ordersUncheckedCreateWithoutStoresInput>
-}
-
-export type purchase_ordersUpdateWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutStoresInput, Prisma.purchase_ordersUncheckedUpdateWithoutStoresInput>
-}
-
-export type purchase_ordersUpdateManyWithWhereWithoutStoresInput = {
-  where: Prisma.purchase_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateManyMutationInput, Prisma.purchase_ordersUncheckedUpdateManyWithoutStoresInput>
-}
-
-export type purchase_ordersCreateWithoutSuppliersInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutSuppliersInput = {
-  id?: string
-  tenant_id?: string | null
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutSuppliersInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput>
-}
-
-export type purchase_ordersCreateManySuppliersInputEnvelope = {
-  data: Prisma.purchase_ordersCreateManySuppliersInput | Prisma.purchase_ordersCreateManySuppliersInput[]
-  skipDuplicates?: boolean
-}
-
-export type purchase_ordersUpsertWithWhereUniqueWithoutSuppliersInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedUpdateWithoutSuppliersInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedCreateWithoutSuppliersInput>
-}
-
-export type purchase_ordersUpdateWithWhereUniqueWithoutSuppliersInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutSuppliersInput, Prisma.purchase_ordersUncheckedUpdateWithoutSuppliersInput>
-}
-
-export type purchase_ordersUpdateManyWithWhereWithoutSuppliersInput = {
-  where: Prisma.purchase_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateManyMutationInput, Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersInput>
-}
-
-export type purchase_ordersCreateWithoutTenantsInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput>
-}
-
-export type purchase_ordersCreateManyTenantsInputEnvelope = {
-  data: Prisma.purchase_ordersCreateManyTenantsInput | Prisma.purchase_ordersCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type purchase_ordersUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutTenantsInput, Prisma.purchase_ordersUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutTenantsInput, Prisma.purchase_ordersUncheckedCreateWithoutTenantsInput>
-}
-
-export type purchase_ordersUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutTenantsInput, Prisma.purchase_ordersUncheckedUpdateWithoutTenantsInput>
-}
-
-export type purchase_ordersUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.purchase_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateManyMutationInput, Prisma.purchase_ordersUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type purchase_ordersCreateWithoutWarehousesInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutWarehousesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutWarehousesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput>
-}
-
-export type purchase_ordersCreateManyWarehousesInputEnvelope = {
-  data: Prisma.purchase_ordersCreateManyWarehousesInput | Prisma.purchase_ordersCreateManyWarehousesInput[]
-  skipDuplicates?: boolean
-}
-
-export type purchase_ordersUpsertWithWhereUniqueWithoutWarehousesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedUpdateWithoutWarehousesInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedCreateWithoutWarehousesInput>
-}
-
-export type purchase_ordersUpdateWithWhereUniqueWithoutWarehousesInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutWarehousesInput, Prisma.purchase_ordersUncheckedUpdateWithoutWarehousesInput>
-}
-
-export type purchase_ordersUpdateManyWithWhereWithoutWarehousesInput = {
-  where: Prisma.purchase_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateManyMutationInput, Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesInput>
-}
-
-export type purchase_ordersCreateWithoutGoods_receiptsInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutGoods_receiptsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutGoods_receiptsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedCreateWithoutGoods_receiptsInput>
-}
-
-export type purchase_ordersUpsertWithoutGoods_receiptsInput = {
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedUpdateWithoutGoods_receiptsInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedCreateWithoutGoods_receiptsInput>
-  where?: Prisma.purchase_ordersWhereInput
-}
-
-export type purchase_ordersUpdateToOneWithWhereWithoutGoods_receiptsInput = {
-  where?: Prisma.purchase_ordersWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutGoods_receiptsInput, Prisma.purchase_ordersUncheckedUpdateWithoutGoods_receiptsInput>
-}
-
-export type purchase_ordersUpdateWithoutGoods_receiptsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutGoods_receiptsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersCreateWithoutPurchase_requisitionsInput = {
-  id?: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutPurchase_ordersInput
-  branches?: Prisma.branchesCreateNestedOneWithoutPurchase_ordersInput
-  stores?: Prisma.storesCreateNestedOneWithoutPurchase_ordersInput
-  suppliers: Prisma.suppliersCreateNestedOneWithoutPurchase_ordersInput
-  warehouses?: Prisma.warehousesCreateNestedOneWithoutPurchase_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersUncheckedCreateWithoutPurchase_requisitionsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutPurchase_ordersInput
-}
-
-export type purchase_ordersCreateOrConnectWithoutPurchase_requisitionsInput = {
-  where: Prisma.purchase_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_requisitionsInput>
-}
-
-export type purchase_ordersUpsertWithoutPurchase_requisitionsInput = {
-  update: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_requisitionsInput>
-  create: Prisma.XOR<Prisma.purchase_ordersCreateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedCreateWithoutPurchase_requisitionsInput>
-  where?: Prisma.purchase_ordersWhereInput
-}
-
-export type purchase_ordersUpdateToOneWithWhereWithoutPurchase_requisitionsInput = {
-  where?: Prisma.purchase_ordersWhereInput
-  data: Prisma.XOR<Prisma.purchase_ordersUpdateWithoutPurchase_requisitionsInput, Prisma.purchase_ordersUncheckedUpdateWithoutPurchase_requisitionsInput>
-}
-
-export type purchase_ordersUpdateWithoutPurchase_requisitionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutPurchase_requisitionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersCreateManyBranchesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-}
-
-export type purchase_ordersUpdateWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type purchase_ordersCreateManyStoresInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  warehouse_id?: string | null
-}
-
-export type purchase_ordersUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type purchase_ordersCreateManySuppliersInput = {
-  id?: string
-  tenant_id?: string | null
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-}
-
-export type purchase_ordersUpdateWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type purchase_ordersCreateManyTenantsInput = {
-  id?: string
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-  warehouse_id?: string | null
-}
-
-export type purchase_ordersUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  warehouses?: Prisma.warehousesUpdateOneWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type purchase_ordersCreateManyWarehousesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id: string
-  order_date?: Date | string | null
-  expected_delivery_date?: Date | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  notes?: string | null
-  po_number?: number | null
-  created_at?: Date | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: string | null
-  auth_user_id?: string | null
-  approved_at?: Date | string | null
-  approved_by?: string | null
-  branch_id?: string | null
-  closed_at?: Date | string | null
-  lifecycle_status?: $Enums.po_lifecycle_status_enum | null
-  sent_at?: Date | string | null
-  store_id?: string | null
-}
-
-export type purchase_ordersUpdateWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutPurchase_ordersNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutPurchase_ordersNestedInput
-  stores?: Prisma.storesUpdateOneWithoutPurchase_ordersNestedInput
-  suppliers?: Prisma.suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutPurchase_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutPurchase_ordersNestedInput
-}
-
-export type purchase_ordersUncheckedUpdateManyWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  po_number?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  shipping_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lifecycle_status?: Prisma.NullableEnumpo_lifecycle_status_enumFieldUpdateOperationsInput | $Enums.po_lifecycle_status_enum | null
-  sent_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type Purchase_ordersCountOutputType
- */
-
-export type Purchase_ordersCountOutputType = {
-  goods_receipts: number
-  purchase_order_items: number
-  purchase_requisitions: number
-}
-
-export type Purchase_ordersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  goods_receipts?: boolean | Purchase_ordersCountOutputTypeCountGoods_receiptsArgs
-  purchase_order_items?: boolean | Purchase_ordersCountOutputTypeCountPurchase_order_itemsArgs
-  purchase_requisitions?: boolean | Purchase_ordersCountOutputTypeCountPurchase_requisitionsArgs
-}
-
-/**
- * Purchase_ordersCountOutputType without action
- */
-export type Purchase_ordersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Purchase_ordersCountOutputType
-   */
-  select?: Prisma.Purchase_ordersCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Purchase_ordersCountOutputType without action
- */
-export type Purchase_ordersCountOutputTypeCountGoods_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.goods_receiptsWhereInput
-}
-
-/**
- * Purchase_ordersCountOutputType without action
- */
-export type Purchase_ordersCountOutputTypeCountPurchase_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_order_itemsWhereInput
-}
-
-/**
- * Purchase_ordersCountOutputType without action
- */
-export type Purchase_ordersCountOutputTypeCountPurchase_requisitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_requisitionsWhereInput
-}
 
 
 export type purchase_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   order_date?: boolean
   expected_delivery_date?: boolean
   total_amount?: boolean
@@ -2493,7 +783,6 @@ export type purchase_ordersSelect<ExtArgs extends runtime.Types.Extensions.Inter
   notes?: boolean
   po_number?: boolean
   created_at?: boolean
-  discount_amount?: boolean
   shipping_amount?: boolean
   tax_amount?: boolean
   payment_status?: boolean
@@ -2506,21 +795,13 @@ export type purchase_ordersSelect<ExtArgs extends runtime.Types.Extensions.Inter
   sent_at?: boolean
   store_id?: boolean
   warehouse_id?: boolean
-  goods_receipts?: boolean | Prisma.purchase_orders$goods_receiptsArgs<ExtArgs>
-  purchase_order_items?: boolean | Prisma.purchase_orders$purchase_order_itemsArgs<ExtArgs>
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  purchase_requisitions?: boolean | Prisma.purchase_orders$purchase_requisitionsArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Purchase_ordersCountOutputTypeDefaultArgs<ExtArgs>
+  discount_amount?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
 }, ExtArgs["result"]["purchase_orders"]>
 
 export type purchase_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   order_date?: boolean
   expected_delivery_date?: boolean
   total_amount?: boolean
@@ -2528,7 +809,6 @@ export type purchase_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   po_number?: boolean
   created_at?: boolean
-  discount_amount?: boolean
   shipping_amount?: boolean
   tax_amount?: boolean
   payment_status?: boolean
@@ -2541,17 +821,13 @@ export type purchase_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   sent_at?: boolean
   store_id?: boolean
   warehouse_id?: boolean
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
+  discount_amount?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
 }, ExtArgs["result"]["purchase_orders"]>
 
 export type purchase_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   order_date?: boolean
   expected_delivery_date?: boolean
   total_amount?: boolean
@@ -2559,7 +835,6 @@ export type purchase_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   po_number?: boolean
   created_at?: boolean
-  discount_amount?: boolean
   shipping_amount?: boolean
   tax_amount?: boolean
   payment_status?: boolean
@@ -2572,17 +847,13 @@ export type purchase_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   sent_at?: boolean
   store_id?: boolean
   warehouse_id?: boolean
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
+  discount_amount?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
 }, ExtArgs["result"]["purchase_orders"]>
 
 export type purchase_ordersSelectScalar = {
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   order_date?: boolean
   expected_delivery_date?: boolean
   total_amount?: boolean
@@ -2590,7 +861,6 @@ export type purchase_ordersSelectScalar = {
   notes?: boolean
   po_number?: boolean
   created_at?: boolean
-  discount_amount?: boolean
   shipping_amount?: boolean
   tax_amount?: boolean
   payment_status?: boolean
@@ -2603,51 +873,18 @@ export type purchase_ordersSelectScalar = {
   sent_at?: boolean
   store_id?: boolean
   warehouse_id?: boolean
+  discount_amount?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
 }
 
-export type purchase_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "supplier_id" | "order_date" | "expected_delivery_date" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "discount_amount" | "shipping_amount" | "tax_amount" | "payment_status" | "auth_user_id" | "approved_at" | "approved_by" | "branch_id" | "closed_at" | "lifecycle_status" | "sent_at" | "store_id" | "warehouse_id", ExtArgs["result"]["purchase_orders"]>
-export type purchase_ordersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  goods_receipts?: boolean | Prisma.purchase_orders$goods_receiptsArgs<ExtArgs>
-  purchase_order_items?: boolean | Prisma.purchase_orders$purchase_order_itemsArgs<ExtArgs>
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  purchase_requisitions?: boolean | Prisma.purchase_orders$purchase_requisitionsArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Purchase_ordersCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type purchase_ordersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
-}
-export type purchase_ordersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branches?: boolean | Prisma.purchase_orders$branchesArgs<ExtArgs>
-  stores?: boolean | Prisma.purchase_orders$storesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.purchase_orders$warehousesArgs<ExtArgs>
-  tenants?: boolean | Prisma.purchase_orders$tenantsArgs<ExtArgs>
-}
+export type purchase_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_date" | "expected_delivery_date" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "shipping_amount" | "tax_amount" | "payment_status" | "auth_user_id" | "approved_at" | "approved_by" | "branch_id" | "closed_at" | "lifecycle_status" | "sent_at" | "store_id" | "warehouse_id" | "discount_amount" | "id" | "tenant_id" | "supplier_id", ExtArgs["result"]["purchase_orders"]>
 
 export type $purchase_ordersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "purchase_orders"
-  objects: {
-    goods_receipts: Prisma.$goods_receiptsPayload<ExtArgs>[]
-    purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
-    branches: Prisma.$branchesPayload<ExtArgs> | null
-    stores: Prisma.$storesPayload<ExtArgs> | null
-    suppliers: Prisma.$suppliersPayload<ExtArgs>
-    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
-    purchase_requisitions: Prisma.$purchase_requisitionsPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    tenant_id: string | null
-    supplier_id: string
     order_date: Date | null
     expected_delivery_date: Date | null
     total_amount: runtime.Decimal | null
@@ -2655,7 +892,6 @@ export type $purchase_ordersPayload<ExtArgs extends runtime.Types.Extensions.Int
     notes: string | null
     po_number: number | null
     created_at: Date | null
-    discount_amount: runtime.Decimal | null
     shipping_amount: runtime.Decimal | null
     tax_amount: runtime.Decimal | null
     payment_status: string | null
@@ -2668,6 +904,10 @@ export type $purchase_ordersPayload<ExtArgs extends runtime.Types.Extensions.Int
     sent_at: Date | null
     store_id: string | null
     warehouse_id: string | null
+    discount_amount: runtime.Decimal | null
+    id: string
+    tenant_id: string | null
+    supplier_id: string
   }, ExtArgs["result"]["purchase_orders"]>
   composites: {}
 }
@@ -2751,8 +991,8 @@ export interface purchase_ordersDelegate<ExtArgs extends runtime.Types.Extension
    * // Get first 10 Purchase_orders
    * const purchase_orders = await prisma.purchase_orders.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const purchase_ordersWithIdOnly = await prisma.purchase_orders.findMany({ select: { id: true } })
+   * // Only select the `order_date`
+   * const purchase_ordersWithOrder_dateOnly = await prisma.purchase_orders.findMany({ select: { order_date: true } })
    * 
    */
   findMany<T extends purchase_ordersFindManyArgs>(args?: Prisma.SelectSubset<T, purchase_ordersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -2796,9 +1036,9 @@ export interface purchase_ordersDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Create many Purchase_orders and only return the `id`
-   * const purchase_ordersWithIdOnly = await prisma.purchase_orders.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Purchase_orders and only return the `order_date`
+   * const purchase_ordersWithOrder_dateOnly = await prisma.purchase_orders.createManyAndReturn({
+   *   select: { order_date: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -2887,9 +1127,9 @@ export interface purchase_ordersDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Update zero or more Purchase_orders and only return the `id`
-   * const purchase_ordersWithIdOnly = await prisma.purchase_orders.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Purchase_orders and only return the `order_date`
+   * const purchase_ordersWithOrder_dateOnly = await prisma.purchase_orders.updateManyAndReturn({
+   *   select: { order_date: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -3062,14 +1302,6 @@ readonly fields: purchase_ordersFieldRefs;
  */
 export interface Prisma__purchase_ordersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  goods_receipts<T extends Prisma.purchase_orders$goods_receiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$goods_receiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receiptsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  purchase_order_items<T extends Prisma.purchase_orders$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  branches<T extends Prisma.purchase_orders$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  stores<T extends Prisma.purchase_orders$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  suppliers<T extends Prisma.suppliersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliersDefaultArgs<ExtArgs>>): Prisma.Prisma__suppliersClient<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  warehouses<T extends Prisma.purchase_orders$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  purchase_requisitions<T extends Prisma.purchase_orders$purchase_requisitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$purchase_requisitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisitionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.purchase_orders$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_orders$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3099,9 +1331,6 @@ export interface Prisma__purchase_ordersClient<T, Null = never, ExtArgs extends 
  * Fields of the purchase_orders model
  */
 export interface purchase_ordersFieldRefs {
-  readonly id: Prisma.FieldRef<"purchase_orders", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"purchase_orders", 'String'>
-  readonly supplier_id: Prisma.FieldRef<"purchase_orders", 'String'>
   readonly order_date: Prisma.FieldRef<"purchase_orders", 'DateTime'>
   readonly expected_delivery_date: Prisma.FieldRef<"purchase_orders", 'DateTime'>
   readonly total_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
@@ -3109,7 +1338,6 @@ export interface purchase_ordersFieldRefs {
   readonly notes: Prisma.FieldRef<"purchase_orders", 'String'>
   readonly po_number: Prisma.FieldRef<"purchase_orders", 'Int'>
   readonly created_at: Prisma.FieldRef<"purchase_orders", 'DateTime'>
-  readonly discount_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
   readonly shipping_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
   readonly tax_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
   readonly payment_status: Prisma.FieldRef<"purchase_orders", 'String'>
@@ -3122,6 +1350,10 @@ export interface purchase_ordersFieldRefs {
   readonly sent_at: Prisma.FieldRef<"purchase_orders", 'DateTime'>
   readonly store_id: Prisma.FieldRef<"purchase_orders", 'String'>
   readonly warehouse_id: Prisma.FieldRef<"purchase_orders", 'String'>
+  readonly discount_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
+  readonly id: Prisma.FieldRef<"purchase_orders", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"purchase_orders", 'String'>
+  readonly supplier_id: Prisma.FieldRef<"purchase_orders", 'String'>
 }
     
 
@@ -3138,10 +1370,6 @@ export type purchase_ordersFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
   /**
    * Filter, which purchase_orders to fetch.
    */
@@ -3161,10 +1389,6 @@ export type purchase_ordersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
-  /**
    * Filter, which purchase_orders to fetch.
    */
   where: Prisma.purchase_ordersWhereUniqueInput
@@ -3182,10 +1406,6 @@ export type purchase_ordersFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
   /**
    * Filter, which purchase_orders to fetch.
    */
@@ -3235,10 +1455,6 @@ export type purchase_ordersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
-  /**
    * Filter, which purchase_orders to fetch.
    */
   where?: Prisma.purchase_ordersWhereInput
@@ -3286,10 +1502,6 @@ export type purchase_ordersFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
   /**
    * Filter, which purchase_orders to fetch.
    */
@@ -3339,10 +1551,6 @@ export type purchase_ordersCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
-  /**
    * The data needed to create a purchase_orders.
    */
   data: Prisma.XOR<Prisma.purchase_ordersCreateInput, Prisma.purchase_ordersUncheckedCreateInput>
@@ -3376,10 +1584,6 @@ export type purchase_ordersCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.purchase_ordersCreateManyInput | Prisma.purchase_ordersCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3394,10 +1598,6 @@ export type purchase_ordersUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
   /**
    * The data needed to update a purchase_orders.
    */
@@ -3450,10 +1650,6 @@ export type purchase_ordersUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many purchase_orders to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3468,10 +1664,6 @@ export type purchase_ordersUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
   /**
    * The filter to search for the purchase_orders to update in case it exists.
    */
@@ -3499,10 +1691,6 @@ export type purchase_ordersDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
-  /**
    * Filter which purchase_orders to delete.
    */
   where: Prisma.purchase_ordersWhereUniqueInput
@@ -3523,154 +1711,6 @@ export type purchase_ordersDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * purchase_orders.goods_receipts
- */
-export type purchase_orders$goods_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the goods_receipts
-   */
-  select?: Prisma.goods_receiptsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the goods_receipts
-   */
-  omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
-  where?: Prisma.goods_receiptsWhereInput
-  orderBy?: Prisma.goods_receiptsOrderByWithRelationInput | Prisma.goods_receiptsOrderByWithRelationInput[]
-  cursor?: Prisma.goods_receiptsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Goods_receiptsScalarFieldEnum | Prisma.Goods_receiptsScalarFieldEnum[]
-}
-
-/**
- * purchase_orders.purchase_order_items
- */
-export type purchase_orders$purchase_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_order_items
-   */
-  select?: Prisma.purchase_order_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_order_items
-   */
-  omit?: Prisma.purchase_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_order_itemsInclude<ExtArgs> | null
-  where?: Prisma.purchase_order_itemsWhereInput
-  orderBy?: Prisma.purchase_order_itemsOrderByWithRelationInput | Prisma.purchase_order_itemsOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_order_itemsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_order_itemsScalarFieldEnum | Prisma.Purchase_order_itemsScalarFieldEnum[]
-}
-
-/**
- * purchase_orders.branches
- */
-export type purchase_orders$branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the branches
-   */
-  select?: Prisma.branchesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the branches
-   */
-  omit?: Prisma.branchesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.branchesInclude<ExtArgs> | null
-  where?: Prisma.branchesWhereInput
-}
-
-/**
- * purchase_orders.stores
- */
-export type purchase_orders$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the stores
-   */
-  select?: Prisma.storesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the stores
-   */
-  omit?: Prisma.storesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.storesInclude<ExtArgs> | null
-  where?: Prisma.storesWhereInput
-}
-
-/**
- * purchase_orders.warehouses
- */
-export type purchase_orders$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the warehouses
-   */
-  select?: Prisma.warehousesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the warehouses
-   */
-  omit?: Prisma.warehousesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.warehousesInclude<ExtArgs> | null
-  where?: Prisma.warehousesWhereInput
-}
-
-/**
- * purchase_orders.purchase_requisitions
- */
-export type purchase_orders$purchase_requisitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_requisitions
-   */
-  select?: Prisma.purchase_requisitionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_requisitions
-   */
-  omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
-  where?: Prisma.purchase_requisitionsWhereInput
-  orderBy?: Prisma.purchase_requisitionsOrderByWithRelationInput | Prisma.purchase_requisitionsOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_requisitionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_requisitionsScalarFieldEnum | Prisma.Purchase_requisitionsScalarFieldEnum[]
-}
-
-/**
- * purchase_orders.tenants
- */
-export type purchase_orders$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * purchase_orders without action
  */
 export type purchase_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3682,8 +1722,4 @@ export type purchase_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the purchase_orders
    */
   omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
 }

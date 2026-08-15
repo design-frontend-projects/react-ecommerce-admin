@@ -282,7 +282,6 @@ export type product_barcodesOrderByWithRelationInput = {
 
 export type product_barcodesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenant_id_barcode?: Prisma.product_barcodesTenant_idBarcodeCompoundUniqueInput
   AND?: Prisma.product_barcodesWhereInput | Prisma.product_barcodesWhereInput[]
   OR?: Prisma.product_barcodesWhereInput[]
   NOT?: Prisma.product_barcodesWhereInput | Prisma.product_barcodesWhereInput[]
@@ -296,7 +295,7 @@ export type product_barcodesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
-}, "id" | "tenant_id_barcode">
+}, "id">
 
 export type product_barcodesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -430,11 +429,6 @@ export type product_barcodesUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type product_barcodesTenant_idBarcodeCompoundUniqueInput = {
-  tenant_id: string
-  barcode: string
 }
 
 export type product_barcodesCountOrderByAggregateInput = {

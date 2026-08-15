@@ -36,35 +36,35 @@ export type Res_item_variantsSumAggregateOutputType = {
 
 export type Res_item_variantsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   item_id: string | null
   name: string | null
   price_adjustment: runtime.Decimal | null
   is_default: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_item_variantsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   item_id: string | null
   name: string | null
   price_adjustment: runtime.Decimal | null
   is_default: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_item_variantsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   item_id: number
   name: number
   price_adjustment: number
   is_default: number
   created_at: number
   auth_user_id: number
+  tenant_id: number
   _all: number
 }
 
@@ -79,35 +79,35 @@ export type Res_item_variantsSumAggregateInputType = {
 
 export type Res_item_variantsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
   is_default?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_item_variantsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
   is_default?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_item_variantsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   item_id?: true
   name?: true
   price_adjustment?: true
   is_default?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -199,13 +199,13 @@ export type res_item_variantsGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type Res_item_variantsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   item_id: string | null
   name: string
   price_adjustment: runtime.Decimal | null
   is_default: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
   _count: Res_item_variantsCountAggregateOutputType | null
   _avg: Res_item_variantsAvgAggregateOutputType | null
   _sum: Res_item_variantsSumAggregateOutputType | null
@@ -233,30 +233,24 @@ export type res_item_variantsWhereInput = {
   OR?: Prisma.res_item_variantsWhereInput[]
   NOT?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
   id?: Prisma.UuidFilter<"res_item_variants"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   name?: Prisma.StringFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.BoolNullableFilter<"res_item_variants"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_item_variants"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  res_order_items?: Prisma.Res_order_itemsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
 }
 
 export type res_item_variantsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrderInput | Prisma.SortOrder
   is_default?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_menu_items?: Prisma.res_menu_itemsOrderByWithRelationInput
-  res_order_items?: Prisma.res_order_itemsOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_item_variantsWhereUniqueInput = Prisma.AtLeast<{
@@ -264,27 +258,24 @@ export type res_item_variantsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
   OR?: Prisma.res_item_variantsWhereInput[]
   NOT?: Prisma.res_item_variantsWhereInput | Prisma.res_item_variantsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
   name?: Prisma.StringFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.BoolNullableFilter<"res_item_variants"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_item_variants"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  res_order_items?: Prisma.Res_order_itemsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
 }, "id">
 
 export type res_item_variantsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrderInput | Prisma.SortOrder
   is_default?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_item_variantsCountOrderByAggregateInput
   _avg?: Prisma.res_item_variantsAvgOrderByAggregateInput
   _max?: Prisma.res_item_variantsMaxOrderByAggregateInput
@@ -297,103 +288,101 @@ export type res_item_variantsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_item_variantsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_item_variantsScalarWhereWithAggregatesInput | Prisma.res_item_variantsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_item_variants"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
   item_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_item_variants"> | string
   price_adjustment?: Prisma.DecimalNullableWithAggregatesFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.BoolNullableWithAggregatesFilter<"res_item_variants"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_item_variants"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_item_variants"> | string | null
 }
 
 export type res_item_variantsCreateInput = {
   id?: string
+  item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_item_variantsInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_item_variantsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_item_variantsInput
+  tenant_id?: string | null
 }
 
 export type res_item_variantsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_item_variantsInput
+  tenant_id?: string | null
 }
 
 export type res_item_variantsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_item_variantsNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_item_variantsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_item_variantsUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_item_variantsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   item_id?: string | null
   name: string
   price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type res_item_variantsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_variantsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_item_variantsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_item_variantsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_variantsAvgOrderByAggregateInput = {
@@ -402,514 +391,90 @@ export type res_item_variantsAvgOrderByAggregateInput = {
 
 export type res_item_variantsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_variantsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   price_adjustment?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_item_variantsSumOrderByAggregateInput = {
   price_adjustment?: Prisma.SortOrder
 }
 
-export type Res_item_variantsListRelationFilter = {
-  every?: Prisma.res_item_variantsWhereInput
-  some?: Prisma.res_item_variantsWhereInput
-  none?: Prisma.res_item_variantsWhereInput
-}
-
-export type res_item_variantsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type Res_item_variantsNullableScalarRelationFilter = {
-  is?: Prisma.res_item_variantsWhereInput | null
-  isNot?: Prisma.res_item_variantsWhereInput | null
-}
-
-export type res_item_variantsCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-}
-
-export type res_item_variantsUncheckedCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-}
-
-export type res_item_variantsUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_item_variantsUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  disconnect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  delete?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  update?: Prisma.res_item_variantsUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_item_variantsUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-}
-
-export type res_item_variantsUncheckedUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_item_variantsUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  disconnect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  delete?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  update?: Prisma.res_item_variantsUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_item_variantsUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_item_variantsUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-}
-
-export type res_item_variantsCreateNestedOneWithoutRes_order_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_order_itemsInput>
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_order_itemsInput
-  connect?: Prisma.res_item_variantsWhereUniqueInput
-}
-
-export type res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_order_itemsInput>
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutRes_order_itemsInput
-  upsert?: Prisma.res_item_variantsUpsertWithoutRes_order_itemsInput
-  disconnect?: Prisma.res_item_variantsWhereInput | boolean
-  delete?: Prisma.res_item_variantsWhereInput | boolean
-  connect?: Prisma.res_item_variantsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_item_variantsUpdateToOneWithWhereWithoutRes_order_itemsInput, Prisma.res_item_variantsUpdateWithoutRes_order_itemsInput>, Prisma.res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput>
-}
-
-export type res_item_variantsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput> | Prisma.res_item_variantsCreateWithoutTenantsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput | Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-}
-
-export type res_item_variantsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput> | Prisma.res_item_variantsCreateWithoutTenantsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput | Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-}
-
-export type res_item_variantsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput> | Prisma.res_item_variantsCreateWithoutTenantsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput | Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_item_variantsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_item_variantsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  disconnect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  delete?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  update?: Prisma.res_item_variantsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_item_variantsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_item_variantsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_item_variantsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-}
-
-export type res_item_variantsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput> | Prisma.res_item_variantsCreateWithoutTenantsInput[] | Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput | Prisma.res_item_variantsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_item_variantsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_item_variantsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_item_variantsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  disconnect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  delete?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  connect?: Prisma.res_item_variantsWhereUniqueInput | Prisma.res_item_variantsWhereUniqueInput[]
-  update?: Prisma.res_item_variantsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_item_variantsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_item_variantsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_item_variantsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-}
-
-export type res_item_variantsCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_item_variantsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_item_variantsInput
-}
-
-export type res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_item_variantsInput
-}
-
-export type res_item_variantsCreateOrConnectWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_variantsCreateManyRes_menu_itemsInputEnvelope = {
-  data: Prisma.res_item_variantsCreateManyRes_menu_itemsInput | Prisma.res_item_variantsCreateManyRes_menu_itemsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_item_variantsUpsertWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedUpdateWithoutRes_menu_itemsInput>
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_variantsUpdateWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutRes_menu_itemsInput, Prisma.res_item_variantsUncheckedUpdateWithoutRes_menu_itemsInput>
-}
-
-export type res_item_variantsUpdateManyWithWhereWithoutRes_menu_itemsInput = {
-  where: Prisma.res_item_variantsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_item_variantsUpdateManyMutationInput, Prisma.res_item_variantsUncheckedUpdateManyWithoutRes_menu_itemsInput>
-}
-
-export type res_item_variantsScalarWhereInput = {
-  AND?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-  OR?: Prisma.res_item_variantsScalarWhereInput[]
-  NOT?: Prisma.res_item_variantsScalarWhereInput | Prisma.res_item_variantsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_item_variants"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
-  item_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
-  name?: Prisma.StringFilter<"res_item_variants"> | string
-  price_adjustment?: Prisma.DecimalNullableFilter<"res_item_variants"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.BoolNullableFilter<"res_item_variants"> | boolean | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_item_variants"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_item_variants"> | string | null
-}
-
-export type res_item_variantsCreateWithoutRes_order_itemsInput = {
-  id?: string
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_item_variantsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_item_variantsInput
-}
-
-export type res_item_variantsUncheckedCreateWithoutRes_order_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  item_id?: string | null
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_variantsCreateOrConnectWithoutRes_order_itemsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_order_itemsInput>
-}
-
-export type res_item_variantsUpsertWithoutRes_order_itemsInput = {
-  update: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput>
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedCreateWithoutRes_order_itemsInput>
-  where?: Prisma.res_item_variantsWhereInput
-}
-
-export type res_item_variantsUpdateToOneWithWhereWithoutRes_order_itemsInput = {
-  where?: Prisma.res_item_variantsWhereInput
-  data: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutRes_order_itemsInput, Prisma.res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput>
-}
-
-export type res_item_variantsUpdateWithoutRes_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_item_variantsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateWithoutRes_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_variantsCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_item_variantsInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_item_variantsInput
-}
-
-export type res_item_variantsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  item_id?: string | null
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_item_variantsInput
-}
-
-export type res_item_variantsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_item_variantsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_item_variantsCreateManyTenantsInput | Prisma.res_item_variantsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_item_variantsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutTenantsInput, Prisma.res_item_variantsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_item_variantsCreateWithoutTenantsInput, Prisma.res_item_variantsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_item_variantsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_item_variantsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_item_variantsUpdateWithoutTenantsInput, Prisma.res_item_variantsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_item_variantsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_item_variantsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_item_variantsUpdateManyMutationInput, Prisma.res_item_variantsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_item_variantsCreateManyRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_variantsUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_item_variantsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_item_variantsCreateManyTenantsInput = {
-  id?: string
-  item_id?: string | null
-  name: string
-  price_adjustment?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_item_variantsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_item_variantsNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsNestedInput
-}
-
-export type res_item_variantsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  price_adjustment?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type Res_item_variantsCountOutputType
- */
-
-export type Res_item_variantsCountOutputType = {
-  res_order_items: number
-}
-
-export type Res_item_variantsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_order_items?: boolean | Res_item_variantsCountOutputTypeCountRes_order_itemsArgs
-}
-
-/**
- * Res_item_variantsCountOutputType without action
- */
-export type Res_item_variantsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Res_item_variantsCountOutputType
-   */
-  select?: Prisma.Res_item_variantsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Res_item_variantsCountOutputType without action
- */
-export type Res_item_variantsCountOutputTypeCountRes_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_order_itemsWhereInput
-}
 
 
 export type res_item_variantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
   is_default?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  res_order_items?: boolean | Prisma.res_item_variants$res_order_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_item_variantsCountOutputTypeDefaultArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_variants"]>
 
 export type res_item_variantsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
   is_default?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_variants"]>
 
 export type res_item_variantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
   is_default?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_item_variants"]>
 
 export type res_item_variantsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   item_id?: boolean
   name?: boolean
   price_adjustment?: boolean
   is_default?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
 }
 
-export type res_item_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "item_id" | "name" | "price_adjustment" | "is_default" | "created_at" | "auth_user_id", ExtArgs["result"]["res_item_variants"]>
-export type res_item_variantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  res_order_items?: boolean | Prisma.res_item_variants$res_order_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_item_variantsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type res_item_variantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
-}
-export type res_item_variantsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_item_variants$tenantsArgs<ExtArgs>
-}
+export type res_item_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "name" | "price_adjustment" | "is_default" | "created_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_item_variants"]>
 
 export type $res_item_variantsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_item_variants"
-  objects: {
-    res_menu_items: Prisma.$res_menu_itemsPayload<ExtArgs> | null
-    res_order_items: Prisma.$res_order_itemsPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     item_id: string | null
     name: string
     price_adjustment: runtime.Decimal | null
     is_default: boolean | null
     created_at: Date | null
     auth_user_id: string | null
+    tenant_id: string | null
   }, ExtArgs["result"]["res_item_variants"]>
   composites: {}
 }
@@ -1304,9 +869,6 @@ readonly fields: res_item_variantsFieldRefs;
  */
 export interface Prisma__res_item_variantsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_menu_items<T extends Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_item_variants$res_menu_itemsArgs<ExtArgs>>): Prisma.Prisma__res_menu_itemsClient<runtime.Types.Result.GetResult<Prisma.$res_menu_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_order_items<T extends Prisma.res_item_variants$res_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_item_variants$res_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.res_item_variants$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_item_variants$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1337,13 +899,13 @@ export interface Prisma__res_item_variantsClient<T, Null = never, ExtArgs extend
  */
 export interface res_item_variantsFieldRefs {
   readonly id: Prisma.FieldRef<"res_item_variants", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly item_id: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly name: Prisma.FieldRef<"res_item_variants", 'String'>
   readonly price_adjustment: Prisma.FieldRef<"res_item_variants", 'Decimal'>
   readonly is_default: Prisma.FieldRef<"res_item_variants", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"res_item_variants", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"res_item_variants", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_item_variants", 'String'>
 }
     
 
@@ -1360,10 +922,6 @@ export type res_item_variantsFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
   /**
    * Filter, which res_item_variants to fetch.
    */
@@ -1383,10 +941,6 @@ export type res_item_variantsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
-  /**
    * Filter, which res_item_variants to fetch.
    */
   where: Prisma.res_item_variantsWhereUniqueInput
@@ -1404,10 +958,6 @@ export type res_item_variantsFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
   /**
    * Filter, which res_item_variants to fetch.
    */
@@ -1457,10 +1007,6 @@ export type res_item_variantsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
-  /**
    * Filter, which res_item_variants to fetch.
    */
   where?: Prisma.res_item_variantsWhereInput
@@ -1508,10 +1054,6 @@ export type res_item_variantsFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
   /**
    * Filter, which res_item_variants to fetch.
    */
@@ -1561,10 +1103,6 @@ export type res_item_variantsCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_item_variants.
    */
   data: Prisma.XOR<Prisma.res_item_variantsCreateInput, Prisma.res_item_variantsUncheckedCreateInput>
@@ -1598,10 +1136,6 @@ export type res_item_variantsCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.res_item_variantsCreateManyInput | Prisma.res_item_variantsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1616,10 +1150,6 @@ export type res_item_variantsUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_item_variants.
    */
@@ -1672,10 +1202,6 @@ export type res_item_variantsUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many res_item_variants to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1690,10 +1216,6 @@ export type res_item_variantsUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_item_variants to update in case it exists.
    */
@@ -1721,10 +1243,6 @@ export type res_item_variantsDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
-  /**
    * Filter which res_item_variants to delete.
    */
   where: Prisma.res_item_variantsWhereUniqueInput
@@ -1745,68 +1263,6 @@ export type res_item_variantsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * res_item_variants.res_menu_items
- */
-export type res_item_variants$res_menu_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_menu_items
-   */
-  select?: Prisma.res_menu_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_menu_items
-   */
-  omit?: Prisma.res_menu_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_menu_itemsInclude<ExtArgs> | null
-  where?: Prisma.res_menu_itemsWhereInput
-}
-
-/**
- * res_item_variants.res_order_items
- */
-export type res_item_variants$res_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_order_items
-   */
-  select?: Prisma.res_order_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_order_items
-   */
-  omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  where?: Prisma.res_order_itemsWhereInput
-  orderBy?: Prisma.res_order_itemsOrderByWithRelationInput | Prisma.res_order_itemsOrderByWithRelationInput[]
-  cursor?: Prisma.res_order_itemsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_order_itemsScalarFieldEnum | Prisma.Res_order_itemsScalarFieldEnum[]
-}
-
-/**
- * res_item_variants.tenants
- */
-export type res_item_variants$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_item_variants without action
  */
 export type res_item_variantsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1818,8 +1274,4 @@ export type res_item_variantsDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the res_item_variants
    */
   omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
 }

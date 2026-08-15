@@ -3,15 +3,12 @@ import { defineConfig } from 'vite'
 import viteReact from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+
 export default defineConfig({
   server: {
-    port: 5190,
+    port: 5191,
   },
-  plugins: [
-    tanstackStart(),
-    viteReact(),
-    tailwindcss(),
-  ],
+  plugins: [tanstackStart(), viteReact(), tailwindcss()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

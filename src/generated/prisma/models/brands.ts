@@ -241,7 +241,6 @@ export type brandsOrderByWithRelationInput = {
 
 export type brandsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenant_id_name?: Prisma.brandsTenant_idNameCompoundUniqueInput
   AND?: Prisma.brandsWhereInput | Prisma.brandsWhereInput[]
   OR?: Prisma.brandsWhereInput[]
   NOT?: Prisma.brandsWhereInput | Prisma.brandsWhereInput[]
@@ -255,7 +254,7 @@ export type brandsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"brands"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   products?: Prisma.ProductsListRelationFilter
-}, "id" | "tenant_id_name">
+}, "id">
 
 export type brandsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -387,11 +386,6 @@ export type brandsUncheckedUpdateManyInput = {
 export type BrandsNullableScalarRelationFilter = {
   is?: Prisma.brandsWhereInput | null
   isNot?: Prisma.brandsWhereInput | null
-}
-
-export type brandsTenant_idNameCompoundUniqueInput = {
-  tenant_id: string
-  name: string
 }
 
 export type brandsCountOrderByAggregateInput = {

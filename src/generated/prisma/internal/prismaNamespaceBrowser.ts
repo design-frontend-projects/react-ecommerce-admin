@@ -144,23 +144,7 @@ export const ModelName = {
   product_serials: 'product_serials',
   inventory_movement_serials: 'inventory_movement_serials',
   goods_receipts: 'goods_receipts',
-  goods_receipt_items: 'goods_receipt_items',
-  purchase_requisitions: 'purchase_requisitions',
-  purchase_requisition_items: 'purchase_requisition_items',
-  sales_orders: 'sales_orders',
-  sales_order_items: 'sales_order_items',
-  stock_reservations: 'stock_reservations',
-  stock_counts: 'stock_counts',
-  stock_count_items: 'stock_count_items',
-  reorder_rules: 'reorder_rules',
-  reorder_suggestions: 'reorder_suggestions',
-  rbac_audit: 'rbac_audit',
-  res_cash_movements: 'res_cash_movements',
-  res_shift_audit: 'res_shift_audit',
-  res_shift_settings: 'res_shift_settings',
-  notifications: 'notifications',
-  user_notifications: 'user_notifications',
-  notification_templates: 'notification_templates'
+  goods_receipt_items: 'goods_receipt_items'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -193,7 +177,6 @@ export type Activity_typesScalarFieldEnum = (typeof Activity_typesScalarFieldEnu
 
 export const Audit_logsScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
   activity_type_id: 'activity_type_id',
   action: 'action',
   entity_type: 'entity_type',
@@ -203,7 +186,8 @@ export const Audit_logsScalarFieldEnum = {
   metadata: 'metadata',
   ip_address: 'ip_address',
   user_agent: 'user_agent',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  user_id: 'user_id'
 } as const
 
 export type Audit_logsScalarFieldEnum = (typeof Audit_logsScalarFieldEnum)[keyof typeof Audit_logsScalarFieldEnum]
@@ -248,14 +232,14 @@ export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typ
 
 
 export const CategoriesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   created_at: 'created_at',
   auth_user_id: 'auth_user_id',
   is_active: 'is_active',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  id: 'id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]
@@ -301,9 +285,6 @@ export type CurrenciesScalarFieldEnum = (typeof CurrenciesScalarFieldEnum)[keyof
 
 
 export const Customer_cardsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  customer_id: 'customer_id',
   card_type: 'card_type',
   last_four_digits: 'last_four_digits',
   expiry_month: 'expiry_month',
@@ -313,29 +294,30 @@ export const Customer_cardsScalarFieldEnum = {
   is_default: 'is_default',
   tokenized_id: 'tokenized_id',
   added_at: 'added_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  customer_id: 'customer_id'
 } as const
 
 export type Customer_cardsScalarFieldEnum = (typeof Customer_cardsScalarFieldEnum)[keyof typeof Customer_cardsScalarFieldEnum]
 
 
 export const Customer_groupsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   minimum_order_amount: 'minimum_order_amount',
   discount_percentage: 'discount_percentage',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  id: 'id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Customer_groupsScalarFieldEnum = (typeof Customer_groupsScalarFieldEnum)[keyof typeof Customer_groupsScalarFieldEnum]
 
 
 export const CustomersScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   first_name: 'first_name',
   last_name: 'last_name',
   email: 'email',
@@ -351,9 +333,11 @@ export const CustomersScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
+  auth_user_id: 'auth_user_id',
   deleted_at: 'deleted_at',
-  group_id: 'group_id',
-  auth_user_id: 'auth_user_id'
+  id: 'id',
+  tenant_id: 'tenant_id',
+  group_id: 'group_id'
 } as const
 
 export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof typeof CustomersScalarFieldEnum]
@@ -361,12 +345,12 @@ export type CustomersScalarFieldEnum = (typeof CustomersScalarFieldEnum)[keyof t
 
 export const Payment_typesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   is_enabled: 'is_enabled',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Payment_typesScalarFieldEnum = (typeof Payment_typesScalarFieldEnum)[keyof typeof Payment_typesScalarFieldEnum]
@@ -388,7 +372,6 @@ export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[key
 
 export const Pos_terminalsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   store_id: 'store_id',
   name: 'name',
@@ -397,17 +380,14 @@ export const Pos_terminalsScalarFieldEnum = {
   receipt_printer_name: 'receipt_printer_name',
   status: 'status',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Pos_terminalsScalarFieldEnum = (typeof Pos_terminalsScalarFieldEnum)[keyof typeof Pos_terminalsScalarFieldEnum]
 
 
 export const Price_listScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  product_id: 'product_id',
-  group_id: 'group_id',
   price: 'price',
   start_date: 'start_date',
   end_date: 'end_date',
@@ -415,7 +395,11 @@ export const Price_listScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   description: 'description',
   type: 'type',
-  store_id: 'store_id'
+  store_id: 'store_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  group_id: 'group_id'
 } as const
 
 export type Price_listScalarFieldEnum = (typeof Price_listScalarFieldEnum)[keyof typeof Price_listScalarFieldEnum]
@@ -423,15 +407,15 @@ export type Price_listScalarFieldEnum = (typeof Price_listScalarFieldEnum)[keyof
 
 export const Price_list_itemsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
-  price_list_id: 'price_list_id',
   product_variant_id: 'product_variant_id',
   price: 'price',
   min_price: 'min_price',
   max_discount_percent: 'max_discount_percent',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id',
+  price_list_id: 'price_list_id'
 } as const
 
 export type Price_list_itemsScalarFieldEnum = (typeof Price_list_itemsScalarFieldEnum)[keyof typeof Price_list_itemsScalarFieldEnum]
@@ -439,7 +423,6 @@ export type Price_list_itemsScalarFieldEnum = (typeof Price_list_itemsScalarFiel
 
 export const Product_variantsScalarFieldEnum = {
   id: 'id',
-  product_id: 'product_id',
   sku: 'sku',
   barcode: 'barcode',
   price: 'price',
@@ -452,27 +435,23 @@ export const Product_variantsScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   auth_user_id: 'auth_user_id',
-  uom_id: 'uom_id'
+  uom_id: 'uom_id',
+  product_id: 'product_id'
 } as const
 
 export type Product_variantsScalarFieldEnum = (typeof Product_variantsScalarFieldEnum)[keyof typeof Product_variantsScalarFieldEnum]
 
 
 export const ProductsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  supplier_id: 'supplier_id',
   name: 'name',
   description: 'description',
   sku: 'sku',
   barcode: 'barcode',
-  category_id: 'category_id',
   weight: 'weight',
   dimensions: 'dimensions',
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at',
   reorder_level: 'reorder_level',
   auth_user_id: 'auth_user_id',
   store_id: 'store_id',
@@ -486,7 +465,12 @@ export const ProductsScalarFieldEnum = {
   brand_id: 'brand_id',
   is_batch_tracked: 'is_batch_tracked',
   is_serial_tracked: 'is_serial_tracked',
-  product_type: 'product_type'
+  product_type: 'product_type',
+  deleted_at: 'deleted_at',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  supplier_id: 'supplier_id',
+  category_id: 'category_id'
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
@@ -494,17 +478,17 @@ export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typ
 
 export const InventoryScalarFieldEnum = {
   inventory_id: 'inventory_id',
-  tenant_id: 'tenant_id',
-  product_id: 'product_id',
-  store_id: 'store_id',
   quantity: 'quantity',
-  min_quantity: 'min_quantity',
-  max_quantity: 'max_quantity',
-  reorder_point: 'reorder_point',
-  last_count_date: 'last_count_date',
+  auth_user_id: 'auth_user_id',
+  store_id: 'store_id',
   created_at: 'created_at',
+  last_count_date: 'last_count_date',
+  max_quantity: 'max_quantity',
+  min_quantity: 'min_quantity',
+  reorder_point: 'reorder_point',
+  tenant_id: 'tenant_id',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  product_id: 'product_id'
 } as const
 
 export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
@@ -513,7 +497,6 @@ export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof t
 export const Pos_reorder_requestsScalarFieldEnum = {
   id: 'id',
   auth_user_id: 'auth_user_id',
-  product_id: 'product_id',
   product_variant_id: 'product_variant_id',
   requested_by_auth_user_id: 'requested_by_auth_user_id',
   requested_by_name: 'requested_by_name',
@@ -526,37 +509,35 @@ export const Pos_reorder_requestsScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   requested_by_user_id: 'requested_by_user_id',
-  read_by_user_id: 'read_by_user_id'
+  read_by_user_id: 'read_by_user_id',
+  product_id: 'product_id'
 } as const
 
 export type Pos_reorder_requestsScalarFieldEnum = (typeof Pos_reorder_requestsScalarFieldEnum)[keyof typeof Pos_reorder_requestsScalarFieldEnum]
 
 
 export const Promotion_usageScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  promotion_id: 'promotion_id',
-  customer_id: 'customer_id',
-  sale_id: 'sale_id',
   used_at: 'used_at',
   order_id: 'order_id',
   auth_user_id: 'auth_user_id',
   created_at: 'created_at',
   customer_mobile: 'customer_mobile',
   res_order_id: 'res_order_id',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  customer_id: 'customer_id',
+  sale_id: 'sale_id'
 } as const
 
 export type Promotion_usageScalarFieldEnum = (typeof Promotion_usageScalarFieldEnum)[keyof typeof Promotion_usageScalarFieldEnum]
 
 
 export const PromotionsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   code: 'code',
   name: 'name',
   description: 'description',
-  discount_type: 'discount_type',
   discount_value: 'discount_value',
   minimum_purchase: 'minimum_purchase',
   start_date: 'start_date',
@@ -571,20 +552,23 @@ export const PromotionsScalarFieldEnum = {
   get_discount_value: 'get_discount_value',
   get_quantity: 'get_quantity',
   promo_type: 'promo_type',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  discount_type: 'discount_type'
 } as const
 
 export type PromotionsScalarFieldEnum = (typeof PromotionsScalarFieldEnum)[keyof typeof PromotionsScalarFieldEnum]
 
 
 export const Promotion_menu_scopesScalarFieldEnum = {
-  id: 'id',
-  promotion_id: 'promotion_id',
   menu_item_id: 'menu_item_id',
   menu_category_id: 'menu_category_id',
   scope_role: 'scope_role',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  id: 'id',
+  promotion_id: 'promotion_id'
 } as const
 
 export type Promotion_menu_scopesScalarFieldEnum = (typeof Promotion_menu_scopesScalarFieldEnum)[keyof typeof Promotion_menu_scopesScalarFieldEnum]
@@ -594,7 +578,6 @@ export const Purchase_invoice_itemsScalarFieldEnum = {
   id: 'id',
   purchase_invoice_id: 'purchase_invoice_id',
   product_variant_id: 'product_variant_id',
-  tax_rate_id: 'tax_rate_id',
   line_no: 'line_no',
   description: 'description',
   quantity: 'quantity',
@@ -605,7 +588,8 @@ export const Purchase_invoice_itemsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   line_subtotal: 'line_subtotal',
   line_total: 'line_total',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  tax_rate_id: 'tax_rate_id'
 } as const
 
 export type Purchase_invoice_itemsScalarFieldEnum = (typeof Purchase_invoice_itemsScalarFieldEnum)[keyof typeof Purchase_invoice_itemsScalarFieldEnum]
@@ -613,11 +597,9 @@ export type Purchase_invoice_itemsScalarFieldEnum = (typeof Purchase_invoice_ite
 
 export const Purchase_invoicesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
-  supplier_id: 'supplier_id',
   invoice_no: 'invoice_no',
   supplier_invoice_no: 'supplier_invoice_no',
   invoice_date: 'invoice_date',
@@ -637,32 +619,31 @@ export const Purchase_invoicesScalarFieldEnum = {
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  tenant_id: 'tenant_id',
+  supplier_id: 'supplier_id'
 } as const
 
 export type Purchase_invoicesScalarFieldEnum = (typeof Purchase_invoicesScalarFieldEnum)[keyof typeof Purchase_invoicesScalarFieldEnum]
 
 
 export const Purchase_order_itemsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  po_id: 'po_id',
-  product_id: 'product_id',
   quantity_ordered: 'quantity_ordered',
   unit_cost: 'unit_cost',
   auth_user_id: 'auth_user_id',
   subtotal: 'subtotal',
   received_quantity: 'received_quantity',
-  product_variant_id: 'product_variant_id'
+  product_variant_id: 'product_variant_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  po_id: 'po_id',
+  product_id: 'product_id'
 } as const
 
 export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsScalarFieldEnum)[keyof typeof Purchase_order_itemsScalarFieldEnum]
 
 
 export const Purchase_ordersScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  supplier_id: 'supplier_id',
   order_date: 'order_date',
   expected_delivery_date: 'expected_delivery_date',
   total_amount: 'total_amount',
@@ -670,7 +651,6 @@ export const Purchase_ordersScalarFieldEnum = {
   notes: 'notes',
   po_number: 'po_number',
   created_at: 'created_at',
-  discount_amount: 'discount_amount',
   shipping_amount: 'shipping_amount',
   tax_amount: 'tax_amount',
   payment_status: 'payment_status',
@@ -682,7 +662,11 @@ export const Purchase_ordersScalarFieldEnum = {
   lifecycle_status: 'lifecycle_status',
   sent_at: 'sent_at',
   store_id: 'store_id',
-  warehouse_id: 'warehouse_id'
+  warehouse_id: 'warehouse_id',
+  discount_amount: 'discount_amount',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  supplier_id: 'supplier_id'
 } as const
 
 export type Purchase_ordersScalarFieldEnum = (typeof Purchase_ordersScalarFieldEnum)[keyof typeof Purchase_ordersScalarFieldEnum]
@@ -711,7 +695,6 @@ export const Purchase_returnsScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
-  supplier_id: 'supplier_id',
   return_no: 'return_no',
   return_date: 'return_date',
   status: 'status',
@@ -722,15 +705,14 @@ export const Purchase_returnsScalarFieldEnum = {
   notes: 'notes',
   created_by: 'created_by',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  supplier_id: 'supplier_id'
 } as const
 
 export type Purchase_returnsScalarFieldEnum = (typeof Purchase_returnsScalarFieldEnum)[keyof typeof Purchase_returnsScalarFieldEnum]
 
 
 export const RefundsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   sale_id: 'sale_id',
   order_id: 'order_id',
   refund_date: 'refund_date',
@@ -742,9 +724,11 @@ export const RefundsScalarFieldEnum = {
   refund_status: 'refund_status',
   store_id: 'store_id',
   sales_invoice_id: 'sales_invoice_id',
-  res_order_id: 'res_order_id',
   branch_id: 'branch_id',
-  created_by: 'created_by'
+  created_by: 'created_by',
+  id: 'id',
+  res_order_id: 'res_order_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeof RefundsScalarFieldEnum]
@@ -752,7 +736,6 @@ export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeo
 
 export const Res_eventsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   title: 'title',
   description: 'description',
   event_date: 'event_date',
@@ -762,7 +745,8 @@ export const Res_eventsScalarFieldEnum = {
   is_active: 'is_active',
   created_by: 'created_by',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_eventsScalarFieldEnum = (typeof Res_eventsScalarFieldEnum)[keyof typeof Res_eventsScalarFieldEnum]
@@ -770,13 +754,13 @@ export type Res_eventsScalarFieldEnum = (typeof Res_eventsScalarFieldEnum)[keyof
 
 export const Res_floorsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   sort_order: 'sort_order',
   is_active: 'is_active',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_floorsScalarFieldEnum = (typeof Res_floorsScalarFieldEnum)[keyof typeof Res_floorsScalarFieldEnum]
@@ -784,7 +768,6 @@ export type Res_floorsScalarFieldEnum = (typeof Res_floorsScalarFieldEnum)[keyof
 
 export const Res_item_propertiesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   item_id: 'item_id',
   name: 'name',
   options: 'options',
@@ -792,7 +775,8 @@ export const Res_item_propertiesScalarFieldEnum = {
   max_selections: 'max_selections',
   created_at: 'created_at',
   price: 'price',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_item_propertiesScalarFieldEnum = (typeof Res_item_propertiesScalarFieldEnum)[keyof typeof Res_item_propertiesScalarFieldEnum]
@@ -800,13 +784,13 @@ export type Res_item_propertiesScalarFieldEnum = (typeof Res_item_propertiesScal
 
 export const Res_item_variantsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   item_id: 'item_id',
   name: 'name',
   price_adjustment: 'price_adjustment',
   is_default: 'is_default',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_item_variantsScalarFieldEnum = (typeof Res_item_variantsScalarFieldEnum)[keyof typeof Res_item_variantsScalarFieldEnum]
@@ -814,14 +798,14 @@ export type Res_item_variantsScalarFieldEnum = (typeof Res_item_variantsScalarFi
 
 export const Res_menu_categoriesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   name_ar: 'name_ar',
   icon: 'icon',
   sort_order: 'sort_order',
   is_active: 'is_active',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_menu_categoriesScalarFieldEnum = (typeof Res_menu_categoriesScalarFieldEnum)[keyof typeof Res_menu_categoriesScalarFieldEnum]
@@ -829,7 +813,6 @@ export type Res_menu_categoriesScalarFieldEnum = (typeof Res_menu_categoriesScal
 
 export const Res_menu_itemsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   category_id: 'category_id',
   name: 'name',
   name_ar: 'name_ar',
@@ -843,7 +826,8 @@ export const Res_menu_itemsScalarFieldEnum = {
   tags: 'tags',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_menu_itemsScalarFieldEnum = (typeof Res_menu_itemsScalarFieldEnum)[keyof typeof Res_menu_itemsScalarFieldEnum]
@@ -851,7 +835,6 @@ export type Res_menu_itemsScalarFieldEnum = (typeof Res_menu_itemsScalarFieldEnu
 
 export const Res_notificationsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   recipient_id: 'recipient_id',
   type: 'type',
   title: 'title',
@@ -859,7 +842,8 @@ export const Res_notificationsScalarFieldEnum = {
   data: 'data',
   is_read: 'is_read',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_notificationsScalarFieldEnum = (typeof Res_notificationsScalarFieldEnum)[keyof typeof Res_notificationsScalarFieldEnum]
@@ -867,7 +851,6 @@ export type Res_notificationsScalarFieldEnum = (typeof Res_notificationsScalarFi
 
 export const Res_order_itemsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   order_id: 'order_id',
   item_id: 'item_id',
   variant_id: 'variant_id',
@@ -875,10 +858,11 @@ export const Res_order_itemsScalarFieldEnum = {
   unit_price: 'unit_price',
   properties: 'properties',
   notes: 'notes',
-  status: 'status',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id',
+  status: 'status'
 } as const
 
 export type Res_order_itemsScalarFieldEnum = (typeof Res_order_itemsScalarFieldEnum)[keyof typeof Res_order_itemsScalarFieldEnum]
@@ -886,16 +870,13 @@ export type Res_order_itemsScalarFieldEnum = (typeof Res_order_itemsScalarFieldE
 
 export const Res_ordersScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   order_number: 'order_number',
   table_id: 'table_id',
   shift_id: 'shift_id',
   created_by: 'created_by',
   customer_name: 'customer_name',
-  status: 'status',
   subtotal: 'subtotal',
   discount_amount: 'discount_amount',
-  discount_type: 'discount_type',
   tax_amount: 'tax_amount',
   tip_amount: 'tip_amount',
   total_amount: 'total_amount',
@@ -910,8 +891,11 @@ export const Res_ordersScalarFieldEnum = {
   change_amount: 'change_amount',
   auth_user_id: 'auth_user_id',
   shipment_id: 'shipment_id',
-  applied_promotion_id: 'applied_promotion_id',
-  order_type: 'order_type'
+  order_type: 'order_type',
+  tenant_id: 'tenant_id',
+  status: 'status',
+  discount_type: 'discount_type',
+  applied_promotion_id: 'applied_promotion_id'
 } as const
 
 export type Res_ordersScalarFieldEnum = (typeof Res_ordersScalarFieldEnum)[keyof typeof Res_ordersScalarFieldEnum]
@@ -919,7 +903,6 @@ export type Res_ordersScalarFieldEnum = (typeof Res_ordersScalarFieldEnum)[keyof
 
 export const Res_shipmentsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   order_id: 'order_id',
   auth_user_id: 'auth_user_id',
   recipient_name: 'recipient_name',
@@ -928,14 +911,15 @@ export const Res_shipmentsScalarFieldEnum = {
   city: 'city',
   state: 'state',
   postal_code: 'postal_code',
-  status: 'status',
   tracking_number: 'tracking_number',
   carrier: 'carrier',
   shipped_at: 'shipped_at',
   delivered_at: 'delivered_at',
   notes: 'notes',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  tenant_id: 'tenant_id',
+  status: 'status'
 } as const
 
 export type Res_shipmentsScalarFieldEnum = (typeof Res_shipmentsScalarFieldEnum)[keyof typeof Res_shipmentsScalarFieldEnum]
@@ -943,7 +927,6 @@ export type Res_shipmentsScalarFieldEnum = (typeof Res_shipmentsScalarFieldEnum)
 
 export const Res_payment_methodsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   icon: 'icon',
   is_enabled: 'is_enabled',
@@ -951,7 +934,8 @@ export const Res_payment_methodsScalarFieldEnum = {
   created_at: 'created_at',
   is_default: 'is_default',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_payment_methodsScalarFieldEnum = (typeof Res_payment_methodsScalarFieldEnum)[keyof typeof Res_payment_methodsScalarFieldEnum]
@@ -959,7 +943,6 @@ export type Res_payment_methodsScalarFieldEnum = (typeof Res_payment_methodsScal
 
 export const Res_reservationsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   table_id: 'table_id',
   customer_name: 'customer_name',
   customer_phone: 'customer_phone',
@@ -968,11 +951,12 @@ export const Res_reservationsScalarFieldEnum = {
   reservation_date: 'reservation_date',
   reservation_time: 'reservation_time',
   duration_minutes: 'duration_minutes',
-  status: 'status',
   notes: 'notes',
   created_by: 'created_by',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id',
+  status: 'status'
 } as const
 
 export type Res_reservationsScalarFieldEnum = (typeof Res_reservationsScalarFieldEnum)[keyof typeof Res_reservationsScalarFieldEnum]
@@ -980,7 +964,6 @@ export type Res_reservationsScalarFieldEnum = (typeof Res_reservationsScalarFiel
 
 export const Res_shiftsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   closed_by: 'closed_by',
   opening_cash: 'opening_cash',
@@ -1006,7 +989,8 @@ export const Res_shiftsScalarFieldEnum = {
   reviewed_by: 'reviewed_by',
   reviewed_at: 'reviewed_at',
   is_corrected: 'is_corrected',
-  stale_notified_at: 'stale_notified_at'
+  stale_notified_at: 'stale_notified_at',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Res_shiftsScalarFieldEnum = (typeof Res_shiftsScalarFieldEnum)[keyof typeof Res_shiftsScalarFieldEnum]
@@ -1014,17 +998,17 @@ export type Res_shiftsScalarFieldEnum = (typeof Res_shiftsScalarFieldEnum)[keyof
 
 export const Res_tablesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   floor_id: 'floor_id',
   table_number: 'table_number',
   seats: 'seats',
-  status: 'status',
   position_x: 'position_x',
   position_y: 'position_y',
   shape: 'shape',
   is_active: 'is_active',
   created_at: 'created_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  tenant_id: 'tenant_id',
+  status: 'status'
 } as const
 
 export type Res_tablesScalarFieldEnum = (typeof Res_tablesScalarFieldEnum)[keyof typeof Res_tablesScalarFieldEnum]
@@ -1032,15 +1016,15 @@ export type Res_tablesScalarFieldEnum = (typeof Res_tablesScalarFieldEnum)[keyof
 
 export const Res_void_requestsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   order_id: 'order_id',
   requested_by: 'requested_by',
   approved_by: 'approved_by',
   reason: 'reason',
-  status: 'status',
   rejection_reason: 'rejection_reason',
   created_at: 'created_at',
-  processed_at: 'processed_at'
+  processed_at: 'processed_at',
+  tenant_id: 'tenant_id',
+  status: 'status'
 } as const
 
 export type Res_void_requestsScalarFieldEnum = (typeof Res_void_requestsScalarFieldEnum)[keyof typeof Res_void_requestsScalarFieldEnum]
@@ -1071,7 +1055,6 @@ export const Sales_invoice_itemsScalarFieldEnum = {
   id: 'id',
   invoice_id: 'invoice_id',
   product_variant_id: 'product_variant_id',
-  tax_rate_id: 'tax_rate_id',
   line_no: 'line_no',
   description: 'description',
   quantity: 'quantity',
@@ -1086,7 +1069,8 @@ export const Sales_invoice_itemsScalarFieldEnum = {
   created_at: 'created_at',
   returned_quantity: 'returned_quantity',
   auth_user_id: 'auth_user_id',
-  batch_id: 'batch_id'
+  batch_id: 'batch_id',
+  tax_rate_id: 'tax_rate_id'
 } as const
 
 export type Sales_invoice_itemsScalarFieldEnum = (typeof Sales_invoice_itemsScalarFieldEnum)[keyof typeof Sales_invoice_itemsScalarFieldEnum]
@@ -1094,14 +1078,10 @@ export type Sales_invoice_itemsScalarFieldEnum = (typeof Sales_invoice_itemsScal
 
 export const Sales_invoicesScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
-  customer_id: 'customer_id',
   pos_terminal_id: 'pos_terminal_id',
-  price_list_id: 'price_list_id',
-  channel: 'channel',
   invoice_no: 'invoice_no',
   external_reference: 'external_reference',
   invoice_date: 'invoice_date',
@@ -1121,7 +1101,11 @@ export const Sales_invoicesScalarFieldEnum = {
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  channel: 'channel',
+  tenant_id: 'tenant_id',
+  customer_id: 'customer_id',
+  price_list_id: 'price_list_id'
 } as const
 
 export type Sales_invoicesScalarFieldEnum = (typeof Sales_invoicesScalarFieldEnum)[keyof typeof Sales_invoicesScalarFieldEnum]
@@ -1150,7 +1134,6 @@ export const Sales_returnsScalarFieldEnum = {
   sales_invoice_id: 'sales_invoice_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
-  customer_id: 'customer_id',
   return_no: 'return_no',
   return_date: 'return_date',
   status: 'status',
@@ -1161,47 +1144,45 @@ export const Sales_returnsScalarFieldEnum = {
   notes: 'notes',
   created_by: 'created_by',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  customer_id: 'customer_id'
 } as const
 
 export type Sales_returnsScalarFieldEnum = (typeof Sales_returnsScalarFieldEnum)[keyof typeof Sales_returnsScalarFieldEnum]
 
 
 export const ShipmentsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  order_id: 'order_id',
-  sales_invoice_id: 'sales_invoice_id',
   tracking_number: 'tracking_number',
   shipped_date: 'shipped_date',
   delivered_date: 'delivered_date',
   carrier: 'carrier',
   status: 'status',
   notes: 'notes',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  id: 'id',
+  sales_invoice_id: 'sales_invoice_id',
+  tenant_id: 'tenant_id',
+  order_id: 'order_id'
 } as const
 
 export type ShipmentsScalarFieldEnum = (typeof ShipmentsScalarFieldEnum)[keyof typeof ShipmentsScalarFieldEnum]
 
 
 export const Shipping_methodsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
   carrier: 'carrier',
   estimated_days_min: 'estimated_days_min',
   estimated_days_max: 'estimated_days_max',
-  is_active: 'is_active'
+  is_active: 'is_active',
+  id: 'id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Shipping_methodsScalarFieldEnum = (typeof Shipping_methodsScalarFieldEnum)[keyof typeof Shipping_methodsScalarFieldEnum]
 
 
 export const Shipping_ratesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  method_id: 'method_id',
   destination_country: 'destination_country',
   destination_state: 'destination_state',
   destination_postal_code: 'destination_postal_code',
@@ -1211,15 +1192,16 @@ export const Shipping_ratesScalarFieldEnum = {
   max_order_amount: 'max_order_amount',
   cost: 'cost',
   is_free: 'is_free',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  id: 'id',
+  tenant_id: 'tenant_id',
+  method_id: 'method_id'
 } as const
 
 export type Shipping_ratesScalarFieldEnum = (typeof Shipping_ratesScalarFieldEnum)[keyof typeof Shipping_ratesScalarFieldEnum]
 
 
 export const StoresScalarFieldEnum = {
-  store_id: 'store_id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   phone: 'phone',
   email: 'email',
@@ -1231,27 +1213,27 @@ export const StoresScalarFieldEnum = {
   city_id: 'city_id',
   country_id: 'country_id',
   name: 'name',
+  store_id: 'store_id',
   status: 'status',
-  branch_id: 'branch_id'
+  branch_id: 'branch_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type StoresScalarFieldEnum = (typeof StoresScalarFieldEnum)[keyof typeof StoresScalarFieldEnum]
 
 
 export const SubscriptionsScalarFieldEnum = {
-  id: 'id',
   name: 'name',
   duration_months: 'duration_months',
   price: 'price',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  id: 'id'
 } as const
 
 export type SubscriptionsScalarFieldEnum = (typeof SubscriptionsScalarFieldEnum)[keyof typeof SubscriptionsScalarFieldEnum]
 
 
 export const SuppliersScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
   contact_person: 'contact_person',
   email: 'email',
@@ -1263,15 +1245,15 @@ export const SuppliersScalarFieldEnum = {
   auth_user_id: 'auth_user_id',
   city_id: 'city_id',
   is_preferred: 'is_preferred',
-  is_system: 'is_system'
+  is_system: 'is_system',
+  id: 'id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type SuppliersScalarFieldEnum = (typeof SuppliersScalarFieldEnum)[keyof typeof SuppliersScalarFieldEnum]
 
 
 export const Tax_ratesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
   tax_type: 'tax_type',
   rate: 'rate',
   description: 'description',
@@ -1281,7 +1263,9 @@ export const Tax_ratesScalarFieldEnum = {
   created_at: 'created_at',
   is_inclusive: 'is_inclusive',
   auth_user_id: 'auth_user_id',
-  country_id: 'country_id'
+  country_id: 'country_id',
+  id: 'id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Tax_ratesScalarFieldEnum = (typeof Tax_ratesScalarFieldEnum)[keyof typeof Tax_ratesScalarFieldEnum]
@@ -1291,8 +1275,6 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   id: 'id',
   auth_user_id: 'auth_user_id',
   email: 'email',
-  subscription_id: 'subscription_id',
-  tenant_id: 'tenant_id',
   status: 'status',
   first_use: 'first_use',
   start_date: 'start_date',
@@ -1303,7 +1285,9 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   commission_type: 'commission_type',
   first_name: 'first_name',
   last_name: 'last_name',
-  is_owner: 'is_owner'
+  is_owner: 'is_owner',
+  tenant_id: 'tenant_id',
+  subscription_id: 'subscription_id'
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
@@ -1324,16 +1308,16 @@ export const TenantsScalarFieldEnum = {
   locale: 'locale',
   currency_code: 'currency_code',
   country_code: 'country_code',
-  country_id: 'country_id',
-  currency_id: 'currency_id',
   default_branch_id: 'default_branch_id',
   current_subscription_id: 'current_subscription_id',
-  auth_user_id: 'auth_user_id',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
-  metadata: 'metadata'
+  metadata: 'metadata',
+  country_id: 'country_id',
+  currency_id: 'currency_id',
+  auth_user_id: 'auth_user_id'
 } as const
 
 export type TenantsScalarFieldEnum = (typeof TenantsScalarFieldEnum)[keyof typeof TenantsScalarFieldEnum]
@@ -1356,9 +1340,9 @@ export const Tenant_usersScalarFieldEnum = {
   onboarding_complete: 'onboarding_complete',
   is_restuarant_user: 'is_restuarant_user',
   parent_tenant_id: 'parent_tenant_id',
-  tenant_id: 'tenant_id',
   refund_pin_code: 'refund_pin_code',
   id_number: 'id_number',
+  tenant_id: 'tenant_id',
   branch_id: 'branch_id'
 } as const
 
@@ -1369,7 +1353,6 @@ export const Transaction_detailsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   transaction_id: 'transaction_id',
-  product_id: 'product_id',
   quantity: 'quantity',
   unit_price: 'unit_price',
   discount_amount: 'discount_amount',
@@ -1377,7 +1360,8 @@ export const Transaction_detailsScalarFieldEnum = {
   subtotal: 'subtotal',
   sales_invoice_item_id: 'sales_invoice_item_id',
   sales_return_item_id: 'sales_return_item_id',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  product_id: 'product_id'
 } as const
 
 export type Transaction_detailsScalarFieldEnum = (typeof Transaction_detailsScalarFieldEnum)[keyof typeof Transaction_detailsScalarFieldEnum]
@@ -1540,7 +1524,6 @@ export type User_permissionsScalarFieldEnum = (typeof User_permissionsScalarFiel
 
 export const Inventory_movementsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   auth_user_id: 'auth_user_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
@@ -1567,7 +1550,8 @@ export const Inventory_movementsScalarFieldEnum = {
   source_document_id: 'source_document_id',
   source_document_type: 'source_document_type',
   warehouse_id: 'warehouse_id',
-  warehouse_location_id: 'warehouse_location_id'
+  warehouse_location_id: 'warehouse_location_id',
+  tenant_id: 'tenant_id'
 } as const
 
 export type Inventory_movementsScalarFieldEnum = (typeof Inventory_movementsScalarFieldEnum)[keyof typeof Inventory_movementsScalarFieldEnum]
@@ -1801,14 +1785,14 @@ export type Product_barcodesScalarFieldEnum = (typeof Product_barcodesScalarFiel
 export const Bundle_componentsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
-  parent_product_id: 'parent_product_id',
   component_variant_id: 'component_variant_id',
   qty: 'qty',
   uom_id: 'uom_id',
   sort_order: 'sort_order',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  parent_product_id: 'parent_product_id'
 } as const
 
 export type Bundle_componentsScalarFieldEnum = (typeof Bundle_componentsScalarFieldEnum)[keyof typeof Bundle_componentsScalarFieldEnum]
@@ -1819,7 +1803,6 @@ export const Product_batchesScalarFieldEnum = {
   tenant_id: 'tenant_id',
   product_variant_id: 'product_variant_id',
   batch_number: 'batch_number',
-  supplier_id: 'supplier_id',
   manufacture_date: 'manufacture_date',
   expiry_date: 'expiry_date',
   unit_cost: 'unit_cost',
@@ -1829,7 +1812,8 @@ export const Product_batchesScalarFieldEnum = {
   notes: 'notes',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  supplier_id: 'supplier_id'
 } as const
 
 export type Product_batchesScalarFieldEnum = (typeof Product_batchesScalarFieldEnum)[keyof typeof Product_batchesScalarFieldEnum]
@@ -1875,8 +1859,6 @@ export const Goods_receiptsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   receipt_number: 'receipt_number',
-  purchase_order_id: 'purchase_order_id',
-  supplier_id: 'supplier_id',
   store_id: 'store_id',
   warehouse_id: 'warehouse_id',
   status: 'status',
@@ -1887,7 +1869,9 @@ export const Goods_receiptsScalarFieldEnum = {
   posted_at: 'posted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  purchase_order_id: 'purchase_order_id',
+  supplier_id: 'supplier_id'
 } as const
 
 export type Goods_receiptsScalarFieldEnum = (typeof Goods_receiptsScalarFieldEnum)[keyof typeof Goods_receiptsScalarFieldEnum]
@@ -1896,7 +1880,6 @@ export type Goods_receiptsScalarFieldEnum = (typeof Goods_receiptsScalarFieldEnu
 export const Goods_receipt_itemsScalarFieldEnum = {
   id: 'id',
   goods_receipt_id: 'goods_receipt_id',
-  purchase_order_item_id: 'purchase_order_item_id',
   product_variant_id: 'product_variant_id',
   qty_received: 'qty_received',
   uom_id: 'uom_id',
@@ -1906,318 +1889,11 @@ export const Goods_receipt_itemsScalarFieldEnum = {
   batch_number: 'batch_number',
   expiry_date: 'expiry_date',
   serial_numbers: 'serial_numbers',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  purchase_order_item_id: 'purchase_order_item_id'
 } as const
 
 export type Goods_receipt_itemsScalarFieldEnum = (typeof Goods_receipt_itemsScalarFieldEnum)[keyof typeof Goods_receipt_itemsScalarFieldEnum]
-
-
-export const Purchase_requisitionsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  requisition_number: 'requisition_number',
-  branch_id: 'branch_id',
-  store_id: 'store_id',
-  status: 'status',
-  source: 'source',
-  requested_by: 'requested_by',
-  approved_by: 'approved_by',
-  approved_at: 'approved_at',
-  converted_purchase_order_id: 'converted_purchase_order_id',
-  needed_by: 'needed_by',
-  notes: 'notes',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Purchase_requisitionsScalarFieldEnum = (typeof Purchase_requisitionsScalarFieldEnum)[keyof typeof Purchase_requisitionsScalarFieldEnum]
-
-
-export const Purchase_requisition_itemsScalarFieldEnum = {
-  id: 'id',
-  requisition_id: 'requisition_id',
-  product_variant_id: 'product_variant_id',
-  qty_requested: 'qty_requested',
-  uom_id: 'uom_id',
-  preferred_supplier_id: 'preferred_supplier_id',
-  est_unit_cost: 'est_unit_cost',
-  reason: 'reason',
-  created_at: 'created_at'
-} as const
-
-export type Purchase_requisition_itemsScalarFieldEnum = (typeof Purchase_requisition_itemsScalarFieldEnum)[keyof typeof Purchase_requisition_itemsScalarFieldEnum]
-
-
-export const Sales_ordersScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  order_number: 'order_number',
-  customer_id: 'customer_id',
-  branch_id: 'branch_id',
-  store_id: 'store_id',
-  warehouse_id: 'warehouse_id',
-  status: 'status',
-  order_date: 'order_date',
-  expected_date: 'expected_date',
-  subtotal: 'subtotal',
-  discount_amount: 'discount_amount',
-  tax_amount: 'tax_amount',
-  total_amount: 'total_amount',
-  sales_invoice_id: 'sales_invoice_id',
-  confirmed_by: 'confirmed_by',
-  confirmed_at: 'confirmed_at',
-  notes: 'notes',
-  created_by: 'created_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Sales_ordersScalarFieldEnum = (typeof Sales_ordersScalarFieldEnum)[keyof typeof Sales_ordersScalarFieldEnum]
-
-
-export const Sales_order_itemsScalarFieldEnum = {
-  id: 'id',
-  sales_order_id: 'sales_order_id',
-  product_variant_id: 'product_variant_id',
-  line_no: 'line_no',
-  qty_ordered: 'qty_ordered',
-  qty_reserved: 'qty_reserved',
-  qty_fulfilled: 'qty_fulfilled',
-  uom_id: 'uom_id',
-  unit_price: 'unit_price',
-  discount_amount: 'discount_amount',
-  tax_amount: 'tax_amount',
-  line_total: 'line_total',
-  batch_id: 'batch_id',
-  created_at: 'created_at'
-} as const
-
-export type Sales_order_itemsScalarFieldEnum = (typeof Sales_order_itemsScalarFieldEnum)[keyof typeof Sales_order_itemsScalarFieldEnum]
-
-
-export const Stock_reservationsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  store_id: 'store_id',
-  product_variant_id: 'product_variant_id',
-  batch_id: 'batch_id',
-  warehouse_location_id: 'warehouse_location_id',
-  qty: 'qty',
-  qty_consumed: 'qty_consumed',
-  status: 'status',
-  reference_type: 'reference_type',
-  reference_id: 'reference_id',
-  reference_item_id: 'reference_item_id',
-  expires_at: 'expires_at',
-  released_at: 'released_at',
-  consumed_at: 'consumed_at',
-  created_by: 'created_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Stock_reservationsScalarFieldEnum = (typeof Stock_reservationsScalarFieldEnum)[keyof typeof Stock_reservationsScalarFieldEnum]
-
-
-export const Stock_countsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  count_number: 'count_number',
-  store_id: 'store_id',
-  warehouse_id: 'warehouse_id',
-  warehouse_location_id: 'warehouse_location_id',
-  category_id: 'category_id',
-  status: 'status',
-  is_blind: 'is_blind',
-  snapshot_at: 'snapshot_at',
-  counted_by: 'counted_by',
-  reviewed_by: 'reviewed_by',
-  posted_by: 'posted_by',
-  posted_at: 'posted_at',
-  posted_adjustment_id: 'posted_adjustment_id',
-  notes: 'notes',
-  created_by: 'created_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Stock_countsScalarFieldEnum = (typeof Stock_countsScalarFieldEnum)[keyof typeof Stock_countsScalarFieldEnum]
-
-
-export const Stock_count_itemsScalarFieldEnum = {
-  id: 'id',
-  stock_count_id: 'stock_count_id',
-  product_variant_id: 'product_variant_id',
-  warehouse_location_id: 'warehouse_location_id',
-  batch_id: 'batch_id',
-  qty_snapshot: 'qty_snapshot',
-  qty_counted: 'qty_counted',
-  variance: 'variance',
-  unit_cost: 'unit_cost',
-  counted_at: 'counted_at',
-  counted_by: 'counted_by',
-  created_at: 'created_at'
-} as const
-
-export type Stock_count_itemsScalarFieldEnum = (typeof Stock_count_itemsScalarFieldEnum)[keyof typeof Stock_count_itemsScalarFieldEnum]
-
-
-export const Reorder_rulesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  product_variant_id: 'product_variant_id',
-  store_id: 'store_id',
-  min_qty: 'min_qty',
-  max_qty: 'max_qty',
-  safety_stock: 'safety_stock',
-  reorder_point: 'reorder_point',
-  reorder_qty: 'reorder_qty',
-  eoq: 'eoq',
-  lead_time_days: 'lead_time_days',
-  preferred_supplier_id: 'preferred_supplier_id',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Reorder_rulesScalarFieldEnum = (typeof Reorder_rulesScalarFieldEnum)[keyof typeof Reorder_rulesScalarFieldEnum]
-
-
-export const Reorder_suggestionsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  reorder_rule_id: 'reorder_rule_id',
-  product_variant_id: 'product_variant_id',
-  store_id: 'store_id',
-  qty_available_at_run: 'qty_available_at_run',
-  qty_on_order_at_run: 'qty_on_order_at_run',
-  suggested_qty: 'suggested_qty',
-  preferred_supplier_id: 'preferred_supplier_id',
-  status: 'status',
-  converted_requisition_id: 'converted_requisition_id',
-  run_at: 'run_at',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
-} as const
-
-export type Reorder_suggestionsScalarFieldEnum = (typeof Reorder_suggestionsScalarFieldEnum)[keyof typeof Reorder_suggestionsScalarFieldEnum]
-
-
-export const Rbac_auditScalarFieldEnum = {
-  id: 'id',
-  actor_auth_user_id: 'actor_auth_user_id',
-  action: 'action',
-  target_type: 'target_type',
-  target_id: 'target_id',
-  diff: 'diff',
-  created_at: 'created_at'
-} as const
-
-export type Rbac_auditScalarFieldEnum = (typeof Rbac_auditScalarFieldEnum)[keyof typeof Rbac_auditScalarFieldEnum]
-
-
-export const Res_cash_movementsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  shift_id: 'shift_id',
-  branch_id: 'branch_id',
-  movement_type: 'movement_type',
-  reason: 'reason',
-  amount: 'amount',
-  note: 'note',
-  order_id: 'order_id',
-  created_by: 'created_by',
-  auth_user_id: 'auth_user_id',
-  created_at: 'created_at'
-} as const
-
-export type Res_cash_movementsScalarFieldEnum = (typeof Res_cash_movementsScalarFieldEnum)[keyof typeof Res_cash_movementsScalarFieldEnum]
-
-
-export const Res_shift_auditScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  shift_id: 'shift_id',
-  actor_user_id: 'actor_user_id',
-  action: 'action',
-  old_values: 'old_values',
-  new_values: 'new_values',
-  reason: 'reason',
-  created_at: 'created_at'
-} as const
-
-export type Res_shift_auditScalarFieldEnum = (typeof Res_shift_auditScalarFieldEnum)[keyof typeof Res_shift_auditScalarFieldEnum]
-
-
-export const Res_shift_settingsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  restaurant_id: 'restaurant_id',
-  branch_id: 'branch_id',
-  variance_threshold: 'variance_threshold',
-  require_comment_over_threshold: 'require_comment_over_threshold',
-  stale_shift_hours: 'stale_shift_hours',
-  auto_close_hours: 'auto_close_hours',
-  updated_by: 'updated_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Res_shift_settingsScalarFieldEnum = (typeof Res_shift_settingsScalarFieldEnum)[keyof typeof Res_shift_settingsScalarFieldEnum]
-
-
-export const NotificationsScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  title: 'title',
-  content: 'content',
-  severity: 'severity',
-  target_type: 'target_type',
-  target_role: 'target_role',
-  sender_id: 'sender_id',
-  template_id: 'template_id',
-  is_active: 'is_active',
-  auth_user_id: 'auth_user_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
-
-
-export const User_notificationsScalarFieldEnum = {
-  id: 'id',
-  notification_id: 'notification_id',
-  user_id: 'user_id',
-  is_read: 'is_read',
-  read_at: 'read_at',
-  auth_user_id: 'auth_user_id',
-  created_at: 'created_at'
-} as const
-
-export type User_notificationsScalarFieldEnum = (typeof User_notificationsScalarFieldEnum)[keyof typeof User_notificationsScalarFieldEnum]
-
-
-export const Notification_templatesScalarFieldEnum = {
-  id: 'id',
-  tenant_id: 'tenant_id',
-  name: 'name',
-  header: 'header',
-  content: 'content',
-  severity: 'severity',
-  created_by: 'created_by',
-  auth_user_id: 'auth_user_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Notification_templatesScalarFieldEnum = (typeof Notification_templatesScalarFieldEnum)[keyof typeof Notification_templatesScalarFieldEnum]
 
 
 export const SortOrder = {

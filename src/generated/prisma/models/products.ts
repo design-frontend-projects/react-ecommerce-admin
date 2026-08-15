@@ -39,20 +39,15 @@ export type ProductsSumAggregateOutputType = {
 }
 
 export type ProductsMinAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
-  supplier_id: string | null
   name: string | null
   description: string | null
   sku: string | null
   barcode: string | null
-  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -67,23 +62,23 @@ export type ProductsMinAggregateOutputType = {
   is_batch_tracked: boolean | null
   is_serial_tracked: boolean | null
   product_type: $Enums.product_type_enum | null
+  deleted_at: Date | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
+  category_id: string | null
 }
 
 export type ProductsMaxAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
-  supplier_id: string | null
   name: string | null
   description: string | null
   sku: string | null
   barcode: string | null
-  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -98,23 +93,23 @@ export type ProductsMaxAggregateOutputType = {
   is_batch_tracked: boolean | null
   is_serial_tracked: boolean | null
   product_type: $Enums.product_type_enum | null
+  deleted_at: Date | null
+  id: string | null
+  tenant_id: string | null
+  supplier_id: string | null
+  category_id: string | null
 }
 
 export type ProductsCountAggregateOutputType = {
-  id: number
-  tenant_id: number
-  supplier_id: number
   name: number
   description: number
   sku: number
   barcode: number
-  category_id: number
   weight: number
   dimensions: number
   is_active: number
   created_at: number
   updated_at: number
-  deleted_at: number
   reorder_level: number
   auth_user_id: number
   store_id: number
@@ -129,6 +124,11 @@ export type ProductsCountAggregateOutputType = {
   is_batch_tracked: number
   is_serial_tracked: number
   product_type: number
+  deleted_at: number
+  id: number
+  tenant_id: number
+  supplier_id: number
+  category_id: number
   _all: number
 }
 
@@ -146,20 +146,15 @@ export type ProductsSumAggregateInputType = {
 }
 
 export type ProductsMinAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   name?: true
   description?: true
   sku?: true
   barcode?: true
-  category_id?: true
   weight?: true
   dimensions?: true
   is_active?: true
   created_at?: true
   updated_at?: true
-  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -174,23 +169,23 @@ export type ProductsMinAggregateInputType = {
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
+  deleted_at?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
+  category_id?: true
 }
 
 export type ProductsMaxAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   name?: true
   description?: true
   sku?: true
   barcode?: true
-  category_id?: true
   weight?: true
   dimensions?: true
   is_active?: true
   created_at?: true
   updated_at?: true
-  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -205,23 +200,23 @@ export type ProductsMaxAggregateInputType = {
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
+  deleted_at?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
+  category_id?: true
 }
 
 export type ProductsCountAggregateInputType = {
-  id?: true
-  tenant_id?: true
-  supplier_id?: true
   name?: true
   description?: true
   sku?: true
   barcode?: true
-  category_id?: true
   weight?: true
   dimensions?: true
   is_active?: true
   created_at?: true
   updated_at?: true
-  deleted_at?: true
   reorder_level?: true
   auth_user_id?: true
   store_id?: true
@@ -236,6 +231,11 @@ export type ProductsCountAggregateInputType = {
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
+  deleted_at?: true
+  id?: true
+  tenant_id?: true
+  supplier_id?: true
+  category_id?: true
   _all?: true
 }
 
@@ -326,20 +326,15 @@ export type productsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type ProductsGroupByOutputType = {
-  id: string
-  tenant_id: string | null
-  supplier_id: string | null
   name: string
   description: string | null
   sku: string
   barcode: string | null
-  category_id: string | null
   weight: runtime.Decimal | null
   dimensions: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  deleted_at: Date | null
   reorder_level: runtime.Decimal | null
   auth_user_id: string | null
   store_id: string | null
@@ -354,6 +349,11 @@ export type ProductsGroupByOutputType = {
   is_batch_tracked: boolean
   is_serial_tracked: boolean
   product_type: $Enums.product_type_enum
+  deleted_at: Date | null
+  id: string
+  tenant_id: string | null
+  supplier_id: string | null
+  category_id: string | null
   _count: ProductsCountAggregateOutputType | null
   _avg: ProductsAvgAggregateOutputType | null
   _sum: ProductsSumAggregateOutputType | null
@@ -380,20 +380,15 @@ export type productsWhereInput = {
   AND?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
   OR?: Prisma.productsWhereInput[]
   NOT?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
-  id?: Prisma.UuidFilter<"products"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
   name?: Prisma.StringFilter<"products"> | string
   description?: Prisma.StringNullableFilter<"products"> | string | null
   sku?: Prisma.StringFilter<"products"> | string
   barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
   store_id?: Prisma.StringNullableFilter<"products"> | string | null
@@ -408,34 +403,25 @@ export type productsWhereInput = {
   is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
-  price_list?: Prisma.Price_listListRelationFilter
-  product_variants?: Prisma.Product_variantsListRelationFilter
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  id?: Prisma.UuidFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   base_uom?: Prisma.XOR<Prisma.UomsNullableScalarRelationFilter, Prisma.uomsWhereInput> | null
   brands?: Prisma.XOR<Prisma.BrandsNullableScalarRelationFilter, Prisma.brandsWhereInput> | null
-  categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
-  suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
-  purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
-  transaction_details?: Prisma.Transaction_detailsListRelationFilter
-  inventory?: Prisma.InventoryListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type productsOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sku?: Prisma.SortOrder
   barcode?: Prisma.SortOrderInput | Prisma.SortOrder
-  category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   dimensions?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -450,37 +436,29 @@ export type productsOrderByWithRelationInput = {
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
-  pos_reorder_requests?: Prisma.pos_reorder_requestsOrderByRelationAggregateInput
-  price_list?: Prisma.price_listOrderByRelationAggregateInput
-  product_variants?: Prisma.product_variantsOrderByRelationAggregateInput
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   base_uom?: Prisma.uomsOrderByWithRelationInput
   brands?: Prisma.brandsOrderByWithRelationInput
-  categories?: Prisma.categoriesOrderByWithRelationInput
-  suppliers?: Prisma.suppliersOrderByWithRelationInput
-  purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
-  transaction_details?: Prisma.transaction_detailsOrderByRelationAggregateInput
-  inventory?: Prisma.inventoryOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type productsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  sku?: string
   AND?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
   OR?: Prisma.productsWhereInput[]
   NOT?: Prisma.productsWhereInput | Prisma.productsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
   name?: Prisma.StringFilter<"products"> | string
   description?: Prisma.StringNullableFilter<"products"> | string | null
+  sku?: Prisma.StringFilter<"products"> | string
   barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
   store_id?: Prisma.StringNullableFilter<"products"> | string | null
@@ -495,34 +473,24 @@ export type productsWhereUniqueInput = Prisma.AtLeast<{
   is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
-  price_list?: Prisma.Price_listListRelationFilter
-  product_variants?: Prisma.Product_variantsListRelationFilter
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
   base_uom?: Prisma.XOR<Prisma.UomsNullableScalarRelationFilter, Prisma.uomsWhereInput> | null
   brands?: Prisma.XOR<Prisma.BrandsNullableScalarRelationFilter, Prisma.brandsWhereInput> | null
-  categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
-  suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
-  purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
-  transaction_details?: Prisma.Transaction_detailsListRelationFilter
-  inventory?: Prisma.InventoryListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
-}, "id" | "sku">
+}, "id">
 
 export type productsOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sku?: Prisma.SortOrder
   barcode?: Prisma.SortOrderInput | Prisma.SortOrder
-  category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   dimensions?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -537,6 +505,11 @@ export type productsOrderByWithAggregationInput = {
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.productsCountOrderByAggregateInput
   _avg?: Prisma.productsAvgOrderByAggregateInput
   _max?: Prisma.productsMaxOrderByAggregateInput
@@ -548,20 +521,15 @@ export type productsScalarWhereWithAggregatesInput = {
   AND?: Prisma.productsScalarWhereWithAggregatesInput | Prisma.productsScalarWhereWithAggregatesInput[]
   OR?: Prisma.productsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.productsScalarWhereWithAggregatesInput | Prisma.productsScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"products"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
-  supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"products"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
   sku?: Prisma.StringWithAggregatesFilter<"products"> | string
   barcode?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
-  category_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   weight?: Prisma.DecimalNullableWithAggregatesFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"products"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
   reorder_level?: Prisma.DecimalNullableWithAggregatesFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   store_id?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
@@ -576,10 +544,14 @@ export type productsScalarWhereWithAggregatesInput = {
   is_batch_tracked?: Prisma.BoolWithAggregatesFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolWithAggregatesFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumWithAggregatesFilter<"products"> | $Enums.product_type_enum
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"products"> | Date | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
+  category_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
 }
 
 export type productsCreateInput = {
-  id?: string
   name: string
   description?: string | null
   sku: string
@@ -589,7 +561,6 @@ export type productsCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -602,34 +573,25 @@ export type productsCreateInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
   base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
 }
 
 export type productsUncheckedCreateInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -644,16 +606,14 @@ export type productsUncheckedCreateInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -663,7 +623,6 @@ export type productsUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -676,34 +635,25 @@ export type productsUpdateInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateInput = {
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
+  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
+}
+
+export type productsUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -718,29 +668,23 @@ export type productsUncheckedUpdateInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type productsCreateManyInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -755,10 +699,14 @@ export type productsCreateManyInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -768,7 +716,6 @@ export type productsUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -781,23 +728,23 @@ export type productsUpdateManyMutationInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-}
-
-export type productsUncheckedUpdateManyInput = {
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type productsUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -812,6 +759,116 @@ export type productsUncheckedUpdateManyInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type productsCountOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  sku?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  dimensions?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  has_variants?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
+  base_price?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
+  is_marketplace?: Prisma.SortOrder
+  base_uom_id?: Prisma.SortOrder
+  brand_id?: Prisma.SortOrder
+  is_batch_tracked?: Prisma.SortOrder
+  is_serial_tracked?: Prisma.SortOrder
+  product_type?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
+  category_id?: Prisma.SortOrder
+}
+
+export type productsAvgOrderByAggregateInput = {
+  weight?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  base_price?: Prisma.SortOrder
+}
+
+export type productsMaxOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  sku?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  dimensions?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  has_variants?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
+  base_price?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
+  is_marketplace?: Prisma.SortOrder
+  base_uom_id?: Prisma.SortOrder
+  brand_id?: Prisma.SortOrder
+  is_batch_tracked?: Prisma.SortOrder
+  is_serial_tracked?: Prisma.SortOrder
+  product_type?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
+  category_id?: Prisma.SortOrder
+}
+
+export type productsMinOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  sku?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
+  dimensions?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  has_variants?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
+  base_price?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
+  is_marketplace?: Prisma.SortOrder
+  base_uom_id?: Prisma.SortOrder
+  brand_id?: Prisma.SortOrder
+  is_batch_tracked?: Prisma.SortOrder
+  is_serial_tracked?: Prisma.SortOrder
+  product_type?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  supplier_id?: Prisma.SortOrder
+  category_id?: Prisma.SortOrder
+}
+
+export type productsSumOrderByAggregateInput = {
+  weight?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  base_price?: Prisma.SortOrder
 }
 
 export type ProductsListRelationFilter = {
@@ -824,335 +881,8 @@ export type productsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ProductsScalarRelationFilter = {
-  is?: Prisma.productsWhereInput
-  isNot?: Prisma.productsWhereInput
-}
-
-export type productsCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  sku?: Prisma.SortOrder
-  barcode?: Prisma.SortOrder
-  category_id?: Prisma.SortOrder
-  weight?: Prisma.SortOrder
-  dimensions?: Prisma.SortOrder
-  is_active?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
-  reorder_level?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  has_variants?: Prisma.SortOrder
-  is_deleted?: Prisma.SortOrder
-  base_price?: Prisma.SortOrder
-  has_expiration?: Prisma.SortOrder
-  expiration_date?: Prisma.SortOrder
-  is_marketplace?: Prisma.SortOrder
-  base_uom_id?: Prisma.SortOrder
-  brand_id?: Prisma.SortOrder
-  is_batch_tracked?: Prisma.SortOrder
-  is_serial_tracked?: Prisma.SortOrder
-  product_type?: Prisma.SortOrder
-}
-
-export type productsAvgOrderByAggregateInput = {
-  weight?: Prisma.SortOrder
-  reorder_level?: Prisma.SortOrder
-  base_price?: Prisma.SortOrder
-}
-
-export type productsMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  sku?: Prisma.SortOrder
-  barcode?: Prisma.SortOrder
-  category_id?: Prisma.SortOrder
-  weight?: Prisma.SortOrder
-  dimensions?: Prisma.SortOrder
-  is_active?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
-  reorder_level?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  has_variants?: Prisma.SortOrder
-  is_deleted?: Prisma.SortOrder
-  base_price?: Prisma.SortOrder
-  has_expiration?: Prisma.SortOrder
-  expiration_date?: Prisma.SortOrder
-  is_marketplace?: Prisma.SortOrder
-  base_uom_id?: Prisma.SortOrder
-  brand_id?: Prisma.SortOrder
-  is_batch_tracked?: Prisma.SortOrder
-  is_serial_tracked?: Prisma.SortOrder
-  product_type?: Prisma.SortOrder
-}
-
-export type productsMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
-  supplier_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  sku?: Prisma.SortOrder
-  barcode?: Prisma.SortOrder
-  category_id?: Prisma.SortOrder
-  weight?: Prisma.SortOrder
-  dimensions?: Prisma.SortOrder
-  is_active?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
-  reorder_level?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  has_variants?: Prisma.SortOrder
-  is_deleted?: Prisma.SortOrder
-  base_price?: Prisma.SortOrder
-  has_expiration?: Prisma.SortOrder
-  expiration_date?: Prisma.SortOrder
-  is_marketplace?: Prisma.SortOrder
-  base_uom_id?: Prisma.SortOrder
-  brand_id?: Prisma.SortOrder
-  is_batch_tracked?: Prisma.SortOrder
-  is_serial_tracked?: Prisma.SortOrder
-  product_type?: Prisma.SortOrder
-}
-
-export type productsSumOrderByAggregateInput = {
-  weight?: Prisma.SortOrder
-  reorder_level?: Prisma.SortOrder
-  base_price?: Prisma.SortOrder
-}
-
-export type ProductsNullableScalarRelationFilter = {
-  is?: Prisma.productsWhereInput | null
-  isNot?: Prisma.productsWhereInput | null
-}
-
-export type productsCreateNestedManyWithoutCategoriesInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput> | Prisma.productsCreateWithoutCategoriesInput[] | Prisma.productsUncheckedCreateWithoutCategoriesInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutCategoriesInput | Prisma.productsCreateOrConnectWithoutCategoriesInput[]
-  createMany?: Prisma.productsCreateManyCategoriesInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUncheckedCreateNestedManyWithoutCategoriesInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput> | Prisma.productsCreateWithoutCategoriesInput[] | Prisma.productsUncheckedCreateWithoutCategoriesInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutCategoriesInput | Prisma.productsCreateOrConnectWithoutCategoriesInput[]
-  createMany?: Prisma.productsCreateManyCategoriesInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUpdateManyWithoutCategoriesNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput> | Prisma.productsCreateWithoutCategoriesInput[] | Prisma.productsUncheckedCreateWithoutCategoriesInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutCategoriesInput | Prisma.productsCreateOrConnectWithoutCategoriesInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutCategoriesInput | Prisma.productsUpsertWithWhereUniqueWithoutCategoriesInput[]
-  createMany?: Prisma.productsCreateManyCategoriesInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutCategoriesInput | Prisma.productsUpdateWithWhereUniqueWithoutCategoriesInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutCategoriesInput | Prisma.productsUpdateManyWithWhereWithoutCategoriesInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsUncheckedUpdateManyWithoutCategoriesNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput> | Prisma.productsCreateWithoutCategoriesInput[] | Prisma.productsUncheckedCreateWithoutCategoriesInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutCategoriesInput | Prisma.productsCreateOrConnectWithoutCategoriesInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutCategoriesInput | Prisma.productsUpsertWithWhereUniqueWithoutCategoriesInput[]
-  createMany?: Prisma.productsCreateManyCategoriesInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutCategoriesInput | Prisma.productsUpdateWithWhereUniqueWithoutCategoriesInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutCategoriesInput | Prisma.productsUpdateManyWithWhereWithoutCategoriesInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsCreateNestedOneWithoutPrice_listInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPrice_listInput, Prisma.productsUncheckedCreateWithoutPrice_listInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPrice_listInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneRequiredWithoutPrice_listNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPrice_listInput, Prisma.productsUncheckedCreateWithoutPrice_listInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPrice_listInput
-  upsert?: Prisma.productsUpsertWithoutPrice_listInput
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutPrice_listInput, Prisma.productsUpdateWithoutPrice_listInput>, Prisma.productsUncheckedUpdateWithoutPrice_listInput>
-}
-
-export type productsCreateNestedOneWithoutProduct_variantsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutProduct_variantsInput, Prisma.productsUncheckedCreateWithoutProduct_variantsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutProduct_variantsInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneRequiredWithoutProduct_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutProduct_variantsInput, Prisma.productsUncheckedCreateWithoutProduct_variantsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutProduct_variantsInput
-  upsert?: Prisma.productsUpsertWithoutProduct_variantsInput
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutProduct_variantsInput, Prisma.productsUpdateWithoutProduct_variantsInput>, Prisma.productsUncheckedUpdateWithoutProduct_variantsInput>
-}
-
 export type Enumproduct_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.product_type_enum
-}
-
-export type productsCreateNestedOneWithoutInventoryInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutInventoryInput, Prisma.productsUncheckedCreateWithoutInventoryInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutInventoryInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneWithoutInventoryNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutInventoryInput, Prisma.productsUncheckedCreateWithoutInventoryInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutInventoryInput
-  upsert?: Prisma.productsUpsertWithoutInventoryInput
-  disconnect?: Prisma.productsWhereInput | boolean
-  delete?: Prisma.productsWhereInput | boolean
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutInventoryInput, Prisma.productsUpdateWithoutInventoryInput>, Prisma.productsUncheckedUpdateWithoutInventoryInput>
-}
-
-export type productsCreateNestedOneWithoutPos_reorder_requestsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedCreateWithoutPos_reorder_requestsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPos_reorder_requestsInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneRequiredWithoutPos_reorder_requestsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedCreateWithoutPos_reorder_requestsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPos_reorder_requestsInput
-  upsert?: Prisma.productsUpsertWithoutPos_reorder_requestsInput
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutPos_reorder_requestsInput, Prisma.productsUpdateWithoutPos_reorder_requestsInput>, Prisma.productsUncheckedUpdateWithoutPos_reorder_requestsInput>
-}
-
-export type productsCreateNestedOneWithoutPurchase_order_itemsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedCreateWithoutPurchase_order_itemsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPurchase_order_itemsInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedCreateWithoutPurchase_order_itemsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutPurchase_order_itemsInput
-  upsert?: Prisma.productsUpsertWithoutPurchase_order_itemsInput
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.productsUpdateWithoutPurchase_order_itemsInput>, Prisma.productsUncheckedUpdateWithoutPurchase_order_itemsInput>
-}
-
-export type productsCreateNestedManyWithoutSuppliersInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput> | Prisma.productsCreateWithoutSuppliersInput[] | Prisma.productsUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutSuppliersInput | Prisma.productsCreateOrConnectWithoutSuppliersInput[]
-  createMany?: Prisma.productsCreateManySuppliersInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUncheckedCreateNestedManyWithoutSuppliersInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput> | Prisma.productsCreateWithoutSuppliersInput[] | Prisma.productsUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutSuppliersInput | Prisma.productsCreateOrConnectWithoutSuppliersInput[]
-  createMany?: Prisma.productsCreateManySuppliersInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUpdateManyWithoutSuppliersNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput> | Prisma.productsCreateWithoutSuppliersInput[] | Prisma.productsUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutSuppliersInput | Prisma.productsCreateOrConnectWithoutSuppliersInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.productsUpsertWithWhereUniqueWithoutSuppliersInput[]
-  createMany?: Prisma.productsCreateManySuppliersInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.productsUpdateWithWhereUniqueWithoutSuppliersInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutSuppliersInput | Prisma.productsUpdateManyWithWhereWithoutSuppliersInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsUncheckedUpdateManyWithoutSuppliersNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput> | Prisma.productsCreateWithoutSuppliersInput[] | Prisma.productsUncheckedCreateWithoutSuppliersInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutSuppliersInput | Prisma.productsCreateOrConnectWithoutSuppliersInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.productsUpsertWithWhereUniqueWithoutSuppliersInput[]
-  createMany?: Prisma.productsCreateManySuppliersInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.productsUpdateWithWhereUniqueWithoutSuppliersInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutSuppliersInput | Prisma.productsUpdateManyWithWhereWithoutSuppliersInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput> | Prisma.productsCreateWithoutTenantsInput[] | Prisma.productsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTenantsInput | Prisma.productsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.productsCreateManyTenantsInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput> | Prisma.productsCreateWithoutTenantsInput[] | Prisma.productsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTenantsInput | Prisma.productsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.productsCreateManyTenantsInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput> | Prisma.productsCreateWithoutTenantsInput[] | Prisma.productsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTenantsInput | Prisma.productsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.productsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.productsCreateManyTenantsInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.productsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutTenantsInput | Prisma.productsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput> | Prisma.productsCreateWithoutTenantsInput[] | Prisma.productsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTenantsInput | Prisma.productsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.productsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.productsCreateManyTenantsInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.productsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutTenantsInput | Prisma.productsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsCreateNestedOneWithoutTransaction_detailsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTransaction_detailsInput, Prisma.productsUncheckedCreateWithoutTransaction_detailsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTransaction_detailsInput
-  connect?: Prisma.productsWhereUniqueInput
-}
-
-export type productsUpdateOneRequiredWithoutTransaction_detailsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTransaction_detailsInput, Prisma.productsUncheckedCreateWithoutTransaction_detailsInput>
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTransaction_detailsInput
-  upsert?: Prisma.productsUpsertWithoutTransaction_detailsInput
-  connect?: Prisma.productsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutTransaction_detailsInput, Prisma.productsUpdateWithoutTransaction_detailsInput>, Prisma.productsUncheckedUpdateWithoutTransaction_detailsInput>
 }
 
 export type productsCreateNestedManyWithoutBrandsInput = {
@@ -1239,1296 +969,7 @@ export type productsUncheckedUpdateManyWithoutBase_uomNestedInput = {
   deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
 }
 
-export type productsCreateWithoutCategoriesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutCategoriesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutCategoriesInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput>
-}
-
-export type productsCreateManyCategoriesInputEnvelope = {
-  data: Prisma.productsCreateManyCategoriesInput | Prisma.productsCreateManyCategoriesInput[]
-  skipDuplicates?: boolean
-}
-
-export type productsUpsertWithWhereUniqueWithoutCategoriesInput = {
-  where: Prisma.productsWhereUniqueInput
-  update: Prisma.XOR<Prisma.productsUpdateWithoutCategoriesInput, Prisma.productsUncheckedUpdateWithoutCategoriesInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutCategoriesInput, Prisma.productsUncheckedCreateWithoutCategoriesInput>
-}
-
-export type productsUpdateWithWhereUniqueWithoutCategoriesInput = {
-  where: Prisma.productsWhereUniqueInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutCategoriesInput, Prisma.productsUncheckedUpdateWithoutCategoriesInput>
-}
-
-export type productsUpdateManyWithWhereWithoutCategoriesInput = {
-  where: Prisma.productsScalarWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutCategoriesInput>
-}
-
-export type productsScalarWhereInput = {
-  AND?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-  OR?: Prisma.productsScalarWhereInput[]
-  NOT?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"products"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  name?: Prisma.StringFilter<"products"> | string
-  description?: Prisma.StringNullableFilter<"products"> | string | null
-  sku?: Prisma.StringFilter<"products"> | string
-  barcode?: Prisma.StringNullableFilter<"products"> | string | null
-  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.StringNullableFilter<"products"> | string | null
-  is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  store_id?: Prisma.StringNullableFilter<"products"> | string | null
-  has_variants?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  is_deleted?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  base_price?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  expiration_date?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
-  is_marketplace?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  base_uom_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  brand_id?: Prisma.UuidNullableFilter<"products"> | string | null
-  is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
-  is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
-  product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
-}
-
-export type productsCreateWithoutPrice_listInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutPrice_listInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutPrice_listInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutPrice_listInput, Prisma.productsUncheckedCreateWithoutPrice_listInput>
-}
-
-export type productsUpsertWithoutPrice_listInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutPrice_listInput, Prisma.productsUncheckedUpdateWithoutPrice_listInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutPrice_listInput, Prisma.productsUncheckedCreateWithoutPrice_listInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutPrice_listInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutPrice_listInput, Prisma.productsUncheckedUpdateWithoutPrice_listInput>
-}
-
-export type productsUpdateWithoutPrice_listInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutPrice_listInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutProduct_variantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutProduct_variantsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutProduct_variantsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutProduct_variantsInput, Prisma.productsUncheckedCreateWithoutProduct_variantsInput>
-}
-
-export type productsUpsertWithoutProduct_variantsInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutProduct_variantsInput, Prisma.productsUncheckedUpdateWithoutProduct_variantsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutProduct_variantsInput, Prisma.productsUncheckedCreateWithoutProduct_variantsInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutProduct_variantsInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutProduct_variantsInput, Prisma.productsUncheckedUpdateWithoutProduct_variantsInput>
-}
-
-export type productsUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutInventoryInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutInventoryInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutInventoryInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutInventoryInput, Prisma.productsUncheckedCreateWithoutInventoryInput>
-}
-
-export type productsUpsertWithoutInventoryInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutInventoryInput, Prisma.productsUncheckedUpdateWithoutInventoryInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutInventoryInput, Prisma.productsUncheckedCreateWithoutInventoryInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutInventoryInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutInventoryInput, Prisma.productsUncheckedUpdateWithoutInventoryInput>
-}
-
-export type productsUpdateWithoutInventoryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutInventoryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutPos_reorder_requestsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutPos_reorder_requestsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutPos_reorder_requestsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedCreateWithoutPos_reorder_requestsInput>
-}
-
-export type productsUpsertWithoutPos_reorder_requestsInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedUpdateWithoutPos_reorder_requestsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedCreateWithoutPos_reorder_requestsInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutPos_reorder_requestsInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutPos_reorder_requestsInput, Prisma.productsUncheckedUpdateWithoutPos_reorder_requestsInput>
-}
-
-export type productsUpdateWithoutPos_reorder_requestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutPos_reorder_requestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutPurchase_order_itemsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutPurchase_order_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutPurchase_order_itemsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedCreateWithoutPurchase_order_itemsInput>
-}
-
-export type productsUpsertWithoutPurchase_order_itemsInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedUpdateWithoutPurchase_order_itemsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedCreateWithoutPurchase_order_itemsInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutPurchase_order_itemsInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutPurchase_order_itemsInput, Prisma.productsUncheckedUpdateWithoutPurchase_order_itemsInput>
-}
-
-export type productsUpdateWithoutPurchase_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutPurchase_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutSuppliersInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutSuppliersInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutSuppliersInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput>
-}
-
-export type productsCreateManySuppliersInputEnvelope = {
-  data: Prisma.productsCreateManySuppliersInput | Prisma.productsCreateManySuppliersInput[]
-  skipDuplicates?: boolean
-}
-
-export type productsUpsertWithWhereUniqueWithoutSuppliersInput = {
-  where: Prisma.productsWhereUniqueInput
-  update: Prisma.XOR<Prisma.productsUpdateWithoutSuppliersInput, Prisma.productsUncheckedUpdateWithoutSuppliersInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutSuppliersInput, Prisma.productsUncheckedCreateWithoutSuppliersInput>
-}
-
-export type productsUpdateWithWhereUniqueWithoutSuppliersInput = {
-  where: Prisma.productsWhereUniqueInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutSuppliersInput, Prisma.productsUncheckedUpdateWithoutSuppliersInput>
-}
-
-export type productsUpdateManyWithWhereWithoutSuppliersInput = {
-  where: Prisma.productsScalarWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutSuppliersInput>
-}
-
-export type productsCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput>
-}
-
-export type productsCreateManyTenantsInputEnvelope = {
-  data: Prisma.productsCreateManyTenantsInput | Prisma.productsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type productsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.productsWhereUniqueInput
-  update: Prisma.XOR<Prisma.productsUpdateWithoutTenantsInput, Prisma.productsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutTenantsInput, Prisma.productsUncheckedCreateWithoutTenantsInput>
-}
-
-export type productsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.productsWhereUniqueInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutTenantsInput, Prisma.productsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type productsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.productsScalarWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type productsCreateWithoutTransaction_detailsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutTransaction_detailsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutTransaction_detailsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutTransaction_detailsInput, Prisma.productsUncheckedCreateWithoutTransaction_detailsInput>
-}
-
-export type productsUpsertWithoutTransaction_detailsInput = {
-  update: Prisma.XOR<Prisma.productsUpdateWithoutTransaction_detailsInput, Prisma.productsUncheckedUpdateWithoutTransaction_detailsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutTransaction_detailsInput, Prisma.productsUncheckedCreateWithoutTransaction_detailsInput>
-  where?: Prisma.productsWhereInput
-}
-
-export type productsUpdateToOneWithWhereWithoutTransaction_detailsInput = {
-  where?: Prisma.productsWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutTransaction_detailsInput, Prisma.productsUncheckedUpdateWithoutTransaction_detailsInput>
-}
-
-export type productsUpdateWithoutTransaction_detailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutTransaction_detailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
 export type productsCreateWithoutBrandsInput = {
-  id?: string
   name: string
   description?: string | null
   sku: string
@@ -2538,7 +979,6 @@ export type productsCreateWithoutBrandsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2551,33 +991,24 @@ export type productsCreateWithoutBrandsInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
   base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
 }
 
 export type productsUncheckedCreateWithoutBrandsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2591,12 +1022,11 @@ export type productsUncheckedCreateWithoutBrandsInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsCreateOrConnectWithoutBrandsInput = {
@@ -2625,8 +1055,41 @@ export type productsUpdateManyWithWhereWithoutBrandsInput = {
   data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutBrandsInput>
 }
 
+export type productsScalarWhereInput = {
+  AND?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
+  OR?: Prisma.productsScalarWhereInput[]
+  NOT?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
+  name?: Prisma.StringFilter<"products"> | string
+  description?: Prisma.StringNullableFilter<"products"> | string | null
+  sku?: Prisma.StringFilter<"products"> | string
+  barcode?: Prisma.StringNullableFilter<"products"> | string | null
+  weight?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.StringNullableFilter<"products"> | string | null
+  is_active?: Prisma.BoolNullableFilter<"products"> | boolean | null
+  created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  reorder_level?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  store_id?: Prisma.StringNullableFilter<"products"> | string | null
+  has_variants?: Prisma.BoolNullableFilter<"products"> | boolean | null
+  is_deleted?: Prisma.BoolNullableFilter<"products"> | boolean | null
+  base_price?: Prisma.DecimalNullableFilter<"products"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  has_expiration?: Prisma.BoolNullableFilter<"products"> | boolean | null
+  expiration_date?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  is_marketplace?: Prisma.BoolNullableFilter<"products"> | boolean | null
+  base_uom_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  brand_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
+  is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
+  product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
+  deleted_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
+  id?: Prisma.UuidFilter<"products"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"products"> | string | null
+  category_id?: Prisma.UuidNullableFilter<"products"> | string | null
+}
+
 export type productsCreateWithoutBase_uomInput = {
-  id?: string
   name: string
   description?: string | null
   sku: string
@@ -2636,7 +1099,6 @@ export type productsCreateWithoutBase_uomInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2649,33 +1111,24 @@ export type productsCreateWithoutBase_uomInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutBase_uomInput = {
+  deleted_at?: Date | string | null
   id?: string
   tenant_id?: string | null
   supplier_id?: string | null
+  category_id?: string | null
+  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
+}
+
+export type productsUncheckedCreateWithoutBase_uomInput = {
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -2689,12 +1142,11 @@ export type productsUncheckedCreateWithoutBase_uomInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsCreateOrConnectWithoutBase_uomInput = {
@@ -2723,417 +1175,16 @@ export type productsUpdateManyWithWhereWithoutBase_uomInput = {
   data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutBase_uomInput>
 }
 
-export type productsCreateManyCategoriesInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-}
-
-export type productsUpdateWithoutCategoriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutCategoriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateManyWithoutCategoriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-}
-
-export type productsCreateManySuppliersInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-}
-
-export type productsUpdateWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateManyWithoutSuppliersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-}
-
-export type productsCreateManyTenantsInput = {
-  id?: string
-  supplier_id?: string | null
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  category_id?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  base_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: boolean | null
-  expiration_date?: Date | string | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-}
-
-export type productsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-}
-
 export type productsCreateManyBrandsInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -3147,10 +1198,14 @@ export type productsCreateManyBrandsInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsUpdateWithoutBrandsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3160,7 +1215,6 @@ export type productsUpdateWithoutBrandsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3173,33 +1227,24 @@ export type productsUpdateWithoutBrandsInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
 }
 
 export type productsUncheckedUpdateWithoutBrandsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3213,29 +1258,23 @@ export type productsUncheckedUpdateWithoutBrandsInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type productsUncheckedUpdateManyWithoutBrandsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3249,23 +1288,23 @@ export type productsUncheckedUpdateManyWithoutBrandsInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type productsCreateManyBase_uomInput = {
-  id?: string
-  tenant_id?: string | null
-  supplier_id?: string | null
   name: string
   description?: string | null
   sku: string
   barcode?: string | null
-  category_id?: string | null
   weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   reorder_level?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   store_id?: string | null
@@ -3279,10 +1318,14 @@ export type productsCreateManyBase_uomInput = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
+  deleted_at?: Date | string | null
+  id?: string
+  tenant_id?: string | null
+  supplier_id?: string | null
+  category_id?: string | null
 }
 
 export type productsUpdateWithoutBase_uomInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3292,7 +1335,6 @@ export type productsUpdateWithoutBase_uomInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3305,33 +1347,24 @@ export type productsUpdateWithoutBase_uomInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutProductsNestedInput
 }
 
 export type productsUncheckedUpdateWithoutBase_uomInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3345,29 +1378,23 @@ export type productsUncheckedUpdateWithoutBase_uomInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type productsUncheckedUpdateManyWithoutBase_uomInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reorder_level?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3381,99 +1408,25 @@ export type productsUncheckedUpdateManyWithoutBase_uomInput = {
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-
-/**
- * Count Type ProductsCountOutputType
- */
-
-export type ProductsCountOutputType = {
-  pos_reorder_requests: number
-  price_list: number
-  product_variants: number
-  purchase_order_items: number
-  transaction_details: number
-  inventory: number
-}
-
-export type ProductsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pos_reorder_requests?: boolean | ProductsCountOutputTypeCountPos_reorder_requestsArgs
-  price_list?: boolean | ProductsCountOutputTypeCountPrice_listArgs
-  product_variants?: boolean | ProductsCountOutputTypeCountProduct_variantsArgs
-  purchase_order_items?: boolean | ProductsCountOutputTypeCountPurchase_order_itemsArgs
-  transaction_details?: boolean | ProductsCountOutputTypeCountTransaction_detailsArgs
-  inventory?: boolean | ProductsCountOutputTypeCountInventoryArgs
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProductsCountOutputType
-   */
-  select?: Prisma.ProductsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountPos_reorder_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.pos_reorder_requestsWhereInput
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.price_listWhereInput
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountProduct_variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.product_variantsWhereInput
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountPurchase_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_order_itemsWhereInput
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountTransaction_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.transaction_detailsWhereInput
-}
-
-/**
- * ProductsCountOutputType without action
- */
-export type ProductsCountOutputTypeCountInventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.inventoryWhereInput
-}
 
 
 export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   name?: boolean
   description?: boolean
   sku?: boolean
   barcode?: boolean
-  category_id?: boolean
   weight?: boolean
   dimensions?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3488,35 +1441,25 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
-  pos_reorder_requests?: boolean | Prisma.products$pos_reorder_requestsArgs<ExtArgs>
-  price_list?: boolean | Prisma.products$price_listArgs<ExtArgs>
-  product_variants?: boolean | Prisma.products$product_variantsArgs<ExtArgs>
+  deleted_at?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
+  category_id?: boolean
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  purchase_order_items?: boolean | Prisma.products$purchase_order_itemsArgs<ExtArgs>
-  transaction_details?: boolean | Prisma.products$transaction_detailsArgs<ExtArgs>
-  inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.ProductsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   name?: boolean
   description?: boolean
   sku?: boolean
   barcode?: boolean
-  category_id?: boolean
   weight?: boolean
   dimensions?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3531,28 +1474,25 @@ export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
+  deleted_at?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
+  category_id?: boolean
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   name?: boolean
   description?: boolean
   sku?: boolean
   barcode?: boolean
-  category_id?: boolean
   weight?: boolean
   dimensions?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3567,28 +1507,25 @@ export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
+  deleted_at?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
+  category_id?: boolean
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type productsSelectScalar = {
-  id?: boolean
-  tenant_id?: boolean
-  supplier_id?: boolean
   name?: boolean
   description?: boolean
   sku?: boolean
   barcode?: boolean
-  category_id?: boolean
   weight?: boolean
   dimensions?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  deleted_at?: boolean
   reorder_level?: boolean
   auth_user_id?: boolean
   store_id?: boolean
@@ -3603,68 +1540,43 @@ export type productsSelectScalar = {
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
+  deleted_at?: boolean
+  id?: boolean
+  tenant_id?: boolean
+  supplier_id?: boolean
+  category_id?: boolean
 }
 
-export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "supplier_id" | "name" | "description" | "sku" | "barcode" | "category_id" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "reorder_level" | "auth_user_id" | "store_id" | "has_variants" | "is_deleted" | "base_price" | "has_expiration" | "expiration_date" | "is_marketplace" | "base_uom_id" | "brand_id" | "is_batch_tracked" | "is_serial_tracked" | "product_type", ExtArgs["result"]["products"]>
+export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "sku" | "barcode" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "reorder_level" | "auth_user_id" | "store_id" | "has_variants" | "is_deleted" | "base_price" | "has_expiration" | "expiration_date" | "is_marketplace" | "base_uom_id" | "brand_id" | "is_batch_tracked" | "is_serial_tracked" | "product_type" | "deleted_at" | "id" | "tenant_id" | "supplier_id" | "category_id", ExtArgs["result"]["products"]>
 export type productsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pos_reorder_requests?: boolean | Prisma.products$pos_reorder_requestsArgs<ExtArgs>
-  price_list?: boolean | Prisma.products$price_listArgs<ExtArgs>
-  product_variants?: boolean | Prisma.products$product_variantsArgs<ExtArgs>
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  purchase_order_items?: boolean | Prisma.products$purchase_order_itemsArgs<ExtArgs>
-  transaction_details?: boolean | Prisma.products$transaction_detailsArgs<ExtArgs>
-  inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.ProductsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type productsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
 }
 export type productsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   base_uom?: boolean | Prisma.products$base_uomArgs<ExtArgs>
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
-  categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
-  suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
-  tenants?: boolean | Prisma.products$tenantsArgs<ExtArgs>
 }
 
 export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "products"
   objects: {
-    pos_reorder_requests: Prisma.$pos_reorder_requestsPayload<ExtArgs>[]
-    price_list: Prisma.$price_listPayload<ExtArgs>[]
-    product_variants: Prisma.$product_variantsPayload<ExtArgs>[]
     base_uom: Prisma.$uomsPayload<ExtArgs> | null
     brands: Prisma.$brandsPayload<ExtArgs> | null
-    categories: Prisma.$categoriesPayload<ExtArgs> | null
-    suppliers: Prisma.$suppliersPayload<ExtArgs> | null
-    purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
-    transaction_details: Prisma.$transaction_detailsPayload<ExtArgs>[]
-    inventory: Prisma.$inventoryPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    tenant_id: string | null
-    supplier_id: string | null
     name: string
     description: string | null
     sku: string
     barcode: string | null
-    category_id: string | null
     weight: runtime.Decimal | null
     dimensions: string | null
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    deleted_at: Date | null
     reorder_level: runtime.Decimal | null
     auth_user_id: string | null
     store_id: string | null
@@ -3679,6 +1591,11 @@ export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     is_batch_tracked: boolean
     is_serial_tracked: boolean
     product_type: $Enums.product_type_enum
+    deleted_at: Date | null
+    id: string
+    tenant_id: string | null
+    supplier_id: string | null
+    category_id: string | null
   }, ExtArgs["result"]["products"]>
   composites: {}
 }
@@ -3762,8 +1679,8 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 Products
    * const products = await prisma.products.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const productsWithIdOnly = await prisma.products.findMany({ select: { id: true } })
+   * // Only select the `name`
+   * const productsWithNameOnly = await prisma.products.findMany({ select: { name: true } })
    * 
    */
   findMany<T extends productsFindManyArgs>(args?: Prisma.SelectSubset<T, productsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3807,9 +1724,9 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Create many Products and only return the `id`
-   * const productsWithIdOnly = await prisma.products.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Products and only return the `name`
+   * const productsWithNameOnly = await prisma.products.createManyAndReturn({
+   *   select: { name: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -3898,9 +1815,9 @@ export interface productsDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Update zero or more Products and only return the `id`
-   * const productsWithIdOnly = await prisma.products.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Products and only return the `name`
+   * const productsWithNameOnly = await prisma.products.updateManyAndReturn({
+   *   select: { name: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -4073,17 +1990,8 @@ readonly fields: productsFieldRefs;
  */
 export interface Prisma__productsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  pos_reorder_requests<T extends Prisma.products$pos_reorder_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$pos_reorder_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_reorder_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  price_list<T extends Prisma.products$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  product_variants<T extends Prisma.products$product_variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$product_variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   base_uom<T extends Prisma.products$base_uomArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$base_uomArgs<ExtArgs>>): Prisma.Prisma__uomsClient<runtime.Types.Result.GetResult<Prisma.$uomsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   brands<T extends Prisma.products$brandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$brandsArgs<ExtArgs>>): Prisma.Prisma__brandsClient<runtime.Types.Result.GetResult<Prisma.$brandsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  categories<T extends Prisma.products$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$categoriesArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  suppliers<T extends Prisma.products$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$suppliersArgs<ExtArgs>>): Prisma.Prisma__suppliersClient<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  purchase_order_items<T extends Prisma.products$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  transaction_details<T extends Prisma.products$transaction_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$transaction_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transaction_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inventory<T extends Prisma.products$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.products$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4113,20 +2021,15 @@ export interface Prisma__productsClient<T, Null = never, ExtArgs extends runtime
  * Fields of the products model
  */
 export interface productsFieldRefs {
-  readonly id: Prisma.FieldRef<"products", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"products", 'String'>
-  readonly supplier_id: Prisma.FieldRef<"products", 'String'>
   readonly name: Prisma.FieldRef<"products", 'String'>
   readonly description: Prisma.FieldRef<"products", 'String'>
   readonly sku: Prisma.FieldRef<"products", 'String'>
   readonly barcode: Prisma.FieldRef<"products", 'String'>
-  readonly category_id: Prisma.FieldRef<"products", 'String'>
   readonly weight: Prisma.FieldRef<"products", 'Decimal'>
   readonly dimensions: Prisma.FieldRef<"products", 'String'>
   readonly is_active: Prisma.FieldRef<"products", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"products", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"products", 'DateTime'>
-  readonly deleted_at: Prisma.FieldRef<"products", 'DateTime'>
   readonly reorder_level: Prisma.FieldRef<"products", 'Decimal'>
   readonly auth_user_id: Prisma.FieldRef<"products", 'String'>
   readonly store_id: Prisma.FieldRef<"products", 'String'>
@@ -4141,6 +2044,11 @@ export interface productsFieldRefs {
   readonly is_batch_tracked: Prisma.FieldRef<"products", 'Boolean'>
   readonly is_serial_tracked: Prisma.FieldRef<"products", 'Boolean'>
   readonly product_type: Prisma.FieldRef<"products", 'product_type_enum'>
+  readonly deleted_at: Prisma.FieldRef<"products", 'DateTime'>
+  readonly id: Prisma.FieldRef<"products", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"products", 'String'>
+  readonly supplier_id: Prisma.FieldRef<"products", 'String'>
+  readonly category_id: Prisma.FieldRef<"products", 'String'>
 }
     
 
@@ -4542,78 +2450,6 @@ export type productsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * products.pos_reorder_requests
- */
-export type products$pos_reorder_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the pos_reorder_requests
-   */
-  select?: Prisma.pos_reorder_requestsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the pos_reorder_requests
-   */
-  omit?: Prisma.pos_reorder_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_reorder_requestsInclude<ExtArgs> | null
-  where?: Prisma.pos_reorder_requestsWhereInput
-  orderBy?: Prisma.pos_reorder_requestsOrderByWithRelationInput | Prisma.pos_reorder_requestsOrderByWithRelationInput[]
-  cursor?: Prisma.pos_reorder_requestsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Pos_reorder_requestsScalarFieldEnum | Prisma.Pos_reorder_requestsScalarFieldEnum[]
-}
-
-/**
- * products.price_list
- */
-export type products$price_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the price_list
-   */
-  select?: Prisma.price_listSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the price_list
-   */
-  omit?: Prisma.price_listOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.price_listInclude<ExtArgs> | null
-  where?: Prisma.price_listWhereInput
-  orderBy?: Prisma.price_listOrderByWithRelationInput | Prisma.price_listOrderByWithRelationInput[]
-  cursor?: Prisma.price_listWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
-}
-
-/**
- * products.product_variants
- */
-export type products$product_variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the product_variants
-   */
-  select?: Prisma.product_variantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the product_variants
-   */
-  omit?: Prisma.product_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.product_variantsInclude<ExtArgs> | null
-  where?: Prisma.product_variantsWhereInput
-  orderBy?: Prisma.product_variantsOrderByWithRelationInput | Prisma.product_variantsOrderByWithRelationInput[]
-  cursor?: Prisma.product_variantsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Product_variantsScalarFieldEnum | Prisma.Product_variantsScalarFieldEnum[]
-}
-
-/**
  * products.base_uom
  */
 export type products$base_uomArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4649,135 +2485,6 @@ export type products$brandsArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.brandsInclude<ExtArgs> | null
   where?: Prisma.brandsWhereInput
-}
-
-/**
- * products.categories
- */
-export type products$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the categories
-   */
-  select?: Prisma.categoriesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the categories
-   */
-  omit?: Prisma.categoriesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.categoriesInclude<ExtArgs> | null
-  where?: Prisma.categoriesWhereInput
-}
-
-/**
- * products.suppliers
- */
-export type products$suppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the suppliers
-   */
-  select?: Prisma.suppliersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the suppliers
-   */
-  omit?: Prisma.suppliersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.suppliersInclude<ExtArgs> | null
-  where?: Prisma.suppliersWhereInput
-}
-
-/**
- * products.purchase_order_items
- */
-export type products$purchase_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_order_items
-   */
-  select?: Prisma.purchase_order_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_order_items
-   */
-  omit?: Prisma.purchase_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_order_itemsInclude<ExtArgs> | null
-  where?: Prisma.purchase_order_itemsWhereInput
-  orderBy?: Prisma.purchase_order_itemsOrderByWithRelationInput | Prisma.purchase_order_itemsOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_order_itemsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_order_itemsScalarFieldEnum | Prisma.Purchase_order_itemsScalarFieldEnum[]
-}
-
-/**
- * products.transaction_details
- */
-export type products$transaction_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the transaction_details
-   */
-  select?: Prisma.transaction_detailsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the transaction_details
-   */
-  omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  where?: Prisma.transaction_detailsWhereInput
-  orderBy?: Prisma.transaction_detailsOrderByWithRelationInput | Prisma.transaction_detailsOrderByWithRelationInput[]
-  cursor?: Prisma.transaction_detailsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Transaction_detailsScalarFieldEnum | Prisma.Transaction_detailsScalarFieldEnum[]
-}
-
-/**
- * products.inventory
- */
-export type products$inventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the inventory
-   */
-  select?: Prisma.inventorySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the inventory
-   */
-  omit?: Prisma.inventoryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.inventoryInclude<ExtArgs> | null
-  where?: Prisma.inventoryWhereInput
-  orderBy?: Prisma.inventoryOrderByWithRelationInput | Prisma.inventoryOrderByWithRelationInput[]
-  cursor?: Prisma.inventoryWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryScalarFieldEnum | Prisma.InventoryScalarFieldEnum[]
-}
-
-/**
- * products.tenants
- */
-export type products$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
 }
 
 /**

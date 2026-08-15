@@ -363,7 +363,6 @@ export type product_serialsOrderByWithRelationInput = {
 
 export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenant_id_product_variant_id_serial_number?: Prisma.product_serialsTenant_idProduct_variant_idSerial_numberCompoundUniqueInput
   AND?: Prisma.product_serialsWhereInput | Prisma.product_serialsWhereInput[]
   OR?: Prisma.product_serialsWhereInput[]
   NOT?: Prisma.product_serialsWhereInput | Prisma.product_serialsWhereInput[]
@@ -386,7 +385,7 @@ export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
-}, "id" | "tenant_id_product_variant_id_serial_number">
+}, "id">
 
 export type product_serialsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -601,12 +600,6 @@ export type product_serialsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type product_serialsTenant_idProduct_variant_idSerial_numberCompoundUniqueInput = {
-  tenant_id: string
-  product_variant_id: string
-  serial_number: string
 }
 
 export type product_serialsCountOrderByAggregateInput = {

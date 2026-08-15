@@ -206,10 +206,6 @@ export type permissionsWhereInput = {
   action?: Prisma.StringNullableFilter<"permissions"> | string | null
   resource?: Prisma.StringNullableFilter<"permissions"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"permissions"> | string | null
-  role_permissions?: Prisma.Role_permissionsListRelationFilter
-  screen_buttons?: Prisma.Screen_buttonsListRelationFilter
-  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
-  user_permissions?: Prisma.User_permissionsListRelationFilter
 }
 
 export type permissionsOrderByWithRelationInput = {
@@ -221,29 +217,21 @@ export type permissionsOrderByWithRelationInput = {
   action?: Prisma.SortOrderInput | Prisma.SortOrder
   resource?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  role_permissions?: Prisma.role_permissionsOrderByRelationAggregateInput
-  screen_buttons?: Prisma.screen_buttonsOrderByRelationAggregateInput
-  screen_permissions?: Prisma.screen_permissionsOrderByRelationAggregateInput
-  user_permissions?: Prisma.user_permissionsOrderByRelationAggregateInput
 }
 
 export type permissionsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.permissionsWhereInput | Prisma.permissionsWhereInput[]
   OR?: Prisma.permissionsWhereInput[]
   NOT?: Prisma.permissionsWhereInput | Prisma.permissionsWhereInput[]
+  name?: Prisma.StringFilter<"permissions"> | string
   description?: Prisma.StringNullableFilter<"permissions"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"permissions"> | Date | string | null
   action?: Prisma.StringNullableFilter<"permissions"> | string | null
   resource?: Prisma.StringNullableFilter<"permissions"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"permissions"> | string | null
-  role_permissions?: Prisma.Role_permissionsListRelationFilter
-  screen_buttons?: Prisma.Screen_buttonsListRelationFilter
-  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
-  user_permissions?: Prisma.User_permissionsListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type permissionsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -282,10 +270,6 @@ export type permissionsCreateInput = {
   action?: string | null
   resource?: string | null
   auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
 }
 
 export type permissionsUncheckedCreateInput = {
@@ -297,10 +281,6 @@ export type permissionsUncheckedCreateInput = {
   action?: string | null
   resource?: string | null
   auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
 }
 
 export type permissionsUpdateInput = {
@@ -312,10 +292,6 @@ export type permissionsUpdateInput = {
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
 }
 
 export type permissionsUncheckedUpdateInput = {
@@ -327,10 +303,6 @@ export type permissionsUncheckedUpdateInput = {
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
 }
 
 export type permissionsCreateManyInput = {
@@ -399,411 +371,6 @@ export type permissionsMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
-export type PermissionsScalarRelationFilter = {
-  is?: Prisma.permissionsWhereInput
-  isNot?: Prisma.permissionsWhereInput
-}
-
-export type permissionsCreateNestedOneWithoutRole_permissionsInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutRole_permissionsInput, Prisma.permissionsUncheckedCreateWithoutRole_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutRole_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-}
-
-export type permissionsUpdateOneRequiredWithoutRole_permissionsNestedInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutRole_permissionsInput, Prisma.permissionsUncheckedCreateWithoutRole_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutRole_permissionsInput
-  upsert?: Prisma.permissionsUpsertWithoutRole_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.permissionsUpdateToOneWithWhereWithoutRole_permissionsInput, Prisma.permissionsUpdateWithoutRole_permissionsInput>, Prisma.permissionsUncheckedUpdateWithoutRole_permissionsInput>
-}
-
-export type permissionsCreateNestedOneWithoutScreen_permissionsInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedCreateWithoutScreen_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutScreen_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-}
-
-export type permissionsUpdateOneRequiredWithoutScreen_permissionsNestedInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedCreateWithoutScreen_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutScreen_permissionsInput
-  upsert?: Prisma.permissionsUpsertWithoutScreen_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.permissionsUpdateToOneWithWhereWithoutScreen_permissionsInput, Prisma.permissionsUpdateWithoutScreen_permissionsInput>, Prisma.permissionsUncheckedUpdateWithoutScreen_permissionsInput>
-}
-
-export type permissionsCreateNestedOneWithoutScreen_buttonsInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedCreateWithoutScreen_buttonsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutScreen_buttonsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-}
-
-export type permissionsUpdateOneRequiredWithoutScreen_buttonsNestedInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedCreateWithoutScreen_buttonsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutScreen_buttonsInput
-  upsert?: Prisma.permissionsUpsertWithoutScreen_buttonsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.permissionsUpdateToOneWithWhereWithoutScreen_buttonsInput, Prisma.permissionsUpdateWithoutScreen_buttonsInput>, Prisma.permissionsUncheckedUpdateWithoutScreen_buttonsInput>
-}
-
-export type permissionsCreateNestedOneWithoutUser_permissionsInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutUser_permissionsInput, Prisma.permissionsUncheckedCreateWithoutUser_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutUser_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-}
-
-export type permissionsUpdateOneRequiredWithoutUser_permissionsNestedInput = {
-  create?: Prisma.XOR<Prisma.permissionsCreateWithoutUser_permissionsInput, Prisma.permissionsUncheckedCreateWithoutUser_permissionsInput>
-  connectOrCreate?: Prisma.permissionsCreateOrConnectWithoutUser_permissionsInput
-  upsert?: Prisma.permissionsUpsertWithoutUser_permissionsInput
-  connect?: Prisma.permissionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.permissionsUpdateToOneWithWhereWithoutUser_permissionsInput, Prisma.permissionsUpdateWithoutUser_permissionsInput>, Prisma.permissionsUncheckedUpdateWithoutUser_permissionsInput>
-}
-
-export type permissionsCreateWithoutRole_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsUncheckedCreateWithoutRole_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsCreateOrConnectWithoutRole_permissionsInput = {
-  where: Prisma.permissionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutRole_permissionsInput, Prisma.permissionsUncheckedCreateWithoutRole_permissionsInput>
-}
-
-export type permissionsUpsertWithoutRole_permissionsInput = {
-  update: Prisma.XOR<Prisma.permissionsUpdateWithoutRole_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutRole_permissionsInput>
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutRole_permissionsInput, Prisma.permissionsUncheckedCreateWithoutRole_permissionsInput>
-  where?: Prisma.permissionsWhereInput
-}
-
-export type permissionsUpdateToOneWithWhereWithoutRole_permissionsInput = {
-  where?: Prisma.permissionsWhereInput
-  data: Prisma.XOR<Prisma.permissionsUpdateWithoutRole_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutRole_permissionsInput>
-}
-
-export type permissionsUpdateWithoutRole_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsUncheckedUpdateWithoutRole_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsCreateWithoutScreen_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsUncheckedCreateWithoutScreen_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsCreateOrConnectWithoutScreen_permissionsInput = {
-  where: Prisma.permissionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedCreateWithoutScreen_permissionsInput>
-}
-
-export type permissionsUpsertWithoutScreen_permissionsInput = {
-  update: Prisma.XOR<Prisma.permissionsUpdateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutScreen_permissionsInput>
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedCreateWithoutScreen_permissionsInput>
-  where?: Prisma.permissionsWhereInput
-}
-
-export type permissionsUpdateToOneWithWhereWithoutScreen_permissionsInput = {
-  where?: Prisma.permissionsWhereInput
-  data: Prisma.XOR<Prisma.permissionsUpdateWithoutScreen_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutScreen_permissionsInput>
-}
-
-export type permissionsUpdateWithoutScreen_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsUncheckedUpdateWithoutScreen_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsCreateWithoutScreen_buttonsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsUncheckedCreateWithoutScreen_buttonsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsCreateOrConnectWithoutScreen_buttonsInput = {
-  where: Prisma.permissionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedCreateWithoutScreen_buttonsInput>
-}
-
-export type permissionsUpsertWithoutScreen_buttonsInput = {
-  update: Prisma.XOR<Prisma.permissionsUpdateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedUpdateWithoutScreen_buttonsInput>
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedCreateWithoutScreen_buttonsInput>
-  where?: Prisma.permissionsWhereInput
-}
-
-export type permissionsUpdateToOneWithWhereWithoutScreen_buttonsInput = {
-  where?: Prisma.permissionsWhereInput
-  data: Prisma.XOR<Prisma.permissionsUpdateWithoutScreen_buttonsInput, Prisma.permissionsUncheckedUpdateWithoutScreen_buttonsInput>
-}
-
-export type permissionsUpdateWithoutScreen_buttonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsUncheckedUpdateWithoutScreen_buttonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsCreateWithoutUser_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsUncheckedCreateWithoutUser_permissionsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  action?: string | null
-  resource?: string | null
-  auth_user_id?: string | null
-  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
-}
-
-export type permissionsCreateOrConnectWithoutUser_permissionsInput = {
-  where: Prisma.permissionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutUser_permissionsInput, Prisma.permissionsUncheckedCreateWithoutUser_permissionsInput>
-}
-
-export type permissionsUpsertWithoutUser_permissionsInput = {
-  update: Prisma.XOR<Prisma.permissionsUpdateWithoutUser_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutUser_permissionsInput>
-  create: Prisma.XOR<Prisma.permissionsCreateWithoutUser_permissionsInput, Prisma.permissionsUncheckedCreateWithoutUser_permissionsInput>
-  where?: Prisma.permissionsWhereInput
-}
-
-export type permissionsUpdateToOneWithWhereWithoutUser_permissionsInput = {
-  where?: Prisma.permissionsWhereInput
-  data: Prisma.XOR<Prisma.permissionsUpdateWithoutUser_permissionsInput, Prisma.permissionsUncheckedUpdateWithoutUser_permissionsInput>
-}
-
-export type permissionsUpdateWithoutUser_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
-}
-
-export type permissionsUncheckedUpdateWithoutUser_permissionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
-}
-
-
-/**
- * Count Type PermissionsCountOutputType
- */
-
-export type PermissionsCountOutputType = {
-  role_permissions: number
-  screen_buttons: number
-  screen_permissions: number
-  user_permissions: number
-}
-
-export type PermissionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role_permissions?: boolean | PermissionsCountOutputTypeCountRole_permissionsArgs
-  screen_buttons?: boolean | PermissionsCountOutputTypeCountScreen_buttonsArgs
-  screen_permissions?: boolean | PermissionsCountOutputTypeCountScreen_permissionsArgs
-  user_permissions?: boolean | PermissionsCountOutputTypeCountUser_permissionsArgs
-}
-
-/**
- * PermissionsCountOutputType without action
- */
-export type PermissionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PermissionsCountOutputType
-   */
-  select?: Prisma.PermissionsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * PermissionsCountOutputType without action
- */
-export type PermissionsCountOutputTypeCountRole_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.role_permissionsWhereInput
-}
-
-/**
- * PermissionsCountOutputType without action
- */
-export type PermissionsCountOutputTypeCountScreen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.screen_buttonsWhereInput
-}
-
-/**
- * PermissionsCountOutputType without action
- */
-export type PermissionsCountOutputTypeCountScreen_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.screen_permissionsWhereInput
-}
-
-/**
- * PermissionsCountOutputType without action
- */
-export type PermissionsCountOutputTypeCountUser_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.user_permissionsWhereInput
-}
 
 
 export type permissionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -815,11 +382,6 @@ export type permissionsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   action?: boolean
   resource?: boolean
   auth_user_id?: boolean
-  role_permissions?: boolean | Prisma.permissions$role_permissionsArgs<ExtArgs>
-  screen_buttons?: boolean | Prisma.permissions$screen_buttonsArgs<ExtArgs>
-  screen_permissions?: boolean | Prisma.permissions$screen_permissionsArgs<ExtArgs>
-  user_permissions?: boolean | Prisma.permissions$user_permissionsArgs<ExtArgs>
-  _count?: boolean | Prisma.PermissionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permissions"]>
 
 export type permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -856,24 +418,10 @@ export type permissionsSelectScalar = {
 }
 
 export type permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "action" | "resource" | "auth_user_id", ExtArgs["result"]["permissions"]>
-export type permissionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role_permissions?: boolean | Prisma.permissions$role_permissionsArgs<ExtArgs>
-  screen_buttons?: boolean | Prisma.permissions$screen_buttonsArgs<ExtArgs>
-  screen_permissions?: boolean | Prisma.permissions$screen_permissionsArgs<ExtArgs>
-  user_permissions?: boolean | Prisma.permissions$user_permissionsArgs<ExtArgs>
-  _count?: boolean | Prisma.PermissionsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type permissionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type permissionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $permissionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "permissions"
-  objects: {
-    role_permissions: Prisma.$role_permissionsPayload<ExtArgs>[]
-    screen_buttons: Prisma.$screen_buttonsPayload<ExtArgs>[]
-    screen_permissions: Prisma.$screen_permissionsPayload<ExtArgs>[]
-    user_permissions: Prisma.$user_permissionsPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -1277,10 +825,6 @@ readonly fields: permissionsFieldRefs;
  */
 export interface Prisma__permissionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  role_permissions<T extends Prisma.permissions$role_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissions$role_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$role_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  screen_buttons<T extends Prisma.permissions$screen_buttonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissions$screen_buttonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_buttonsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  screen_permissions<T extends Prisma.permissions$screen_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissions$screen_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  user_permissions<T extends Prisma.permissions$user_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissions$user_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1335,10 +879,6 @@ export type permissionsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * Filter, which permissions to fetch.
    */
   where: Prisma.permissionsWhereUniqueInput
@@ -1357,10 +897,6 @@ export type permissionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * Filter, which permissions to fetch.
    */
   where: Prisma.permissionsWhereUniqueInput
@@ -1378,10 +914,6 @@ export type permissionsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the permissions
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
   /**
    * Filter, which permissions to fetch.
    */
@@ -1431,10 +963,6 @@ export type permissionsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * Filter, which permissions to fetch.
    */
   where?: Prisma.permissionsWhereInput
@@ -1482,10 +1010,6 @@ export type permissionsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the permissions
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
   /**
    * Filter, which permissions to fetch.
    */
@@ -1535,10 +1059,6 @@ export type permissionsCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * The data needed to create a permissions.
    */
   data: Prisma.XOR<Prisma.permissionsCreateInput, Prisma.permissionsUncheckedCreateInput>
@@ -1586,10 +1106,6 @@ export type permissionsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the permissions
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
   /**
    * The data needed to update a permissions.
    */
@@ -1657,10 +1173,6 @@ export type permissionsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * The filter to search for the permissions to update in case it exists.
    */
   where: Prisma.permissionsWhereUniqueInput
@@ -1687,10 +1199,6 @@ export type permissionsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
-  /**
    * Filter which permissions to delete.
    */
   where: Prisma.permissionsWhereUniqueInput
@@ -1711,102 +1219,6 @@ export type permissionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * permissions.role_permissions
- */
-export type permissions$role_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the role_permissions
-   */
-  select?: Prisma.role_permissionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the role_permissions
-   */
-  omit?: Prisma.role_permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.role_permissionsInclude<ExtArgs> | null
-  where?: Prisma.role_permissionsWhereInput
-  orderBy?: Prisma.role_permissionsOrderByWithRelationInput | Prisma.role_permissionsOrderByWithRelationInput[]
-  cursor?: Prisma.role_permissionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Role_permissionsScalarFieldEnum | Prisma.Role_permissionsScalarFieldEnum[]
-}
-
-/**
- * permissions.screen_buttons
- */
-export type permissions$screen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the screen_buttons
-   */
-  select?: Prisma.screen_buttonsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the screen_buttons
-   */
-  omit?: Prisma.screen_buttonsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_buttonsInclude<ExtArgs> | null
-  where?: Prisma.screen_buttonsWhereInput
-  orderBy?: Prisma.screen_buttonsOrderByWithRelationInput | Prisma.screen_buttonsOrderByWithRelationInput[]
-  cursor?: Prisma.screen_buttonsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Screen_buttonsScalarFieldEnum | Prisma.Screen_buttonsScalarFieldEnum[]
-}
-
-/**
- * permissions.screen_permissions
- */
-export type permissions$screen_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the screen_permissions
-   */
-  select?: Prisma.screen_permissionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the screen_permissions
-   */
-  omit?: Prisma.screen_permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_permissionsInclude<ExtArgs> | null
-  where?: Prisma.screen_permissionsWhereInput
-  orderBy?: Prisma.screen_permissionsOrderByWithRelationInput | Prisma.screen_permissionsOrderByWithRelationInput[]
-  cursor?: Prisma.screen_permissionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Screen_permissionsScalarFieldEnum | Prisma.Screen_permissionsScalarFieldEnum[]
-}
-
-/**
- * permissions.user_permissions
- */
-export type permissions$user_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the user_permissions
-   */
-  select?: Prisma.user_permissionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the user_permissions
-   */
-  omit?: Prisma.user_permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.user_permissionsInclude<ExtArgs> | null
-  where?: Prisma.user_permissionsWhereInput
-  orderBy?: Prisma.user_permissionsOrderByWithRelationInput | Prisma.user_permissionsOrderByWithRelationInput[]
-  cursor?: Prisma.user_permissionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.User_permissionsScalarFieldEnum | Prisma.User_permissionsScalarFieldEnum[]
-}
-
-/**
  * permissions without action
  */
 export type permissionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1818,8 +1230,4 @@ export type permissionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the permissions
    */
   omit?: Prisma.permissionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.permissionsInclude<ExtArgs> | null
 }

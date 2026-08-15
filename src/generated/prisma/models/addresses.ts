@@ -308,7 +308,6 @@ export type addressesWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type addressesOrderByWithRelationInput = {
@@ -328,7 +327,6 @@ export type addressesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type addressesWhereUniqueInput = Prisma.AtLeast<{
@@ -351,7 +349,6 @@ export type addressesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type addressesOrderByWithAggregationInput = {
@@ -402,6 +399,7 @@ export type addressesScalarWhereWithAggregatesInput = {
 
 export type addressesCreateInput = {
   id?: string
+  tenant_id?: string | null
   address_type?: string | null
   line1?: string | null
   line2?: string | null
@@ -416,7 +414,6 @@ export type addressesCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutAddressesInput
 }
 
 export type addressesUncheckedCreateInput = {
@@ -440,6 +437,7 @@ export type addressesUncheckedCreateInput = {
 
 export type addressesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -454,7 +452,6 @@ export type addressesUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenants?: Prisma.tenantsUpdateOneWithoutAddressesNestedInput
 }
 
 export type addressesUncheckedUpdateInput = {
@@ -497,6 +494,7 @@ export type addressesCreateManyInput = {
 
 export type addressesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -599,16 +597,6 @@ export type addressesSumOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
 }
 
-export type AddressesListRelationFilter = {
-  every?: Prisma.addressesWhereInput
-  some?: Prisma.addressesWhereInput
-  none?: Prisma.addressesWhereInput
-}
-
-export type addressesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type NullableDecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -619,204 +607,6 @@ export type NullableDecimalFieldUpdateOperationsInput = {
 
 export type NullableBoolFieldUpdateOperationsInput = {
   set?: boolean | null
-}
-
-export type addressesCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput> | Prisma.addressesCreateWithoutTenantsInput[] | Prisma.addressesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.addressesCreateOrConnectWithoutTenantsInput | Prisma.addressesCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.addressesCreateManyTenantsInputEnvelope
-  connect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-}
-
-export type addressesUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput> | Prisma.addressesCreateWithoutTenantsInput[] | Prisma.addressesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.addressesCreateOrConnectWithoutTenantsInput | Prisma.addressesCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.addressesCreateManyTenantsInputEnvelope
-  connect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-}
-
-export type addressesUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput> | Prisma.addressesCreateWithoutTenantsInput[] | Prisma.addressesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.addressesCreateOrConnectWithoutTenantsInput | Prisma.addressesCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.addressesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.addressesUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.addressesCreateManyTenantsInputEnvelope
-  set?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  disconnect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  delete?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  connect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  update?: Prisma.addressesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.addressesUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.addressesUpdateManyWithWhereWithoutTenantsInput | Prisma.addressesUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.addressesScalarWhereInput | Prisma.addressesScalarWhereInput[]
-}
-
-export type addressesUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput> | Prisma.addressesCreateWithoutTenantsInput[] | Prisma.addressesUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.addressesCreateOrConnectWithoutTenantsInput | Prisma.addressesCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.addressesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.addressesUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.addressesCreateManyTenantsInputEnvelope
-  set?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  disconnect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  delete?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  connect?: Prisma.addressesWhereUniqueInput | Prisma.addressesWhereUniqueInput[]
-  update?: Prisma.addressesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.addressesUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.addressesUpdateManyWithWhereWithoutTenantsInput | Prisma.addressesUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.addressesScalarWhereInput | Prisma.addressesScalarWhereInput[]
-}
-
-export type addressesCreateWithoutTenantsInput = {
-  id?: string
-  address_type?: string | null
-  line1?: string | null
-  line2?: string | null
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  country?: string | null
-  country_id?: string | null
-  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type addressesUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  address_type?: string | null
-  line1?: string | null
-  line2?: string | null
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  country?: string | null
-  country_id?: string | null
-  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type addressesCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.addressesWhereUniqueInput
-  create: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput>
-}
-
-export type addressesCreateManyTenantsInputEnvelope = {
-  data: Prisma.addressesCreateManyTenantsInput | Prisma.addressesCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type addressesUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.addressesWhereUniqueInput
-  update: Prisma.XOR<Prisma.addressesUpdateWithoutTenantsInput, Prisma.addressesUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.addressesCreateWithoutTenantsInput, Prisma.addressesUncheckedCreateWithoutTenantsInput>
-}
-
-export type addressesUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.addressesWhereUniqueInput
-  data: Prisma.XOR<Prisma.addressesUpdateWithoutTenantsInput, Prisma.addressesUncheckedUpdateWithoutTenantsInput>
-}
-
-export type addressesUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.addressesScalarWhereInput
-  data: Prisma.XOR<Prisma.addressesUpdateManyMutationInput, Prisma.addressesUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type addressesScalarWhereInput = {
-  AND?: Prisma.addressesScalarWhereInput | Prisma.addressesScalarWhereInput[]
-  OR?: Prisma.addressesScalarWhereInput[]
-  NOT?: Prisma.addressesScalarWhereInput | Prisma.addressesScalarWhereInput[]
-  id?: Prisma.UuidFilter<"addresses"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
-  address_type?: Prisma.StringNullableFilter<"addresses"> | string | null
-  line1?: Prisma.StringNullableFilter<"addresses"> | string | null
-  line2?: Prisma.StringNullableFilter<"addresses"> | string | null
-  city?: Prisma.StringNullableFilter<"addresses"> | string | null
-  state?: Prisma.StringNullableFilter<"addresses"> | string | null
-  postal_code?: Prisma.StringNullableFilter<"addresses"> | string | null
-  country?: Prisma.StringNullableFilter<"addresses"> | string | null
-  country_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
-  latitude?: Prisma.DecimalNullableFilter<"addresses"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: Prisma.DecimalNullableFilter<"addresses"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.BoolNullableFilter<"addresses"> | boolean | null
-  created_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
-}
-
-export type addressesCreateManyTenantsInput = {
-  id?: string
-  address_type?: string | null
-  line1?: string | null
-  line2?: string | null
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  country?: string | null
-  country_id?: string | null
-  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type addressesUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type addressesUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type addressesUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -838,7 +628,6 @@ export type addressesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -858,7 +647,6 @@ export type addressesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -878,7 +666,6 @@ export type addressesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectScalar = {
@@ -901,21 +688,10 @@ export type addressesSelectScalar = {
 }
 
 export type addressesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "address_type" | "line1" | "line2" | "city" | "state" | "postal_code" | "country" | "country_id" | "latitude" | "longitude" | "is_default" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["addresses"]>
-export type addressesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
-}
-export type addressesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
-}
-export type addressesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.addresses$tenantsArgs<ExtArgs>
-}
 
 export type $addressesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "addresses"
-  objects: {
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string | null
@@ -1327,7 +1103,6 @@ readonly fields: addressesFieldRefs;
  */
 export interface Prisma__addressesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenants<T extends Prisma.addresses$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.addresses$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1390,10 +1165,6 @@ export type addressesFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
-  /**
    * Filter, which addresses to fetch.
    */
   where: Prisma.addressesWhereUniqueInput
@@ -1412,10 +1183,6 @@ export type addressesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
-  /**
    * Filter, which addresses to fetch.
    */
   where: Prisma.addressesWhereUniqueInput
@@ -1433,10 +1200,6 @@ export type addressesFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the addresses
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
   /**
    * Filter, which addresses to fetch.
    */
@@ -1486,10 +1249,6 @@ export type addressesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
-  /**
    * Filter, which addresses to fetch.
    */
   where?: Prisma.addressesWhereInput
@@ -1537,10 +1296,6 @@ export type addressesFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the addresses
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
   /**
    * Filter, which addresses to fetch.
    */
@@ -1590,10 +1345,6 @@ export type addressesCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
-  /**
    * The data needed to create a addresses.
    */
   data?: Prisma.XOR<Prisma.addressesCreateInput, Prisma.addressesUncheckedCreateInput>
@@ -1627,10 +1378,6 @@ export type addressesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.addressesCreateManyInput | Prisma.addressesCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1645,10 +1392,6 @@ export type addressesUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the addresses
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
   /**
    * The data needed to update a addresses.
    */
@@ -1701,10 +1444,6 @@ export type addressesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many addresses to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1719,10 +1458,6 @@ export type addressesUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the addresses
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
   /**
    * The filter to search for the addresses to update in case it exists.
    */
@@ -1750,10 +1485,6 @@ export type addressesDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
-  /**
    * Filter which addresses to delete.
    */
   where: Prisma.addressesWhereUniqueInput
@@ -1774,25 +1505,6 @@ export type addressesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * addresses.tenants
- */
-export type addresses$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * addresses without action
  */
 export type addressesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1804,8 +1516,4 @@ export type addressesDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the addresses
    */
   omit?: Prisma.addressesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.addressesInclude<ExtArgs> | null
 }

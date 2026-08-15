@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { z } from 'zod'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,27 +10,19 @@ import {
   Check,
   CheckCircle2,
   ChevronRight,
-  Copy,
   CreditCard,
-  GitBranchPlus,
   Globe,
   Laptop,
   Loader2Icon,
-  MapPin,
   Pill,
-  Plus,
   Shirt,
-  SkipForward,
   Smartphone,
   Sparkles,
   Store,
-  Trash2,
   User,
-  UserPlus,
   Utensils,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { Logo } from '@/assets/logo'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -46,27 +38,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { SelectDropdown } from '@/components/select-dropdown'
-import {
-  useCompleteOnboarding,
-  type CompleteOnboardingResult,
-} from './hooks/use-onboarding'
+import { useCompleteOnboarding } from './hooks/use-onboarding'
 
 // ─── Schema ──────────────────────────────────────────────────────────────────
-
-const branchSchema = z.object({
-  name: z.string().trim().min(1, 'Branch name is required'),
-  cityId: z.string().min(1, 'City is required'),
-  address: z.string().trim().optional(),
-  phone: z.string().trim().optional(),
-})
-
-const onboardingUserSchema = z.object({
-  email: z.string().email('Valid email required'),
-  firstName: z.string().trim().optional(),
-  lastName: z.string().trim().optional(),
-  roleId: z.string().min(1, 'Role is required'),
-  branchId: z.string().optional(),
-})
 
 const onboardingSchema = z
   .object({
@@ -88,8 +62,6 @@ const onboardingSchema = z
     subscriptionId: z
       .string({ message: 'Please select a subscription plan' })
       .min(1, 'Please select a subscription plan'),
-    branches: z.array(branchSchema).optional(),
-    users: z.array(onboardingUserSchema).optional(),
   })
   .superRefine((data, ctx) => {
     if (data.paymentMethod === 'mobile_transfer' && !data.transferRef?.trim()) {
@@ -148,7 +120,7 @@ const PAYMENT_METHODS = [
   },
 ] as const
 
-const TOTAL_STEPS = 7
+const TOTAL_STEPS = 5
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -157,19 +129,15 @@ export function CompleteAccountFeature() {
   const completeOnboardingMutation = useCompleteOnboarding()
   const [step, setStep] = useState(1)
   const { t } = useTranslation()
-  const [tempPasswords, setTempPasswords] = useState<
-    Array<{ email: string; password: string }>
-  >([])
-  const [showTempPasswords, setShowTempPasswords] = useState(false)
 
-  // Fetch countries with default currency and cities relation from country model
+  // Fetch countries with default currency
   const { data: countries = [] } = useQuery({
     queryKey: ['countries', 'onboarding'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('countries')
         .select(
-          'id, name, code, phone_code, currency_id, currencies(id, name, code, symbol), cities(id, name, is_active)'
+          'id, name, code, phone_code, currency_id, currencies(id, name, code, symbol)'
         )
         .eq('is_active', true)
         .order('name')
@@ -183,7 +151,6 @@ export function CompleteAccountFeature() {
         currencies: Array.isArray(country.currencies)
           ? (country.currencies[0] ?? null)
           : (country.currencies ?? null),
-        cities: Array.isArray(country.cities) ? country.cities : [],
       })) as Array<{
         id: string
         name: string
@@ -196,30 +163,6 @@ export function CompleteAccountFeature() {
           code: string
           symbol: string
         } | null
-        cities: Array<{
-          id: string
-          name: string
-          is_active?: boolean | null
-        }> | null
-      }>
-    },
-  })
-
-  // Fetch active cities directly for high reliability and fallback
-  const { data: directCities = [] } = useQuery({
-    queryKey: ['cities', 'onboarding'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('cities')
-        .select('id, name, country_id, is_active')
-        .eq('is_active', true)
-        .order('name')
-      if (error) throw error
-      return (data ?? []) as Array<{
-        id: string
-        name: string
-        country_id: string
-        is_active?: boolean | null
       }>
     },
   })
@@ -242,20 +185,6 @@ export function CompleteAccountFeature() {
     },
   })
 
-  // Fetch roles for user creation
-  const { data: roles = [] } = useQuery({
-    queryKey: ['roles', 'onboarding'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('roles')
-        .select('id, name')
-        .eq('is_active', true)
-        .order('name')
-      if (error) throw error
-      return (data ?? []) as Array<{ id: string; name: string }>
-    },
-  })
-
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
@@ -270,8 +199,6 @@ export function CompleteAccountFeature() {
       paymentMethod: undefined,
       transferRef: '',
       subscriptionId: undefined,
-      branches: [],
-      users: [],
     },
     mode: 'onChange',
   })
@@ -279,125 +206,23 @@ export function CompleteAccountFeature() {
   const selectedCountryId = form.watch('countryId')
   const selectedCountry = countries.find((c) => c.id === selectedCountryId)
 
-  // Derived cities from country model or direct cities query (filtered for active cities and sorted alphabetically)
-  const availableCities = (() => {
-    // 1. Try to find active cities from selected country in countries query
-    const countryCities = selectedCountry?.cities?.filter(
-      (c) => c.is_active !== false
-    )
-    if (countryCities && countryCities.length > 0) {
-      return countryCities
-        .map((c) => ({
-          id: String(c.id),
-          name: String(c.name),
-          countryName: selectedCountry?.name,
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name))
-    }
-
-    // 2. Try to find active cities for the selected country from directCities
-    if (selectedCountryId) {
-      const filteredDirect = directCities.filter(
-        (c) => c.country_id === selectedCountryId && c.is_active !== false
-      )
-      if (filteredDirect.length > 0) {
-        return filteredDirect
-          .map((c) => ({
-            id: String(c.id),
-            name: String(c.name),
-            countryName: selectedCountry?.name,
-          }))
-          .sort((a, b) => a.name.localeCompare(b.name))
-      }
-    }
-
-    // 3. Fallback: all active direct cities with their corresponding country names
-    if (directCities.length > 0) {
-      return directCities
-        .filter((c) => c.is_active !== false)
-        .map((c) => {
-          const matchedCountry = countries.find((ct) => ct.id === c.country_id)
-          return {
-            id: String(c.id),
-            name: String(c.name),
-            countryName: matchedCountry?.name,
-          }
-        })
-        .sort((a, b) => a.name.localeCompare(b.name))
-    }
-
-    // 4. Ultimate fallback from all countries' embedded cities
-    return countries
-      .flatMap((country) =>
-        (country.cities ?? [])
-          .filter((c) => c.is_active !== false)
-          .map((c) => ({
-            id: String(c.id),
-            name: String(c.name),
-            countryName: country.name,
-          }))
-      )
-      .sort((a, b) => a.name.localeCompare(b.name))
-  })()
-
-  const formBranches = form.watch('branches') ?? []
-
-  const {
-    fields: branchFields,
-    append: appendBranch,
-    remove: removeBranch,
-  } = useFieldArray({
-    control: form.control,
-    name: 'branches',
-  })
-
-  const {
-    fields: userFields,
-    append: appendUser,
-    remove: removeUser,
-  } = useFieldArray({
-    control: form.control,
-    name: 'users',
-  })
-
   const onSubmit = (values: OnboardingFormValues) => {
     if (!user?.id) return
 
-    completeOnboardingMutation.mutate(
-      {
-        userId: user.id,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phone: values.phone,
-        businessName: values.businessName,
-        displayName: values.displayName,
-        legalName: values.legalName,
-        countryId: values.countryId,
-        activity: values.activity,
-        paymentMethod: values.paymentMethod,
-        transferRef: values.transferRef,
-        subscriptionId: values.subscriptionId,
-        branches:
-          values.branches && values.branches.length > 0
-            ? values.branches
-            : undefined,
-        users:
-          values.users && values.users.length > 0 ? values.users : undefined,
-      },
-      {
-        onSuccess: (result: CompleteOnboardingResult) => {
-          if (result.createdUsers && result.createdUsers.length > 0) {
-            setTempPasswords(
-              result.createdUsers.map((u) => ({
-                email: u.email,
-                password: u.temporaryPassword,
-              }))
-            )
-            setShowTempPasswords(true)
-          }
-        },
-      }
-    )
+    completeOnboardingMutation.mutate({
+      userId: user.id,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      businessName: values.businessName,
+      displayName: values.displayName,
+      legalName: values.legalName,
+      countryId: values.countryId,
+      activity: values.activity,
+      paymentMethod: values.paymentMethod,
+      transferRef: values.transferRef,
+      subscriptionId: values.subscriptionId,
+    })
   }
 
   const nextStep = async () => {
@@ -413,20 +238,10 @@ export function CompleteAccountFeature() {
     } else if (step === 4) {
       const isValid = await form.trigger(['paymentMethod', 'transferRef'])
       if (isValid) setStep(5)
-    } else if (step === 5) {
-      const isValid = await form.trigger(['subscriptionId'])
-      if (isValid) setStep(6)
-    } else if (step === 6) {
-      setStep(7)
     }
   }
 
   const prevStep = () => setStep((s) => Math.max(1, s - 1))
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    toast.success('Copied to clipboard!')
-  }
 
   return (
     <div
@@ -458,70 +273,6 @@ export function CompleteAccountFeature() {
             'linear-gradient(135deg, var(--background), color-mix(in srgb, var(--background) 90%, transparent), color-mix(in srgb, var(--primary) 10%, var(--background)))',
         }}
       />
-
-      {/* Temp passwords modal for created users */}
-      {showTempPasswords && tempPasswords.length > 0 && (
-        <div
-          className='fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 backdrop-blur-xl select-none'
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className='w-full max-w-md rounded-2xl border bg-card p-6 shadow-2xl select-text'
-            onClick={(e) => e.stopPropagation()}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <h3 className='mb-2 text-lg font-bold'>
-              {t('completeAccount.tempPasswordsTitle', 'User Credentials')}
-            </h3>
-            <p className='mb-4 text-sm text-muted-foreground'>
-              {t(
-                'completeAccount.tempPasswordsDesc',
-                'Share these temporary passwords with your team members. They will be asked to change them on first login.'
-              )}
-            </p>
-            <div className='max-h-60 space-y-3 overflow-y-auto'>
-              {tempPasswords.map((tp, i) => (
-                <div
-                  key={i}
-                  className='flex items-center justify-between rounded-lg border bg-muted/30 p-3'
-                >
-                  <div className='min-w-0 flex-1'>
-                    <p className='truncate text-sm font-medium'>{tp.email}</p>
-                    <p className='font-mono text-xs text-muted-foreground'>
-                      {tp.password}
-                    </p>
-                  </div>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='ml-2 h-8 w-8 shrink-0'
-                    onClick={() =>
-                      copyToClipboard(`${tp.email}\n${tp.password}`)
-                    }
-                  >
-                    <Copy className='h-4 w-4' />
-                  </Button>
-                </div>
-              ))}
-            </div>
-            <Button
-              className='mt-4 w-full'
-              onClick={() => setShowTempPasswords(false)}
-            >
-              {t('completeAccount.done', 'Done')}
-            </Button>
-          </motion.div>
-        </div>
-      )}
 
       <div
         className='w-full max-w-lg p-4 select-text'
@@ -1183,442 +934,13 @@ export function CompleteAccountFeature() {
                           {t('completeAccount.back', 'Back')}
                         </Button>
                         <Button
-                          type='button'
-                          size='lg'
-                          className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
-                          onClick={nextStep}
-                          disabled={!form.watch('subscriptionId')}
-                        >
-                          {t('completeAccount.continue', 'Continue')}
-                          <ChevronRight className='ml-2 h-5 w-5' />
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* ─── Step 6: Branch Setup ─── */}
-                  {step === 6 && (
-                    <motion.div
-                      key='step6'
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ duration: 0.3 }}
-                      className='space-y-4'
-                    >
-                      <div className='flex items-center justify-between'>
-                        <div className='flex items-center gap-2 text-lg font-medium'>
-                          <GitBranchPlus className='h-5 w-5 text-primary' />
-                          {t(
-                            'completeAccount.branchSetup',
-                            'Define Initial Branches'
-                          )}
-                        </div>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          size='sm'
-                          onClick={() =>
-                            appendBranch({
-                              name: '',
-                              cityId: '',
-                              address: '',
-                              phone: '',
-                            })
-                          }
-                        >
-                          <Plus className='mr-1 h-4 w-4' />
-                          {t('completeAccount.addBranch', 'Add Branch')}
-                        </Button>
-                      </div>
-
-                      <p className='text-sm text-muted-foreground'>
-                        {t(
-                          'completeAccount.branchDesc',
-                          'Add your business locations now, or skip and manage them later in settings.'
-                        )}
-                      </p>
-
-                      {branchFields.length === 0 && (
-                        <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
-                          <MapPin className='h-10 w-10 text-muted-foreground/40' />
-                          <p className='text-sm text-muted-foreground'>
-                            {t(
-                              'completeAccount.noBranches',
-                              'No branches added yet'
-                            )}
-                          </p>
-                          <Button
-                            type='button'
-                            variant='ghost'
-                            size='sm'
-                            onClick={() =>
-                              appendBranch({
-                                name: '',
-                                cityId: '',
-                                address: '',
-                                phone: '',
-                              })
-                            }
-                          >
-                            <Plus className='mr-1 h-4 w-4' />
-                            {t(
-                              'completeAccount.addFirst',
-                              'Add your first branch'
-                            )}
-                          </Button>
-                        </div>
-                      )}
-
-                      <div className='max-h-52 space-y-3 overflow-y-auto'>
-                        {branchFields.map((field, index) => (
-                          <motion.div
-                            key={field.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className='space-y-3 rounded-xl border border-border/50 bg-background/30 p-4'
-                          >
-                            <div className='flex items-center justify-between'>
-                              <span className='text-sm font-medium text-muted-foreground'>
-                                Branch #{index + 1}
-                              </span>
-                              <Button
-                                type='button'
-                                variant='ghost'
-                                size='icon'
-                                className='h-7 w-7 text-destructive hover:text-destructive'
-                                onClick={() => removeBranch(index)}
-                              >
-                                <Trash2 className='h-4 w-4' />
-                              </Button>
-                            </div>
-                            <div className='grid grid-cols-2 gap-3'>
-                              <FormField
-                                control={form.control}
-                                name={`branches.${index}.name`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...f}
-                                        placeholder='Branch name'
-                                        className='h-10 bg-background/50'
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              <FormField
-                                control={form.control}
-                                name={`branches.${index}.cityId`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <SelectDropdown
-                                      defaultValue={f.value}
-                                      onValueChange={f.onChange}
-                                      placeholder={
-                                        availableCities.length > 0
-                                          ? selectedCountry
-                                            ? `${t('completeAccount.selectCity', 'Select city')} (${selectedCountry.name})`
-                                            : t(
-                                                'completeAccount.selectCity',
-                                                'Select city'
-                                              )
-                                          : t(
-                                              'completeAccount.noCitiesFound',
-                                              'No cities available'
-                                            )
-                                      }
-                                      disabled={availableCities.length === 0}
-                                      className='h-10'
-                                      items={availableCities.map((c) => ({
-                                        label:
-                                          'countryName' in c && c.countryName
-                                            ? `${c.name} (${c.countryName})`
-                                            : c.name,
-                                        value: c.id,
-                                      }))}
-                                    />
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                            <div className='grid grid-cols-2 gap-3'>
-                              <FormField
-                                control={form.control}
-                                name={`branches.${index}.address`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...f}
-                                        placeholder='Address'
-                                        className='h-10 bg-background/50'
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                              <FormField
-                                control={form.control}
-                                name={`branches.${index}.phone`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...f}
-                                        placeholder='Phone'
-                                        className='h-10 bg-background/50'
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      <div className='flex gap-3 pt-4'>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          size='lg'
-                          className='w-1/3 text-base'
-                          onClick={prevStep}
-                        >
-                          {t('completeAccount.back', 'Back')}
-                        </Button>
-                        <Button
-                          type='button'
-                          size='lg'
-                          className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
-                          onClick={nextStep}
-                        >
-                          {branchFields.length === 0 ? (
-                            <>
-                              <SkipForward className='mr-2 h-4 w-4' />
-                              {t('completeAccount.skip', 'Skip for now')}
-                            </>
-                          ) : (
-                            <>
-                              {t('completeAccount.continue', 'Continue')}
-                              <ChevronRight className='ml-2 h-5 w-5' />
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* ─── Step 7: Team Setup & Final Submission ─── */}
-                  {step === 7 && (
-                    <motion.div
-                      key='step7'
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ duration: 0.3 }}
-                      className='space-y-4'
-                    >
-                      <div className='flex items-center justify-between'>
-                        <div className='flex items-center gap-2 text-lg font-medium'>
-                          <UserPlus className='h-5 w-5 text-primary' />
-                          {t('completeAccount.teamSetup', 'Add Team Members')}
-                        </div>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          size='sm'
-                          onClick={() =>
-                            appendUser({
-                              email: '',
-                              firstName: '',
-                              lastName: '',
-                              roleId: '',
-                              branchId: '',
-                            })
-                          }
-                        >
-                          <Plus className='mr-1 h-4 w-4' />
-                          {t('completeAccount.addUser', 'Add User')}
-                        </Button>
-                      </div>
-
-                      <p className='text-sm text-muted-foreground'>
-                        {t(
-                          'completeAccount.teamDesc',
-                          'Create accounts for your team. Temporary credentials will be generated.'
-                        )}
-                      </p>
-
-                      {userFields.length === 0 && (
-                        <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
-                          <UserPlus className='h-10 w-10 text-muted-foreground/40' />
-                          <p className='text-sm text-muted-foreground'>
-                            {t(
-                              'completeAccount.noUsers',
-                              'No team members added yet'
-                            )}
-                          </p>
-                          <Button
-                            type='button'
-                            variant='ghost'
-                            size='sm'
-                            onClick={() =>
-                              appendUser({
-                                email: '',
-                                firstName: '',
-                                lastName: '',
-                                roleId: '',
-                                branchId: '',
-                              })
-                            }
-                          >
-                            <Plus className='mr-1 h-4 w-4' />
-                            {t(
-                              'completeAccount.addFirstUser',
-                              'Add team member'
-                            )}
-                          </Button>
-                        </div>
-                      )}
-
-                      <div className='max-h-52 space-y-3 overflow-y-auto'>
-                        {userFields.map((field, index) => (
-                          <motion.div
-                            key={field.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className='space-y-3 rounded-xl border border-border/50 bg-background/30 p-4'
-                          >
-                            <div className='flex items-center justify-between'>
-                              <span className='text-sm font-medium text-muted-foreground'>
-                                Team Member #{index + 1}
-                              </span>
-                              <Button
-                                type='button'
-                                variant='ghost'
-                                size='icon'
-                                className='h-7 w-7 text-destructive hover:text-destructive'
-                                onClick={() => removeUser(index)}
-                              >
-                                <Trash2 className='h-4 w-4' />
-                              </Button>
-                            </div>
-                            <FormField
-                              control={form.control}
-                              name={`users.${index}.email`}
-                              render={({ field: f }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...f}
-                                      type='email'
-                                      placeholder='Email address'
-                                      className='h-10 bg-background/50'
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <div className='grid grid-cols-2 gap-3'>
-                              <FormField
-                                control={form.control}
-                                name={`users.${index}.firstName`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...f}
-                                        placeholder='First name'
-                                        className='h-10 bg-background/50'
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                              <FormField
-                                control={form.control}
-                                name={`users.${index}.lastName`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...f}
-                                        placeholder='Last name'
-                                        className='h-10 bg-background/50'
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                            <div className='grid grid-cols-2 gap-3'>
-                              <FormField
-                                control={form.control}
-                                name={`users.${index}.roleId`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <SelectDropdown
-                                      defaultValue={f.value}
-                                      onValueChange={f.onChange}
-                                      placeholder='Select role'
-                                      className='h-10'
-                                      items={roles.map((r) => ({
-                                        label: r.name,
-                                        value: r.id,
-                                      }))}
-                                    />
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              <FormField
-                                control={form.control}
-                                name={`users.${index}.branchId`}
-                                render={({ field: f }) => (
-                                  <FormItem>
-                                    <SelectDropdown
-                                      defaultValue={f.value ?? ''}
-                                      onValueChange={f.onChange}
-                                      placeholder='Select branch'
-                                      className='h-10'
-                                      items={formBranches
-                                        .filter((b) => b.name)
-                                        .map((b, bIdx) => ({
-                                          label: b.name,
-                                          value: `pending_branch_${bIdx}`,
-                                        }))}
-                                    />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      <div className='flex gap-3 pt-4'>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          size='lg'
-                          className='w-1/3 text-base'
-                          onClick={prevStep}
-                        >
-                          {t('completeAccount.back', 'Back')}
-                        </Button>
-                        <Button
                           type='submit'
                           size='lg'
                           className='w-2/3 bg-linear-to-r from-blue-500 to-cyan-500 text-base shadow-blue-500/20 transition-all hover:from-blue-600 hover:to-cyan-600 hover:shadow-blue-500/30'
-                          disabled={completeOnboardingMutation.isPending}
+                          disabled={
+                            !form.watch('subscriptionId') ||
+                            completeOnboardingMutation.isPending
+                          }
                         >
                           {completeOnboardingMutation.isPending ? (
                             <Loader2Icon className='mr-2 h-5 w-5 animate-spin' />
@@ -1639,3 +961,4 @@ export function CompleteAccountFeature() {
     </div>
   )
 }
+

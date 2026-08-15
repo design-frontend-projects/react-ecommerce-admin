@@ -26,7 +26,6 @@ export type AggregateRes_shipments = {
 
 export type Res_shipmentsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   auth_user_id: string | null
   recipient_name: string | null
@@ -35,7 +34,6 @@ export type Res_shipmentsMinAggregateOutputType = {
   city: string | null
   state: string | null
   postal_code: string | null
-  status: $Enums.shipment_status_enum | null
   tracking_number: string | null
   carrier: string | null
   shipped_at: Date | null
@@ -43,11 +41,12 @@ export type Res_shipmentsMinAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
+  tenant_id: string | null
+  status: $Enums.shipment_status_enum | null
 }
 
 export type Res_shipmentsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   auth_user_id: string | null
   recipient_name: string | null
@@ -56,7 +55,6 @@ export type Res_shipmentsMaxAggregateOutputType = {
   city: string | null
   state: string | null
   postal_code: string | null
-  status: $Enums.shipment_status_enum | null
   tracking_number: string | null
   carrier: string | null
   shipped_at: Date | null
@@ -64,11 +62,12 @@ export type Res_shipmentsMaxAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
+  tenant_id: string | null
+  status: $Enums.shipment_status_enum | null
 }
 
 export type Res_shipmentsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   order_id: number
   auth_user_id: number
   recipient_name: number
@@ -77,7 +76,6 @@ export type Res_shipmentsCountAggregateOutputType = {
   city: number
   state: number
   postal_code: number
-  status: number
   tracking_number: number
   carrier: number
   shipped_at: number
@@ -85,13 +83,14 @@ export type Res_shipmentsCountAggregateOutputType = {
   notes: number
   created_at: number
   updated_at: number
+  tenant_id: number
+  status: number
   _all: number
 }
 
 
 export type Res_shipmentsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   auth_user_id?: true
   recipient_name?: true
@@ -100,7 +99,6 @@ export type Res_shipmentsMinAggregateInputType = {
   city?: true
   state?: true
   postal_code?: true
-  status?: true
   tracking_number?: true
   carrier?: true
   shipped_at?: true
@@ -108,11 +106,12 @@ export type Res_shipmentsMinAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_shipmentsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   auth_user_id?: true
   recipient_name?: true
@@ -121,7 +120,6 @@ export type Res_shipmentsMaxAggregateInputType = {
   city?: true
   state?: true
   postal_code?: true
-  status?: true
   tracking_number?: true
   carrier?: true
   shipped_at?: true
@@ -129,11 +127,12 @@ export type Res_shipmentsMaxAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_shipmentsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   auth_user_id?: true
   recipient_name?: true
@@ -142,7 +141,6 @@ export type Res_shipmentsCountAggregateInputType = {
   city?: true
   state?: true
   postal_code?: true
-  status?: true
   tracking_number?: true
   carrier?: true
   shipped_at?: true
@@ -150,6 +148,8 @@ export type Res_shipmentsCountAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
+  status?: true
   _all?: true
 }
 
@@ -227,7 +227,6 @@ export type res_shipmentsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type Res_shipmentsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   order_id: string
   auth_user_id: string
   recipient_name: string
@@ -236,7 +235,6 @@ export type Res_shipmentsGroupByOutputType = {
   city: string | null
   state: string | null
   postal_code: string | null
-  status: $Enums.shipment_status_enum
   tracking_number: string | null
   carrier: string | null
   shipped_at: Date | null
@@ -244,6 +242,8 @@ export type Res_shipmentsGroupByOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
+  tenant_id: string | null
+  status: $Enums.shipment_status_enum
   _count: Res_shipmentsCountAggregateOutputType | null
   _min: Res_shipmentsMinAggregateOutputType | null
   _max: Res_shipmentsMaxAggregateOutputType | null
@@ -269,7 +269,6 @@ export type res_shipmentsWhereInput = {
   OR?: Prisma.res_shipmentsWhereInput[]
   NOT?: Prisma.res_shipmentsWhereInput | Prisma.res_shipmentsWhereInput[]
   id?: Prisma.UuidFilter<"res_shipments"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_shipments"> | string | null
   order_id?: Prisma.UuidFilter<"res_shipments"> | string
   auth_user_id?: Prisma.UuidFilter<"res_shipments"> | string
   recipient_name?: Prisma.StringFilter<"res_shipments"> | string
@@ -278,7 +277,6 @@ export type res_shipmentsWhereInput = {
   city?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   state?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   postal_code?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  status?: Prisma.Enumshipment_status_enumFilter<"res_shipments"> | $Enums.shipment_status_enum
   tracking_number?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   carrier?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   shipped_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
@@ -286,13 +284,12 @@ export type res_shipmentsWhereInput = {
   notes?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersScalarRelationFilter, Prisma.res_ordersWhereInput>
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_shipments"> | string | null
+  status?: Prisma.Enumshipment_status_enumFilter<"res_shipments"> | $Enums.shipment_status_enum
 }
 
 export type res_shipmentsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   recipient_name?: Prisma.SortOrder
@@ -301,7 +298,6 @@ export type res_shipmentsOrderByWithRelationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
   postal_code?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrderInput | Prisma.SortOrder
   carrier?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -309,17 +305,16 @@ export type res_shipmentsOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_orders?: Prisma.res_ordersOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_shipmentsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  order_id?: string
   AND?: Prisma.res_shipmentsWhereInput | Prisma.res_shipmentsWhereInput[]
   OR?: Prisma.res_shipmentsWhereInput[]
   NOT?: Prisma.res_shipmentsWhereInput | Prisma.res_shipmentsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_shipments"> | string | null
+  order_id?: Prisma.UuidFilter<"res_shipments"> | string
   auth_user_id?: Prisma.UuidFilter<"res_shipments"> | string
   recipient_name?: Prisma.StringFilter<"res_shipments"> | string
   recipient_phone?: Prisma.StringFilter<"res_shipments"> | string
@@ -327,7 +322,6 @@ export type res_shipmentsWhereUniqueInput = Prisma.AtLeast<{
   city?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   state?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   postal_code?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  status?: Prisma.Enumshipment_status_enumFilter<"res_shipments"> | $Enums.shipment_status_enum
   tracking_number?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   carrier?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   shipped_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
@@ -335,13 +329,12 @@ export type res_shipmentsWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"res_shipments"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersScalarRelationFilter, Prisma.res_ordersWhereInput>
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
-}, "id" | "order_id">
+  tenant_id?: Prisma.UuidNullableFilter<"res_shipments"> | string | null
+  status?: Prisma.Enumshipment_status_enumFilter<"res_shipments"> | $Enums.shipment_status_enum
+}, "id">
 
 export type res_shipmentsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   recipient_name?: Prisma.SortOrder
@@ -350,7 +343,6 @@ export type res_shipmentsOrderByWithAggregationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
   postal_code?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrderInput | Prisma.SortOrder
   carrier?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -358,6 +350,8 @@ export type res_shipmentsOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   _count?: Prisma.res_shipmentsCountOrderByAggregateInput
   _max?: Prisma.res_shipmentsMaxOrderByAggregateInput
   _min?: Prisma.res_shipmentsMinOrderByAggregateInput
@@ -368,7 +362,6 @@ export type res_shipmentsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_shipmentsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_shipmentsScalarWhereWithAggregatesInput | Prisma.res_shipmentsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_shipments"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shipments"> | string | null
   order_id?: Prisma.UuidWithAggregatesFilter<"res_shipments"> | string
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"res_shipments"> | string
   recipient_name?: Prisma.StringWithAggregatesFilter<"res_shipments"> | string
@@ -377,7 +370,6 @@ export type res_shipmentsScalarWhereWithAggregatesInput = {
   city?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
   postal_code?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
-  status?: Prisma.Enumshipment_status_enumWithAggregatesFilter<"res_shipments"> | $Enums.shipment_status_enum
   tracking_number?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
   carrier?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
   shipped_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_shipments"> | Date | string | null
@@ -385,10 +377,13 @@ export type res_shipmentsScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"res_shipments"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_shipments"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_shipments"> | Date | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shipments"> | string | null
+  status?: Prisma.Enumshipment_status_enumWithAggregatesFilter<"res_shipments"> | $Enums.shipment_status_enum
 }
 
 export type res_shipmentsCreateInput = {
   id?: string
+  order_id: string
   auth_user_id?: string
   recipient_name: string
   recipient_phone: string
@@ -396,7 +391,6 @@ export type res_shipmentsCreateInput = {
   city?: string | null
   state?: string | null
   postal_code?: string | null
-  status?: $Enums.shipment_status_enum
   tracking_number?: string | null
   carrier?: string | null
   shipped_at?: Date | string | null
@@ -404,13 +398,12 @@ export type res_shipmentsCreateInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  res_orders: Prisma.res_ordersCreateNestedOneWithoutRes_shipmentInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shipmentsInput
+  tenant_id?: string | null
+  status?: $Enums.shipment_status_enum
 }
 
 export type res_shipmentsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   order_id: string
   auth_user_id?: string
   recipient_name: string
@@ -419,7 +412,6 @@ export type res_shipmentsUncheckedCreateInput = {
   city?: string | null
   state?: string | null
   postal_code?: string | null
-  status?: $Enums.shipment_status_enum
   tracking_number?: string | null
   carrier?: string | null
   shipped_at?: Date | string | null
@@ -427,32 +419,12 @@ export type res_shipmentsUncheckedCreateInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  tenant_id?: string | null
+  status?: $Enums.shipment_status_enum
 }
 
 export type res_shipmentsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUpdateOneRequiredWithoutRes_shipmentNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shipmentsNestedInput
-}
-
-export type res_shipmentsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -461,7 +433,6 @@ export type res_shipmentsUncheckedUpdateInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -469,11 +440,33 @@ export type res_shipmentsUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
+}
+
+export type res_shipmentsUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
 }
 
 export type res_shipmentsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   order_id: string
   auth_user_id?: string
   recipient_name: string
@@ -482,7 +475,6 @@ export type res_shipmentsCreateManyInput = {
   city?: string | null
   state?: string | null
   postal_code?: string | null
-  status?: $Enums.shipment_status_enum
   tracking_number?: string | null
   carrier?: string | null
   shipped_at?: Date | string | null
@@ -490,30 +482,12 @@ export type res_shipmentsCreateManyInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  tenant_id?: string | null
+  status?: $Enums.shipment_status_enum
 }
 
 export type res_shipmentsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_shipmentsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -522,7 +496,6 @@ export type res_shipmentsUncheckedUpdateManyInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
   tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -530,16 +503,33 @@ export type res_shipmentsUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
 }
 
-export type Res_shipmentsNullableScalarRelationFilter = {
-  is?: Prisma.res_shipmentsWhereInput | null
-  isNot?: Prisma.res_shipmentsWhereInput | null
+export type res_shipmentsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
 }
 
 export type res_shipmentsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   recipient_name?: Prisma.SortOrder
@@ -548,7 +538,6 @@ export type res_shipmentsCountOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   postal_code?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
@@ -556,11 +545,12 @@ export type res_shipmentsCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_shipmentsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   recipient_name?: Prisma.SortOrder
@@ -569,7 +559,6 @@ export type res_shipmentsMaxOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   postal_code?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
@@ -577,11 +566,12 @@ export type res_shipmentsMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_shipmentsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   recipient_name?: Prisma.SortOrder
@@ -590,7 +580,6 @@ export type res_shipmentsMinOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   postal_code?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   tracking_number?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
@@ -598,367 +587,18 @@ export type res_shipmentsMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-}
-
-export type Res_shipmentsListRelationFilter = {
-  every?: Prisma.res_shipmentsWhereInput
-  some?: Prisma.res_shipmentsWhereInput
-  none?: Prisma.res_shipmentsWhereInput
-}
-
-export type res_shipmentsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type res_shipmentsCreateNestedOneWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutRes_ordersInput
-  connect?: Prisma.res_shipmentsWhereUniqueInput
-}
-
-export type res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutRes_ordersInput
-  connect?: Prisma.res_shipmentsWhereUniqueInput
-}
-
-export type res_shipmentsUpdateOneWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutRes_ordersInput
-  upsert?: Prisma.res_shipmentsUpsertWithoutRes_ordersInput
-  disconnect?: Prisma.res_shipmentsWhereInput | boolean
-  delete?: Prisma.res_shipmentsWhereInput | boolean
-  connect?: Prisma.res_shipmentsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_shipmentsUpdateToOneWithWhereWithoutRes_ordersInput, Prisma.res_shipmentsUpdateWithoutRes_ordersInput>, Prisma.res_shipmentsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutRes_ordersInput
-  upsert?: Prisma.res_shipmentsUpsertWithoutRes_ordersInput
-  disconnect?: Prisma.res_shipmentsWhereInput | boolean
-  delete?: Prisma.res_shipmentsWhereInput | boolean
-  connect?: Prisma.res_shipmentsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_shipmentsUpdateToOneWithWhereWithoutRes_ordersInput, Prisma.res_shipmentsUpdateWithoutRes_ordersInput>, Prisma.res_shipmentsUncheckedUpdateWithoutRes_ordersInput>
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type Enumshipment_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.shipment_status_enum
 }
 
-export type res_shipmentsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput> | Prisma.res_shipmentsCreateWithoutTenantsInput[] | Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput | Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_shipmentsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-}
-
-export type res_shipmentsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput> | Prisma.res_shipmentsCreateWithoutTenantsInput[] | Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput | Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_shipmentsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-}
-
-export type res_shipmentsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput> | Prisma.res_shipmentsCreateWithoutTenantsInput[] | Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput | Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_shipmentsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_shipmentsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_shipmentsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  disconnect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  delete?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  connect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  update?: Prisma.res_shipmentsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_shipmentsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_shipmentsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_shipmentsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_shipmentsScalarWhereInput | Prisma.res_shipmentsScalarWhereInput[]
-}
-
-export type res_shipmentsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput> | Prisma.res_shipmentsCreateWithoutTenantsInput[] | Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput | Prisma.res_shipmentsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_shipmentsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_shipmentsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_shipmentsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  disconnect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  delete?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  connect?: Prisma.res_shipmentsWhereUniqueInput | Prisma.res_shipmentsWhereUniqueInput[]
-  update?: Prisma.res_shipmentsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_shipmentsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_shipmentsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_shipmentsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_shipmentsScalarWhereInput | Prisma.res_shipmentsScalarWhereInput[]
-}
-
-export type res_shipmentsCreateWithoutRes_ordersInput = {
-  id?: string
-  auth_user_id?: string
-  recipient_name: string
-  recipient_phone: string
-  delivery_address: string
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  status?: $Enums.shipment_status_enum
-  tracking_number?: string | null
-  carrier?: string | null
-  shipped_at?: Date | string | null
-  delivered_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shipmentsInput
-}
-
-export type res_shipmentsUncheckedCreateWithoutRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  recipient_name: string
-  recipient_phone: string
-  delivery_address: string
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  status?: $Enums.shipment_status_enum
-  tracking_number?: string | null
-  carrier?: string | null
-  shipped_at?: Date | string | null
-  delivered_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-}
-
-export type res_shipmentsCreateOrConnectWithoutRes_ordersInput = {
-  where: Prisma.res_shipmentsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_shipmentsUpsertWithoutRes_ordersInput = {
-  update: Prisma.XOR<Prisma.res_shipmentsUpdateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedUpdateWithoutRes_ordersInput>
-  create: Prisma.XOR<Prisma.res_shipmentsCreateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedCreateWithoutRes_ordersInput>
-  where?: Prisma.res_shipmentsWhereInput
-}
-
-export type res_shipmentsUpdateToOneWithWhereWithoutRes_ordersInput = {
-  where?: Prisma.res_shipmentsWhereInput
-  data: Prisma.XOR<Prisma.res_shipmentsUpdateWithoutRes_ordersInput, Prisma.res_shipmentsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_shipmentsUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shipmentsNestedInput
-}
-
-export type res_shipmentsUncheckedUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_shipmentsCreateWithoutTenantsInput = {
-  id?: string
-  auth_user_id?: string
-  recipient_name: string
-  recipient_phone: string
-  delivery_address: string
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  status?: $Enums.shipment_status_enum
-  tracking_number?: string | null
-  carrier?: string | null
-  shipped_at?: Date | string | null
-  delivered_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  res_orders: Prisma.res_ordersCreateNestedOneWithoutRes_shipmentInput
-}
-
-export type res_shipmentsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  order_id: string
-  auth_user_id?: string
-  recipient_name: string
-  recipient_phone: string
-  delivery_address: string
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  status?: $Enums.shipment_status_enum
-  tracking_number?: string | null
-  carrier?: string | null
-  shipped_at?: Date | string | null
-  delivered_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-}
-
-export type res_shipmentsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_shipmentsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_shipmentsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_shipmentsCreateManyTenantsInput | Prisma.res_shipmentsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_shipmentsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_shipmentsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_shipmentsUpdateWithoutTenantsInput, Prisma.res_shipmentsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_shipmentsCreateWithoutTenantsInput, Prisma.res_shipmentsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_shipmentsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_shipmentsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_shipmentsUpdateWithoutTenantsInput, Prisma.res_shipmentsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_shipmentsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_shipmentsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_shipmentsUpdateManyMutationInput, Prisma.res_shipmentsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_shipmentsScalarWhereInput = {
-  AND?: Prisma.res_shipmentsScalarWhereInput | Prisma.res_shipmentsScalarWhereInput[]
-  OR?: Prisma.res_shipmentsScalarWhereInput[]
-  NOT?: Prisma.res_shipmentsScalarWhereInput | Prisma.res_shipmentsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_shipments"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_shipments"> | string | null
-  order_id?: Prisma.UuidFilter<"res_shipments"> | string
-  auth_user_id?: Prisma.UuidFilter<"res_shipments"> | string
-  recipient_name?: Prisma.StringFilter<"res_shipments"> | string
-  recipient_phone?: Prisma.StringFilter<"res_shipments"> | string
-  delivery_address?: Prisma.StringFilter<"res_shipments"> | string
-  city?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  state?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  postal_code?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  status?: Prisma.Enumshipment_status_enumFilter<"res_shipments"> | $Enums.shipment_status_enum
-  tracking_number?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  carrier?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  shipped_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-  delivered_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-  notes?: Prisma.StringNullableFilter<"res_shipments"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"res_shipments"> | Date | string | null
-}
-
-export type res_shipmentsCreateManyTenantsInput = {
-  id?: string
-  order_id: string
-  auth_user_id?: string
-  recipient_name: string
-  recipient_phone: string
-  delivery_address: string
-  city?: string | null
-  state?: string | null
-  postal_code?: string | null
-  status?: $Enums.shipment_status_enum
-  tracking_number?: string | null
-  carrier?: string | null
-  shipped_at?: Date | string | null
-  delivered_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-}
-
-export type res_shipmentsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUpdateOneRequiredWithoutRes_shipmentNestedInput
-}
-
-export type res_shipmentsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_shipmentsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_name?: Prisma.StringFieldUpdateOperationsInput | string
-  recipient_phone?: Prisma.StringFieldUpdateOperationsInput | string
-  delivery_address?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postal_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumshipment_status_enumFieldUpdateOperationsInput | $Enums.shipment_status_enum
-  tracking_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  delivered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
 
 
 export type res_shipmentsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   auth_user_id?: boolean
   recipient_name?: boolean
@@ -967,7 +607,6 @@ export type res_shipmentsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   city?: boolean
   state?: boolean
   postal_code?: boolean
-  status?: boolean
   tracking_number?: boolean
   carrier?: boolean
   shipped_at?: boolean
@@ -975,13 +614,12 @@ export type res_shipmentsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_shipments"]>
 
 export type res_shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   auth_user_id?: boolean
   recipient_name?: boolean
@@ -990,7 +628,6 @@ export type res_shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   city?: boolean
   state?: boolean
   postal_code?: boolean
-  status?: boolean
   tracking_number?: boolean
   carrier?: boolean
   shipped_at?: boolean
@@ -998,13 +635,12 @@ export type res_shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_shipments"]>
 
 export type res_shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   auth_user_id?: boolean
   recipient_name?: boolean
@@ -1013,7 +649,6 @@ export type res_shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   city?: boolean
   state?: boolean
   postal_code?: boolean
-  status?: boolean
   tracking_number?: boolean
   carrier?: boolean
   shipped_at?: boolean
@@ -1021,13 +656,12 @@ export type res_shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_shipments"]>
 
 export type res_shipmentsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   auth_user_id?: boolean
   recipient_name?: boolean
@@ -1036,7 +670,6 @@ export type res_shipmentsSelectScalar = {
   city?: boolean
   state?: boolean
   postal_code?: boolean
-  status?: boolean
   tracking_number?: boolean
   carrier?: boolean
   shipped_at?: boolean
@@ -1044,31 +677,17 @@ export type res_shipmentsSelectScalar = {
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
+  tenant_id?: boolean
+  status?: boolean
 }
 
-export type res_shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "order_id" | "auth_user_id" | "recipient_name" | "recipient_phone" | "delivery_address" | "city" | "state" | "postal_code" | "status" | "tracking_number" | "carrier" | "shipped_at" | "delivered_at" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["res_shipments"]>
-export type res_shipmentsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
-}
-export type res_shipmentsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
-}
-export type res_shipmentsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_ordersDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shipments$tenantsArgs<ExtArgs>
-}
+export type res_shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_id" | "auth_user_id" | "recipient_name" | "recipient_phone" | "delivery_address" | "city" | "state" | "postal_code" | "tracking_number" | "carrier" | "shipped_at" | "delivered_at" | "notes" | "created_at" | "updated_at" | "tenant_id" | "status", ExtArgs["result"]["res_shipments"]>
 
 export type $res_shipmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_shipments"
-  objects: {
-    res_orders: Prisma.$res_ordersPayload<ExtArgs>
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     order_id: string
     auth_user_id: string
     recipient_name: string
@@ -1077,7 +696,6 @@ export type $res_shipmentsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     city: string | null
     state: string | null
     postal_code: string | null
-    status: $Enums.shipment_status_enum
     tracking_number: string | null
     carrier: string | null
     shipped_at: Date | null
@@ -1085,6 +703,8 @@ export type $res_shipmentsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     notes: string | null
     created_at: Date | null
     updated_at: Date | null
+    tenant_id: string | null
+    status: $Enums.shipment_status_enum
   }, ExtArgs["result"]["res_shipments"]>
   composites: {}
 }
@@ -1479,8 +1099,6 @@ readonly fields: res_shipmentsFieldRefs;
  */
 export interface Prisma__res_shipmentsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_orders<T extends Prisma.res_ordersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_ordersDefaultArgs<ExtArgs>>): Prisma.Prisma__res_ordersClient<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.res_shipments$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shipments$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1511,7 +1129,6 @@ export interface Prisma__res_shipmentsClient<T, Null = never, ExtArgs extends ru
  */
 export interface res_shipmentsFieldRefs {
   readonly id: Prisma.FieldRef<"res_shipments", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_shipments", 'String'>
   readonly order_id: Prisma.FieldRef<"res_shipments", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"res_shipments", 'String'>
   readonly recipient_name: Prisma.FieldRef<"res_shipments", 'String'>
@@ -1520,7 +1137,6 @@ export interface res_shipmentsFieldRefs {
   readonly city: Prisma.FieldRef<"res_shipments", 'String'>
   readonly state: Prisma.FieldRef<"res_shipments", 'String'>
   readonly postal_code: Prisma.FieldRef<"res_shipments", 'String'>
-  readonly status: Prisma.FieldRef<"res_shipments", 'shipment_status_enum'>
   readonly tracking_number: Prisma.FieldRef<"res_shipments", 'String'>
   readonly carrier: Prisma.FieldRef<"res_shipments", 'String'>
   readonly shipped_at: Prisma.FieldRef<"res_shipments", 'DateTime'>
@@ -1528,6 +1144,8 @@ export interface res_shipmentsFieldRefs {
   readonly notes: Prisma.FieldRef<"res_shipments", 'String'>
   readonly created_at: Prisma.FieldRef<"res_shipments", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"res_shipments", 'DateTime'>
+  readonly tenant_id: Prisma.FieldRef<"res_shipments", 'String'>
+  readonly status: Prisma.FieldRef<"res_shipments", 'shipment_status_enum'>
 }
     
 
@@ -1544,10 +1162,6 @@ export type res_shipmentsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
   /**
    * Filter, which res_shipments to fetch.
    */
@@ -1567,10 +1181,6 @@ export type res_shipmentsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
-  /**
    * Filter, which res_shipments to fetch.
    */
   where: Prisma.res_shipmentsWhereUniqueInput
@@ -1588,10 +1198,6 @@ export type res_shipmentsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
   /**
    * Filter, which res_shipments to fetch.
    */
@@ -1641,10 +1247,6 @@ export type res_shipmentsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
-  /**
    * Filter, which res_shipments to fetch.
    */
   where?: Prisma.res_shipmentsWhereInput
@@ -1692,10 +1294,6 @@ export type res_shipmentsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
   /**
    * Filter, which res_shipments to fetch.
    */
@@ -1745,10 +1343,6 @@ export type res_shipmentsCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_shipments.
    */
   data: Prisma.XOR<Prisma.res_shipmentsCreateInput, Prisma.res_shipmentsUncheckedCreateInput>
@@ -1782,10 +1376,6 @@ export type res_shipmentsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.res_shipmentsCreateManyInput | Prisma.res_shipmentsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1800,10 +1390,6 @@ export type res_shipmentsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_shipments.
    */
@@ -1856,10 +1442,6 @@ export type res_shipmentsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many res_shipments to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1874,10 +1456,6 @@ export type res_shipmentsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_shipments to update in case it exists.
    */
@@ -1905,10 +1483,6 @@ export type res_shipmentsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
-  /**
    * Filter which res_shipments to delete.
    */
   where: Prisma.res_shipmentsWhereUniqueInput
@@ -1929,25 +1503,6 @@ export type res_shipmentsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * res_shipments.tenants
- */
-export type res_shipments$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_shipments without action
  */
 export type res_shipmentsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1959,8 +1514,4 @@ export type res_shipmentsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the res_shipments
    */
   omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
 }

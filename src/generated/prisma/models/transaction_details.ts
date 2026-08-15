@@ -46,7 +46,6 @@ export type Transaction_detailsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transaction_id: string | null
-  product_id: string | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -55,13 +54,13 @@ export type Transaction_detailsMinAggregateOutputType = {
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
   auth_user_id: string | null
+  product_id: string | null
 }
 
 export type Transaction_detailsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transaction_id: string | null
-  product_id: string | null
   quantity: runtime.Decimal | null
   unit_price: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
@@ -70,13 +69,13 @@ export type Transaction_detailsMaxAggregateOutputType = {
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
   auth_user_id: string | null
+  product_id: string | null
 }
 
 export type Transaction_detailsCountAggregateOutputType = {
   id: number
   tenant_id: number
   transaction_id: number
-  product_id: number
   quantity: number
   unit_price: number
   discount_amount: number
@@ -85,6 +84,7 @@ export type Transaction_detailsCountAggregateOutputType = {
   sales_invoice_item_id: number
   sales_return_item_id: number
   auth_user_id: number
+  product_id: number
   _all: number
 }
 
@@ -109,7 +109,6 @@ export type Transaction_detailsMinAggregateInputType = {
   id?: true
   tenant_id?: true
   transaction_id?: true
-  product_id?: true
   quantity?: true
   unit_price?: true
   discount_amount?: true
@@ -118,13 +117,13 @@ export type Transaction_detailsMinAggregateInputType = {
   sales_invoice_item_id?: true
   sales_return_item_id?: true
   auth_user_id?: true
+  product_id?: true
 }
 
 export type Transaction_detailsMaxAggregateInputType = {
   id?: true
   tenant_id?: true
   transaction_id?: true
-  product_id?: true
   quantity?: true
   unit_price?: true
   discount_amount?: true
@@ -133,13 +132,13 @@ export type Transaction_detailsMaxAggregateInputType = {
   sales_invoice_item_id?: true
   sales_return_item_id?: true
   auth_user_id?: true
+  product_id?: true
 }
 
 export type Transaction_detailsCountAggregateInputType = {
   id?: true
   tenant_id?: true
   transaction_id?: true
-  product_id?: true
   quantity?: true
   unit_price?: true
   discount_amount?: true
@@ -148,6 +147,7 @@ export type Transaction_detailsCountAggregateInputType = {
   sales_invoice_item_id?: true
   sales_return_item_id?: true
   auth_user_id?: true
+  product_id?: true
   _all?: true
 }
 
@@ -241,7 +241,6 @@ export type Transaction_detailsGroupByOutputType = {
   id: string
   tenant_id: string
   transaction_id: string
-  product_id: string
   quantity: runtime.Decimal
   unit_price: runtime.Decimal
   discount_amount: runtime.Decimal | null
@@ -250,6 +249,7 @@ export type Transaction_detailsGroupByOutputType = {
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
   auth_user_id: string | null
+  product_id: string
   _count: Transaction_detailsCountAggregateOutputType | null
   _avg: Transaction_detailsAvgAggregateOutputType | null
   _sum: Transaction_detailsSumAggregateOutputType | null
@@ -279,7 +279,6 @@ export type transaction_detailsWhereInput = {
   id?: Prisma.UuidFilter<"transaction_details"> | string
   tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.UuidFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -288,17 +287,13 @@ export type transaction_detailsWhereInput = {
   sales_invoice_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
-  sales_invoice_items?: Prisma.XOR<Prisma.Sales_invoice_itemsNullableScalarRelationFilter, Prisma.sales_invoice_itemsWhereInput> | null
-  sales_return_items?: Prisma.XOR<Prisma.Sales_return_itemsNullableScalarRelationFilter, Prisma.sales_return_itemsWhereInput> | null
-  transactions?: Prisma.XOR<Prisma.TransactionsScalarRelationFilter, Prisma.transactionsWhereInput>
+  product_id?: Prisma.UuidFilter<"transaction_details"> | string
 }
 
 export type transaction_detailsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transaction_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -307,10 +302,7 @@ export type transaction_detailsOrderByWithRelationInput = {
   sales_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  products?: Prisma.productsOrderByWithRelationInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsOrderByWithRelationInput
-  sales_return_items?: Prisma.sales_return_itemsOrderByWithRelationInput
-  transactions?: Prisma.transactionsOrderByWithRelationInput
+  product_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
@@ -320,7 +312,6 @@ export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.transaction_detailsWhereInput | Prisma.transaction_detailsWhereInput[]
   tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.UuidFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -329,17 +320,13 @@ export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
   sales_invoice_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
-  sales_invoice_items?: Prisma.XOR<Prisma.Sales_invoice_itemsNullableScalarRelationFilter, Prisma.sales_invoice_itemsWhereInput> | null
-  sales_return_items?: Prisma.XOR<Prisma.Sales_return_itemsNullableScalarRelationFilter, Prisma.sales_return_itemsWhereInput> | null
-  transactions?: Prisma.XOR<Prisma.TransactionsScalarRelationFilter, Prisma.transactionsWhereInput>
+  product_id?: Prisma.UuidFilter<"transaction_details"> | string
 }, "id">
 
 export type transaction_detailsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transaction_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -348,6 +335,7 @@ export type transaction_detailsOrderByWithAggregationInput = {
   sales_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  product_id?: Prisma.SortOrder
   _count?: Prisma.transaction_detailsCountOrderByAggregateInput
   _avg?: Prisma.transaction_detailsAvgOrderByAggregateInput
   _max?: Prisma.transaction_detailsMaxOrderByAggregateInput
@@ -362,7 +350,6 @@ export type transaction_detailsScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   transaction_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
-  product_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
   quantity?: Prisma.DecimalWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -371,28 +358,28 @@ export type transaction_detailsScalarWhereWithAggregatesInput = {
   sales_invoice_item_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
+  product_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
 }
 
 export type transaction_detailsCreateInput = {
   id?: string
   tenant_id: string
+  transaction_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
+  sales_invoice_item_id?: string | null
+  sales_return_item_id?: string | null
   auth_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutTransaction_detailsInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedOneWithoutTransaction_detailsInput
-  sales_return_items?: Prisma.sales_return_itemsCreateNestedOneWithoutTransaction_detailsInput
-  transactions: Prisma.transactionsCreateNestedOneWithoutTransaction_detailsInput
+  product_id: string
 }
 
 export type transaction_detailsUncheckedCreateInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -401,28 +388,28 @@ export type transaction_detailsUncheckedCreateInput = {
   sales_invoice_item_id?: string | null
   sales_return_item_id?: string | null
   auth_user_id?: string | null
+  product_id: string
 }
 
 export type transaction_detailsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  sales_return_items?: Prisma.sales_return_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  transactions?: Prisma.transactionsUpdateOneRequiredWithoutTransaction_detailsNestedInput
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type transaction_detailsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -431,13 +418,13 @@ export type transaction_detailsUncheckedUpdateInput = {
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type transaction_detailsCreateManyInput = {
   id?: string
   tenant_id: string
   transaction_id: string
-  product_id: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -446,24 +433,13 @@ export type transaction_detailsCreateManyInput = {
   sales_invoice_item_id?: string | null
   sales_return_item_id?: string | null
   auth_user_id?: string | null
+  product_id: string
 }
 
 export type transaction_detailsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -472,23 +448,28 @@ export type transaction_detailsUncheckedUpdateManyInput = {
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type Transaction_detailsListRelationFilter = {
-  every?: Prisma.transaction_detailsWhereInput
-  some?: Prisma.transaction_detailsWhereInput
-  none?: Prisma.transaction_detailsWhereInput
-}
-
-export type transaction_detailsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type transaction_detailsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type transaction_detailsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transaction_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -497,6 +478,7 @@ export type transaction_detailsCountOrderByAggregateInput = {
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsAvgOrderByAggregateInput = {
@@ -511,7 +493,6 @@ export type transaction_detailsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transaction_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -520,13 +501,13 @@ export type transaction_detailsMaxOrderByAggregateInput = {
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transaction_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
@@ -535,6 +516,7 @@ export type transaction_detailsMinOrderByAggregateInput = {
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsSumOrderByAggregateInput = {
@@ -545,639 +527,12 @@ export type transaction_detailsSumOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
 }
 
-export type transaction_detailsCreateNestedManyWithoutProductsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput> | Prisma.transaction_detailsCreateWithoutProductsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutProductsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutProductsInput | Prisma.transaction_detailsCreateOrConnectWithoutProductsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyProductsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUncheckedCreateNestedManyWithoutProductsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput> | Prisma.transaction_detailsCreateWithoutProductsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutProductsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutProductsInput | Prisma.transaction_detailsCreateOrConnectWithoutProductsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyProductsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUpdateManyWithoutProductsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput> | Prisma.transaction_detailsCreateWithoutProductsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutProductsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutProductsInput | Prisma.transaction_detailsCreateOrConnectWithoutProductsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutProductsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutProductsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyProductsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutProductsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutProductsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutProductsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutProductsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutProductsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput> | Prisma.transaction_detailsCreateWithoutProductsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutProductsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutProductsInput | Prisma.transaction_detailsCreateOrConnectWithoutProductsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutProductsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutProductsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyProductsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutProductsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutProductsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutProductsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutProductsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsCreateNestedManyWithoutSales_invoice_itemsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_invoice_itemsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUncheckedCreateNestedManyWithoutSales_invoice_itemsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_invoice_itemsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUpdateManyWithoutSales_invoice_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_invoice_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_invoice_itemsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_invoice_itemsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_invoice_itemsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutSales_invoice_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_invoice_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_invoice_itemsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_invoice_itemsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_invoice_itemsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_invoice_itemsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsCreateNestedManyWithoutSales_return_itemsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_return_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_return_itemsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUncheckedCreateNestedManyWithoutSales_return_itemsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_return_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_return_itemsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUpdateManyWithoutSales_return_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_return_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_return_itemsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_return_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_return_itemsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_return_itemsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_return_itemsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_return_itemsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_return_itemsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutSales_return_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput> | Prisma.transaction_detailsCreateWithoutSales_return_itemsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput | Prisma.transaction_detailsCreateOrConnectWithoutSales_return_itemsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_return_itemsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutSales_return_itemsInput[]
-  createMany?: Prisma.transaction_detailsCreateManySales_return_itemsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_return_itemsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutSales_return_itemsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_return_itemsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutSales_return_itemsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsCreateNestedManyWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput> | Prisma.transaction_detailsCreateWithoutTransactionsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput | Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyTransactionsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput> | Prisma.transaction_detailsCreateWithoutTransactionsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput | Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyTransactionsInputEnvelope
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-}
-
-export type transaction_detailsUpdateManyWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput> | Prisma.transaction_detailsCreateWithoutTransactionsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput | Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyTransactionsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutTransactionsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutTransactionsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput> | Prisma.transaction_detailsCreateWithoutTransactionsInput[] | Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput | Prisma.transaction_detailsCreateOrConnectWithoutTransactionsInput[]
-  upsert?: Prisma.transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput | Prisma.transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput[]
-  createMany?: Prisma.transaction_detailsCreateManyTransactionsInputEnvelope
-  set?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  disconnect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  delete?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  connect?: Prisma.transaction_detailsWhereUniqueInput | Prisma.transaction_detailsWhereUniqueInput[]
-  update?: Prisma.transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput | Prisma.transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput[]
-  updateMany?: Prisma.transaction_detailsUpdateManyWithWhereWithoutTransactionsInput | Prisma.transaction_detailsUpdateManyWithWhereWithoutTransactionsInput[]
-  deleteMany?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-}
-
-export type transaction_detailsCreateWithoutProductsInput = {
-  id?: string
-  tenant_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
-  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedOneWithoutTransaction_detailsInput
-  sales_return_items?: Prisma.sales_return_itemsCreateNestedOneWithoutTransaction_detailsInput
-  transactions: Prisma.transactionsCreateNestedOneWithoutTransaction_detailsInput
-}
-
-export type transaction_detailsUncheckedCreateWithoutProductsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsCreateOrConnectWithoutProductsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput>
-}
-
-export type transaction_detailsCreateManyProductsInputEnvelope = {
-  data: Prisma.transaction_detailsCreateManyProductsInput | Prisma.transaction_detailsCreateManyProductsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transaction_detailsUpsertWithWhereUniqueWithoutProductsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutProductsInput, Prisma.transaction_detailsUncheckedUpdateWithoutProductsInput>
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutProductsInput, Prisma.transaction_detailsUncheckedCreateWithoutProductsInput>
-}
-
-export type transaction_detailsUpdateWithWhereUniqueWithoutProductsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutProductsInput, Prisma.transaction_detailsUncheckedUpdateWithoutProductsInput>
-}
-
-export type transaction_detailsUpdateManyWithWhereWithoutProductsInput = {
-  where: Prisma.transaction_detailsScalarWhereInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateManyMutationInput, Prisma.transaction_detailsUncheckedUpdateManyWithoutProductsInput>
-}
-
-export type transaction_detailsScalarWhereInput = {
-  AND?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-  OR?: Prisma.transaction_detailsScalarWhereInput[]
-  NOT?: Prisma.transaction_detailsScalarWhereInput | Prisma.transaction_detailsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"transaction_details"> | string
-  tenant_id?: Prisma.UuidFilter<"transaction_details"> | string
-  transaction_id?: Prisma.UuidFilter<"transaction_details"> | string
-  product_id?: Prisma.UuidFilter<"transaction_details"> | string
-  quantity?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.DecimalNullableFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  sales_return_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-}
-
-export type transaction_detailsCreateWithoutSales_invoice_itemsInput = {
-  id?: string
-  tenant_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutTransaction_detailsInput
-  sales_return_items?: Prisma.sales_return_itemsCreateNestedOneWithoutTransaction_detailsInput
-  transactions: Prisma.transactionsCreateNestedOneWithoutTransaction_detailsInput
-}
-
-export type transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsCreateOrConnectWithoutSales_invoice_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput>
-}
-
-export type transaction_detailsCreateManySales_invoice_itemsInputEnvelope = {
-  data: Prisma.transaction_detailsCreateManySales_invoice_itemsInput | Prisma.transaction_detailsCreateManySales_invoice_itemsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transaction_detailsUpsertWithWhereUniqueWithoutSales_invoice_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedUpdateWithoutSales_invoice_itemsInput>
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_invoice_itemsInput>
-}
-
-export type transaction_detailsUpdateWithWhereUniqueWithoutSales_invoice_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutSales_invoice_itemsInput, Prisma.transaction_detailsUncheckedUpdateWithoutSales_invoice_itemsInput>
-}
-
-export type transaction_detailsUpdateManyWithWhereWithoutSales_invoice_itemsInput = {
-  where: Prisma.transaction_detailsScalarWhereInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateManyMutationInput, Prisma.transaction_detailsUncheckedUpdateManyWithoutSales_invoice_itemsInput>
-}
-
-export type transaction_detailsCreateWithoutSales_return_itemsInput = {
-  id?: string
-  tenant_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutTransaction_detailsInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedOneWithoutTransaction_detailsInput
-  transactions: Prisma.transactionsCreateNestedOneWithoutTransaction_detailsInput
-}
-
-export type transaction_detailsUncheckedCreateWithoutSales_return_itemsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsCreateOrConnectWithoutSales_return_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput>
-}
-
-export type transaction_detailsCreateManySales_return_itemsInputEnvelope = {
-  data: Prisma.transaction_detailsCreateManySales_return_itemsInput | Prisma.transaction_detailsCreateManySales_return_itemsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transaction_detailsUpsertWithWhereUniqueWithoutSales_return_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedUpdateWithoutSales_return_itemsInput>
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedCreateWithoutSales_return_itemsInput>
-}
-
-export type transaction_detailsUpdateWithWhereUniqueWithoutSales_return_itemsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutSales_return_itemsInput, Prisma.transaction_detailsUncheckedUpdateWithoutSales_return_itemsInput>
-}
-
-export type transaction_detailsUpdateManyWithWhereWithoutSales_return_itemsInput = {
-  where: Prisma.transaction_detailsScalarWhereInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateManyMutationInput, Prisma.transaction_detailsUncheckedUpdateManyWithoutSales_return_itemsInput>
-}
-
-export type transaction_detailsCreateWithoutTransactionsInput = {
-  id?: string
-  tenant_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutTransaction_detailsInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedOneWithoutTransaction_detailsInput
-  sales_return_items?: Prisma.sales_return_itemsCreateNestedOneWithoutTransaction_detailsInput
-}
-
-export type transaction_detailsUncheckedCreateWithoutTransactionsInput = {
-  id?: string
-  tenant_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsCreateOrConnectWithoutTransactionsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput>
-}
-
-export type transaction_detailsCreateManyTransactionsInputEnvelope = {
-  data: Prisma.transaction_detailsCreateManyTransactionsInput | Prisma.transaction_detailsCreateManyTransactionsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transaction_detailsUpsertWithWhereUniqueWithoutTransactionsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.transaction_detailsCreateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedCreateWithoutTransactionsInput>
-}
-
-export type transaction_detailsUpdateWithWhereUniqueWithoutTransactionsInput = {
-  where: Prisma.transaction_detailsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateWithoutTransactionsInput, Prisma.transaction_detailsUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type transaction_detailsUpdateManyWithWhereWithoutTransactionsInput = {
-  where: Prisma.transaction_detailsScalarWhereInput
-  data: Prisma.XOR<Prisma.transaction_detailsUpdateManyMutationInput, Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsInput>
-}
-
-export type transaction_detailsCreateManyProductsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsUpdateWithoutProductsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  sales_return_items?: Prisma.sales_return_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  transactions?: Prisma.transactionsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-}
-
-export type transaction_detailsUncheckedUpdateWithoutProductsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutProductsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsCreateManySales_invoice_itemsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsUpdateWithoutSales_invoice_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-  sales_return_items?: Prisma.sales_return_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  transactions?: Prisma.transactionsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-}
-
-export type transaction_detailsUncheckedUpdateWithoutSales_invoice_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutSales_invoice_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsCreateManySales_return_itemsInput = {
-  id?: string
-  tenant_id: string
-  transaction_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsUpdateWithoutSales_return_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  transactions?: Prisma.transactionsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-}
-
-export type transaction_detailsUncheckedUpdateWithoutSales_return_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutSales_return_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsCreateManyTransactionsInput = {
-  id?: string
-  tenant_id: string
-  product_id: string
-  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: string | null
-  sales_return_item_id?: string | null
-  auth_user_id?: string | null
-}
-
-export type transaction_detailsUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutTransaction_detailsNestedInput
-  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateOneWithoutTransaction_detailsNestedInput
-  sales_return_items?: Prisma.sales_return_itemsUpdateOneWithoutTransaction_detailsNestedInput
-}
-
-export type transaction_detailsUncheckedUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transaction_detailsUncheckedUpdateManyWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
 
 
 export type transaction_detailsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
   transaction_id?: boolean
-  product_id?: boolean
   quantity?: boolean
   unit_price?: boolean
   discount_amount?: boolean
@@ -1186,17 +541,13 @@ export type transaction_detailsSelect<ExtArgs extends runtime.Types.Extensions.I
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
   auth_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
+  product_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
   transaction_id?: boolean
-  product_id?: boolean
   quantity?: boolean
   unit_price?: boolean
   discount_amount?: boolean
@@ -1205,17 +556,13 @@ export type transaction_detailsSelectCreateManyAndReturn<ExtArgs extends runtime
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
   auth_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
+  product_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
   transaction_id?: boolean
-  product_id?: boolean
   quantity?: boolean
   unit_price?: boolean
   discount_amount?: boolean
@@ -1224,17 +571,13 @@ export type transaction_detailsSelectUpdateManyAndReturn<ExtArgs extends runtime
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
   auth_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
+  product_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectScalar = {
   id?: boolean
   tenant_id?: boolean
   transaction_id?: boolean
-  product_id?: boolean
   quantity?: boolean
   unit_price?: boolean
   discount_amount?: boolean
@@ -1243,41 +586,18 @@ export type transaction_detailsSelectScalar = {
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
   auth_user_id?: boolean
+  product_id?: boolean
 }
 
-export type transaction_detailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transaction_id" | "product_id" | "quantity" | "unit_price" | "discount_amount" | "tax_amount" | "subtotal" | "sales_invoice_item_id" | "sales_return_item_id" | "auth_user_id", ExtArgs["result"]["transaction_details"]>
-export type transaction_detailsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
-}
-export type transaction_detailsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
-}
-export type transaction_detailsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
-  sales_invoice_items?: boolean | Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>
-  sales_return_items?: boolean | Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactionsDefaultArgs<ExtArgs>
-}
+export type transaction_detailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transaction_id" | "quantity" | "unit_price" | "discount_amount" | "tax_amount" | "subtotal" | "sales_invoice_item_id" | "sales_return_item_id" | "auth_user_id" | "product_id", ExtArgs["result"]["transaction_details"]>
 
 export type $transaction_detailsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "transaction_details"
-  objects: {
-    products: Prisma.$productsPayload<ExtArgs>
-    sales_invoice_items: Prisma.$sales_invoice_itemsPayload<ExtArgs> | null
-    sales_return_items: Prisma.$sales_return_itemsPayload<ExtArgs> | null
-    transactions: Prisma.$transactionsPayload<ExtArgs>
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
     transaction_id: string
-    product_id: string
     quantity: runtime.Decimal
     unit_price: runtime.Decimal
     discount_amount: runtime.Decimal | null
@@ -1286,6 +606,7 @@ export type $transaction_detailsPayload<ExtArgs extends runtime.Types.Extensions
     sales_invoice_item_id: string | null
     sales_return_item_id: string | null
     auth_user_id: string | null
+    product_id: string
   }, ExtArgs["result"]["transaction_details"]>
   composites: {}
 }
@@ -1680,10 +1001,6 @@ readonly fields: transaction_detailsFieldRefs;
  */
 export interface Prisma__transaction_detailsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  sales_invoice_items<T extends Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transaction_details$sales_invoice_itemsArgs<ExtArgs>>): Prisma.Prisma__sales_invoice_itemsClient<runtime.Types.Result.GetResult<Prisma.$sales_invoice_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sales_return_items<T extends Prisma.transaction_details$sales_return_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transaction_details$sales_return_itemsArgs<ExtArgs>>): Prisma.Prisma__sales_return_itemsClient<runtime.Types.Result.GetResult<Prisma.$sales_return_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  transactions<T extends Prisma.transactionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactionsDefaultArgs<ExtArgs>>): Prisma.Prisma__transactionsClient<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1716,7 +1033,6 @@ export interface transaction_detailsFieldRefs {
   readonly id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly tenant_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly transaction_id: Prisma.FieldRef<"transaction_details", 'String'>
-  readonly product_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly quantity: Prisma.FieldRef<"transaction_details", 'Decimal'>
   readonly unit_price: Prisma.FieldRef<"transaction_details", 'Decimal'>
   readonly discount_amount: Prisma.FieldRef<"transaction_details", 'Decimal'>
@@ -1725,6 +1041,7 @@ export interface transaction_detailsFieldRefs {
   readonly sales_invoice_item_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly sales_return_item_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"transaction_details", 'String'>
+  readonly product_id: Prisma.FieldRef<"transaction_details", 'String'>
 }
     
 
@@ -1741,10 +1058,6 @@ export type transaction_detailsFindUniqueArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
   /**
    * Filter, which transaction_details to fetch.
    */
@@ -1764,10 +1077,6 @@ export type transaction_detailsFindUniqueOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  /**
    * Filter, which transaction_details to fetch.
    */
   where: Prisma.transaction_detailsWhereUniqueInput
@@ -1785,10 +1094,6 @@ export type transaction_detailsFindFirstArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
   /**
    * Filter, which transaction_details to fetch.
    */
@@ -1838,10 +1143,6 @@ export type transaction_detailsFindFirstOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  /**
    * Filter, which transaction_details to fetch.
    */
   where?: Prisma.transaction_detailsWhereInput
@@ -1889,10 +1190,6 @@ export type transaction_detailsFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
   /**
    * Filter, which transaction_details to fetch.
    */
@@ -1942,10 +1239,6 @@ export type transaction_detailsCreateArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  /**
    * The data needed to create a transaction_details.
    */
   data: Prisma.XOR<Prisma.transaction_detailsCreateInput, Prisma.transaction_detailsUncheckedCreateInput>
@@ -1979,10 +1272,6 @@ export type transaction_detailsCreateManyAndReturnArgs<ExtArgs extends runtime.T
    */
   data: Prisma.transaction_detailsCreateManyInput | Prisma.transaction_detailsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1997,10 +1286,6 @@ export type transaction_detailsUpdateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
   /**
    * The data needed to update a transaction_details.
    */
@@ -2053,10 +1338,6 @@ export type transaction_detailsUpdateManyAndReturnArgs<ExtArgs extends runtime.T
    * Limit how many transaction_details to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2071,10 +1352,6 @@ export type transaction_detailsUpsertArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
   /**
    * The filter to search for the transaction_details to update in case it exists.
    */
@@ -2102,10 +1379,6 @@ export type transaction_detailsDeleteArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  /**
    * Filter which transaction_details to delete.
    */
   where: Prisma.transaction_detailsWhereUniqueInput
@@ -2126,44 +1399,6 @@ export type transaction_detailsDeleteManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
- * transaction_details.sales_invoice_items
- */
-export type transaction_details$sales_invoice_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the sales_invoice_items
-   */
-  select?: Prisma.sales_invoice_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the sales_invoice_items
-   */
-  omit?: Prisma.sales_invoice_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.sales_invoice_itemsInclude<ExtArgs> | null
-  where?: Prisma.sales_invoice_itemsWhereInput
-}
-
-/**
- * transaction_details.sales_return_items
- */
-export type transaction_details$sales_return_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the sales_return_items
-   */
-  select?: Prisma.sales_return_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the sales_return_items
-   */
-  omit?: Prisma.sales_return_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.sales_return_itemsInclude<ExtArgs> | null
-  where?: Prisma.sales_return_itemsWhereInput
-}
-
-/**
  * transaction_details without action
  */
 export type transaction_detailsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2175,8 +1410,4 @@ export type transaction_detailsDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the transaction_details
    */
   omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
 }

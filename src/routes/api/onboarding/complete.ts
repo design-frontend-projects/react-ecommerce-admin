@@ -51,8 +51,6 @@ const POST = withAuth(null, async ({ request, auth }) => {
       paymentMethod: body.paymentMethod.trim(),
       transferRef: body.transferRef?.trim(),
       subscriptionId: body.subscriptionId.trim(),
-      branches: body.branches,
-      users: body.users,
     })
 
     return Response.json({

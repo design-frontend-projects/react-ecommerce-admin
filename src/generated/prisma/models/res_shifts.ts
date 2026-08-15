@@ -52,7 +52,6 @@ export type Res_shiftsSumAggregateOutputType = {
 
 export type Res_shiftsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   auth_user_id: string | null
   closed_by: string | null
   opening_cash: runtime.Decimal | null
@@ -79,11 +78,11 @@ export type Res_shiftsMinAggregateOutputType = {
   reviewed_at: Date | null
   is_corrected: boolean | null
   stale_notified_at: Date | null
+  tenant_id: string | null
 }
 
 export type Res_shiftsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   auth_user_id: string | null
   closed_by: string | null
   opening_cash: runtime.Decimal | null
@@ -110,11 +109,11 @@ export type Res_shiftsMaxAggregateOutputType = {
   reviewed_at: Date | null
   is_corrected: boolean | null
   stale_notified_at: Date | null
+  tenant_id: string | null
 }
 
 export type Res_shiftsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   auth_user_id: number
   closed_by: number
   opening_cash: number
@@ -141,6 +140,7 @@ export type Res_shiftsCountAggregateOutputType = {
   reviewed_at: number
   is_corrected: number
   stale_notified_at: number
+  tenant_id: number
   _all: number
 }
 
@@ -171,7 +171,6 @@ export type Res_shiftsSumAggregateInputType = {
 
 export type Res_shiftsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   closed_by?: true
   opening_cash?: true
@@ -198,11 +197,11 @@ export type Res_shiftsMinAggregateInputType = {
   reviewed_at?: true
   is_corrected?: true
   stale_notified_at?: true
+  tenant_id?: true
 }
 
 export type Res_shiftsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   closed_by?: true
   opening_cash?: true
@@ -229,11 +228,11 @@ export type Res_shiftsMaxAggregateInputType = {
   reviewed_at?: true
   is_corrected?: true
   stale_notified_at?: true
+  tenant_id?: true
 }
 
 export type Res_shiftsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   closed_by?: true
   opening_cash?: true
@@ -260,6 +259,7 @@ export type Res_shiftsCountAggregateInputType = {
   reviewed_at?: true
   is_corrected?: true
   stale_notified_at?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -351,7 +351,6 @@ export type res_shiftsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type Res_shiftsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   auth_user_id: string | null
   closed_by: string | null
   opening_cash: runtime.Decimal | null
@@ -378,6 +377,7 @@ export type Res_shiftsGroupByOutputType = {
   reviewed_at: Date | null
   is_corrected: boolean
   stale_notified_at: Date | null
+  tenant_id: string | null
   _count: Res_shiftsCountAggregateOutputType | null
   _avg: Res_shiftsAvgAggregateOutputType | null
   _sum: Res_shiftsSumAggregateOutputType | null
@@ -405,7 +405,6 @@ export type res_shiftsWhereInput = {
   OR?: Prisma.res_shiftsWhereInput[]
   NOT?: Prisma.res_shiftsWhereInput | Prisma.res_shiftsWhereInput[]
   id?: Prisma.UuidFilter<"res_shifts"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
   closed_by?: Prisma.StringNullableFilter<"res_shifts"> | string | null
   opening_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -432,16 +431,11 @@ export type res_shiftsWhereInput = {
   reviewed_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
   is_corrected?: Prisma.BoolFilter<"res_shifts"> | boolean
   stale_notified_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-  res_cash_movements?: Prisma.Res_cash_movementsListRelationFilter
-  res_orders?: Prisma.Res_ordersListRelationFilter
-  res_shift_audit?: Prisma.Res_shift_auditListRelationFilter
-  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
 }
 
 export type res_shiftsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   closed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   opening_cash?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -468,20 +462,15 @@ export type res_shiftsOrderByWithRelationInput = {
   reviewed_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_corrected?: Prisma.SortOrder
   stale_notified_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_cash_movements?: Prisma.res_cash_movementsOrderByRelationAggregateInput
-  res_orders?: Prisma.res_ordersOrderByRelationAggregateInput
-  res_shift_audit?: Prisma.res_shift_auditOrderByRelationAggregateInput
-  branches?: Prisma.branchesOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_shiftsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  auth_user_id?: string
   AND?: Prisma.res_shiftsWhereInput | Prisma.res_shiftsWhereInput[]
   OR?: Prisma.res_shiftsWhereInput[]
   NOT?: Prisma.res_shiftsWhereInput | Prisma.res_shiftsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
   closed_by?: Prisma.StringNullableFilter<"res_shifts"> | string | null
   opening_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   closing_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -507,16 +496,11 @@ export type res_shiftsWhereUniqueInput = Prisma.AtLeast<{
   reviewed_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
   is_corrected?: Prisma.BoolFilter<"res_shifts"> | boolean
   stale_notified_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-  res_cash_movements?: Prisma.Res_cash_movementsListRelationFilter
-  res_orders?: Prisma.Res_ordersListRelationFilter
-  res_shift_audit?: Prisma.Res_shift_auditListRelationFilter
-  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
-}, "id" | "auth_user_id">
+  tenant_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
+}, "id">
 
 export type res_shiftsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   closed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   opening_cash?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -543,6 +527,7 @@ export type res_shiftsOrderByWithAggregationInput = {
   reviewed_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_corrected?: Prisma.SortOrder
   stale_notified_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_shiftsCountOrderByAggregateInput
   _avg?: Prisma.res_shiftsAvgOrderByAggregateInput
   _max?: Prisma.res_shiftsMaxOrderByAggregateInput
@@ -555,7 +540,6 @@ export type res_shiftsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_shiftsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_shiftsScalarWhereWithAggregatesInput | Prisma.res_shiftsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_shifts"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shifts"> | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shifts"> | string | null
   closed_by?: Prisma.StringNullableWithAggregatesFilter<"res_shifts"> | string | null
   opening_cash?: Prisma.DecimalNullableWithAggregatesFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -582,6 +566,7 @@ export type res_shiftsScalarWhereWithAggregatesInput = {
   reviewed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_shifts"> | Date | string | null
   is_corrected?: Prisma.BoolWithAggregatesFilter<"res_shifts"> | boolean
   stale_notified_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_shifts"> | Date | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_shifts"> | string | null
 }
 
 export type res_shiftsCreateInput = {
@@ -596,6 +581,7 @@ export type res_shiftsCreateInput = {
   notes?: string | null
   opened_by?: string | null
   restaurant_id?: string | null
+  branch_id?: string | null
   expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -611,16 +597,11 @@ export type res_shiftsCreateInput = {
   reviewed_at?: Date | string | null
   is_corrected?: boolean
   stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditCreateNestedManyWithoutRes_shiftsInput
-  branches?: Prisma.branchesCreateNestedOneWithoutRes_shiftsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shiftsInput
+  tenant_id?: string | null
 }
 
 export type res_shiftsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string | null
   closed_by?: string | null
   opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -647,9 +628,7 @@ export type res_shiftsUncheckedCreateInput = {
   reviewed_at?: Date | string | null
   is_corrected?: boolean
   stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedCreateNestedManyWithoutRes_shiftsInput
+  tenant_id?: string | null
 }
 
 export type res_shiftsUpdateInput = {
@@ -664,6 +643,7 @@ export type res_shiftsUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -679,16 +659,11 @@ export type res_shiftsUpdateInput = {
   reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUpdateManyWithoutRes_shiftsNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutRes_shiftsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shiftsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_shiftsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -715,14 +690,11 @@ export type res_shiftsUncheckedUpdateInput = {
   reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_shiftsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string | null
   closed_by?: string | null
   opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -749,40 +721,11 @@ export type res_shiftsCreateManyInput = {
   reviewed_at?: Date | string | null
   is_corrected?: boolean
   stale_notified_at?: Date | string | null
+  tenant_id?: string | null
 }
 
 export type res_shiftsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_shiftsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -809,26 +752,42 @@ export type res_shiftsUncheckedUpdateManyInput = {
   reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type Res_shiftsListRelationFilter = {
-  every?: Prisma.res_shiftsWhereInput
-  some?: Prisma.res_shiftsWhereInput
-  none?: Prisma.res_shiftsWhereInput
-}
-
-export type res_shiftsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type Res_shiftsNullableScalarRelationFilter = {
-  is?: Prisma.res_shiftsWhereInput | null
-  isNot?: Prisma.res_shiftsWhereInput | null
+export type res_shiftsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_shiftsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   closed_by?: Prisma.SortOrder
   opening_cash?: Prisma.SortOrder
@@ -855,6 +814,7 @@ export type res_shiftsCountOrderByAggregateInput = {
   reviewed_at?: Prisma.SortOrder
   is_corrected?: Prisma.SortOrder
   stale_notified_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_shiftsAvgOrderByAggregateInput = {
@@ -871,7 +831,6 @@ export type res_shiftsAvgOrderByAggregateInput = {
 
 export type res_shiftsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   closed_by?: Prisma.SortOrder
   opening_cash?: Prisma.SortOrder
@@ -898,11 +857,11 @@ export type res_shiftsMaxOrderByAggregateInput = {
   reviewed_at?: Prisma.SortOrder
   is_corrected?: Prisma.SortOrder
   stale_notified_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_shiftsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   closed_by?: Prisma.SortOrder
   opening_cash?: Prisma.SortOrder
@@ -929,6 +888,7 @@ export type res_shiftsMinOrderByAggregateInput = {
   reviewed_at?: Prisma.SortOrder
   is_corrected?: Prisma.SortOrder
   stale_notified_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_shiftsSumOrderByAggregateInput = {
@@ -943,1105 +903,10 @@ export type res_shiftsSumOrderByAggregateInput = {
   original_variance?: Prisma.SortOrder
 }
 
-export type Res_shiftsScalarRelationFilter = {
-  is?: Prisma.res_shiftsWhereInput
-  isNot?: Prisma.res_shiftsWhereInput
-}
-
-export type res_shiftsCreateNestedManyWithoutBranchesInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput> | Prisma.res_shiftsCreateWithoutBranchesInput[] | Prisma.res_shiftsUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutBranchesInput | Prisma.res_shiftsCreateOrConnectWithoutBranchesInput[]
-  createMany?: Prisma.res_shiftsCreateManyBranchesInputEnvelope
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-}
-
-export type res_shiftsUncheckedCreateNestedManyWithoutBranchesInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput> | Prisma.res_shiftsCreateWithoutBranchesInput[] | Prisma.res_shiftsUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutBranchesInput | Prisma.res_shiftsCreateOrConnectWithoutBranchesInput[]
-  createMany?: Prisma.res_shiftsCreateManyBranchesInputEnvelope
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-}
-
-export type res_shiftsUpdateManyWithoutBranchesNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput> | Prisma.res_shiftsCreateWithoutBranchesInput[] | Prisma.res_shiftsUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutBranchesInput | Prisma.res_shiftsCreateOrConnectWithoutBranchesInput[]
-  upsert?: Prisma.res_shiftsUpsertWithWhereUniqueWithoutBranchesInput | Prisma.res_shiftsUpsertWithWhereUniqueWithoutBranchesInput[]
-  createMany?: Prisma.res_shiftsCreateManyBranchesInputEnvelope
-  set?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  disconnect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  delete?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  update?: Prisma.res_shiftsUpdateWithWhereUniqueWithoutBranchesInput | Prisma.res_shiftsUpdateWithWhereUniqueWithoutBranchesInput[]
-  updateMany?: Prisma.res_shiftsUpdateManyWithWhereWithoutBranchesInput | Prisma.res_shiftsUpdateManyWithWhereWithoutBranchesInput[]
-  deleteMany?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-}
-
-export type res_shiftsUncheckedUpdateManyWithoutBranchesNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput> | Prisma.res_shiftsCreateWithoutBranchesInput[] | Prisma.res_shiftsUncheckedCreateWithoutBranchesInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutBranchesInput | Prisma.res_shiftsCreateOrConnectWithoutBranchesInput[]
-  upsert?: Prisma.res_shiftsUpsertWithWhereUniqueWithoutBranchesInput | Prisma.res_shiftsUpsertWithWhereUniqueWithoutBranchesInput[]
-  createMany?: Prisma.res_shiftsCreateManyBranchesInputEnvelope
-  set?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  disconnect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  delete?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  update?: Prisma.res_shiftsUpdateWithWhereUniqueWithoutBranchesInput | Prisma.res_shiftsUpdateWithWhereUniqueWithoutBranchesInput[]
-  updateMany?: Prisma.res_shiftsUpdateManyWithWhereWithoutBranchesInput | Prisma.res_shiftsUpdateManyWithWhereWithoutBranchesInput[]
-  deleteMany?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-}
-
-export type res_shiftsCreateNestedOneWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_ordersInput
-  connect?: Prisma.res_shiftsWhereUniqueInput
-}
-
-export type res_shiftsUpdateOneWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedCreateWithoutRes_ordersInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_ordersInput
-  upsert?: Prisma.res_shiftsUpsertWithoutRes_ordersInput
-  disconnect?: Prisma.res_shiftsWhereInput | boolean
-  delete?: Prisma.res_shiftsWhereInput | boolean
-  connect?: Prisma.res_shiftsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_shiftsUpdateToOneWithWhereWithoutRes_ordersInput, Prisma.res_shiftsUpdateWithoutRes_ordersInput>, Prisma.res_shiftsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_shiftsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput> | Prisma.res_shiftsCreateWithoutTenantsInput[] | Prisma.res_shiftsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutTenantsInput | Prisma.res_shiftsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_shiftsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-}
-
-export type res_shiftsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput> | Prisma.res_shiftsCreateWithoutTenantsInput[] | Prisma.res_shiftsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutTenantsInput | Prisma.res_shiftsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_shiftsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-}
-
-export type res_shiftsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput> | Prisma.res_shiftsCreateWithoutTenantsInput[] | Prisma.res_shiftsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutTenantsInput | Prisma.res_shiftsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_shiftsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_shiftsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_shiftsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  disconnect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  delete?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  update?: Prisma.res_shiftsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_shiftsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_shiftsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_shiftsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-}
-
-export type res_shiftsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput> | Prisma.res_shiftsCreateWithoutTenantsInput[] | Prisma.res_shiftsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutTenantsInput | Prisma.res_shiftsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_shiftsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_shiftsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_shiftsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  disconnect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  delete?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  connect?: Prisma.res_shiftsWhereUniqueInput | Prisma.res_shiftsWhereUniqueInput[]
-  update?: Prisma.res_shiftsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_shiftsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_shiftsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_shiftsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-}
-
-export type res_shiftsCreateNestedOneWithoutRes_cash_movementsInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedCreateWithoutRes_cash_movementsInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_cash_movementsInput
-  connect?: Prisma.res_shiftsWhereUniqueInput
-}
-
-export type res_shiftsUpdateOneRequiredWithoutRes_cash_movementsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedCreateWithoutRes_cash_movementsInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_cash_movementsInput
-  upsert?: Prisma.res_shiftsUpsertWithoutRes_cash_movementsInput
-  connect?: Prisma.res_shiftsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_shiftsUpdateToOneWithWhereWithoutRes_cash_movementsInput, Prisma.res_shiftsUpdateWithoutRes_cash_movementsInput>, Prisma.res_shiftsUncheckedUpdateWithoutRes_cash_movementsInput>
-}
-
-export type res_shiftsCreateNestedOneWithoutRes_shift_auditInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedCreateWithoutRes_shift_auditInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_shift_auditInput
-  connect?: Prisma.res_shiftsWhereUniqueInput
-}
-
-export type res_shiftsUpdateOneRequiredWithoutRes_shift_auditNestedInput = {
-  create?: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedCreateWithoutRes_shift_auditInput>
-  connectOrCreate?: Prisma.res_shiftsCreateOrConnectWithoutRes_shift_auditInput
-  upsert?: Prisma.res_shiftsUpsertWithoutRes_shift_auditInput
-  connect?: Prisma.res_shiftsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_shiftsUpdateToOneWithWhereWithoutRes_shift_auditInput, Prisma.res_shiftsUpdateWithoutRes_shift_auditInput>, Prisma.res_shiftsUncheckedUpdateWithoutRes_shift_auditInput>
-}
-
-export type res_shiftsCreateWithoutBranchesInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditCreateNestedManyWithoutRes_shiftsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shiftsInput
-}
-
-export type res_shiftsUncheckedCreateWithoutBranchesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedCreateNestedManyWithoutRes_shiftsInput
-}
-
-export type res_shiftsCreateOrConnectWithoutBranchesInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput>
-}
-
-export type res_shiftsCreateManyBranchesInputEnvelope = {
-  data: Prisma.res_shiftsCreateManyBranchesInput | Prisma.res_shiftsCreateManyBranchesInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_shiftsUpsertWithWhereUniqueWithoutBranchesInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_shiftsUpdateWithoutBranchesInput, Prisma.res_shiftsUncheckedUpdateWithoutBranchesInput>
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutBranchesInput, Prisma.res_shiftsUncheckedCreateWithoutBranchesInput>
-}
-
-export type res_shiftsUpdateWithWhereUniqueWithoutBranchesInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateWithoutBranchesInput, Prisma.res_shiftsUncheckedUpdateWithoutBranchesInput>
-}
-
-export type res_shiftsUpdateManyWithWhereWithoutBranchesInput = {
-  where: Prisma.res_shiftsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateManyMutationInput, Prisma.res_shiftsUncheckedUpdateManyWithoutBranchesInput>
-}
-
-export type res_shiftsScalarWhereInput = {
-  AND?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-  OR?: Prisma.res_shiftsScalarWhereInput[]
-  NOT?: Prisma.res_shiftsScalarWhereInput | Prisma.res_shiftsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_shifts"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
-  closed_by?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  opening_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  opened_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-  closed_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-  notes?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  opened_by?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  restaurant_id?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  branch_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
-  expected_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.DecimalNullableFilter<"res_shifts"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  close_reason?: Prisma.StringNullableFilter<"res_shifts"> | string | null
-  closed_by_user_id?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
-  needs_review?: Prisma.BoolFilter<"res_shifts"> | boolean
-  reviewed_by?: Prisma.UuidNullableFilter<"res_shifts"> | string | null
-  reviewed_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-  is_corrected?: Prisma.BoolFilter<"res_shifts"> | boolean
-  stale_notified_at?: Prisma.DateTimeNullableFilter<"res_shifts"> | Date | string | null
-}
-
-export type res_shiftsCreateWithoutRes_ordersInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditCreateNestedManyWithoutRes_shiftsInput
-  branches?: Prisma.branchesCreateNestedOneWithoutRes_shiftsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shiftsInput
-}
-
-export type res_shiftsUncheckedCreateWithoutRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  branch_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedCreateNestedManyWithoutRes_shiftsInput
-}
-
-export type res_shiftsCreateOrConnectWithoutRes_ordersInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_shiftsUpsertWithoutRes_ordersInput = {
-  update: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_ordersInput>
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedCreateWithoutRes_ordersInput>
-  where?: Prisma.res_shiftsWhereInput
-}
-
-export type res_shiftsUpdateToOneWithWhereWithoutRes_ordersInput = {
-  where?: Prisma.res_shiftsWhereInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_ordersInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_shiftsUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUpdateManyWithoutRes_shiftsNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutRes_shiftsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsCreateWithoutTenantsInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditCreateNestedManyWithoutRes_shiftsInput
-  branches?: Prisma.branchesCreateNestedOneWithoutRes_shiftsInput
-}
-
-export type res_shiftsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  branch_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedCreateNestedManyWithoutRes_shiftsInput
-}
-
-export type res_shiftsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_shiftsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_shiftsCreateManyTenantsInput | Prisma.res_shiftsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_shiftsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_shiftsUpdateWithoutTenantsInput, Prisma.res_shiftsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutTenantsInput, Prisma.res_shiftsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_shiftsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateWithoutTenantsInput, Prisma.res_shiftsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_shiftsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_shiftsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateManyMutationInput, Prisma.res_shiftsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_shiftsCreateWithoutRes_cash_movementsInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditCreateNestedManyWithoutRes_shiftsInput
-  branches?: Prisma.branchesCreateNestedOneWithoutRes_shiftsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shiftsInput
-}
-
-export type res_shiftsUncheckedCreateWithoutRes_cash_movementsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  branch_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedCreateNestedManyWithoutRes_shiftsInput
-}
-
-export type res_shiftsCreateOrConnectWithoutRes_cash_movementsInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedCreateWithoutRes_cash_movementsInput>
-}
-
-export type res_shiftsUpsertWithoutRes_cash_movementsInput = {
-  update: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_cash_movementsInput>
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedCreateWithoutRes_cash_movementsInput>
-  where?: Prisma.res_shiftsWhereInput
-}
-
-export type res_shiftsUpdateToOneWithWhereWithoutRes_cash_movementsInput = {
-  where?: Prisma.res_shiftsWhereInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_cash_movementsInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_cash_movementsInput>
-}
-
-export type res_shiftsUpdateWithoutRes_cash_movementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUpdateManyWithoutRes_shiftsNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutRes_shiftsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateWithoutRes_cash_movementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsCreateWithoutRes_shift_auditInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_shiftsInput
-  branches?: Prisma.branchesCreateNestedOneWithoutRes_shiftsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_shiftsInput
-}
-
-export type res_shiftsUncheckedCreateWithoutRes_shift_auditInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  branch_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_shiftsInput
-  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput
-}
-
-export type res_shiftsCreateOrConnectWithoutRes_shift_auditInput = {
-  where: Prisma.res_shiftsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedCreateWithoutRes_shift_auditInput>
-}
-
-export type res_shiftsUpsertWithoutRes_shift_auditInput = {
-  update: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_shift_auditInput>
-  create: Prisma.XOR<Prisma.res_shiftsCreateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedCreateWithoutRes_shift_auditInput>
-  where?: Prisma.res_shiftsWhereInput
-}
-
-export type res_shiftsUpdateToOneWithWhereWithoutRes_shift_auditInput = {
-  where?: Prisma.res_shiftsWhereInput
-  data: Prisma.XOR<Prisma.res_shiftsUpdateWithoutRes_shift_auditInput, Prisma.res_shiftsUncheckedUpdateWithoutRes_shift_auditInput>
-}
-
-export type res_shiftsUpdateWithoutRes_shift_auditInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_shiftsNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutRes_shiftsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateWithoutRes_shift_auditInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsCreateManyBranchesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-}
-
-export type res_shiftsUpdateWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUpdateManyWithoutRes_shiftsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateManyWithoutBranchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_shiftsCreateManyTenantsInput = {
-  id?: string
-  auth_user_id?: string | null
-  closed_by?: string | null
-  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: string | null
-  opened_at?: Date | string | null
-  closed_at?: Date | string | null
-  notes?: string | null
-  opened_by?: string | null
-  restaurant_id?: string | null
-  branch_id?: string | null
-  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: string | null
-  close_reason?: string | null
-  closed_by_user_id?: string | null
-  needs_review?: boolean
-  reviewed_by?: string | null
-  reviewed_at?: Date | string | null
-  is_corrected?: boolean
-  stale_notified_at?: Date | string | null
-}
-
-export type res_shiftsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUpdateManyWithoutRes_shiftsNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput
-  res_shift_audit?: Prisma.res_shift_auditUncheckedUpdateManyWithoutRes_shiftsNestedInput
-}
-
-export type res_shiftsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opening_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  opened_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  restaurant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  expected_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  cash_sales_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_in_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  movements_out_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_closing_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  original_variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  variance_comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  close_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  closed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  needs_review?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reviewed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_corrected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  stale_notified_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-
-/**
- * Count Type Res_shiftsCountOutputType
- */
-
-export type Res_shiftsCountOutputType = {
-  res_cash_movements: number
-  res_orders: number
-  res_shift_audit: number
-}
-
-export type Res_shiftsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_cash_movements?: boolean | Res_shiftsCountOutputTypeCountRes_cash_movementsArgs
-  res_orders?: boolean | Res_shiftsCountOutputTypeCountRes_ordersArgs
-  res_shift_audit?: boolean | Res_shiftsCountOutputTypeCountRes_shift_auditArgs
-}
-
-/**
- * Res_shiftsCountOutputType without action
- */
-export type Res_shiftsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Res_shiftsCountOutputType
-   */
-  select?: Prisma.Res_shiftsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Res_shiftsCountOutputType without action
- */
-export type Res_shiftsCountOutputTypeCountRes_cash_movementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_cash_movementsWhereInput
-}
-
-/**
- * Res_shiftsCountOutputType without action
- */
-export type Res_shiftsCountOutputTypeCountRes_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_ordersWhereInput
-}
-
-/**
- * Res_shiftsCountOutputType without action
- */
-export type Res_shiftsCountOutputTypeCountRes_shift_auditArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_shift_auditWhereInput
-}
 
 
 export type res_shiftsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   closed_by?: boolean
   opening_cash?: boolean
@@ -2068,17 +933,11 @@ export type res_shiftsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   reviewed_at?: boolean
   is_corrected?: boolean
   stale_notified_at?: boolean
-  res_cash_movements?: boolean | Prisma.res_shifts$res_cash_movementsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_shifts$res_ordersArgs<ExtArgs>
-  res_shift_audit?: boolean | Prisma.res_shifts$res_shift_auditArgs<ExtArgs>
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_shiftsCountOutputTypeDefaultArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_shifts"]>
 
 export type res_shiftsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   closed_by?: boolean
   opening_cash?: boolean
@@ -2105,13 +964,11 @@ export type res_shiftsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   reviewed_at?: boolean
   is_corrected?: boolean
   stale_notified_at?: boolean
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_shifts"]>
 
 export type res_shiftsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   closed_by?: boolean
   opening_cash?: boolean
@@ -2138,13 +995,11 @@ export type res_shiftsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   reviewed_at?: boolean
   is_corrected?: boolean
   stale_notified_at?: boolean
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_shifts"]>
 
 export type res_shiftsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   closed_by?: boolean
   opening_cash?: boolean
@@ -2171,38 +1026,16 @@ export type res_shiftsSelectScalar = {
   reviewed_at?: boolean
   is_corrected?: boolean
   stale_notified_at?: boolean
+  tenant_id?: boolean
 }
 
-export type res_shiftsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "closed_by" | "opening_cash" | "closing_cash" | "status" | "opened_at" | "closed_at" | "notes" | "opened_by" | "restaurant_id" | "branch_id" | "expected_cash" | "variance" | "cash_sales_total" | "movements_in_total" | "movements_out_total" | "original_closing_cash" | "original_variance" | "variance_comment" | "close_reason" | "closed_by_user_id" | "needs_review" | "reviewed_by" | "reviewed_at" | "is_corrected" | "stale_notified_at", ExtArgs["result"]["res_shifts"]>
-export type res_shiftsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_cash_movements?: boolean | Prisma.res_shifts$res_cash_movementsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_shifts$res_ordersArgs<ExtArgs>
-  res_shift_audit?: boolean | Prisma.res_shifts$res_shift_auditArgs<ExtArgs>
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_shiftsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type res_shiftsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
-}
-export type res_shiftsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branches?: boolean | Prisma.res_shifts$branchesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_shifts$tenantsArgs<ExtArgs>
-}
+export type res_shiftsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "closed_by" | "opening_cash" | "closing_cash" | "status" | "opened_at" | "closed_at" | "notes" | "opened_by" | "restaurant_id" | "branch_id" | "expected_cash" | "variance" | "cash_sales_total" | "movements_in_total" | "movements_out_total" | "original_closing_cash" | "original_variance" | "variance_comment" | "close_reason" | "closed_by_user_id" | "needs_review" | "reviewed_by" | "reviewed_at" | "is_corrected" | "stale_notified_at" | "tenant_id", ExtArgs["result"]["res_shifts"]>
 
 export type $res_shiftsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_shifts"
-  objects: {
-    res_cash_movements: Prisma.$res_cash_movementsPayload<ExtArgs>[]
-    res_orders: Prisma.$res_ordersPayload<ExtArgs>[]
-    res_shift_audit: Prisma.$res_shift_auditPayload<ExtArgs>[]
-    branches: Prisma.$branchesPayload<ExtArgs> | null
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     auth_user_id: string | null
     closed_by: string | null
     opening_cash: runtime.Decimal | null
@@ -2229,6 +1062,7 @@ export type $res_shiftsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     reviewed_at: Date | null
     is_corrected: boolean
     stale_notified_at: Date | null
+    tenant_id: string | null
   }, ExtArgs["result"]["res_shifts"]>
   composites: {}
 }
@@ -2623,11 +1457,6 @@ readonly fields: res_shiftsFieldRefs;
  */
 export interface Prisma__res_shiftsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_cash_movements<T extends Prisma.res_shifts$res_cash_movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shifts$res_cash_movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_cash_movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  res_orders<T extends Prisma.res_shifts$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shifts$res_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  res_shift_audit<T extends Prisma.res_shifts$res_shift_auditArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shifts$res_shift_auditArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_shift_auditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  branches<T extends Prisma.res_shifts$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shifts$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.res_shifts$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_shifts$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2658,7 +1487,6 @@ export interface Prisma__res_shiftsClient<T, Null = never, ExtArgs extends runti
  */
 export interface res_shiftsFieldRefs {
   readonly id: Prisma.FieldRef<"res_shifts", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_shifts", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"res_shifts", 'String'>
   readonly closed_by: Prisma.FieldRef<"res_shifts", 'String'>
   readonly opening_cash: Prisma.FieldRef<"res_shifts", 'Decimal'>
@@ -2685,6 +1513,7 @@ export interface res_shiftsFieldRefs {
   readonly reviewed_at: Prisma.FieldRef<"res_shifts", 'DateTime'>
   readonly is_corrected: Prisma.FieldRef<"res_shifts", 'Boolean'>
   readonly stale_notified_at: Prisma.FieldRef<"res_shifts", 'DateTime'>
+  readonly tenant_id: Prisma.FieldRef<"res_shifts", 'String'>
 }
     
 
@@ -2701,10 +1530,6 @@ export type res_shiftsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
   /**
    * Filter, which res_shifts to fetch.
    */
@@ -2724,10 +1549,6 @@ export type res_shiftsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
-  /**
    * Filter, which res_shifts to fetch.
    */
   where: Prisma.res_shiftsWhereUniqueInput
@@ -2745,10 +1566,6 @@ export type res_shiftsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
   /**
    * Filter, which res_shifts to fetch.
    */
@@ -2798,10 +1615,6 @@ export type res_shiftsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
-  /**
    * Filter, which res_shifts to fetch.
    */
   where?: Prisma.res_shiftsWhereInput
@@ -2849,10 +1662,6 @@ export type res_shiftsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
   /**
    * Filter, which res_shifts to fetch.
    */
@@ -2902,10 +1711,6 @@ export type res_shiftsCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_shifts.
    */
   data?: Prisma.XOR<Prisma.res_shiftsCreateInput, Prisma.res_shiftsUncheckedCreateInput>
@@ -2939,10 +1744,6 @@ export type res_shiftsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.res_shiftsCreateManyInput | Prisma.res_shiftsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2957,10 +1758,6 @@ export type res_shiftsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_shifts.
    */
@@ -3013,10 +1810,6 @@ export type res_shiftsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many res_shifts to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3031,10 +1824,6 @@ export type res_shiftsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_shifts to update in case it exists.
    */
@@ -3062,10 +1851,6 @@ export type res_shiftsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
-  /**
    * Filter which res_shifts to delete.
    */
   where: Prisma.res_shiftsWhereUniqueInput
@@ -3086,116 +1871,6 @@ export type res_shiftsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * res_shifts.res_cash_movements
- */
-export type res_shifts$res_cash_movementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_cash_movements
-   */
-  select?: Prisma.res_cash_movementsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_cash_movements
-   */
-  omit?: Prisma.res_cash_movementsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_cash_movementsInclude<ExtArgs> | null
-  where?: Prisma.res_cash_movementsWhereInput
-  orderBy?: Prisma.res_cash_movementsOrderByWithRelationInput | Prisma.res_cash_movementsOrderByWithRelationInput[]
-  cursor?: Prisma.res_cash_movementsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_cash_movementsScalarFieldEnum | Prisma.Res_cash_movementsScalarFieldEnum[]
-}
-
-/**
- * res_shifts.res_orders
- */
-export type res_shifts$res_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_orders
-   */
-  select?: Prisma.res_ordersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_orders
-   */
-  omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  where?: Prisma.res_ordersWhereInput
-  orderBy?: Prisma.res_ordersOrderByWithRelationInput | Prisma.res_ordersOrderByWithRelationInput[]
-  cursor?: Prisma.res_ordersWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_ordersScalarFieldEnum | Prisma.Res_ordersScalarFieldEnum[]
-}
-
-/**
- * res_shifts.res_shift_audit
- */
-export type res_shifts$res_shift_auditArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_shift_audit
-   */
-  select?: Prisma.res_shift_auditSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_shift_audit
-   */
-  omit?: Prisma.res_shift_auditOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shift_auditInclude<ExtArgs> | null
-  where?: Prisma.res_shift_auditWhereInput
-  orderBy?: Prisma.res_shift_auditOrderByWithRelationInput | Prisma.res_shift_auditOrderByWithRelationInput[]
-  cursor?: Prisma.res_shift_auditWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_shift_auditScalarFieldEnum | Prisma.Res_shift_auditScalarFieldEnum[]
-}
-
-/**
- * res_shifts.branches
- */
-export type res_shifts$branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the branches
-   */
-  select?: Prisma.branchesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the branches
-   */
-  omit?: Prisma.branchesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.branchesInclude<ExtArgs> | null
-  where?: Prisma.branchesWhereInput
-}
-
-/**
- * res_shifts.tenants
- */
-export type res_shifts$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_shifts without action
  */
 export type res_shiftsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3207,8 +1882,4 @@ export type res_shiftsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_shifts
    */
   omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
 }

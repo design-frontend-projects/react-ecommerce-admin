@@ -26,7 +26,6 @@ export type AggregatePos_terminals = {
 
 export type Pos_terminalsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   auth_user_id: string | null
   store_id: string | null
   name: string | null
@@ -36,11 +35,11 @@ export type Pos_terminalsMinAggregateOutputType = {
   status: $Enums.record_status | null
   created_at: Date | null
   updated_at: Date | null
+  tenant_id: string | null
 }
 
 export type Pos_terminalsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   auth_user_id: string | null
   store_id: string | null
   name: string | null
@@ -50,11 +49,11 @@ export type Pos_terminalsMaxAggregateOutputType = {
   status: $Enums.record_status | null
   created_at: Date | null
   updated_at: Date | null
+  tenant_id: string | null
 }
 
 export type Pos_terminalsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   auth_user_id: number
   store_id: number
   name: number
@@ -64,13 +63,13 @@ export type Pos_terminalsCountAggregateOutputType = {
   status: number
   created_at: number
   updated_at: number
+  tenant_id: number
   _all: number
 }
 
 
 export type Pos_terminalsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   store_id?: true
   name?: true
@@ -80,11 +79,11 @@ export type Pos_terminalsMinAggregateInputType = {
   status?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
 }
 
 export type Pos_terminalsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   store_id?: true
   name?: true
@@ -94,11 +93,11 @@ export type Pos_terminalsMaxAggregateInputType = {
   status?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
 }
 
 export type Pos_terminalsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   auth_user_id?: true
   store_id?: true
   name?: true
@@ -108,6 +107,7 @@ export type Pos_terminalsCountAggregateInputType = {
   status?: true
   created_at?: true
   updated_at?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -185,7 +185,6 @@ export type pos_terminalsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type Pos_terminalsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   auth_user_id: string
   store_id: string | null
   name: string
@@ -195,6 +194,7 @@ export type Pos_terminalsGroupByOutputType = {
   status: $Enums.record_status
   created_at: Date
   updated_at: Date
+  tenant_id: string | null
   _count: Pos_terminalsCountAggregateOutputType | null
   _min: Pos_terminalsMinAggregateOutputType | null
   _max: Pos_terminalsMaxAggregateOutputType | null
@@ -220,7 +220,6 @@ export type pos_terminalsWhereInput = {
   OR?: Prisma.pos_terminalsWhereInput[]
   NOT?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
   id?: Prisma.UuidFilter<"pos_terminals"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   auth_user_id?: Prisma.UuidFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   name?: Prisma.StringFilter<"pos_terminals"> | string
@@ -230,14 +229,11 @@ export type pos_terminalsWhereInput = {
   status?: Prisma.Enumrecord_statusFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  sales_invoices?: Prisma.Sales_invoicesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
 }
 
 export type pos_terminalsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -247,9 +243,7 @@ export type pos_terminalsOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  stores?: Prisma.storesOrderByWithRelationInput
-  sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
@@ -257,7 +251,6 @@ export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
   OR?: Prisma.pos_terminalsWhereInput[]
   NOT?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   auth_user_id?: Prisma.UuidFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   name?: Prisma.StringFilter<"pos_terminals"> | string
@@ -267,14 +260,11 @@ export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.Enumrecord_statusFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  sales_invoices?: Prisma.Sales_invoicesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
 }, "id">
 
 export type pos_terminalsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -284,6 +274,7 @@ export type pos_terminalsOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.pos_terminalsCountOrderByAggregateInput
   _max?: Prisma.pos_terminalsMaxOrderByAggregateInput
   _min?: Prisma.pos_terminalsMinOrderByAggregateInput
@@ -294,7 +285,6 @@ export type pos_terminalsScalarWhereWithAggregatesInput = {
   OR?: Prisma.pos_terminalsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.pos_terminalsScalarWhereWithAggregatesInput | Prisma.pos_terminalsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"pos_terminals"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
   auth_user_id?: Prisma.UuidWithAggregatesFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"pos_terminals"> | string
@@ -304,11 +294,13 @@ export type pos_terminalsScalarWhereWithAggregatesInput = {
   status?: Prisma.Enumrecord_statusWithAggregatesFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeWithAggregatesFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"pos_terminals"> | Date | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
 }
 
 export type pos_terminalsCreateInput = {
   id?: string
   auth_user_id?: string
+  store_id?: string | null
   name: string
   code: string
   device_identifier?: string | null
@@ -316,14 +308,11 @@ export type pos_terminalsCreateInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
-  stores?: Prisma.storesCreateNestedOneWithoutPos_terminalsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutPos_terminalsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPos_terminalsInput
+  tenant_id?: string | null
 }
 
 export type pos_terminalsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   store_id?: string | null
   name: string
@@ -333,12 +322,13 @@ export type pos_terminalsUncheckedCreateInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutPos_terminalsInput
+  tenant_id?: string | null
 }
 
 export type pos_terminalsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -346,14 +336,11 @@ export type pos_terminalsUpdateInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  stores?: Prisma.storesUpdateOneWithoutPos_terminalsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutPos_terminalsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPos_terminalsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -363,12 +350,11 @@ export type pos_terminalsUncheckedUpdateInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutPos_terminalsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   auth_user_id?: string
   store_id?: string | null
   name: string
@@ -378,23 +364,11 @@ export type pos_terminalsCreateManyInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
+  tenant_id?: string | null
 }
 
 export type pos_terminalsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type pos_terminalsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -404,11 +378,25 @@ export type pos_terminalsUncheckedUpdateManyInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type pos_terminalsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -418,11 +406,11 @@ export type pos_terminalsCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type pos_terminalsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -432,11 +420,11 @@ export type pos_terminalsMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type pos_terminalsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -446,21 +434,7 @@ export type pos_terminalsMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-}
-
-export type Pos_terminalsNullableScalarRelationFilter = {
-  is?: Prisma.pos_terminalsWhereInput | null
-  isNot?: Prisma.pos_terminalsWhereInput | null
-}
-
-export type Pos_terminalsListRelationFilter = {
-  every?: Prisma.pos_terminalsWhereInput
-  some?: Prisma.pos_terminalsWhereInput
-  none?: Prisma.pos_terminalsWhereInput
-}
-
-export type pos_terminalsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type Enumrecord_statusFieldUpdateOperationsInput = {
@@ -471,445 +445,10 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type pos_terminalsCreateNestedOneWithoutSales_invoicesInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedCreateWithoutSales_invoicesInput>
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutSales_invoicesInput
-  connect?: Prisma.pos_terminalsWhereUniqueInput
-}
-
-export type pos_terminalsUpdateOneWithoutSales_invoicesNestedInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedCreateWithoutSales_invoicesInput>
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutSales_invoicesInput
-  upsert?: Prisma.pos_terminalsUpsertWithoutSales_invoicesInput
-  disconnect?: Prisma.pos_terminalsWhereInput | boolean
-  delete?: Prisma.pos_terminalsWhereInput | boolean
-  connect?: Prisma.pos_terminalsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.pos_terminalsUpdateToOneWithWhereWithoutSales_invoicesInput, Prisma.pos_terminalsUpdateWithoutSales_invoicesInput>, Prisma.pos_terminalsUncheckedUpdateWithoutSales_invoicesInput>
-}
-
-export type pos_terminalsCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput> | Prisma.pos_terminalsCreateWithoutStoresInput[] | Prisma.pos_terminalsUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutStoresInput | Prisma.pos_terminalsCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.pos_terminalsCreateManyStoresInputEnvelope
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-}
-
-export type pos_terminalsUncheckedCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput> | Prisma.pos_terminalsCreateWithoutStoresInput[] | Prisma.pos_terminalsUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutStoresInput | Prisma.pos_terminalsCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.pos_terminalsCreateManyStoresInputEnvelope
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-}
-
-export type pos_terminalsUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput> | Prisma.pos_terminalsCreateWithoutStoresInput[] | Prisma.pos_terminalsUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutStoresInput | Prisma.pos_terminalsCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.pos_terminalsUpsertWithWhereUniqueWithoutStoresInput | Prisma.pos_terminalsUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.pos_terminalsCreateManyStoresInputEnvelope
-  set?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  disconnect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  delete?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  update?: Prisma.pos_terminalsUpdateWithWhereUniqueWithoutStoresInput | Prisma.pos_terminalsUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.pos_terminalsUpdateManyWithWhereWithoutStoresInput | Prisma.pos_terminalsUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-}
-
-export type pos_terminalsUncheckedUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput> | Prisma.pos_terminalsCreateWithoutStoresInput[] | Prisma.pos_terminalsUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutStoresInput | Prisma.pos_terminalsCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.pos_terminalsUpsertWithWhereUniqueWithoutStoresInput | Prisma.pos_terminalsUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.pos_terminalsCreateManyStoresInputEnvelope
-  set?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  disconnect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  delete?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  update?: Prisma.pos_terminalsUpdateWithWhereUniqueWithoutStoresInput | Prisma.pos_terminalsUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.pos_terminalsUpdateManyWithWhereWithoutStoresInput | Prisma.pos_terminalsUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-}
-
-export type pos_terminalsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput> | Prisma.pos_terminalsCreateWithoutTenantsInput[] | Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput | Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.pos_terminalsCreateManyTenantsInputEnvelope
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-}
-
-export type pos_terminalsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput> | Prisma.pos_terminalsCreateWithoutTenantsInput[] | Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput | Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.pos_terminalsCreateManyTenantsInputEnvelope
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-}
-
-export type pos_terminalsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput> | Prisma.pos_terminalsCreateWithoutTenantsInput[] | Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput | Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.pos_terminalsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.pos_terminalsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.pos_terminalsCreateManyTenantsInputEnvelope
-  set?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  disconnect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  delete?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  update?: Prisma.pos_terminalsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.pos_terminalsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.pos_terminalsUpdateManyWithWhereWithoutTenantsInput | Prisma.pos_terminalsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-}
-
-export type pos_terminalsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput> | Prisma.pos_terminalsCreateWithoutTenantsInput[] | Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput | Prisma.pos_terminalsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.pos_terminalsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.pos_terminalsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.pos_terminalsCreateManyTenantsInputEnvelope
-  set?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  disconnect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  delete?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  connect?: Prisma.pos_terminalsWhereUniqueInput | Prisma.pos_terminalsWhereUniqueInput[]
-  update?: Prisma.pos_terminalsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.pos_terminalsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.pos_terminalsUpdateManyWithWhereWithoutTenantsInput | Prisma.pos_terminalsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-}
-
-export type pos_terminalsCreateWithoutSales_invoicesInput = {
-  id?: string
-  auth_user_id?: string
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-  stores?: Prisma.storesCreateNestedOneWithoutPos_terminalsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPos_terminalsInput
-}
-
-export type pos_terminalsUncheckedCreateWithoutSales_invoicesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  store_id?: string | null
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-}
-
-export type pos_terminalsCreateOrConnectWithoutSales_invoicesInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedCreateWithoutSales_invoicesInput>
-}
-
-export type pos_terminalsUpsertWithoutSales_invoicesInput = {
-  update: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedUpdateWithoutSales_invoicesInput>
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedCreateWithoutSales_invoicesInput>
-  where?: Prisma.pos_terminalsWhereInput
-}
-
-export type pos_terminalsUpdateToOneWithWhereWithoutSales_invoicesInput = {
-  where?: Prisma.pos_terminalsWhereInput
-  data: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutSales_invoicesInput, Prisma.pos_terminalsUncheckedUpdateWithoutSales_invoicesInput>
-}
-
-export type pos_terminalsUpdateWithoutSales_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  stores?: Prisma.storesUpdateOneWithoutPos_terminalsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPos_terminalsNestedInput
-}
-
-export type pos_terminalsUncheckedUpdateWithoutSales_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type pos_terminalsCreateWithoutStoresInput = {
-  id?: string
-  auth_user_id?: string
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutPos_terminalsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutPos_terminalsInput
-}
-
-export type pos_terminalsUncheckedCreateWithoutStoresInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutPos_terminalsInput
-}
-
-export type pos_terminalsCreateOrConnectWithoutStoresInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput>
-}
-
-export type pos_terminalsCreateManyStoresInputEnvelope = {
-  data: Prisma.pos_terminalsCreateManyStoresInput | Prisma.pos_terminalsCreateManyStoresInput[]
-  skipDuplicates?: boolean
-}
-
-export type pos_terminalsUpsertWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  update: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutStoresInput, Prisma.pos_terminalsUncheckedUpdateWithoutStoresInput>
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutStoresInput, Prisma.pos_terminalsUncheckedCreateWithoutStoresInput>
-}
-
-export type pos_terminalsUpdateWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  data: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutStoresInput, Prisma.pos_terminalsUncheckedUpdateWithoutStoresInput>
-}
-
-export type pos_terminalsUpdateManyWithWhereWithoutStoresInput = {
-  where: Prisma.pos_terminalsScalarWhereInput
-  data: Prisma.XOR<Prisma.pos_terminalsUpdateManyMutationInput, Prisma.pos_terminalsUncheckedUpdateManyWithoutStoresInput>
-}
-
-export type pos_terminalsScalarWhereInput = {
-  AND?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-  OR?: Prisma.pos_terminalsScalarWhereInput[]
-  NOT?: Prisma.pos_terminalsScalarWhereInput | Prisma.pos_terminalsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"pos_terminals"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"pos_terminals"> | string
-  store_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
-  name?: Prisma.StringFilter<"pos_terminals"> | string
-  code?: Prisma.StringFilter<"pos_terminals"> | string
-  device_identifier?: Prisma.StringNullableFilter<"pos_terminals"> | string | null
-  receipt_printer_name?: Prisma.StringNullableFilter<"pos_terminals"> | string | null
-  status?: Prisma.Enumrecord_statusFilter<"pos_terminals"> | $Enums.record_status
-  created_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-}
-
-export type pos_terminalsCreateWithoutTenantsInput = {
-  id?: string
-  auth_user_id?: string
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-  stores?: Prisma.storesCreateNestedOneWithoutPos_terminalsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutPos_terminalsInput
-}
-
-export type pos_terminalsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  auth_user_id?: string
-  store_id?: string | null
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutPos_terminalsInput
-}
-
-export type pos_terminalsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput>
-}
-
-export type pos_terminalsCreateManyTenantsInputEnvelope = {
-  data: Prisma.pos_terminalsCreateManyTenantsInput | Prisma.pos_terminalsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type pos_terminalsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  update: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutTenantsInput, Prisma.pos_terminalsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutTenantsInput, Prisma.pos_terminalsUncheckedCreateWithoutTenantsInput>
-}
-
-export type pos_terminalsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.pos_terminalsWhereUniqueInput
-  data: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutTenantsInput, Prisma.pos_terminalsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type pos_terminalsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.pos_terminalsScalarWhereInput
-  data: Prisma.XOR<Prisma.pos_terminalsUpdateManyMutationInput, Prisma.pos_terminalsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type pos_terminalsCreateManyStoresInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-}
-
-export type pos_terminalsUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutPos_terminalsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutPos_terminalsNestedInput
-}
-
-export type pos_terminalsUncheckedUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutPos_terminalsNestedInput
-}
-
-export type pos_terminalsUncheckedUpdateManyWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type pos_terminalsCreateManyTenantsInput = {
-  id?: string
-  auth_user_id?: string
-  store_id?: string | null
-  name: string
-  code: string
-  device_identifier?: string | null
-  receipt_printer_name?: string | null
-  status?: $Enums.record_status
-  created_at?: Date | string
-  updated_at?: Date | string
-}
-
-export type pos_terminalsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  stores?: Prisma.storesUpdateOneWithoutPos_terminalsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutPos_terminalsNestedInput
-}
-
-export type pos_terminalsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutPos_terminalsNestedInput
-}
-
-export type pos_terminalsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-
-/**
- * Count Type Pos_terminalsCountOutputType
- */
-
-export type Pos_terminalsCountOutputType = {
-  sales_invoices: number
-}
-
-export type Pos_terminalsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sales_invoices?: boolean | Pos_terminalsCountOutputTypeCountSales_invoicesArgs
-}
-
-/**
- * Pos_terminalsCountOutputType without action
- */
-export type Pos_terminalsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Pos_terminalsCountOutputType
-   */
-  select?: Prisma.Pos_terminalsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Pos_terminalsCountOutputType without action
- */
-export type Pos_terminalsCountOutputTypeCountSales_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.sales_invoicesWhereInput
-}
 
 
 export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
@@ -919,15 +458,11 @@ export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   status?: boolean
   created_at?: boolean
   updated_at?: boolean
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.pos_terminals$sales_invoicesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Pos_terminalsCountOutputTypeDefaultArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
@@ -937,13 +472,11 @@ export type pos_terminalsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   status?: boolean
   created_at?: boolean
   updated_at?: boolean
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
@@ -953,13 +486,11 @@ export type pos_terminalsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   status?: boolean
   created_at?: boolean
   updated_at?: boolean
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
@@ -969,34 +500,16 @@ export type pos_terminalsSelectScalar = {
   status?: boolean
   created_at?: boolean
   updated_at?: boolean
+  tenant_id?: boolean
 }
 
-export type pos_terminalsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "store_id" | "name" | "code" | "device_identifier" | "receipt_printer_name" | "status" | "created_at" | "updated_at", ExtArgs["result"]["pos_terminals"]>
-export type pos_terminalsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.pos_terminals$sales_invoicesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Pos_terminalsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type pos_terminalsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
-}
-export type pos_terminalsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  stores?: boolean | Prisma.pos_terminals$storesArgs<ExtArgs>
-  tenants?: boolean | Prisma.pos_terminals$tenantsArgs<ExtArgs>
-}
+export type pos_terminalsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "store_id" | "name" | "code" | "device_identifier" | "receipt_printer_name" | "status" | "created_at" | "updated_at" | "tenant_id", ExtArgs["result"]["pos_terminals"]>
 
 export type $pos_terminalsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pos_terminals"
-  objects: {
-    stores: Prisma.$storesPayload<ExtArgs> | null
-    sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     auth_user_id: string
     store_id: string | null
     name: string
@@ -1006,6 +519,7 @@ export type $pos_terminalsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     status: $Enums.record_status
     created_at: Date
     updated_at: Date
+    tenant_id: string | null
   }, ExtArgs["result"]["pos_terminals"]>
   composites: {}
 }
@@ -1400,9 +914,6 @@ readonly fields: pos_terminalsFieldRefs;
  */
 export interface Prisma__pos_terminalsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  stores<T extends Prisma.pos_terminals$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sales_invoices<T extends Prisma.pos_terminals$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.pos_terminals$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1433,7 +944,6 @@ export interface Prisma__pos_terminalsClient<T, Null = never, ExtArgs extends ru
  */
 export interface pos_terminalsFieldRefs {
   readonly id: Prisma.FieldRef<"pos_terminals", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly auth_user_id: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly store_id: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly name: Prisma.FieldRef<"pos_terminals", 'String'>
@@ -1443,6 +953,7 @@ export interface pos_terminalsFieldRefs {
   readonly status: Prisma.FieldRef<"pos_terminals", 'record_status'>
   readonly created_at: Prisma.FieldRef<"pos_terminals", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"pos_terminals", 'DateTime'>
+  readonly tenant_id: Prisma.FieldRef<"pos_terminals", 'String'>
 }
     
 
@@ -1459,10 +970,6 @@ export type pos_terminalsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
   /**
    * Filter, which pos_terminals to fetch.
    */
@@ -1482,10 +989,6 @@ export type pos_terminalsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
-  /**
    * Filter, which pos_terminals to fetch.
    */
   where: Prisma.pos_terminalsWhereUniqueInput
@@ -1503,10 +1006,6 @@ export type pos_terminalsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
   /**
    * Filter, which pos_terminals to fetch.
    */
@@ -1556,10 +1055,6 @@ export type pos_terminalsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
-  /**
    * Filter, which pos_terminals to fetch.
    */
   where?: Prisma.pos_terminalsWhereInput
@@ -1607,10 +1102,6 @@ export type pos_terminalsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
   /**
    * Filter, which pos_terminals to fetch.
    */
@@ -1660,10 +1151,6 @@ export type pos_terminalsCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
-  /**
    * The data needed to create a pos_terminals.
    */
   data: Prisma.XOR<Prisma.pos_terminalsCreateInput, Prisma.pos_terminalsUncheckedCreateInput>
@@ -1697,10 +1184,6 @@ export type pos_terminalsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.pos_terminalsCreateManyInput | Prisma.pos_terminalsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1715,10 +1198,6 @@ export type pos_terminalsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
   /**
    * The data needed to update a pos_terminals.
    */
@@ -1771,10 +1250,6 @@ export type pos_terminalsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many pos_terminals to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1789,10 +1264,6 @@ export type pos_terminalsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
   /**
    * The filter to search for the pos_terminals to update in case it exists.
    */
@@ -1820,10 +1291,6 @@ export type pos_terminalsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
-  /**
    * Filter which pos_terminals to delete.
    */
   where: Prisma.pos_terminalsWhereUniqueInput
@@ -1844,68 +1311,6 @@ export type pos_terminalsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * pos_terminals.stores
- */
-export type pos_terminals$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the stores
-   */
-  select?: Prisma.storesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the stores
-   */
-  omit?: Prisma.storesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.storesInclude<ExtArgs> | null
-  where?: Prisma.storesWhereInput
-}
-
-/**
- * pos_terminals.sales_invoices
- */
-export type pos_terminals$sales_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the sales_invoices
-   */
-  select?: Prisma.sales_invoicesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the sales_invoices
-   */
-  omit?: Prisma.sales_invoicesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.sales_invoicesInclude<ExtArgs> | null
-  where?: Prisma.sales_invoicesWhereInput
-  orderBy?: Prisma.sales_invoicesOrderByWithRelationInput | Prisma.sales_invoicesOrderByWithRelationInput[]
-  cursor?: Prisma.sales_invoicesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Sales_invoicesScalarFieldEnum | Prisma.Sales_invoicesScalarFieldEnum[]
-}
-
-/**
- * pos_terminals.tenants
- */
-export type pos_terminals$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * pos_terminals without action
  */
 export type pos_terminalsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1917,8 +1322,4 @@ export type pos_terminalsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the pos_terminals
    */
   omit?: Prisma.pos_terminalsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.pos_terminalsInclude<ExtArgs> | null
 }

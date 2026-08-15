@@ -473,16 +473,16 @@ export const tenant_type = {
   company: 'company',
   restaurant: 'restaurant',
   retail: 'retail',
-  market: 'market',
-  pharmacy: 'pharmacy',
-  service: 'service',
   warehouse: 'warehouse',
   hospital: 'hospital',
   clinic: 'clinic',
   school: 'school',
   hotel: 'hotel',
   courier: 'courier',
-  other: 'other'
+  other: 'other',
+  market: 'market',
+  pharmacy: 'pharmacy',
+  service: 'service'
 } as const
 
 export type tenant_type = (typeof tenant_type)[keyof typeof tenant_type]

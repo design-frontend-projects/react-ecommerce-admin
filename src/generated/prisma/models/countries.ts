@@ -207,9 +207,9 @@ export type countriesWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"countries"> | Date | string | null
   currency_id?: Prisma.UuidNullableFilter<"countries"> | string | null
   cities?: Prisma.CitiesListRelationFilter
+  currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   stores?: Prisma.StoresListRelationFilter
   tax_rates?: Prisma.Tax_ratesListRelationFilter
-  currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   tenants?: Prisma.TenantsListRelationFilter
 }
 
@@ -223,30 +223,30 @@ export type countriesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   currency_id?: Prisma.SortOrderInput | Prisma.SortOrder
   cities?: Prisma.citiesOrderByRelationAggregateInput
+  currencies?: Prisma.currenciesOrderByWithRelationInput
   stores?: Prisma.storesOrderByRelationAggregateInput
   tax_rates?: Prisma.tax_ratesOrderByRelationAggregateInput
-  currencies?: Prisma.currenciesOrderByWithRelationInput
   tenants?: Prisma.tenantsOrderByRelationAggregateInput
 }
 
 export type countriesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
-  code?: string
   AND?: Prisma.countriesWhereInput | Prisma.countriesWhereInput[]
   OR?: Prisma.countriesWhereInput[]
   NOT?: Prisma.countriesWhereInput | Prisma.countriesWhereInput[]
+  name?: Prisma.StringFilter<"countries"> | string
+  code?: Prisma.StringFilter<"countries"> | string
   phone_code?: Prisma.StringNullableFilter<"countries"> | string | null
   is_active?: Prisma.BoolNullableFilter<"countries"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"countries"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"countries"> | Date | string | null
   currency_id?: Prisma.UuidNullableFilter<"countries"> | string | null
   cities?: Prisma.CitiesListRelationFilter
+  currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   stores?: Prisma.StoresListRelationFilter
   tax_rates?: Prisma.Tax_ratesListRelationFilter
-  currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   tenants?: Prisma.TenantsListRelationFilter
-}, "id" | "name" | "code">
+}, "id">
 
 export type countriesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -285,9 +285,9 @@ export type countriesCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   cities?: Prisma.citiesCreateNestedManyWithoutCountriesInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
-  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
 }
 
@@ -315,9 +315,9 @@ export type countriesUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cities?: Prisma.citiesUpdateManyWithoutCountriesNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
-  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
 }
 
@@ -533,9 +533,9 @@ export type countriesCreateWithoutCitiesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
-  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
 }
 
@@ -577,9 +577,9 @@ export type countriesUpdateWithoutCitiesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
-  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
 }
 
@@ -674,8 +674,8 @@ export type countriesCreateWithoutStoresInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   cities?: Prisma.citiesCreateNestedManyWithoutCountriesInput
-  tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
+  tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
 }
 
@@ -718,8 +718,8 @@ export type countriesUpdateWithoutStoresInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cities?: Prisma.citiesUpdateManyWithoutCountriesNestedInput
-  tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
 }
 
@@ -746,8 +746,8 @@ export type countriesCreateWithoutTax_ratesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   cities?: Prisma.citiesCreateNestedManyWithoutCountriesInput
-  stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
+  stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
 }
 
@@ -790,8 +790,8 @@ export type countriesUpdateWithoutTax_ratesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cities?: Prisma.citiesUpdateManyWithoutCountriesNestedInput
-  stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
+  stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
 }
 
@@ -818,9 +818,9 @@ export type countriesCreateWithoutTenantsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   cities?: Prisma.citiesCreateNestedManyWithoutCountriesInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
-  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutTenantsInput = {
@@ -862,9 +862,9 @@ export type countriesUpdateWithoutTenantsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cities?: Prisma.citiesUpdateManyWithoutCountriesNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
-  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutTenantsInput = {
@@ -997,9 +997,9 @@ export type countriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updated_at?: boolean
   currency_id?: boolean
   cities?: boolean | Prisma.countries$citiesArgs<ExtArgs>
+  currencies?: boolean | Prisma.countries$currenciesArgs<ExtArgs>
   stores?: boolean | Prisma.countries$storesArgs<ExtArgs>
   tax_rates?: boolean | Prisma.countries$tax_ratesArgs<ExtArgs>
-  currencies?: boolean | Prisma.countries$currenciesArgs<ExtArgs>
   tenants?: boolean | Prisma.countries$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CountriesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["countries"]>
@@ -1042,9 +1042,9 @@ export type countriesSelectScalar = {
 export type countriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "phone_code" | "is_active" | "created_at" | "updated_at" | "currency_id", ExtArgs["result"]["countries"]>
 export type countriesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.countries$citiesArgs<ExtArgs>
+  currencies?: boolean | Prisma.countries$currenciesArgs<ExtArgs>
   stores?: boolean | Prisma.countries$storesArgs<ExtArgs>
   tax_rates?: boolean | Prisma.countries$tax_ratesArgs<ExtArgs>
-  currencies?: boolean | Prisma.countries$currenciesArgs<ExtArgs>
   tenants?: boolean | Prisma.countries$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CountriesCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1059,9 +1059,9 @@ export type $countriesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "countries"
   objects: {
     cities: Prisma.$citiesPayload<ExtArgs>[]
+    currencies: Prisma.$currenciesPayload<ExtArgs> | null
     stores: Prisma.$storesPayload<ExtArgs>[]
     tax_rates: Prisma.$tax_ratesPayload<ExtArgs>[]
-    currencies: Prisma.$currenciesPayload<ExtArgs> | null
     tenants: Prisma.$tenantsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1468,9 +1468,9 @@ readonly fields: countriesFieldRefs;
 export interface Prisma__countriesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cities<T extends Prisma.countries$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$citiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  currencies<T extends Prisma.countries$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.countries$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$storesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tax_rates<T extends Prisma.countries$tax_ratesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$tax_ratesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tax_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  currencies<T extends Prisma.countries$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenants<T extends Prisma.countries$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1934,6 +1934,25 @@ export type countries$citiesArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * countries.currencies
+ */
+export type countries$currenciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the currencies
+   */
+  select?: Prisma.currenciesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the currencies
+   */
+  omit?: Prisma.currenciesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.currenciesInclude<ExtArgs> | null
+  where?: Prisma.currenciesWhereInput
+}
+
+/**
  * countries.stores
  */
 export type countries$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1979,25 +1998,6 @@ export type countries$tax_ratesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Tax_ratesScalarFieldEnum | Prisma.Tax_ratesScalarFieldEnum[]
-}
-
-/**
- * countries.currencies
- */
-export type countries$currenciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the currencies
-   */
-  select?: Prisma.currenciesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the currencies
-   */
-  omit?: Prisma.currenciesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.currenciesInclude<ExtArgs> | null
-  where?: Prisma.currenciesWhereInput
 }
 
 /**

@@ -185,14 +185,13 @@ export type inventory_movement_serialsOrderByWithRelationInput = {
 
 export type inventory_movement_serialsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  movement_id_serial_id?: Prisma.inventory_movement_serialsMovement_idSerial_idCompoundUniqueInput
   AND?: Prisma.inventory_movement_serialsWhereInput | Prisma.inventory_movement_serialsWhereInput[]
   OR?: Prisma.inventory_movement_serialsWhereInput[]
   NOT?: Prisma.inventory_movement_serialsWhereInput | Prisma.inventory_movement_serialsWhereInput[]
   movement_id?: Prisma.UuidFilter<"inventory_movement_serials"> | string
   serial_id?: Prisma.UuidFilter<"inventory_movement_serials"> | string
   created_at?: Prisma.DateTimeFilter<"inventory_movement_serials"> | Date | string
-}, "id" | "movement_id_serial_id">
+}, "id">
 
 export type inventory_movement_serialsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -261,11 +260,6 @@ export type inventory_movement_serialsUncheckedUpdateManyInput = {
   movement_id?: Prisma.StringFieldUpdateOperationsInput | string
   serial_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type inventory_movement_serialsMovement_idSerial_idCompoundUniqueInput = {
-  movement_id: string
-  serial_id: string
 }
 
 export type inventory_movement_serialsCountOrderByAggregateInput = {

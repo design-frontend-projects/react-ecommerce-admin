@@ -37,27 +37,27 @@ export type SubscriptionsSumAggregateOutputType = {
 }
 
 export type SubscriptionsMinAggregateOutputType = {
-  id: string | null
   name: string | null
   duration_months: number | null
   price: runtime.Decimal | null
   created_at: Date | null
+  id: string | null
 }
 
 export type SubscriptionsMaxAggregateOutputType = {
-  id: string | null
   name: string | null
   duration_months: number | null
   price: runtime.Decimal | null
   created_at: Date | null
+  id: string | null
 }
 
 export type SubscriptionsCountAggregateOutputType = {
-  id: number
   name: number
   duration_months: number
   price: number
   created_at: number
+  id: number
   _all: number
 }
 
@@ -73,27 +73,27 @@ export type SubscriptionsSumAggregateInputType = {
 }
 
 export type SubscriptionsMinAggregateInputType = {
-  id?: true
   name?: true
   duration_months?: true
   price?: true
   created_at?: true
+  id?: true
 }
 
 export type SubscriptionsMaxAggregateInputType = {
-  id?: true
   name?: true
   duration_months?: true
   price?: true
   created_at?: true
+  id?: true
 }
 
 export type SubscriptionsCountAggregateInputType = {
-  id?: true
   name?: true
   duration_months?: true
   price?: true
   created_at?: true
+  id?: true
   _all?: true
 }
 
@@ -184,11 +184,11 @@ export type subscriptionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 export type SubscriptionsGroupByOutputType = {
-  id: string
   name: string
   duration_months: number
   price: runtime.Decimal
   created_at: Date | null
+  id: string
   _count: SubscriptionsCountAggregateOutputType | null
   _avg: SubscriptionsAvgAggregateOutputType | null
   _sum: SubscriptionsSumAggregateOutputType | null
@@ -215,21 +215,19 @@ export type subscriptionsWhereInput = {
   AND?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   OR?: Prisma.subscriptionsWhereInput[]
   NOT?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
-  id?: Prisma.UuidFilter<"subscriptions"> | string
   name?: Prisma.StringFilter<"subscriptions"> | string
   duration_months?: Prisma.IntFilter<"subscriptions"> | number
   price?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
-  tenant_subscriptions?: Prisma.Tenant_subscriptionsListRelationFilter
+  id?: Prisma.UuidFilter<"subscriptions"> | string
 }
 
 export type subscriptionsOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_subscriptions?: Prisma.tenant_subscriptionsOrderByRelationAggregateInput
+  id?: Prisma.SortOrder
 }
 
 export type subscriptionsWhereUniqueInput = Prisma.AtLeast<{
@@ -241,15 +239,14 @@ export type subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   duration_months?: Prisma.IntFilter<"subscriptions"> | number
   price?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
-  tenant_subscriptions?: Prisma.Tenant_subscriptionsListRelationFilter
 }, "id">
 
 export type subscriptionsOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
   _count?: Prisma.subscriptionsCountOrderByAggregateInput
   _avg?: Prisma.subscriptionsAvgOrderByAggregateInput
   _max?: Prisma.subscriptionsMaxOrderByAggregateInput
@@ -261,79 +258,75 @@ export type subscriptionsScalarWhereWithAggregatesInput = {
   AND?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   OR?: Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"subscriptions"> | string
   name?: Prisma.StringWithAggregatesFilter<"subscriptions"> | string
   duration_months?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
   price?: Prisma.DecimalWithAggregatesFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"subscriptions"> | Date | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"subscriptions"> | string
 }
 
 export type subscriptionsCreateInput = {
-  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutSubscriptionsInput
+  id?: string
 }
 
 export type subscriptionsUncheckedCreateInput = {
-  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutSubscriptionsInput
+  id?: string
 }
 
 export type subscriptionsUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutSubscriptionsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type subscriptionsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type subscriptionsCreateManyInput = {
-  id?: string
   name: string
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
+  id?: string
 }
 
 export type subscriptionsUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type subscriptionsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type subscriptionsCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
 }
 
 export type subscriptionsAvgOrderByAggregateInput = {
@@ -342,19 +335,19 @@ export type subscriptionsAvgOrderByAggregateInput = {
 }
 
 export type subscriptionsMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
 }
 
 export type subscriptionsMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  id?: Prisma.SortOrder
 }
 
 export type subscriptionsSumOrderByAggregateInput = {
@@ -362,157 +355,51 @@ export type subscriptionsSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
-export type SubscriptionsScalarRelationFilter = {
-  is?: Prisma.subscriptionsWhereInput
-  isNot?: Prisma.subscriptionsWhereInput
-}
-
-export type subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput = {
-  create?: Prisma.XOR<Prisma.subscriptionsCreateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput>
-  connectOrCreate?: Prisma.subscriptionsCreateOrConnectWithoutTenant_subscriptionsInput
-  connect?: Prisma.subscriptionsWhereUniqueInput
-}
-
-export type subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput = {
-  create?: Prisma.XOR<Prisma.subscriptionsCreateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput>
-  connectOrCreate?: Prisma.subscriptionsCreateOrConnectWithoutTenant_subscriptionsInput
-  upsert?: Prisma.subscriptionsUpsertWithoutTenant_subscriptionsInput
-  connect?: Prisma.subscriptionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.subscriptionsUpdateToOneWithWhereWithoutTenant_subscriptionsInput, Prisma.subscriptionsUpdateWithoutTenant_subscriptionsInput>, Prisma.subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput>
-}
-
-export type subscriptionsCreateWithoutTenant_subscriptionsInput = {
-  id?: string
-  name: string
-  duration_months: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string | null
-}
-
-export type subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput = {
-  id?: string
-  name: string
-  duration_months: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string | null
-}
-
-export type subscriptionsCreateOrConnectWithoutTenant_subscriptionsInput = {
-  where: Prisma.subscriptionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.subscriptionsCreateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput>
-}
-
-export type subscriptionsUpsertWithoutTenant_subscriptionsInput = {
-  update: Prisma.XOR<Prisma.subscriptionsUpdateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput>
-  create: Prisma.XOR<Prisma.subscriptionsCreateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput>
-  where?: Prisma.subscriptionsWhereInput
-}
-
-export type subscriptionsUpdateToOneWithWhereWithoutTenant_subscriptionsInput = {
-  where?: Prisma.subscriptionsWhereInput
-  data: Prisma.XOR<Prisma.subscriptionsUpdateWithoutTenant_subscriptionsInput, Prisma.subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput>
-}
-
-export type subscriptionsUpdateWithoutTenant_subscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  duration_months?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  duration_months?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-
-/**
- * Count Type SubscriptionsCountOutputType
- */
-
-export type SubscriptionsCountOutputType = {
-  tenant_subscriptions: number
-}
-
-export type SubscriptionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant_subscriptions?: boolean | SubscriptionsCountOutputTypeCountTenant_subscriptionsArgs
-}
-
-/**
- * SubscriptionsCountOutputType without action
- */
-export type SubscriptionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SubscriptionsCountOutputType
-   */
-  select?: Prisma.SubscriptionsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * SubscriptionsCountOutputType without action
- */
-export type SubscriptionsCountOutputTypeCountTenant_subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.tenant_subscriptionsWhereInput
-}
 
 
 export type subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   name?: boolean
   duration_months?: boolean
   price?: boolean
   created_at?: boolean
-  tenant_subscriptions?: boolean | Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs>
-  _count?: boolean | Prisma.SubscriptionsCountOutputTypeDefaultArgs<ExtArgs>
+  id?: boolean
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   name?: boolean
   duration_months?: boolean
   price?: boolean
   created_at?: boolean
+  id?: boolean
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   name?: boolean
   duration_months?: boolean
   price?: boolean
   created_at?: boolean
+  id?: boolean
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectScalar = {
-  id?: boolean
   name?: boolean
   duration_months?: boolean
   price?: boolean
   created_at?: boolean
+  id?: boolean
 }
 
-export type subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "duration_months" | "price" | "created_at", ExtArgs["result"]["subscriptions"]>
-export type subscriptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant_subscriptions?: boolean | Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs>
-  _count?: boolean | Prisma.SubscriptionsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type subscriptionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type subscriptionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "duration_months" | "price" | "created_at" | "id", ExtArgs["result"]["subscriptions"]>
 
 export type $subscriptionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "subscriptions"
-  objects: {
-    tenant_subscriptions: Prisma.$tenant_subscriptionsPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
     name: string
     duration_months: number
     price: runtime.Decimal
     created_at: Date | null
+    id: string
   }, ExtArgs["result"]["subscriptions"]>
   composites: {}
 }
@@ -596,8 +483,8 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    * // Get first 10 Subscriptions
    * const subscriptions = await prisma.subscriptions.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const subscriptionsWithIdOnly = await prisma.subscriptions.findMany({ select: { id: true } })
+   * // Only select the `name`
+   * const subscriptionsWithNameOnly = await prisma.subscriptions.findMany({ select: { name: true } })
    * 
    */
   findMany<T extends subscriptionsFindManyArgs>(args?: Prisma.SelectSubset<T, subscriptionsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$subscriptionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -641,9 +528,9 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    *   ]
    * })
    * 
-   * // Create many Subscriptions and only return the `id`
-   * const subscriptionsWithIdOnly = await prisma.subscriptions.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Subscriptions and only return the `name`
+   * const subscriptionsWithNameOnly = await prisma.subscriptions.createManyAndReturn({
+   *   select: { name: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -732,9 +619,9 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    *   ]
    * })
    * 
-   * // Update zero or more Subscriptions and only return the `id`
-   * const subscriptionsWithIdOnly = await prisma.subscriptions.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Subscriptions and only return the `name`
+   * const subscriptionsWithNameOnly = await prisma.subscriptions.updateManyAndReturn({
+   *   select: { name: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -907,7 +794,6 @@ readonly fields: subscriptionsFieldRefs;
  */
 export interface Prisma__subscriptionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant_subscriptions<T extends Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_subscriptionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -937,11 +823,11 @@ export interface Prisma__subscriptionsClient<T, Null = never, ExtArgs extends ru
  * Fields of the subscriptions model
  */
 export interface subscriptionsFieldRefs {
-  readonly id: Prisma.FieldRef<"subscriptions", 'String'>
   readonly name: Prisma.FieldRef<"subscriptions", 'String'>
   readonly duration_months: Prisma.FieldRef<"subscriptions", 'Int'>
   readonly price: Prisma.FieldRef<"subscriptions", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"subscriptions", 'DateTime'>
+  readonly id: Prisma.FieldRef<"subscriptions", 'String'>
 }
     
 
@@ -958,10 +844,6 @@ export type subscriptionsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the subscriptions
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
   /**
    * Filter, which subscriptions to fetch.
    */
@@ -981,10 +863,6 @@ export type subscriptionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
-  /**
    * Filter, which subscriptions to fetch.
    */
   where: Prisma.subscriptionsWhereUniqueInput
@@ -1002,10 +880,6 @@ export type subscriptionsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the subscriptions
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
   /**
    * Filter, which subscriptions to fetch.
    */
@@ -1055,10 +929,6 @@ export type subscriptionsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
-  /**
    * Filter, which subscriptions to fetch.
    */
   where?: Prisma.subscriptionsWhereInput
@@ -1106,10 +976,6 @@ export type subscriptionsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the subscriptions
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
   /**
    * Filter, which subscriptions to fetch.
    */
@@ -1159,10 +1025,6 @@ export type subscriptionsCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
-  /**
    * The data needed to create a subscriptions.
    */
   data: Prisma.XOR<Prisma.subscriptionsCreateInput, Prisma.subscriptionsUncheckedCreateInput>
@@ -1210,10 +1072,6 @@ export type subscriptionsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the subscriptions
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
   /**
    * The data needed to update a subscriptions.
    */
@@ -1281,10 +1139,6 @@ export type subscriptionsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
-  /**
    * The filter to search for the subscriptions to update in case it exists.
    */
   where: Prisma.subscriptionsWhereUniqueInput
@@ -1311,10 +1165,6 @@ export type subscriptionsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
-  /**
    * Filter which subscriptions to delete.
    */
   where: Prisma.subscriptionsWhereUniqueInput
@@ -1335,30 +1185,6 @@ export type subscriptionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * subscriptions.tenant_subscriptions
- */
-export type subscriptions$tenant_subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenant_subscriptions
-   */
-  select?: Prisma.tenant_subscriptionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenant_subscriptions
-   */
-  omit?: Prisma.tenant_subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenant_subscriptionsInclude<ExtArgs> | null
-  where?: Prisma.tenant_subscriptionsWhereInput
-  orderBy?: Prisma.tenant_subscriptionsOrderByWithRelationInput | Prisma.tenant_subscriptionsOrderByWithRelationInput[]
-  cursor?: Prisma.tenant_subscriptionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Tenant_subscriptionsScalarFieldEnum | Prisma.Tenant_subscriptionsScalarFieldEnum[]
-}
-
-/**
  * subscriptions without action
  */
 export type subscriptionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1370,8 +1196,4 @@ export type subscriptionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the subscriptions
    */
   omit?: Prisma.subscriptionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.subscriptionsInclude<ExtArgs> | null
 }

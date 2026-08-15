@@ -190,7 +190,6 @@ export type activity_typesWhereInput = {
   description?: Prisma.StringNullableFilter<"activity_types"> | string | null
   is_active?: Prisma.BoolFilter<"activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"activity_types"> | Date | string | null
-  audit_logs?: Prisma.Audit_logsListRelationFilter
 }
 
 export type activity_typesOrderByWithRelationInput = {
@@ -200,21 +199,19 @@ export type activity_typesOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  audit_logs?: Prisma.audit_logsOrderByRelationAggregateInput
 }
 
 export type activity_typesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.activity_typesWhereInput | Prisma.activity_typesWhereInput[]
   OR?: Prisma.activity_typesWhereInput[]
   NOT?: Prisma.activity_typesWhereInput | Prisma.activity_typesWhereInput[]
+  code?: Prisma.StringFilter<"activity_types"> | string
   name?: Prisma.StringFilter<"activity_types"> | string
   description?: Prisma.StringNullableFilter<"activity_types"> | string | null
   is_active?: Prisma.BoolFilter<"activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"activity_types"> | Date | string | null
-  audit_logs?: Prisma.Audit_logsListRelationFilter
-}, "id" | "code">
+}, "id">
 
 export type activity_typesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -247,7 +244,6 @@ export type activity_typesCreateInput = {
   description?: string | null
   is_active?: boolean
   created_at?: Date | string | null
-  audit_logs?: Prisma.audit_logsCreateNestedManyWithoutActivity_typesInput
 }
 
 export type activity_typesUncheckedCreateInput = {
@@ -257,7 +253,6 @@ export type activity_typesUncheckedCreateInput = {
   description?: string | null
   is_active?: boolean
   created_at?: Date | string | null
-  audit_logs?: Prisma.audit_logsUncheckedCreateNestedManyWithoutActivity_typesInput
 }
 
 export type activity_typesUpdateInput = {
@@ -267,7 +262,6 @@ export type activity_typesUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  audit_logs?: Prisma.audit_logsUpdateManyWithoutActivity_typesNestedInput
 }
 
 export type activity_typesUncheckedUpdateInput = {
@@ -277,7 +271,6 @@ export type activity_typesUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  audit_logs?: Prisma.audit_logsUncheckedUpdateManyWithoutActivity_typesNestedInput
 }
 
 export type activity_typesCreateManyInput = {
@@ -334,11 +327,6 @@ export type activity_typesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
-export type Activity_typesScalarRelationFilter = {
-  is?: Prisma.activity_typesWhereInput
-  isNot?: Prisma.activity_typesWhereInput
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -355,101 +343,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type activity_typesCreateNestedOneWithoutAudit_logsInput = {
-  create?: Prisma.XOR<Prisma.activity_typesCreateWithoutAudit_logsInput, Prisma.activity_typesUncheckedCreateWithoutAudit_logsInput>
-  connectOrCreate?: Prisma.activity_typesCreateOrConnectWithoutAudit_logsInput
-  connect?: Prisma.activity_typesWhereUniqueInput
-}
-
-export type activity_typesUpdateOneRequiredWithoutAudit_logsNestedInput = {
-  create?: Prisma.XOR<Prisma.activity_typesCreateWithoutAudit_logsInput, Prisma.activity_typesUncheckedCreateWithoutAudit_logsInput>
-  connectOrCreate?: Prisma.activity_typesCreateOrConnectWithoutAudit_logsInput
-  upsert?: Prisma.activity_typesUpsertWithoutAudit_logsInput
-  connect?: Prisma.activity_typesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.activity_typesUpdateToOneWithWhereWithoutAudit_logsInput, Prisma.activity_typesUpdateWithoutAudit_logsInput>, Prisma.activity_typesUncheckedUpdateWithoutAudit_logsInput>
-}
-
-export type activity_typesCreateWithoutAudit_logsInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-}
-
-export type activity_typesUncheckedCreateWithoutAudit_logsInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  is_active?: boolean
-  created_at?: Date | string | null
-}
-
-export type activity_typesCreateOrConnectWithoutAudit_logsInput = {
-  where: Prisma.activity_typesWhereUniqueInput
-  create: Prisma.XOR<Prisma.activity_typesCreateWithoutAudit_logsInput, Prisma.activity_typesUncheckedCreateWithoutAudit_logsInput>
-}
-
-export type activity_typesUpsertWithoutAudit_logsInput = {
-  update: Prisma.XOR<Prisma.activity_typesUpdateWithoutAudit_logsInput, Prisma.activity_typesUncheckedUpdateWithoutAudit_logsInput>
-  create: Prisma.XOR<Prisma.activity_typesCreateWithoutAudit_logsInput, Prisma.activity_typesUncheckedCreateWithoutAudit_logsInput>
-  where?: Prisma.activity_typesWhereInput
-}
-
-export type activity_typesUpdateToOneWithWhereWithoutAudit_logsInput = {
-  where?: Prisma.activity_typesWhereInput
-  data: Prisma.XOR<Prisma.activity_typesUpdateWithoutAudit_logsInput, Prisma.activity_typesUncheckedUpdateWithoutAudit_logsInput>
-}
-
-export type activity_typesUpdateWithoutAudit_logsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type activity_typesUncheckedUpdateWithoutAudit_logsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-
-/**
- * Count Type Activity_typesCountOutputType
- */
-
-export type Activity_typesCountOutputType = {
-  audit_logs: number
-}
-
-export type Activity_typesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  audit_logs?: boolean | Activity_typesCountOutputTypeCountAudit_logsArgs
-}
-
-/**
- * Activity_typesCountOutputType without action
- */
-export type Activity_typesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Activity_typesCountOutputType
-   */
-  select?: Prisma.Activity_typesCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Activity_typesCountOutputType without action
- */
-export type Activity_typesCountOutputTypeCountAudit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.audit_logsWhereInput
-}
 
 
 export type activity_typesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -459,8 +352,6 @@ export type activity_typesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   description?: boolean
   is_active?: boolean
   created_at?: boolean
-  audit_logs?: boolean | Prisma.activity_types$audit_logsArgs<ExtArgs>
-  _count?: boolean | Prisma.Activity_typesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["activity_types"]>
 
 export type activity_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -491,18 +382,10 @@ export type activity_typesSelectScalar = {
 }
 
 export type activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "is_active" | "created_at", ExtArgs["result"]["activity_types"]>
-export type activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  audit_logs?: boolean | Prisma.activity_types$audit_logsArgs<ExtArgs>
-  _count?: boolean | Prisma.Activity_typesCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type activity_typesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type activity_typesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $activity_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "activity_types"
-  objects: {
-    audit_logs: Prisma.$audit_logsPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     code: string
@@ -904,7 +787,6 @@ readonly fields: activity_typesFieldRefs;
  */
 export interface Prisma__activity_typesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  audit_logs<T extends Prisma.activity_types$audit_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.activity_types$audit_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$audit_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -957,10 +839,6 @@ export type activity_typesFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which activity_types to fetch.
    */
   where: Prisma.activity_typesWhereUniqueInput
@@ -979,10 +857,6 @@ export type activity_typesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which activity_types to fetch.
    */
   where: Prisma.activity_typesWhereUniqueInput
@@ -1000,10 +874,6 @@ export type activity_typesFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the activity_types
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which activity_types to fetch.
    */
@@ -1053,10 +923,6 @@ export type activity_typesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * Filter, which activity_types to fetch.
    */
   where?: Prisma.activity_typesWhereInput
@@ -1104,10 +970,6 @@ export type activity_typesFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the activity_types
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which activity_types to fetch.
    */
@@ -1157,10 +1019,6 @@ export type activity_typesCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * The data needed to create a activity_types.
    */
   data: Prisma.XOR<Prisma.activity_typesCreateInput, Prisma.activity_typesUncheckedCreateInput>
@@ -1208,10 +1066,6 @@ export type activity_typesUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the activity_types
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
   /**
    * The data needed to update a activity_types.
    */
@@ -1279,10 +1133,6 @@ export type activity_typesUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * The filter to search for the activity_types to update in case it exists.
    */
   where: Prisma.activity_typesWhereUniqueInput
@@ -1309,10 +1159,6 @@ export type activity_typesDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
-  /**
    * Filter which activity_types to delete.
    */
   where: Prisma.activity_typesWhereUniqueInput
@@ -1333,30 +1179,6 @@ export type activity_typesDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * activity_types.audit_logs
- */
-export type activity_types$audit_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the audit_logs
-   */
-  select?: Prisma.audit_logsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the audit_logs
-   */
-  omit?: Prisma.audit_logsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.audit_logsInclude<ExtArgs> | null
-  where?: Prisma.audit_logsWhereInput
-  orderBy?: Prisma.audit_logsOrderByWithRelationInput | Prisma.audit_logsOrderByWithRelationInput[]
-  cursor?: Prisma.audit_logsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Audit_logsScalarFieldEnum | Prisma.Audit_logsScalarFieldEnum[]
-}
-
-/**
  * activity_types without action
  */
 export type activity_typesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1368,8 +1190,4 @@ export type activity_typesDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the activity_types
    */
   omit?: Prisma.activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.activity_typesInclude<ExtArgs> | null
 }

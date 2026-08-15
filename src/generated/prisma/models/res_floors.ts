@@ -36,35 +36,35 @@ export type Res_floorsSumAggregateOutputType = {
 
 export type Res_floorsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   name: string | null
   description: string | null
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_floorsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   name: string | null
   description: string | null
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
 }
 
 export type Res_floorsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   name: number
   description: number
   sort_order: number
   is_active: number
   created_at: number
   auth_user_id: number
+  tenant_id: number
   _all: number
 }
 
@@ -79,35 +79,35 @@ export type Res_floorsSumAggregateInputType = {
 
 export type Res_floorsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   name?: true
   description?: true
   sort_order?: true
   is_active?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_floorsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   name?: true
   description?: true
   sort_order?: true
   is_active?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
 }
 
 export type Res_floorsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   name?: true
   description?: true
   sort_order?: true
   is_active?: true
   created_at?: true
   auth_user_id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -199,13 +199,13 @@ export type res_floorsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type Res_floorsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   name: string
   description: string | null
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
   _count: Res_floorsCountAggregateOutputType | null
   _avg: Res_floorsAvgAggregateOutputType | null
   _sum: Res_floorsSumAggregateOutputType | null
@@ -233,28 +233,24 @@ export type res_floorsWhereInput = {
   OR?: Prisma.res_floorsWhereInput[]
   NOT?: Prisma.res_floorsWhereInput | Prisma.res_floorsWhereInput[]
   id?: Prisma.UuidFilter<"res_floors"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
   name?: Prisma.StringFilter<"res_floors"> | string
   description?: Prisma.StringNullableFilter<"res_floors"> | string | null
   sort_order?: Prisma.IntNullableFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_floors"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-  res_tables?: Prisma.Res_tablesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
 }
 
 export type res_floorsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sort_order?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_tables?: Prisma.res_tablesOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_floorsWhereUniqueInput = Prisma.AtLeast<{
@@ -262,26 +258,24 @@ export type res_floorsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_floorsWhereInput | Prisma.res_floorsWhereInput[]
   OR?: Prisma.res_floorsWhereInput[]
   NOT?: Prisma.res_floorsWhereInput | Prisma.res_floorsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
   name?: Prisma.StringFilter<"res_floors"> | string
   description?: Prisma.StringNullableFilter<"res_floors"> | string | null
   sort_order?: Prisma.IntNullableFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_floors"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-  res_tables?: Prisma.Res_tablesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
 }, "id">
 
 export type res_floorsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   sort_order?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_floorsCountOrderByAggregateInput
   _avg?: Prisma.res_floorsAvgOrderByAggregateInput
   _max?: Prisma.res_floorsMaxOrderByAggregateInput
@@ -294,13 +288,13 @@ export type res_floorsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_floorsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_floorsScalarWhereWithAggregatesInput | Prisma.res_floorsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_floors"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"res_floors"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"res_floors"> | string | null
   sort_order?: Prisma.IntNullableWithAggregatesFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_floors"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
 }
 
 export type res_floorsCreateInput = {
@@ -311,20 +305,18 @@ export type res_floorsCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
-  res_tables?: Prisma.res_tablesCreateNestedManyWithoutRes_floorsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_floorsInput
+  tenant_id?: string | null
 }
 
 export type res_floorsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   sort_order?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
-  res_tables?: Prisma.res_tablesUncheckedCreateNestedManyWithoutRes_floorsInput
+  tenant_id?: string | null
 }
 
 export type res_floorsUpdateInput = {
@@ -335,31 +327,29 @@ export type res_floorsUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_tables?: Prisma.res_tablesUpdateManyWithoutRes_floorsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_floorsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_tables?: Prisma.res_tablesUncheckedUpdateManyWithoutRes_floorsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   sort_order?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
 }
 
 export type res_floorsUpdateManyMutationInput = {
@@ -370,28 +360,29 @@ export type res_floorsUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_floorsAvgOrderByAggregateInput = {
@@ -400,375 +391,90 @@ export type res_floorsAvgOrderByAggregateInput = {
 
 export type res_floorsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_floorsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type res_floorsSumOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
 }
 
-export type Res_floorsNullableScalarRelationFilter = {
-  is?: Prisma.res_floorsWhereInput | null
-  isNot?: Prisma.res_floorsWhereInput | null
-}
-
-export type Res_floorsListRelationFilter = {
-  every?: Prisma.res_floorsWhereInput
-  some?: Prisma.res_floorsWhereInput
-  none?: Prisma.res_floorsWhereInput
-}
-
-export type res_floorsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type res_floorsCreateNestedOneWithoutRes_tablesInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutRes_tablesInput, Prisma.res_floorsUncheckedCreateWithoutRes_tablesInput>
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutRes_tablesInput
-  connect?: Prisma.res_floorsWhereUniqueInput
-}
-
-export type res_floorsUpdateOneWithoutRes_tablesNestedInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutRes_tablesInput, Prisma.res_floorsUncheckedCreateWithoutRes_tablesInput>
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutRes_tablesInput
-  upsert?: Prisma.res_floorsUpsertWithoutRes_tablesInput
-  disconnect?: Prisma.res_floorsWhereInput | boolean
-  delete?: Prisma.res_floorsWhereInput | boolean
-  connect?: Prisma.res_floorsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_floorsUpdateToOneWithWhereWithoutRes_tablesInput, Prisma.res_floorsUpdateWithoutRes_tablesInput>, Prisma.res_floorsUncheckedUpdateWithoutRes_tablesInput>
-}
-
-export type res_floorsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput> | Prisma.res_floorsCreateWithoutTenantsInput[] | Prisma.res_floorsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutTenantsInput | Prisma.res_floorsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_floorsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-}
-
-export type res_floorsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput> | Prisma.res_floorsCreateWithoutTenantsInput[] | Prisma.res_floorsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutTenantsInput | Prisma.res_floorsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_floorsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-}
-
-export type res_floorsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput> | Prisma.res_floorsCreateWithoutTenantsInput[] | Prisma.res_floorsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutTenantsInput | Prisma.res_floorsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_floorsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_floorsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_floorsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  disconnect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  delete?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  connect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  update?: Prisma.res_floorsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_floorsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_floorsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_floorsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_floorsScalarWhereInput | Prisma.res_floorsScalarWhereInput[]
-}
-
-export type res_floorsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput> | Prisma.res_floorsCreateWithoutTenantsInput[] | Prisma.res_floorsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_floorsCreateOrConnectWithoutTenantsInput | Prisma.res_floorsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_floorsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_floorsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_floorsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  disconnect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  delete?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  connect?: Prisma.res_floorsWhereUniqueInput | Prisma.res_floorsWhereUniqueInput[]
-  update?: Prisma.res_floorsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_floorsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_floorsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_floorsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_floorsScalarWhereInput | Prisma.res_floorsScalarWhereInput[]
-}
-
-export type res_floorsCreateWithoutRes_tablesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sort_order?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_floorsInput
-}
-
-export type res_floorsUncheckedCreateWithoutRes_tablesInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  description?: string | null
-  sort_order?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_floorsCreateOrConnectWithoutRes_tablesInput = {
-  where: Prisma.res_floorsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_floorsCreateWithoutRes_tablesInput, Prisma.res_floorsUncheckedCreateWithoutRes_tablesInput>
-}
-
-export type res_floorsUpsertWithoutRes_tablesInput = {
-  update: Prisma.XOR<Prisma.res_floorsUpdateWithoutRes_tablesInput, Prisma.res_floorsUncheckedUpdateWithoutRes_tablesInput>
-  create: Prisma.XOR<Prisma.res_floorsCreateWithoutRes_tablesInput, Prisma.res_floorsUncheckedCreateWithoutRes_tablesInput>
-  where?: Prisma.res_floorsWhereInput
-}
-
-export type res_floorsUpdateToOneWithWhereWithoutRes_tablesInput = {
-  where?: Prisma.res_floorsWhereInput
-  data: Prisma.XOR<Prisma.res_floorsUpdateWithoutRes_tablesInput, Prisma.res_floorsUncheckedUpdateWithoutRes_tablesInput>
-}
-
-export type res_floorsUpdateWithoutRes_tablesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_floorsNestedInput
-}
-
-export type res_floorsUncheckedUpdateWithoutRes_tablesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_floorsCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sort_order?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_tables?: Prisma.res_tablesCreateNestedManyWithoutRes_floorsInput
-}
-
-export type res_floorsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sort_order?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  res_tables?: Prisma.res_tablesUncheckedCreateNestedManyWithoutRes_floorsInput
-}
-
-export type res_floorsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_floorsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_floorsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_floorsCreateManyTenantsInput | Prisma.res_floorsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_floorsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_floorsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_floorsUpdateWithoutTenantsInput, Prisma.res_floorsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_floorsCreateWithoutTenantsInput, Prisma.res_floorsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_floorsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_floorsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_floorsUpdateWithoutTenantsInput, Prisma.res_floorsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_floorsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_floorsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_floorsUpdateManyMutationInput, Prisma.res_floorsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_floorsScalarWhereInput = {
-  AND?: Prisma.res_floorsScalarWhereInput | Prisma.res_floorsScalarWhereInput[]
-  OR?: Prisma.res_floorsScalarWhereInput[]
-  NOT?: Prisma.res_floorsScalarWhereInput | Prisma.res_floorsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_floors"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-  name?: Prisma.StringFilter<"res_floors"> | string
-  description?: Prisma.StringNullableFilter<"res_floors"> | string | null
-  sort_order?: Prisma.IntNullableFilter<"res_floors"> | number | null
-  is_active?: Prisma.BoolNullableFilter<"res_floors"> | boolean | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_floors"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-}
-
-export type res_floorsCreateManyTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  sort_order?: number | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_floorsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_tables?: Prisma.res_tablesUpdateManyWithoutRes_floorsNestedInput
-}
-
-export type res_floorsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_tables?: Prisma.res_tablesUncheckedUpdateManyWithoutRes_floorsNestedInput
-}
-
-export type res_floorsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type Res_floorsCountOutputType
- */
-
-export type Res_floorsCountOutputType = {
-  res_tables: number
-}
-
-export type Res_floorsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_tables?: boolean | Res_floorsCountOutputTypeCountRes_tablesArgs
-}
-
-/**
- * Res_floorsCountOutputType without action
- */
-export type Res_floorsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Res_floorsCountOutputType
-   */
-  select?: Prisma.Res_floorsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Res_floorsCountOutputType without action
- */
-export type Res_floorsCountOutputTypeCountRes_tablesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_tablesWhereInput
-}
 
 
 export type res_floorsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  res_tables?: boolean | Prisma.res_floors$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_floorsCountOutputTypeDefaultArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
 }
 
-export type res_floorsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "description" | "sort_order" | "is_active" | "created_at" | "auth_user_id", ExtArgs["result"]["res_floors"]>
-export type res_floorsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_tables?: boolean | Prisma.res_floors$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_floorsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type res_floorsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
-}
-export type res_floorsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.res_floors$tenantsArgs<ExtArgs>
-}
+export type res_floorsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "sort_order" | "is_active" | "created_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_floors"]>
 
 export type $res_floorsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_floors"
-  objects: {
-    res_tables: Prisma.$res_tablesPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     name: string
     description: string | null
     sort_order: number | null
     is_active: boolean | null
     created_at: Date | null
     auth_user_id: string | null
+    tenant_id: string | null
   }, ExtArgs["result"]["res_floors"]>
   composites: {}
 }
@@ -1163,8 +869,6 @@ readonly fields: res_floorsFieldRefs;
  */
 export interface Prisma__res_floorsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_tables<T extends Prisma.res_floors$res_tablesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_floors$res_tablesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.res_floors$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_floors$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1195,13 +899,13 @@ export interface Prisma__res_floorsClient<T, Null = never, ExtArgs extends runti
  */
 export interface res_floorsFieldRefs {
   readonly id: Prisma.FieldRef<"res_floors", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_floors", 'String'>
   readonly name: Prisma.FieldRef<"res_floors", 'String'>
   readonly description: Prisma.FieldRef<"res_floors", 'String'>
   readonly sort_order: Prisma.FieldRef<"res_floors", 'Int'>
   readonly is_active: Prisma.FieldRef<"res_floors", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"res_floors", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"res_floors", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_floors", 'String'>
 }
     
 
@@ -1218,10 +922,6 @@ export type res_floorsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
   /**
    * Filter, which res_floors to fetch.
    */
@@ -1241,10 +941,6 @@ export type res_floorsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
-  /**
    * Filter, which res_floors to fetch.
    */
   where: Prisma.res_floorsWhereUniqueInput
@@ -1262,10 +958,6 @@ export type res_floorsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
   /**
    * Filter, which res_floors to fetch.
    */
@@ -1315,10 +1007,6 @@ export type res_floorsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
-  /**
    * Filter, which res_floors to fetch.
    */
   where?: Prisma.res_floorsWhereInput
@@ -1366,10 +1054,6 @@ export type res_floorsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
   /**
    * Filter, which res_floors to fetch.
    */
@@ -1419,10 +1103,6 @@ export type res_floorsCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_floors.
    */
   data: Prisma.XOR<Prisma.res_floorsCreateInput, Prisma.res_floorsUncheckedCreateInput>
@@ -1456,10 +1136,6 @@ export type res_floorsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.res_floorsCreateManyInput | Prisma.res_floorsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1474,10 +1150,6 @@ export type res_floorsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_floors.
    */
@@ -1530,10 +1202,6 @@ export type res_floorsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many res_floors to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1548,10 +1216,6 @@ export type res_floorsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_floors to update in case it exists.
    */
@@ -1579,10 +1243,6 @@ export type res_floorsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
-  /**
    * Filter which res_floors to delete.
    */
   where: Prisma.res_floorsWhereUniqueInput
@@ -1603,49 +1263,6 @@ export type res_floorsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * res_floors.res_tables
- */
-export type res_floors$res_tablesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_tables
-   */
-  select?: Prisma.res_tablesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_tables
-   */
-  omit?: Prisma.res_tablesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_tablesInclude<ExtArgs> | null
-  where?: Prisma.res_tablesWhereInput
-  orderBy?: Prisma.res_tablesOrderByWithRelationInput | Prisma.res_tablesOrderByWithRelationInput[]
-  cursor?: Prisma.res_tablesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_tablesScalarFieldEnum | Prisma.Res_tablesScalarFieldEnum[]
-}
-
-/**
- * res_floors.tenants
- */
-export type res_floors$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_floors without action
  */
 export type res_floorsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1657,8 +1274,4 @@ export type res_floorsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_floors
    */
   omit?: Prisma.res_floorsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_floorsInclude<ExtArgs> | null
 }

@@ -1,15 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
-import type { CreatedOnboardingUser } from '@/server/fns/onboarding-users'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
-import { useTenantUsersStore } from '@/stores/tenant-users-store'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/hooks/use-auth'
-import type {
-  OnboardingBranchInput,
-  OnboardingUserInput,
-} from '@/features/users/data/schema'
 
 export interface CompleteOnboardingData {
   userId: string
@@ -24,16 +18,12 @@ export interface CompleteOnboardingData {
   paymentMethod: string
   transferRef?: string
   subscriptionId: string
-  /** Branches to create during onboarding */
-  branches?: OnboardingBranchInput[]
-  /** Users to create during onboarding */
-  users?: OnboardingUserInput[]
 }
 
 export interface CompleteOnboardingResult {
   success: boolean
-  createdUsers?: CreatedOnboardingUser[]
-  createdBranches?: Array<{ id: string; name: string }>
+  tenantId: string
+  tenantCode: string
 }
 
 export function useCompleteOnboarding() {
@@ -75,8 +65,6 @@ export function useCompleteOnboarding() {
           paymentMethod: input.paymentMethod,
           transferRef: input.transferRef,
           subscriptionId: input.subscriptionId,
-          branches: input.branches,
-          users: input.users,
         }),
       })
 
@@ -94,8 +82,6 @@ export function useCompleteOnboarding() {
           success: boolean
           tenantId: string
           tenantCode: string
-          createdBranches?: Array<{ id: string; name: string }>
-          createdUsers?: CreatedOnboardingUser[]
         }
       }
 
@@ -107,36 +93,11 @@ export function useCompleteOnboarding() {
 
       return {
         success: true,
-        createdUsers: result.data.createdUsers,
-        createdBranches: result.data.createdBranches,
+        tenantId: result.data.tenantId,
+        tenantCode: result.data.tenantCode,
       }
     },
-    onSuccess: (result) => {
-      // Sync created users to the tenant users store
-      if (result.createdUsers && result.createdUsers.length > 0) {
-        const store = useTenantUsersStore.getState()
-        store.addTenantUsers(
-          result.createdUsers.map((u) => ({
-            id: u.tenantUserId,
-            authUserId: u.authUserId,
-            email: u.email,
-            firstName: null,
-            lastName: null,
-            phone: null,
-            role: u.roleName,
-            roleNames: [u.roleName],
-            roleIds: [],
-            branchId: u.branchId,
-            branchName: null,
-            isUser: true,
-            isPaid: false,
-            isOwner: false,
-            parentAuthUserId: user?.id ?? '',
-            createdAt: new Date().toISOString(),
-          }))
-        )
-      }
-
+    onSuccess: () => {
       toast.success('Tenant account setup completed successfully!')
       void queryClient.invalidateQueries({ queryKey: ['users'] })
       void queryClient.invalidateQueries({

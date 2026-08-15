@@ -25,8 +25,6 @@ export type AggregateSuppliers = {
 }
 
 export type SuppliersMinAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   name: string | null
   contact_person: string | null
   email: string | null
@@ -39,11 +37,11 @@ export type SuppliersMinAggregateOutputType = {
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
+  id: string | null
+  tenant_id: string | null
 }
 
 export type SuppliersMaxAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   name: string | null
   contact_person: string | null
   email: string | null
@@ -56,11 +54,11 @@ export type SuppliersMaxAggregateOutputType = {
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
+  id: string | null
+  tenant_id: string | null
 }
 
 export type SuppliersCountAggregateOutputType = {
-  id: number
-  tenant_id: number
   name: number
   contact_person: number
   email: number
@@ -73,13 +71,13 @@ export type SuppliersCountAggregateOutputType = {
   city_id: number
   is_preferred: number
   is_system: number
+  id: number
+  tenant_id: number
   _all: number
 }
 
 
 export type SuppliersMinAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -92,11 +90,11 @@ export type SuppliersMinAggregateInputType = {
   city_id?: true
   is_preferred?: true
   is_system?: true
+  id?: true
+  tenant_id?: true
 }
 
 export type SuppliersMaxAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -109,11 +107,11 @@ export type SuppliersMaxAggregateInputType = {
   city_id?: true
   is_preferred?: true
   is_system?: true
+  id?: true
+  tenant_id?: true
 }
 
 export type SuppliersCountAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   contact_person?: true
   email?: true
@@ -126,6 +124,8 @@ export type SuppliersCountAggregateInputType = {
   city_id?: true
   is_preferred?: true
   is_system?: true
+  id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -202,8 +202,6 @@ export type suppliersGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type SuppliersGroupByOutputType = {
-  id: string
-  tenant_id: string | null
   name: string
   contact_person: string | null
   email: string | null
@@ -216,6 +214,8 @@ export type SuppliersGroupByOutputType = {
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
+  id: string
+  tenant_id: string | null
   _count: SuppliersCountAggregateOutputType | null
   _min: SuppliersMinAggregateOutputType | null
   _max: SuppliersMaxAggregateOutputType | null
@@ -240,8 +240,6 @@ export type suppliersWhereInput = {
   AND?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
   OR?: Prisma.suppliersWhereInput[]
   NOT?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
-  id?: Prisma.UuidFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -254,21 +252,12 @@ export type suppliersWhereInput = {
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
-  goods_receipts?: Prisma.Goods_receiptsListRelationFilter
-  products?: Prisma.ProductsListRelationFilter
-  purchase_invoices?: Prisma.Purchase_invoicesListRelationFilter
-  purchase_orders?: Prisma.Purchase_ordersListRelationFilter
-  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
-  purchase_returns?: Prisma.Purchase_returnsListRelationFilter
-  reorder_rules?: Prisma.Reorder_rulesListRelationFilter
-  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
+  id?: Prisma.UuidFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }
 
 export type suppliersOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,16 +270,9 @@ export type suppliersOrderByWithRelationInput = {
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_preferred?: Prisma.SortOrderInput | Prisma.SortOrder
   is_system?: Prisma.SortOrderInput | Prisma.SortOrder
-  goods_receipts?: Prisma.goods_receiptsOrderByRelationAggregateInput
-  products?: Prisma.productsOrderByRelationAggregateInput
-  purchase_invoices?: Prisma.purchase_invoicesOrderByRelationAggregateInput
-  purchase_orders?: Prisma.purchase_ordersOrderByRelationAggregateInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsOrderByRelationAggregateInput
-  purchase_returns?: Prisma.purchase_returnsOrderByRelationAggregateInput
-  reorder_rules?: Prisma.reorder_rulesOrderByRelationAggregateInput
-  reorder_suggestions?: Prisma.reorder_suggestionsOrderByRelationAggregateInput
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   cities?: Prisma.citiesOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
 }
 
 export type suppliersWhereUniqueInput = Prisma.AtLeast<{
@@ -298,7 +280,6 @@ export type suppliersWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
   OR?: Prisma.suppliersWhereInput[]
   NOT?: Prisma.suppliersWhereInput | Prisma.suppliersWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -311,21 +292,11 @@ export type suppliersWhereUniqueInput = Prisma.AtLeast<{
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
-  goods_receipts?: Prisma.Goods_receiptsListRelationFilter
-  products?: Prisma.ProductsListRelationFilter
-  purchase_invoices?: Prisma.Purchase_invoicesListRelationFilter
-  purchase_orders?: Prisma.Purchase_ordersListRelationFilter
-  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
-  purchase_returns?: Prisma.Purchase_returnsListRelationFilter
-  reorder_rules?: Prisma.Reorder_rulesListRelationFilter
-  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
 }, "id">
 
 export type suppliersOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -338,6 +309,8 @@ export type suppliersOrderByWithAggregationInput = {
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_preferred?: Prisma.SortOrderInput | Prisma.SortOrder
   is_system?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.suppliersCountOrderByAggregateInput
   _max?: Prisma.suppliersMaxOrderByAggregateInput
   _min?: Prisma.suppliersMinOrderByAggregateInput
@@ -347,8 +320,6 @@ export type suppliersScalarWhereWithAggregatesInput = {
   AND?: Prisma.suppliersScalarWhereWithAggregatesInput | Prisma.suppliersScalarWhereWithAggregatesInput[]
   OR?: Prisma.suppliersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.suppliersScalarWhereWithAggregatesInput | Prisma.suppliersScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
@@ -361,10 +332,11 @@ export type suppliersScalarWhereWithAggregatesInput = {
   city_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableWithAggregatesFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableWithAggregatesFilter<"suppliers"> | boolean | null
+  id?: Prisma.UuidWithAggregatesFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
 }
 
 export type suppliersCreateInput = {
-  id?: string
   name: string
   contact_person?: string | null
   email?: string | null
@@ -376,21 +348,12 @@ export type suppliersCreateInput = {
   auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  id?: string
+  tenant_id?: string | null
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -403,18 +366,11 @@ export type suppliersUncheckedCreateInput = {
   city_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  id?: string
+  tenant_id?: string | null
 }
 
 export type suppliersUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -426,21 +382,12 @@ export type suppliersUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -453,19 +400,11 @@ export type suppliersUncheckedUpdateInput = {
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersCreateManyInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -478,10 +417,11 @@ export type suppliersCreateManyInput = {
   city_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
+  id?: string
+  tenant_id?: string | null
 }
 
 export type suppliersUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -493,11 +433,11 @@ export type suppliersUpdateManyMutationInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -510,6 +450,8 @@ export type suppliersUncheckedUpdateManyInput = {
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SuppliersListRelationFilter = {
@@ -522,19 +464,7 @@ export type suppliersOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SuppliersNullableScalarRelationFilter = {
-  is?: Prisma.suppliersWhereInput | null
-  isNot?: Prisma.suppliersWhereInput | null
-}
-
-export type SuppliersScalarRelationFilter = {
-  is?: Prisma.suppliersWhereInput
-  isNot?: Prisma.suppliersWhereInput
-}
-
 export type suppliersCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -547,11 +477,11 @@ export type suppliersCountOrderByAggregateInput = {
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type suppliersMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -564,11 +494,11 @@ export type suppliersMaxOrderByAggregateInput = {
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type suppliersMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contact_person?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -581,6 +511,8 @@ export type suppliersMinOrderByAggregateInput = {
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type suppliersCreateNestedManyWithoutCitiesInput = {
@@ -625,174 +557,7 @@ export type suppliersUncheckedUpdateManyWithoutCitiesNestedInput = {
   deleteMany?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
 }
 
-export type suppliersCreateNestedOneWithoutProductsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutProductsInput, Prisma.suppliersUncheckedCreateWithoutProductsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutProductsInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutProductsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutProductsInput, Prisma.suppliersUncheckedCreateWithoutProductsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutProductsInput
-  upsert?: Prisma.suppliersUpsertWithoutProductsInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutProductsInput, Prisma.suppliersUpdateWithoutProductsInput>, Prisma.suppliersUncheckedUpdateWithoutProductsInput>
-}
-
-export type suppliersCreateNestedOneWithoutPurchase_invoicesInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedCreateWithoutPurchase_invoicesInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_invoicesInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneRequiredWithoutPurchase_invoicesNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedCreateWithoutPurchase_invoicesInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_invoicesInput
-  upsert?: Prisma.suppliersUpsertWithoutPurchase_invoicesInput
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_invoicesInput, Prisma.suppliersUpdateWithoutPurchase_invoicesInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_invoicesInput>
-}
-
-export type suppliersCreateNestedOneWithoutPurchase_ordersInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedCreateWithoutPurchase_ordersInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_ordersInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedCreateWithoutPurchase_ordersInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_ordersInput
-  upsert?: Prisma.suppliersUpsertWithoutPurchase_ordersInput
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_ordersInput, Prisma.suppliersUpdateWithoutPurchase_ordersInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_ordersInput>
-}
-
-export type suppliersCreateNestedOneWithoutPurchase_returnsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_returnsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_returnsInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutPurchase_returnsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_returnsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_returnsInput
-  upsert?: Prisma.suppliersUpsertWithoutPurchase_returnsInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_returnsInput, Prisma.suppliersUpdateWithoutPurchase_returnsInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_returnsInput>
-}
-
-export type suppliersCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput> | Prisma.suppliersCreateWithoutTenantsInput[] | Prisma.suppliersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutTenantsInput | Prisma.suppliersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.suppliersCreateManyTenantsInputEnvelope
-  connect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-}
-
-export type suppliersUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput> | Prisma.suppliersCreateWithoutTenantsInput[] | Prisma.suppliersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutTenantsInput | Prisma.suppliersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.suppliersCreateManyTenantsInputEnvelope
-  connect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-}
-
-export type suppliersUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput> | Prisma.suppliersCreateWithoutTenantsInput[] | Prisma.suppliersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutTenantsInput | Prisma.suppliersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.suppliersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.suppliersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.suppliersCreateManyTenantsInputEnvelope
-  set?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  disconnect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  delete?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  connect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  update?: Prisma.suppliersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.suppliersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.suppliersUpdateManyWithWhereWithoutTenantsInput | Prisma.suppliersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
-}
-
-export type suppliersUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput> | Prisma.suppliersCreateWithoutTenantsInput[] | Prisma.suppliersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutTenantsInput | Prisma.suppliersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.suppliersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.suppliersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.suppliersCreateManyTenantsInputEnvelope
-  set?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  disconnect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  delete?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  connect?: Prisma.suppliersWhereUniqueInput | Prisma.suppliersWhereUniqueInput[]
-  update?: Prisma.suppliersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.suppliersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.suppliersUpdateManyWithWhereWithoutTenantsInput | Prisma.suppliersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
-}
-
-export type suppliersCreateNestedOneWithoutGoods_receiptsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedCreateWithoutGoods_receiptsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutGoods_receiptsInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutGoods_receiptsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedCreateWithoutGoods_receiptsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutGoods_receiptsInput
-  upsert?: Prisma.suppliersUpsertWithoutGoods_receiptsInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutGoods_receiptsInput, Prisma.suppliersUpdateWithoutGoods_receiptsInput>, Prisma.suppliersUncheckedUpdateWithoutGoods_receiptsInput>
-}
-
-export type suppliersCreateNestedOneWithoutPurchase_requisition_itemsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutPurchase_requisition_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput
-  upsert?: Prisma.suppliersUpsertWithoutPurchase_requisition_itemsInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput, Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
-}
-
-export type suppliersCreateNestedOneWithoutReorder_rulesInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_rulesInput, Prisma.suppliersUncheckedCreateWithoutReorder_rulesInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutReorder_rulesInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutReorder_rulesNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_rulesInput, Prisma.suppliersUncheckedCreateWithoutReorder_rulesInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutReorder_rulesInput
-  upsert?: Prisma.suppliersUpsertWithoutReorder_rulesInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutReorder_rulesInput, Prisma.suppliersUpdateWithoutReorder_rulesInput>, Prisma.suppliersUncheckedUpdateWithoutReorder_rulesInput>
-}
-
-export type suppliersCreateNestedOneWithoutReorder_suggestionsInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedCreateWithoutReorder_suggestionsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutReorder_suggestionsInput
-  connect?: Prisma.suppliersWhereUniqueInput
-}
-
-export type suppliersUpdateOneWithoutReorder_suggestionsNestedInput = {
-  create?: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedCreateWithoutReorder_suggestionsInput>
-  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutReorder_suggestionsInput
-  upsert?: Prisma.suppliersUpsertWithoutReorder_suggestionsInput
-  disconnect?: Prisma.suppliersWhereInput | boolean
-  delete?: Prisma.suppliersWhereInput | boolean
-  connect?: Prisma.suppliersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutReorder_suggestionsInput, Prisma.suppliersUpdateWithoutReorder_suggestionsInput>, Prisma.suppliersUncheckedUpdateWithoutReorder_suggestionsInput>
-}
-
 export type suppliersCreateWithoutCitiesInput = {
-  id?: string
   name: string
   contact_person?: string | null
   email?: string | null
@@ -804,20 +569,11 @@ export type suppliersCreateWithoutCitiesInput = {
   auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
+  id?: string
+  tenant_id?: string | null
 }
 
 export type suppliersUncheckedCreateWithoutCitiesInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -829,14 +585,8 @@ export type suppliersUncheckedCreateWithoutCitiesInput = {
   auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  id?: string
+  tenant_id?: string | null
 }
 
 export type suppliersCreateOrConnectWithoutCitiesInput = {
@@ -869,8 +619,6 @@ export type suppliersScalarWhereInput = {
   AND?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
   OR?: Prisma.suppliersScalarWhereInput[]
   NOT?: Prisma.suppliersScalarWhereInput | Prisma.suppliersScalarWhereInput[]
-  id?: Prisma.UuidFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   name?: Prisma.StringFilter<"suppliers"> | string
   contact_person?: Prisma.StringNullableFilter<"suppliers"> | string | null
   email?: Prisma.StringNullableFilter<"suppliers"> | string | null
@@ -883,981 +631,11 @@ export type suppliersScalarWhereInput = {
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
-}
-
-export type suppliersCreateWithoutProductsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutProductsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutProductsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutProductsInput, Prisma.suppliersUncheckedCreateWithoutProductsInput>
-}
-
-export type suppliersUpsertWithoutProductsInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutProductsInput, Prisma.suppliersUncheckedUpdateWithoutProductsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutProductsInput, Prisma.suppliersUncheckedCreateWithoutProductsInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutProductsInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutProductsInput, Prisma.suppliersUncheckedUpdateWithoutProductsInput>
-}
-
-export type suppliersUpdateWithoutProductsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutProductsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutPurchase_invoicesInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutPurchase_invoicesInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutPurchase_invoicesInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedCreateWithoutPurchase_invoicesInput>
-}
-
-export type suppliersUpsertWithoutPurchase_invoicesInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_invoicesInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedCreateWithoutPurchase_invoicesInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutPurchase_invoicesInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_invoicesInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_invoicesInput>
-}
-
-export type suppliersUpdateWithoutPurchase_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutPurchase_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutPurchase_ordersInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutPurchase_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutPurchase_ordersInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedCreateWithoutPurchase_ordersInput>
-}
-
-export type suppliersUpsertWithoutPurchase_ordersInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_ordersInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedCreateWithoutPurchase_ordersInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutPurchase_ordersInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_ordersInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_ordersInput>
-}
-
-export type suppliersUpdateWithoutPurchase_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutPurchase_returnsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutPurchase_returnsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutPurchase_returnsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_returnsInput>
-}
-
-export type suppliersUpsertWithoutPurchase_returnsInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_returnsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_returnsInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutPurchase_returnsInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_returnsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_returnsInput>
-}
-
-export type suppliersUpdateWithoutPurchase_returnsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutPurchase_returnsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput>
-}
-
-export type suppliersCreateManyTenantsInputEnvelope = {
-  data: Prisma.suppliersCreateManyTenantsInput | Prisma.suppliersCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type suppliersUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutTenantsInput, Prisma.suppliersUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutTenantsInput, Prisma.suppliersUncheckedCreateWithoutTenantsInput>
-}
-
-export type suppliersUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutTenantsInput, Prisma.suppliersUncheckedUpdateWithoutTenantsInput>
-}
-
-export type suppliersUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.suppliersScalarWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateManyMutationInput, Prisma.suppliersUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type suppliersCreateWithoutGoods_receiptsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutGoods_receiptsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutGoods_receiptsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedCreateWithoutGoods_receiptsInput>
-}
-
-export type suppliersUpsertWithoutGoods_receiptsInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedUpdateWithoutGoods_receiptsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedCreateWithoutGoods_receiptsInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutGoods_receiptsInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutGoods_receiptsInput, Prisma.suppliersUncheckedUpdateWithoutGoods_receiptsInput>
-}
-
-export type suppliersUpdateWithoutGoods_receiptsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutGoods_receiptsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutPurchase_requisition_itemsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
-}
-
-export type suppliersUpsertWithoutPurchase_requisition_itemsInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
-}
-
-export type suppliersUpdateWithoutPurchase_requisition_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutReorder_rulesInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutReorder_rulesInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutReorder_rulesInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_rulesInput, Prisma.suppliersUncheckedCreateWithoutReorder_rulesInput>
-}
-
-export type suppliersUpsertWithoutReorder_rulesInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutReorder_rulesInput, Prisma.suppliersUncheckedUpdateWithoutReorder_rulesInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_rulesInput, Prisma.suppliersUncheckedCreateWithoutReorder_rulesInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutReorder_rulesInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutReorder_rulesInput, Prisma.suppliersUncheckedUpdateWithoutReorder_rulesInput>
-}
-
-export type suppliersUpdateWithoutReorder_rulesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutReorder_rulesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersCreateWithoutReorder_suggestionsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
-  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutSuppliersInput
-}
-
-export type suppliersUncheckedCreateWithoutReorder_suggestionsInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutSuppliersInput
-  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedCreateNestedManyWithoutSuppliersInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
-}
-
-export type suppliersCreateOrConnectWithoutReorder_suggestionsInput = {
-  where: Prisma.suppliersWhereUniqueInput
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedCreateWithoutReorder_suggestionsInput>
-}
-
-export type suppliersUpsertWithoutReorder_suggestionsInput = {
-  update: Prisma.XOR<Prisma.suppliersUpdateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedUpdateWithoutReorder_suggestionsInput>
-  create: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedCreateWithoutReorder_suggestionsInput>
-  where?: Prisma.suppliersWhereInput
-}
-
-export type suppliersUpdateToOneWithWhereWithoutReorder_suggestionsInput = {
-  where?: Prisma.suppliersWhereInput
-  data: Prisma.XOR<Prisma.suppliersUpdateWithoutReorder_suggestionsInput, Prisma.suppliersUncheckedUpdateWithoutReorder_suggestionsInput>
-}
-
-export type suppliersUpdateWithoutReorder_suggestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutReorder_suggestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
+  id?: Prisma.UuidFilter<"suppliers"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
 }
 
 export type suppliersCreateManyCitiesInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   contact_person?: string | null
   email?: string | null
@@ -1869,10 +647,11 @@ export type suppliersCreateManyCitiesInput = {
   auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
+  id?: string
+  tenant_id?: string | null
 }
 
 export type suppliersUpdateWithoutCitiesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1884,20 +663,11 @@ export type suppliersUpdateWithoutCitiesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutSuppliersNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersUncheckedUpdateWithoutCitiesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1909,209 +679,29 @@ export type suppliersUncheckedUpdateWithoutCitiesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersUncheckedUpdateManyWithoutCitiesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
-export type suppliersCreateManyTenantsInput = {
-  id?: string
-  name: string
-  contact_person?: string | null
-  email?: string | null
-  phone?: string | null
-  address?: string | null
-  website?: string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  auth_user_id?: string | null
-  city_id?: string | null
-  is_preferred?: boolean | null
-  is_system?: boolean | null
-}
-
-export type suppliersUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutSuppliersNestedInput
-  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_invoices?: Prisma.purchase_invoicesUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
-  purchase_returns?: Prisma.purchase_returnsUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
-}
-
-export type suppliersUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-}
-
-
-/**
- * Count Type SuppliersCountOutputType
- */
-
-export type SuppliersCountOutputType = {
-  goods_receipts: number
-  products: number
-  purchase_invoices: number
-  purchase_orders: number
-  purchase_requisition_items: number
-  purchase_returns: number
-  reorder_rules: number
-  reorder_suggestions: number
-}
-
-export type SuppliersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  goods_receipts?: boolean | SuppliersCountOutputTypeCountGoods_receiptsArgs
-  products?: boolean | SuppliersCountOutputTypeCountProductsArgs
-  purchase_invoices?: boolean | SuppliersCountOutputTypeCountPurchase_invoicesArgs
-  purchase_orders?: boolean | SuppliersCountOutputTypeCountPurchase_ordersArgs
-  purchase_requisition_items?: boolean | SuppliersCountOutputTypeCountPurchase_requisition_itemsArgs
-  purchase_returns?: boolean | SuppliersCountOutputTypeCountPurchase_returnsArgs
-  reorder_rules?: boolean | SuppliersCountOutputTypeCountReorder_rulesArgs
-  reorder_suggestions?: boolean | SuppliersCountOutputTypeCountReorder_suggestionsArgs
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SuppliersCountOutputType
-   */
-  select?: Prisma.SuppliersCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountGoods_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.goods_receiptsWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.productsWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountPurchase_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_invoicesWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountPurchase_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_ordersWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountPurchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_requisition_itemsWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountPurchase_returnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.purchase_returnsWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountReorder_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.reorder_rulesWhereInput
-}
-
-/**
- * SuppliersCountOutputType without action
- */
-export type SuppliersCountOutputTypeCountReorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.reorder_suggestionsWhereInput
-}
 
 
 export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -2124,22 +714,12 @@ export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
-  goods_receipts?: boolean | Prisma.suppliers$goods_receiptsArgs<ExtArgs>
-  products?: boolean | Prisma.suppliers$productsArgs<ExtArgs>
-  purchase_invoices?: boolean | Prisma.suppliers$purchase_invoicesArgs<ExtArgs>
-  purchase_orders?: boolean | Prisma.suppliers$purchase_ordersArgs<ExtArgs>
-  purchase_requisition_items?: boolean | Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>
-  purchase_returns?: boolean | Prisma.suppliers$purchase_returnsArgs<ExtArgs>
-  reorder_rules?: boolean | Prisma.suppliers$reorder_rulesArgs<ExtArgs>
-  reorder_suggestions?: boolean | Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.SuppliersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -2152,13 +732,12 @@ export type suppliersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
+  id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -2171,13 +750,12 @@ export type suppliersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
+  id?: boolean
+  tenant_id?: boolean
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
 export type suppliersSelectScalar = {
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   contact_person?: boolean
   email?: boolean
@@ -2190,48 +768,27 @@ export type suppliersSelectScalar = {
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
+  id?: boolean
+  tenant_id?: boolean
 }
 
-export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "auth_user_id" | "city_id" | "is_preferred" | "is_system", ExtArgs["result"]["suppliers"]>
+export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "auth_user_id" | "city_id" | "is_preferred" | "is_system" | "id" | "tenant_id", ExtArgs["result"]["suppliers"]>
 export type suppliersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  goods_receipts?: boolean | Prisma.suppliers$goods_receiptsArgs<ExtArgs>
-  products?: boolean | Prisma.suppliers$productsArgs<ExtArgs>
-  purchase_invoices?: boolean | Prisma.suppliers$purchase_invoicesArgs<ExtArgs>
-  purchase_orders?: boolean | Prisma.suppliers$purchase_ordersArgs<ExtArgs>
-  purchase_requisition_items?: boolean | Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>
-  purchase_returns?: boolean | Prisma.suppliers$purchase_returnsArgs<ExtArgs>
-  reorder_rules?: boolean | Prisma.suppliers$reorder_rulesArgs<ExtArgs>
-  reorder_suggestions?: boolean | Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.SuppliersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type suppliersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
 }
 export type suppliersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
-  tenants?: boolean | Prisma.suppliers$tenantsArgs<ExtArgs>
 }
 
 export type $suppliersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "suppliers"
   objects: {
-    goods_receipts: Prisma.$goods_receiptsPayload<ExtArgs>[]
-    products: Prisma.$productsPayload<ExtArgs>[]
-    purchase_invoices: Prisma.$purchase_invoicesPayload<ExtArgs>[]
-    purchase_orders: Prisma.$purchase_ordersPayload<ExtArgs>[]
-    purchase_requisition_items: Prisma.$purchase_requisition_itemsPayload<ExtArgs>[]
-    purchase_returns: Prisma.$purchase_returnsPayload<ExtArgs>[]
-    reorder_rules: Prisma.$reorder_rulesPayload<ExtArgs>[]
-    reorder_suggestions: Prisma.$reorder_suggestionsPayload<ExtArgs>[]
     cities: Prisma.$citiesPayload<ExtArgs> | null
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    tenant_id: string | null
     name: string
     contact_person: string | null
     email: string | null
@@ -2244,6 +801,8 @@ export type $suppliersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     city_id: string | null
     is_preferred: boolean | null
     is_system: boolean | null
+    id: string
+    tenant_id: string | null
   }, ExtArgs["result"]["suppliers"]>
   composites: {}
 }
@@ -2327,8 +886,8 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * // Get first 10 Suppliers
    * const suppliers = await prisma.suppliers.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const suppliersWithIdOnly = await prisma.suppliers.findMany({ select: { id: true } })
+   * // Only select the `name`
+   * const suppliersWithNameOnly = await prisma.suppliers.findMany({ select: { name: true } })
    * 
    */
   findMany<T extends suppliersFindManyArgs>(args?: Prisma.SelectSubset<T, suppliersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -2372,9 +931,9 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Create many Suppliers and only return the `id`
-   * const suppliersWithIdOnly = await prisma.suppliers.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Suppliers and only return the `name`
+   * const suppliersWithNameOnly = await prisma.suppliers.createManyAndReturn({
+   *   select: { name: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -2463,9 +1022,9 @@ export interface suppliersDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    *   ]
    * })
    * 
-   * // Update zero or more Suppliers and only return the `id`
-   * const suppliersWithIdOnly = await prisma.suppliers.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Suppliers and only return the `name`
+   * const suppliersWithNameOnly = await prisma.suppliers.updateManyAndReturn({
+   *   select: { name: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2638,16 +1197,7 @@ readonly fields: suppliersFieldRefs;
  */
 export interface Prisma__suppliersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  goods_receipts<T extends Prisma.suppliers$goods_receiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$goods_receiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receiptsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  products<T extends Prisma.suppliers$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  purchase_invoices<T extends Prisma.suppliers$purchase_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$purchase_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  purchase_orders<T extends Prisma.suppliers$purchase_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$purchase_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  purchase_requisition_items<T extends Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisition_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  purchase_returns<T extends Prisma.suppliers$purchase_returnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$purchase_returnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_returnsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reorder_rules<T extends Prisma.suppliers$reorder_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$reorder_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reorder_suggestions<T extends Prisma.suppliers$reorder_suggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_suggestionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cities<T extends Prisma.suppliers$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$citiesArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.suppliers$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2677,8 +1227,6 @@ export interface Prisma__suppliersClient<T, Null = never, ExtArgs extends runtim
  * Fields of the suppliers model
  */
 export interface suppliersFieldRefs {
-  readonly id: Prisma.FieldRef<"suppliers", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"suppliers", 'String'>
   readonly name: Prisma.FieldRef<"suppliers", 'String'>
   readonly contact_person: Prisma.FieldRef<"suppliers", 'String'>
   readonly email: Prisma.FieldRef<"suppliers", 'String'>
@@ -2691,6 +1239,8 @@ export interface suppliersFieldRefs {
   readonly city_id: Prisma.FieldRef<"suppliers", 'String'>
   readonly is_preferred: Prisma.FieldRef<"suppliers", 'Boolean'>
   readonly is_system: Prisma.FieldRef<"suppliers", 'Boolean'>
+  readonly id: Prisma.FieldRef<"suppliers", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"suppliers", 'String'>
 }
     
 
@@ -3092,198 +1642,6 @@ export type suppliersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * suppliers.goods_receipts
- */
-export type suppliers$goods_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the goods_receipts
-   */
-  select?: Prisma.goods_receiptsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the goods_receipts
-   */
-  omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
-  where?: Prisma.goods_receiptsWhereInput
-  orderBy?: Prisma.goods_receiptsOrderByWithRelationInput | Prisma.goods_receiptsOrderByWithRelationInput[]
-  cursor?: Prisma.goods_receiptsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Goods_receiptsScalarFieldEnum | Prisma.Goods_receiptsScalarFieldEnum[]
-}
-
-/**
- * suppliers.products
- */
-export type suppliers$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the products
-   */
-  select?: Prisma.productsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the products
-   */
-  omit?: Prisma.productsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.productsInclude<ExtArgs> | null
-  where?: Prisma.productsWhereInput
-  orderBy?: Prisma.productsOrderByWithRelationInput | Prisma.productsOrderByWithRelationInput[]
-  cursor?: Prisma.productsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProductsScalarFieldEnum | Prisma.ProductsScalarFieldEnum[]
-}
-
-/**
- * suppliers.purchase_invoices
- */
-export type suppliers$purchase_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_invoices
-   */
-  select?: Prisma.purchase_invoicesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_invoices
-   */
-  omit?: Prisma.purchase_invoicesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_invoicesInclude<ExtArgs> | null
-  where?: Prisma.purchase_invoicesWhereInput
-  orderBy?: Prisma.purchase_invoicesOrderByWithRelationInput | Prisma.purchase_invoicesOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_invoicesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_invoicesScalarFieldEnum | Prisma.Purchase_invoicesScalarFieldEnum[]
-}
-
-/**
- * suppliers.purchase_orders
- */
-export type suppliers$purchase_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_orders
-   */
-  select?: Prisma.purchase_ordersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_orders
-   */
-  omit?: Prisma.purchase_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_ordersInclude<ExtArgs> | null
-  where?: Prisma.purchase_ordersWhereInput
-  orderBy?: Prisma.purchase_ordersOrderByWithRelationInput | Prisma.purchase_ordersOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_ordersWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_ordersScalarFieldEnum | Prisma.Purchase_ordersScalarFieldEnum[]
-}
-
-/**
- * suppliers.purchase_requisition_items
- */
-export type suppliers$purchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_requisition_items
-   */
-  select?: Prisma.purchase_requisition_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_requisition_items
-   */
-  omit?: Prisma.purchase_requisition_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_requisition_itemsInclude<ExtArgs> | null
-  where?: Prisma.purchase_requisition_itemsWhereInput
-  orderBy?: Prisma.purchase_requisition_itemsOrderByWithRelationInput | Prisma.purchase_requisition_itemsOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_requisition_itemsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_requisition_itemsScalarFieldEnum | Prisma.Purchase_requisition_itemsScalarFieldEnum[]
-}
-
-/**
- * suppliers.purchase_returns
- */
-export type suppliers$purchase_returnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the purchase_returns
-   */
-  select?: Prisma.purchase_returnsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the purchase_returns
-   */
-  omit?: Prisma.purchase_returnsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.purchase_returnsInclude<ExtArgs> | null
-  where?: Prisma.purchase_returnsWhereInput
-  orderBy?: Prisma.purchase_returnsOrderByWithRelationInput | Prisma.purchase_returnsOrderByWithRelationInput[]
-  cursor?: Prisma.purchase_returnsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Purchase_returnsScalarFieldEnum | Prisma.Purchase_returnsScalarFieldEnum[]
-}
-
-/**
- * suppliers.reorder_rules
- */
-export type suppliers$reorder_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the reorder_rules
-   */
-  select?: Prisma.reorder_rulesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the reorder_rules
-   */
-  omit?: Prisma.reorder_rulesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.reorder_rulesInclude<ExtArgs> | null
-  where?: Prisma.reorder_rulesWhereInput
-  orderBy?: Prisma.reorder_rulesOrderByWithRelationInput | Prisma.reorder_rulesOrderByWithRelationInput[]
-  cursor?: Prisma.reorder_rulesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Reorder_rulesScalarFieldEnum | Prisma.Reorder_rulesScalarFieldEnum[]
-}
-
-/**
- * suppliers.reorder_suggestions
- */
-export type suppliers$reorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the reorder_suggestions
-   */
-  select?: Prisma.reorder_suggestionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the reorder_suggestions
-   */
-  omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
-  where?: Prisma.reorder_suggestionsWhereInput
-  orderBy?: Prisma.reorder_suggestionsOrderByWithRelationInput | Prisma.reorder_suggestionsOrderByWithRelationInput[]
-  cursor?: Prisma.reorder_suggestionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Reorder_suggestionsScalarFieldEnum | Prisma.Reorder_suggestionsScalarFieldEnum[]
-}
-
-/**
  * suppliers.cities
  */
 export type suppliers$citiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3300,25 +1658,6 @@ export type suppliers$citiesArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   include?: Prisma.citiesInclude<ExtArgs> | null
   where?: Prisma.citiesWhereInput
-}
-
-/**
- * suppliers.tenants
- */
-export type suppliers$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
 }
 
 /**

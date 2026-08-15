@@ -26,82 +26,82 @@ export type AggregateRes_void_requests = {
 
 export type Res_void_requestsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   requested_by: string | null
   approved_by: string | null
   reason: string | null
-  status: $Enums.void_request_status | null
   rejection_reason: string | null
   created_at: Date | null
   processed_at: Date | null
+  tenant_id: string | null
+  status: $Enums.void_request_status | null
 }
 
 export type Res_void_requestsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   requested_by: string | null
   approved_by: string | null
   reason: string | null
-  status: $Enums.void_request_status | null
   rejection_reason: string | null
   created_at: Date | null
   processed_at: Date | null
+  tenant_id: string | null
+  status: $Enums.void_request_status | null
 }
 
 export type Res_void_requestsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   order_id: number
   requested_by: number
   approved_by: number
   reason: number
-  status: number
   rejection_reason: number
   created_at: number
   processed_at: number
+  tenant_id: number
+  status: number
   _all: number
 }
 
 
 export type Res_void_requestsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   requested_by?: true
   approved_by?: true
   reason?: true
-  status?: true
   rejection_reason?: true
   created_at?: true
   processed_at?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_void_requestsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   requested_by?: true
   approved_by?: true
   reason?: true
-  status?: true
   rejection_reason?: true
   created_at?: true
   processed_at?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_void_requestsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   requested_by?: true
   approved_by?: true
   reason?: true
-  status?: true
   rejection_reason?: true
   created_at?: true
   processed_at?: true
+  tenant_id?: true
+  status?: true
   _all?: true
 }
 
@@ -179,15 +179,15 @@ export type res_void_requestsGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type Res_void_requestsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   order_id: string | null
   requested_by: string | null
   approved_by: string | null
   reason: string
-  status: $Enums.void_request_status | null
   rejection_reason: string | null
   created_at: Date | null
   processed_at: Date | null
+  tenant_id: string | null
+  status: $Enums.void_request_status | null
   _count: Res_void_requestsCountAggregateOutputType | null
   _min: Res_void_requestsMinAggregateOutputType | null
   _max: Res_void_requestsMaxAggregateOutputType | null
@@ -213,32 +213,28 @@ export type res_void_requestsWhereInput = {
   OR?: Prisma.res_void_requestsWhereInput[]
   NOT?: Prisma.res_void_requestsWhereInput | Prisma.res_void_requestsWhereInput[]
   id?: Prisma.UuidFilter<"res_void_requests"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   order_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   requested_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   approved_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   reason?: Prisma.StringFilter<"res_void_requests"> | string
-  status?: Prisma.Enumvoid_request_statusNullableFilter<"res_void_requests"> | $Enums.void_request_status | null
   rejection_reason?: Prisma.StringNullableFilter<"res_void_requests"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
   processed_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
+  status?: Prisma.Enumvoid_request_statusNullableFilter<"res_void_requests"> | $Enums.void_request_status | null
 }
 
 export type res_void_requestsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   requested_by?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   processed_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_orders?: Prisma.res_ordersOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_void_requestsWhereUniqueInput = Prisma.AtLeast<{
@@ -246,30 +242,28 @@ export type res_void_requestsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_void_requestsWhereInput | Prisma.res_void_requestsWhereInput[]
   OR?: Prisma.res_void_requestsWhereInput[]
   NOT?: Prisma.res_void_requestsWhereInput | Prisma.res_void_requestsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   order_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   requested_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   approved_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
   reason?: Prisma.StringFilter<"res_void_requests"> | string
-  status?: Prisma.Enumvoid_request_statusNullableFilter<"res_void_requests"> | $Enums.void_request_status | null
   rejection_reason?: Prisma.StringNullableFilter<"res_void_requests"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
   processed_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
+  status?: Prisma.Enumvoid_request_statusNullableFilter<"res_void_requests"> | $Enums.void_request_status | null
 }, "id">
 
 export type res_void_requestsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   requested_by?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   processed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_void_requestsCountOrderByAggregateInput
   _max?: Prisma.res_void_requestsMaxOrderByAggregateInput
   _min?: Prisma.res_void_requestsMinOrderByAggregateInput
@@ -280,546 +274,221 @@ export type res_void_requestsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_void_requestsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_void_requestsScalarWhereWithAggregatesInput | Prisma.res_void_requestsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_void_requests"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_void_requests"> | string | null
   order_id?: Prisma.UuidNullableWithAggregatesFilter<"res_void_requests"> | string | null
   requested_by?: Prisma.UuidNullableWithAggregatesFilter<"res_void_requests"> | string | null
   approved_by?: Prisma.UuidNullableWithAggregatesFilter<"res_void_requests"> | string | null
   reason?: Prisma.StringWithAggregatesFilter<"res_void_requests"> | string
-  status?: Prisma.Enumvoid_request_statusNullableWithAggregatesFilter<"res_void_requests"> | $Enums.void_request_status | null
   rejection_reason?: Prisma.StringNullableWithAggregatesFilter<"res_void_requests"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_void_requests"> | Date | string | null
   processed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_void_requests"> | Date | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_void_requests"> | string | null
+  status?: Prisma.Enumvoid_request_statusNullableWithAggregatesFilter<"res_void_requests"> | $Enums.void_request_status | null
 }
 
 export type res_void_requestsCreateInput = {
   id?: string
+  order_id?: string | null
   requested_by?: string | null
   approved_by?: string | null
   reason: string
-  status?: $Enums.void_request_status | null
   rejection_reason?: string | null
   created_at?: Date | string | null
   processed_at?: Date | string | null
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_void_requestsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_void_requestsInput
+  tenant_id?: string | null
+  status?: $Enums.void_request_status | null
 }
 
 export type res_void_requestsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   order_id?: string | null
   requested_by?: string | null
   approved_by?: string | null
   reason: string
-  status?: $Enums.void_request_status | null
   rejection_reason?: string | null
   created_at?: Date | string | null
   processed_at?: Date | string | null
+  tenant_id?: string | null
+  status?: $Enums.void_request_status | null
 }
 
 export type res_void_requestsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
   rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_void_requestsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_void_requestsNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
 }
 
 export type res_void_requestsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
   rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
 }
 
 export type res_void_requestsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   order_id?: string | null
   requested_by?: string | null
   approved_by?: string | null
   reason: string
-  status?: $Enums.void_request_status | null
   rejection_reason?: string | null
   created_at?: Date | string | null
   processed_at?: Date | string | null
+  tenant_id?: string | null
+  status?: $Enums.void_request_status | null
 }
 
 export type res_void_requestsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_void_requestsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
   rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
 }
 
-export type Res_void_requestsListRelationFilter = {
-  every?: Prisma.res_void_requestsWhereInput
-  some?: Prisma.res_void_requestsWhereInput
-  none?: Prisma.res_void_requestsWhereInput
-}
-
-export type res_void_requestsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type res_void_requestsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
 }
 
 export type res_void_requestsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   requested_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   rejection_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   processed_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_void_requestsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   requested_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   rejection_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   processed_at?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_void_requestsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   requested_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   rejection_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   processed_at?: Prisma.SortOrder
-}
-
-export type res_void_requestsCreateNestedManyWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_void_requestsCreateWithoutRes_ordersInput[] | Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput | Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput[]
-  createMany?: Prisma.res_void_requestsCreateManyRes_ordersInputEnvelope
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-}
-
-export type res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_void_requestsCreateWithoutRes_ordersInput[] | Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput | Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput[]
-  createMany?: Prisma.res_void_requestsCreateManyRes_ordersInputEnvelope
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-}
-
-export type res_void_requestsUpdateManyWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_void_requestsCreateWithoutRes_ordersInput[] | Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput | Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput[]
-  upsert?: Prisma.res_void_requestsUpsertWithWhereUniqueWithoutRes_ordersInput | Prisma.res_void_requestsUpsertWithWhereUniqueWithoutRes_ordersInput[]
-  createMany?: Prisma.res_void_requestsCreateManyRes_ordersInputEnvelope
-  set?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  disconnect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  delete?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  update?: Prisma.res_void_requestsUpdateWithWhereUniqueWithoutRes_ordersInput | Prisma.res_void_requestsUpdateWithWhereUniqueWithoutRes_ordersInput[]
-  updateMany?: Prisma.res_void_requestsUpdateManyWithWhereWithoutRes_ordersInput | Prisma.res_void_requestsUpdateManyWithWhereWithoutRes_ordersInput[]
-  deleteMany?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
-}
-
-export type res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_void_requestsCreateWithoutRes_ordersInput[] | Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput | Prisma.res_void_requestsCreateOrConnectWithoutRes_ordersInput[]
-  upsert?: Prisma.res_void_requestsUpsertWithWhereUniqueWithoutRes_ordersInput | Prisma.res_void_requestsUpsertWithWhereUniqueWithoutRes_ordersInput[]
-  createMany?: Prisma.res_void_requestsCreateManyRes_ordersInputEnvelope
-  set?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  disconnect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  delete?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  update?: Prisma.res_void_requestsUpdateWithWhereUniqueWithoutRes_ordersInput | Prisma.res_void_requestsUpdateWithWhereUniqueWithoutRes_ordersInput[]
-  updateMany?: Prisma.res_void_requestsUpdateManyWithWhereWithoutRes_ordersInput | Prisma.res_void_requestsUpdateManyWithWhereWithoutRes_ordersInput[]
-  deleteMany?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type NullableEnumvoid_request_statusFieldUpdateOperationsInput = {
   set?: $Enums.void_request_status | null
 }
 
-export type res_void_requestsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput> | Prisma.res_void_requestsCreateWithoutTenantsInput[] | Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput | Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_void_requestsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-}
-
-export type res_void_requestsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput> | Prisma.res_void_requestsCreateWithoutTenantsInput[] | Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput | Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_void_requestsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-}
-
-export type res_void_requestsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput> | Prisma.res_void_requestsCreateWithoutTenantsInput[] | Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput | Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_void_requestsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_void_requestsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_void_requestsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  disconnect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  delete?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  update?: Prisma.res_void_requestsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_void_requestsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_void_requestsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_void_requestsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
-}
-
-export type res_void_requestsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput> | Prisma.res_void_requestsCreateWithoutTenantsInput[] | Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput | Prisma.res_void_requestsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_void_requestsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_void_requestsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_void_requestsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  disconnect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  delete?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  connect?: Prisma.res_void_requestsWhereUniqueInput | Prisma.res_void_requestsWhereUniqueInput[]
-  update?: Prisma.res_void_requestsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_void_requestsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_void_requestsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_void_requestsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
-}
-
-export type res_void_requestsCreateWithoutRes_ordersInput = {
-  id?: string
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_void_requestsInput
-}
-
-export type res_void_requestsUncheckedCreateWithoutRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-}
-
-export type res_void_requestsCreateOrConnectWithoutRes_ordersInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_void_requestsCreateManyRes_ordersInputEnvelope = {
-  data: Prisma.res_void_requestsCreateManyRes_ordersInput | Prisma.res_void_requestsCreateManyRes_ordersInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_void_requestsUpsertWithWhereUniqueWithoutRes_ordersInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_void_requestsUpdateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedUpdateWithoutRes_ordersInput>
-  create: Prisma.XOR<Prisma.res_void_requestsCreateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_void_requestsUpdateWithWhereUniqueWithoutRes_ordersInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_void_requestsUpdateWithoutRes_ordersInput, Prisma.res_void_requestsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_void_requestsUpdateManyWithWhereWithoutRes_ordersInput = {
-  where: Prisma.res_void_requestsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_void_requestsUpdateManyMutationInput, Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersInput>
-}
-
-export type res_void_requestsScalarWhereInput = {
-  AND?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
-  OR?: Prisma.res_void_requestsScalarWhereInput[]
-  NOT?: Prisma.res_void_requestsScalarWhereInput | Prisma.res_void_requestsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_void_requests"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
-  order_id?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
-  requested_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
-  approved_by?: Prisma.UuidNullableFilter<"res_void_requests"> | string | null
-  reason?: Prisma.StringFilter<"res_void_requests"> | string
-  status?: Prisma.Enumvoid_request_statusNullableFilter<"res_void_requests"> | $Enums.void_request_status | null
-  rejection_reason?: Prisma.StringNullableFilter<"res_void_requests"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
-  processed_at?: Prisma.DateTimeNullableFilter<"res_void_requests"> | Date | string | null
-}
-
-export type res_void_requestsCreateWithoutTenantsInput = {
-  id?: string
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_void_requestsInput
-}
-
-export type res_void_requestsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  order_id?: string | null
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-}
-
-export type res_void_requestsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_void_requestsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_void_requestsCreateManyTenantsInput | Prisma.res_void_requestsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_void_requestsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_void_requestsUpdateWithoutTenantsInput, Prisma.res_void_requestsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_void_requestsCreateWithoutTenantsInput, Prisma.res_void_requestsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_void_requestsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_void_requestsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_void_requestsUpdateWithoutTenantsInput, Prisma.res_void_requestsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_void_requestsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_void_requestsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_void_requestsUpdateManyMutationInput, Prisma.res_void_requestsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_void_requestsCreateManyRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-}
-
-export type res_void_requestsUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_void_requestsNestedInput
-}
-
-export type res_void_requestsUncheckedUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_void_requestsUncheckedUpdateManyWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_void_requestsCreateManyTenantsInput = {
-  id?: string
-  order_id?: string | null
-  requested_by?: string | null
-  approved_by?: string | null
-  reason: string
-  status?: $Enums.void_request_status | null
-  rejection_reason?: string | null
-  created_at?: Date | string | null
-  processed_at?: Date | string | null
-}
-
-export type res_void_requestsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_void_requestsNestedInput
-}
-
-export type res_void_requestsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type res_void_requestsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.NullableEnumvoid_request_statusFieldUpdateOperationsInput | $Enums.void_request_status | null
-  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
 
 
 export type res_void_requestsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   requested_by?: boolean
   approved_by?: boolean
   reason?: boolean
-  status?: boolean
   rejection_reason?: boolean
   created_at?: boolean
   processed_at?: boolean
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_void_requests"]>
 
 export type res_void_requestsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   requested_by?: boolean
   approved_by?: boolean
   reason?: boolean
-  status?: boolean
   rejection_reason?: boolean
   created_at?: boolean
   processed_at?: boolean
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_void_requests"]>
 
 export type res_void_requestsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   requested_by?: boolean
   approved_by?: boolean
   reason?: boolean
-  status?: boolean
   rejection_reason?: boolean
   created_at?: boolean
   processed_at?: boolean
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_void_requests"]>
 
 export type res_void_requestsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   requested_by?: boolean
   approved_by?: boolean
   reason?: boolean
-  status?: boolean
   rejection_reason?: boolean
   created_at?: boolean
   processed_at?: boolean
+  tenant_id?: boolean
+  status?: boolean
 }
 
-export type res_void_requestsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "order_id" | "requested_by" | "approved_by" | "reason" | "status" | "rejection_reason" | "created_at" | "processed_at", ExtArgs["result"]["res_void_requests"]>
-export type res_void_requestsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
-}
-export type res_void_requestsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
-}
-export type res_void_requestsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_orders?: boolean | Prisma.res_void_requests$res_ordersArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_void_requests$tenantsArgs<ExtArgs>
-}
+export type res_void_requestsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_id" | "requested_by" | "approved_by" | "reason" | "rejection_reason" | "created_at" | "processed_at" | "tenant_id" | "status", ExtArgs["result"]["res_void_requests"]>
 
 export type $res_void_requestsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_void_requests"
-  objects: {
-    res_orders: Prisma.$res_ordersPayload<ExtArgs> | null
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     order_id: string | null
     requested_by: string | null
     approved_by: string | null
     reason: string
-    status: $Enums.void_request_status | null
     rejection_reason: string | null
     created_at: Date | null
     processed_at: Date | null
+    tenant_id: string | null
+    status: $Enums.void_request_status | null
   }, ExtArgs["result"]["res_void_requests"]>
   composites: {}
 }
@@ -1214,8 +883,6 @@ readonly fields: res_void_requestsFieldRefs;
  */
 export interface Prisma__res_void_requestsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_orders<T extends Prisma.res_void_requests$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_void_requests$res_ordersArgs<ExtArgs>>): Prisma.Prisma__res_ordersClient<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.res_void_requests$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_void_requests$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1246,15 +913,15 @@ export interface Prisma__res_void_requestsClient<T, Null = never, ExtArgs extend
  */
 export interface res_void_requestsFieldRefs {
   readonly id: Prisma.FieldRef<"res_void_requests", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_void_requests", 'String'>
   readonly order_id: Prisma.FieldRef<"res_void_requests", 'String'>
   readonly requested_by: Prisma.FieldRef<"res_void_requests", 'String'>
   readonly approved_by: Prisma.FieldRef<"res_void_requests", 'String'>
   readonly reason: Prisma.FieldRef<"res_void_requests", 'String'>
-  readonly status: Prisma.FieldRef<"res_void_requests", 'void_request_status'>
   readonly rejection_reason: Prisma.FieldRef<"res_void_requests", 'String'>
   readonly created_at: Prisma.FieldRef<"res_void_requests", 'DateTime'>
   readonly processed_at: Prisma.FieldRef<"res_void_requests", 'DateTime'>
+  readonly tenant_id: Prisma.FieldRef<"res_void_requests", 'String'>
+  readonly status: Prisma.FieldRef<"res_void_requests", 'void_request_status'>
 }
     
 
@@ -1271,10 +938,6 @@ export type res_void_requestsFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
   /**
    * Filter, which res_void_requests to fetch.
    */
@@ -1294,10 +957,6 @@ export type res_void_requestsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
-  /**
    * Filter, which res_void_requests to fetch.
    */
   where: Prisma.res_void_requestsWhereUniqueInput
@@ -1315,10 +974,6 @@ export type res_void_requestsFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
   /**
    * Filter, which res_void_requests to fetch.
    */
@@ -1368,10 +1023,6 @@ export type res_void_requestsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
-  /**
    * Filter, which res_void_requests to fetch.
    */
   where?: Prisma.res_void_requestsWhereInput
@@ -1419,10 +1070,6 @@ export type res_void_requestsFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
   /**
    * Filter, which res_void_requests to fetch.
    */
@@ -1472,10 +1119,6 @@ export type res_void_requestsCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_void_requests.
    */
   data: Prisma.XOR<Prisma.res_void_requestsCreateInput, Prisma.res_void_requestsUncheckedCreateInput>
@@ -1509,10 +1152,6 @@ export type res_void_requestsCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.res_void_requestsCreateManyInput | Prisma.res_void_requestsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1527,10 +1166,6 @@ export type res_void_requestsUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_void_requests.
    */
@@ -1583,10 +1218,6 @@ export type res_void_requestsUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many res_void_requests to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1601,10 +1232,6 @@ export type res_void_requestsUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_void_requests to update in case it exists.
    */
@@ -1632,10 +1259,6 @@ export type res_void_requestsDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
-  /**
    * Filter which res_void_requests to delete.
    */
   where: Prisma.res_void_requestsWhereUniqueInput
@@ -1656,44 +1279,6 @@ export type res_void_requestsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * res_void_requests.res_orders
- */
-export type res_void_requests$res_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_orders
-   */
-  select?: Prisma.res_ordersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_orders
-   */
-  omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  where?: Prisma.res_ordersWhereInput
-}
-
-/**
- * res_void_requests.tenants
- */
-export type res_void_requests$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_void_requests without action
  */
 export type res_void_requestsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1705,8 +1290,4 @@ export type res_void_requestsDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the res_void_requests
    */
   omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
 }

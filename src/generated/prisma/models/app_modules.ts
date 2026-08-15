@@ -240,8 +240,6 @@ export type app_modulesWhereInput = {
   is_active?: Prisma.BoolFilter<"app_modules"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"app_modules"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"app_modules"> | Date | string | null
-  app_screens?: Prisma.App_screensListRelationFilter
-  module_activity_types?: Prisma.Module_activity_typesListRelationFilter
 }
 
 export type app_modulesOrderByWithRelationInput = {
@@ -253,25 +251,21 @@ export type app_modulesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  app_screens?: Prisma.app_screensOrderByRelationAggregateInput
-  module_activity_types?: Prisma.module_activity_typesOrderByRelationAggregateInput
 }
 
 export type app_modulesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
   AND?: Prisma.app_modulesWhereInput | Prisma.app_modulesWhereInput[]
   OR?: Prisma.app_modulesWhereInput[]
   NOT?: Prisma.app_modulesWhereInput | Prisma.app_modulesWhereInput[]
+  code?: Prisma.StringFilter<"app_modules"> | string
   name?: Prisma.StringFilter<"app_modules"> | string
   description?: Prisma.StringNullableFilter<"app_modules"> | string | null
   sort_order?: Prisma.IntFilter<"app_modules"> | number
   is_active?: Prisma.BoolFilter<"app_modules"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"app_modules"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"app_modules"> | Date | string | null
-  app_screens?: Prisma.App_screensListRelationFilter
-  module_activity_types?: Prisma.Module_activity_typesListRelationFilter
-}, "id" | "code">
+}, "id">
 
 export type app_modulesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -312,8 +306,6 @@ export type app_modulesCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  app_screens?: Prisma.app_screensCreateNestedManyWithoutApp_modulesInput
-  module_activity_types?: Prisma.module_activity_typesCreateNestedManyWithoutApp_modulesInput
 }
 
 export type app_modulesUncheckedCreateInput = {
@@ -325,8 +317,6 @@ export type app_modulesUncheckedCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  app_screens?: Prisma.app_screensUncheckedCreateNestedManyWithoutApp_modulesInput
-  module_activity_types?: Prisma.module_activity_typesUncheckedCreateNestedManyWithoutApp_modulesInput
 }
 
 export type app_modulesUpdateInput = {
@@ -338,8 +328,6 @@ export type app_modulesUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateManyWithoutApp_modulesNestedInput
-  module_activity_types?: Prisma.module_activity_typesUpdateManyWithoutApp_modulesNestedInput
 }
 
 export type app_modulesUncheckedUpdateInput = {
@@ -351,8 +339,6 @@ export type app_modulesUncheckedUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUncheckedUpdateManyWithoutApp_modulesNestedInput
-  module_activity_types?: Prisma.module_activity_typesUncheckedUpdateManyWithoutApp_modulesNestedInput
 }
 
 export type app_modulesCreateManyInput = {
@@ -429,205 +415,6 @@ export type app_modulesSumOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
 }
 
-export type App_modulesScalarRelationFilter = {
-  is?: Prisma.app_modulesWhereInput
-  isNot?: Prisma.app_modulesWhereInput
-}
-
-export type app_modulesCreateNestedOneWithoutModule_activity_typesInput = {
-  create?: Prisma.XOR<Prisma.app_modulesCreateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedCreateWithoutModule_activity_typesInput>
-  connectOrCreate?: Prisma.app_modulesCreateOrConnectWithoutModule_activity_typesInput
-  connect?: Prisma.app_modulesWhereUniqueInput
-}
-
-export type app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput = {
-  create?: Prisma.XOR<Prisma.app_modulesCreateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedCreateWithoutModule_activity_typesInput>
-  connectOrCreate?: Prisma.app_modulesCreateOrConnectWithoutModule_activity_typesInput
-  upsert?: Prisma.app_modulesUpsertWithoutModule_activity_typesInput
-  connect?: Prisma.app_modulesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.app_modulesUpdateToOneWithWhereWithoutModule_activity_typesInput, Prisma.app_modulesUpdateWithoutModule_activity_typesInput>, Prisma.app_modulesUncheckedUpdateWithoutModule_activity_typesInput>
-}
-
-export type app_modulesCreateNestedOneWithoutApp_screensInput = {
-  create?: Prisma.XOR<Prisma.app_modulesCreateWithoutApp_screensInput, Prisma.app_modulesUncheckedCreateWithoutApp_screensInput>
-  connectOrCreate?: Prisma.app_modulesCreateOrConnectWithoutApp_screensInput
-  connect?: Prisma.app_modulesWhereUniqueInput
-}
-
-export type app_modulesUpdateOneRequiredWithoutApp_screensNestedInput = {
-  create?: Prisma.XOR<Prisma.app_modulesCreateWithoutApp_screensInput, Prisma.app_modulesUncheckedCreateWithoutApp_screensInput>
-  connectOrCreate?: Prisma.app_modulesCreateOrConnectWithoutApp_screensInput
-  upsert?: Prisma.app_modulesUpsertWithoutApp_screensInput
-  connect?: Prisma.app_modulesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.app_modulesUpdateToOneWithWhereWithoutApp_screensInput, Prisma.app_modulesUpdateWithoutApp_screensInput>, Prisma.app_modulesUncheckedUpdateWithoutApp_screensInput>
-}
-
-export type app_modulesCreateWithoutModule_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  sort_order?: number
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  app_screens?: Prisma.app_screensCreateNestedManyWithoutApp_modulesInput
-}
-
-export type app_modulesUncheckedCreateWithoutModule_activity_typesInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  sort_order?: number
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  app_screens?: Prisma.app_screensUncheckedCreateNestedManyWithoutApp_modulesInput
-}
-
-export type app_modulesCreateOrConnectWithoutModule_activity_typesInput = {
-  where: Prisma.app_modulesWhereUniqueInput
-  create: Prisma.XOR<Prisma.app_modulesCreateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedCreateWithoutModule_activity_typesInput>
-}
-
-export type app_modulesUpsertWithoutModule_activity_typesInput = {
-  update: Prisma.XOR<Prisma.app_modulesUpdateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedUpdateWithoutModule_activity_typesInput>
-  create: Prisma.XOR<Prisma.app_modulesCreateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedCreateWithoutModule_activity_typesInput>
-  where?: Prisma.app_modulesWhereInput
-}
-
-export type app_modulesUpdateToOneWithWhereWithoutModule_activity_typesInput = {
-  where?: Prisma.app_modulesWhereInput
-  data: Prisma.XOR<Prisma.app_modulesUpdateWithoutModule_activity_typesInput, Prisma.app_modulesUncheckedUpdateWithoutModule_activity_typesInput>
-}
-
-export type app_modulesUpdateWithoutModule_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateManyWithoutApp_modulesNestedInput
-}
-
-export type app_modulesUncheckedUpdateWithoutModule_activity_typesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUncheckedUpdateManyWithoutApp_modulesNestedInput
-}
-
-export type app_modulesCreateWithoutApp_screensInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  sort_order?: number
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesCreateNestedManyWithoutApp_modulesInput
-}
-
-export type app_modulesUncheckedCreateWithoutApp_screensInput = {
-  id?: string
-  code: string
-  name: string
-  description?: string | null
-  sort_order?: number
-  is_active?: boolean
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedCreateNestedManyWithoutApp_modulesInput
-}
-
-export type app_modulesCreateOrConnectWithoutApp_screensInput = {
-  where: Prisma.app_modulesWhereUniqueInput
-  create: Prisma.XOR<Prisma.app_modulesCreateWithoutApp_screensInput, Prisma.app_modulesUncheckedCreateWithoutApp_screensInput>
-}
-
-export type app_modulesUpsertWithoutApp_screensInput = {
-  update: Prisma.XOR<Prisma.app_modulesUpdateWithoutApp_screensInput, Prisma.app_modulesUncheckedUpdateWithoutApp_screensInput>
-  create: Prisma.XOR<Prisma.app_modulesCreateWithoutApp_screensInput, Prisma.app_modulesUncheckedCreateWithoutApp_screensInput>
-  where?: Prisma.app_modulesWhereInput
-}
-
-export type app_modulesUpdateToOneWithWhereWithoutApp_screensInput = {
-  where?: Prisma.app_modulesWhereInput
-  data: Prisma.XOR<Prisma.app_modulesUpdateWithoutApp_screensInput, Prisma.app_modulesUncheckedUpdateWithoutApp_screensInput>
-}
-
-export type app_modulesUpdateWithoutApp_screensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUpdateManyWithoutApp_modulesNestedInput
-}
-
-export type app_modulesUncheckedUpdateWithoutApp_screensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  module_activity_types?: Prisma.module_activity_typesUncheckedUpdateManyWithoutApp_modulesNestedInput
-}
-
-
-/**
- * Count Type App_modulesCountOutputType
- */
-
-export type App_modulesCountOutputType = {
-  app_screens: number
-  module_activity_types: number
-}
-
-export type App_modulesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | App_modulesCountOutputTypeCountApp_screensArgs
-  module_activity_types?: boolean | App_modulesCountOutputTypeCountModule_activity_typesArgs
-}
-
-/**
- * App_modulesCountOutputType without action
- */
-export type App_modulesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the App_modulesCountOutputType
-   */
-  select?: Prisma.App_modulesCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * App_modulesCountOutputType without action
- */
-export type App_modulesCountOutputTypeCountApp_screensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.app_screensWhereInput
-}
-
-/**
- * App_modulesCountOutputType without action
- */
-export type App_modulesCountOutputTypeCountModule_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.module_activity_typesWhereInput
-}
 
 
 export type app_modulesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -639,9 +426,6 @@ export type app_modulesSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  app_screens?: boolean | Prisma.app_modules$app_screensArgs<ExtArgs>
-  module_activity_types?: boolean | Prisma.app_modules$module_activity_typesArgs<ExtArgs>
-  _count?: boolean | Prisma.App_modulesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["app_modules"]>
 
 export type app_modulesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -678,20 +462,10 @@ export type app_modulesSelectScalar = {
 }
 
 export type app_modulesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "sort_order" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["app_modules"]>
-export type app_modulesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_modules$app_screensArgs<ExtArgs>
-  module_activity_types?: boolean | Prisma.app_modules$module_activity_typesArgs<ExtArgs>
-  _count?: boolean | Prisma.App_modulesCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type app_modulesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type app_modulesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $app_modulesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "app_modules"
-  objects: {
-    app_screens: Prisma.$app_screensPayload<ExtArgs>[]
-    module_activity_types: Prisma.$module_activity_typesPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     code: string
@@ -1095,8 +869,6 @@ readonly fields: app_modulesFieldRefs;
  */
 export interface Prisma__app_modulesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  app_screens<T extends Prisma.app_modules$app_screensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modules$app_screensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  module_activity_types<T extends Prisma.app_modules$module_activity_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modules$module_activity_typesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$module_activity_typesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1151,10 +923,6 @@ export type app_modulesFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * Filter, which app_modules to fetch.
    */
   where: Prisma.app_modulesWhereUniqueInput
@@ -1173,10 +941,6 @@ export type app_modulesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * Filter, which app_modules to fetch.
    */
   where: Prisma.app_modulesWhereUniqueInput
@@ -1194,10 +958,6 @@ export type app_modulesFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the app_modules
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
   /**
    * Filter, which app_modules to fetch.
    */
@@ -1247,10 +1007,6 @@ export type app_modulesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * Filter, which app_modules to fetch.
    */
   where?: Prisma.app_modulesWhereInput
@@ -1298,10 +1054,6 @@ export type app_modulesFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the app_modules
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
   /**
    * Filter, which app_modules to fetch.
    */
@@ -1351,10 +1103,6 @@ export type app_modulesCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * The data needed to create a app_modules.
    */
   data: Prisma.XOR<Prisma.app_modulesCreateInput, Prisma.app_modulesUncheckedCreateInput>
@@ -1402,10 +1150,6 @@ export type app_modulesUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the app_modules
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
   /**
    * The data needed to update a app_modules.
    */
@@ -1473,10 +1217,6 @@ export type app_modulesUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * The filter to search for the app_modules to update in case it exists.
    */
   where: Prisma.app_modulesWhereUniqueInput
@@ -1503,10 +1243,6 @@ export type app_modulesDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
-  /**
    * Filter which app_modules to delete.
    */
   where: Prisma.app_modulesWhereUniqueInput
@@ -1527,54 +1263,6 @@ export type app_modulesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * app_modules.app_screens
- */
-export type app_modules$app_screensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the app_screens
-   */
-  select?: Prisma.app_screensSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the app_screens
-   */
-  omit?: Prisma.app_screensOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_screensInclude<ExtArgs> | null
-  where?: Prisma.app_screensWhereInput
-  orderBy?: Prisma.app_screensOrderByWithRelationInput | Prisma.app_screensOrderByWithRelationInput[]
-  cursor?: Prisma.app_screensWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.App_screensScalarFieldEnum | Prisma.App_screensScalarFieldEnum[]
-}
-
-/**
- * app_modules.module_activity_types
- */
-export type app_modules$module_activity_typesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the module_activity_types
-   */
-  select?: Prisma.module_activity_typesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the module_activity_types
-   */
-  omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
-  where?: Prisma.module_activity_typesWhereInput
-  orderBy?: Prisma.module_activity_typesOrderByWithRelationInput | Prisma.module_activity_typesOrderByWithRelationInput[]
-  cursor?: Prisma.module_activity_typesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Module_activity_typesScalarFieldEnum | Prisma.Module_activity_typesScalarFieldEnum[]
-}
-
-/**
  * app_modules without action
  */
 export type app_modulesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1586,8 +1274,4 @@ export type app_modulesDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the app_modules
    */
   omit?: Prisma.app_modulesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.app_modulesInclude<ExtArgs> | null
 }

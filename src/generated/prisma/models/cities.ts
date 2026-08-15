@@ -211,7 +211,6 @@ export type citiesOrderByWithRelationInput = {
 
 export type citiesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name_country_id?: Prisma.citiesNameCountry_idCompoundUniqueInput
   AND?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
   OR?: Prisma.citiesWhereInput[]
   NOT?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
@@ -224,7 +223,7 @@ export type citiesWhereUniqueInput = Prisma.AtLeast<{
   countries?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   stores?: Prisma.StoresListRelationFilter
   suppliers?: Prisma.SuppliersListRelationFilter
-}, "id" | "name_country_id">
+}, "id">
 
 export type citiesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -327,11 +326,6 @@ export type citiesUncheckedUpdateManyInput = {
 export type CitiesScalarRelationFilter = {
   is?: Prisma.citiesWhereInput
   isNot?: Prisma.citiesWhereInput
-}
-
-export type citiesNameCountry_idCompoundUniqueInput = {
-  name: string
-  country_id: string
 }
 
 export type citiesCountOrderByAggregateInput = {

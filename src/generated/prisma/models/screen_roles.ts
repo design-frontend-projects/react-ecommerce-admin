@@ -166,16 +166,12 @@ export type screen_rolesWhereInput = {
   screen_id?: Prisma.UuidFilter<"screen_roles"> | string
   role_id?: Prisma.UuidFilter<"screen_roles"> | string
   created_at?: Prisma.DateTimeNullableFilter<"screen_roles"> | Date | string | null
-  roles?: Prisma.XOR<Prisma.RolesScalarRelationFilter, Prisma.rolesWhereInput>
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }
 
 export type screen_rolesOrderByWithRelationInput = {
   screen_id?: Prisma.SortOrder
   role_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  roles?: Prisma.rolesOrderByWithRelationInput
-  app_screens?: Prisma.app_screensOrderByWithRelationInput
 }
 
 export type screen_rolesWhereUniqueInput = Prisma.AtLeast<{
@@ -186,8 +182,6 @@ export type screen_rolesWhereUniqueInput = Prisma.AtLeast<{
   screen_id?: Prisma.UuidFilter<"screen_roles"> | string
   role_id?: Prisma.UuidFilter<"screen_roles"> | string
   created_at?: Prisma.DateTimeNullableFilter<"screen_roles"> | Date | string | null
-  roles?: Prisma.XOR<Prisma.RolesScalarRelationFilter, Prisma.rolesWhereInput>
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }, "screen_id_role_id">
 
 export type screen_rolesOrderByWithAggregationInput = {
@@ -209,9 +203,9 @@ export type screen_rolesScalarWhereWithAggregatesInput = {
 }
 
 export type screen_rolesCreateInput = {
+  screen_id: string
+  role_id: string
   created_at?: Date | string | null
-  roles: Prisma.rolesCreateNestedOneWithoutScreen_rolesInput
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_rolesInput
 }
 
 export type screen_rolesUncheckedCreateInput = {
@@ -221,9 +215,9 @@ export type screen_rolesUncheckedCreateInput = {
 }
 
 export type screen_rolesUpdateInput = {
+  screen_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roles?: Prisma.rolesUpdateOneRequiredWithoutScreen_rolesNestedInput
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_rolesNestedInput
 }
 
 export type screen_rolesUncheckedUpdateInput = {
@@ -239,6 +233,8 @@ export type screen_rolesCreateManyInput = {
 }
 
 export type screen_rolesUpdateManyMutationInput = {
+  screen_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -246,16 +242,6 @@ export type screen_rolesUncheckedUpdateManyInput = {
   screen_id?: Prisma.StringFieldUpdateOperationsInput | string
   role_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type Screen_rolesListRelationFilter = {
-  every?: Prisma.screen_rolesWhereInput
-  some?: Prisma.screen_rolesWhereInput
-  none?: Prisma.screen_rolesWhereInput
-}
-
-export type screen_rolesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type screen_rolesScreen_idRole_idCompoundUniqueInput = {
@@ -281,235 +267,24 @@ export type screen_rolesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
-export type screen_rolesCreateNestedManyWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput> | Prisma.screen_rolesCreateWithoutRolesInput[] | Prisma.screen_rolesUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutRolesInput | Prisma.screen_rolesCreateOrConnectWithoutRolesInput[]
-  createMany?: Prisma.screen_rolesCreateManyRolesInputEnvelope
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-}
-
-export type screen_rolesUncheckedCreateNestedManyWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput> | Prisma.screen_rolesCreateWithoutRolesInput[] | Prisma.screen_rolesUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutRolesInput | Prisma.screen_rolesCreateOrConnectWithoutRolesInput[]
-  createMany?: Prisma.screen_rolesCreateManyRolesInputEnvelope
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-}
-
-export type screen_rolesUpdateManyWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput> | Prisma.screen_rolesCreateWithoutRolesInput[] | Prisma.screen_rolesUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutRolesInput | Prisma.screen_rolesCreateOrConnectWithoutRolesInput[]
-  upsert?: Prisma.screen_rolesUpsertWithWhereUniqueWithoutRolesInput | Prisma.screen_rolesUpsertWithWhereUniqueWithoutRolesInput[]
-  createMany?: Prisma.screen_rolesCreateManyRolesInputEnvelope
-  set?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  disconnect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  delete?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  update?: Prisma.screen_rolesUpdateWithWhereUniqueWithoutRolesInput | Prisma.screen_rolesUpdateWithWhereUniqueWithoutRolesInput[]
-  updateMany?: Prisma.screen_rolesUpdateManyWithWhereWithoutRolesInput | Prisma.screen_rolesUpdateManyWithWhereWithoutRolesInput[]
-  deleteMany?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-}
-
-export type screen_rolesUncheckedUpdateManyWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput> | Prisma.screen_rolesCreateWithoutRolesInput[] | Prisma.screen_rolesUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutRolesInput | Prisma.screen_rolesCreateOrConnectWithoutRolesInput[]
-  upsert?: Prisma.screen_rolesUpsertWithWhereUniqueWithoutRolesInput | Prisma.screen_rolesUpsertWithWhereUniqueWithoutRolesInput[]
-  createMany?: Prisma.screen_rolesCreateManyRolesInputEnvelope
-  set?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  disconnect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  delete?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  update?: Prisma.screen_rolesUpdateWithWhereUniqueWithoutRolesInput | Prisma.screen_rolesUpdateWithWhereUniqueWithoutRolesInput[]
-  updateMany?: Prisma.screen_rolesUpdateManyWithWhereWithoutRolesInput | Prisma.screen_rolesUpdateManyWithWhereWithoutRolesInput[]
-  deleteMany?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-}
-
-export type screen_rolesCreateNestedManyWithoutApp_screensInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput> | Prisma.screen_rolesCreateWithoutApp_screensInput[] | Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput | Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput[]
-  createMany?: Prisma.screen_rolesCreateManyApp_screensInputEnvelope
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-}
-
-export type screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput> | Prisma.screen_rolesCreateWithoutApp_screensInput[] | Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput | Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput[]
-  createMany?: Prisma.screen_rolesCreateManyApp_screensInputEnvelope
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-}
-
-export type screen_rolesUpdateManyWithoutApp_screensNestedInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput> | Prisma.screen_rolesCreateWithoutApp_screensInput[] | Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput | Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput[]
-  upsert?: Prisma.screen_rolesUpsertWithWhereUniqueWithoutApp_screensInput | Prisma.screen_rolesUpsertWithWhereUniqueWithoutApp_screensInput[]
-  createMany?: Prisma.screen_rolesCreateManyApp_screensInputEnvelope
-  set?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  disconnect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  delete?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  update?: Prisma.screen_rolesUpdateWithWhereUniqueWithoutApp_screensInput | Prisma.screen_rolesUpdateWithWhereUniqueWithoutApp_screensInput[]
-  updateMany?: Prisma.screen_rolesUpdateManyWithWhereWithoutApp_screensInput | Prisma.screen_rolesUpdateManyWithWhereWithoutApp_screensInput[]
-  deleteMany?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-}
-
-export type screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput = {
-  create?: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput> | Prisma.screen_rolesCreateWithoutApp_screensInput[] | Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput[]
-  connectOrCreate?: Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput | Prisma.screen_rolesCreateOrConnectWithoutApp_screensInput[]
-  upsert?: Prisma.screen_rolesUpsertWithWhereUniqueWithoutApp_screensInput | Prisma.screen_rolesUpsertWithWhereUniqueWithoutApp_screensInput[]
-  createMany?: Prisma.screen_rolesCreateManyApp_screensInputEnvelope
-  set?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  disconnect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  delete?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  connect?: Prisma.screen_rolesWhereUniqueInput | Prisma.screen_rolesWhereUniqueInput[]
-  update?: Prisma.screen_rolesUpdateWithWhereUniqueWithoutApp_screensInput | Prisma.screen_rolesUpdateWithWhereUniqueWithoutApp_screensInput[]
-  updateMany?: Prisma.screen_rolesUpdateManyWithWhereWithoutApp_screensInput | Prisma.screen_rolesUpdateManyWithWhereWithoutApp_screensInput[]
-  deleteMany?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-}
-
-export type screen_rolesCreateWithoutRolesInput = {
-  created_at?: Date | string | null
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_rolesInput
-}
-
-export type screen_rolesUncheckedCreateWithoutRolesInput = {
-  screen_id: string
-  created_at?: Date | string | null
-}
-
-export type screen_rolesCreateOrConnectWithoutRolesInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  create: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput>
-}
-
-export type screen_rolesCreateManyRolesInputEnvelope = {
-  data: Prisma.screen_rolesCreateManyRolesInput | Prisma.screen_rolesCreateManyRolesInput[]
-  skipDuplicates?: boolean
-}
-
-export type screen_rolesUpsertWithWhereUniqueWithoutRolesInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  update: Prisma.XOR<Prisma.screen_rolesUpdateWithoutRolesInput, Prisma.screen_rolesUncheckedUpdateWithoutRolesInput>
-  create: Prisma.XOR<Prisma.screen_rolesCreateWithoutRolesInput, Prisma.screen_rolesUncheckedCreateWithoutRolesInput>
-}
-
-export type screen_rolesUpdateWithWhereUniqueWithoutRolesInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  data: Prisma.XOR<Prisma.screen_rolesUpdateWithoutRolesInput, Prisma.screen_rolesUncheckedUpdateWithoutRolesInput>
-}
-
-export type screen_rolesUpdateManyWithWhereWithoutRolesInput = {
-  where: Prisma.screen_rolesScalarWhereInput
-  data: Prisma.XOR<Prisma.screen_rolesUpdateManyMutationInput, Prisma.screen_rolesUncheckedUpdateManyWithoutRolesInput>
-}
-
-export type screen_rolesScalarWhereInput = {
-  AND?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-  OR?: Prisma.screen_rolesScalarWhereInput[]
-  NOT?: Prisma.screen_rolesScalarWhereInput | Prisma.screen_rolesScalarWhereInput[]
-  screen_id?: Prisma.UuidFilter<"screen_roles"> | string
-  role_id?: Prisma.UuidFilter<"screen_roles"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"screen_roles"> | Date | string | null
-}
-
-export type screen_rolesCreateWithoutApp_screensInput = {
-  created_at?: Date | string | null
-  roles: Prisma.rolesCreateNestedOneWithoutScreen_rolesInput
-}
-
-export type screen_rolesUncheckedCreateWithoutApp_screensInput = {
-  role_id: string
-  created_at?: Date | string | null
-}
-
-export type screen_rolesCreateOrConnectWithoutApp_screensInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  create: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput>
-}
-
-export type screen_rolesCreateManyApp_screensInputEnvelope = {
-  data: Prisma.screen_rolesCreateManyApp_screensInput | Prisma.screen_rolesCreateManyApp_screensInput[]
-  skipDuplicates?: boolean
-}
-
-export type screen_rolesUpsertWithWhereUniqueWithoutApp_screensInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  update: Prisma.XOR<Prisma.screen_rolesUpdateWithoutApp_screensInput, Prisma.screen_rolesUncheckedUpdateWithoutApp_screensInput>
-  create: Prisma.XOR<Prisma.screen_rolesCreateWithoutApp_screensInput, Prisma.screen_rolesUncheckedCreateWithoutApp_screensInput>
-}
-
-export type screen_rolesUpdateWithWhereUniqueWithoutApp_screensInput = {
-  where: Prisma.screen_rolesWhereUniqueInput
-  data: Prisma.XOR<Prisma.screen_rolesUpdateWithoutApp_screensInput, Prisma.screen_rolesUncheckedUpdateWithoutApp_screensInput>
-}
-
-export type screen_rolesUpdateManyWithWhereWithoutApp_screensInput = {
-  where: Prisma.screen_rolesScalarWhereInput
-  data: Prisma.XOR<Prisma.screen_rolesUpdateManyMutationInput, Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensInput>
-}
-
-export type screen_rolesCreateManyRolesInput = {
-  screen_id: string
-  created_at?: Date | string | null
-}
-
-export type screen_rolesUpdateWithoutRolesInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_rolesNestedInput
-}
-
-export type screen_rolesUncheckedUpdateWithoutRolesInput = {
-  screen_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type screen_rolesUncheckedUpdateManyWithoutRolesInput = {
-  screen_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type screen_rolesCreateManyApp_screensInput = {
-  role_id: string
-  created_at?: Date | string | null
-}
-
-export type screen_rolesUpdateWithoutApp_screensInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roles?: Prisma.rolesUpdateOneRequiredWithoutScreen_rolesNestedInput
-}
-
-export type screen_rolesUncheckedUpdateWithoutApp_screensInput = {
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type screen_rolesUncheckedUpdateManyWithoutApp_screensInput = {
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
 
 
 export type screen_rolesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   screen_id?: boolean
   role_id?: boolean
   created_at?: boolean
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_roles"]>
 
 export type screen_rolesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   screen_id?: boolean
   role_id?: boolean
   created_at?: boolean
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_roles"]>
 
 export type screen_rolesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   screen_id?: boolean
   role_id?: boolean
   created_at?: boolean
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_roles"]>
 
 export type screen_rolesSelectScalar = {
@@ -519,25 +294,10 @@ export type screen_rolesSelectScalar = {
 }
 
 export type screen_rolesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"screen_id" | "role_id" | "created_at", ExtArgs["result"]["screen_roles"]>
-export type screen_rolesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
-}
-export type screen_rolesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
-}
-export type screen_rolesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.rolesDefaultArgs<ExtArgs>
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
-}
 
 export type $screen_rolesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "screen_roles"
-  objects: {
-    roles: Prisma.$rolesPayload<ExtArgs>
-    app_screens: Prisma.$app_screensPayload<ExtArgs>
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     screen_id: string
     role_id: string
@@ -936,8 +696,6 @@ readonly fields: screen_rolesFieldRefs;
  */
 export interface Prisma__screen_rolesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  roles<T extends Prisma.rolesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.rolesDefaultArgs<ExtArgs>>): Prisma.Prisma__rolesClient<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  app_screens<T extends Prisma.app_screensDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screensDefaultArgs<ExtArgs>>): Prisma.Prisma__app_screensClient<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -987,10 +745,6 @@ export type screen_rolesFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
-  /**
    * Filter, which screen_roles to fetch.
    */
   where: Prisma.screen_rolesWhereUniqueInput
@@ -1009,10 +763,6 @@ export type screen_rolesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
-  /**
    * Filter, which screen_roles to fetch.
    */
   where: Prisma.screen_rolesWhereUniqueInput
@@ -1030,10 +780,6 @@ export type screen_rolesFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
   /**
    * Filter, which screen_roles to fetch.
    */
@@ -1083,10 +829,6 @@ export type screen_rolesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
-  /**
    * Filter, which screen_roles to fetch.
    */
   where?: Prisma.screen_rolesWhereInput
@@ -1134,10 +876,6 @@ export type screen_rolesFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
   /**
    * Filter, which screen_roles to fetch.
    */
@@ -1187,10 +925,6 @@ export type screen_rolesCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
-  /**
    * The data needed to create a screen_roles.
    */
   data: Prisma.XOR<Prisma.screen_rolesCreateInput, Prisma.screen_rolesUncheckedCreateInput>
@@ -1224,10 +958,6 @@ export type screen_rolesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.screen_rolesCreateManyInput | Prisma.screen_rolesCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1242,10 +972,6 @@ export type screen_rolesUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
   /**
    * The data needed to update a screen_roles.
    */
@@ -1298,10 +1024,6 @@ export type screen_rolesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many screen_roles to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1316,10 +1038,6 @@ export type screen_rolesUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
   /**
    * The filter to search for the screen_roles to update in case it exists.
    */
@@ -1346,10 +1064,6 @@ export type screen_rolesDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
   /**
    * Filter which screen_roles to delete.
    */
@@ -1382,8 +1096,4 @@ export type screen_rolesDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the screen_roles
    */
   omit?: Prisma.screen_rolesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
 }

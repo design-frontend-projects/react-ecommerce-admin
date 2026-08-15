@@ -50,16 +50,13 @@ export type Res_ordersSumAggregateOutputType = {
 
 export type Res_ordersMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_number: string | null
   table_id: string | null
   shift_id: string | null
   created_by: string | null
   customer_name: string | null
-  status: $Enums.order_status | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
-  discount_type: $Enums.discount_type_enum | null
   tax_amount: runtime.Decimal | null
   tip_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
@@ -74,22 +71,22 @@ export type Res_ordersMinAggregateOutputType = {
   change_amount: runtime.Decimal | null
   auth_user_id: string | null
   shipment_id: string | null
-  applied_promotion_id: string | null
   order_type: string | null
+  tenant_id: string | null
+  status: $Enums.order_status | null
+  discount_type: $Enums.discount_type_enum | null
+  applied_promotion_id: string | null
 }
 
 export type Res_ordersMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_number: string | null
   table_id: string | null
   shift_id: string | null
   created_by: string | null
   customer_name: string | null
-  status: $Enums.order_status | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
-  discount_type: $Enums.discount_type_enum | null
   tax_amount: runtime.Decimal | null
   tip_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
@@ -104,22 +101,22 @@ export type Res_ordersMaxAggregateOutputType = {
   change_amount: runtime.Decimal | null
   auth_user_id: string | null
   shipment_id: string | null
-  applied_promotion_id: string | null
   order_type: string | null
+  tenant_id: string | null
+  status: $Enums.order_status | null
+  discount_type: $Enums.discount_type_enum | null
+  applied_promotion_id: string | null
 }
 
 export type Res_ordersCountAggregateOutputType = {
   id: number
-  tenant_id: number
   order_number: number
   table_id: number
   shift_id: number
   created_by: number
   customer_name: number
-  status: number
   subtotal: number
   discount_amount: number
-  discount_type: number
   tax_amount: number
   tip_amount: number
   total_amount: number
@@ -134,8 +131,11 @@ export type Res_ordersCountAggregateOutputType = {
   change_amount: number
   auth_user_id: number
   shipment_id: number
-  applied_promotion_id: number
   order_type: number
+  tenant_id: number
+  status: number
+  discount_type: number
+  applied_promotion_id: number
   _all: number
 }
 
@@ -164,16 +164,13 @@ export type Res_ordersSumAggregateInputType = {
 
 export type Res_ordersMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_number?: true
   table_id?: true
   shift_id?: true
   created_by?: true
   customer_name?: true
-  status?: true
   subtotal?: true
   discount_amount?: true
-  discount_type?: true
   tax_amount?: true
   tip_amount?: true
   total_amount?: true
@@ -188,22 +185,22 @@ export type Res_ordersMinAggregateInputType = {
   change_amount?: true
   auth_user_id?: true
   shipment_id?: true
-  applied_promotion_id?: true
   order_type?: true
+  tenant_id?: true
+  status?: true
+  discount_type?: true
+  applied_promotion_id?: true
 }
 
 export type Res_ordersMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_number?: true
   table_id?: true
   shift_id?: true
   created_by?: true
   customer_name?: true
-  status?: true
   subtotal?: true
   discount_amount?: true
-  discount_type?: true
   tax_amount?: true
   tip_amount?: true
   total_amount?: true
@@ -218,22 +215,22 @@ export type Res_ordersMaxAggregateInputType = {
   change_amount?: true
   auth_user_id?: true
   shipment_id?: true
-  applied_promotion_id?: true
   order_type?: true
+  tenant_id?: true
+  status?: true
+  discount_type?: true
+  applied_promotion_id?: true
 }
 
 export type Res_ordersCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_number?: true
   table_id?: true
   shift_id?: true
   created_by?: true
   customer_name?: true
-  status?: true
   subtotal?: true
   discount_amount?: true
-  discount_type?: true
   tax_amount?: true
   tip_amount?: true
   total_amount?: true
@@ -248,8 +245,11 @@ export type Res_ordersCountAggregateInputType = {
   change_amount?: true
   auth_user_id?: true
   shipment_id?: true
-  applied_promotion_id?: true
   order_type?: true
+  tenant_id?: true
+  status?: true
+  discount_type?: true
+  applied_promotion_id?: true
   _all?: true
 }
 
@@ -341,16 +341,13 @@ export type res_ordersGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type Res_ordersGroupByOutputType = {
   id: string
-  tenant_id: string | null
   order_number: string
   table_id: string | null
   shift_id: string | null
   created_by: string | null
   customer_name: string | null
-  status: $Enums.order_status | null
   subtotal: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
-  discount_type: $Enums.discount_type_enum | null
   tax_amount: runtime.Decimal | null
   tip_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
@@ -365,8 +362,11 @@ export type Res_ordersGroupByOutputType = {
   change_amount: runtime.Decimal | null
   auth_user_id: string | null
   shipment_id: string | null
-  applied_promotion_id: string | null
   order_type: string | null
+  tenant_id: string | null
+  status: $Enums.order_status | null
+  discount_type: $Enums.discount_type_enum | null
+  applied_promotion_id: string | null
   _count: Res_ordersCountAggregateOutputType | null
   _avg: Res_ordersAvgAggregateOutputType | null
   _sum: Res_ordersSumAggregateOutputType | null
@@ -394,16 +394,13 @@ export type res_ordersWhereInput = {
   OR?: Prisma.res_ordersWhereInput[]
   NOT?: Prisma.res_ordersWhereInput | Prisma.res_ordersWhereInput[]
   id?: Prisma.UuidFilter<"res_orders"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   order_number?: Prisma.StringFilter<"res_orders"> | string
   table_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   shift_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   created_by?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   customer_name?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
   subtotal?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
   tax_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -418,32 +415,22 @@ export type res_ordersWhereInput = {
   change_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   shipment_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   order_type?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  promotion_usage?: Prisma.Promotion_usageListRelationFilter
-  res_cash_movements?: Prisma.Res_cash_movementsListRelationFilter
-  res_order_items?: Prisma.Res_order_itemsListRelationFilter
-  promotions?: Prisma.XOR<Prisma.PromotionsNullableScalarRelationFilter, Prisma.promotionsWhereInput> | null
-  res_shifts?: Prisma.XOR<Prisma.Res_shiftsNullableScalarRelationFilter, Prisma.res_shiftsWhereInput> | null
-  res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
-  res_shipment?: Prisma.XOR<Prisma.Res_shipmentsNullableScalarRelationFilter, Prisma.res_shipmentsWhereInput> | null
-  res_void_requests?: Prisma.Res_void_requestsListRelationFilter
-  refunds?: Prisma.RefundsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
 }
 
 export type res_ordersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_number?: Prisma.SortOrder
   table_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   tip_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -458,35 +445,25 @@ export type res_ordersOrderByWithRelationInput = {
   change_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shipment_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  applied_promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  promotion_usage?: Prisma.promotion_usageOrderByRelationAggregateInput
-  res_cash_movements?: Prisma.res_cash_movementsOrderByRelationAggregateInput
-  res_order_items?: Prisma.res_order_itemsOrderByRelationAggregateInput
-  promotions?: Prisma.promotionsOrderByWithRelationInput
-  res_shifts?: Prisma.res_shiftsOrderByWithRelationInput
-  res_tables?: Prisma.res_tablesOrderByWithRelationInput
-  res_shipment?: Prisma.res_shipmentsOrderByWithRelationInput
-  res_void_requests?: Prisma.res_void_requestsOrderByRelationAggregateInput
-  refunds?: Prisma.refundsOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  applied_promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_ordersWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  order_number?: string
   AND?: Prisma.res_ordersWhereInput | Prisma.res_ordersWhereInput[]
   OR?: Prisma.res_ordersWhereInput[]
   NOT?: Prisma.res_ordersWhereInput | Prisma.res_ordersWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  order_number?: Prisma.StringFilter<"res_orders"> | string
   table_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   shift_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   created_by?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   customer_name?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
   subtotal?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
   tax_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -501,32 +478,22 @@ export type res_ordersWhereUniqueInput = Prisma.AtLeast<{
   change_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   shipment_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
   order_type?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  promotion_usage?: Prisma.Promotion_usageListRelationFilter
-  res_cash_movements?: Prisma.Res_cash_movementsListRelationFilter
-  res_order_items?: Prisma.Res_order_itemsListRelationFilter
-  promotions?: Prisma.XOR<Prisma.PromotionsNullableScalarRelationFilter, Prisma.promotionsWhereInput> | null
-  res_shifts?: Prisma.XOR<Prisma.Res_shiftsNullableScalarRelationFilter, Prisma.res_shiftsWhereInput> | null
-  res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
-  res_shipment?: Prisma.XOR<Prisma.Res_shipmentsNullableScalarRelationFilter, Prisma.res_shipmentsWhereInput> | null
-  res_void_requests?: Prisma.Res_void_requestsListRelationFilter
-  refunds?: Prisma.RefundsListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
-}, "id" | "order_number">
+  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+}, "id">
 
 export type res_ordersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_number?: Prisma.SortOrder
   table_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shift_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   discount_amount?: Prisma.SortOrderInput | Prisma.SortOrder
-  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   tip_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -541,8 +508,11 @@ export type res_ordersOrderByWithAggregationInput = {
   change_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   shipment_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  applied_promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  applied_promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_ordersCountOrderByAggregateInput
   _avg?: Prisma.res_ordersAvgOrderByAggregateInput
   _max?: Prisma.res_ordersMaxOrderByAggregateInput
@@ -555,16 +525,13 @@ export type res_ordersScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_ordersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_ordersScalarWhereWithAggregatesInput | Prisma.res_ordersScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_orders"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   order_number?: Prisma.StringWithAggregatesFilter<"res_orders"> | string
   table_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   shift_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   created_by?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   customer_name?: Prisma.StringNullableWithAggregatesFilter<"res_orders"> | string | null
-  status?: Prisma.Enumorder_statusNullableWithAggregatesFilter<"res_orders"> | $Enums.order_status | null
   subtotal?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableWithAggregatesFilter<"res_orders"> | $Enums.discount_type_enum | null
   tax_amount?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -579,19 +546,22 @@ export type res_ordersScalarWhereWithAggregatesInput = {
   change_amount?: Prisma.DecimalNullableWithAggregatesFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   shipment_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
-  applied_promotion_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
   order_type?: Prisma.StringNullableWithAggregatesFilter<"res_orders"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
+  status?: Prisma.Enumorder_statusNullableWithAggregatesFilter<"res_orders"> | $Enums.order_status | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableWithAggregatesFilter<"res_orders"> | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.UuidNullableWithAggregatesFilter<"res_orders"> | string | null
 }
 
 export type res_ordersCreateInput = {
   id?: string
   order_number: string
+  table_id?: string | null
+  shift_id?: string | null
   created_by?: string | null
   customer_name?: string | null
-  status?: $Enums.order_status | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -607,30 +577,21 @@ export type res_ordersCreateInput = {
   auth_user_id?: string | null
   shipment_id?: string | null
   order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
 }
 
 export type res_ordersUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   order_number: string
   table_id?: string | null
   shift_id?: string | null
   created_by?: string | null
   customer_name?: string | null
-  status?: $Enums.order_status | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -645,25 +606,22 @@ export type res_ordersUncheckedCreateInput = {
   change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   shipment_id?: string | null
-  applied_promotion_id?: string | null
   order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
 }
 
 export type res_ordersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -679,30 +637,21 @@ export type res_ordersUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_ordersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -717,28 +666,22 @@ export type res_ordersUncheckedUpdateInput = {
   change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_ordersCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   order_number: string
   table_id?: string | null
   shift_id?: string | null
   created_by?: string | null
   customer_name?: string | null
-  status?: $Enums.order_status | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -753,19 +696,22 @@ export type res_ordersCreateManyInput = {
   change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: string | null
   shipment_id?: string | null
-  applied_promotion_id?: string | null
   order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
 }
 
 export type res_ordersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -781,20 +727,21 @@ export type res_ordersUpdateManyMutationInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_ordersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
   table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -809,37 +756,22 @@ export type res_ordersUncheckedUpdateManyInput = {
   change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type Res_ordersNullableScalarRelationFilter = {
-  is?: Prisma.res_ordersWhereInput | null
-  isNot?: Prisma.res_ordersWhereInput | null
-}
-
-export type Res_ordersListRelationFilter = {
-  every?: Prisma.res_ordersWhereInput
-  some?: Prisma.res_ordersWhereInput
-  none?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_ordersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_number?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   tip_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -854,8 +786,11 @@ export type res_ordersCountOrderByAggregateInput = {
   change_amount?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   shipment_id?: Prisma.SortOrder
-  applied_promotion_id?: Prisma.SortOrder
   order_type?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
+  applied_promotion_id?: Prisma.SortOrder
 }
 
 export type res_ordersAvgOrderByAggregateInput = {
@@ -871,16 +806,13 @@ export type res_ordersAvgOrderByAggregateInput = {
 
 export type res_ordersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_number?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   tip_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -895,22 +827,22 @@ export type res_ordersMaxOrderByAggregateInput = {
   change_amount?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   shipment_id?: Prisma.SortOrder
-  applied_promotion_id?: Prisma.SortOrder
   order_type?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
+  applied_promotion_id?: Prisma.SortOrder
 }
 
 export type res_ordersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_number?: Prisma.SortOrder
   table_id?: Prisma.SortOrder
   shift_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
-  discount_type?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   tip_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
@@ -925,8 +857,11 @@ export type res_ordersMinOrderByAggregateInput = {
   change_amount?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
   shipment_id?: Prisma.SortOrder
-  applied_promotion_id?: Prisma.SortOrder
   order_type?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  discount_type?: Prisma.SortOrder
+  applied_promotion_id?: Prisma.SortOrder
 }
 
 export type res_ordersSumOrderByAggregateInput = {
@@ -940,2221 +875,21 @@ export type res_ordersSumOrderByAggregateInput = {
   change_amount?: Prisma.SortOrder
 }
 
-export type Res_ordersScalarRelationFilter = {
-  is?: Prisma.res_ordersWhereInput
-  isNot?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersCreateNestedOneWithoutPromotion_usageInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedCreateWithoutPromotion_usageInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotion_usageInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneWithoutPromotion_usageNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedCreateWithoutPromotion_usageInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotion_usageInput
-  upsert?: Prisma.res_ordersUpsertWithoutPromotion_usageInput
-  disconnect?: Prisma.res_ordersWhereInput | boolean
-  delete?: Prisma.res_ordersWhereInput | boolean
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutPromotion_usageInput, Prisma.res_ordersUpdateWithoutPromotion_usageInput>, Prisma.res_ordersUncheckedUpdateWithoutPromotion_usageInput>
-}
-
-export type res_ordersCreateNestedManyWithoutPromotionsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput> | Prisma.res_ordersCreateWithoutPromotionsInput[] | Prisma.res_ordersUncheckedCreateWithoutPromotionsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotionsInput | Prisma.res_ordersCreateOrConnectWithoutPromotionsInput[]
-  createMany?: Prisma.res_ordersCreateManyPromotionsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUncheckedCreateNestedManyWithoutPromotionsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput> | Prisma.res_ordersCreateWithoutPromotionsInput[] | Prisma.res_ordersUncheckedCreateWithoutPromotionsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotionsInput | Prisma.res_ordersCreateOrConnectWithoutPromotionsInput[]
-  createMany?: Prisma.res_ordersCreateManyPromotionsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUpdateManyWithoutPromotionsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput> | Prisma.res_ordersCreateWithoutPromotionsInput[] | Prisma.res_ordersUncheckedCreateWithoutPromotionsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotionsInput | Prisma.res_ordersCreateOrConnectWithoutPromotionsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutPromotionsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutPromotionsInput[]
-  createMany?: Prisma.res_ordersCreateManyPromotionsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutPromotionsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutPromotionsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutPromotionsInput | Prisma.res_ordersUpdateManyWithWhereWithoutPromotionsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersUncheckedUpdateManyWithoutPromotionsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput> | Prisma.res_ordersCreateWithoutPromotionsInput[] | Prisma.res_ordersUncheckedCreateWithoutPromotionsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutPromotionsInput | Prisma.res_ordersCreateOrConnectWithoutPromotionsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutPromotionsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutPromotionsInput[]
-  createMany?: Prisma.res_ordersCreateManyPromotionsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutPromotionsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutPromotionsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutPromotionsInput | Prisma.res_ordersUpdateManyWithWhereWithoutPromotionsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersCreateNestedOneWithoutRefundsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRefundsInput, Prisma.res_ordersUncheckedCreateWithoutRefundsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRefundsInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneWithoutRefundsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRefundsInput, Prisma.res_ordersUncheckedCreateWithoutRefundsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRefundsInput
-  upsert?: Prisma.res_ordersUpsertWithoutRefundsInput
-  disconnect?: Prisma.res_ordersWhereInput | boolean
-  delete?: Prisma.res_ordersWhereInput | boolean
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRefundsInput, Prisma.res_ordersUpdateWithoutRefundsInput>, Prisma.res_ordersUncheckedUpdateWithoutRefundsInput>
-}
-
-export type res_ordersCreateNestedOneWithoutRes_order_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_order_itemsInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneWithoutRes_order_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_order_itemsInput
-  upsert?: Prisma.res_ordersUpsertWithoutRes_order_itemsInput
-  disconnect?: Prisma.res_ordersWhereInput | boolean
-  delete?: Prisma.res_ordersWhereInput | boolean
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRes_order_itemsInput, Prisma.res_ordersUpdateWithoutRes_order_itemsInput>, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
-}
-
 export type NullableEnumorder_statusFieldUpdateOperationsInput = {
   set?: $Enums.order_status | null
 }
 
-export type res_ordersCreateNestedOneWithoutRes_shipmentInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedCreateWithoutRes_shipmentInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shipmentInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneRequiredWithoutRes_shipmentNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedCreateWithoutRes_shipmentInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shipmentInput
-  upsert?: Prisma.res_ordersUpsertWithoutRes_shipmentInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRes_shipmentInput, Prisma.res_ordersUpdateWithoutRes_shipmentInput>, Prisma.res_ordersUncheckedUpdateWithoutRes_shipmentInput>
-}
-
-export type res_ordersCreateNestedManyWithoutRes_shiftsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput> | Prisma.res_ordersCreateWithoutRes_shiftsInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput | Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_shiftsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUncheckedCreateNestedManyWithoutRes_shiftsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput> | Prisma.res_ordersCreateWithoutRes_shiftsInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput | Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_shiftsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUpdateManyWithoutRes_shiftsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput> | Prisma.res_ordersCreateWithoutRes_shiftsInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput | Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_shiftsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_shiftsInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_shiftsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_shiftsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_shiftsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_shiftsInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_shiftsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersUncheckedUpdateManyWithoutRes_shiftsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput> | Prisma.res_ordersCreateWithoutRes_shiftsInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput | Prisma.res_ordersCreateOrConnectWithoutRes_shiftsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_shiftsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_shiftsInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_shiftsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_shiftsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_shiftsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_shiftsInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_shiftsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersCreateNestedManyWithoutRes_tablesInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUncheckedCreateNestedManyWithoutRes_tablesInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUpdateManyWithoutRes_tablesNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersUncheckedUpdateManyWithoutRes_tablesNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput[]
-  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersCreateNestedOneWithoutRes_void_requestsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedCreateWithoutRes_void_requestsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_void_requestsInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneWithoutRes_void_requestsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedCreateWithoutRes_void_requestsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_void_requestsInput
-  upsert?: Prisma.res_ordersUpsertWithoutRes_void_requestsInput
-  disconnect?: Prisma.res_ordersWhereInput | boolean
-  delete?: Prisma.res_ordersWhereInput | boolean
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRes_void_requestsInput, Prisma.res_ordersUpdateWithoutRes_void_requestsInput>, Prisma.res_ordersUncheckedUpdateWithoutRes_void_requestsInput>
-}
-
-export type res_ordersCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput> | Prisma.res_ordersCreateWithoutTenantsInput[] | Prisma.res_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutTenantsInput | Prisma.res_ordersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_ordersCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput> | Prisma.res_ordersCreateWithoutTenantsInput[] | Prisma.res_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutTenantsInput | Prisma.res_ordersCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_ordersCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-}
-
-export type res_ordersUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput> | Prisma.res_ordersCreateWithoutTenantsInput[] | Prisma.res_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutTenantsInput | Prisma.res_ordersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_ordersCreateManyTenantsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutTenantsInput | Prisma.res_ordersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput> | Prisma.res_ordersCreateWithoutTenantsInput[] | Prisma.res_ordersUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutTenantsInput | Prisma.res_ordersCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_ordersCreateManyTenantsInputEnvelope
-  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
-  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutTenantsInput | Prisma.res_ordersUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-}
-
-export type res_ordersCreateNestedOneWithoutRes_cash_movementsInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedCreateWithoutRes_cash_movementsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_cash_movementsInput
-  connect?: Prisma.res_ordersWhereUniqueInput
-}
-
-export type res_ordersUpdateOneWithoutRes_cash_movementsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedCreateWithoutRes_cash_movementsInput>
-  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_cash_movementsInput
-  upsert?: Prisma.res_ordersUpsertWithoutRes_cash_movementsInput
-  disconnect?: Prisma.res_ordersWhereInput | boolean
-  delete?: Prisma.res_ordersWhereInput | boolean
-  connect?: Prisma.res_ordersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRes_cash_movementsInput, Prisma.res_ordersUpdateWithoutRes_cash_movementsInput>, Prisma.res_ordersUncheckedUpdateWithoutRes_cash_movementsInput>
-}
-
-export type res_ordersCreateWithoutPromotion_usageInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutPromotion_usageInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutPromotion_usageInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedCreateWithoutPromotion_usageInput>
-}
-
-export type res_ordersUpsertWithoutPromotion_usageInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedUpdateWithoutPromotion_usageInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedCreateWithoutPromotion_usageInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutPromotion_usageInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutPromotion_usageInput, Prisma.res_ordersUncheckedUpdateWithoutPromotion_usageInput>
-}
-
-export type res_ordersUpdateWithoutPromotion_usageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutPromotion_usageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateWithoutPromotionsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutPromotionsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutPromotionsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput>
-}
-
-export type res_ordersCreateManyPromotionsInputEnvelope = {
-  data: Prisma.res_ordersCreateManyPromotionsInput | Prisma.res_ordersCreateManyPromotionsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_ordersUpsertWithWhereUniqueWithoutPromotionsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutPromotionsInput, Prisma.res_ordersUncheckedUpdateWithoutPromotionsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutPromotionsInput, Prisma.res_ordersUncheckedCreateWithoutPromotionsInput>
-}
-
-export type res_ordersUpdateWithWhereUniqueWithoutPromotionsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutPromotionsInput, Prisma.res_ordersUncheckedUpdateWithoutPromotionsInput>
-}
-
-export type res_ordersUpdateManyWithWhereWithoutPromotionsInput = {
-  where: Prisma.res_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateManyMutationInput, Prisma.res_ordersUncheckedUpdateManyWithoutPromotionsInput>
-}
-
-export type res_ordersScalarWhereInput = {
-  AND?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-  OR?: Prisma.res_ordersScalarWhereInput[]
-  NOT?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_orders"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  order_number?: Prisma.StringFilter<"res_orders"> | string
-  table_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  shift_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  created_by?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  customer_name?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
-  subtotal?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  paid_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
-  notes?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
-  mobile_number?: Prisma.StringNullableFilter<"res_orders"> | string | null
-  promo_discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  shipment_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
-  order_type?: Prisma.StringNullableFilter<"res_orders"> | string | null
-}
-
-export type res_ordersCreateWithoutRefundsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRefundsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRefundsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRefundsInput, Prisma.res_ordersUncheckedCreateWithoutRefundsInput>
-}
-
-export type res_ordersUpsertWithoutRefundsInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRefundsInput, Prisma.res_ordersUncheckedUpdateWithoutRefundsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRefundsInput, Prisma.res_ordersUncheckedCreateWithoutRefundsInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutRefundsInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRefundsInput, Prisma.res_ordersUncheckedUpdateWithoutRefundsInput>
-}
-
-export type res_ordersUpdateWithoutRefundsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRefundsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateWithoutRes_order_itemsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_order_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_order_itemsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
-}
-
-export type res_ordersUpsertWithoutRes_order_itemsInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutRes_order_itemsInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
-}
-
-export type res_ordersUpdateWithoutRes_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_order_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateWithoutRes_shipmentInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_shipmentInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_shipmentInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedCreateWithoutRes_shipmentInput>
-}
-
-export type res_ordersUpsertWithoutRes_shipmentInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedUpdateWithoutRes_shipmentInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedCreateWithoutRes_shipmentInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutRes_shipmentInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_shipmentInput, Prisma.res_ordersUncheckedUpdateWithoutRes_shipmentInput>
-}
-
-export type res_ordersUpdateWithoutRes_shipmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_shipmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateWithoutRes_shiftsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_shiftsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_shiftsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput>
-}
-
-export type res_ordersCreateManyRes_shiftsInputEnvelope = {
-  data: Prisma.res_ordersCreateManyRes_shiftsInput | Prisma.res_ordersCreateManyRes_shiftsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_ordersUpsertWithWhereUniqueWithoutRes_shiftsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_shiftsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedCreateWithoutRes_shiftsInput>
-}
-
-export type res_ordersUpdateWithWhereUniqueWithoutRes_shiftsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_shiftsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_shiftsInput>
-}
-
-export type res_ordersUpdateManyWithWhereWithoutRes_shiftsInput = {
-  where: Prisma.res_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateManyMutationInput, Prisma.res_ordersUncheckedUpdateManyWithoutRes_shiftsInput>
-}
-
-export type res_ordersCreateWithoutRes_tablesInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_tablesInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_tablesInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput>
-}
-
-export type res_ordersCreateManyRes_tablesInputEnvelope = {
-  data: Prisma.res_ordersCreateManyRes_tablesInput | Prisma.res_ordersCreateManyRes_tablesInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_tablesInput, Prisma.res_ordersUncheckedUpdateWithoutRes_tablesInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput>
-}
-
-export type res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_tablesInput, Prisma.res_ordersUncheckedUpdateWithoutRes_tablesInput>
-}
-
-export type res_ordersUpdateManyWithWhereWithoutRes_tablesInput = {
-  where: Prisma.res_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateManyMutationInput, Prisma.res_ordersUncheckedUpdateManyWithoutRes_tablesInput>
-}
-
-export type res_ordersCreateWithoutRes_void_requestsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_void_requestsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_void_requestsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedCreateWithoutRes_void_requestsInput>
-}
-
-export type res_ordersUpsertWithoutRes_void_requestsInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_void_requestsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedCreateWithoutRes_void_requestsInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutRes_void_requestsInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_void_requestsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_void_requestsInput>
-}
-
-export type res_ordersUpdateWithoutRes_void_requestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_void_requestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateWithoutTenantsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_ordersCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_ordersCreateManyTenantsInput | Prisma.res_ordersCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_ordersUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutTenantsInput, Prisma.res_ordersUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutTenantsInput, Prisma.res_ordersUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_ordersUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutTenantsInput, Prisma.res_ordersUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_ordersUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_ordersScalarWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateManyMutationInput, Prisma.res_ordersUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_ordersCreateWithoutRes_cash_movementsInput = {
-  id?: string
-  order_number: string
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
-  promotions?: Prisma.promotionsCreateNestedOneWithoutRes_ordersInput
-  res_shifts?: Prisma.res_shiftsCreateNestedOneWithoutRes_ordersInput
-  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsCreateNestedManyWithoutRes_ordersInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_ordersInput
-}
-
-export type res_ordersUncheckedCreateWithoutRes_cash_movementsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
-  res_shipment?: Prisma.res_shipmentsUncheckedCreateNestedOneWithoutRes_ordersInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedCreateNestedManyWithoutRes_ordersInput
-  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutRes_ordersInput
-}
-
-export type res_ordersCreateOrConnectWithoutRes_cash_movementsInput = {
-  where: Prisma.res_ordersWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedCreateWithoutRes_cash_movementsInput>
-}
-
-export type res_ordersUpsertWithoutRes_cash_movementsInput = {
-  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_cash_movementsInput>
-  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedCreateWithoutRes_cash_movementsInput>
-  where?: Prisma.res_ordersWhereInput
-}
-
-export type res_ordersUpdateToOneWithWhereWithoutRes_cash_movementsInput = {
-  where?: Prisma.res_ordersWhereInput
-  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_cash_movementsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_cash_movementsInput>
-}
-
-export type res_ordersUpdateWithoutRes_cash_movementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_cash_movementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersCreateManyPromotionsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  order_type?: string | null
-}
-
-export type res_ordersUpdateWithoutPromotionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutPromotionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateManyWithoutPromotionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_ordersCreateManyRes_shiftsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  table_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-}
-
-export type res_ordersUpdateWithoutRes_shiftsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_shiftsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateManyWithoutRes_shiftsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_ordersCreateManyRes_tablesInput = {
-  id?: string
-  tenant_id?: string | null
-  order_number: string
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-}
-
-export type res_ordersUpdateWithoutRes_tablesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutRes_tablesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateManyWithoutRes_tablesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_ordersCreateManyTenantsInput = {
-  id?: string
-  order_number: string
-  table_id?: string | null
-  shift_id?: string | null
-  created_by?: string | null
-  customer_name?: string | null
-  status?: $Enums.order_status | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: $Enums.discount_type_enum | null
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: string | null
-  paid_at?: Date | string | null
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  mobile_number?: string | null
-  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: string | null
-  shipment_id?: string | null
-  applied_promotion_id?: string | null
-  order_type?: string | null
-}
-
-export type res_ordersUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
-  promotions?: Prisma.promotionsUpdateOneWithoutRes_ordersNestedInput
-  res_shifts?: Prisma.res_shiftsUpdateOneWithoutRes_ordersNestedInput
-  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promotion_usage?: Prisma.promotion_usageUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_cash_movements?: Prisma.res_cash_movementsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  res_shipment?: Prisma.res_shipmentsUncheckedUpdateOneWithoutRes_ordersNestedInput
-  res_void_requests?: Prisma.res_void_requestsUncheckedUpdateManyWithoutRes_ordersNestedInput
-  refunds?: Prisma.refundsUncheckedUpdateManyWithoutRes_ordersNestedInput
-}
-
-export type res_ordersUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type Res_ordersCountOutputType
- */
-
-export type Res_ordersCountOutputType = {
-  promotion_usage: number
-  res_cash_movements: number
-  res_order_items: number
-  res_void_requests: number
-  refunds: number
-}
-
-export type Res_ordersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotion_usage?: boolean | Res_ordersCountOutputTypeCountPromotion_usageArgs
-  res_cash_movements?: boolean | Res_ordersCountOutputTypeCountRes_cash_movementsArgs
-  res_order_items?: boolean | Res_ordersCountOutputTypeCountRes_order_itemsArgs
-  res_void_requests?: boolean | Res_ordersCountOutputTypeCountRes_void_requestsArgs
-  refunds?: boolean | Res_ordersCountOutputTypeCountRefundsArgs
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Res_ordersCountOutputType
-   */
-  select?: Prisma.Res_ordersCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeCountPromotion_usageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.promotion_usageWhereInput
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeCountRes_cash_movementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_cash_movementsWhereInput
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeCountRes_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_order_itemsWhereInput
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeCountRes_void_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.res_void_requestsWhereInput
-}
-
-/**
- * Res_ordersCountOutputType without action
- */
-export type Res_ordersCountOutputTypeCountRefundsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.refundsWhereInput
-}
 
 
 export type res_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_number?: boolean
   table_id?: boolean
   shift_id?: boolean
   created_by?: boolean
   customer_name?: boolean
-  status?: boolean
   subtotal?: boolean
   discount_amount?: boolean
-  discount_type?: boolean
   tax_amount?: boolean
   tip_amount?: boolean
   total_amount?: boolean
@@ -3169,33 +904,22 @@ export type res_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   change_amount?: boolean
   auth_user_id?: boolean
   shipment_id?: boolean
-  applied_promotion_id?: boolean
   order_type?: boolean
-  promotion_usage?: boolean | Prisma.res_orders$promotion_usageArgs<ExtArgs>
-  res_cash_movements?: boolean | Prisma.res_orders$res_cash_movementsArgs<ExtArgs>
-  res_order_items?: boolean | Prisma.res_orders$res_order_itemsArgs<ExtArgs>
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  res_shipment?: boolean | Prisma.res_orders$res_shipmentArgs<ExtArgs>
-  res_void_requests?: boolean | Prisma.res_orders$res_void_requestsArgs<ExtArgs>
-  refunds?: boolean | Prisma.res_orders$refundsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_ordersCountOutputTypeDefaultArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
+  discount_type?: boolean
+  applied_promotion_id?: boolean
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_number?: boolean
   table_id?: boolean
   shift_id?: boolean
   created_by?: boolean
   customer_name?: boolean
-  status?: boolean
   subtotal?: boolean
   discount_amount?: boolean
-  discount_type?: boolean
   tax_amount?: boolean
   tip_amount?: boolean
   total_amount?: boolean
@@ -3210,26 +934,22 @@ export type res_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   change_amount?: boolean
   auth_user_id?: boolean
   shipment_id?: boolean
-  applied_promotion_id?: boolean
   order_type?: boolean
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
+  discount_type?: boolean
+  applied_promotion_id?: boolean
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_number?: boolean
   table_id?: boolean
   shift_id?: boolean
   created_by?: boolean
   customer_name?: boolean
-  status?: boolean
   subtotal?: boolean
   discount_amount?: boolean
-  discount_type?: boolean
   tax_amount?: boolean
   tip_amount?: boolean
   total_amount?: boolean
@@ -3244,26 +964,22 @@ export type res_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   change_amount?: boolean
   auth_user_id?: boolean
   shipment_id?: boolean
-  applied_promotion_id?: boolean
   order_type?: boolean
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
+  discount_type?: boolean
+  applied_promotion_id?: boolean
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   order_number?: boolean
   table_id?: boolean
   shift_id?: boolean
   created_by?: boolean
   customer_name?: boolean
-  status?: boolean
   subtotal?: boolean
   discount_amount?: boolean
-  discount_type?: boolean
   tax_amount?: boolean
   tip_amount?: boolean
   total_amount?: boolean
@@ -3278,63 +994,27 @@ export type res_ordersSelectScalar = {
   change_amount?: boolean
   auth_user_id?: boolean
   shipment_id?: boolean
-  applied_promotion_id?: boolean
   order_type?: boolean
+  tenant_id?: boolean
+  status?: boolean
+  discount_type?: boolean
+  applied_promotion_id?: boolean
 }
 
-export type res_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "order_number" | "table_id" | "shift_id" | "created_by" | "customer_name" | "status" | "subtotal" | "discount_amount" | "discount_type" | "tax_amount" | "tip_amount" | "total_amount" | "payment_method" | "paid_at" | "notes" | "created_at" | "updated_at" | "mobile_number" | "promo_discount_amount" | "received_amount" | "change_amount" | "auth_user_id" | "shipment_id" | "applied_promotion_id" | "order_type", ExtArgs["result"]["res_orders"]>
-export type res_ordersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotion_usage?: boolean | Prisma.res_orders$promotion_usageArgs<ExtArgs>
-  res_cash_movements?: boolean | Prisma.res_orders$res_cash_movementsArgs<ExtArgs>
-  res_order_items?: boolean | Prisma.res_orders$res_order_itemsArgs<ExtArgs>
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  res_shipment?: boolean | Prisma.res_orders$res_shipmentArgs<ExtArgs>
-  res_void_requests?: boolean | Prisma.res_orders$res_void_requestsArgs<ExtArgs>
-  refunds?: boolean | Prisma.res_orders$refundsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Res_ordersCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type res_ordersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
-}
-export type res_ordersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotions?: boolean | Prisma.res_orders$promotionsArgs<ExtArgs>
-  res_shifts?: boolean | Prisma.res_orders$res_shiftsArgs<ExtArgs>
-  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_orders$tenantsArgs<ExtArgs>
-}
+export type res_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_number" | "table_id" | "shift_id" | "created_by" | "customer_name" | "subtotal" | "discount_amount" | "tax_amount" | "tip_amount" | "total_amount" | "payment_method" | "paid_at" | "notes" | "created_at" | "updated_at" | "mobile_number" | "promo_discount_amount" | "received_amount" | "change_amount" | "auth_user_id" | "shipment_id" | "order_type" | "tenant_id" | "status" | "discount_type" | "applied_promotion_id", ExtArgs["result"]["res_orders"]>
 
 export type $res_ordersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_orders"
-  objects: {
-    promotion_usage: Prisma.$promotion_usagePayload<ExtArgs>[]
-    res_cash_movements: Prisma.$res_cash_movementsPayload<ExtArgs>[]
-    res_order_items: Prisma.$res_order_itemsPayload<ExtArgs>[]
-    promotions: Prisma.$promotionsPayload<ExtArgs> | null
-    res_shifts: Prisma.$res_shiftsPayload<ExtArgs> | null
-    res_tables: Prisma.$res_tablesPayload<ExtArgs> | null
-    res_shipment: Prisma.$res_shipmentsPayload<ExtArgs> | null
-    res_void_requests: Prisma.$res_void_requestsPayload<ExtArgs>[]
-    refunds: Prisma.$refundsPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     order_number: string
     table_id: string | null
     shift_id: string | null
     created_by: string | null
     customer_name: string | null
-    status: $Enums.order_status | null
     subtotal: runtime.Decimal | null
     discount_amount: runtime.Decimal | null
-    discount_type: $Enums.discount_type_enum | null
     tax_amount: runtime.Decimal | null
     tip_amount: runtime.Decimal | null
     total_amount: runtime.Decimal | null
@@ -3349,8 +1029,11 @@ export type $res_ordersPayload<ExtArgs extends runtime.Types.Extensions.Internal
     change_amount: runtime.Decimal | null
     auth_user_id: string | null
     shipment_id: string | null
-    applied_promotion_id: string | null
     order_type: string | null
+    tenant_id: string | null
+    status: $Enums.order_status | null
+    discount_type: $Enums.discount_type_enum | null
+    applied_promotion_id: string | null
   }, ExtArgs["result"]["res_orders"]>
   composites: {}
 }
@@ -3745,16 +1428,6 @@ readonly fields: res_ordersFieldRefs;
  */
 export interface Prisma__res_ordersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  promotion_usage<T extends Prisma.res_orders$promotion_usageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$promotion_usageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$promotion_usagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  res_cash_movements<T extends Prisma.res_orders$res_cash_movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_cash_movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_cash_movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  res_order_items<T extends Prisma.res_orders$res_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  promotions<T extends Prisma.res_orders$promotionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$promotionsArgs<ExtArgs>>): Prisma.Prisma__promotionsClient<runtime.Types.Result.GetResult<Prisma.$promotionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_shifts<T extends Prisma.res_orders$res_shiftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_shiftsArgs<ExtArgs>>): Prisma.Prisma__res_shiftsClient<runtime.Types.Result.GetResult<Prisma.$res_shiftsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_tables<T extends Prisma.res_orders$res_tablesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_tablesArgs<ExtArgs>>): Prisma.Prisma__res_tablesClient<runtime.Types.Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_shipment<T extends Prisma.res_orders$res_shipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_shipmentArgs<ExtArgs>>): Prisma.Prisma__res_shipmentsClient<runtime.Types.Result.GetResult<Prisma.$res_shipmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_void_requests<T extends Prisma.res_orders$res_void_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_void_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_void_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  refunds<T extends Prisma.res_orders$refundsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.res_orders$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3785,16 +1458,13 @@ export interface Prisma__res_ordersClient<T, Null = never, ExtArgs extends runti
  */
 export interface res_ordersFieldRefs {
   readonly id: Prisma.FieldRef<"res_orders", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_orders", 'String'>
   readonly order_number: Prisma.FieldRef<"res_orders", 'String'>
   readonly table_id: Prisma.FieldRef<"res_orders", 'String'>
   readonly shift_id: Prisma.FieldRef<"res_orders", 'String'>
   readonly created_by: Prisma.FieldRef<"res_orders", 'String'>
   readonly customer_name: Prisma.FieldRef<"res_orders", 'String'>
-  readonly status: Prisma.FieldRef<"res_orders", 'order_status'>
   readonly subtotal: Prisma.FieldRef<"res_orders", 'Decimal'>
   readonly discount_amount: Prisma.FieldRef<"res_orders", 'Decimal'>
-  readonly discount_type: Prisma.FieldRef<"res_orders", 'discount_type_enum'>
   readonly tax_amount: Prisma.FieldRef<"res_orders", 'Decimal'>
   readonly tip_amount: Prisma.FieldRef<"res_orders", 'Decimal'>
   readonly total_amount: Prisma.FieldRef<"res_orders", 'Decimal'>
@@ -3809,8 +1479,11 @@ export interface res_ordersFieldRefs {
   readonly change_amount: Prisma.FieldRef<"res_orders", 'Decimal'>
   readonly auth_user_id: Prisma.FieldRef<"res_orders", 'String'>
   readonly shipment_id: Prisma.FieldRef<"res_orders", 'String'>
-  readonly applied_promotion_id: Prisma.FieldRef<"res_orders", 'String'>
   readonly order_type: Prisma.FieldRef<"res_orders", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_orders", 'String'>
+  readonly status: Prisma.FieldRef<"res_orders", 'order_status'>
+  readonly discount_type: Prisma.FieldRef<"res_orders", 'discount_type_enum'>
+  readonly applied_promotion_id: Prisma.FieldRef<"res_orders", 'String'>
 }
     
 
@@ -3827,10 +1500,6 @@ export type res_ordersFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * Filter, which res_orders to fetch.
    */
@@ -3850,10 +1519,6 @@ export type res_ordersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  /**
    * Filter, which res_orders to fetch.
    */
   where: Prisma.res_ordersWhereUniqueInput
@@ -3871,10 +1536,6 @@ export type res_ordersFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * Filter, which res_orders to fetch.
    */
@@ -3924,10 +1585,6 @@ export type res_ordersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  /**
    * Filter, which res_orders to fetch.
    */
   where?: Prisma.res_ordersWhereInput
@@ -3975,10 +1632,6 @@ export type res_ordersFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * Filter, which res_orders to fetch.
    */
@@ -4028,10 +1681,6 @@ export type res_ordersCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_orders.
    */
   data: Prisma.XOR<Prisma.res_ordersCreateInput, Prisma.res_ordersUncheckedCreateInput>
@@ -4065,10 +1714,6 @@ export type res_ordersCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.res_ordersCreateManyInput | Prisma.res_ordersCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -4083,10 +1728,6 @@ export type res_ordersUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * The data needed to update a res_orders.
    */
@@ -4139,10 +1780,6 @@ export type res_ordersUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many res_orders to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -4157,10 +1794,6 @@ export type res_ordersUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * The filter to search for the res_orders to update in case it exists.
    */
@@ -4188,10 +1821,6 @@ export type res_ordersDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  /**
    * Filter which res_orders to delete.
    */
   where: Prisma.res_ordersWhereUniqueInput
@@ -4212,221 +1841,6 @@ export type res_ordersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * res_orders.promotion_usage
- */
-export type res_orders$promotion_usageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the promotion_usage
-   */
-  select?: Prisma.promotion_usageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the promotion_usage
-   */
-  omit?: Prisma.promotion_usageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotion_usageInclude<ExtArgs> | null
-  where?: Prisma.promotion_usageWhereInput
-  orderBy?: Prisma.promotion_usageOrderByWithRelationInput | Prisma.promotion_usageOrderByWithRelationInput[]
-  cursor?: Prisma.promotion_usageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Promotion_usageScalarFieldEnum | Prisma.Promotion_usageScalarFieldEnum[]
-}
-
-/**
- * res_orders.res_cash_movements
- */
-export type res_orders$res_cash_movementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_cash_movements
-   */
-  select?: Prisma.res_cash_movementsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_cash_movements
-   */
-  omit?: Prisma.res_cash_movementsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_cash_movementsInclude<ExtArgs> | null
-  where?: Prisma.res_cash_movementsWhereInput
-  orderBy?: Prisma.res_cash_movementsOrderByWithRelationInput | Prisma.res_cash_movementsOrderByWithRelationInput[]
-  cursor?: Prisma.res_cash_movementsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_cash_movementsScalarFieldEnum | Prisma.Res_cash_movementsScalarFieldEnum[]
-}
-
-/**
- * res_orders.res_order_items
- */
-export type res_orders$res_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_order_items
-   */
-  select?: Prisma.res_order_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_order_items
-   */
-  omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  where?: Prisma.res_order_itemsWhereInput
-  orderBy?: Prisma.res_order_itemsOrderByWithRelationInput | Prisma.res_order_itemsOrderByWithRelationInput[]
-  cursor?: Prisma.res_order_itemsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_order_itemsScalarFieldEnum | Prisma.Res_order_itemsScalarFieldEnum[]
-}
-
-/**
- * res_orders.promotions
- */
-export type res_orders$promotionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the promotions
-   */
-  select?: Prisma.promotionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the promotions
-   */
-  omit?: Prisma.promotionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.promotionsInclude<ExtArgs> | null
-  where?: Prisma.promotionsWhereInput
-}
-
-/**
- * res_orders.res_shifts
- */
-export type res_orders$res_shiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_shifts
-   */
-  select?: Prisma.res_shiftsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_shifts
-   */
-  omit?: Prisma.res_shiftsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shiftsInclude<ExtArgs> | null
-  where?: Prisma.res_shiftsWhereInput
-}
-
-/**
- * res_orders.res_tables
- */
-export type res_orders$res_tablesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_tables
-   */
-  select?: Prisma.res_tablesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_tables
-   */
-  omit?: Prisma.res_tablesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_tablesInclude<ExtArgs> | null
-  where?: Prisma.res_tablesWhereInput
-}
-
-/**
- * res_orders.res_shipment
- */
-export type res_orders$res_shipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_shipments
-   */
-  select?: Prisma.res_shipmentsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_shipments
-   */
-  omit?: Prisma.res_shipmentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_shipmentsInclude<ExtArgs> | null
-  where?: Prisma.res_shipmentsWhereInput
-}
-
-/**
- * res_orders.res_void_requests
- */
-export type res_orders$res_void_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_void_requests
-   */
-  select?: Prisma.res_void_requestsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_void_requests
-   */
-  omit?: Prisma.res_void_requestsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_void_requestsInclude<ExtArgs> | null
-  where?: Prisma.res_void_requestsWhereInput
-  orderBy?: Prisma.res_void_requestsOrderByWithRelationInput | Prisma.res_void_requestsOrderByWithRelationInput[]
-  cursor?: Prisma.res_void_requestsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Res_void_requestsScalarFieldEnum | Prisma.Res_void_requestsScalarFieldEnum[]
-}
-
-/**
- * res_orders.refunds
- */
-export type res_orders$refundsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the refunds
-   */
-  select?: Prisma.refundsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the refunds
-   */
-  omit?: Prisma.refundsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.refundsInclude<ExtArgs> | null
-  where?: Prisma.refundsWhereInput
-  orderBy?: Prisma.refundsOrderByWithRelationInput | Prisma.refundsOrderByWithRelationInput[]
-  cursor?: Prisma.refundsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RefundsScalarFieldEnum | Prisma.RefundsScalarFieldEnum[]
-}
-
-/**
- * res_orders.tenants
- */
-export type res_orders$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_orders without action
  */
 export type res_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4438,8 +1852,4 @@ export type res_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
 }

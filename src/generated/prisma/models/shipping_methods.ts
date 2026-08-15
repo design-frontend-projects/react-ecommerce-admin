@@ -37,36 +37,36 @@ export type Shipping_methodsSumAggregateOutputType = {
 }
 
 export type Shipping_methodsMinAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   name: string | null
   description: string | null
   carrier: string | null
   estimated_days_min: number | null
   estimated_days_max: number | null
   is_active: boolean | null
+  id: string | null
+  tenant_id: string | null
 }
 
 export type Shipping_methodsMaxAggregateOutputType = {
-  id: string | null
-  tenant_id: string | null
   name: string | null
   description: string | null
   carrier: string | null
   estimated_days_min: number | null
   estimated_days_max: number | null
   is_active: boolean | null
+  id: string | null
+  tenant_id: string | null
 }
 
 export type Shipping_methodsCountAggregateOutputType = {
-  id: number
-  tenant_id: number
   name: number
   description: number
   carrier: number
   estimated_days_min: number
   estimated_days_max: number
   is_active: number
+  id: number
+  tenant_id: number
   _all: number
 }
 
@@ -82,36 +82,36 @@ export type Shipping_methodsSumAggregateInputType = {
 }
 
 export type Shipping_methodsMinAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   description?: true
   carrier?: true
   estimated_days_min?: true
   estimated_days_max?: true
   is_active?: true
+  id?: true
+  tenant_id?: true
 }
 
 export type Shipping_methodsMaxAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   description?: true
   carrier?: true
   estimated_days_min?: true
   estimated_days_max?: true
   is_active?: true
+  id?: true
+  tenant_id?: true
 }
 
 export type Shipping_methodsCountAggregateInputType = {
-  id?: true
-  tenant_id?: true
   name?: true
   description?: true
   carrier?: true
   estimated_days_min?: true
   estimated_days_max?: true
   is_active?: true
+  id?: true
+  tenant_id?: true
   _all?: true
 }
 
@@ -202,14 +202,14 @@ export type shipping_methodsGroupByArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 export type Shipping_methodsGroupByOutputType = {
-  id: string
-  tenant_id: string | null
   name: string
   description: string | null
   carrier: string | null
   estimated_days_min: number | null
   estimated_days_max: number | null
   is_active: boolean | null
+  id: string
+  tenant_id: string | null
   _count: Shipping_methodsCountAggregateOutputType | null
   _avg: Shipping_methodsAvgAggregateOutputType | null
   _sum: Shipping_methodsSumAggregateOutputType | null
@@ -236,29 +236,25 @@ export type shipping_methodsWhereInput = {
   AND?: Prisma.shipping_methodsWhereInput | Prisma.shipping_methodsWhereInput[]
   OR?: Prisma.shipping_methodsWhereInput[]
   NOT?: Prisma.shipping_methodsWhereInput | Prisma.shipping_methodsWhereInput[]
-  id?: Prisma.UuidFilter<"shipping_methods"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
   name?: Prisma.StringFilter<"shipping_methods"> | string
   description?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
   carrier?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
   estimated_days_min?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   estimated_days_max?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableFilter<"shipping_methods"> | boolean | null
-  shipping_rates?: Prisma.Shipping_ratesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  id?: Prisma.UuidFilter<"shipping_methods"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
 }
 
 export type shipping_methodsOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   carrier?: Prisma.SortOrderInput | Prisma.SortOrder
   estimated_days_min?: Prisma.SortOrderInput | Prisma.SortOrder
   estimated_days_max?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
-  shipping_rates?: Prisma.shipping_ratesOrderByRelationAggregateInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type shipping_methodsWhereUniqueInput = Prisma.AtLeast<{
@@ -266,26 +262,24 @@ export type shipping_methodsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.shipping_methodsWhereInput | Prisma.shipping_methodsWhereInput[]
   OR?: Prisma.shipping_methodsWhereInput[]
   NOT?: Prisma.shipping_methodsWhereInput | Prisma.shipping_methodsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
   name?: Prisma.StringFilter<"shipping_methods"> | string
   description?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
   carrier?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
   estimated_days_min?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   estimated_days_max?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableFilter<"shipping_methods"> | boolean | null
-  shipping_rates?: Prisma.Shipping_ratesListRelationFilter
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
 }, "id">
 
 export type shipping_methodsOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   carrier?: Prisma.SortOrderInput | Prisma.SortOrder
   estimated_days_min?: Prisma.SortOrderInput | Prisma.SortOrder
   estimated_days_max?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipping_methodsCountOrderByAggregateInput
   _avg?: Prisma.shipping_methodsAvgOrderByAggregateInput
   _max?: Prisma.shipping_methodsMaxOrderByAggregateInput
@@ -297,105 +291,102 @@ export type shipping_methodsScalarWhereWithAggregatesInput = {
   AND?: Prisma.shipping_methodsScalarWhereWithAggregatesInput | Prisma.shipping_methodsScalarWhereWithAggregatesInput[]
   OR?: Prisma.shipping_methodsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.shipping_methodsScalarWhereWithAggregatesInput | Prisma.shipping_methodsScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"shipping_methods"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_methods"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"shipping_methods"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"shipping_methods"> | string | null
   carrier?: Prisma.StringNullableWithAggregatesFilter<"shipping_methods"> | string | null
   estimated_days_min?: Prisma.IntNullableWithAggregatesFilter<"shipping_methods"> | number | null
   estimated_days_max?: Prisma.IntNullableWithAggregatesFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"shipping_methods"> | boolean | null
+  id?: Prisma.UuidWithAggregatesFilter<"shipping_methods"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_methods"> | string | null
 }
 
 export type shipping_methodsCreateInput = {
-  id?: string
   name: string
   description?: string | null
   carrier?: string | null
   estimated_days_min?: number | null
   estimated_days_max?: number | null
   is_active?: boolean | null
-  shipping_rates?: Prisma.shipping_ratesCreateNestedManyWithoutShipping_methodsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutShipping_methodsInput
+  id?: string
+  tenant_id?: string | null
 }
 
 export type shipping_methodsUncheckedCreateInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   carrier?: string | null
   estimated_days_min?: number | null
   estimated_days_max?: number | null
   is_active?: boolean | null
-  shipping_rates?: Prisma.shipping_ratesUncheckedCreateNestedManyWithoutShipping_methodsInput
+  id?: string
+  tenant_id?: string | null
 }
 
 export type shipping_methodsUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  shipping_rates?: Prisma.shipping_ratesUpdateManyWithoutShipping_methodsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutShipping_methodsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  shipping_rates?: Prisma.shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsCreateManyInput = {
-  id?: string
-  tenant_id?: string | null
   name: string
   description?: string | null
   carrier?: string | null
   estimated_days_min?: number | null
   estimated_days_max?: number | null
   is_active?: boolean | null
+  id?: string
+  tenant_id?: string | null
 }
 
 export type shipping_methodsUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   estimated_days_min?: Prisma.SortOrder
   estimated_days_max?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsAvgOrderByAggregateInput = {
@@ -404,25 +395,25 @@ export type shipping_methodsAvgOrderByAggregateInput = {
 }
 
 export type shipping_methodsMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   estimated_days_min?: Prisma.SortOrder
   estimated_days_max?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   carrier?: Prisma.SortOrder
   estimated_days_min?: Prisma.SortOrder
   estimated_days_max?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsSumOrderByAggregateInput = {
@@ -430,349 +421,66 @@ export type shipping_methodsSumOrderByAggregateInput = {
   estimated_days_max?: Prisma.SortOrder
 }
 
-export type Shipping_methodsScalarRelationFilter = {
-  is?: Prisma.shipping_methodsWhereInput
-  isNot?: Prisma.shipping_methodsWhereInput
-}
-
-export type Shipping_methodsListRelationFilter = {
-  every?: Prisma.shipping_methodsWhereInput
-  some?: Prisma.shipping_methodsWhereInput
-  none?: Prisma.shipping_methodsWhereInput
-}
-
-export type shipping_methodsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type shipping_methodsCreateNestedOneWithoutShipping_ratesInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedCreateWithoutShipping_ratesInput>
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutShipping_ratesInput
-  connect?: Prisma.shipping_methodsWhereUniqueInput
-}
-
-export type shipping_methodsUpdateOneRequiredWithoutShipping_ratesNestedInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedCreateWithoutShipping_ratesInput>
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutShipping_ratesInput
-  upsert?: Prisma.shipping_methodsUpsertWithoutShipping_ratesInput
-  connect?: Prisma.shipping_methodsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.shipping_methodsUpdateToOneWithWhereWithoutShipping_ratesInput, Prisma.shipping_methodsUpdateWithoutShipping_ratesInput>, Prisma.shipping_methodsUncheckedUpdateWithoutShipping_ratesInput>
-}
-
-export type shipping_methodsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput> | Prisma.shipping_methodsCreateWithoutTenantsInput[] | Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput | Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.shipping_methodsCreateManyTenantsInputEnvelope
-  connect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-}
-
-export type shipping_methodsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput> | Prisma.shipping_methodsCreateWithoutTenantsInput[] | Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput | Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.shipping_methodsCreateManyTenantsInputEnvelope
-  connect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-}
-
-export type shipping_methodsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput> | Prisma.shipping_methodsCreateWithoutTenantsInput[] | Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput | Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.shipping_methodsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.shipping_methodsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.shipping_methodsCreateManyTenantsInputEnvelope
-  set?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  disconnect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  delete?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  connect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  update?: Prisma.shipping_methodsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.shipping_methodsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.shipping_methodsUpdateManyWithWhereWithoutTenantsInput | Prisma.shipping_methodsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.shipping_methodsScalarWhereInput | Prisma.shipping_methodsScalarWhereInput[]
-}
-
-export type shipping_methodsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput> | Prisma.shipping_methodsCreateWithoutTenantsInput[] | Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput | Prisma.shipping_methodsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.shipping_methodsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.shipping_methodsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.shipping_methodsCreateManyTenantsInputEnvelope
-  set?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  disconnect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  delete?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  connect?: Prisma.shipping_methodsWhereUniqueInput | Prisma.shipping_methodsWhereUniqueInput[]
-  update?: Prisma.shipping_methodsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.shipping_methodsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.shipping_methodsUpdateManyWithWhereWithoutTenantsInput | Prisma.shipping_methodsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.shipping_methodsScalarWhereInput | Prisma.shipping_methodsScalarWhereInput[]
-}
-
-export type shipping_methodsCreateWithoutShipping_ratesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  carrier?: string | null
-  estimated_days_min?: number | null
-  estimated_days_max?: number | null
-  is_active?: boolean | null
-  tenants?: Prisma.tenantsCreateNestedOneWithoutShipping_methodsInput
-}
-
-export type shipping_methodsUncheckedCreateWithoutShipping_ratesInput = {
-  id?: string
-  tenant_id?: string | null
-  name: string
-  description?: string | null
-  carrier?: string | null
-  estimated_days_min?: number | null
-  estimated_days_max?: number | null
-  is_active?: boolean | null
-}
-
-export type shipping_methodsCreateOrConnectWithoutShipping_ratesInput = {
-  where: Prisma.shipping_methodsWhereUniqueInput
-  create: Prisma.XOR<Prisma.shipping_methodsCreateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedCreateWithoutShipping_ratesInput>
-}
-
-export type shipping_methodsUpsertWithoutShipping_ratesInput = {
-  update: Prisma.XOR<Prisma.shipping_methodsUpdateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedUpdateWithoutShipping_ratesInput>
-  create: Prisma.XOR<Prisma.shipping_methodsCreateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedCreateWithoutShipping_ratesInput>
-  where?: Prisma.shipping_methodsWhereInput
-}
-
-export type shipping_methodsUpdateToOneWithWhereWithoutShipping_ratesInput = {
-  where?: Prisma.shipping_methodsWhereInput
-  data: Prisma.XOR<Prisma.shipping_methodsUpdateWithoutShipping_ratesInput, Prisma.shipping_methodsUncheckedUpdateWithoutShipping_ratesInput>
-}
-
-export type shipping_methodsUpdateWithoutShipping_ratesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenants?: Prisma.tenantsUpdateOneWithoutShipping_methodsNestedInput
-}
-
-export type shipping_methodsUncheckedUpdateWithoutShipping_ratesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-}
-
-export type shipping_methodsCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  carrier?: string | null
-  estimated_days_min?: number | null
-  estimated_days_max?: number | null
-  is_active?: boolean | null
-  shipping_rates?: Prisma.shipping_ratesCreateNestedManyWithoutShipping_methodsInput
-}
-
-export type shipping_methodsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  carrier?: string | null
-  estimated_days_min?: number | null
-  estimated_days_max?: number | null
-  is_active?: boolean | null
-  shipping_rates?: Prisma.shipping_ratesUncheckedCreateNestedManyWithoutShipping_methodsInput
-}
-
-export type shipping_methodsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.shipping_methodsWhereUniqueInput
-  create: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput>
-}
-
-export type shipping_methodsCreateManyTenantsInputEnvelope = {
-  data: Prisma.shipping_methodsCreateManyTenantsInput | Prisma.shipping_methodsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type shipping_methodsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.shipping_methodsWhereUniqueInput
-  update: Prisma.XOR<Prisma.shipping_methodsUpdateWithoutTenantsInput, Prisma.shipping_methodsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.shipping_methodsCreateWithoutTenantsInput, Prisma.shipping_methodsUncheckedCreateWithoutTenantsInput>
-}
-
-export type shipping_methodsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.shipping_methodsWhereUniqueInput
-  data: Prisma.XOR<Prisma.shipping_methodsUpdateWithoutTenantsInput, Prisma.shipping_methodsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type shipping_methodsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.shipping_methodsScalarWhereInput
-  data: Prisma.XOR<Prisma.shipping_methodsUpdateManyMutationInput, Prisma.shipping_methodsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type shipping_methodsScalarWhereInput = {
-  AND?: Prisma.shipping_methodsScalarWhereInput | Prisma.shipping_methodsScalarWhereInput[]
-  OR?: Prisma.shipping_methodsScalarWhereInput[]
-  NOT?: Prisma.shipping_methodsScalarWhereInput | Prisma.shipping_methodsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"shipping_methods"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
-  name?: Prisma.StringFilter<"shipping_methods"> | string
-  description?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
-  carrier?: Prisma.StringNullableFilter<"shipping_methods"> | string | null
-  estimated_days_min?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
-  estimated_days_max?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
-  is_active?: Prisma.BoolNullableFilter<"shipping_methods"> | boolean | null
-}
-
-export type shipping_methodsCreateManyTenantsInput = {
-  id?: string
-  name: string
-  description?: string | null
-  carrier?: string | null
-  estimated_days_min?: number | null
-  estimated_days_max?: number | null
-  is_active?: boolean | null
-}
-
-export type shipping_methodsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  shipping_rates?: Prisma.shipping_ratesUpdateManyWithoutShipping_methodsNestedInput
-}
-
-export type shipping_methodsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  shipping_rates?: Prisma.shipping_ratesUncheckedUpdateManyWithoutShipping_methodsNestedInput
-}
-
-export type shipping_methodsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carrier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimated_days_min?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-}
-
-
-/**
- * Count Type Shipping_methodsCountOutputType
- */
-
-export type Shipping_methodsCountOutputType = {
-  shipping_rates: number
-}
-
-export type Shipping_methodsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  shipping_rates?: boolean | Shipping_methodsCountOutputTypeCountShipping_ratesArgs
-}
-
-/**
- * Shipping_methodsCountOutputType without action
- */
-export type Shipping_methodsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Shipping_methodsCountOutputType
-   */
-  select?: Prisma.Shipping_methodsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * Shipping_methodsCountOutputType without action
- */
-export type Shipping_methodsCountOutputTypeCountShipping_ratesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.shipping_ratesWhereInput
-}
 
 
 export type shipping_methodsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   carrier?: boolean
   estimated_days_min?: boolean
   estimated_days_max?: boolean
   is_active?: boolean
-  shipping_rates?: boolean | Prisma.shipping_methods$shipping_ratesArgs<ExtArgs>
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Shipping_methodsCountOutputTypeDefaultArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   carrier?: boolean
   estimated_days_min?: boolean
   estimated_days_max?: boolean
   is_active?: boolean
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   carrier?: boolean
   estimated_days_min?: boolean
   estimated_days_max?: boolean
   is_active?: boolean
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
+  id?: boolean
+  tenant_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectScalar = {
-  id?: boolean
-  tenant_id?: boolean
   name?: boolean
   description?: boolean
   carrier?: boolean
   estimated_days_min?: boolean
   estimated_days_max?: boolean
   is_active?: boolean
+  id?: boolean
+  tenant_id?: boolean
 }
 
-export type shipping_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "description" | "carrier" | "estimated_days_min" | "estimated_days_max" | "is_active", ExtArgs["result"]["shipping_methods"]>
-export type shipping_methodsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  shipping_rates?: boolean | Prisma.shipping_methods$shipping_ratesArgs<ExtArgs>
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.Shipping_methodsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type shipping_methodsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
-}
-export type shipping_methodsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | Prisma.shipping_methods$tenantsArgs<ExtArgs>
-}
+export type shipping_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "carrier" | "estimated_days_min" | "estimated_days_max" | "is_active" | "id" | "tenant_id", ExtArgs["result"]["shipping_methods"]>
 
 export type $shipping_methodsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipping_methods"
-  objects: {
-    shipping_rates: Prisma.$shipping_ratesPayload<ExtArgs>[]
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    tenant_id: string | null
     name: string
     description: string | null
     carrier: string | null
     estimated_days_min: number | null
     estimated_days_max: number | null
     is_active: boolean | null
+    id: string
+    tenant_id: string | null
   }, ExtArgs["result"]["shipping_methods"]>
   composites: {}
 }
@@ -856,8 +564,8 @@ export interface shipping_methodsDelegate<ExtArgs extends runtime.Types.Extensio
    * // Get first 10 Shipping_methods
    * const shipping_methods = await prisma.shipping_methods.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const shipping_methodsWithIdOnly = await prisma.shipping_methods.findMany({ select: { id: true } })
+   * // Only select the `name`
+   * const shipping_methodsWithNameOnly = await prisma.shipping_methods.findMany({ select: { name: true } })
    * 
    */
   findMany<T extends shipping_methodsFindManyArgs>(args?: Prisma.SelectSubset<T, shipping_methodsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipping_methodsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -901,9 +609,9 @@ export interface shipping_methodsDelegate<ExtArgs extends runtime.Types.Extensio
    *   ]
    * })
    * 
-   * // Create many Shipping_methods and only return the `id`
-   * const shipping_methodsWithIdOnly = await prisma.shipping_methods.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Shipping_methods and only return the `name`
+   * const shipping_methodsWithNameOnly = await prisma.shipping_methods.createManyAndReturn({
+   *   select: { name: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -992,9 +700,9 @@ export interface shipping_methodsDelegate<ExtArgs extends runtime.Types.Extensio
    *   ]
    * })
    * 
-   * // Update zero or more Shipping_methods and only return the `id`
-   * const shipping_methodsWithIdOnly = await prisma.shipping_methods.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Shipping_methods and only return the `name`
+   * const shipping_methodsWithNameOnly = await prisma.shipping_methods.updateManyAndReturn({
+   *   select: { name: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1167,8 +875,6 @@ readonly fields: shipping_methodsFieldRefs;
  */
 export interface Prisma__shipping_methodsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  shipping_rates<T extends Prisma.shipping_methods$shipping_ratesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipping_methods$shipping_ratesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipping_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.shipping_methods$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipping_methods$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1198,14 +904,14 @@ export interface Prisma__shipping_methodsClient<T, Null = never, ExtArgs extends
  * Fields of the shipping_methods model
  */
 export interface shipping_methodsFieldRefs {
-  readonly id: Prisma.FieldRef<"shipping_methods", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"shipping_methods", 'String'>
   readonly name: Prisma.FieldRef<"shipping_methods", 'String'>
   readonly description: Prisma.FieldRef<"shipping_methods", 'String'>
   readonly carrier: Prisma.FieldRef<"shipping_methods", 'String'>
   readonly estimated_days_min: Prisma.FieldRef<"shipping_methods", 'Int'>
   readonly estimated_days_max: Prisma.FieldRef<"shipping_methods", 'Int'>
   readonly is_active: Prisma.FieldRef<"shipping_methods", 'Boolean'>
+  readonly id: Prisma.FieldRef<"shipping_methods", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"shipping_methods", 'String'>
 }
     
 
@@ -1222,10 +928,6 @@ export type shipping_methodsFindUniqueArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
   /**
    * Filter, which shipping_methods to fetch.
    */
@@ -1245,10 +947,6 @@ export type shipping_methodsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
-  /**
    * Filter, which shipping_methods to fetch.
    */
   where: Prisma.shipping_methodsWhereUniqueInput
@@ -1266,10 +964,6 @@ export type shipping_methodsFindFirstArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
   /**
    * Filter, which shipping_methods to fetch.
    */
@@ -1319,10 +1013,6 @@ export type shipping_methodsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
-  /**
    * Filter, which shipping_methods to fetch.
    */
   where?: Prisma.shipping_methodsWhereInput
@@ -1370,10 +1060,6 @@ export type shipping_methodsFindManyArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
   /**
    * Filter, which shipping_methods to fetch.
    */
@@ -1423,10 +1109,6 @@ export type shipping_methodsCreateArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
-  /**
    * The data needed to create a shipping_methods.
    */
   data: Prisma.XOR<Prisma.shipping_methodsCreateInput, Prisma.shipping_methodsUncheckedCreateInput>
@@ -1460,10 +1142,6 @@ export type shipping_methodsCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.shipping_methodsCreateManyInput | Prisma.shipping_methodsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1478,10 +1156,6 @@ export type shipping_methodsUpdateArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
   /**
    * The data needed to update a shipping_methods.
    */
@@ -1534,10 +1208,6 @@ export type shipping_methodsUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many shipping_methods to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1552,10 +1222,6 @@ export type shipping_methodsUpsertArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
   /**
    * The filter to search for the shipping_methods to update in case it exists.
    */
@@ -1583,10 +1249,6 @@ export type shipping_methodsDeleteArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
-  /**
    * Filter which shipping_methods to delete.
    */
   where: Prisma.shipping_methodsWhereUniqueInput
@@ -1607,49 +1269,6 @@ export type shipping_methodsDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * shipping_methods.shipping_rates
- */
-export type shipping_methods$shipping_ratesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the shipping_rates
-   */
-  select?: Prisma.shipping_ratesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the shipping_rates
-   */
-  omit?: Prisma.shipping_ratesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_ratesInclude<ExtArgs> | null
-  where?: Prisma.shipping_ratesWhereInput
-  orderBy?: Prisma.shipping_ratesOrderByWithRelationInput | Prisma.shipping_ratesOrderByWithRelationInput[]
-  cursor?: Prisma.shipping_ratesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Shipping_ratesScalarFieldEnum | Prisma.Shipping_ratesScalarFieldEnum[]
-}
-
-/**
- * shipping_methods.tenants
- */
-export type shipping_methods$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * shipping_methods without action
  */
 export type shipping_methodsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1661,8 +1280,4 @@ export type shipping_methodsDefaultArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the shipping_methods
    */
   omit?: Prisma.shipping_methodsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.shipping_methodsInclude<ExtArgs> | null
 }

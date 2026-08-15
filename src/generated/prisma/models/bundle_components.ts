@@ -39,7 +39,6 @@ export type Bundle_componentsSumAggregateOutputType = {
 export type Bundle_componentsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
-  parent_product_id: string | null
   component_variant_id: string | null
   qty: runtime.Decimal | null
   uom_id: string | null
@@ -47,12 +46,12 @@ export type Bundle_componentsMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  parent_product_id: string | null
 }
 
 export type Bundle_componentsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
-  parent_product_id: string | null
   component_variant_id: string | null
   qty: runtime.Decimal | null
   uom_id: string | null
@@ -60,12 +59,12 @@ export type Bundle_componentsMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  parent_product_id: string | null
 }
 
 export type Bundle_componentsCountAggregateOutputType = {
   id: number
   tenant_id: number
-  parent_product_id: number
   component_variant_id: number
   qty: number
   uom_id: number
@@ -73,6 +72,7 @@ export type Bundle_componentsCountAggregateOutputType = {
   created_at: number
   updated_at: number
   auth_user_id: number
+  parent_product_id: number
   _all: number
 }
 
@@ -90,7 +90,6 @@ export type Bundle_componentsSumAggregateInputType = {
 export type Bundle_componentsMinAggregateInputType = {
   id?: true
   tenant_id?: true
-  parent_product_id?: true
   component_variant_id?: true
   qty?: true
   uom_id?: true
@@ -98,12 +97,12 @@ export type Bundle_componentsMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  parent_product_id?: true
 }
 
 export type Bundle_componentsMaxAggregateInputType = {
   id?: true
   tenant_id?: true
-  parent_product_id?: true
   component_variant_id?: true
   qty?: true
   uom_id?: true
@@ -111,12 +110,12 @@ export type Bundle_componentsMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  parent_product_id?: true
 }
 
 export type Bundle_componentsCountAggregateInputType = {
   id?: true
   tenant_id?: true
-  parent_product_id?: true
   component_variant_id?: true
   qty?: true
   uom_id?: true
@@ -124,6 +123,7 @@ export type Bundle_componentsCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  parent_product_id?: true
   _all?: true
 }
 
@@ -216,7 +216,6 @@ export type bundle_componentsGroupByArgs<ExtArgs extends runtime.Types.Extension
 export type Bundle_componentsGroupByOutputType = {
   id: string
   tenant_id: string
-  parent_product_id: string
   component_variant_id: string
   qty: runtime.Decimal
   uom_id: string | null
@@ -224,6 +223,7 @@ export type Bundle_componentsGroupByOutputType = {
   created_at: Date
   updated_at: Date
   auth_user_id: string | null
+  parent_product_id: string
   _count: Bundle_componentsCountAggregateOutputType | null
   _avg: Bundle_componentsAvgAggregateOutputType | null
   _sum: Bundle_componentsSumAggregateOutputType | null
@@ -252,7 +252,6 @@ export type bundle_componentsWhereInput = {
   NOT?: Prisma.bundle_componentsWhereInput | Prisma.bundle_componentsWhereInput[]
   id?: Prisma.UuidFilter<"bundle_components"> | string
   tenant_id?: Prisma.UuidFilter<"bundle_components"> | string
-  parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
   component_variant_id?: Prisma.UuidFilter<"bundle_components"> | string
   qty?: Prisma.DecimalFilter<"bundle_components"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
@@ -260,12 +259,12 @@ export type bundle_componentsWhereInput = {
   created_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
+  parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
 }
 
 export type bundle_componentsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  parent_product_id?: Prisma.SortOrder
   component_variant_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -273,16 +272,15 @@ export type bundle_componentsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  parent_product_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  parent_product_id_component_variant_id?: Prisma.bundle_componentsParent_product_idComponent_variant_idCompoundUniqueInput
   AND?: Prisma.bundle_componentsWhereInput | Prisma.bundle_componentsWhereInput[]
   OR?: Prisma.bundle_componentsWhereInput[]
   NOT?: Prisma.bundle_componentsWhereInput | Prisma.bundle_componentsWhereInput[]
   tenant_id?: Prisma.UuidFilter<"bundle_components"> | string
-  parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
   component_variant_id?: Prisma.UuidFilter<"bundle_components"> | string
   qty?: Prisma.DecimalFilter<"bundle_components"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
@@ -290,12 +288,12 @@ export type bundle_componentsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
-}, "id" | "parent_product_id_component_variant_id">
+  parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
+}, "id">
 
 export type bundle_componentsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  parent_product_id?: Prisma.SortOrder
   component_variant_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -303,6 +301,7 @@ export type bundle_componentsOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  parent_product_id?: Prisma.SortOrder
   _count?: Prisma.bundle_componentsCountOrderByAggregateInput
   _avg?: Prisma.bundle_componentsAvgOrderByAggregateInput
   _max?: Prisma.bundle_componentsMaxOrderByAggregateInput
@@ -316,7 +315,6 @@ export type bundle_componentsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.bundle_componentsScalarWhereWithAggregatesInput | Prisma.bundle_componentsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
-  parent_product_id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
   component_variant_id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
   qty?: Prisma.DecimalWithAggregatesFilter<"bundle_components"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"bundle_components"> | string | null
@@ -324,12 +322,12 @@ export type bundle_componentsScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"bundle_components"> | Date | string
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"bundle_components"> | string | null
+  parent_product_id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
 }
 
 export type bundle_componentsCreateInput = {
   id?: string
   tenant_id: string
-  parent_product_id: string
   component_variant_id: string
   qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -337,12 +335,12 @@ export type bundle_componentsCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  parent_product_id: string
 }
 
 export type bundle_componentsUncheckedCreateInput = {
   id?: string
   tenant_id: string
-  parent_product_id: string
   component_variant_id: string
   qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -350,12 +348,12 @@ export type bundle_componentsUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  parent_product_id: string
 }
 
 export type bundle_componentsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
   component_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -363,12 +361,12 @@ export type bundle_componentsUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type bundle_componentsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
   component_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -376,12 +374,12 @@ export type bundle_componentsUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type bundle_componentsCreateManyInput = {
   id?: string
   tenant_id: string
-  parent_product_id: string
   component_variant_id: string
   qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
@@ -389,12 +387,12 @@ export type bundle_componentsCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  parent_product_id: string
 }
 
 export type bundle_componentsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
   component_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -402,12 +400,12 @@ export type bundle_componentsUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type bundle_componentsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
   component_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -415,17 +413,12 @@ export type bundle_componentsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type bundle_componentsParent_product_idComponent_variant_idCompoundUniqueInput = {
-  parent_product_id: string
-  component_variant_id: string
+  parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type bundle_componentsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  parent_product_id?: Prisma.SortOrder
   component_variant_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
@@ -433,6 +426,7 @@ export type bundle_componentsCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  parent_product_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsAvgOrderByAggregateInput = {
@@ -443,7 +437,6 @@ export type bundle_componentsAvgOrderByAggregateInput = {
 export type bundle_componentsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  parent_product_id?: Prisma.SortOrder
   component_variant_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
@@ -451,12 +444,12 @@ export type bundle_componentsMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  parent_product_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  parent_product_id?: Prisma.SortOrder
   component_variant_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
@@ -464,6 +457,7 @@ export type bundle_componentsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  parent_product_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsSumOrderByAggregateInput = {
@@ -476,7 +470,6 @@ export type bundle_componentsSumOrderByAggregateInput = {
 export type bundle_componentsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  parent_product_id?: boolean
   component_variant_id?: boolean
   qty?: boolean
   uom_id?: boolean
@@ -484,12 +477,12 @@ export type bundle_componentsSelect<ExtArgs extends runtime.Types.Extensions.Int
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  parent_product_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  parent_product_id?: boolean
   component_variant_id?: boolean
   qty?: boolean
   uom_id?: boolean
@@ -497,12 +490,12 @@ export type bundle_componentsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  parent_product_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  parent_product_id?: boolean
   component_variant_id?: boolean
   qty?: boolean
   uom_id?: boolean
@@ -510,12 +503,12 @@ export type bundle_componentsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  parent_product_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectScalar = {
   id?: boolean
   tenant_id?: boolean
-  parent_product_id?: boolean
   component_variant_id?: boolean
   qty?: boolean
   uom_id?: boolean
@@ -523,9 +516,10 @@ export type bundle_componentsSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  parent_product_id?: boolean
 }
 
-export type bundle_componentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "parent_product_id" | "component_variant_id" | "qty" | "uom_id" | "sort_order" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["bundle_components"]>
+export type bundle_componentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "component_variant_id" | "qty" | "uom_id" | "sort_order" | "created_at" | "updated_at" | "auth_user_id" | "parent_product_id", ExtArgs["result"]["bundle_components"]>
 
 export type $bundle_componentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "bundle_components"
@@ -533,7 +527,6 @@ export type $bundle_componentsPayload<ExtArgs extends runtime.Types.Extensions.I
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
-    parent_product_id: string
     component_variant_id: string
     qty: runtime.Decimal
     uom_id: string | null
@@ -541,6 +534,7 @@ export type $bundle_componentsPayload<ExtArgs extends runtime.Types.Extensions.I
     created_at: Date
     updated_at: Date
     auth_user_id: string | null
+    parent_product_id: string
   }, ExtArgs["result"]["bundle_components"]>
   composites: {}
 }
@@ -966,7 +960,6 @@ export interface Prisma__bundle_componentsClient<T, Null = never, ExtArgs extend
 export interface bundle_componentsFieldRefs {
   readonly id: Prisma.FieldRef<"bundle_components", 'String'>
   readonly tenant_id: Prisma.FieldRef<"bundle_components", 'String'>
-  readonly parent_product_id: Prisma.FieldRef<"bundle_components", 'String'>
   readonly component_variant_id: Prisma.FieldRef<"bundle_components", 'String'>
   readonly qty: Prisma.FieldRef<"bundle_components", 'Decimal'>
   readonly uom_id: Prisma.FieldRef<"bundle_components", 'String'>
@@ -974,6 +967,7 @@ export interface bundle_componentsFieldRefs {
   readonly created_at: Prisma.FieldRef<"bundle_components", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"bundle_components", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"bundle_components", 'String'>
+  readonly parent_product_id: Prisma.FieldRef<"bundle_components", 'String'>
 }
     
 

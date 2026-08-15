@@ -38,37 +38,36 @@ export type Res_order_itemsSumAggregateOutputType = {
 
 export type Res_order_itemsMinAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   item_id: string | null
   variant_id: string | null
   quantity: number | null
   unit_price: runtime.Decimal | null
   notes: string | null
-  status: $Enums.order_item_status | null
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
+  status: $Enums.order_item_status | null
 }
 
 export type Res_order_itemsMaxAggregateOutputType = {
   id: string | null
-  tenant_id: string | null
   order_id: string | null
   item_id: string | null
   variant_id: string | null
   quantity: number | null
   unit_price: runtime.Decimal | null
   notes: string | null
-  status: $Enums.order_item_status | null
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
+  status: $Enums.order_item_status | null
 }
 
 export type Res_order_itemsCountAggregateOutputType = {
   id: number
-  tenant_id: number
   order_id: number
   item_id: number
   variant_id: number
@@ -76,10 +75,11 @@ export type Res_order_itemsCountAggregateOutputType = {
   unit_price: number
   properties: number
   notes: number
-  status: number
   created_at: number
   updated_at: number
   auth_user_id: number
+  tenant_id: number
+  status: number
   _all: number
 }
 
@@ -96,37 +96,36 @@ export type Res_order_itemsSumAggregateInputType = {
 
 export type Res_order_itemsMinAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   item_id?: true
   variant_id?: true
   quantity?: true
   unit_price?: true
   notes?: true
-  status?: true
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_order_itemsMaxAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   item_id?: true
   variant_id?: true
   quantity?: true
   unit_price?: true
   notes?: true
-  status?: true
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
+  status?: true
 }
 
 export type Res_order_itemsCountAggregateInputType = {
   id?: true
-  tenant_id?: true
   order_id?: true
   item_id?: true
   variant_id?: true
@@ -134,10 +133,11 @@ export type Res_order_itemsCountAggregateInputType = {
   unit_price?: true
   properties?: true
   notes?: true
-  status?: true
   created_at?: true
   updated_at?: true
   auth_user_id?: true
+  tenant_id?: true
+  status?: true
   _all?: true
 }
 
@@ -229,7 +229,6 @@ export type res_order_itemsGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type Res_order_itemsGroupByOutputType = {
   id: string
-  tenant_id: string | null
   order_id: string | null
   item_id: string | null
   variant_id: string | null
@@ -237,10 +236,11 @@ export type Res_order_itemsGroupByOutputType = {
   unit_price: runtime.Decimal
   properties: runtime.JsonValue | null
   notes: string | null
-  status: $Enums.order_item_status | null
   created_at: Date | null
   updated_at: Date | null
   auth_user_id: string | null
+  tenant_id: string | null
+  status: $Enums.order_item_status | null
   _count: Res_order_itemsCountAggregateOutputType | null
   _avg: Res_order_itemsAvgAggregateOutputType | null
   _sum: Res_order_itemsSumAggregateOutputType | null
@@ -268,7 +268,6 @@ export type res_order_itemsWhereInput = {
   OR?: Prisma.res_order_itemsWhereInput[]
   NOT?: Prisma.res_order_itemsWhereInput | Prisma.res_order_itemsWhereInput[]
   id?: Prisma.UuidFilter<"res_order_items"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   order_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   variant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
@@ -276,19 +275,15 @@ export type res_order_itemsWhereInput = {
   unit_price?: Prisma.DecimalFilter<"res_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.JsonNullableFilter<"res_order_items">
   notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
-  status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
   created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  res_item_variants?: Prisma.XOR<Prisma.Res_item_variantsNullableScalarRelationFilter, Prisma.res_item_variantsWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
 }
 
 export type res_order_itemsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   variant_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -296,14 +291,11 @@ export type res_order_itemsOrderByWithRelationInput = {
   unit_price?: Prisma.SortOrder
   properties?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  res_menu_items?: Prisma.res_menu_itemsOrderByWithRelationInput
-  res_orders?: Prisma.res_ordersOrderByWithRelationInput
-  res_item_variants?: Prisma.res_item_variantsOrderByWithRelationInput
-  tenants?: Prisma.tenantsOrderByWithRelationInput
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_order_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -311,7 +303,6 @@ export type res_order_itemsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.res_order_itemsWhereInput | Prisma.res_order_itemsWhereInput[]
   OR?: Prisma.res_order_itemsWhereInput[]
   NOT?: Prisma.res_order_itemsWhereInput | Prisma.res_order_itemsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   order_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   item_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   variant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
@@ -319,19 +310,15 @@ export type res_order_itemsWhereUniqueInput = Prisma.AtLeast<{
   unit_price?: Prisma.DecimalFilter<"res_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.JsonNullableFilter<"res_order_items">
   notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
-  status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
   created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
-  res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
-  res_item_variants?: Prisma.XOR<Prisma.Res_item_variantsNullableScalarRelationFilter, Prisma.res_item_variantsWhereInput> | null
-  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
 }, "id">
 
 export type res_order_itemsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   variant_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -339,10 +326,11 @@ export type res_order_itemsOrderByWithAggregationInput = {
   unit_price?: Prisma.SortOrder
   properties?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_order_itemsCountOrderByAggregateInput
   _avg?: Prisma.res_order_itemsAvgOrderByAggregateInput
   _max?: Prisma.res_order_itemsMaxOrderByAggregateInput
@@ -355,7 +343,6 @@ export type res_order_itemsScalarWhereWithAggregatesInput = {
   OR?: Prisma.res_order_itemsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.res_order_itemsScalarWhereWithAggregatesInput | Prisma.res_order_itemsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"res_order_items"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
   order_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
   item_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
   variant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
@@ -363,31 +350,31 @@ export type res_order_itemsScalarWhereWithAggregatesInput = {
   unit_price?: Prisma.DecimalWithAggregatesFilter<"res_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.JsonNullableWithAggregatesFilter<"res_order_items">
   notes?: Prisma.StringNullableWithAggregatesFilter<"res_order_items"> | string | null
-  status?: Prisma.Enumorder_item_statusNullableWithAggregatesFilter<"res_order_items"> | $Enums.order_item_status | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
+  status?: Prisma.Enumorder_item_statusNullableWithAggregatesFilter<"res_order_items"> | $Enums.order_item_status | null
 }
 
 export type res_order_itemsCreateInput = {
   id?: string
+  order_id?: string | null
+  item_id?: string | null
+  variant_id?: string | null
   quantity?: number | null
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   notes?: string | null
-  status?: $Enums.order_item_status | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
-  res_item_variants?: Prisma.res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_order_itemsInput
+  tenant_id?: string | null
+  status?: $Enums.order_item_status | null
 }
 
 export type res_order_itemsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
   order_id?: string | null
   item_id?: string | null
   variant_id?: string | null
@@ -395,31 +382,15 @@ export type res_order_itemsUncheckedCreateInput = {
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   notes?: string | null
-  status?: $Enums.order_item_status | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_item_status | null
 }
 
 export type res_order_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
-  res_item_variants?: Prisma.res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_order_itemsNestedInput
-}
-
-export type res_order_itemsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -427,15 +398,31 @@ export type res_order_itemsUncheckedUpdateInput = {
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+}
+
+export type res_order_itemsUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
 }
 
 export type res_order_itemsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
   order_id?: string | null
   item_id?: string | null
   variant_id?: string | null
@@ -443,27 +430,15 @@ export type res_order_itemsCreateManyInput = {
   unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   notes?: string | null
-  status?: $Enums.order_item_status | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   auth_user_id?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_item_status | null
 }
 
 export type res_order_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -471,25 +446,31 @@ export type res_order_itemsUncheckedUpdateManyInput = {
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
 }
 
-export type Res_order_itemsListRelationFilter = {
-  every?: Prisma.res_order_itemsWhereInput
-  some?: Prisma.res_order_itemsWhereInput
-  none?: Prisma.res_order_itemsWhereInput
-}
-
-export type res_order_itemsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type res_order_itemsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
 }
 
 export type res_order_itemsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   variant_id?: Prisma.SortOrder
@@ -497,10 +478,11 @@ export type res_order_itemsCountOrderByAggregateInput = {
   unit_price?: Prisma.SortOrder
   properties?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_order_itemsAvgOrderByAggregateInput = {
@@ -510,32 +492,32 @@ export type res_order_itemsAvgOrderByAggregateInput = {
 
 export type res_order_itemsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   variant_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_order_itemsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
   item_id?: Prisma.SortOrder
   variant_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type res_order_itemsSumOrderByAggregateInput = {
@@ -543,666 +525,14 @@ export type res_order_itemsSumOrderByAggregateInput = {
   unit_price?: Prisma.SortOrder
 }
 
-export type res_order_itemsCreateNestedManyWithoutRes_item_variantsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput> | Prisma.res_order_itemsCreateWithoutRes_item_variantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_item_variantsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUncheckedCreateNestedManyWithoutRes_item_variantsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput> | Prisma.res_order_itemsCreateWithoutRes_item_variantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_item_variantsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUpdateManyWithoutRes_item_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput> | Prisma.res_order_itemsCreateWithoutRes_item_variantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_item_variantsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_item_variantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_item_variantsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_item_variantsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_item_variantsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_item_variantsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_item_variantsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput> | Prisma.res_order_itemsCreateWithoutRes_item_variantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_item_variantsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_item_variantsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_item_variantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_item_variantsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_item_variantsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_item_variantsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_item_variantsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_item_variantsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUncheckedCreateNestedManyWithoutRes_menu_itemsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_menu_itemsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput> | Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_menu_itemsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_menu_itemsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_menu_itemsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_menu_itemsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_menu_itemsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
 export type NullableEnumorder_item_statusFieldUpdateOperationsInput = {
   set?: $Enums.order_item_status | null
-}
-
-export type res_order_itemsCreateNestedManyWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_order_itemsCreateWithoutRes_ordersInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_ordersInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_order_itemsCreateWithoutRes_ordersInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_ordersInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUpdateManyWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_order_itemsCreateWithoutRes_ordersInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_ordersInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_ordersInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_ordersInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_ordersInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_ordersInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_ordersInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_ordersInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput> | Prisma.res_order_itemsCreateWithoutRes_ordersInput[] | Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput | Prisma.res_order_itemsCreateOrConnectWithoutRes_ordersInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_ordersInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutRes_ordersInput[]
-  createMany?: Prisma.res_order_itemsCreateManyRes_ordersInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_ordersInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutRes_ordersInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_ordersInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutRes_ordersInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput> | Prisma.res_order_itemsCreateWithoutTenantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput | Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUncheckedCreateNestedManyWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput> | Prisma.res_order_itemsCreateWithoutTenantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput | Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyTenantsInputEnvelope
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-}
-
-export type res_order_itemsUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput> | Prisma.res_order_itemsCreateWithoutTenantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput | Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput> | Prisma.res_order_itemsCreateWithoutTenantsInput[] | Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput[]
-  connectOrCreate?: Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput | Prisma.res_order_itemsCreateOrConnectWithoutTenantsInput[]
-  upsert?: Prisma.res_order_itemsUpsertWithWhereUniqueWithoutTenantsInput | Prisma.res_order_itemsUpsertWithWhereUniqueWithoutTenantsInput[]
-  createMany?: Prisma.res_order_itemsCreateManyTenantsInputEnvelope
-  set?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  disconnect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  delete?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  connect?: Prisma.res_order_itemsWhereUniqueInput | Prisma.res_order_itemsWhereUniqueInput[]
-  update?: Prisma.res_order_itemsUpdateWithWhereUniqueWithoutTenantsInput | Prisma.res_order_itemsUpdateWithWhereUniqueWithoutTenantsInput[]
-  updateMany?: Prisma.res_order_itemsUpdateManyWithWhereWithoutTenantsInput | Prisma.res_order_itemsUpdateManyWithWhereWithoutTenantsInput[]
-  deleteMany?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-}
-
-export type res_order_itemsCreateWithoutRes_item_variantsInput = {
-  id?: string
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_order_itemsInput
-}
-
-export type res_order_itemsUncheckedCreateWithoutRes_item_variantsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_id?: string | null
-  item_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsCreateOrConnectWithoutRes_item_variantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput>
-}
-
-export type res_order_itemsCreateManyRes_item_variantsInputEnvelope = {
-  data: Prisma.res_order_itemsCreateManyRes_item_variantsInput | Prisma.res_order_itemsCreateManyRes_item_variantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_order_itemsUpsertWithWhereUniqueWithoutRes_item_variantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_item_variantsInput>
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_item_variantsInput>
-}
-
-export type res_order_itemsUpdateWithWhereUniqueWithoutRes_item_variantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_item_variantsInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_item_variantsInput>
-}
-
-export type res_order_itemsUpdateManyWithWhereWithoutRes_item_variantsInput = {
-  where: Prisma.res_order_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateManyMutationInput, Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsInput>
-}
-
-export type res_order_itemsScalarWhereInput = {
-  AND?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-  OR?: Prisma.res_order_itemsScalarWhereInput[]
-  NOT?: Prisma.res_order_itemsScalarWhereInput | Prisma.res_order_itemsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"res_order_items"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  order_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  item_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  variant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  quantity?: Prisma.IntNullableFilter<"res_order_items"> | number | null
-  unit_price?: Prisma.DecimalFilter<"res_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.JsonNullableFilter<"res_order_items">
-  notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
-  status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
-  created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-}
-
-export type res_order_itemsCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
-  res_item_variants?: Prisma.res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_order_itemsInput
-}
-
-export type res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_order_itemsCreateManyRes_menu_itemsInputEnvelope = {
-  data: Prisma.res_order_itemsCreateManyRes_menu_itemsInput | Prisma.res_order_itemsCreateManyRes_menu_itemsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_order_itemsUpsertWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_menu_itemsInput>
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput>
-}
-
-export type res_order_itemsUpdateWithWhereUniqueWithoutRes_menu_itemsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_menu_itemsInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_menu_itemsInput>
-}
-
-export type res_order_itemsUpdateManyWithWhereWithoutRes_menu_itemsInput = {
-  where: Prisma.res_order_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateManyMutationInput, Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsInput>
-}
-
-export type res_order_itemsCreateWithoutRes_ordersInput = {
-  id?: string
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
-  res_item_variants?: Prisma.res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
-  tenants?: Prisma.tenantsCreateNestedOneWithoutRes_order_itemsInput
-}
-
-export type res_order_itemsUncheckedCreateWithoutRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  item_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsCreateOrConnectWithoutRes_ordersInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_order_itemsCreateManyRes_ordersInputEnvelope = {
-  data: Prisma.res_order_itemsCreateManyRes_ordersInput | Prisma.res_order_itemsCreateManyRes_ordersInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_order_itemsUpsertWithWhereUniqueWithoutRes_ordersInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_ordersInput>
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedCreateWithoutRes_ordersInput>
-}
-
-export type res_order_itemsUpdateWithWhereUniqueWithoutRes_ordersInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutRes_ordersInput, Prisma.res_order_itemsUncheckedUpdateWithoutRes_ordersInput>
-}
-
-export type res_order_itemsUpdateManyWithWhereWithoutRes_ordersInput = {
-  where: Prisma.res_order_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateManyMutationInput, Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersInput>
-}
-
-export type res_order_itemsCreateWithoutTenantsInput = {
-  id?: string
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-  res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
-  res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
-  res_item_variants?: Prisma.res_item_variantsCreateNestedOneWithoutRes_order_itemsInput
-}
-
-export type res_order_itemsUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  order_id?: string | null
-  item_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_order_itemsCreateManyTenantsInputEnvelope = {
-  data: Prisma.res_order_itemsCreateManyTenantsInput | Prisma.res_order_itemsCreateManyTenantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type res_order_itemsUpsertWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutTenantsInput, Prisma.res_order_itemsUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.res_order_itemsCreateWithoutTenantsInput, Prisma.res_order_itemsUncheckedCreateWithoutTenantsInput>
-}
-
-export type res_order_itemsUpdateWithWhereUniqueWithoutTenantsInput = {
-  where: Prisma.res_order_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateWithoutTenantsInput, Prisma.res_order_itemsUncheckedUpdateWithoutTenantsInput>
-}
-
-export type res_order_itemsUpdateManyWithWhereWithoutTenantsInput = {
-  where: Prisma.res_order_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.res_order_itemsUpdateManyMutationInput, Prisma.res_order_itemsUncheckedUpdateManyWithoutTenantsInput>
-}
-
-export type res_order_itemsCreateManyRes_item_variantsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_id?: string | null
-  item_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsUpdateWithoutRes_item_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_order_itemsNestedInput
-}
-
-export type res_order_itemsUncheckedUpdateWithoutRes_item_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_item_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsCreateManyRes_menu_itemsInput = {
-  id?: string
-  tenant_id?: string | null
-  order_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
-  res_item_variants?: Prisma.res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_order_itemsNestedInput
-}
-
-export type res_order_itemsUncheckedUpdateWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsCreateManyRes_ordersInput = {
-  id?: string
-  tenant_id?: string | null
-  item_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
-  res_item_variants?: Prisma.res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
-  tenants?: Prisma.tenantsUpdateOneWithoutRes_order_itemsNestedInput
-}
-
-export type res_order_itemsUncheckedUpdateWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutRes_ordersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsCreateManyTenantsInput = {
-  id?: string
-  order_id?: string | null
-  item_id?: string | null
-  variant_id?: string | null
-  quantity?: number | null
-  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  status?: $Enums.order_item_status | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  auth_user_id?: string | null
-}
-
-export type res_order_itemsUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
-  res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
-  res_item_variants?: Prisma.res_item_variantsUpdateOneWithoutRes_order_itemsNestedInput
-}
-
-export type res_order_itemsUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type res_order_itemsUncheckedUpdateManyWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  properties?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
 
 export type res_order_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   item_id?: boolean
   variant_id?: boolean
@@ -1210,19 +540,15 @@ export type res_order_itemsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   unit_price?: boolean
   properties?: boolean
   notes?: boolean
-  status?: boolean
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_order_items"]>
 
 export type res_order_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   item_id?: boolean
   variant_id?: boolean
@@ -1230,19 +556,15 @@ export type res_order_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   unit_price?: boolean
   properties?: boolean
   notes?: boolean
-  status?: boolean
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_order_items"]>
 
 export type res_order_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   item_id?: boolean
   variant_id?: boolean
@@ -1250,19 +572,15 @@ export type res_order_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   unit_price?: boolean
   properties?: boolean
   notes?: boolean
-  status?: boolean
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
+  tenant_id?: boolean
+  status?: boolean
 }, ExtArgs["result"]["res_order_items"]>
 
 export type res_order_itemsSelectScalar = {
   id?: boolean
-  tenant_id?: boolean
   order_id?: boolean
   item_id?: boolean
   variant_id?: boolean
@@ -1270,43 +588,20 @@ export type res_order_itemsSelectScalar = {
   unit_price?: boolean
   properties?: boolean
   notes?: boolean
-  status?: boolean
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  tenant_id?: boolean
+  status?: boolean
 }
 
-export type res_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "status" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["res_order_items"]>
-export type res_order_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
-}
-export type res_order_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
-}
-export type res_order_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
-  res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
-  res_item_variants?: boolean | Prisma.res_order_items$res_item_variantsArgs<ExtArgs>
-  tenants?: boolean | Prisma.res_order_items$tenantsArgs<ExtArgs>
-}
+export type res_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "created_at" | "updated_at" | "auth_user_id" | "tenant_id" | "status", ExtArgs["result"]["res_order_items"]>
 
 export type $res_order_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_order_items"
-  objects: {
-    res_menu_items: Prisma.$res_menu_itemsPayload<ExtArgs> | null
-    res_orders: Prisma.$res_ordersPayload<ExtArgs> | null
-    res_item_variants: Prisma.$res_item_variantsPayload<ExtArgs> | null
-    tenants: Prisma.$tenantsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
     order_id: string | null
     item_id: string | null
     variant_id: string | null
@@ -1314,10 +609,11 @@ export type $res_order_itemsPayload<ExtArgs extends runtime.Types.Extensions.Int
     unit_price: runtime.Decimal
     properties: runtime.JsonValue | null
     notes: string | null
-    status: $Enums.order_item_status | null
     created_at: Date | null
     updated_at: Date | null
     auth_user_id: string | null
+    tenant_id: string | null
+    status: $Enums.order_item_status | null
   }, ExtArgs["result"]["res_order_items"]>
   composites: {}
 }
@@ -1712,10 +1008,6 @@ readonly fields: res_order_itemsFieldRefs;
  */
 export interface Prisma__res_order_itemsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  res_menu_items<T extends Prisma.res_order_items$res_menu_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>>): Prisma.Prisma__res_menu_itemsClient<runtime.Types.Result.GetResult<Prisma.$res_menu_itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_orders<T extends Prisma.res_order_items$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_order_items$res_ordersArgs<ExtArgs>>): Prisma.Prisma__res_ordersClient<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  res_item_variants<T extends Prisma.res_order_items$res_item_variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_order_items$res_item_variantsArgs<ExtArgs>>): Prisma.Prisma__res_item_variantsClient<runtime.Types.Result.GetResult<Prisma.$res_item_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.res_order_items$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_order_items$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1746,7 +1038,6 @@ export interface Prisma__res_order_itemsClient<T, Null = never, ExtArgs extends 
  */
 export interface res_order_itemsFieldRefs {
   readonly id: Prisma.FieldRef<"res_order_items", 'String'>
-  readonly tenant_id: Prisma.FieldRef<"res_order_items", 'String'>
   readonly order_id: Prisma.FieldRef<"res_order_items", 'String'>
   readonly item_id: Prisma.FieldRef<"res_order_items", 'String'>
   readonly variant_id: Prisma.FieldRef<"res_order_items", 'String'>
@@ -1754,10 +1045,11 @@ export interface res_order_itemsFieldRefs {
   readonly unit_price: Prisma.FieldRef<"res_order_items", 'Decimal'>
   readonly properties: Prisma.FieldRef<"res_order_items", 'Json'>
   readonly notes: Prisma.FieldRef<"res_order_items", 'String'>
-  readonly status: Prisma.FieldRef<"res_order_items", 'order_item_status'>
   readonly created_at: Prisma.FieldRef<"res_order_items", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"res_order_items", 'DateTime'>
   readonly auth_user_id: Prisma.FieldRef<"res_order_items", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"res_order_items", 'String'>
+  readonly status: Prisma.FieldRef<"res_order_items", 'order_item_status'>
 }
     
 
@@ -1774,10 +1066,6 @@ export type res_order_itemsFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
   /**
    * Filter, which res_order_items to fetch.
    */
@@ -1797,10 +1085,6 @@ export type res_order_itemsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  /**
    * Filter, which res_order_items to fetch.
    */
   where: Prisma.res_order_itemsWhereUniqueInput
@@ -1818,10 +1102,6 @@ export type res_order_itemsFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
   /**
    * Filter, which res_order_items to fetch.
    */
@@ -1871,10 +1151,6 @@ export type res_order_itemsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  /**
    * Filter, which res_order_items to fetch.
    */
   where?: Prisma.res_order_itemsWhereInput
@@ -1922,10 +1198,6 @@ export type res_order_itemsFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
   /**
    * Filter, which res_order_items to fetch.
    */
@@ -1975,10 +1247,6 @@ export type res_order_itemsCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  /**
    * The data needed to create a res_order_items.
    */
   data: Prisma.XOR<Prisma.res_order_itemsCreateInput, Prisma.res_order_itemsUncheckedCreateInput>
@@ -2012,10 +1280,6 @@ export type res_order_itemsCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.res_order_itemsCreateManyInput | Prisma.res_order_itemsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2030,10 +1294,6 @@ export type res_order_itemsUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
   /**
    * The data needed to update a res_order_items.
    */
@@ -2086,10 +1346,6 @@ export type res_order_itemsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many res_order_items to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2104,10 +1360,6 @@ export type res_order_itemsUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
   /**
    * The filter to search for the res_order_items to update in case it exists.
    */
@@ -2135,10 +1387,6 @@ export type res_order_itemsDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
-  /**
    * Filter which res_order_items to delete.
    */
   where: Prisma.res_order_itemsWhereUniqueInput
@@ -2159,82 +1407,6 @@ export type res_order_itemsDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * res_order_items.res_menu_items
- */
-export type res_order_items$res_menu_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_menu_items
-   */
-  select?: Prisma.res_menu_itemsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_menu_items
-   */
-  omit?: Prisma.res_menu_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_menu_itemsInclude<ExtArgs> | null
-  where?: Prisma.res_menu_itemsWhereInput
-}
-
-/**
- * res_order_items.res_orders
- */
-export type res_order_items$res_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_orders
-   */
-  select?: Prisma.res_ordersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_orders
-   */
-  omit?: Prisma.res_ordersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_ordersInclude<ExtArgs> | null
-  where?: Prisma.res_ordersWhereInput
-}
-
-/**
- * res_order_items.res_item_variants
- */
-export type res_order_items$res_item_variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the res_item_variants
-   */
-  select?: Prisma.res_item_variantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the res_item_variants
-   */
-  omit?: Prisma.res_item_variantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_item_variantsInclude<ExtArgs> | null
-  where?: Prisma.res_item_variantsWhereInput
-}
-
-/**
- * res_order_items.tenants
- */
-export type res_order_items$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-}
-
-/**
  * res_order_items without action
  */
 export type res_order_itemsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2246,8 +1418,4 @@ export type res_order_itemsDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the res_order_items
    */
   omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
 }

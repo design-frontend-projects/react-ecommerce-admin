@@ -284,11 +284,6 @@ export type stock_by_locationWhereInput = {
   created_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
-  product_batches?: Prisma.XOR<Prisma.Product_batchesNullableScalarRelationFilter, Prisma.product_batchesWhereInput> | null
-  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
-  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
-  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsScalarRelationFilter, Prisma.warehouse_locationsWhereInput>
-  stores?: Prisma.XOR<Prisma.StoresScalarRelationFilter, Prisma.storesWhereInput>
 }
 
 export type stock_by_locationOrderByWithRelationInput = {
@@ -305,11 +300,6 @@ export type stock_by_locationOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_batches?: Prisma.product_batchesOrderByWithRelationInput
-  product_variants?: Prisma.product_variantsOrderByWithRelationInput
-  warehouses?: Prisma.warehousesOrderByWithRelationInput
-  warehouse_locations?: Prisma.warehouse_locationsOrderByWithRelationInput
-  stores?: Prisma.storesOrderByWithRelationInput
 }
 
 export type stock_by_locationWhereUniqueInput = Prisma.AtLeast<{
@@ -329,11 +319,6 @@ export type stock_by_locationWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
-  product_batches?: Prisma.XOR<Prisma.Product_batchesNullableScalarRelationFilter, Prisma.product_batchesWhereInput> | null
-  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
-  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
-  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsScalarRelationFilter, Prisma.warehouse_locationsWhereInput>
-  stores?: Prisma.XOR<Prisma.StoresScalarRelationFilter, Prisma.storesWhereInput>
 }, "id">
 
 export type stock_by_locationOrderByWithAggregationInput = {
@@ -379,17 +364,17 @@ export type stock_by_locationScalarWhereWithAggregatesInput = {
 export type stock_by_locationCreateInput = {
   id?: string
   tenant_id: string
+  store_id: string
+  warehouse_id: string
+  warehouse_location_id: string
+  product_variant_id: string
+  batch_id?: string | null
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_by_locationInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_by_locationInput
-  warehouses: Prisma.warehousesCreateNestedOneWithoutStock_by_locationInput
-  warehouse_locations: Prisma.warehouse_locationsCreateNestedOneWithoutStock_by_locationInput
-  stores: Prisma.storesCreateNestedOneWithoutStock_by_locationInput
 }
 
 export type stock_by_locationUncheckedCreateInput = {
@@ -411,17 +396,17 @@ export type stock_by_locationUncheckedCreateInput = {
 export type stock_by_locationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_by_locationNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  stores?: Prisma.storesUpdateOneRequiredWithoutStock_by_locationNestedInput
 }
 
 export type stock_by_locationUncheckedUpdateInput = {
@@ -459,6 +444,11 @@ export type stock_by_locationCreateManyInput = {
 export type stock_by_locationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -481,16 +471,6 @@ export type stock_by_locationUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type Stock_by_locationListRelationFilter = {
-  every?: Prisma.stock_by_locationWhereInput
-  some?: Prisma.stock_by_locationWhereInput
-  none?: Prisma.stock_by_locationWhereInput
-}
-
-export type stock_by_locationOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type stock_by_locationCountOrderByAggregateInput = {
@@ -551,815 +531,6 @@ export type stock_by_locationSumOrderByAggregateInput = {
   qty_reserved?: Prisma.SortOrder
 }
 
-export type stock_by_locationCreateNestedManyWithoutProduct_variantsInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_by_locationCreateWithoutProduct_variantsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_variantsInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUncheckedCreateNestedManyWithoutProduct_variantsInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_by_locationCreateWithoutProduct_variantsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_variantsInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUpdateManyWithoutProduct_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_by_locationCreateWithoutProduct_variantsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_variantsInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_variantsInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_variantsInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutProduct_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_by_locationCreateWithoutProduct_variantsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_variantsInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_variantsInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_variantsInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_variantsInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput> | Prisma.stock_by_locationCreateWithoutStoresInput[] | Prisma.stock_by_locationUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutStoresInput | Prisma.stock_by_locationCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.stock_by_locationCreateManyStoresInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUncheckedCreateNestedManyWithoutStoresInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput> | Prisma.stock_by_locationCreateWithoutStoresInput[] | Prisma.stock_by_locationUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutStoresInput | Prisma.stock_by_locationCreateOrConnectWithoutStoresInput[]
-  createMany?: Prisma.stock_by_locationCreateManyStoresInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput> | Prisma.stock_by_locationCreateWithoutStoresInput[] | Prisma.stock_by_locationUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutStoresInput | Prisma.stock_by_locationCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutStoresInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.stock_by_locationCreateManyStoresInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutStoresInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutStoresInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput> | Prisma.stock_by_locationCreateWithoutStoresInput[] | Prisma.stock_by_locationUncheckedCreateWithoutStoresInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutStoresInput | Prisma.stock_by_locationCreateOrConnectWithoutStoresInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutStoresInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutStoresInput[]
-  createMany?: Prisma.stock_by_locationCreateManyStoresInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutStoresInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutStoresInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutStoresInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutStoresInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationCreateNestedManyWithoutWarehousesInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput> | Prisma.stock_by_locationCreateWithoutWarehousesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehousesInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput> | Prisma.stock_by_locationCreateWithoutWarehousesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehousesInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUpdateManyWithoutWarehousesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput> | Prisma.stock_by_locationCreateWithoutWarehousesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehousesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehousesInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehousesInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehousesInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput> | Prisma.stock_by_locationCreateWithoutWarehousesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehousesInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehousesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehousesInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehousesInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehousesInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationCreateNestedManyWithoutWarehouse_locationsInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehouse_locationsInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUncheckedCreateNestedManyWithoutWarehouse_locationsInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehouse_locationsInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUpdateManyWithoutWarehouse_locationsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehouse_locationsInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehouse_locationsInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutWarehouse_locationsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput[] | Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
-  createMany?: Prisma.stock_by_locationCreateManyWarehouse_locationsInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutWarehouse_locationsInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationCreateNestedManyWithoutProduct_batchesInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_by_locationCreateWithoutProduct_batchesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_batchesInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUncheckedCreateNestedManyWithoutProduct_batchesInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_by_locationCreateWithoutProduct_batchesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_batchesInputEnvelope
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-}
-
-export type stock_by_locationUpdateManyWithoutProduct_batchesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_by_locationCreateWithoutProduct_batchesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_batchesInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_batchesInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_batchesInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_batchesInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutProduct_batchesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_by_locationCreateWithoutProduct_batchesInput[] | Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_by_locationCreateOrConnectWithoutProduct_batchesInput[]
-  upsert?: Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_by_locationUpsertWithWhereUniqueWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_by_locationCreateManyProduct_batchesInputEnvelope
-  set?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  disconnect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  delete?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  connect?: Prisma.stock_by_locationWhereUniqueInput | Prisma.stock_by_locationWhereUniqueInput[]
-  update?: Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_by_locationUpdateWithWhereUniqueWithoutProduct_batchesInput[]
-  updateMany?: Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_batchesInput | Prisma.stock_by_locationUpdateManyWithWhereWithoutProduct_batchesInput[]
-  deleteMany?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-}
-
-export type stock_by_locationCreateWithoutProduct_variantsInput = {
-  id?: string
-  tenant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_by_locationInput
-  warehouses: Prisma.warehousesCreateNestedOneWithoutStock_by_locationInput
-  warehouse_locations: Prisma.warehouse_locationsCreateNestedOneWithoutStock_by_locationInput
-  stores: Prisma.storesCreateNestedOneWithoutStock_by_locationInput
-}
-
-export type stock_by_locationUncheckedCreateWithoutProduct_variantsInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationCreateOrConnectWithoutProduct_variantsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput>
-}
-
-export type stock_by_locationCreateManyProduct_variantsInputEnvelope = {
-  data: Prisma.stock_by_locationCreateManyProduct_variantsInput | Prisma.stock_by_locationCreateManyProduct_variantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_by_locationUpsertWithWhereUniqueWithoutProduct_variantsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedUpdateWithoutProduct_variantsInput>
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_variantsInput>
-}
-
-export type stock_by_locationUpdateWithWhereUniqueWithoutProduct_variantsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutProduct_variantsInput, Prisma.stock_by_locationUncheckedUpdateWithoutProduct_variantsInput>
-}
-
-export type stock_by_locationUpdateManyWithWhereWithoutProduct_variantsInput = {
-  where: Prisma.stock_by_locationScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateManyMutationInput, Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_variantsInput>
-}
-
-export type stock_by_locationScalarWhereInput = {
-  AND?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-  OR?: Prisma.stock_by_locationScalarWhereInput[]
-  NOT?: Prisma.stock_by_locationScalarWhereInput | Prisma.stock_by_locationScalarWhereInput[]
-  id?: Prisma.UuidFilter<"stock_by_location"> | string
-  tenant_id?: Prisma.UuidFilter<"stock_by_location"> | string
-  store_id?: Prisma.UuidFilter<"stock_by_location"> | string
-  warehouse_id?: Prisma.UuidFilter<"stock_by_location"> | string
-  warehouse_location_id?: Prisma.UuidFilter<"stock_by_location"> | string
-  product_variant_id?: Prisma.UuidFilter<"stock_by_location"> | string
-  batch_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
-  qty_on_hand?: Prisma.DecimalFilter<"stock_by_location"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFilter<"stock_by_location"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.DateTimeNullableFilter<"stock_by_location"> | Date | string | null
-  created_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
-}
-
-export type stock_by_locationCreateWithoutStoresInput = {
-  id?: string
-  tenant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_by_locationInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_by_locationInput
-  warehouses: Prisma.warehousesCreateNestedOneWithoutStock_by_locationInput
-  warehouse_locations: Prisma.warehouse_locationsCreateNestedOneWithoutStock_by_locationInput
-}
-
-export type stock_by_locationUncheckedCreateWithoutStoresInput = {
-  id?: string
-  tenant_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationCreateOrConnectWithoutStoresInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput>
-}
-
-export type stock_by_locationCreateManyStoresInputEnvelope = {
-  data: Prisma.stock_by_locationCreateManyStoresInput | Prisma.stock_by_locationCreateManyStoresInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_by_locationUpsertWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutStoresInput, Prisma.stock_by_locationUncheckedUpdateWithoutStoresInput>
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutStoresInput, Prisma.stock_by_locationUncheckedCreateWithoutStoresInput>
-}
-
-export type stock_by_locationUpdateWithWhereUniqueWithoutStoresInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutStoresInput, Prisma.stock_by_locationUncheckedUpdateWithoutStoresInput>
-}
-
-export type stock_by_locationUpdateManyWithWhereWithoutStoresInput = {
-  where: Prisma.stock_by_locationScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateManyMutationInput, Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresInput>
-}
-
-export type stock_by_locationCreateWithoutWarehousesInput = {
-  id?: string
-  tenant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_by_locationInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_by_locationInput
-  warehouse_locations: Prisma.warehouse_locationsCreateNestedOneWithoutStock_by_locationInput
-  stores: Prisma.storesCreateNestedOneWithoutStock_by_locationInput
-}
-
-export type stock_by_locationUncheckedCreateWithoutWarehousesInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationCreateOrConnectWithoutWarehousesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput>
-}
-
-export type stock_by_locationCreateManyWarehousesInputEnvelope = {
-  data: Prisma.stock_by_locationCreateManyWarehousesInput | Prisma.stock_by_locationCreateManyWarehousesInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_by_locationUpsertWithWhereUniqueWithoutWarehousesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedUpdateWithoutWarehousesInput>
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehousesInput>
-}
-
-export type stock_by_locationUpdateWithWhereUniqueWithoutWarehousesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutWarehousesInput, Prisma.stock_by_locationUncheckedUpdateWithoutWarehousesInput>
-}
-
-export type stock_by_locationUpdateManyWithWhereWithoutWarehousesInput = {
-  where: Prisma.stock_by_locationScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateManyMutationInput, Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesInput>
-}
-
-export type stock_by_locationCreateWithoutWarehouse_locationsInput = {
-  id?: string
-  tenant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_by_locationInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_by_locationInput
-  warehouses: Prisma.warehousesCreateNestedOneWithoutStock_by_locationInput
-  stores: Prisma.storesCreateNestedOneWithoutStock_by_locationInput
-}
-
-export type stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationCreateOrConnectWithoutWarehouse_locationsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput>
-}
-
-export type stock_by_locationCreateManyWarehouse_locationsInputEnvelope = {
-  data: Prisma.stock_by_locationCreateManyWarehouse_locationsInput | Prisma.stock_by_locationCreateManyWarehouse_locationsInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_by_locationUpsertWithWhereUniqueWithoutWarehouse_locationsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedUpdateWithoutWarehouse_locationsInput>
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedCreateWithoutWarehouse_locationsInput>
-}
-
-export type stock_by_locationUpdateWithWhereUniqueWithoutWarehouse_locationsInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutWarehouse_locationsInput, Prisma.stock_by_locationUncheckedUpdateWithoutWarehouse_locationsInput>
-}
-
-export type stock_by_locationUpdateManyWithWhereWithoutWarehouse_locationsInput = {
-  where: Prisma.stock_by_locationScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateManyMutationInput, Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehouse_locationsInput>
-}
-
-export type stock_by_locationCreateWithoutProduct_batchesInput = {
-  id?: string
-  tenant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_by_locationInput
-  warehouses: Prisma.warehousesCreateNestedOneWithoutStock_by_locationInput
-  warehouse_locations: Prisma.warehouse_locationsCreateNestedOneWithoutStock_by_locationInput
-  stores: Prisma.storesCreateNestedOneWithoutStock_by_locationInput
-}
-
-export type stock_by_locationUncheckedCreateWithoutProduct_batchesInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationCreateOrConnectWithoutProduct_batchesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput>
-}
-
-export type stock_by_locationCreateManyProduct_batchesInputEnvelope = {
-  data: Prisma.stock_by_locationCreateManyProduct_batchesInput | Prisma.stock_by_locationCreateManyProduct_batchesInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_by_locationUpsertWithWhereUniqueWithoutProduct_batchesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedUpdateWithoutProduct_batchesInput>
-  create: Prisma.XOR<Prisma.stock_by_locationCreateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedCreateWithoutProduct_batchesInput>
-}
-
-export type stock_by_locationUpdateWithWhereUniqueWithoutProduct_batchesInput = {
-  where: Prisma.stock_by_locationWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateWithoutProduct_batchesInput, Prisma.stock_by_locationUncheckedUpdateWithoutProduct_batchesInput>
-}
-
-export type stock_by_locationUpdateManyWithWhereWithoutProduct_batchesInput = {
-  where: Prisma.stock_by_locationScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_by_locationUpdateManyMutationInput, Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_batchesInput>
-}
-
-export type stock_by_locationCreateManyProduct_variantsInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_by_locationNestedInput
-  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  stores?: Prisma.storesUpdateOneRequiredWithoutStock_by_locationNestedInput
-}
-
-export type stock_by_locationUncheckedUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationCreateManyStoresInput = {
-  id?: string
-  tenant_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_by_locationNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateOneRequiredWithoutStock_by_locationNestedInput
-}
-
-export type stock_by_locationUncheckedUpdateWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutStoresInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationCreateManyWarehousesInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationUpdateWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_by_locationNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  stores?: Prisma.storesUpdateOneRequiredWithoutStock_by_locationNestedInput
-}
-
-export type stock_by_locationUncheckedUpdateWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutWarehousesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationCreateManyWarehouse_locationsInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  product_variant_id: string
-  batch_id?: string | null
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationUpdateWithoutWarehouse_locationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_by_locationNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput
-  stores?: Prisma.storesUpdateOneRequiredWithoutStock_by_locationNestedInput
-}
-
-export type stock_by_locationUncheckedUpdateWithoutWarehouse_locationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutWarehouse_locationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationCreateManyProduct_batchesInput = {
-  id?: string
-  tenant_id: string
-  store_id: string
-  warehouse_id: string
-  warehouse_location_id: string
-  product_variant_id: string
-  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  auth_user_id?: string | null
-}
-
-export type stock_by_locationUpdateWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutStock_by_locationNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateOneRequiredWithoutStock_by_locationNestedInput
-  stores?: Prisma.storesUpdateOneRequiredWithoutStock_by_locationNestedInput
-}
-
-export type stock_by_locationUncheckedUpdateWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_by_locationUncheckedUpdateManyWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
 
 
 export type stock_by_locationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1376,11 +547,6 @@ export type stock_by_locationSelect<ExtArgs extends runtime.Types.Extensions.Int
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1397,11 +563,6 @@ export type stock_by_locationSelectCreateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1418,11 +579,6 @@ export type stock_by_locationSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectScalar = {
@@ -1442,37 +598,10 @@ export type stock_by_locationSelectScalar = {
 }
 
 export type stock_by_locationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "product_variant_id" | "batch_id" | "qty_on_hand" | "qty_reserved" | "last_movement_at" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["stock_by_location"]>
-export type stock_by_locationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
-}
-export type stock_by_locationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
-}
-export type stock_by_locationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_by_location$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouse_locationsDefaultArgs<ExtArgs>
-  stores?: boolean | Prisma.storesDefaultArgs<ExtArgs>
-}
 
 export type $stock_by_locationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_by_location"
-  objects: {
-    product_batches: Prisma.$product_batchesPayload<ExtArgs> | null
-    product_variants: Prisma.$product_variantsPayload<ExtArgs>
-    warehouses: Prisma.$warehousesPayload<ExtArgs>
-    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs>
-    stores: Prisma.$storesPayload<ExtArgs>
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1881,11 +1010,6 @@ readonly fields: stock_by_locationFieldRefs;
  */
 export interface Prisma__stock_by_locationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  product_batches<T extends Prisma.stock_by_location$product_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_by_location$product_batchesArgs<ExtArgs>>): Prisma.Prisma__product_batchesClient<runtime.Types.Result.GetResult<Prisma.$product_batchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  warehouses<T extends Prisma.warehousesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehousesDefaultArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  warehouse_locations<T extends Prisma.warehouse_locationsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouse_locationsDefaultArgs<ExtArgs>>): Prisma.Prisma__warehouse_locationsClient<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  stores<T extends Prisma.storesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storesDefaultArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1945,10 +1069,6 @@ export type stock_by_locationFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
-  /**
    * Filter, which stock_by_location to fetch.
    */
   where: Prisma.stock_by_locationWhereUniqueInput
@@ -1967,10 +1087,6 @@ export type stock_by_locationFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
-  /**
    * Filter, which stock_by_location to fetch.
    */
   where: Prisma.stock_by_locationWhereUniqueInput
@@ -1988,10 +1104,6 @@ export type stock_by_locationFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the stock_by_location
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
   /**
    * Filter, which stock_by_location to fetch.
    */
@@ -2041,10 +1153,6 @@ export type stock_by_locationFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
-  /**
    * Filter, which stock_by_location to fetch.
    */
   where?: Prisma.stock_by_locationWhereInput
@@ -2092,10 +1200,6 @@ export type stock_by_locationFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the stock_by_location
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
   /**
    * Filter, which stock_by_locations to fetch.
    */
@@ -2145,10 +1249,6 @@ export type stock_by_locationCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
-  /**
    * The data needed to create a stock_by_location.
    */
   data: Prisma.XOR<Prisma.stock_by_locationCreateInput, Prisma.stock_by_locationUncheckedCreateInput>
@@ -2182,10 +1282,6 @@ export type stock_by_locationCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.stock_by_locationCreateManyInput | Prisma.stock_by_locationCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2200,10 +1296,6 @@ export type stock_by_locationUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the stock_by_location
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_by_location.
    */
@@ -2256,10 +1348,6 @@ export type stock_by_locationUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many stock_by_locations to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2274,10 +1362,6 @@ export type stock_by_locationUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the stock_by_location
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_by_location to update in case it exists.
    */
@@ -2305,10 +1389,6 @@ export type stock_by_locationDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
-  /**
    * Filter which stock_by_location to delete.
    */
   where: Prisma.stock_by_locationWhereUniqueInput
@@ -2329,25 +1409,6 @@ export type stock_by_locationDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * stock_by_location.product_batches
- */
-export type stock_by_location$product_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the product_batches
-   */
-  select?: Prisma.product_batchesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the product_batches
-   */
-  omit?: Prisma.product_batchesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.product_batchesInclude<ExtArgs> | null
-  where?: Prisma.product_batchesWhereInput
-}
-
-/**
  * stock_by_location without action
  */
 export type stock_by_locationDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2359,8 +1420,4 @@ export type stock_by_locationDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the stock_by_location
    */
   omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
 }

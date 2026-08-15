@@ -236,9 +236,6 @@ export type stock_transfer_itemsWhereInput = {
   unit_cost?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"stock_transfer_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
-  product_batches?: Prisma.XOR<Prisma.Product_batchesNullableScalarRelationFilter, Prisma.product_batchesWhereInput> | null
-  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
-  stock_transfers?: Prisma.XOR<Prisma.Stock_transfersScalarRelationFilter, Prisma.stock_transfersWhereInput>
 }
 
 export type stock_transfer_itemsOrderByWithRelationInput = {
@@ -249,9 +246,6 @@ export type stock_transfer_itemsOrderByWithRelationInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_batches?: Prisma.product_batchesOrderByWithRelationInput
-  product_variants?: Prisma.product_variantsOrderByWithRelationInput
-  stock_transfers?: Prisma.stock_transfersOrderByWithRelationInput
 }
 
 export type stock_transfer_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -265,9 +259,6 @@ export type stock_transfer_itemsWhereUniqueInput = Prisma.AtLeast<{
   unit_cost?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"stock_transfer_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
-  product_batches?: Prisma.XOR<Prisma.Product_batchesNullableScalarRelationFilter, Prisma.product_batchesWhereInput> | null
-  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
-  stock_transfers?: Prisma.XOR<Prisma.Stock_transfersScalarRelationFilter, Prisma.stock_transfersWhereInput>
 }, "id">
 
 export type stock_transfer_itemsOrderByWithAggregationInput = {
@@ -300,12 +291,12 @@ export type stock_transfer_itemsScalarWhereWithAggregatesInput = {
 
 export type stock_transfer_itemsCreateInput = {
   id?: string
+  stock_transfer_id: string
+  product_variant_id: string
   qty: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_transfer_itemsInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_transfer_itemsInput
-  stock_transfers: Prisma.stock_transfersCreateNestedOneWithoutStock_transfer_itemsInput
+  batch_id?: string | null
 }
 
 export type stock_transfer_itemsUncheckedCreateInput = {
@@ -320,12 +311,12 @@ export type stock_transfer_itemsUncheckedCreateInput = {
 
 export type stock_transfer_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_transfer_itemsNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
-  stock_transfers?: Prisma.stock_transfersUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsUncheckedUpdateInput = {
@@ -350,9 +341,12 @@ export type stock_transfer_itemsCreateManyInput = {
 
 export type stock_transfer_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsUncheckedUpdateManyInput = {
@@ -363,16 +357,6 @@ export type stock_transfer_itemsUncheckedUpdateManyInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type Stock_transfer_itemsListRelationFilter = {
-  every?: Prisma.stock_transfer_itemsWhereInput
-  some?: Prisma.stock_transfer_itemsWhereInput
-  none?: Prisma.stock_transfer_itemsWhereInput
-}
-
-export type stock_transfer_itemsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type stock_transfer_itemsCountOrderByAggregateInput = {
@@ -415,385 +399,6 @@ export type stock_transfer_itemsSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
-export type stock_transfer_itemsCreateNestedManyWithoutProduct_variantsInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_variantsInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_variantsInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUpdateManyWithoutProduct_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_variantsInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_variantsInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_variantsInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_variantsInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput> | Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyStock_transfersInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput> | Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyStock_transfersInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput> | Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutStock_transfersInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyStock_transfersInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutStock_transfersInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutStock_transfersInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput> | Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutStock_transfersInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyStock_transfersInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutStock_transfersInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutStock_transfersInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutStock_transfersInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsCreateNestedManyWithoutProduct_batchesInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_batchesInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUncheckedCreateNestedManyWithoutProduct_batchesInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_batchesInputEnvelope
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-}
-
-export type stock_transfer_itemsUpdateManyWithoutProduct_batchesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_batchesInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_batchesInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_batchesInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutProduct_batchesNestedInput = {
-  create?: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput> | Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput[] | Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput[]
-  connectOrCreate?: Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput | Prisma.stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput[]
-  upsert?: Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_batchesInput[]
-  createMany?: Prisma.stock_transfer_itemsCreateManyProduct_batchesInputEnvelope
-  set?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  disconnect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  delete?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  connect?: Prisma.stock_transfer_itemsWhereUniqueInput | Prisma.stock_transfer_itemsWhereUniqueInput[]
-  update?: Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_batchesInput[]
-  updateMany?: Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_batchesInput | Prisma.stock_transfer_itemsUpdateManyWithWhereWithoutProduct_batchesInput[]
-  deleteMany?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-}
-
-export type stock_transfer_itemsCreateWithoutProduct_variantsInput = {
-  id?: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_transfer_itemsInput
-  stock_transfers: Prisma.stock_transfersCreateNestedOneWithoutStock_transfer_itemsInput
-}
-
-export type stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput = {
-  id?: string
-  stock_transfer_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  batch_id?: string | null
-}
-
-export type stock_transfer_itemsCreateOrConnectWithoutProduct_variantsInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput>
-}
-
-export type stock_transfer_itemsCreateManyProduct_variantsInputEnvelope = {
-  data: Prisma.stock_transfer_itemsCreateManyProduct_variantsInput | Prisma.stock_transfer_itemsCreateManyProduct_variantsInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_variantsInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutProduct_variantsInput>
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_variantsInput>
-}
-
-export type stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_variantsInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutProduct_variantsInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutProduct_variantsInput>
-}
-
-export type stock_transfer_itemsUpdateManyWithWhereWithoutProduct_variantsInput = {
-  where: Prisma.stock_transfer_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateManyMutationInput, Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsInput>
-}
-
-export type stock_transfer_itemsScalarWhereInput = {
-  AND?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-  OR?: Prisma.stock_transfer_itemsScalarWhereInput[]
-  NOT?: Prisma.stock_transfer_itemsScalarWhereInput | Prisma.stock_transfer_itemsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"stock_transfer_items"> | string
-  stock_transfer_id?: Prisma.UuidFilter<"stock_transfer_items"> | string
-  product_variant_id?: Prisma.UuidFilter<"stock_transfer_items"> | string
-  qty?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFilter<"stock_transfer_items"> | Date | string
-  batch_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
-}
-
-export type stock_transfer_itemsCreateWithoutStock_transfersInput = {
-  id?: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  product_batches?: Prisma.product_batchesCreateNestedOneWithoutStock_transfer_itemsInput
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_transfer_itemsInput
-}
-
-export type stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput = {
-  id?: string
-  product_variant_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  batch_id?: string | null
-}
-
-export type stock_transfer_itemsCreateOrConnectWithoutStock_transfersInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput>
-}
-
-export type stock_transfer_itemsCreateManyStock_transfersInputEnvelope = {
-  data: Prisma.stock_transfer_itemsCreateManyStock_transfersInput | Prisma.stock_transfer_itemsCreateManyStock_transfersInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_transfer_itemsUpsertWithWhereUniqueWithoutStock_transfersInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutStock_transfersInput>
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutStock_transfersInput>
-}
-
-export type stock_transfer_itemsUpdateWithWhereUniqueWithoutStock_transfersInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutStock_transfersInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutStock_transfersInput>
-}
-
-export type stock_transfer_itemsUpdateManyWithWhereWithoutStock_transfersInput = {
-  where: Prisma.stock_transfer_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateManyMutationInput, Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersInput>
-}
-
-export type stock_transfer_itemsCreateWithoutProduct_batchesInput = {
-  id?: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_transfer_itemsInput
-  stock_transfers: Prisma.stock_transfersCreateNestedOneWithoutStock_transfer_itemsInput
-}
-
-export type stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput = {
-  id?: string
-  stock_transfer_id: string
-  product_variant_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-}
-
-export type stock_transfer_itemsCreateOrConnectWithoutProduct_batchesInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput>
-}
-
-export type stock_transfer_itemsCreateManyProduct_batchesInputEnvelope = {
-  data: Prisma.stock_transfer_itemsCreateManyProduct_batchesInput | Prisma.stock_transfer_itemsCreateManyProduct_batchesInput[]
-  skipDuplicates?: boolean
-}
-
-export type stock_transfer_itemsUpsertWithWhereUniqueWithoutProduct_batchesInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  update: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutProduct_batchesInput>
-  create: Prisma.XOR<Prisma.stock_transfer_itemsCreateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedCreateWithoutProduct_batchesInput>
-}
-
-export type stock_transfer_itemsUpdateWithWhereUniqueWithoutProduct_batchesInput = {
-  where: Prisma.stock_transfer_itemsWhereUniqueInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateWithoutProduct_batchesInput, Prisma.stock_transfer_itemsUncheckedUpdateWithoutProduct_batchesInput>
-}
-
-export type stock_transfer_itemsUpdateManyWithWhereWithoutProduct_batchesInput = {
-  where: Prisma.stock_transfer_itemsScalarWhereInput
-  data: Prisma.XOR<Prisma.stock_transfer_itemsUpdateManyMutationInput, Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutProduct_batchesInput>
-}
-
-export type stock_transfer_itemsCreateManyProduct_variantsInput = {
-  id?: string
-  stock_transfer_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  batch_id?: string | null
-}
-
-export type stock_transfer_itemsUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_transfer_itemsNestedInput
-  stock_transfers?: Prisma.stock_transfersUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
-}
-
-export type stock_transfer_itemsUncheckedUpdateWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutProduct_variantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_transfer_itemsCreateManyStock_transfersInput = {
-  id?: string
-  product_variant_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-  batch_id?: string | null
-}
-
-export type stock_transfer_itemsUpdateWithoutStock_transfersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  product_batches?: Prisma.product_batchesUpdateOneWithoutStock_transfer_itemsNestedInput
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
-}
-
-export type stock_transfer_itemsUncheckedUpdateWithoutStock_transfersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type stock_transfer_itemsCreateManyProduct_batchesInput = {
-  id?: string
-  stock_transfer_id: string
-  product_variant_id: string
-  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Date | string
-}
-
-export type stock_transfer_itemsUpdateWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
-  stock_transfers?: Prisma.stock_transfersUpdateOneRequiredWithoutStock_transfer_itemsNestedInput
-}
-
-export type stock_transfer_itemsUncheckedUpdateWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type stock_transfer_itemsUncheckedUpdateManyWithoutProduct_batchesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_transfer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 
 
 export type stock_transfer_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -804,9 +409,6 @@ export type stock_transfer_itemsSelect<ExtArgs extends runtime.Types.Extensions.
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -817,9 +419,6 @@ export type stock_transfer_itemsSelectCreateManyAndReturn<ExtArgs extends runtim
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -830,9 +429,6 @@ export type stock_transfer_itemsSelectUpdateManyAndReturn<ExtArgs extends runtim
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectScalar = {
@@ -846,29 +442,10 @@ export type stock_transfer_itemsSelectScalar = {
 }
 
 export type stock_transfer_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_transfer_id" | "product_variant_id" | "qty" | "unit_cost" | "created_at" | "batch_id", ExtArgs["result"]["stock_transfer_items"]>
-export type stock_transfer_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
-}
-export type stock_transfer_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
-}
-export type stock_transfer_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product_batches?: boolean | Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>
-  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
-  stock_transfers?: boolean | Prisma.stock_transfersDefaultArgs<ExtArgs>
-}
 
 export type $stock_transfer_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_transfer_items"
-  objects: {
-    product_batches: Prisma.$product_batchesPayload<ExtArgs> | null
-    product_variants: Prisma.$product_variantsPayload<ExtArgs>
-    stock_transfers: Prisma.$stock_transfersPayload<ExtArgs>
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     stock_transfer_id: string
@@ -1271,9 +848,6 @@ readonly fields: stock_transfer_itemsFieldRefs;
  */
 export interface Prisma__stock_transfer_itemsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  product_batches<T extends Prisma.stock_transfer_items$product_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfer_items$product_batchesArgs<ExtArgs>>): Prisma.Prisma__product_batchesClient<runtime.Types.Result.GetResult<Prisma.$product_batchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  stock_transfers<T extends Prisma.stock_transfersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfersDefaultArgs<ExtArgs>>): Prisma.Prisma__stock_transfersClient<runtime.Types.Result.GetResult<Prisma.$stock_transfersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1327,10 +901,6 @@ export type stock_transfer_itemsFindUniqueArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
-  /**
    * Filter, which stock_transfer_items to fetch.
    */
   where: Prisma.stock_transfer_itemsWhereUniqueInput
@@ -1349,10 +919,6 @@ export type stock_transfer_itemsFindUniqueOrThrowArgs<ExtArgs extends runtime.Ty
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
-  /**
    * Filter, which stock_transfer_items to fetch.
    */
   where: Prisma.stock_transfer_itemsWhereUniqueInput
@@ -1370,10 +936,6 @@ export type stock_transfer_itemsFindFirstArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the stock_transfer_items
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
   /**
    * Filter, which stock_transfer_items to fetch.
    */
@@ -1423,10 +985,6 @@ export type stock_transfer_itemsFindFirstOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
-  /**
    * Filter, which stock_transfer_items to fetch.
    */
   where?: Prisma.stock_transfer_itemsWhereInput
@@ -1474,10 +1032,6 @@ export type stock_transfer_itemsFindManyArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the stock_transfer_items
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
   /**
    * Filter, which stock_transfer_items to fetch.
    */
@@ -1527,10 +1081,6 @@ export type stock_transfer_itemsCreateArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
-  /**
    * The data needed to create a stock_transfer_items.
    */
   data: Prisma.XOR<Prisma.stock_transfer_itemsCreateInput, Prisma.stock_transfer_itemsUncheckedCreateInput>
@@ -1564,10 +1114,6 @@ export type stock_transfer_itemsCreateManyAndReturnArgs<ExtArgs extends runtime.
    */
   data: Prisma.stock_transfer_itemsCreateManyInput | Prisma.stock_transfer_itemsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1582,10 +1128,6 @@ export type stock_transfer_itemsUpdateArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the stock_transfer_items
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_transfer_items.
    */
@@ -1638,10 +1180,6 @@ export type stock_transfer_itemsUpdateManyAndReturnArgs<ExtArgs extends runtime.
    * Limit how many stock_transfer_items to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1656,10 +1194,6 @@ export type stock_transfer_itemsUpsertArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the stock_transfer_items
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_transfer_items to update in case it exists.
    */
@@ -1687,10 +1221,6 @@ export type stock_transfer_itemsDeleteArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
-  /**
    * Filter which stock_transfer_items to delete.
    */
   where: Prisma.stock_transfer_itemsWhereUniqueInput
@@ -1711,25 +1241,6 @@ export type stock_transfer_itemsDeleteManyArgs<ExtArgs extends runtime.Types.Ext
 }
 
 /**
- * stock_transfer_items.product_batches
- */
-export type stock_transfer_items$product_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the product_batches
-   */
-  select?: Prisma.product_batchesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the product_batches
-   */
-  omit?: Prisma.product_batchesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.product_batchesInclude<ExtArgs> | null
-  where?: Prisma.product_batchesWhereInput
-}
-
-/**
  * stock_transfer_items without action
  */
 export type stock_transfer_itemsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1741,8 +1252,4 @@ export type stock_transfer_itemsDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the stock_transfer_items
    */
   omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
 }

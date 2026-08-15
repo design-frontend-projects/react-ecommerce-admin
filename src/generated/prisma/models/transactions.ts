@@ -344,11 +344,6 @@ export type transactionsWhereInput = {
   reference_transaction_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_return_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  transaction_details?: Prisma.Transaction_detailsListRelationFilter
-  transactions?: Prisma.XOR<Prisma.TransactionsNullableScalarRelationFilter, Prisma.transactionsWhereInput> | null
-  other_transactions?: Prisma.TransactionsListRelationFilter
-  sales_invoices?: Prisma.XOR<Prisma.Sales_invoicesNullableScalarRelationFilter, Prisma.sales_invoicesWhereInput> | null
-  sales_returns?: Prisma.XOR<Prisma.Sales_returnsNullableScalarRelationFilter, Prisma.sales_returnsWhereInput> | null
 }
 
 export type transactionsOrderByWithRelationInput = {
@@ -372,21 +367,16 @@ export type transactionsOrderByWithRelationInput = {
   reference_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  transaction_details?: Prisma.transaction_detailsOrderByRelationAggregateInput
-  transactions?: Prisma.transactionsOrderByWithRelationInput
-  other_transactions?: Prisma.transactionsOrderByRelationAggregateInput
-  sales_invoices?: Prisma.sales_invoicesOrderByWithRelationInput
-  sales_returns?: Prisma.sales_returnsOrderByWithRelationInput
 }
 
 export type transactionsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  transaction_number?: string
   AND?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   OR?: Prisma.transactionsWhereInput[]
   NOT?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   tenant_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   auth_user_id?: Prisma.UuidFilter<"transactions"> | string
+  transaction_number?: Prisma.StringFilter<"transactions"> | string
   transaction_type?: Prisma.Enumtransaction_type_enumFilter<"transactions"> | $Enums.transaction_type_enum
   status?: Prisma.StringFilter<"transactions"> | string
   currency?: Prisma.StringFilter<"transactions"> | string
@@ -403,12 +393,7 @@ export type transactionsWhereUniqueInput = Prisma.AtLeast<{
   reference_transaction_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_return_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  transaction_details?: Prisma.Transaction_detailsListRelationFilter
-  transactions?: Prisma.XOR<Prisma.TransactionsNullableScalarRelationFilter, Prisma.transactionsWhereInput> | null
-  other_transactions?: Prisma.TransactionsListRelationFilter
-  sales_invoices?: Prisma.XOR<Prisma.Sales_invoicesNullableScalarRelationFilter, Prisma.sales_invoicesWhereInput> | null
-  sales_returns?: Prisma.XOR<Prisma.Sales_returnsNullableScalarRelationFilter, Prisma.sales_returnsWhereInput> | null
-}, "id" | "transaction_number">
+}, "id">
 
 export type transactionsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -482,11 +467,9 @@ export type transactionsCreateInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutTransactionsInput
-  transactions?: Prisma.transactionsCreateNestedOneWithoutOther_transactionsInput
-  other_transactions?: Prisma.transactionsCreateNestedManyWithoutTransactionsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedOneWithoutTransactionsInput
-  sales_returns?: Prisma.sales_returnsCreateNestedOneWithoutTransactionsInput
+  reference_transaction_id?: string | null
+  sales_invoice_id?: string | null
+  sales_return_id?: string | null
 }
 
 export type transactionsUncheckedCreateInput = {
@@ -510,8 +493,6 @@ export type transactionsUncheckedCreateInput = {
   reference_transaction_id?: string | null
   sales_invoice_id?: string | null
   sales_return_id?: string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
-  other_transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUpdateInput = {
@@ -532,11 +513,9 @@ export type transactionsUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutTransactionsNestedInput
-  transactions?: Prisma.transactionsUpdateOneWithoutOther_transactionsNestedInput
-  other_transactions?: Prisma.transactionsUpdateManyWithoutTransactionsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateOneWithoutTransactionsNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateOneWithoutTransactionsNestedInput
+  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsUncheckedUpdateInput = {
@@ -560,8 +539,6 @@ export type transactionsUncheckedUpdateInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
-  other_transactions?: Prisma.transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsCreateManyInput = {
@@ -605,6 +582,9 @@ export type transactionsUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsUncheckedUpdateManyInput = {
@@ -628,26 +608,6 @@ export type transactionsUncheckedUpdateManyInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type TransactionsListRelationFilter = {
-  every?: Prisma.transactionsWhereInput
-  some?: Prisma.transactionsWhereInput
-  none?: Prisma.transactionsWhereInput
-}
-
-export type transactionsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type TransactionsScalarRelationFilter = {
-  is?: Prisma.transactionsWhereInput
-  isNot?: Prisma.transactionsWhereInput
-}
-
-export type TransactionsNullableScalarRelationFilter = {
-  is?: Prisma.transactionsWhereInput | null
-  isNot?: Prisma.transactionsWhereInput | null
 }
 
 export type transactionsCountOrderByAggregateInput = {
@@ -731,952 +691,10 @@ export type transactionsSumOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
 }
 
-export type transactionsCreateNestedManyWithoutSales_invoicesInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput> | Prisma.transactionsCreateWithoutSales_invoicesInput[] | Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput | Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput[]
-  createMany?: Prisma.transactionsCreateManySales_invoicesInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
-export type transactionsUncheckedCreateNestedManyWithoutSales_invoicesInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput> | Prisma.transactionsCreateWithoutSales_invoicesInput[] | Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput | Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput[]
-  createMany?: Prisma.transactionsCreateManySales_invoicesInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
-export type transactionsUpdateManyWithoutSales_invoicesNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput> | Prisma.transactionsCreateWithoutSales_invoicesInput[] | Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput | Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutSales_invoicesInput | Prisma.transactionsUpsertWithWhereUniqueWithoutSales_invoicesInput[]
-  createMany?: Prisma.transactionsCreateManySales_invoicesInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutSales_invoicesInput | Prisma.transactionsUpdateWithWhereUniqueWithoutSales_invoicesInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutSales_invoicesInput | Prisma.transactionsUpdateManyWithWhereWithoutSales_invoicesInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsUncheckedUpdateManyWithoutSales_invoicesNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput> | Prisma.transactionsCreateWithoutSales_invoicesInput[] | Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput | Prisma.transactionsCreateOrConnectWithoutSales_invoicesInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutSales_invoicesInput | Prisma.transactionsUpsertWithWhereUniqueWithoutSales_invoicesInput[]
-  createMany?: Prisma.transactionsCreateManySales_invoicesInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutSales_invoicesInput | Prisma.transactionsUpdateWithWhereUniqueWithoutSales_invoicesInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutSales_invoicesInput | Prisma.transactionsUpdateManyWithWhereWithoutSales_invoicesInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsCreateNestedManyWithoutSales_returnsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput> | Prisma.transactionsCreateWithoutSales_returnsInput[] | Prisma.transactionsUncheckedCreateWithoutSales_returnsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_returnsInput | Prisma.transactionsCreateOrConnectWithoutSales_returnsInput[]
-  createMany?: Prisma.transactionsCreateManySales_returnsInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
-export type transactionsUncheckedCreateNestedManyWithoutSales_returnsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput> | Prisma.transactionsCreateWithoutSales_returnsInput[] | Prisma.transactionsUncheckedCreateWithoutSales_returnsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_returnsInput | Prisma.transactionsCreateOrConnectWithoutSales_returnsInput[]
-  createMany?: Prisma.transactionsCreateManySales_returnsInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
-export type transactionsUpdateManyWithoutSales_returnsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput> | Prisma.transactionsCreateWithoutSales_returnsInput[] | Prisma.transactionsUncheckedCreateWithoutSales_returnsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_returnsInput | Prisma.transactionsCreateOrConnectWithoutSales_returnsInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutSales_returnsInput | Prisma.transactionsUpsertWithWhereUniqueWithoutSales_returnsInput[]
-  createMany?: Prisma.transactionsCreateManySales_returnsInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutSales_returnsInput | Prisma.transactionsUpdateWithWhereUniqueWithoutSales_returnsInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutSales_returnsInput | Prisma.transactionsUpdateManyWithWhereWithoutSales_returnsInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsUncheckedUpdateManyWithoutSales_returnsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput> | Prisma.transactionsCreateWithoutSales_returnsInput[] | Prisma.transactionsUncheckedCreateWithoutSales_returnsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutSales_returnsInput | Prisma.transactionsCreateOrConnectWithoutSales_returnsInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutSales_returnsInput | Prisma.transactionsUpsertWithWhereUniqueWithoutSales_returnsInput[]
-  createMany?: Prisma.transactionsCreateManySales_returnsInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutSales_returnsInput | Prisma.transactionsUpdateWithWhereUniqueWithoutSales_returnsInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutSales_returnsInput | Prisma.transactionsUpdateManyWithWhereWithoutSales_returnsInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsCreateNestedOneWithoutTransaction_detailsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedCreateWithoutTransaction_detailsInput>
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransaction_detailsInput
-  connect?: Prisma.transactionsWhereUniqueInput
-}
-
-export type transactionsUpdateOneRequiredWithoutTransaction_detailsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedCreateWithoutTransaction_detailsInput>
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransaction_detailsInput
-  upsert?: Prisma.transactionsUpsertWithoutTransaction_detailsInput
-  connect?: Prisma.transactionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.transactionsUpdateToOneWithWhereWithoutTransaction_detailsInput, Prisma.transactionsUpdateWithoutTransaction_detailsInput>, Prisma.transactionsUncheckedUpdateWithoutTransaction_detailsInput>
-}
-
-export type transactionsCreateNestedOneWithoutOther_transactionsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutOther_transactionsInput, Prisma.transactionsUncheckedCreateWithoutOther_transactionsInput>
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutOther_transactionsInput
-  connect?: Prisma.transactionsWhereUniqueInput
-}
-
-export type transactionsCreateNestedManyWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput> | Prisma.transactionsCreateWithoutTransactionsInput[] | Prisma.transactionsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransactionsInput | Prisma.transactionsCreateOrConnectWithoutTransactionsInput[]
-  createMany?: Prisma.transactionsCreateManyTransactionsInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
-export type transactionsUncheckedCreateNestedManyWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput> | Prisma.transactionsCreateWithoutTransactionsInput[] | Prisma.transactionsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransactionsInput | Prisma.transactionsCreateOrConnectWithoutTransactionsInput[]
-  createMany?: Prisma.transactionsCreateManyTransactionsInputEnvelope
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-}
-
 export type Enumtransaction_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.transaction_type_enum
 }
 
-export type transactionsUpdateOneWithoutOther_transactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutOther_transactionsInput, Prisma.transactionsUncheckedCreateWithoutOther_transactionsInput>
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutOther_transactionsInput
-  upsert?: Prisma.transactionsUpsertWithoutOther_transactionsInput
-  disconnect?: Prisma.transactionsWhereInput | boolean
-  delete?: Prisma.transactionsWhereInput | boolean
-  connect?: Prisma.transactionsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.transactionsUpdateToOneWithWhereWithoutOther_transactionsInput, Prisma.transactionsUpdateWithoutOther_transactionsInput>, Prisma.transactionsUncheckedUpdateWithoutOther_transactionsInput>
-}
-
-export type transactionsUpdateManyWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput> | Prisma.transactionsCreateWithoutTransactionsInput[] | Prisma.transactionsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransactionsInput | Prisma.transactionsCreateOrConnectWithoutTransactionsInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutTransactionsInput | Prisma.transactionsUpsertWithWhereUniqueWithoutTransactionsInput[]
-  createMany?: Prisma.transactionsCreateManyTransactionsInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutTransactionsInput | Prisma.transactionsUpdateWithWhereUniqueWithoutTransactionsInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutTransactionsInput | Prisma.transactionsUpdateManyWithWhereWithoutTransactionsInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsUncheckedUpdateManyWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput> | Prisma.transactionsCreateWithoutTransactionsInput[] | Prisma.transactionsUncheckedCreateWithoutTransactionsInput[]
-  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutTransactionsInput | Prisma.transactionsCreateOrConnectWithoutTransactionsInput[]
-  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutTransactionsInput | Prisma.transactionsUpsertWithWhereUniqueWithoutTransactionsInput[]
-  createMany?: Prisma.transactionsCreateManyTransactionsInputEnvelope
-  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
-  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutTransactionsInput | Prisma.transactionsUpdateWithWhereUniqueWithoutTransactionsInput[]
-  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutTransactionsInput | Prisma.transactionsUpdateManyWithWhereWithoutTransactionsInput[]
-  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type transactionsCreateWithoutSales_invoicesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutTransactionsInput
-  transactions?: Prisma.transactionsCreateNestedOneWithoutOther_transactionsInput
-  other_transactions?: Prisma.transactionsCreateNestedManyWithoutTransactionsInput
-  sales_returns?: Prisma.sales_returnsCreateNestedOneWithoutTransactionsInput
-}
-
-export type transactionsUncheckedCreateWithoutSales_invoicesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_return_id?: string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
-  other_transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutTransactionsInput
-}
-
-export type transactionsCreateOrConnectWithoutSales_invoicesInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput>
-}
-
-export type transactionsCreateManySales_invoicesInputEnvelope = {
-  data: Prisma.transactionsCreateManySales_invoicesInput | Prisma.transactionsCreateManySales_invoicesInput[]
-  skipDuplicates?: boolean
-}
-
-export type transactionsUpsertWithWhereUniqueWithoutSales_invoicesInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transactionsUpdateWithoutSales_invoicesInput, Prisma.transactionsUncheckedUpdateWithoutSales_invoicesInput>
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutSales_invoicesInput, Prisma.transactionsUncheckedCreateWithoutSales_invoicesInput>
-}
-
-export type transactionsUpdateWithWhereUniqueWithoutSales_invoicesInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transactionsUpdateWithoutSales_invoicesInput, Prisma.transactionsUncheckedUpdateWithoutSales_invoicesInput>
-}
-
-export type transactionsUpdateManyWithWhereWithoutSales_invoicesInput = {
-  where: Prisma.transactionsScalarWhereInput
-  data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutSales_invoicesInput>
-}
-
-export type transactionsScalarWhereInput = {
-  AND?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-  OR?: Prisma.transactionsScalarWhereInput[]
-  NOT?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"transactions"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"transactions"> | string
-  transaction_number?: Prisma.StringFilter<"transactions"> | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFilter<"transactions"> | $Enums.transaction_type_enum
-  status?: Prisma.StringFilter<"transactions"> | string
-  currency?: Prisma.StringFilter<"transactions"> | string
-  subtotal?: Prisma.DecimalFilter<"transactions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.DecimalNullableFilter<"transactions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"transactions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFilter<"transactions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.StringNullableFilter<"transactions"> | string | null
-  user_agent?: Prisma.StringNullableFilter<"transactions"> | string | null
-  metadata?: Prisma.JsonNullableFilter<"transactions">
-  notes?: Prisma.StringNullableFilter<"transactions"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"transactions"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"transactions"> | Date | string | null
-  reference_transaction_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  sales_invoice_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  sales_return_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-}
-
-export type transactionsCreateWithoutSales_returnsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutTransactionsInput
-  transactions?: Prisma.transactionsCreateNestedOneWithoutOther_transactionsInput
-  other_transactions?: Prisma.transactionsCreateNestedManyWithoutTransactionsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedOneWithoutTransactionsInput
-}
-
-export type transactionsUncheckedCreateWithoutSales_returnsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_invoice_id?: string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
-  other_transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutTransactionsInput
-}
-
-export type transactionsCreateOrConnectWithoutSales_returnsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput>
-}
-
-export type transactionsCreateManySales_returnsInputEnvelope = {
-  data: Prisma.transactionsCreateManySales_returnsInput | Prisma.transactionsCreateManySales_returnsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transactionsUpsertWithWhereUniqueWithoutSales_returnsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transactionsUpdateWithoutSales_returnsInput, Prisma.transactionsUncheckedUpdateWithoutSales_returnsInput>
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutSales_returnsInput, Prisma.transactionsUncheckedCreateWithoutSales_returnsInput>
-}
-
-export type transactionsUpdateWithWhereUniqueWithoutSales_returnsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transactionsUpdateWithoutSales_returnsInput, Prisma.transactionsUncheckedUpdateWithoutSales_returnsInput>
-}
-
-export type transactionsUpdateManyWithWhereWithoutSales_returnsInput = {
-  where: Prisma.transactionsScalarWhereInput
-  data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutSales_returnsInput>
-}
-
-export type transactionsCreateWithoutTransaction_detailsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  transactions?: Prisma.transactionsCreateNestedOneWithoutOther_transactionsInput
-  other_transactions?: Prisma.transactionsCreateNestedManyWithoutTransactionsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedOneWithoutTransactionsInput
-  sales_returns?: Prisma.sales_returnsCreateNestedOneWithoutTransactionsInput
-}
-
-export type transactionsUncheckedCreateWithoutTransaction_detailsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_invoice_id?: string | null
-  sales_return_id?: string | null
-  other_transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutTransactionsInput
-}
-
-export type transactionsCreateOrConnectWithoutTransaction_detailsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedCreateWithoutTransaction_detailsInput>
-}
-
-export type transactionsUpsertWithoutTransaction_detailsInput = {
-  update: Prisma.XOR<Prisma.transactionsUpdateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedUpdateWithoutTransaction_detailsInput>
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedCreateWithoutTransaction_detailsInput>
-  where?: Prisma.transactionsWhereInput
-}
-
-export type transactionsUpdateToOneWithWhereWithoutTransaction_detailsInput = {
-  where?: Prisma.transactionsWhereInput
-  data: Prisma.XOR<Prisma.transactionsUpdateWithoutTransaction_detailsInput, Prisma.transactionsUncheckedUpdateWithoutTransaction_detailsInput>
-}
-
-export type transactionsUpdateWithoutTransaction_detailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transactions?: Prisma.transactionsUpdateOneWithoutOther_transactionsNestedInput
-  other_transactions?: Prisma.transactionsUpdateManyWithoutTransactionsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateOneWithoutTransactionsNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateOneWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateWithoutTransaction_detailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  other_transactions?: Prisma.transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
-}
-
-export type transactionsCreateWithoutOther_transactionsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutTransactionsInput
-  transactions?: Prisma.transactionsCreateNestedOneWithoutOther_transactionsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedOneWithoutTransactionsInput
-  sales_returns?: Prisma.sales_returnsCreateNestedOneWithoutTransactionsInput
-}
-
-export type transactionsUncheckedCreateWithoutOther_transactionsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_invoice_id?: string | null
-  sales_return_id?: string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
-}
-
-export type transactionsCreateOrConnectWithoutOther_transactionsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutOther_transactionsInput, Prisma.transactionsUncheckedCreateWithoutOther_transactionsInput>
-}
-
-export type transactionsCreateWithoutTransactionsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  transaction_details?: Prisma.transaction_detailsCreateNestedManyWithoutTransactionsInput
-  other_transactions?: Prisma.transactionsCreateNestedManyWithoutTransactionsInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedOneWithoutTransactionsInput
-  sales_returns?: Prisma.sales_returnsCreateNestedOneWithoutTransactionsInput
-}
-
-export type transactionsUncheckedCreateWithoutTransactionsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  sales_invoice_id?: string | null
-  sales_return_id?: string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedCreateNestedManyWithoutTransactionsInput
-  other_transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutTransactionsInput
-}
-
-export type transactionsCreateOrConnectWithoutTransactionsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput>
-}
-
-export type transactionsCreateManyTransactionsInputEnvelope = {
-  data: Prisma.transactionsCreateManyTransactionsInput | Prisma.transactionsCreateManyTransactionsInput[]
-  skipDuplicates?: boolean
-}
-
-export type transactionsUpsertWithoutOther_transactionsInput = {
-  update: Prisma.XOR<Prisma.transactionsUpdateWithoutOther_transactionsInput, Prisma.transactionsUncheckedUpdateWithoutOther_transactionsInput>
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutOther_transactionsInput, Prisma.transactionsUncheckedCreateWithoutOther_transactionsInput>
-  where?: Prisma.transactionsWhereInput
-}
-
-export type transactionsUpdateToOneWithWhereWithoutOther_transactionsInput = {
-  where?: Prisma.transactionsWhereInput
-  data: Prisma.XOR<Prisma.transactionsUpdateWithoutOther_transactionsInput, Prisma.transactionsUncheckedUpdateWithoutOther_transactionsInput>
-}
-
-export type transactionsUpdateWithoutOther_transactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutTransactionsNestedInput
-  transactions?: Prisma.transactionsUpdateOneWithoutOther_transactionsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateOneWithoutTransactionsNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateOneWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateWithoutOther_transactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
-}
-
-export type transactionsUpsertWithWhereUniqueWithoutTransactionsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.transactionsUpdateWithoutTransactionsInput, Prisma.transactionsUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.transactionsCreateWithoutTransactionsInput, Prisma.transactionsUncheckedCreateWithoutTransactionsInput>
-}
-
-export type transactionsUpdateWithWhereUniqueWithoutTransactionsInput = {
-  where: Prisma.transactionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.transactionsUpdateWithoutTransactionsInput, Prisma.transactionsUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type transactionsUpdateManyWithWhereWithoutTransactionsInput = {
-  where: Prisma.transactionsScalarWhereInput
-  data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutTransactionsInput>
-}
-
-export type transactionsCreateManySales_invoicesInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_return_id?: string | null
-}
-
-export type transactionsUpdateWithoutSales_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutTransactionsNestedInput
-  transactions?: Prisma.transactionsUpdateOneWithoutOther_transactionsNestedInput
-  other_transactions?: Prisma.transactionsUpdateManyWithoutTransactionsNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateOneWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateWithoutSales_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
-  other_transactions?: Prisma.transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateManyWithoutSales_invoicesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transactionsCreateManySales_returnsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  reference_transaction_id?: string | null
-  sales_invoice_id?: string | null
-}
-
-export type transactionsUpdateWithoutSales_returnsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutTransactionsNestedInput
-  transactions?: Prisma.transactionsUpdateOneWithoutOther_transactionsNestedInput
-  other_transactions?: Prisma.transactionsUpdateManyWithoutTransactionsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateOneWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateWithoutSales_returnsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
-  other_transactions?: Prisma.transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateManyWithoutSales_returnsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type transactionsCreateManyTransactionsInput = {
-  id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
-  transaction_number: string
-  transaction_type: $Enums.transaction_type_enum
-  status?: string
-  currency?: string
-  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: string | null
-  user_agent?: string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: string | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  sales_invoice_id?: string | null
-  sales_return_id?: string | null
-}
-
-export type transactionsUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  transaction_details?: Prisma.transaction_detailsUpdateManyWithoutTransactionsNestedInput
-  other_transactions?: Prisma.transactionsUpdateManyWithoutTransactionsNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateOneWithoutTransactionsNestedInput
-  sales_returns?: Prisma.sales_returnsUpdateOneWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  transaction_details?: Prisma.transaction_detailsUncheckedUpdateManyWithoutTransactionsNestedInput
-  other_transactions?: Prisma.transactionsUncheckedUpdateManyWithoutTransactionsNestedInput
-}
-
-export type transactionsUncheckedUpdateManyWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
-  transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type TransactionsCountOutputType
- */
-
-export type TransactionsCountOutputType = {
-  transaction_details: number
-  other_transactions: number
-}
-
-export type TransactionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transaction_details?: boolean | TransactionsCountOutputTypeCountTransaction_detailsArgs
-  other_transactions?: boolean | TransactionsCountOutputTypeCountOther_transactionsArgs
-}
-
-/**
- * TransactionsCountOutputType without action
- */
-export type TransactionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TransactionsCountOutputType
-   */
-  select?: Prisma.TransactionsCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * TransactionsCountOutputType without action
- */
-export type TransactionsCountOutputTypeCountTransaction_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.transaction_detailsWhereInput
-}
-
-/**
- * TransactionsCountOutputType without action
- */
-export type TransactionsCountOutputTypeCountOther_transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.transactionsWhereInput
-}
 
 
 export type transactionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1700,12 +718,6 @@ export type transactionsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
-  transaction_details?: boolean | Prisma.transactions$transaction_detailsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  other_transactions?: boolean | Prisma.transactions$other_transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
-  _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1729,9 +741,6 @@ export type transactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1755,9 +764,6 @@ export type transactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectScalar = {
@@ -1784,34 +790,10 @@ export type transactionsSelectScalar = {
 }
 
 export type transactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "transaction_number" | "transaction_type" | "status" | "currency" | "subtotal" | "tax_amount" | "discount_amount" | "total_amount" | "ip_address" | "user_agent" | "metadata" | "notes" | "created_at" | "updated_at" | "reference_transaction_id" | "sales_invoice_id" | "sales_return_id", ExtArgs["result"]["transactions"]>
-export type transactionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transaction_details?: boolean | Prisma.transactions$transaction_detailsArgs<ExtArgs>
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  other_transactions?: boolean | Prisma.transactions$other_transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
-  _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type transactionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
-}
-export type transactionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transactions?: boolean | Prisma.transactions$transactionsArgs<ExtArgs>
-  sales_invoices?: boolean | Prisma.transactions$sales_invoicesArgs<ExtArgs>
-  sales_returns?: boolean | Prisma.transactions$sales_returnsArgs<ExtArgs>
-}
 
 export type $transactionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "transactions"
-  objects: {
-    transaction_details: Prisma.$transaction_detailsPayload<ExtArgs>[]
-    transactions: Prisma.$transactionsPayload<ExtArgs> | null
-    other_transactions: Prisma.$transactionsPayload<ExtArgs>[]
-    sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs> | null
-    sales_returns: Prisma.$sales_returnsPayload<ExtArgs> | null
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string | null
@@ -2227,11 +1209,6 @@ readonly fields: transactionsFieldRefs;
  */
 export interface Prisma__transactionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  transaction_details<T extends Prisma.transactions$transaction_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$transaction_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transaction_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  transactions<T extends Prisma.transactions$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$transactionsArgs<ExtArgs>>): Prisma.Prisma__transactionsClient<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  other_transactions<T extends Prisma.transactions$other_transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$other_transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sales_invoices<T extends Prisma.transactions$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$sales_invoicesArgs<ExtArgs>>): Prisma.Prisma__sales_invoicesClient<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sales_returns<T extends Prisma.transactions$sales_returnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$sales_returnsArgs<ExtArgs>>): Prisma.Prisma__sales_returnsClient<runtime.Types.Result.GetResult<Prisma.$sales_returnsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2298,10 +1275,6 @@ export type transactionsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  /**
    * Filter, which transactions to fetch.
    */
   where: Prisma.transactionsWhereUniqueInput
@@ -2320,10 +1293,6 @@ export type transactionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  /**
    * Filter, which transactions to fetch.
    */
   where: Prisma.transactionsWhereUniqueInput
@@ -2341,10 +1310,6 @@ export type transactionsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the transactions
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
   /**
    * Filter, which transactions to fetch.
    */
@@ -2394,10 +1359,6 @@ export type transactionsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  /**
    * Filter, which transactions to fetch.
    */
   where?: Prisma.transactionsWhereInput
@@ -2445,10 +1406,6 @@ export type transactionsFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the transactions
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
   /**
    * Filter, which transactions to fetch.
    */
@@ -2498,10 +1455,6 @@ export type transactionsCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  /**
    * The data needed to create a transactions.
    */
   data: Prisma.XOR<Prisma.transactionsCreateInput, Prisma.transactionsUncheckedCreateInput>
@@ -2535,10 +1488,6 @@ export type transactionsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.transactionsCreateManyInput | Prisma.transactionsCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2553,10 +1502,6 @@ export type transactionsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the transactions
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
   /**
    * The data needed to update a transactions.
    */
@@ -2609,10 +1554,6 @@ export type transactionsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many transactions to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2627,10 +1568,6 @@ export type transactionsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the transactions
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
   /**
    * The filter to search for the transactions to update in case it exists.
    */
@@ -2658,10 +1595,6 @@ export type transactionsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  /**
    * Filter which transactions to delete.
    */
   where: Prisma.transactionsWhereUniqueInput
@@ -2682,111 +1615,6 @@ export type transactionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * transactions.transaction_details
- */
-export type transactions$transaction_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the transaction_details
-   */
-  select?: Prisma.transaction_detailsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the transaction_details
-   */
-  omit?: Prisma.transaction_detailsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transaction_detailsInclude<ExtArgs> | null
-  where?: Prisma.transaction_detailsWhereInput
-  orderBy?: Prisma.transaction_detailsOrderByWithRelationInput | Prisma.transaction_detailsOrderByWithRelationInput[]
-  cursor?: Prisma.transaction_detailsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Transaction_detailsScalarFieldEnum | Prisma.Transaction_detailsScalarFieldEnum[]
-}
-
-/**
- * transactions.transactions
- */
-export type transactions$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the transactions
-   */
-  select?: Prisma.transactionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the transactions
-   */
-  omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  where?: Prisma.transactionsWhereInput
-}
-
-/**
- * transactions.other_transactions
- */
-export type transactions$other_transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the transactions
-   */
-  select?: Prisma.transactionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the transactions
-   */
-  omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
-  where?: Prisma.transactionsWhereInput
-  orderBy?: Prisma.transactionsOrderByWithRelationInput | Prisma.transactionsOrderByWithRelationInput[]
-  cursor?: Prisma.transactionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TransactionsScalarFieldEnum | Prisma.TransactionsScalarFieldEnum[]
-}
-
-/**
- * transactions.sales_invoices
- */
-export type transactions$sales_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the sales_invoices
-   */
-  select?: Prisma.sales_invoicesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the sales_invoices
-   */
-  omit?: Prisma.sales_invoicesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.sales_invoicesInclude<ExtArgs> | null
-  where?: Prisma.sales_invoicesWhereInput
-}
-
-/**
- * transactions.sales_returns
- */
-export type transactions$sales_returnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the sales_returns
-   */
-  select?: Prisma.sales_returnsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the sales_returns
-   */
-  omit?: Prisma.sales_returnsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.sales_returnsInclude<ExtArgs> | null
-  where?: Prisma.sales_returnsWhereInput
-}
-
-/**
  * transactions without action
  */
 export type transactionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2798,8 +1626,4 @@ export type transactionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the transactions
    */
   omit?: Prisma.transactionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.transactionsInclude<ExtArgs> | null
 }

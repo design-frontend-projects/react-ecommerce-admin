@@ -7,12 +7,6 @@ import {
   mapActivityToTenantType,
 } from '@/server/utils/tenant-utils'
 import prisma from '@/lib/prisma'
-import type { OnboardingBranchInput } from './onboarding-branches'
-import {
-  createOnboardingUsers,
-  type CreatedOnboardingUser,
-  type OnboardingUserInput,
-} from './onboarding-users'
 
 export interface CompleteTenantOnboardingInput {
   authUserId: string
@@ -27,17 +21,12 @@ export interface CompleteTenantOnboardingInput {
   paymentMethod: string
   transferRef?: string
   subscriptionId: string
-  branches?: OnboardingBranchInput[]
-  users?: OnboardingUserInput[]
 }
 
 export interface CompleteTenantOnboardingResult {
   success: boolean
   tenantId: string
   tenantCode: string
-  createdBranches?: Array<{ id: string; name: string }>
-  createdUsers?: CreatedOnboardingUser[]
-  userErrors?: Array<{ email: string; error: string }>
 }
 
 export async function completeTenantOnboarding(
@@ -97,8 +86,6 @@ export async function completeTenantOnboarding(
   const tenantType = mapActivityToTenantType(input.activity)
 
   // 4. Run atomic transaction for tenant setup
-  const createdBranchResults: Array<{ id: string; name: string }> = []
-
   const tenant = await prisma.$transaction(async (tx: typeof prisma) => {
     // a. Create tenant
     const createdTenant = await tx.tenants.create({
@@ -180,48 +167,10 @@ export async function completeTenantOnboarding(
       })
     }
 
-    // f. Create branches if provided
-    if (input.branches && input.branches.length > 0) {
-      for (const branchInput of input.branches) {
-        const b = await tx.branches.create({
-          data: {
-            name: branchInput.name.trim(),
-            city_id: branchInput.cityId,
-            address: branchInput.address?.trim() || null,
-            phone: branchInput.phone?.trim() || null,
-            auth_user_id: input.authUserId,
-            tenant_id: createdTenant.id,
-            is_active: true,
-          },
-        })
-        createdBranchResults.push({ id: b.id, name: b.name })
-      }
-
-      if (createdBranchResults.length > 0) {
-        await tx.tenants.update({
-          where: { id: createdTenant.id },
-          data: { default_branch_id: createdBranchResults[0].id },
-        })
-      }
-    }
-
     return createdTenant
   })
 
-  // 5. Create staff users if provided
-  let createdUsers: CreatedOnboardingUser[] | undefined
-  let userErrors: Array<{ email: string; error: string }> | undefined
-
-  if (input.users && input.users.length > 0) {
-    const userRes = await createOnboardingUsers(
-      { users: input.users },
-      { authUserId: input.authUserId, tenantId: tenant.id }
-    )
-    createdUsers = userRes.users
-    userErrors = userRes.errors
-  }
-
-  // 6. Sync Supabase user metadata
+  // 5. Sync Supabase user metadata
   const currentMetadata = authUser.user_metadata || {}
   await supabaseAdmin.auth.admin.updateUserById(input.authUserId, {
     user_metadata: {
@@ -239,8 +188,5 @@ export async function completeTenantOnboarding(
     success: true,
     tenantId: tenant.id,
     tenantCode,
-    createdBranches: createdBranchResults,
-    createdUsers,
-    userErrors,
   }
 }
