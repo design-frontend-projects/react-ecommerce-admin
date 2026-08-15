@@ -2,12 +2,11 @@
 
 import { z } from 'zod'
 import { supabaseAdmin } from '@/server/supabase-admin'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
+import { requireAuth } from '@/server/utils/auth'
+import { resolveTenantId } from '@/server/utils/tenant'
 import { createServerFn } from '@tanstack/react-start'
 import prisma from '@/lib/prisma'
 import { getPrimaryRoleName } from '@/features/users/data/rbac'
-import { requireAuth } from '@/server/utils/auth'
-import { resolveTenantId } from '@/server/utils/tenant'
 import type {
   InviteUserInput,
   InviteUserResult,
@@ -58,7 +57,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const roleIds = roles.map((role) => role.id)
     const primaryRole = getPrimaryRoleName(roleNames)
 
-    const existingUser = await prisma.tenant_users.findUnique({
+    const existingUser = await prisma.tenant_users.findFirst({
       where: { email },
     })
 
@@ -178,10 +177,7 @@ export const listPendingInvitations = createServerFn({ method: 'GET' })
     const tenantMembers = (await prisma.tenant_users.findMany({
       where: tenantId
         ? {
-            OR: [
-              { tenant_id: tenantId },
-              { parent_tenant_id: tenantId },
-            ],
+            OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }],
           }
         : { auth_user_id: caller.userId },
       select: { auth_user_id: true },
@@ -203,9 +199,7 @@ export const listPendingInvitations = createServerFn({ method: 'GET' })
   })
 
 export const revokeInvitation = createServerFn({ method: 'POST' })
-  .validator(
-    z.object({ invitationId: z.string(), sessionToken: z.string() })
-  )
+  .validator(z.object({ invitationId: z.string(), sessionToken: z.string() }))
   .handler(async ({ data: { invitationId, sessionToken } }) => {
     const caller = await requireAuth(sessionToken, 'users.manage')
     const tenantId = await resolveTenantId(caller.userId)
@@ -219,7 +213,8 @@ export const revokeInvitation = createServerFn({ method: 'POST' })
     if (
       !pendingUser ||
       !tenantId ||
-      (pendingUser.tenant_id !== tenantId && pendingUser.parent_tenant_id !== tenantId)
+      (pendingUser.tenant_id !== tenantId &&
+        pendingUser.parent_tenant_id !== tenantId)
     ) {
       throw new Error('Forbidden: Invitation not found in your tenant')
     }

@@ -5,8 +5,9 @@
  */
 
 import 'dotenv/config'
+import type { PrismaClient as PrismaClientType } from '@/generated/prisma/client'
 
-let prisma: any
+let prisma: PrismaClientType
 
 if (typeof window === 'undefined') {
   // Use dynamic import to prevent browser bundlers from resolving this statically
@@ -37,7 +38,7 @@ if (typeof window === 'undefined') {
         )
       },
     }
-  )
+  ) as unknown as PrismaClientType
 }
 
 export default prisma

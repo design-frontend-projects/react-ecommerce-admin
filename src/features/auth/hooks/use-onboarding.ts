@@ -90,8 +90,12 @@ export function useCompleteOnboarding() {
       void queryClient.invalidateQueries({ queryKey: ['tenants'] })
       router.navigate({ to: '/' })
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Unable to complete account setup.')
+    onError: (error: any) => {
+      console.error('[useCompleteOnboarding] Error:', error)
+      const message =
+        error?.message ||
+        (typeof error === 'string' ? error : 'Unable to complete account setup.')
+      toast.error(message)
     },
   })
 }

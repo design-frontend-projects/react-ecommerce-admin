@@ -242,8 +242,8 @@ export async function createScreen(input: CreateScreenInput) {
 
   const route = input.route.trim()
   const [codeClash, routeClash] = await Promise.all([
-    prisma.app_screens.findUnique({ where: { code } }),
-    prisma.app_screens.findUnique({ where: { route } }),
+    prisma.app_screens.findFirst({ where: { code } }),
+    prisma.app_screens.findFirst({ where: { route } }),
   ])
   if (codeClash) throw new Error(`A screen with code "${code}" already exists.`)
   if (routeClash)

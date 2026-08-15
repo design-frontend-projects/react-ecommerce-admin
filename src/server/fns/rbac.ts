@@ -649,7 +649,7 @@ export async function createPermission(
     )
   }
 
-  const existing = await prisma.permissions.findUnique({ where: { name } })
+  const existing = await prisma.permissions.findFirst({ where: { name } })
   if (existing) throw new Error(`Permission "${name}" already exists.`)
 
   const { resource, action } = splitPermissionName(name)

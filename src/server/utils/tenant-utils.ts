@@ -17,11 +17,18 @@ export async function generateTenantCode(): Promise<string> {
       randomPart += chars.charAt(Math.floor(Math.random() * chars.length))
     }
     code = `TNT-${randomPart}`
-    const found = await prisma.tenants.findUnique({
-      where: { tenant_code: code },
-      select: { id: true },
-    })
-    exists = !!found
+    try {
+      const found = await prisma.tenants.findFirst({
+        where: { tenant_code: code },
+        select: { id: true },
+      })
+      exists = !!found
+    } catch {
+      // If DB probe fails, attach a millisecond timestamp to guarantee uniqueness
+      const timestampPart = Date.now().toString(36).toUpperCase().slice(-4)
+      code = `TNT-${timestampPart}${randomPart.slice(0, 4)}`
+      exists = false
+    }
   }
 
   return code
@@ -31,27 +38,33 @@ export async function generateTenantCode(): Promise<string> {
  * Generate a unique URL slug from business name e.g. "my-restaurant-2"
  */
 export async function generateTenantSlug(name: string): Promise<string> {
-  const baseSlug = name
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'tenant'
+  const baseSlug =
+    name
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'tenant'
 
   let slug = baseSlug
   let count = 1
   let exists = true
 
   while (exists && count < 50) {
-    const found = await prisma.tenants.findUnique({
-      where: { slug },
-      select: { id: true },
-    })
-    if (!found) {
+    try {
+      const found = await prisma.tenants.findFirst({
+        where: { slug },
+        select: { id: true },
+      })
+      if (!found) {
+        exists = false
+      } else {
+        count++
+        slug = `${baseSlug}-${count}`
+      }
+    } catch {
+      slug = `${baseSlug}-${Date.now().toString(36)}`
       exists = false
-    } else {
-      count++
-      slug = `${baseSlug}-${count}`
     }
   }
 

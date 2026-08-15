@@ -51,7 +51,7 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
 
   const existingTenantUserByEmail =
     existingTenantUserByClerkId ??
-    (await prisma.tenant_users.findUnique({
+    (await prisma.tenant_users.findFirst({
       where: { email },
     }))
 

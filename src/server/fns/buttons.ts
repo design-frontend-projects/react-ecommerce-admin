@@ -50,7 +50,7 @@ export async function createButton(input: CreateButtonInput) {
   if (!BUTTON_CODE_PATTERN.test(code)) {
     throw new Error('Button code must be snake_case with no dots.')
   }
-  const clash = await prisma.permission_buttons.findUnique({ where: { code } })
+  const clash = await prisma.permission_buttons.findFirst({ where: { code } })
   if (clash) throw new Error(`A button with code "${code}" already exists.`)
 
   return prisma.permission_buttons.create({

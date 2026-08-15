@@ -1,15 +1,13 @@
 'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
-import prisma from '@/lib/prisma'
+import { generateTempPassword } from '@/server/utils/temp-password'
 import { resolveTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 import {
   getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
-  normalizeRoleName,
 } from '@/features/users/data/rbac'
-import { generateTempPassword } from '@/server/utils/temp-password'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
 
@@ -87,12 +85,12 @@ async function syncNewUserMetadata(
 
 /**
  * Create multiple staff users during tenant onboarding.
- * 
+ *
  * Each user gets:
  * - Supabase Auth account with a generated temp password
  * - `tenant_users` record linked to the tenant via `parent_tenant_id`
  * - `user_roles` entry
- * 
+ *
  * Each user creation is independent — one failure does NOT roll back others.
  * Failed Supabase auth users are compensated (deleted).
  */
@@ -129,7 +127,10 @@ export async function createOnboardingUsers(
     // Check if role exists
     const role = roleMap.get(userInput.roleId)
     if (!role) {
-      result.errors.push({ email, error: `Role not found: ${userInput.roleId}` })
+      result.errors.push({
+        email,
+        error: `Role not found: ${userInput.roleId}`,
+      })
       continue
     }
     if (!role.is_active) {
@@ -138,11 +139,14 @@ export async function createOnboardingUsers(
     }
 
     // Check for existing user with same email
-    const existingUser = await prisma.tenant_users.findUnique({
+    const existingUser = await prisma.tenant_users.findFirst({
       where: { email },
     })
     if (existingUser) {
-      result.errors.push({ email, error: 'A user with this email already exists.' })
+      result.errors.push({
+        email,
+        error: 'A user with this email already exists.',
+      })
       continue
     }
 
@@ -182,37 +186,39 @@ export async function createOnboardingUsers(
 
     let tenantUserId: string
     try {
-      const tenantUser = await prisma.$transaction(async (tx: typeof prisma) => {
-        // Create tenant_users record
-        const created = await tx.tenant_users.create({
-          data: {
-            auth_user_id: authUserId,
-            email,
-            first_name: userInput.firstName ?? null,
-            last_name: userInput.lastName ?? null,
-            phone: userInput.phone ?? null,
-            branch_id: userInput.branchId || null,
-            is_active: true,
-            default_role: primaryRole,
-            is_restuarant_user: true,
-            modules,
-            primary_module: modules[0] ?? null,
-            parent_tenant_id: parentTenantId,
-            tenant_id: tenantId,
-            onboarding_complete: true, // Staff users don't need to onboard
-          },
-        })
+      const tenantUser = await prisma.$transaction(
+        async (tx: typeof prisma) => {
+          // Create tenant_users record
+          const created = await tx.tenant_users.create({
+            data: {
+              auth_user_id: authUserId,
+              email,
+              first_name: userInput.firstName ?? null,
+              last_name: userInput.lastName ?? null,
+              phone: userInput.phone ?? null,
+              branch_id: userInput.branchId || null,
+              is_active: true,
+              default_role: primaryRole,
+              is_restuarant_user: true,
+              modules,
+              primary_module: modules[0] ?? null,
+              parent_tenant_id: parentTenantId,
+              tenant_id: tenantId,
+              onboarding_complete: true, // Staff users don't need to onboard
+            },
+          })
 
-        // Create user_roles
-        await tx.user_roles.create({
-          data: {
-            tenant_user_id: created.id,
-            role_id: role.id,
-          },
-        })
+          // Create user_roles
+          await tx.user_roles.create({
+            data: {
+              tenant_user_id: created.id,
+              role_id: role.id,
+            },
+          })
 
-        return created
-      })
+          return created
+        }
+      )
 
       tenantUserId = tenantUser.id
 

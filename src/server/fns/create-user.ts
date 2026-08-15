@@ -1,15 +1,13 @@
 'use server'
 
 import { supabaseAdmin } from '@/server/supabase-admin'
-import { ADMIN_ROLES } from '@/types/user-role.enum'
-import prisma from '@/lib/prisma'
+import { generateTempPassword } from '@/server/utils/temp-password'
 import { resolveTenantId } from '@/server/utils/tenant'
+import prisma from '@/lib/prisma'
 import {
   getFallbackPermissionNamesForRoles,
   getPrimaryRoleName,
-  normalizeRoleName,
 } from '@/features/users/data/rbac'
-import { generateTempPassword } from '@/server/utils/temp-password'
 
 const MODULE_ACTIVITY_CODES = ['inventory', 'restaurant'] as const
 
@@ -130,7 +128,7 @@ export async function createUser(
   const primaryRole = getPrimaryRoleName(roleNames)
 
   const email = input.email.trim().toLowerCase()
-  const existingTenantUser = await prisma.tenant_users.findUnique({
+  const existingTenantUser = await prisma.tenant_users.findFirst({
     where: { email },
   })
   if (existingTenantUser) {
