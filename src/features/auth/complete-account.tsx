@@ -85,12 +85,14 @@ const onboardingSchema = z
       message: 'Please select a payment method',
     }),
     transferRef: z.string().trim().optional(),
-    subscriptionId: z.string({ message: 'Please select a subscription plan' }),
+    subscriptionId: z
+      .string({ message: 'Please select a subscription plan' })
+      .min(1, 'Please select a subscription plan'),
     branches: z.array(branchSchema).optional(),
     users: z.array(onboardingUserSchema).optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.paymentMethod === 'mobile_transfer' && !data.transferRef) {
+    if (data.paymentMethod === 'mobile_transfer' && !data.transferRef?.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Transfer reference is required for mobile transfers',
@@ -203,6 +205,25 @@ export function CompleteAccountFeature() {
     },
   })
 
+  // Fetch active cities directly for high reliability and fallback
+  const { data: directCities = [] } = useQuery({
+    queryKey: ['cities', 'onboarding'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('cities')
+        .select('id, name, country_id, is_active')
+        .eq('is_active', true)
+        .order('name')
+      if (error) throw error
+      return (data ?? []) as Array<{
+        id: string
+        name: string
+        country_id: string
+        is_active?: boolean | null
+      }>
+    },
+  })
+
   // Fetch subscription plans for step 5
   const { data: subscriptionPlans = [] } = useQuery({
     queryKey: ['subscriptions', 'onboarding'],
@@ -258,18 +279,66 @@ export function CompleteAccountFeature() {
   const selectedCountryId = form.watch('countryId')
   const selectedCountry = countries.find((c) => c.id === selectedCountryId)
 
-  // Derived cities from country model (filtered for active cities and sorted alphabetically)
-  const availableCities =
-    selectedCountry?.cities
-      ?.filter((c) => c.is_active !== false)
-      .sort((a, b) => a.name.localeCompare(b.name)) ??
-    countries
+  // Derived cities from country model or direct cities query (filtered for active cities and sorted alphabetically)
+  const availableCities = (() => {
+    // 1. Try to find active cities from selected country in countries query
+    const countryCities = selectedCountry?.cities?.filter(
+      (c) => c.is_active !== false
+    )
+    if (countryCities && countryCities.length > 0) {
+      return countryCities
+        .map((c) => ({
+          id: String(c.id),
+          name: String(c.name),
+          countryName: selectedCountry?.name,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    // 2. Try to find active cities for the selected country from directCities
+    if (selectedCountryId) {
+      const filteredDirect = directCities.filter(
+        (c) => c.country_id === selectedCountryId && c.is_active !== false
+      )
+      if (filteredDirect.length > 0) {
+        return filteredDirect
+          .map((c) => ({
+            id: String(c.id),
+            name: String(c.name),
+            countryName: selectedCountry?.name,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name))
+      }
+    }
+
+    // 3. Fallback: all active direct cities with their corresponding country names
+    if (directCities.length > 0) {
+      return directCities
+        .filter((c) => c.is_active !== false)
+        .map((c) => {
+          const matchedCountry = countries.find((ct) => ct.id === c.country_id)
+          return {
+            id: String(c.id),
+            name: String(c.name),
+            countryName: matchedCountry?.name,
+          }
+        })
+        .sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    // 4. Ultimate fallback from all countries' embedded cities
+    return countries
       .flatMap((country) =>
         (country.cities ?? [])
           .filter((c) => c.is_active !== false)
-          .map((c) => ({ ...c, countryName: country.name }))
+          .map((c) => ({
+            id: String(c.id),
+            name: String(c.name),
+            countryName: country.name,
+          }))
       )
       .sort((a, b) => a.name.localeCompare(b.name))
+  })()
 
   const formBranches = form.watch('branches') ?? []
 

@@ -147,16 +147,15 @@ model countries {
 }
 
 model currencies {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String      @db.VarChar(100)
-  code         String      @unique @db.VarChar(3)
-  symbol       String      @db.VarChar(5)
-  is_active    Boolean?    @default(true)
-  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime?   @default(now()) @db.Timestamptz(6)
-  auth_user_id String?     @default(dbgenerated("auth.uid()")) @db.Uuid
-  countries    countries[]
-  tenants      tenants[]
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String      @db.VarChar(100)
+  code       String      @unique @db.VarChar(3)
+  symbol     String      @db.VarChar(5)
+  is_active  Boolean?    @default(true)
+  created_at DateTime?   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?   @default(now()) @db.Timestamptz(6)
+  countries  countries[]
+  tenants    tenants[]
 }
 
 model customer_cards {

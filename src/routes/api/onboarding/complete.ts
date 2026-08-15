@@ -33,7 +33,7 @@ const POST = withAuth(null, async ({ request, auth }) => {
     return jsonError('Payment method selection is required.', 400)
   }
 
-  if (!body.subscriptionId) {
+  if (!body.subscriptionId?.trim()) {
     return jsonError('Subscription plan selection is required.', 400)
   }
 
@@ -50,7 +50,7 @@ const POST = withAuth(null, async ({ request, auth }) => {
       activity: body.activity.trim(),
       paymentMethod: body.paymentMethod.trim(),
       transferRef: body.transferRef?.trim(),
-      subscriptionId: Number(body.subscriptionId),
+      subscriptionId: body.subscriptionId.trim(),
       branches: body.branches,
       users: body.users,
     })

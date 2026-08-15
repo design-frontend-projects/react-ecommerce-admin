@@ -231,7 +231,7 @@ export type Bundle_componentsGroupByOutputType = {
   _max: Bundle_componentsMaxAggregateOutputType | null
 }
 
-type GetBundle_componentsGroupByPayload<T extends bundle_componentsGroupByArgs> = Prisma.PrismaPromise<
+export type GetBundle_componentsGroupByPayload<T extends bundle_componentsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Bundle_componentsGroupByOutputType, T['by']> &
       {

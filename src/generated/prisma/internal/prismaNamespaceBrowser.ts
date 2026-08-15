@@ -294,8 +294,7 @@ export const CurrenciesScalarFieldEnum = {
   symbol: 'symbol',
   is_active: 'is_active',
   created_at: 'created_at',
-  updated_at: 'updated_at',
-  auth_user_id: 'auth_user_id'
+  updated_at: 'updated_at'
 } as const
 
 export type CurrenciesScalarFieldEnum = (typeof CurrenciesScalarFieldEnum)[keyof typeof CurrenciesScalarFieldEnum]

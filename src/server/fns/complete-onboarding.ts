@@ -26,7 +26,7 @@ export interface CompleteTenantOnboardingInput {
   activity: string
   paymentMethod: string
   transferRef?: string
-  subscriptionId: number
+  subscriptionId: string
   branches?: OnboardingBranchInput[]
   users?: OnboardingUserInput[]
 }
@@ -57,7 +57,7 @@ export async function completeTenantOnboarding(
     throw new Error('Country selection is required.')
   }
 
-  if (!input.subscriptionId) {
+  if (!input.subscriptionId || !input.subscriptionId.trim()) {
     throw new Error('Subscription plan selection is required.')
   }
 

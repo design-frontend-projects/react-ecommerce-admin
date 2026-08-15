@@ -32,7 +32,6 @@ export type CurrenciesMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
 }
 
 export type CurrenciesMaxAggregateOutputType = {
@@ -43,7 +42,6 @@ export type CurrenciesMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
 }
 
 export type CurrenciesCountAggregateOutputType = {
@@ -54,7 +52,6 @@ export type CurrenciesCountAggregateOutputType = {
   is_active: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   _all: number
 }
 
@@ -67,7 +64,6 @@ export type CurrenciesMinAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
 }
 
 export type CurrenciesMaxAggregateInputType = {
@@ -78,7 +74,6 @@ export type CurrenciesMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
 }
 
 export type CurrenciesCountAggregateInputType = {
@@ -89,7 +84,6 @@ export type CurrenciesCountAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   _all?: true
 }
 
@@ -173,13 +167,12 @@ export type CurrenciesGroupByOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   _count: CurrenciesCountAggregateOutputType | null
   _min: CurrenciesMinAggregateOutputType | null
   _max: CurrenciesMaxAggregateOutputType | null
 }
 
-type GetCurrenciesGroupByPayload<T extends currenciesGroupByArgs> = Prisma.PrismaPromise<
+export type GetCurrenciesGroupByPayload<T extends currenciesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CurrenciesGroupByOutputType, T['by']> &
       {
@@ -205,7 +198,6 @@ export type currenciesWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"currencies"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"currencies"> | string | null
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
 }
@@ -218,7 +210,6 @@ export type currenciesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   countries?: Prisma.countriesOrderByRelationAggregateInput
   tenants?: Prisma.tenantsOrderByRelationAggregateInput
 }
@@ -234,7 +225,6 @@ export type currenciesWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"currencies"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"currencies"> | string | null
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
 }, "id" | "code">
@@ -247,7 +237,6 @@ export type currenciesOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.currenciesCountOrderByAggregateInput
   _max?: Prisma.currenciesMaxOrderByAggregateInput
   _min?: Prisma.currenciesMinOrderByAggregateInput
@@ -264,7 +253,6 @@ export type currenciesScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"currencies"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"currencies"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"currencies"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"currencies"> | string | null
 }
 
 export type currenciesCreateInput = {
@@ -275,7 +263,6 @@ export type currenciesCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   countries?: Prisma.countriesCreateNestedManyWithoutCurrenciesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCurrenciesInput
 }
@@ -288,7 +275,6 @@ export type currenciesUncheckedCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   countries?: Prisma.countriesUncheckedCreateNestedManyWithoutCurrenciesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCurrenciesInput
 }
@@ -301,7 +287,6 @@ export type currenciesUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   countries?: Prisma.countriesUpdateManyWithoutCurrenciesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCurrenciesNestedInput
 }
@@ -314,7 +299,6 @@ export type currenciesUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   countries?: Prisma.countriesUncheckedUpdateManyWithoutCurrenciesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
@@ -327,7 +311,6 @@ export type currenciesCreateManyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type currenciesUpdateManyMutationInput = {
@@ -338,7 +321,6 @@ export type currenciesUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type currenciesUncheckedUpdateManyInput = {
@@ -349,7 +331,6 @@ export type currenciesUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CurrenciesNullableScalarRelationFilter = {
@@ -365,7 +346,6 @@ export type currenciesCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type currenciesMaxOrderByAggregateInput = {
@@ -376,7 +356,6 @@ export type currenciesMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type currenciesMinOrderByAggregateInput = {
@@ -387,7 +366,6 @@ export type currenciesMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type currenciesCreateNestedOneWithoutCountriesInput = {
@@ -430,7 +408,6 @@ export type currenciesCreateWithoutCountriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   tenants?: Prisma.tenantsCreateNestedManyWithoutCurrenciesInput
 }
 
@@ -442,7 +419,6 @@ export type currenciesUncheckedCreateWithoutCountriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCurrenciesInput
 }
 
@@ -470,7 +446,6 @@ export type currenciesUpdateWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenants?: Prisma.tenantsUpdateManyWithoutCurrenciesNestedInput
 }
 
@@ -482,7 +457,6 @@ export type currenciesUncheckedUpdateWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
 
@@ -494,7 +468,6 @@ export type currenciesCreateWithoutTenantsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   countries?: Prisma.countriesCreateNestedManyWithoutCurrenciesInput
 }
 
@@ -506,7 +479,6 @@ export type currenciesUncheckedCreateWithoutTenantsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   countries?: Prisma.countriesUncheckedCreateNestedManyWithoutCurrenciesInput
 }
 
@@ -534,7 +506,6 @@ export type currenciesUpdateWithoutTenantsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   countries?: Prisma.countriesUpdateManyWithoutCurrenciesNestedInput
 }
 
@@ -546,7 +517,6 @@ export type currenciesUncheckedUpdateWithoutTenantsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   countries?: Prisma.countriesUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
 
@@ -598,7 +568,6 @@ export type currenciesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   countries?: boolean | Prisma.currencies$countriesArgs<ExtArgs>
   tenants?: boolean | Prisma.currencies$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CurrenciesCountOutputTypeDefaultArgs<ExtArgs>
@@ -612,7 +581,6 @@ export type currenciesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["currencies"]>
 
 export type currenciesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -623,7 +591,6 @@ export type currenciesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["currencies"]>
 
 export type currenciesSelectScalar = {
@@ -634,10 +601,9 @@ export type currenciesSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }
 
-export type currenciesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "symbol" | "is_active" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["currencies"]>
+export type currenciesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "symbol" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["currencies"]>
 export type currenciesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | Prisma.currencies$countriesArgs<ExtArgs>
   tenants?: boolean | Prisma.currencies$tenantsArgs<ExtArgs>
@@ -660,7 +626,6 @@ export type $currenciesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
   }, ExtArgs["result"]["currencies"]>
   composites: {}
 }
@@ -1093,7 +1058,6 @@ export interface currenciesFieldRefs {
   readonly is_active: Prisma.FieldRef<"currencies", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"currencies", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"currencies", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"currencies", 'String'>
 }
     
 

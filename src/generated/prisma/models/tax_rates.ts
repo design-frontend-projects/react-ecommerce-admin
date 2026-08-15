@@ -241,7 +241,7 @@ export type Tax_ratesGroupByOutputType = {
   _max: Tax_ratesMaxAggregateOutputType | null
 }
 
-type GetTax_ratesGroupByPayload<T extends tax_ratesGroupByArgs> = Prisma.PrismaPromise<
+export type GetTax_ratesGroupByPayload<T extends tax_ratesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tax_ratesGroupByOutputType, T['by']> &
       {
