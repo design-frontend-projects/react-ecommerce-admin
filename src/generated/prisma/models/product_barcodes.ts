@@ -234,7 +234,7 @@ export type Product_barcodesGroupByOutputType = {
   _max: Product_barcodesMaxAggregateOutputType | null
 }
 
-type GetProduct_barcodesGroupByPayload<T extends product_barcodesGroupByArgs> = Prisma.PrismaPromise<
+export type GetProduct_barcodesGroupByPayload<T extends product_barcodesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Product_barcodesGroupByOutputType, T['by']> &
       {

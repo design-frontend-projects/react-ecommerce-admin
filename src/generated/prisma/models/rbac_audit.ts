@@ -175,7 +175,7 @@ export type Rbac_auditGroupByOutputType = {
   _max: Rbac_auditMaxAggregateOutputType | null
 }
 
-type GetRbac_auditGroupByPayload<T extends rbac_auditGroupByArgs> = Prisma.PrismaPromise<
+export type GetRbac_auditGroupByPayload<T extends rbac_auditGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Rbac_auditGroupByOutputType, T['by']> &
       {

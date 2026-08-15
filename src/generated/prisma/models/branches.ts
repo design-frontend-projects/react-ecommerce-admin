@@ -193,7 +193,7 @@ export type BranchesGroupByOutputType = {
   _max: BranchesMaxAggregateOutputType | null
 }
 
-type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
+export type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BranchesGroupByOutputType, T['by']> &
       {
