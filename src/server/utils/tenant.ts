@@ -16,6 +16,14 @@ export async function resolveTenantId(
   if (tenantUser?.tenant_id) return tenantUser.tenant_id
   if (tenantUser?.parent_tenant_id) return tenantUser.parent_tenant_id
 
+  const tenantOwner = prisma.tenants
+    ? await prisma.tenants.findFirst({
+        where: { auth_user_id: authUserId },
+        select: { id: true },
+      })
+    : null
+  if (tenantOwner?.id) return tenantOwner.id
+
   const subscription = (await prisma.tenant_subscriptions.findFirst({
     where: { auth_user_id: authUserId },
     select: { tenant_id: true, id: true },

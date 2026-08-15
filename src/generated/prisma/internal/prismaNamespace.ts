@@ -9842,6 +9842,7 @@ export const TenantsScalarFieldEnum = {
   currency_id: 'currency_id',
   default_branch_id: 'default_branch_id',
   current_subscription_id: 'current_subscription_id',
+  auth_user_id: 'auth_user_id',
   created_by: 'created_by',
   created_at: 'created_at',
   updated_at: 'updated_at',

@@ -1,12 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
+import type { CreatedOnboardingUser } from '@/server/fns/onboarding-users'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { useTenantUsersStore } from '@/stores/tenant-users-store'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/hooks/use-auth'
-import type { OnboardingBranchInput, OnboardingUserInput } from '@/features/users/data/schema'
-import type { CreatedOnboardingUser } from '@/server/fns/onboarding-users'
+import type {
+  OnboardingBranchInput,
+  OnboardingUserInput,
+} from '@/features/users/data/schema'
 
 export interface CompleteOnboardingData {
   userId: string
@@ -20,7 +23,7 @@ export interface CompleteOnboardingData {
   activity: string
   paymentMethod: string
   transferRef?: string
-  subscriptionId: number
+  subscriptionId: string
   /** Branches to create during onboarding */
   branches?: OnboardingBranchInput[]
   /** Users to create during onboarding */
@@ -40,7 +43,9 @@ export function useCompleteOnboarding() {
   const { setUser } = useAuthStore((state) => state.auth)
 
   return useMutation({
-    mutationFn: async (input: CompleteOnboardingData): Promise<CompleteOnboardingResult> => {
+    mutationFn: async (
+      input: CompleteOnboardingData
+    ): Promise<CompleteOnboardingResult> => {
       if (!user) throw new Error('User not found')
 
       const {
@@ -78,7 +83,8 @@ export function useCompleteOnboarding() {
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
         throw new Error(
-          (body as { error?: string }).error ?? 'Failed to complete tenant setup.'
+          (body as { error?: string }).error ??
+            'Failed to complete tenant setup.'
         )
       }
 

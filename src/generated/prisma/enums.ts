@@ -476,6 +476,12 @@ export const tenant_type = {
   market: 'market',
   pharmacy: 'pharmacy',
   service: 'service',
+  warehouse: 'warehouse',
+  hospital: 'hospital',
+  clinic: 'clinic',
+  school: 'school',
+  hotel: 'hotel',
+  courier: 'courier',
   other: 'other'
 } as const
 

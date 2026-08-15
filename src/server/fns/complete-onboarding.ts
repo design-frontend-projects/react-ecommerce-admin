@@ -1,18 +1,18 @@
 'use server'
 
-import prisma from '@/lib/prisma'
 import { supabaseAdmin } from '@/server/supabase-admin'
 import {
   generateTenantCode,
   generateTenantSlug,
   mapActivityToTenantType,
 } from '@/server/utils/tenant-utils'
+import prisma from '@/lib/prisma'
+import type { OnboardingBranchInput } from './onboarding-branches'
 import {
   createOnboardingUsers,
   type CreatedOnboardingUser,
   type OnboardingUserInput,
 } from './onboarding-users'
-import type { OnboardingBranchInput } from './onboarding-branches'
 
 export interface CompleteTenantOnboardingInput {
   authUserId: string
@@ -44,7 +44,9 @@ export async function completeTenantOnboarding(
   input: CompleteTenantOnboardingInput
 ): Promise<CompleteTenantOnboardingResult> {
   if (!input.authUserId || !input.firstName || !input.lastName) {
-    throw new Error('User identity fields (authUserId, firstName, lastName) are required.')
+    throw new Error(
+      'User identity fields (authUserId, firstName, lastName) are required.'
+    )
   }
 
   if (!input.businessName || !input.businessName.trim()) {
@@ -90,11 +92,14 @@ export async function completeTenantOnboarding(
   const tenantType = mapActivityToTenantType(input.activity)
 
   // 4. Run atomic transaction for tenant setup
-  const tenant = await prisma.$transaction(async (tx) => {
+  const createdBranchResults: Array<{ id: string; name: string }> = []
+
+  const tenant = await prisma.$transaction(async (tx: typeof prisma) => {
     // a. Create tenant
     const createdTenant = await tx.tenants.create({
       data: {
         tenant_code: tenantCode,
+        auth_user_id: input.authUserId,
         name: input.businessName.trim(),
         slug,
         display_name: input.displayName?.trim() || input.businessName.trim(),
@@ -141,6 +146,7 @@ export async function completeTenantOnboarding(
         where: { id: existingTenantUser.id },
         data: {
           tenant_id: createdTenant.id,
+          parent_tenant_id: createdTenant.id,
           email,
           first_name: input.firstName,
           last_name: input.lastName,
@@ -155,6 +161,7 @@ export async function completeTenantOnboarding(
         data: {
           auth_user_id: input.authUserId,
           tenant_id: createdTenant.id,
+          parent_tenant_id: createdTenant.id,
           email,
           first_name: input.firstName,
           last_name: input.lastName,
@@ -167,8 +174,6 @@ export async function completeTenantOnboarding(
         },
       })
     }
-
-
 
     // f. Create branches if provided
     if (input.branches && input.branches.length > 0) {

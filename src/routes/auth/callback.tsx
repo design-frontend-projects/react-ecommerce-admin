@@ -21,15 +21,38 @@ function AuthCallback() {
         return
       }
 
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+
+      // Ensure tenant_users record is provisioned for this user
+      if (session?.access_token) {
+        try {
+          await fetch('/api/auth/provision-signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({
+              firstName: data.user.user_metadata?.firstName,
+              lastName: data.user.user_metadata?.lastName,
+            }),
+          })
+        } catch (err) {
+          console.error('Failed to auto-provision user on callback:', err)
+        }
+      }
+
       const { data: tenantUser } = await supabase
         .from('tenant_users')
-        .select('onboarding_complete')
+        .select('onboarding_complete, parent_tenant_id')
         .eq('auth_user_id', data.user.id)
         .maybeSingle()
 
+      const isStaffUser = tenantUser?.parent_tenant_id != null
       const isOnboardingComplete =
-        tenantUser?.onboarding_complete === true ||
-        data.user.user_metadata?.onboardingComplete === true
+        tenantUser?.onboarding_complete === true || isStaffUser
 
       navigate({
         to: isOnboardingComplete ? '/' : '/complete-account',

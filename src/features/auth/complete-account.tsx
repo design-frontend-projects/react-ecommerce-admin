@@ -85,7 +85,7 @@ const onboardingSchema = z
       message: 'Please select a payment method',
     }),
     transferRef: z.string().trim().optional(),
-    subscriptionId: z.number({ required_error: 'Please select a subscription plan' }),
+    subscriptionId: z.string({ message: 'Please select a subscription plan' }),
     branches: z.array(branchSchema).optional(),
     users: z.array(onboardingUserSchema).optional(),
   })
@@ -160,22 +160,45 @@ export function CompleteAccountFeature() {
   >([])
   const [showTempPasswords, setShowTempPasswords] = useState(false)
 
-  // Fetch countries with default currency relation
+  // Fetch countries with default currency and cities relation from country model
   const { data: countries = [] } = useQuery({
     queryKey: ['countries', 'onboarding'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('countries')
-        .select('id, name, code, currency_id, currencies(id, name, code, symbol)')
+        .select(
+          'id, name, code, phone_code, currency_id, currencies(id, name, code, symbol), cities(id, name, is_active)'
+        )
         .eq('is_active', true)
         .order('name')
       if (error) throw error
-      return (data ?? []) as Array<{
+      return ((data ?? []) as any[]).map((country) => ({
+        id: String(country.id),
+        name: String(country.name),
+        code: String(country.code),
+        phone_code: country.phone_code ?? null,
+        currency_id: country.currency_id ?? null,
+        currencies: Array.isArray(country.currencies)
+          ? (country.currencies[0] ?? null)
+          : (country.currencies ?? null),
+        cities: Array.isArray(country.cities) ? country.cities : [],
+      })) as Array<{
         id: string
         name: string
         code: string
+        phone_code?: string | null
         currency_id: string | null
-        currencies: { id: string; name: string; code: string; symbol: string } | null
+        currencies: {
+          id: string
+          name: string
+          code: string
+          symbol: string
+        } | null
+        cities: Array<{
+          id: string
+          name: string
+          is_active?: boolean | null
+        }> | null
       }>
     },
   })
@@ -190,28 +213,10 @@ export function CompleteAccountFeature() {
         .order('price', { ascending: true })
       if (error) throw error
       return (data ?? []) as Array<{
-        id: number
+        id: string
         name: string
         duration_months: number
         price: number
-      }>
-    },
-  })
-
-  // Fetch cities for branch creation
-  const { data: cities = [] } = useQuery({
-    queryKey: ['cities', 'onboarding'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('cities')
-        .select('id, name, countries(name)')
-        .eq('is_active', true)
-        .order('name')
-      if (error) throw error
-      return (data ?? []) as Array<{
-        id: string
-        name: string
-        countries: { name: string } | null
       }>
     },
   })
@@ -252,6 +257,21 @@ export function CompleteAccountFeature() {
 
   const selectedCountryId = form.watch('countryId')
   const selectedCountry = countries.find((c) => c.id === selectedCountryId)
+
+  // Derived cities from country model (filtered for active cities and sorted alphabetically)
+  const availableCities =
+    selectedCountry?.cities
+      ?.filter((c) => c.is_active !== false)
+      .sort((a, b) => a.name.localeCompare(b.name)) ??
+    countries
+      .flatMap((country) =>
+        (country.cities ?? [])
+          .filter((c) => c.is_active !== false)
+          .map((c) => ({ ...c, countryName: country.name }))
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+  const formBranches = form.watch('branches') ?? []
 
   const {
     fields: branchFields,
@@ -340,10 +360,20 @@ export function CompleteAccountFeature() {
   }
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm'>
-      {/* Background */}
+    <div
+      className='fixed inset-0 z-50 flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xl select-none'
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onMouseDown={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+    >
+      {/* Background decoration */}
       <div
-        className='absolute inset-0 -z-10 h-full w-full'
+        className='pointer-events-none absolute inset-0 -z-10 h-full w-full'
         style={{
           backgroundImage:
             'radial-gradient(var(--auth-grid-dot) 1px, transparent 1px)',
@@ -353,7 +383,7 @@ export function CompleteAccountFeature() {
         }}
       />
       <div
-        className='absolute inset-0 -z-20 h-full w-full'
+        className='pointer-events-none absolute inset-0 -z-20 h-full w-full'
         style={{
           backgroundImage:
             'linear-gradient(135deg, var(--background), color-mix(in srgb, var(--background) 90%, transparent), color-mix(in srgb, var(--primary) 10%, var(--background)))',
@@ -362,11 +392,23 @@ export function CompleteAccountFeature() {
 
       {/* Temp passwords modal for created users */}
       {showTempPasswords && tempPasswords.length > 0 && (
-        <div className='fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm'>
+        <div
+          className='fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 backdrop-blur-xl select-none'
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className='w-full max-w-md rounded-2xl border bg-card p-6 shadow-2xl'
+            className='w-full max-w-md rounded-2xl border bg-card p-6 shadow-2xl select-text'
+            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             <h3 className='mb-2 text-lg font-bold'>
               {t('completeAccount.tempPasswordsTitle', 'User Credentials')}
@@ -412,11 +454,15 @@ export function CompleteAccountFeature() {
         </div>
       )}
 
-      <div className='w-full max-w-lg p-4'>
+      <div
+        className='w-full max-w-lg p-4 select-text'
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className='overflow-hidden rounded-3xl border border-border/50 bg-card/60 shadow-2xl backdrop-blur-xl'
+          className='overflow-hidden rounded-3xl border border-border/50 bg-card/90 shadow-2xl backdrop-blur-2xl'
         >
           {/* Header */}
           <div className='flex flex-col items-center justify-center space-y-4 border-b border-border/50 p-8 text-center'>
@@ -428,7 +474,10 @@ export function CompleteAccountFeature() {
                 {t('completeAccount.title', 'Complete Account Setup')}
               </h2>
               <p className='text-sm text-muted-foreground'>
-                {t('completeAccount.subtitle', 'Configure your organization and start managing your business')}
+                {t(
+                  'completeAccount.subtitle',
+                  'Configure your organization and start managing your business'
+                )}
               </p>
             </div>
 
@@ -511,7 +560,10 @@ export function CompleteAccountFeature() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {t('completeAccount.phoneOptional', 'Phone Number (Optional)')}
+                              {t(
+                                'completeAccount.phoneOptional',
+                                'Phone Number (Optional)'
+                              )}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -551,7 +603,10 @@ export function CompleteAccountFeature() {
                     >
                       <div className='flex items-center gap-2 text-lg font-medium'>
                         <Building2 className='h-5 w-5 text-primary' />
-                        {t('completeAccount.businessInfo', 'Organization Information')}
+                        {t(
+                          'completeAccount.businessInfo',
+                          'Organization Information'
+                        )}
                       </div>
 
                       <FormField
@@ -560,7 +615,10 @@ export function CompleteAccountFeature() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {t('completeAccount.businessName', 'Business / Organization Name *')}
+                              {t(
+                                'completeAccount.businessName',
+                                'Business / Organization Name *'
+                              )}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -581,12 +639,18 @@ export function CompleteAccountFeature() {
                           <FormItem>
                             <FormLabel className='flex items-center gap-1.5'>
                               <Globe className='h-4 w-4 text-primary' />
-                              {t('completeAccount.country', 'Country & Currency *')}
+                              {t(
+                                'completeAccount.country',
+                                'Country & Currency *'
+                              )}
                             </FormLabel>
                             <SelectDropdown
                               defaultValue={field.value}
                               onValueChange={field.onChange}
-                              placeholder={t('completeAccount.selectCountry', 'Select Country')}
+                              placeholder={t(
+                                'completeAccount.selectCountry',
+                                'Select Country'
+                              )}
                               className='h-12 text-base'
                               items={countries.map((c) => ({
                                 label: `${c.name} (${c.code})${c.currencies ? ` — Currency: ${c.currencies.code} (${c.currencies.symbol})` : ''}`,
@@ -599,11 +663,19 @@ export function CompleteAccountFeature() {
                       />
 
                       {selectedCountry && (
-                        <div className='rounded-xl border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground flex items-center gap-2'>
+                        <div className='flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground'>
                           <Globe className='h-4 w-4 shrink-0 text-primary' />
                           <span>
-                            Selected Country: <strong className='text-foreground'>{selectedCountry.name} ({selectedCountry.code})</strong>. 
-                            Default Currency: <strong className='text-foreground'>{selectedCountry.currencies?.code ?? 'USD'} ({selectedCountry.currencies?.symbol ?? '$'})</strong>.
+                            Selected Country:{' '}
+                            <strong className='text-foreground'>
+                              {selectedCountry.name} ({selectedCountry.code})
+                            </strong>
+                            . Default Currency:{' '}
+                            <strong className='text-foreground'>
+                              {selectedCountry.currencies?.code ?? 'USD'} (
+                              {selectedCountry.currencies?.symbol ?? '$'})
+                            </strong>
+                            .
                           </span>
                         </div>
                       )}
@@ -615,7 +687,10 @@ export function CompleteAccountFeature() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>
-                                {t('completeAccount.displayName', 'Display Name')}
+                                {t(
+                                  'completeAccount.displayName',
+                                  'Display Name'
+                                )}
                               </FormLabel>
                               <FormControl>
                                 <Input
@@ -663,7 +738,8 @@ export function CompleteAccountFeature() {
                           className='w-2/3 bg-primary text-base transition-all hover:bg-primary/90'
                           onClick={nextStep}
                           disabled={
-                            !form.watch('businessName') || !form.watch('countryId')
+                            !form.watch('businessName') ||
+                            !form.watch('countryId')
                           }
                         >
                           {t('completeAccount.continue', 'Continue')}
@@ -690,7 +766,10 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <Store className='h-5 w-5 text-primary' />
-                              {t('completeAccount.selectActivity', 'Select Business Category')}
+                              {t(
+                                'completeAccount.selectActivity',
+                                'Select Business Category'
+                              )}
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-2 gap-3 sm:grid-cols-2'>
@@ -794,7 +873,10 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <CreditCard className='h-5 w-5 text-primary' />
-                              {t('completeAccount.selectPayment', 'Preferred Payment Method')}
+                              {t(
+                                'completeAccount.selectPayment',
+                                'Preferred Payment Method'
+                              )}
                             </FormLabel>
                             <FormControl>
                               <div className='grid grid-cols-3 gap-3'>
@@ -877,7 +959,10 @@ export function CompleteAccountFeature() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  {t('completeAccount.transferRef', 'Transfer Reference Number *')}
+                                  {t(
+                                    'completeAccount.transferRef',
+                                    'Transfer Reference Number *'
+                                  )}
                                 </FormLabel>
                                 <FormControl>
                                   <Input
@@ -937,14 +1022,19 @@ export function CompleteAccountFeature() {
                           <FormItem className='space-y-4'>
                             <FormLabel className='flex items-center gap-2 text-lg font-medium'>
                               <Sparkles className='h-5 w-5 text-primary' />
-                              {t('completeAccount.selectPlan', 'Select Subscription Plan')}
+                              {t(
+                                'completeAccount.selectPlan',
+                                'Select Subscription Plan'
+                              )}
                             </FormLabel>
                             <FormControl>
                               <div className='grid gap-3'>
                                 {subscriptionPlans.length === 0 ? (
-                                  <div className='flex flex-col items-center justify-center p-6 border rounded-xl bg-muted/20 text-center'>
-                                    <Loader2Icon className='h-6 w-6 animate-spin text-primary mb-2' />
-                                    <p className='text-sm text-muted-foreground'>Loading available plans...</p>
+                                  <div className='flex flex-col items-center justify-center rounded-xl border bg-muted/20 p-6 text-center'>
+                                    <Loader2Icon className='mb-2 h-6 w-6 animate-spin text-primary' />
+                                    <p className='text-sm text-muted-foreground'>
+                                      Loading available plans...
+                                    </p>
                                   </div>
                                 ) : (
                                   subscriptionPlans.map((plan) => {
@@ -963,7 +1053,7 @@ export function CompleteAccountFeature() {
                                       >
                                         <div className='space-y-1'>
                                           <div className='flex items-center gap-2'>
-                                            <span className='font-bold text-base text-foreground'>
+                                            <span className='text-base font-bold text-foreground'>
                                               {plan.name}
                                             </span>
                                             {plan.price === 0 && (
@@ -973,7 +1063,11 @@ export function CompleteAccountFeature() {
                                             )}
                                           </div>
                                           <p className='text-xs text-muted-foreground'>
-                                            {plan.duration_months} {plan.duration_months === 1 ? 'Month' : 'Months'} duration
+                                            {plan.duration_months}{' '}
+                                            {plan.duration_months === 1
+                                              ? 'Month'
+                                              : 'Months'}{' '}
+                                            duration
                                           </p>
                                         </div>
                                         <div className='flex items-center gap-3'>
@@ -981,7 +1075,9 @@ export function CompleteAccountFeature() {
                                             <span className='text-lg font-extrabold text-foreground'>
                                               ${Number(plan.price).toFixed(2)}
                                             </span>
-                                            <p className='text-[10px] text-muted-foreground'>/ cycle</p>
+                                            <p className='text-[10px] text-muted-foreground'>
+                                              / cycle
+                                            </p>
                                           </div>
                                           <div
                                             className={cn(
@@ -991,7 +1087,9 @@ export function CompleteAccountFeature() {
                                                 : 'border-border bg-background'
                                             )}
                                           >
-                                            {isSelected && <Check className='h-3.5 w-3.5' />}
+                                            {isSelected && (
+                                              <Check className='h-3.5 w-3.5' />
+                                            )}
                                           </div>
                                         </div>
                                       </button>
@@ -1042,7 +1140,10 @@ export function CompleteAccountFeature() {
                       <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-2 text-lg font-medium'>
                           <GitBranchPlus className='h-5 w-5 text-primary' />
-                          {t('completeAccount.branchSetup', 'Define Initial Branches')}
+                          {t(
+                            'completeAccount.branchSetup',
+                            'Define Initial Branches'
+                          )}
                         </div>
                         <Button
                           type='button'
@@ -1073,7 +1174,10 @@ export function CompleteAccountFeature() {
                         <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
                           <MapPin className='h-10 w-10 text-muted-foreground/40' />
                           <p className='text-sm text-muted-foreground'>
-                            {t('completeAccount.noBranches', 'No branches added yet')}
+                            {t(
+                              'completeAccount.noBranches',
+                              'No branches added yet'
+                            )}
                           </p>
                           <Button
                             type='button'
@@ -1089,7 +1193,10 @@ export function CompleteAccountFeature() {
                             }
                           >
                             <Plus className='mr-1 h-4 w-4' />
-                            {t('completeAccount.addFirst', 'Add your first branch')}
+                            {t(
+                              'completeAccount.addFirst',
+                              'Add your first branch'
+                            )}
                           </Button>
                         </div>
                       )}
@@ -1142,10 +1249,26 @@ export function CompleteAccountFeature() {
                                     <SelectDropdown
                                       defaultValue={f.value}
                                       onValueChange={f.onChange}
-                                      placeholder='Select city'
+                                      placeholder={
+                                        availableCities.length > 0
+                                          ? selectedCountry
+                                            ? `${t('completeAccount.selectCity', 'Select city')} (${selectedCountry.name})`
+                                            : t(
+                                                'completeAccount.selectCity',
+                                                'Select city'
+                                              )
+                                          : t(
+                                              'completeAccount.noCitiesFound',
+                                              'No cities available'
+                                            )
+                                      }
+                                      disabled={availableCities.length === 0}
                                       className='h-10'
-                                      items={cities.map((c) => ({
-                                        label: `${c.name}${c.countries ? ` (${c.countries.name})` : ''}`,
+                                      items={availableCities.map((c) => ({
+                                        label:
+                                          'countryName' in c && c.countryName
+                                            ? `${c.name} (${c.countryName})`
+                                            : c.name,
                                         value: c.id,
                                       }))}
                                     />
@@ -1267,7 +1390,10 @@ export function CompleteAccountFeature() {
                         <div className='flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/50 py-8 text-center'>
                           <UserPlus className='h-10 w-10 text-muted-foreground/40' />
                           <p className='text-sm text-muted-foreground'>
-                            {t('completeAccount.noUsers', 'No team members added yet')}
+                            {t(
+                              'completeAccount.noUsers',
+                              'No team members added yet'
+                            )}
                           </p>
                           <Button
                             type='button'
@@ -1284,130 +1410,129 @@ export function CompleteAccountFeature() {
                             }
                           >
                             <Plus className='mr-1 h-4 w-4' />
-                            {t('completeAccount.addFirstUser', 'Add team member')}
+                            {t(
+                              'completeAccount.addFirstUser',
+                              'Add team member'
+                            )}
                           </Button>
                         </div>
                       )}
 
                       <div className='max-h-52 space-y-3 overflow-y-auto'>
-                        {userFields.map((field, index) => {
-                          const formBranches = form.watch('branches') ?? []
-
-                          return (
-                            <motion.div
-                              key={field.id}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
-                              className='space-y-3 rounded-xl border border-border/50 bg-background/30 p-4'
-                            >
-                              <div className='flex items-center justify-between'>
-                                <span className='text-sm font-medium text-muted-foreground'>
-                                  Team Member #{index + 1}
-                                </span>
-                                <Button
-                                  type='button'
-                                  variant='ghost'
-                                  size='icon'
-                                  className='h-7 w-7 text-destructive hover:text-destructive'
-                                  onClick={() => removeUser(index)}
-                                >
-                                  <Trash2 className='h-4 w-4' />
-                                </Button>
-                              </div>
+                        {userFields.map((field, index) => (
+                          <motion.div
+                            key={field.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className='space-y-3 rounded-xl border border-border/50 bg-background/30 p-4'
+                          >
+                            <div className='flex items-center justify-between'>
+                              <span className='text-sm font-medium text-muted-foreground'>
+                                Team Member #{index + 1}
+                              </span>
+                              <Button
+                                type='button'
+                                variant='ghost'
+                                size='icon'
+                                className='h-7 w-7 text-destructive hover:text-destructive'
+                                onClick={() => removeUser(index)}
+                              >
+                                <Trash2 className='h-4 w-4' />
+                              </Button>
+                            </div>
+                            <FormField
+                              control={form.control}
+                              name={`users.${index}.email`}
+                              render={({ field: f }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      {...f}
+                                      type='email'
+                                      placeholder='Email address'
+                                      className='h-10 bg-background/50'
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <div className='grid grid-cols-2 gap-3'>
                               <FormField
                                 control={form.control}
-                                name={`users.${index}.email`}
+                                name={`users.${index}.firstName`}
                                 render={({ field: f }) => (
                                   <FormItem>
                                     <FormControl>
                                       <Input
                                         {...f}
-                                        type='email'
-                                        placeholder='Email address'
+                                        placeholder='First name'
                                         className='h-10 bg-background/50'
                                       />
                                     </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={form.control}
+                                name={`users.${index}.lastName`}
+                                render={({ field: f }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <Input
+                                        {...f}
+                                        placeholder='Last name'
+                                        className='h-10 bg-background/50'
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <div className='grid grid-cols-2 gap-3'>
+                              <FormField
+                                control={form.control}
+                                name={`users.${index}.roleId`}
+                                render={({ field: f }) => (
+                                  <FormItem>
+                                    <SelectDropdown
+                                      defaultValue={f.value}
+                                      onValueChange={f.onChange}
+                                      placeholder='Select role'
+                                      className='h-10'
+                                      items={roles.map((r) => ({
+                                        label: r.name,
+                                        value: r.id,
+                                      }))}
+                                    />
                                     <FormMessage />
                                   </FormItem>
                                 )}
                               />
-                              <div className='grid grid-cols-2 gap-3'>
-                                <FormField
-                                  control={form.control}
-                                  name={`users.${index}.firstName`}
-                                  render={({ field: f }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...f}
-                                          placeholder='First name'
-                                          className='h-10 bg-background/50'
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={`users.${index}.lastName`}
-                                  render={({ field: f }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...f}
-                                          placeholder='Last name'
-                                          className='h-10 bg-background/50'
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                              <div className='grid grid-cols-2 gap-3'>
-                                <FormField
-                                  control={form.control}
-                                  name={`users.${index}.roleId`}
-                                  render={({ field: f }) => (
-                                    <FormItem>
-                                      <SelectDropdown
-                                        defaultValue={f.value}
-                                        onValueChange={f.onChange}
-                                        placeholder='Select role'
-                                        className='h-10'
-                                        items={roles.map((r) => ({
-                                          label: r.name,
-                                          value: r.id,
+                              <FormField
+                                control={form.control}
+                                name={`users.${index}.branchId`}
+                                render={({ field: f }) => (
+                                  <FormItem>
+                                    <SelectDropdown
+                                      defaultValue={f.value ?? ''}
+                                      onValueChange={f.onChange}
+                                      placeholder='Select branch'
+                                      className='h-10'
+                                      items={formBranches
+                                        .filter((b) => b.name)
+                                        .map((b, bIdx) => ({
+                                          label: b.name,
+                                          value: `pending_branch_${bIdx}`,
                                         }))}
-                                      />
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={`users.${index}.branchId`}
-                                  render={({ field: f }) => (
-                                    <FormItem>
-                                      <SelectDropdown
-                                        defaultValue={f.value ?? ''}
-                                        onValueChange={f.onChange}
-                                        placeholder='Select branch'
-                                        className='h-10'
-                                        items={formBranches
-                                          .filter((b) => b.name)
-                                          .map((b, bIdx) => ({
-                                            label: b.name,
-                                            value: `pending_branch_${bIdx}`,
-                                          }))}
-                                      />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                            </motion.div>
-                          )
-                        })}
+                                    />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </motion.div>
+                        ))}
                       </div>
 
                       <div className='flex gap-3 pt-4'>

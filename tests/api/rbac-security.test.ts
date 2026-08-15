@@ -16,6 +16,9 @@ const prismaMock = {
   tenant_subscriptions: {
     findFirst: vi.fn(),
   },
+  tenants: {
+    findFirst: vi.fn(),
+  },
 }
 
 vi.mock('@/lib/prisma', () => ({

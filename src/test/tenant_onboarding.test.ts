@@ -1,5 +1,39 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi, beforeEach } from 'vitest'
 import { mapActivityToTenantType } from '@/server/utils/tenant-utils'
+import { provisionSignupUser } from '@/server/fns/provision-signup-user'
+import prisma from '@/lib/prisma'
+
+const { prismaMock } = vi.hoisted(() => ({
+  prismaMock: {
+    tenant_users: {
+      findFirst: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+    },
+  },
+}))
+
+vi.mock('@/lib/prisma', () => ({
+  default: prismaMock,
+}))
+
+vi.mock('@/server/supabase-admin', () => ({
+  supabaseAdmin: {
+    auth: {
+      admin: {
+        getUserById: vi.fn().mockResolvedValue({
+          data: {
+            user: {
+              id: 'auth-user-123',
+              user_metadata: {},
+            },
+          },
+        }),
+        updateUserById: vi.fn().mockResolvedValue({ data: {}, error: null }),
+      },
+    },
+  },
+}))
 
 describe('Tenant Onboarding Utilities', () => {
   test('mapActivityToTenantType correctly maps UI business activities to tenant_type enum', () => {
@@ -10,5 +44,90 @@ describe('Tenant Onboarding Utilities', () => {
     expect(mapActivityToTenantType('clothes')).toBe('retail')
     expect(mapActivityToTenantType('electronic')).toBe('retail')
     expect(mapActivityToTenantType('unknown')).toBe('company')
+  })
+})
+
+describe('provisionSignupUser', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  test('creates new tenant_users record with onboarding_complete: false if not found', async () => {
+    prismaMock.tenant_users.findFirst
+      .mockResolvedValueOnce(null) // by auth_user_id
+      .mockResolvedValueOnce(null) // by email
+
+    prismaMock.tenant_users.create.mockResolvedValueOnce({
+      id: 'tu-1',
+      auth_user_id: 'auth-user-123',
+      email: 'newowner@test.com',
+      onboarding_complete: false,
+    } as any)
+
+    const result = await provisionSignupUser({
+      authUserId: 'auth-user-123',
+      email: 'newowner@test.com',
+      firstName: 'John',
+      lastName: 'Doe',
+    })
+
+    expect(result.isNew).toBe(true)
+    expect(result.onboardingComplete).toBe(false)
+    expect(result.authUserId).toBe('auth-user-123')
+    expect(prismaMock.tenant_users.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          auth_user_id: 'auth-user-123',
+          email: 'newowner@test.com',
+          default_role: 'super_admin',
+          onboarding_complete: false,
+        }),
+      })
+    )
+  })
+
+  test('returns existing tenant_users record when matched by auth_user_id', async () => {
+    prismaMock.tenant_users.findFirst.mockResolvedValueOnce({
+      id: 'tu-existing',
+      auth_user_id: 'auth-user-123',
+      email: 'existing@test.com',
+      onboarding_complete: false,
+    } as any)
+
+    const result = await provisionSignupUser({
+      authUserId: 'auth-user-123',
+      email: 'existing@test.com',
+    })
+
+    expect(result.isNew).toBe(false)
+    expect(result.id).toBe('tu-existing')
+  })
+
+  test('links and updates tenant_users record when matched by email', async () => {
+    prismaMock.tenant_users.findFirst
+      .mockResolvedValueOnce(null) // by auth_user_id
+      .mockResolvedValueOnce({
+        id: 'tu-invited',
+        auth_user_id: null,
+        email: 'invited@test.com',
+        onboarding_complete: false,
+      } as any) // by email
+
+    prismaMock.tenant_users.update.mockResolvedValueOnce({
+      id: 'tu-invited',
+      auth_user_id: 'auth-user-456',
+      email: 'invited@test.com',
+      onboarding_complete: false,
+    } as any)
+
+    const result = await provisionSignupUser({
+      authUserId: 'auth-user-456',
+      email: 'invited@test.com',
+      firstName: 'Jane',
+    })
+
+    expect(result.isNew).toBe(false)
+    expect(result.authUserId).toBe('auth-user-456')
+    expect(prismaMock.tenant_users.update).toHaveBeenCalled()
   })
 })

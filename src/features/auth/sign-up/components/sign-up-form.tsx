@@ -42,7 +42,7 @@ export function SignUpForm({
     setIsLoading(true)
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data: signUpData, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -50,11 +50,30 @@ export function SignUpForm({
             firstName: data.firstName,
             lastName: data.lastName,
           },
-          emailRedirectTo: `${window.location.origin}/complete-account`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 
       if (error) throw error
+
+      // If sign up creates an immediate active session (e.g. auto-confirm enabled)
+      if (signUpData.session?.access_token) {
+        try {
+          await fetch('/api/auth/provision-signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${signUpData.session.access_token}`,
+            },
+            body: JSON.stringify({
+              firstName: data.firstName,
+              lastName: data.lastName,
+            }),
+          })
+        } catch {
+          // ignore error here, callback/login will also handle it
+        }
+      }
 
       setIsSuccess(true)
       toast.success(t('signUp.successTitle'), {

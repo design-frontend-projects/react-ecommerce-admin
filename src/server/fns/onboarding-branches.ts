@@ -68,7 +68,7 @@ export async function createOnboardingBranches(
           address: branch.address ?? null,
           phone: branch.phone ?? null,
           auth_user_id: caller.authUserId,
-          tenant_id: caller.tenantId ?? null,
+          tenant_id: tenantId,
           is_active: true,
         },
         select: {

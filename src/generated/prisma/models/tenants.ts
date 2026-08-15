@@ -43,6 +43,7 @@ export type TenantsMinAggregateOutputType = {
   currency_id: string | null
   default_branch_id: string | null
   current_subscription_id: string | null
+  auth_user_id: string | null
   created_by: string | null
   created_at: Date | null
   updated_at: Date | null
@@ -68,6 +69,7 @@ export type TenantsMaxAggregateOutputType = {
   currency_id: string | null
   default_branch_id: string | null
   current_subscription_id: string | null
+  auth_user_id: string | null
   created_by: string | null
   created_at: Date | null
   updated_at: Date | null
@@ -93,6 +95,7 @@ export type TenantsCountAggregateOutputType = {
   currency_id: number
   default_branch_id: number
   current_subscription_id: number
+  auth_user_id: number
   created_by: number
   created_at: number
   updated_at: number
@@ -121,6 +124,7 @@ export type TenantsMinAggregateInputType = {
   currency_id?: true
   default_branch_id?: true
   current_subscription_id?: true
+  auth_user_id?: true
   created_by?: true
   created_at?: true
   updated_at?: true
@@ -146,6 +150,7 @@ export type TenantsMaxAggregateInputType = {
   currency_id?: true
   default_branch_id?: true
   current_subscription_id?: true
+  auth_user_id?: true
   created_by?: true
   created_at?: true
   updated_at?: true
@@ -171,6 +176,7 @@ export type TenantsCountAggregateInputType = {
   currency_id?: true
   default_branch_id?: true
   current_subscription_id?: true
+  auth_user_id?: true
   created_by?: true
   created_at?: true
   updated_at?: true
@@ -270,6 +276,7 @@ export type TenantsGroupByOutputType = {
   currency_id: string | null
   default_branch_id: string | null
   current_subscription_id: string | null
+  auth_user_id: string | null
   created_by: string | null
   created_at: Date
   updated_at: Date
@@ -317,6 +324,7 @@ export type tenantsWhereInput = {
   currency_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   default_branch_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   current_subscription_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_by?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
@@ -390,6 +398,7 @@ export type tenantsOrderByWithRelationInput = {
   currency_id?: Prisma.SortOrderInput | Prisma.SortOrder
   default_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   current_subscription_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -466,6 +475,7 @@ export type tenantsWhereUniqueInput = Prisma.AtLeast<{
   currency_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   default_branch_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   current_subscription_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_by?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
@@ -539,6 +549,7 @@ export type tenantsOrderByWithAggregationInput = {
   currency_id?: Prisma.SortOrderInput | Prisma.SortOrder
   default_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   current_subscription_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -571,6 +582,7 @@ export type tenantsScalarWhereWithAggregatesInput = {
   currency_id?: Prisma.UuidNullableWithAggregatesFilter<"tenants"> | string | null
   default_branch_id?: Prisma.UuidNullableWithAggregatesFilter<"tenants"> | string | null
   current_subscription_id?: Prisma.UuidNullableWithAggregatesFilter<"tenants"> | string | null
+  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"tenants"> | string | null
   created_by?: Prisma.UuidNullableWithAggregatesFilter<"tenants"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"tenants"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"tenants"> | Date | string
@@ -593,6 +605,7 @@ export type tenantsCreateInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -666,6 +679,7 @@ export type tenantsUncheckedCreateInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -731,6 +745,7 @@ export type tenantsUpdateInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -804,6 +819,7 @@ export type tenantsUncheckedUpdateInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -873,6 +889,7 @@ export type tenantsCreateManyInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -895,6 +912,7 @@ export type tenantsUpdateManyMutationInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -921,6 +939,7 @@ export type tenantsUncheckedUpdateManyInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -962,6 +981,7 @@ export type tenantsCountOrderByAggregateInput = {
   currency_id?: Prisma.SortOrder
   default_branch_id?: Prisma.SortOrder
   current_subscription_id?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -988,6 +1008,7 @@ export type tenantsMaxOrderByAggregateInput = {
   currency_id?: Prisma.SortOrder
   default_branch_id?: Prisma.SortOrder
   current_subscription_id?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -1013,6 +1034,7 @@ export type tenantsMinOrderByAggregateInput = {
   currency_id?: Prisma.SortOrder
   default_branch_id?: Prisma.SortOrder
   current_subscription_id?: Prisma.SortOrder
+  auth_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -1898,6 +1920,7 @@ export type tenantsCreateWithoutAddressesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1970,6 +1993,7 @@ export type tenantsUncheckedCreateWithoutAddressesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2050,6 +2074,7 @@ export type tenantsUpdateWithoutAddressesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2122,6 +2147,7 @@ export type tenantsUncheckedUpdateWithoutAddressesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2186,6 +2212,7 @@ export type tenantsCreateWithoutBranchesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2258,6 +2285,7 @@ export type tenantsUncheckedCreateWithoutBranchesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2327,6 +2355,7 @@ export type tenantsCreateWithoutDefault_branchInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2398,6 +2427,7 @@ export type tenantsUncheckedCreateWithoutDefault_branchInput = {
   country_id?: string | null
   currency_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2484,6 +2514,7 @@ export type tenantsUpdateWithoutBranchesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2556,6 +2587,7 @@ export type tenantsUncheckedUpdateWithoutBranchesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2643,6 +2675,7 @@ export type tenantsScalarWhereInput = {
   currency_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   default_branch_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   current_subscription_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_by?: Prisma.UuidNullableFilter<"tenants"> | string | null
   created_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"tenants"> | Date | string
@@ -2665,6 +2698,7 @@ export type tenantsCreateWithoutCategoriesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2737,6 +2771,7 @@ export type tenantsUncheckedCreateWithoutCategoriesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -2817,6 +2852,7 @@ export type tenantsUpdateWithoutCategoriesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2889,6 +2925,7 @@ export type tenantsUncheckedUpdateWithoutCategoriesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2953,6 +2990,7 @@ export type tenantsCreateWithoutCountriesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3024,6 +3062,7 @@ export type tenantsUncheckedCreateWithoutCountriesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3115,6 +3154,7 @@ export type tenantsCreateWithoutCurrenciesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3186,6 +3226,7 @@ export type tenantsUncheckedCreateWithoutCurrenciesInput = {
   country_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3277,6 +3318,7 @@ export type tenantsCreateWithoutCustomer_cardsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3349,6 +3391,7 @@ export type tenantsUncheckedCreateWithoutCustomer_cardsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3429,6 +3472,7 @@ export type tenantsUpdateWithoutCustomer_cardsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3501,6 +3545,7 @@ export type tenantsUncheckedUpdateWithoutCustomer_cardsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3565,6 +3610,7 @@ export type tenantsCreateWithoutCustomer_groupsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3637,6 +3683,7 @@ export type tenantsUncheckedCreateWithoutCustomer_groupsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3717,6 +3764,7 @@ export type tenantsUpdateWithoutCustomer_groupsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3789,6 +3837,7 @@ export type tenantsUncheckedUpdateWithoutCustomer_groupsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3853,6 +3902,7 @@ export type tenantsCreateWithoutCustomersInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -3925,6 +3975,7 @@ export type tenantsUncheckedCreateWithoutCustomersInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4005,6 +4056,7 @@ export type tenantsUpdateWithoutCustomersInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4077,6 +4129,7 @@ export type tenantsUncheckedUpdateWithoutCustomersInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4141,6 +4194,7 @@ export type tenantsCreateWithoutPayment_typesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4213,6 +4267,7 @@ export type tenantsUncheckedCreateWithoutPayment_typesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4293,6 +4348,7 @@ export type tenantsUpdateWithoutPayment_typesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4365,6 +4421,7 @@ export type tenantsUncheckedUpdateWithoutPayment_typesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4429,6 +4486,7 @@ export type tenantsCreateWithoutPos_terminalsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4501,6 +4559,7 @@ export type tenantsUncheckedCreateWithoutPos_terminalsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4581,6 +4640,7 @@ export type tenantsUpdateWithoutPos_terminalsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4653,6 +4713,7 @@ export type tenantsUncheckedUpdateWithoutPos_terminalsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4717,6 +4778,7 @@ export type tenantsCreateWithoutPrice_listInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4789,6 +4851,7 @@ export type tenantsUncheckedCreateWithoutPrice_listInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -4869,6 +4932,7 @@ export type tenantsUpdateWithoutPrice_listInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4941,6 +5005,7 @@ export type tenantsUncheckedUpdateWithoutPrice_listInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5005,6 +5070,7 @@ export type tenantsCreateWithoutPrice_list_itemsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5077,6 +5143,7 @@ export type tenantsUncheckedCreateWithoutPrice_list_itemsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5157,6 +5224,7 @@ export type tenantsUpdateWithoutPrice_list_itemsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5229,6 +5297,7 @@ export type tenantsUncheckedUpdateWithoutPrice_list_itemsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5293,6 +5362,7 @@ export type tenantsCreateWithoutProductsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5365,6 +5435,7 @@ export type tenantsUncheckedCreateWithoutProductsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5445,6 +5516,7 @@ export type tenantsUpdateWithoutProductsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5517,6 +5589,7 @@ export type tenantsUncheckedUpdateWithoutProductsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5581,6 +5654,7 @@ export type tenantsCreateWithoutInventoryInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5653,6 +5727,7 @@ export type tenantsUncheckedCreateWithoutInventoryInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5733,6 +5808,7 @@ export type tenantsUpdateWithoutInventoryInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5805,6 +5881,7 @@ export type tenantsUncheckedUpdateWithoutInventoryInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5869,6 +5946,7 @@ export type tenantsCreateWithoutPromotion_usageInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -5941,6 +6019,7 @@ export type tenantsUncheckedCreateWithoutPromotion_usageInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6021,6 +6100,7 @@ export type tenantsUpdateWithoutPromotion_usageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6093,6 +6173,7 @@ export type tenantsUncheckedUpdateWithoutPromotion_usageInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6157,6 +6238,7 @@ export type tenantsCreateWithoutPromotionsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6229,6 +6311,7 @@ export type tenantsUncheckedCreateWithoutPromotionsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6309,6 +6392,7 @@ export type tenantsUpdateWithoutPromotionsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6381,6 +6465,7 @@ export type tenantsUncheckedUpdateWithoutPromotionsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6445,6 +6530,7 @@ export type tenantsCreateWithoutPurchase_invoicesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6517,6 +6603,7 @@ export type tenantsUncheckedCreateWithoutPurchase_invoicesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6597,6 +6684,7 @@ export type tenantsUpdateWithoutPurchase_invoicesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6669,6 +6757,7 @@ export type tenantsUncheckedUpdateWithoutPurchase_invoicesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6733,6 +6822,7 @@ export type tenantsCreateWithoutPurchase_order_itemsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6805,6 +6895,7 @@ export type tenantsUncheckedCreateWithoutPurchase_order_itemsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -6885,6 +6976,7 @@ export type tenantsUpdateWithoutPurchase_order_itemsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6957,6 +7049,7 @@ export type tenantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7021,6 +7114,7 @@ export type tenantsCreateWithoutPurchase_ordersInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7093,6 +7187,7 @@ export type tenantsUncheckedCreateWithoutPurchase_ordersInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7173,6 +7268,7 @@ export type tenantsUpdateWithoutPurchase_ordersInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7245,6 +7341,7 @@ export type tenantsUncheckedUpdateWithoutPurchase_ordersInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7309,6 +7406,7 @@ export type tenantsCreateWithoutRefundsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7381,6 +7479,7 @@ export type tenantsUncheckedCreateWithoutRefundsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7461,6 +7560,7 @@ export type tenantsUpdateWithoutRefundsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7533,6 +7633,7 @@ export type tenantsUncheckedUpdateWithoutRefundsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7597,6 +7698,7 @@ export type tenantsCreateWithoutRes_eventsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7669,6 +7771,7 @@ export type tenantsUncheckedCreateWithoutRes_eventsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7749,6 +7852,7 @@ export type tenantsUpdateWithoutRes_eventsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7821,6 +7925,7 @@ export type tenantsUncheckedUpdateWithoutRes_eventsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7885,6 +7990,7 @@ export type tenantsCreateWithoutRes_floorsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -7957,6 +8063,7 @@ export type tenantsUncheckedCreateWithoutRes_floorsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8037,6 +8144,7 @@ export type tenantsUpdateWithoutRes_floorsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8109,6 +8217,7 @@ export type tenantsUncheckedUpdateWithoutRes_floorsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8173,6 +8282,7 @@ export type tenantsCreateWithoutRes_item_propertiesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8245,6 +8355,7 @@ export type tenantsUncheckedCreateWithoutRes_item_propertiesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8325,6 +8436,7 @@ export type tenantsUpdateWithoutRes_item_propertiesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8397,6 +8509,7 @@ export type tenantsUncheckedUpdateWithoutRes_item_propertiesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8461,6 +8574,7 @@ export type tenantsCreateWithoutRes_item_variantsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8533,6 +8647,7 @@ export type tenantsUncheckedCreateWithoutRes_item_variantsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8613,6 +8728,7 @@ export type tenantsUpdateWithoutRes_item_variantsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8685,6 +8801,7 @@ export type tenantsUncheckedUpdateWithoutRes_item_variantsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8749,6 +8866,7 @@ export type tenantsCreateWithoutRes_menu_categoriesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8821,6 +8939,7 @@ export type tenantsUncheckedCreateWithoutRes_menu_categoriesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -8901,6 +9020,7 @@ export type tenantsUpdateWithoutRes_menu_categoriesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8973,6 +9093,7 @@ export type tenantsUncheckedUpdateWithoutRes_menu_categoriesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9037,6 +9158,7 @@ export type tenantsCreateWithoutRes_menu_itemsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9109,6 +9231,7 @@ export type tenantsUncheckedCreateWithoutRes_menu_itemsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9189,6 +9312,7 @@ export type tenantsUpdateWithoutRes_menu_itemsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9261,6 +9385,7 @@ export type tenantsUncheckedUpdateWithoutRes_menu_itemsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9325,6 +9450,7 @@ export type tenantsCreateWithoutRes_notificationsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9397,6 +9523,7 @@ export type tenantsUncheckedCreateWithoutRes_notificationsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9477,6 +9604,7 @@ export type tenantsUpdateWithoutRes_notificationsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9549,6 +9677,7 @@ export type tenantsUncheckedUpdateWithoutRes_notificationsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9613,6 +9742,7 @@ export type tenantsCreateWithoutRes_order_itemsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9685,6 +9815,7 @@ export type tenantsUncheckedCreateWithoutRes_order_itemsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9765,6 +9896,7 @@ export type tenantsUpdateWithoutRes_order_itemsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9837,6 +9969,7 @@ export type tenantsUncheckedUpdateWithoutRes_order_itemsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9901,6 +10034,7 @@ export type tenantsCreateWithoutRes_ordersInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -9973,6 +10107,7 @@ export type tenantsUncheckedCreateWithoutRes_ordersInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10053,6 +10188,7 @@ export type tenantsUpdateWithoutRes_ordersInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10125,6 +10261,7 @@ export type tenantsUncheckedUpdateWithoutRes_ordersInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10189,6 +10326,7 @@ export type tenantsCreateWithoutRes_shipmentsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10261,6 +10399,7 @@ export type tenantsUncheckedCreateWithoutRes_shipmentsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10341,6 +10480,7 @@ export type tenantsUpdateWithoutRes_shipmentsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10413,6 +10553,7 @@ export type tenantsUncheckedUpdateWithoutRes_shipmentsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10477,6 +10618,7 @@ export type tenantsCreateWithoutRes_payment_methodsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10549,6 +10691,7 @@ export type tenantsUncheckedCreateWithoutRes_payment_methodsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10629,6 +10772,7 @@ export type tenantsUpdateWithoutRes_payment_methodsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10701,6 +10845,7 @@ export type tenantsUncheckedUpdateWithoutRes_payment_methodsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10765,6 +10910,7 @@ export type tenantsCreateWithoutRes_reservationsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10837,6 +10983,7 @@ export type tenantsUncheckedCreateWithoutRes_reservationsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -10917,6 +11064,7 @@ export type tenantsUpdateWithoutRes_reservationsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10989,6 +11137,7 @@ export type tenantsUncheckedUpdateWithoutRes_reservationsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11053,6 +11202,7 @@ export type tenantsCreateWithoutRes_shiftsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11125,6 +11275,7 @@ export type tenantsUncheckedCreateWithoutRes_shiftsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11205,6 +11356,7 @@ export type tenantsUpdateWithoutRes_shiftsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11277,6 +11429,7 @@ export type tenantsUncheckedUpdateWithoutRes_shiftsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11341,6 +11494,7 @@ export type tenantsCreateWithoutRes_tablesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11413,6 +11567,7 @@ export type tenantsUncheckedCreateWithoutRes_tablesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11493,6 +11648,7 @@ export type tenantsUpdateWithoutRes_tablesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11565,6 +11721,7 @@ export type tenantsUncheckedUpdateWithoutRes_tablesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11629,6 +11786,7 @@ export type tenantsCreateWithoutRes_void_requestsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11701,6 +11859,7 @@ export type tenantsUncheckedCreateWithoutRes_void_requestsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11781,6 +11940,7 @@ export type tenantsUpdateWithoutRes_void_requestsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11853,6 +12013,7 @@ export type tenantsUncheckedUpdateWithoutRes_void_requestsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11917,6 +12078,7 @@ export type tenantsCreateWithoutSales_invoicesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -11989,6 +12151,7 @@ export type tenantsUncheckedCreateWithoutSales_invoicesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12069,6 +12232,7 @@ export type tenantsUpdateWithoutSales_invoicesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12141,6 +12305,7 @@ export type tenantsUncheckedUpdateWithoutSales_invoicesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12205,6 +12370,7 @@ export type tenantsCreateWithoutShipmentsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12277,6 +12443,7 @@ export type tenantsUncheckedCreateWithoutShipmentsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12357,6 +12524,7 @@ export type tenantsUpdateWithoutShipmentsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12429,6 +12597,7 @@ export type tenantsUncheckedUpdateWithoutShipmentsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12493,6 +12662,7 @@ export type tenantsCreateWithoutShipping_methodsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12565,6 +12735,7 @@ export type tenantsUncheckedCreateWithoutShipping_methodsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12645,6 +12816,7 @@ export type tenantsUpdateWithoutShipping_methodsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12717,6 +12889,7 @@ export type tenantsUncheckedUpdateWithoutShipping_methodsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12781,6 +12954,7 @@ export type tenantsCreateWithoutShipping_ratesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12853,6 +13027,7 @@ export type tenantsUncheckedCreateWithoutShipping_ratesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -12933,6 +13108,7 @@ export type tenantsUpdateWithoutShipping_ratesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13005,6 +13181,7 @@ export type tenantsUncheckedUpdateWithoutShipping_ratesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13069,6 +13246,7 @@ export type tenantsCreateWithoutStoresInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13141,6 +13319,7 @@ export type tenantsUncheckedCreateWithoutStoresInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13221,6 +13400,7 @@ export type tenantsUpdateWithoutStoresInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13293,6 +13473,7 @@ export type tenantsUncheckedUpdateWithoutStoresInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13357,6 +13538,7 @@ export type tenantsCreateWithoutSuppliersInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13429,6 +13611,7 @@ export type tenantsUncheckedCreateWithoutSuppliersInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13509,6 +13692,7 @@ export type tenantsUpdateWithoutSuppliersInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13581,6 +13765,7 @@ export type tenantsUncheckedUpdateWithoutSuppliersInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13645,6 +13830,7 @@ export type tenantsCreateWithoutTax_ratesInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13717,6 +13903,7 @@ export type tenantsUncheckedCreateWithoutTax_ratesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -13797,6 +13984,7 @@ export type tenantsUpdateWithoutTax_ratesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13869,6 +14057,7 @@ export type tenantsUncheckedUpdateWithoutTax_ratesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13933,6 +14122,7 @@ export type tenantsCreateWithoutTenant_subscriptionsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14005,6 +14195,7 @@ export type tenantsUncheckedCreateWithoutTenant_subscriptionsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14074,6 +14265,7 @@ export type tenantsCreateWithoutCurrent_subscriptionInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14145,6 +14337,7 @@ export type tenantsUncheckedCreateWithoutCurrent_subscriptionInput = {
   country_id?: string | null
   currency_id?: string | null
   default_branch_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14231,6 +14424,7 @@ export type tenantsUpdateWithoutTenant_subscriptionsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14303,6 +14497,7 @@ export type tenantsUncheckedUpdateWithoutTenant_subscriptionsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14383,6 +14578,7 @@ export type tenantsCreateWithoutTenant_usersInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14455,6 +14651,7 @@ export type tenantsUncheckedCreateWithoutTenant_usersInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14535,6 +14732,7 @@ export type tenantsUpdateWithoutTenant_usersInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14607,6 +14805,7 @@ export type tenantsUncheckedUpdateWithoutTenant_usersInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14671,6 +14870,7 @@ export type tenantsCreateWithoutInventory_movementsInput = {
   locale?: string
   currency_code?: string
   country_code?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14743,6 +14943,7 @@ export type tenantsUncheckedCreateWithoutInventory_movementsInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14823,6 +15024,7 @@ export type tenantsUpdateWithoutInventory_movementsInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14895,6 +15097,7 @@ export type tenantsUncheckedUpdateWithoutInventory_movementsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14962,6 +15165,7 @@ export type tenantsCreateManyDefault_branchInput = {
   country_id?: string | null
   currency_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -14984,6 +15188,7 @@ export type tenantsUpdateWithoutDefault_branchInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15055,6 +15260,7 @@ export type tenantsUncheckedUpdateWithoutDefault_branchInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15123,6 +15329,7 @@ export type tenantsUncheckedUpdateManyWithoutDefault_branchInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15148,6 +15355,7 @@ export type tenantsCreateManyCountriesInput = {
   currency_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -15170,6 +15378,7 @@ export type tenantsUpdateWithoutCountriesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15241,6 +15450,7 @@ export type tenantsUncheckedUpdateWithoutCountriesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15309,6 +15519,7 @@ export type tenantsUncheckedUpdateManyWithoutCountriesInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15334,6 +15545,7 @@ export type tenantsCreateManyCurrenciesInput = {
   country_id?: string | null
   default_branch_id?: string | null
   current_subscription_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -15356,6 +15568,7 @@ export type tenantsUpdateWithoutCurrenciesInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15427,6 +15640,7 @@ export type tenantsUncheckedUpdateWithoutCurrenciesInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15495,6 +15709,7 @@ export type tenantsUncheckedUpdateManyWithoutCurrenciesInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15520,6 +15735,7 @@ export type tenantsCreateManyCurrent_subscriptionInput = {
   country_id?: string | null
   currency_id?: string | null
   default_branch_id?: string | null
+  auth_user_id?: string | null
   created_by?: string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -15542,6 +15758,7 @@ export type tenantsUpdateWithoutCurrent_subscriptionInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   currency_code?: Prisma.StringFieldUpdateOperationsInput | string
   country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15613,6 +15830,7 @@ export type tenantsUncheckedUpdateWithoutCurrent_subscriptionInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15681,6 +15899,7 @@ export type tenantsUncheckedUpdateManyWithoutCurrent_subscriptionInput = {
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16116,6 +16335,7 @@ export type tenantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   currency_id?: boolean
   default_branch_id?: boolean
   current_subscription_id?: boolean
+  auth_user_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -16190,6 +16410,7 @@ export type tenantsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   currency_id?: boolean
   default_branch_id?: boolean
   current_subscription_id?: boolean
+  auth_user_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -16220,6 +16441,7 @@ export type tenantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   currency_id?: boolean
   default_branch_id?: boolean
   current_subscription_id?: boolean
+  auth_user_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -16250,6 +16472,7 @@ export type tenantsSelectScalar = {
   currency_id?: boolean
   default_branch_id?: boolean
   current_subscription_id?: boolean
+  auth_user_id?: boolean
   created_by?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -16257,7 +16480,7 @@ export type tenantsSelectScalar = {
   metadata?: boolean
 }
 
-export type tenantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_code" | "name" | "slug" | "display_name" | "legal_name" | "type" | "status" | "logo_url" | "domain" | "timezone" | "locale" | "currency_code" | "country_code" | "country_id" | "currency_id" | "default_branch_id" | "current_subscription_id" | "created_by" | "created_at" | "updated_at" | "deleted_at" | "metadata", ExtArgs["result"]["tenants"]>
+export type tenantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_code" | "name" | "slug" | "display_name" | "legal_name" | "type" | "status" | "logo_url" | "domain" | "timezone" | "locale" | "currency_code" | "country_code" | "country_id" | "currency_id" | "default_branch_id" | "current_subscription_id" | "auth_user_id" | "created_by" | "created_at" | "updated_at" | "deleted_at" | "metadata", ExtArgs["result"]["tenants"]>
 export type tenantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | Prisma.tenants$countriesArgs<ExtArgs>
   currencies?: boolean | Prisma.tenants$currenciesArgs<ExtArgs>
@@ -16391,6 +16614,7 @@ export type $tenantsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     currency_id: string | null
     default_branch_id: string | null
     current_subscription_id: string | null
+    auth_user_id: string | null
     created_by: string | null
     created_at: Date
     updated_at: Date
@@ -16884,6 +17108,7 @@ export interface tenantsFieldRefs {
   readonly currency_id: Prisma.FieldRef<"tenants", 'String'>
   readonly default_branch_id: Prisma.FieldRef<"tenants", 'String'>
   readonly current_subscription_id: Prisma.FieldRef<"tenants", 'String'>
+  readonly auth_user_id: Prisma.FieldRef<"tenants", 'String'>
   readonly created_by: Prisma.FieldRef<"tenants", 'String'>
   readonly created_at: Prisma.FieldRef<"tenants", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"tenants", 'DateTime'>

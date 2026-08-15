@@ -118,6 +118,7 @@ import { Route as ApiInventoryBrandsRouteImport } from './routes/api/inventory/b
 import { Route as ApiInventoryBatchesRouteImport } from './routes/api/inventory/batches'
 import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/inventory/adjustments'
 import { Route as ApiCrmSyncTransactionRouteImport } from './routes/api/crm/sync-transaction'
+import { Route as ApiAuthProvisionSignupRouteImport } from './routes/api/auth/provision-signup'
 import { Route as ApiAccessControlNavigationRouteImport } from './routes/api/access-control/navigation'
 import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
@@ -776,6 +777,11 @@ const ApiCrmSyncTransactionRoute = ApiCrmSyncTransactionRouteImport.update({
   path: '/api/crm/sync-transaction',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthProvisionSignupRoute = ApiAuthProvisionSignupRouteImport.update({
+  id: '/api/auth/provision-signup',
+  path: '/api/auth/provision-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAccessControlNavigationRoute =
   ApiAccessControlNavigationRouteImport.update({
     id: '/api/access-control/navigation',
@@ -1110,6 +1116,7 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
@@ -1263,6 +1270,7 @@ export interface FileRoutesByTo {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
@@ -1421,6 +1429,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
+  '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
@@ -1578,6 +1587,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/settings/system'
     | '/api/access-control/navigation'
+    | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
@@ -1731,6 +1741,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/settings/system'
     | '/api/access-control/navigation'
+    | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
@@ -1888,6 +1899,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/notifications'
     | '/_authenticated/settings/system'
     | '/api/access-control/navigation'
+    | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
@@ -1996,6 +2008,7 @@ export interface RootRouteChildren {
   CrmPipelineLazyRoute: typeof CrmPipelineLazyRoute
   MenuIndexRoute: typeof MenuIndexRoute
   ApiAccessControlNavigationRoute: typeof ApiAccessControlNavigationRoute
+  ApiAuthProvisionSignupRoute: typeof ApiAuthProvisionSignupRoute
   ApiCrmSyncTransactionRoute: typeof ApiCrmSyncTransactionRoute
   ApiInventoryAdjustmentsRoute: typeof ApiInventoryAdjustmentsRouteWithChildren
   ApiInventoryBatchesRoute: typeof ApiInventoryBatchesRouteWithChildren
@@ -2805,6 +2818,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCrmSyncTransactionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/provision-signup': {
+      id: '/api/auth/provision-signup'
+      path: '/api/auth/provision-signup'
+      fullPath: '/api/auth/provision-signup'
+      preLoaderRoute: typeof ApiAuthProvisionSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/access-control/navigation': {
       id: '/api/access-control/navigation'
       path: '/api/access-control/navigation'
@@ -3543,6 +3563,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmPipelineLazyRoute: CrmPipelineLazyRoute,
   MenuIndexRoute: MenuIndexRoute,
   ApiAccessControlNavigationRoute: ApiAccessControlNavigationRoute,
+  ApiAuthProvisionSignupRoute: ApiAuthProvisionSignupRoute,
   ApiCrmSyncTransactionRoute: ApiCrmSyncTransactionRoute,
   ApiInventoryAdjustmentsRoute: ApiInventoryAdjustmentsRouteWithChildren,
   ApiInventoryBatchesRoute: ApiInventoryBatchesRouteWithChildren,
@@ -3577,3 +3598,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
