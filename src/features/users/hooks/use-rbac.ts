@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useUser } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/auth-store'
 import { useCurrentUserAccess } from '../data/queries'
 import {
   hasPermission,
@@ -19,13 +20,23 @@ function useResolvedRBACAccess() {
 
 export function useRBACSession() {
   const { user, isLoaded } = useUser()
+  const profile = useAuthStore((state) => state.auth.profile)
+  const isInitializing = useAuthStore((state) => state.auth.isInitializing)
   const setCurrentAccess = useRBACStore((state) => state.setCurrentAccess)
   const reset = useRBACStore((state) => state.reset)
   const realtimePendingRef = useRef(false)
 
-  const currentAccessQuery = useCurrentUserAccess(user?.id, () => {
-    realtimePendingRef.current = true
-  })
+  const isOnboarded =
+    profile?.onboarding_complete === true || profile?.parent_tenant_id != null
+  const isAccessEnabled = Boolean(user?.id && !isInitializing && isOnboarded)
+
+  const currentAccessQuery = useCurrentUserAccess(
+    user?.id,
+    () => {
+      realtimePendingRef.current = true
+    },
+    isAccessEnabled
+  )
 
   useEffect(() => {
     if (!isLoaded) {

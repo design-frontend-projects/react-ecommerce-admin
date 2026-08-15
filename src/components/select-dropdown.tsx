@@ -32,9 +32,10 @@ export function SelectDropdown({
   isControlled = false,
 }: SelectDropdownProps) {
   const { t } = useTranslation()
+  const safeValue = defaultValue || undefined
   const defaultState = isControlled
-    ? { value: defaultValue, onValueChange }
-    : { defaultValue, onValueChange }
+    ? { value: safeValue, onValueChange }
+    : { defaultValue: safeValue, onValueChange }
   return (
     <Select {...defaultState}>
       <FormControl>
@@ -51,12 +52,16 @@ export function SelectDropdown({
               {t('common.loading', 'Loading...')}
             </div>
           </SelectItem>
-        ) : (
-          items?.map(({ label, value }) => (
+        ) : items && items.length > 0 ? (
+          items.map(({ label, value }) => (
             <SelectItem key={value} value={value}>
               {label}
             </SelectItem>
           ))
+        ) : (
+          <SelectItem disabled value='no-items'>
+            {t('common.noOptions', 'No options available')}
+          </SelectItem>
         )}
       </SelectContent>
     </Select>

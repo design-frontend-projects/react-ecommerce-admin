@@ -270,17 +270,7 @@ export function CompleteAccountFeature() {
   if (!mounted) return null
 
   return createPortal(
-    <div
-      className='fixed inset-0 z-[100] flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xl select-none animate-in fade-in duration-300'
-      onClick={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }}
-      onMouseDown={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }}
-    >
+    <div className='fixed inset-0 z-50 flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xl animate-in fade-in duration-300'>
       {/* Background decoration */}
       <div
         className='pointer-events-none absolute inset-0 -z-10 h-full w-full'
@@ -300,11 +290,7 @@ export function CompleteAccountFeature() {
         }}
       />
 
-      <div
-        className='w-full max-w-lg p-4 select-text'
-        onClick={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
-      >
+      <div className='w-full max-w-lg p-4'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

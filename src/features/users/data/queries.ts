@@ -43,27 +43,29 @@ export async function fetchCurrentUserAccess(
     roleIds: access.roleIds ?? [],
     roleNames: access.roleNames ?? [],
     permissionNames: access.permissionNames ?? [],
+    onboardingComplete: access.onboardingComplete,
   }
 }
 
 
 export function useCurrentUserAccess(
   authUserId: string | null | undefined,
-  onRealtimeEvent?: () => void
+  onRealtimeEvent?: () => void,
+  enabled = true
 ) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
     queryKey: currentAccessQueryKey(authUserId),
     queryFn: () => fetchCurrentUserAccess(authUserId!),
-    enabled: Boolean(authUserId),
+    enabled: Boolean(authUserId) && enabled,
     staleTime: 60_000,
   })
   const roleIdsKey = (query.data?.roleIds ?? []).join(',')
   const tenantUserId = query.data?.tenantUserId ?? null
 
   useEffect(() => {
-    if (!authUserId) {
+    if (!authUserId || !enabled) {
       return undefined
     }
 

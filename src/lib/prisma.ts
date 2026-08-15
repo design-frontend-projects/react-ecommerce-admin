@@ -14,7 +14,7 @@ if (typeof window === 'undefined') {
 
   const connectionString = process.env.DATABASE_URL!
   const pool = new Pool({ connectionString })
-  const adapter = new PrismaPg(pool)
+  const adapter = new PrismaPg(pool as any)
 
   if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient({ adapter })

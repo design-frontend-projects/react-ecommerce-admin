@@ -76,13 +76,31 @@ export async function completeTenantOnboarding(
     )
   }
 
+  console.log('selected country id:', countryId)
+
   const country = await prisma.countries.findUnique({
     where: { id: countryId },
-    include: { currencies: true },
   })
+
+  console.log('selected country:', country)
 
   if (!country) {
     throw new Error('Selected country not found.')
+  }
+
+  const currencyId: string | null =
+    country.currencies?.id || country.currency_id || null
+  let currencyCode: string = country.currencies?.code || 'USD'
+
+  if (!country.currencies && currencyId) {
+    const fetchedCurrency = await prisma.currencies
+      .findUnique({
+        where: { id: currencyId },
+      })
+      .catch(() => null)
+    if (fetchedCurrency) {
+      currencyCode = fetchedCurrency.code
+    }
   }
 
   // 3. Generate tenant code & slug
@@ -105,8 +123,8 @@ export async function completeTenantOnboarding(
         status: 'active',
         country_id: country.id,
         country_code: country.code,
-        currency_id: country.currencies?.id || null,
-        currency_code: country.currencies?.code || 'USD',
+        currency_id: currencyId,
+        currency_code: currencyCode,
         created_by: input.authUserId,
       },
     })

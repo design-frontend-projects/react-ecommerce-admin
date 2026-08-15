@@ -271,8 +271,8 @@ importers:
         specifier: ^25.0.2
         version: 25.0.3
       '@types/pg':
-        specifier: ^8.18.0
-        version: 8.18.0
+        specifier: 8.11.11
+        version: 8.11.11
       '@types/react':
         specifier: ^19.2.7
         version: 19.2.7
@@ -3650,9 +3650,6 @@ packages:
 
   '@types/pg@8.11.11':
     resolution: {integrity: sha512-kGT1qKM8wJQ5qlawUrEkXgvMSXoV213KfMGXcwfDwUIfUHXqXYXOfS1nE1LINRJVVVx5wCm70XnFlMHaIcQAfw==}
-
-  '@types/pg@8.18.0':
-    resolution: {integrity: sha512-gT+oueVQkqnj6ajGJXblFR4iavIXWsGAFCk3dP4Kki5+a9R4NMt0JARdk6s8cUKcfUoqP5dAtDSLU8xYUTFV+Q==}
 
   '@types/phoenix@1.6.7':
     resolution: {integrity: sha512-oN9ive//QSBkf19rfDv45M7eZPi0eEXylht2OLEXicu5b4KoQ1OzXIw+xDSGWxSxe1JmepRR/ZH283vsu518/Q==}
@@ -10640,12 +10637,6 @@ snapshots:
       pg-protocol: 1.16.0
       pg-types: 4.1.0
 
-  '@types/pg@8.18.0':
-    dependencies:
-      '@types/node': 25.0.3
-      pg-protocol: 1.13.0
-      pg-types: 2.2.0
-
   '@types/phoenix@1.6.7': {}
 
   '@types/qrcode.react@3.0.0(react@19.2.3)':
@@ -10672,7 +10663,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.9.5
 
   '@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@5.9.3))(eslint@9.39.2(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@5.9.3)':
     dependencies:

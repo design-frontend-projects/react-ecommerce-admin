@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import { authorizedRequest } from '@/lib/api-client'
 import { useAuth } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/auth-store'
 
 const navScreenSchema = z.object({
   code: z.string(),
@@ -36,8 +37,16 @@ export const navCatalogQueryKey = ['access-control', 'nav-catalog'] as const
  * the returned screens against the user's resolved access. Returns an empty list on error so
  * the sidebar can fall back to its static array.
  */
-export function useNavCatalog() {
+export function useNavCatalog(enabled = true) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
+  const profile = useAuthStore((state) => state.auth.profile)
+  const isInitializing = useAuthStore((state) => state.auth.isInitializing)
+
+  const isOnboarded =
+    profile?.onboarding_complete === true || profile?.parent_tenant_id != null
+  const shouldFetch =
+    isLoaded && isSignedIn && !isInitializing && isOnboarded && enabled
+
   return useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: navCatalogQueryKey,
@@ -45,8 +54,9 @@ export function useNavCatalog() {
       const payload = await authorizedRequest(getToken, '/api/rbac/me/nav')
       return navResponseSchema.parse(payload).data.modules
     },
-    enabled: isLoaded && isSignedIn,
+    enabled: shouldFetch,
     staleTime: 60_000,
     retry: false,
   })
 }
+

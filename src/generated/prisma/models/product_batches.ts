@@ -262,7 +262,7 @@ export type Product_batchesGroupByOutputType = {
   _max: Product_batchesMaxAggregateOutputType | null
 }
 
-export type GetProduct_batchesGroupByPayload<T extends product_batchesGroupByArgs> = Prisma.PrismaPromise<
+type GetProduct_batchesGroupByPayload<T extends product_batchesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Product_batchesGroupByOutputType, T['by']> &
       {

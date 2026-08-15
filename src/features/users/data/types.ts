@@ -102,4 +102,6 @@ export interface CurrentUserAccess {
   roleIds: string[]
   roleNames: string[]
   permissionNames: string[]
+  onboardingComplete?: boolean
 }
+

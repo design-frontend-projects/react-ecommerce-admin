@@ -99,11 +99,14 @@ export function useCompleteOnboarding() {
     },
     onSuccess: () => {
       toast.success('Tenant account setup completed successfully!')
+      void queryClient.invalidateQueries({ queryKey: ['user-profile'] })
+      void queryClient.invalidateQueries({ queryKey: ['profile'] })
       void queryClient.invalidateQueries({ queryKey: ['users'] })
       void queryClient.invalidateQueries({
         queryKey: ['rbac', 'current-access'],
       })
-      void queryClient.invalidateQueries({ queryKey: ['profile'] })
+      void queryClient.invalidateQueries({ queryKey: ['access-control'] })
+      void queryClient.invalidateQueries({ queryKey: ['access-navigation'] })
       void queryClient.invalidateQueries({ queryKey: ['tenant-users'] })
       void queryClient.invalidateQueries({ queryKey: ['tenants'] })
       router.navigate({ to: '/' })
