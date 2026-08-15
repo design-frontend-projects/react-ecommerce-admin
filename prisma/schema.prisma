@@ -68,6 +68,7 @@ model branches {
   stores              stores[]
   default_for_tenants tenants[]      @relation("tenant_default_branch")
   tenant_users        tenant_users[]
+  warehouses          warehouses[]
 }
 
 model categories {
@@ -934,6 +935,7 @@ model stores {
   branches     branches?  @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   cities       cities?    @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   countries    countries? @relation(fields: [country_id], references: [id], onUpdate: NoAction)
+  warehouses   warehouses[]
 }
 
 model subscriptions {
@@ -1364,19 +1366,22 @@ model app_settings {
 }
 
 model warehouses {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id    String   @db.Uuid
-  branch_id    String?  @db.Uuid
-  store_id     String?  @db.Uuid
-  code         String   @db.VarChar(30)
-  name         String   @db.VarChar(120)
-  is_default   Boolean  @default(false)
-  is_active    Boolean  @default(true)
-  address      String?
-  notes        String?
-  created_at   DateTime @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime @default(now()) @db.Timestamptz(6)
-  auth_user_id String?  @default(dbgenerated("auth.uid()")) @db.Uuid
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id           String                @db.Uuid
+  branch_id           String?               @db.Uuid
+  store_id            String?               @db.Uuid
+  code                String                @db.VarChar(30)
+  name                String                @db.VarChar(120)
+  is_default          Boolean               @default(false)
+  is_active           Boolean               @default(true)
+  address             String?
+  notes               String?
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  auth_user_id        String?               @default(dbgenerated("auth.uid()")) @db.Uuid
+  branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stores              stores?               @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  warehouse_locations warehouse_locations[]
 }
 
 model warehouse_locations {
@@ -1395,6 +1400,7 @@ model warehouse_locations {
   created_at    DateTime           @default(now()) @db.Timestamptz(6)
   updated_at    DateTime           @default(now()) @db.Timestamptz(6)
   auth_user_id  String?            @default(dbgenerated("auth.uid()")) @db.Uuid
+  warehouses    warehouses         @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model stock_by_location {

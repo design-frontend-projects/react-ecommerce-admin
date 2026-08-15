@@ -18,12 +18,16 @@ if (typeof window === 'undefined') {
     'postgresql://postgres.qihgtllyfkoynorwazfn:qinuIGJW49YV2MHa@aws-1-eu-west-2.pooler.supabase.com:5432/postgres'
   const adapter = new PrismaPg({ connectionString })
 
+  const { createTenantExtendedPrisma } = await import('@/server/db/tenant-prisma')
+
   if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient({ adapter })
+    const rawClient = new PrismaClient({ adapter })
+    prisma = createTenantExtendedPrisma(rawClient) as unknown as PrismaClientType
   } else {
     // Force refresh or initialize singleton on globalThis
     if (!(globalThis as any).prisma) {
-      ;(globalThis as any).prisma = new PrismaClient({ adapter })
+      const rawClient = new PrismaClient({ adapter })
+      ;(globalThis as any).prisma = createTenantExtendedPrisma(rawClient)
     }
     prisma = (globalThis as any).prisma
   }

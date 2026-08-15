@@ -266,7 +266,7 @@ export type StoresGroupByOutputType = {
   _max: StoresMaxAggregateOutputType | null
 }
 
-type GetStoresGroupByPayload<T extends storesGroupByArgs> = Prisma.PrismaPromise<
+export type GetStoresGroupByPayload<T extends storesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<StoresGroupByOutputType, T['by']> &
       {
@@ -303,6 +303,7 @@ export type storesWhereInput = {
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
+  warehouses?: Prisma.WarehousesListRelationFilter
 }
 
 export type storesOrderByWithRelationInput = {
@@ -324,6 +325,7 @@ export type storesOrderByWithRelationInput = {
   branches?: Prisma.branchesOrderByWithRelationInput
   cities?: Prisma.citiesOrderByWithRelationInput
   countries?: Prisma.countriesOrderByWithRelationInput
+  warehouses?: Prisma.warehousesOrderByRelationAggregateInput
 }
 
 export type storesWhereUniqueInput = Prisma.AtLeast<{
@@ -348,6 +350,7 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
+  warehouses?: Prisma.WarehousesListRelationFilter
 }, "store_id">
 
 export type storesOrderByWithAggregationInput = {
@@ -410,6 +413,7 @@ export type storesCreateInput = {
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateInput = {
@@ -428,6 +432,7 @@ export type storesUncheckedCreateInput = {
   status?: boolean | null
   branch_id?: string | null
   tenant_id?: string | null
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
 export type storesUpdateInput = {
@@ -446,6 +451,7 @@ export type storesUpdateInput = {
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateInput = {
@@ -464,6 +470,7 @@ export type storesUncheckedUpdateInput = {
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesCreateManyInput = {
@@ -589,6 +596,11 @@ export type storesMinOrderByAggregateInput = {
 export type storesSumOrderByAggregateInput = {
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+}
+
+export type StoresNullableScalarRelationFilter = {
+  is?: Prisma.storesWhereInput | null
+  isNot?: Prisma.storesWhereInput | null
 }
 
 export type storesCreateNestedManyWithoutBranchesInput = {
@@ -717,6 +729,22 @@ export type storesUncheckedUpdateManyWithoutCountriesNestedInput = {
   deleteMany?: Prisma.storesScalarWhereInput | Prisma.storesScalarWhereInput[]
 }
 
+export type storesCreateNestedOneWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutWarehousesInput, Prisma.storesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutWarehousesInput
+  connect?: Prisma.storesWhereUniqueInput
+}
+
+export type storesUpdateOneWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutWarehousesInput, Prisma.storesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutWarehousesInput
+  upsert?: Prisma.storesUpsertWithoutWarehousesInput
+  disconnect?: Prisma.storesWhereInput | boolean
+  delete?: Prisma.storesWhereInput | boolean
+  connect?: Prisma.storesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.storesUpdateToOneWithWhereWithoutWarehousesInput, Prisma.storesUpdateWithoutWarehousesInput>, Prisma.storesUncheckedUpdateWithoutWarehousesInput>
+}
+
 export type storesCreateWithoutBranchesInput = {
   auth_user_id?: string | null
   phone?: string | null
@@ -732,6 +760,7 @@ export type storesCreateWithoutBranchesInput = {
   tenant_id?: string | null
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutBranchesInput = {
@@ -749,6 +778,7 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   store_id: string
   status?: boolean | null
   tenant_id?: string | null
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
 export type storesCreateOrConnectWithoutBranchesInput = {
@@ -813,6 +843,7 @@ export type storesCreateWithoutCitiesInput = {
   tenant_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutCitiesInput = {
@@ -830,6 +861,7 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   status?: boolean | null
   branch_id?: string | null
   tenant_id?: string | null
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
 export type storesCreateOrConnectWithoutCitiesInput = {
@@ -873,6 +905,7 @@ export type storesCreateWithoutCountriesInput = {
   tenant_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutCountriesInput = {
@@ -890,6 +923,7 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   status?: boolean | null
   branch_id?: string | null
   tenant_id?: string | null
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
 export type storesCreateOrConnectWithoutCountriesInput = {
@@ -916,6 +950,94 @@ export type storesUpdateWithWhereUniqueWithoutCountriesInput = {
 export type storesUpdateManyWithWhereWithoutCountriesInput = {
   where: Prisma.storesScalarWhereInput
   data: Prisma.XOR<Prisma.storesUpdateManyMutationInput, Prisma.storesUncheckedUpdateManyWithoutCountriesInput>
+}
+
+export type storesCreateWithoutWarehousesInput = {
+  auth_user_id?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  name?: string | null
+  store_id: string
+  status?: boolean | null
+  tenant_id?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
+  cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
+  countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+}
+
+export type storesUncheckedCreateWithoutWarehousesInput = {
+  auth_user_id?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  city_id?: string | null
+  country_id?: string | null
+  name?: string | null
+  store_id: string
+  status?: boolean | null
+  branch_id?: string | null
+  tenant_id?: string | null
+}
+
+export type storesCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.storesWhereUniqueInput
+  create: Prisma.XOR<Prisma.storesCreateWithoutWarehousesInput, Prisma.storesUncheckedCreateWithoutWarehousesInput>
+}
+
+export type storesUpsertWithoutWarehousesInput = {
+  update: Prisma.XOR<Prisma.storesUpdateWithoutWarehousesInput, Prisma.storesUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.storesCreateWithoutWarehousesInput, Prisma.storesUncheckedCreateWithoutWarehousesInput>
+  where?: Prisma.storesWhereInput
+}
+
+export type storesUpdateToOneWithWhereWithoutWarehousesInput = {
+  where?: Prisma.storesWhereInput
+  data: Prisma.XOR<Prisma.storesUpdateWithoutWarehousesInput, Prisma.storesUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type storesUpdateWithoutWarehousesInput = {
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+}
+
+export type storesUncheckedUpdateWithoutWarehousesInput = {
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type storesCreateManyBranchesInput = {
@@ -950,6 +1072,7 @@ export type storesUpdateWithoutBranchesInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutBranchesInput = {
@@ -967,6 +1090,7 @@ export type storesUncheckedUpdateWithoutBranchesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutBranchesInput = {
@@ -1018,6 +1142,7 @@ export type storesUpdateWithoutCitiesInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCitiesInput = {
@@ -1035,6 +1160,7 @@ export type storesUncheckedUpdateWithoutCitiesInput = {
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCitiesInput = {
@@ -1086,6 +1212,7 @@ export type storesUpdateWithoutCountriesInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCountriesInput = {
@@ -1103,6 +1230,7 @@ export type storesUncheckedUpdateWithoutCountriesInput = {
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCountriesInput = {
@@ -1122,6 +1250,35 @@ export type storesUncheckedUpdateManyWithoutCountriesInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+
+/**
+ * Count Type StoresCountOutputType
+ */
+
+export type StoresCountOutputType = {
+  warehouses: number
+}
+
+export type StoresCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | StoresCountOutputTypeCountWarehousesArgs
+}
+
+/**
+ * StoresCountOutputType without action
+ */
+export type StoresCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoresCountOutputType
+   */
+  select?: Prisma.StoresCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * StoresCountOutputType without action
+ */
+export type StoresCountOutputTypeCountWarehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.warehousesWhereInput
+}
 
 
 export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1143,6 +1300,8 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
   countries?: boolean | Prisma.stores$countriesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stores$warehousesArgs<ExtArgs>
+  _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stores"]>
 
 export type storesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1210,6 +1369,8 @@ export type storesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
   countries?: boolean | Prisma.stores$countriesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stores$warehousesArgs<ExtArgs>
+  _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type storesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
@@ -1228,6 +1389,7 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     branches: Prisma.$branchesPayload<ExtArgs> | null
     cities: Prisma.$citiesPayload<ExtArgs> | null
     countries: Prisma.$countriesPayload<ExtArgs> | null
+    warehouses: Prisma.$warehousesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     auth_user_id: string | null
@@ -1642,6 +1804,7 @@ export interface Prisma__storesClient<T, Null = never, ExtArgs extends runtime.T
   branches<T extends Prisma.stores$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   cities<T extends Prisma.stores$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$citiesArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   countries<T extends Prisma.stores$countriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$countriesArgs<ExtArgs>>): Prisma.Prisma__countriesClient<runtime.Types.Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouses<T extends Prisma.stores$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2141,6 +2304,30 @@ export type stores$countriesArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   include?: Prisma.countriesInclude<ExtArgs> | null
   where?: Prisma.countriesWhereInput
+}
+
+/**
+ * stores.warehouses
+ */
+export type stores$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+  orderBy?: Prisma.warehousesOrderByWithRelationInput | Prisma.warehousesOrderByWithRelationInput[]
+  cursor?: Prisma.warehousesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WarehousesScalarFieldEnum | Prisma.WarehousesScalarFieldEnum[]
 }
 
 /**

@@ -2,6 +2,7 @@
 
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId } from '@/server/utils/tenant'
+import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
 
 export interface WarehouseInput {
@@ -27,14 +28,16 @@ export interface LocationInput {
 
 export async function listWarehouses(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
-  return prisma.warehouses.findMany({
-    where: { tenant_id: tenantId },
-    orderBy: { created_at: 'desc' },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      branches: { select: { id: true, name: true } },
-      _count: { select: { warehouse_locations: true } },
-    },
+  return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
+    return prisma.warehouses.findMany({
+      where: { tenant_id: tenantId },
+      orderBy: { created_at: 'desc' },
+      include: {
+        stores: { select: { store_id: true, name: true } },
+        branches: { select: { id: true, name: true } },
+        _count: { select: { warehouse_locations: true } },
+      },
+    })
   })
 }
 
@@ -46,18 +49,20 @@ export async function createWarehouse(
   if (!input.code?.trim() || !input.name?.trim()) {
     throw new ApiError('Code and name are required.', 400)
   }
-  return prisma.warehouses.create({
-    data: {
-      tenant_id: tenantId,
-      auth_user_id: tenantId,
-      branch_id: input.branchId ?? null,
-      store_id: input.storeId ?? null,
-      code: input.code.trim(),
-      name: input.name.trim(),
-      address: input.address ?? null,
-      notes: input.notes ?? null,
-      is_default: input.isDefault ?? false,
-    },
+  return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
+    return prisma.warehouses.create({
+      data: {
+        tenant_id: tenantId,
+        auth_user_id: tenantId,
+        branch_id: input.branchId ?? null,
+        store_id: input.storeId ?? null,
+        code: input.code.trim(),
+        name: input.name.trim(),
+        address: input.address ?? null,
+        notes: input.notes ?? null,
+        is_default: input.isDefault ?? false,
+      },
+    })
   })
 }
 

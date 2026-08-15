@@ -1,6 +1,7 @@
 'use server'
 
 import { requireTenantId } from '@/server/utils/tenant'
+import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
 
 export interface MovementFilters {
@@ -31,7 +32,7 @@ const MOVEMENT_TYPES = new Set([
 
 /**
  * Read the inventory movement ledger for the authenticated user's branches.
- * Scoped by `auth_user_id` (the tenant anchor stamped on every movement).
+ * Strictly scoped by `tenant_id`.
  */
 export async function listMovements(
   authUserId: string,
@@ -40,7 +41,10 @@ export async function listMovements(
   const limit = Math.min(Math.max(filters.limit ?? 200, 1), 1000)
   const tenantId = await requireTenantId(authUserId)
 
-  const where: Record<string, unknown> = { auth_user_id: tenantId }
+  return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
+    const where: Record<string, unknown> = {
+      OR: [{ tenant_id: tenantId }, { auth_user_id: tenantId }],
+    }
 
   if (filters.movementType && MOVEMENT_TYPES.has(filters.movementType)) {
     where.movement_type = filters.movementType
@@ -61,14 +65,57 @@ export async function listMovements(
     }
   }
 
-  return prisma.inventory_movements.findMany({
-    where,
-    orderBy: { movement_date: 'desc' },
-    take: limit,
-    include: {
-      product_variants: { select: { id: true, sku: true } },
-      stores: { select: { store_id: true, name: true } },
-      branches: { select: { id: true, name: true } },
-    },
+    const movements = await prisma.inventory_movements.findMany({
+      where,
+      orderBy: { movement_date: 'desc' },
+      take: limit,
+    })
+
+    if (!movements.length) {
+      return []
+    }
+
+    const variantIds = Array.from(
+      new Set(movements.map((m) => m.product_variant_id).filter(Boolean))
+    )
+    const storeIds = Array.from(
+      new Set(movements.map((m) => m.store_id).filter(Boolean))
+    ) as string[]
+    const branchIds = Array.from(
+      new Set(movements.map((m) => m.branch_id).filter(Boolean))
+    )
+
+    const [variants, stores, branches] = await Promise.all([
+      variantIds.length
+        ? prisma.product_variants.findMany({
+            where: { id: { in: variantIds } },
+            select: { id: true, sku: true },
+          })
+        : [],
+      storeIds.length
+        ? prisma.stores.findMany({
+            where: { store_id: { in: storeIds } },
+            select: { store_id: true, name: true },
+          })
+        : [],
+      branchIds.length
+        ? prisma.branches.findMany({
+            where: { id: { in: branchIds } },
+            select: { id: true, name: true },
+          })
+        : [],
+    ])
+
+    const variantMap = new Map(variants.map((v) => [v.id, v]))
+    const storeMap = new Map(stores.map((s) => [s.store_id, s]))
+    const branchMap = new Map(branches.map((b) => [b.id, b]))
+
+    return movements.map((m) => ({
+      ...m,
+      product_variants: variantMap.get(m.product_variant_id) ?? null,
+      stores: m.store_id ? (storeMap.get(m.store_id) ?? null) : null,
+      branches: branchMap.get(m.branch_id) ?? null,
+    }))
   })
 }
+

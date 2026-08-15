@@ -217,7 +217,7 @@ export type Shipping_methodsGroupByOutputType = {
   _max: Shipping_methodsMaxAggregateOutputType | null
 }
 
-type GetShipping_methodsGroupByPayload<T extends shipping_methodsGroupByArgs> = Prisma.PrismaPromise<
+export type GetShipping_methodsGroupByPayload<T extends shipping_methodsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Shipping_methodsGroupByOutputType, T['by']> &
       {

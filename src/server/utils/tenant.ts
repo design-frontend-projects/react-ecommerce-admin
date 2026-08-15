@@ -1,14 +1,19 @@
 import prisma from '@/lib/prisma'
+import { getOptionalTenantContext } from '@/server/context/tenant-context'
 
 /**
  * Resolve the tenant/account id for an authenticated Supabase user.
- * Mirrors the resolution used by the activity-types server fn:
- * `tenant_users.parent_tenant_id` first, falling back to the user's own
- * `tenant_subscriptions.id`.
+ * Prioritizes active AsyncLocalStorage context if present, then falls back
+ * to resolving from `tenant_users`, `tenants`, or `tenant_subscriptions`.
  */
 export async function resolveTenantId(
   authUserId: string
 ): Promise<string | null> {
+  const currentContext = getOptionalTenantContext()
+  if (currentContext?.tenantId) {
+    return currentContext.tenantId
+  }
+
   const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
     select: { tenant_id: true, parent_tenant_id: true },
