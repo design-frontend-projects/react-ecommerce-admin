@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -243,9 +244,22 @@ export function CompleteAccountFeature() {
 
   const prevStep = () => setStep((s) => Math.max(1, s - 1))
 
-  return (
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [])
+
+  if (!mounted) return null
+
+  return createPortal(
     <div
-      className='fixed inset-0 z-50 flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xl select-none'
+      className='fixed inset-0 z-[100] flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xl select-none animate-in fade-in duration-300'
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -958,7 +972,8 @@ export function CompleteAccountFeature() {
           </div>
         </motion.div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 

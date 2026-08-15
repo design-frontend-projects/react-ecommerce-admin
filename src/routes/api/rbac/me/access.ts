@@ -9,17 +9,22 @@ import prisma from '@/lib/prisma'
  * `requireAuth` exactly (spec Q5).
  */
 const GET = withAuth(null, async ({ auth }) => {
-  const tenantUser = (await prisma.tenant_users.findFirst({
-    where: { auth_user_id: auth.userId },
-    select: { id: true, user_roles: { select: { role_id: true } } },
-  })) as { id: string; user_roles: Array<{ role_id: string }> } | null
+  let tenantUser: { id: string; user_roles: Array<{ role_id: string }> } | null = null
+  try {
+    tenantUser = (await prisma.tenant_users.findFirst({
+      where: { auth_user_id: auth.userId },
+      select: { id: true, user_roles: { select: { role_id: true } } },
+    })) as { id: string; user_roles: Array<{ role_id: string }> } | null
+  } catch (error) {
+    console.warn('[rbac/me/access] Skipping tenant_users DB lookup:', error)
+  }
 
   return Response.json({
     success: true,
     data: {
       authUserId: auth.userId,
       tenantUserId: tenantUser?.id ?? null,
-      roleIds: tenantUser?.user_roles.map((row) => row.role_id) ?? [],
+      roleIds: tenantUser?.user_roles?.map((row) => row.role_id) ?? [],
       roleNames: auth.roleNames,
       permissionNames: auth.permissionNames,
     },

@@ -252,7 +252,7 @@ export type Stock_by_locationGroupByOutputType = {
   _max: Stock_by_locationMaxAggregateOutputType | null
 }
 
-export type GetStock_by_locationGroupByPayload<T extends stock_by_locationGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_by_locationGroupByPayload<T extends stock_by_locationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_by_locationGroupByOutputType, T['by']> &
       {

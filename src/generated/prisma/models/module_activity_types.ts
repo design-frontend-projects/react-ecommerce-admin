@@ -151,7 +151,7 @@ export type Module_activity_typesGroupByOutputType = {
   _max: Module_activity_typesMaxAggregateOutputType | null
 }
 
-export type GetModule_activity_typesGroupByPayload<T extends module_activity_typesGroupByArgs> = Prisma.PrismaPromise<
+type GetModule_activity_typesGroupByPayload<T extends module_activity_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Module_activity_typesGroupByOutputType, T['by']> &
       {
@@ -174,6 +174,8 @@ export type module_activity_typesWhereInput = {
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
+  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
+  business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
 }
 
 export type module_activity_typesOrderByWithRelationInput = {
@@ -181,6 +183,8 @@ export type module_activity_typesOrderByWithRelationInput = {
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  app_modules?: Prisma.app_modulesOrderByWithRelationInput
+  business_activity_types?: Prisma.business_activity_typesOrderByWithRelationInput
 }
 
 export type module_activity_typesWhereUniqueInput = Prisma.AtLeast<{
@@ -192,6 +196,8 @@ export type module_activity_typesWhereUniqueInput = Prisma.AtLeast<{
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
+  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
+  business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
 }, "module_id_activity_type_id">
 
 export type module_activity_typesOrderByWithAggregationInput = {
@@ -215,10 +221,10 @@ export type module_activity_typesScalarWhereWithAggregatesInput = {
 }
 
 export type module_activity_typesCreateInput = {
-  module_id: string
-  activity_type_id: string
   created_at?: Date | string | null
   auth_user_id?: string | null
+  app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
+  business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutModule_activity_typesInput
 }
 
 export type module_activity_typesUncheckedCreateInput = {
@@ -229,10 +235,10 @@ export type module_activity_typesUncheckedCreateInput = {
 }
 
 export type module_activity_typesUpdateInput = {
-  module_id?: Prisma.StringFieldUpdateOperationsInput | string
-  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
+  business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput
 }
 
 export type module_activity_typesUncheckedUpdateInput = {
@@ -250,8 +256,6 @@ export type module_activity_typesCreateManyInput = {
 }
 
 export type module_activity_typesUpdateManyMutationInput = {
-  module_id?: Prisma.StringFieldUpdateOperationsInput | string
-  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -261,6 +265,16 @@ export type module_activity_typesUncheckedUpdateManyInput = {
   activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Module_activity_typesListRelationFilter = {
+  every?: Prisma.module_activity_typesWhereInput
+  some?: Prisma.module_activity_typesWhereInput
+  none?: Prisma.module_activity_typesWhereInput
+}
+
+export type module_activity_typesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type module_activity_typesModule_idActivity_type_idCompoundUniqueInput = {
@@ -289,6 +303,224 @@ export type module_activity_typesMinOrderByAggregateInput = {
   auth_user_id?: Prisma.SortOrder
 }
 
+export type module_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+}
+
+export type module_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+}
+
+export type module_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  upsert?: Prisma.module_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  set?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  delete?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  update?: Prisma.module_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  updateMany?: Prisma.module_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput[]
+  deleteMany?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+}
+
+export type module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  upsert?: Prisma.module_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  set?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  delete?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  update?: Prisma.module_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  updateMany?: Prisma.module_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput | Prisma.module_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput[]
+  deleteMany?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+}
+
+export type module_activity_typesCreateNestedManyWithoutApp_modulesInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput> | Prisma.module_activity_typesCreateWithoutApp_modulesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput | Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyApp_modulesInputEnvelope
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+}
+
+export type module_activity_typesUncheckedCreateNestedManyWithoutApp_modulesInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput> | Prisma.module_activity_typesCreateWithoutApp_modulesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput | Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyApp_modulesInputEnvelope
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+}
+
+export type module_activity_typesUpdateManyWithoutApp_modulesNestedInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput> | Prisma.module_activity_typesCreateWithoutApp_modulesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput | Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput[]
+  upsert?: Prisma.module_activity_typesUpsertWithWhereUniqueWithoutApp_modulesInput | Prisma.module_activity_typesUpsertWithWhereUniqueWithoutApp_modulesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyApp_modulesInputEnvelope
+  set?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  delete?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  update?: Prisma.module_activity_typesUpdateWithWhereUniqueWithoutApp_modulesInput | Prisma.module_activity_typesUpdateWithWhereUniqueWithoutApp_modulesInput[]
+  updateMany?: Prisma.module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput | Prisma.module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput[]
+  deleteMany?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+}
+
+export type module_activity_typesUncheckedUpdateManyWithoutApp_modulesNestedInput = {
+  create?: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput> | Prisma.module_activity_typesCreateWithoutApp_modulesInput[] | Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput[]
+  connectOrCreate?: Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput | Prisma.module_activity_typesCreateOrConnectWithoutApp_modulesInput[]
+  upsert?: Prisma.module_activity_typesUpsertWithWhereUniqueWithoutApp_modulesInput | Prisma.module_activity_typesUpsertWithWhereUniqueWithoutApp_modulesInput[]
+  createMany?: Prisma.module_activity_typesCreateManyApp_modulesInputEnvelope
+  set?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  delete?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  connect?: Prisma.module_activity_typesWhereUniqueInput | Prisma.module_activity_typesWhereUniqueInput[]
+  update?: Prisma.module_activity_typesUpdateWithWhereUniqueWithoutApp_modulesInput | Prisma.module_activity_typesUpdateWithWhereUniqueWithoutApp_modulesInput[]
+  updateMany?: Prisma.module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput | Prisma.module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput[]
+  deleteMany?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+}
+
+export type module_activity_typesCreateWithoutBusiness_activity_typesInput = {
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
+}
+
+export type module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput = {
+  module_id: string
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  create: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput>
+}
+
+export type module_activity_typesCreateManyBusiness_activity_typesInputEnvelope = {
+  data: Prisma.module_activity_typesCreateManyBusiness_activity_typesInput | Prisma.module_activity_typesCreateManyBusiness_activity_typesInput[]
+  skipDuplicates?: boolean
+}
+
+export type module_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  update: Prisma.XOR<Prisma.module_activity_typesUpdateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput>
+  create: Prisma.XOR<Prisma.module_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput>
+}
+
+export type module_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  data: Prisma.XOR<Prisma.module_activity_typesUpdateWithoutBusiness_activity_typesInput, Prisma.module_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput>
+}
+
+export type module_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput = {
+  where: Prisma.module_activity_typesScalarWhereInput
+  data: Prisma.XOR<Prisma.module_activity_typesUpdateManyMutationInput, Prisma.module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesInput>
+}
+
+export type module_activity_typesScalarWhereInput = {
+  AND?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+  OR?: Prisma.module_activity_typesScalarWhereInput[]
+  NOT?: Prisma.module_activity_typesScalarWhereInput | Prisma.module_activity_typesScalarWhereInput[]
+  module_id?: Prisma.UuidFilter<"module_activity_types"> | string
+  activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
+  created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
+}
+
+export type module_activity_typesCreateWithoutApp_modulesInput = {
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutModule_activity_typesInput
+}
+
+export type module_activity_typesUncheckedCreateWithoutApp_modulesInput = {
+  activity_type_id: string
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type module_activity_typesCreateOrConnectWithoutApp_modulesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  create: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput>
+}
+
+export type module_activity_typesCreateManyApp_modulesInputEnvelope = {
+  data: Prisma.module_activity_typesCreateManyApp_modulesInput | Prisma.module_activity_typesCreateManyApp_modulesInput[]
+  skipDuplicates?: boolean
+}
+
+export type module_activity_typesUpsertWithWhereUniqueWithoutApp_modulesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  update: Prisma.XOR<Prisma.module_activity_typesUpdateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedUpdateWithoutApp_modulesInput>
+  create: Prisma.XOR<Prisma.module_activity_typesCreateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedCreateWithoutApp_modulesInput>
+}
+
+export type module_activity_typesUpdateWithWhereUniqueWithoutApp_modulesInput = {
+  where: Prisma.module_activity_typesWhereUniqueInput
+  data: Prisma.XOR<Prisma.module_activity_typesUpdateWithoutApp_modulesInput, Prisma.module_activity_typesUncheckedUpdateWithoutApp_modulesInput>
+}
+
+export type module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput = {
+  where: Prisma.module_activity_typesScalarWhereInput
+  data: Prisma.XOR<Prisma.module_activity_typesUpdateManyMutationInput, Prisma.module_activity_typesUncheckedUpdateManyWithoutApp_modulesInput>
+}
+
+export type module_activity_typesCreateManyBusiness_activity_typesInput = {
+  module_id: string
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type module_activity_typesUpdateWithoutBusiness_activity_typesInput = {
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
+}
+
+export type module_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput = {
+  module_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesInput = {
+  module_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type module_activity_typesCreateManyApp_modulesInput = {
+  activity_type_id: string
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+}
+
+export type module_activity_typesUpdateWithoutApp_modulesInput = {
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput
+}
+
+export type module_activity_typesUncheckedUpdateWithoutApp_modulesInput = {
+  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type module_activity_typesUncheckedUpdateManyWithoutApp_modulesInput = {
+  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type module_activity_typesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -296,6 +528,8 @@ export type module_activity_typesSelect<ExtArgs extends runtime.Types.Extensions
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -303,6 +537,8 @@ export type module_activity_typesSelectCreateManyAndReturn<ExtArgs extends runti
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -310,6 +546,8 @@ export type module_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runti
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectScalar = {
@@ -320,10 +558,25 @@ export type module_activity_typesSelectScalar = {
 }
 
 export type module_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module_id" | "activity_type_id" | "created_at" | "auth_user_id", ExtArgs["result"]["module_activity_types"]>
+export type module_activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
+export type module_activity_typesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
+export type module_activity_typesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
 
 export type $module_activity_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "module_activity_types"
-  objects: {}
+  objects: {
+    app_modules: Prisma.$app_modulesPayload<ExtArgs>
+    business_activity_types: Prisma.$business_activity_typesPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     module_id: string
     activity_type_id: string
@@ -723,6 +976,8 @@ readonly fields: module_activity_typesFieldRefs;
  */
 export interface Prisma__module_activity_typesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  app_modules<T extends Prisma.app_modulesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modulesDefaultArgs<ExtArgs>>): Prisma.Prisma__app_modulesClient<runtime.Types.Result.GetResult<Prisma.$app_modulesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  business_activity_types<T extends Prisma.business_activity_typesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.business_activity_typesDefaultArgs<ExtArgs>>): Prisma.Prisma__business_activity_typesClient<runtime.Types.Result.GetResult<Prisma.$business_activity_typesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -773,6 +1028,10 @@ export type module_activity_typesFindUniqueArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which module_activity_types to fetch.
    */
   where: Prisma.module_activity_typesWhereUniqueInput
@@ -791,6 +1050,10 @@ export type module_activity_typesFindUniqueOrThrowArgs<ExtArgs extends runtime.T
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which module_activity_types to fetch.
    */
   where: Prisma.module_activity_typesWhereUniqueInput
@@ -808,6 +1071,10 @@ export type module_activity_typesFindFirstArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which module_activity_types to fetch.
    */
@@ -857,6 +1124,10 @@ export type module_activity_typesFindFirstOrThrowArgs<ExtArgs extends runtime.Ty
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which module_activity_types to fetch.
    */
   where?: Prisma.module_activity_typesWhereInput
@@ -904,6 +1175,10 @@ export type module_activity_typesFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which module_activity_types to fetch.
    */
@@ -953,6 +1228,10 @@ export type module_activity_typesCreateArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
+  /**
    * The data needed to create a module_activity_types.
    */
   data: Prisma.XOR<Prisma.module_activity_typesCreateInput, Prisma.module_activity_typesUncheckedCreateInput>
@@ -986,6 +1265,10 @@ export type module_activity_typesCreateManyAndReturnArgs<ExtArgs extends runtime
    */
   data: Prisma.module_activity_typesCreateManyInput | Prisma.module_activity_typesCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1000,6 +1283,10 @@ export type module_activity_typesUpdateArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
   /**
    * The data needed to update a module_activity_types.
    */
@@ -1052,6 +1339,10 @@ export type module_activity_typesUpdateManyAndReturnArgs<ExtArgs extends runtime
    * Limit how many module_activity_types to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1066,6 +1357,10 @@ export type module_activity_typesUpsertArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
   /**
    * The filter to search for the module_activity_types to update in case it exists.
    */
@@ -1092,6 +1387,10 @@ export type module_activity_typesDeleteArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
   /**
    * Filter which module_activity_types to delete.
    */
@@ -1124,4 +1423,8 @@ export type module_activity_typesDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the module_activity_types
    */
   omit?: Prisma.module_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.module_activity_typesInclude<ExtArgs> | null
 }

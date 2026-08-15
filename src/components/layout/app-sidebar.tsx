@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
+import { useLocation } from '@tanstack/react-router'
 import { useLayout } from '@/context/layout-provider'
 import { useAuth } from '@/hooks/use-auth'
+import { cn } from '@/lib/utils'
 import {
   Sidebar,
   SidebarContent,
@@ -69,6 +71,8 @@ export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   const { isSignedIn } = useAuth()
   const { isSystemOwner, isSuperAdminOwner } = useSystemOwner()
+  const { pathname } = useLocation()
+  const isCompleteAccount = pathname === '/complete-account'
   const currentRoleNames = useRBACStore((state) => state.currentRoleNames)
   const currentPermissionNames = useRBACStore(
     (state) => state.currentPermissionNames
@@ -135,7 +139,14 @@ export function AppSidebar() {
   const isLoading = isSignedIn && navigationQuery.isLoading && !dbNavGroups
 
   return (
-    <Sidebar collapsible={collapsible} variant={variant}>
+    <Sidebar
+      collapsible={collapsible}
+      variant={variant}
+      className={cn(
+        'transition-[filter,opacity] duration-300',
+        isCompleteAccount && 'pointer-events-none select-none blur-sm opacity-80'
+      )}
+    >
       <SidebarHeader>
         <AppTitle />
       </SidebarHeader>

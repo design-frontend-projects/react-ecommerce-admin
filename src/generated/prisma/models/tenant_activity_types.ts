@@ -158,7 +158,7 @@ export type Tenant_activity_typesGroupByOutputType = {
   _max: Tenant_activity_typesMaxAggregateOutputType | null
 }
 
-export type GetTenant_activity_typesGroupByPayload<T extends tenant_activity_typesGroupByArgs> = Prisma.PrismaPromise<
+type GetTenant_activity_typesGroupByPayload<T extends tenant_activity_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tenant_activity_typesGroupByOutputType, T['by']> &
       {
@@ -182,6 +182,7 @@ export type tenant_activity_typesWhereInput = {
   is_active?: Prisma.BoolFilter<"tenant_activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
+  business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
 }
 
 export type tenant_activity_typesOrderByWithRelationInput = {
@@ -190,6 +191,7 @@ export type tenant_activity_typesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  business_activity_types?: Prisma.business_activity_typesOrderByWithRelationInput
 }
 
 export type tenant_activity_typesWhereUniqueInput = Prisma.AtLeast<{
@@ -202,6 +204,7 @@ export type tenant_activity_typesWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolFilter<"tenant_activity_types"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
+  business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
 }, "tenant_id_activity_type_id">
 
 export type tenant_activity_typesOrderByWithAggregationInput = {
@@ -228,10 +231,10 @@ export type tenant_activity_typesScalarWhereWithAggregatesInput = {
 
 export type tenant_activity_typesCreateInput = {
   tenant_id: string
-  activity_type_id: string
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutTenant_activity_typesInput
 }
 
 export type tenant_activity_typesUncheckedCreateInput = {
@@ -244,10 +247,10 @@ export type tenant_activity_typesUncheckedCreateInput = {
 
 export type tenant_activity_typesUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutTenant_activity_typesNestedInput
 }
 
 export type tenant_activity_typesUncheckedUpdateInput = {
@@ -268,7 +271,6 @@ export type tenant_activity_typesCreateManyInput = {
 
 export type tenant_activity_typesUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -280,6 +282,16 @@ export type tenant_activity_typesUncheckedUpdateManyInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type Tenant_activity_typesListRelationFilter = {
+  every?: Prisma.tenant_activity_typesWhereInput
+  some?: Prisma.tenant_activity_typesWhereInput
+  none?: Prisma.tenant_activity_typesWhereInput
+}
+
+export type tenant_activity_typesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type tenant_activity_typesTenant_idActivity_type_idCompoundUniqueInput = {
@@ -311,6 +323,127 @@ export type tenant_activity_typesMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
 }
 
+export type tenant_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput = {
+  create?: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  connect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+}
+
+export type tenant_activity_typesUncheckedCreateNestedManyWithoutBusiness_activity_typesInput = {
+  create?: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  connect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+}
+
+export type tenant_activity_typesUpdateManyWithoutBusiness_activity_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  upsert?: Prisma.tenant_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  set?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  delete?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  connect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  update?: Prisma.tenant_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  updateMany?: Prisma.tenant_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput[]
+  deleteMany?: Prisma.tenant_activity_typesScalarWhereInput | Prisma.tenant_activity_typesScalarWhereInput[]
+}
+
+export type tenant_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput> | Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput[] | Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput[]
+  connectOrCreate?: Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput[]
+  upsert?: Prisma.tenant_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  createMany?: Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInputEnvelope
+  set?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  disconnect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  delete?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  connect?: Prisma.tenant_activity_typesWhereUniqueInput | Prisma.tenant_activity_typesWhereUniqueInput[]
+  update?: Prisma.tenant_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput[]
+  updateMany?: Prisma.tenant_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput | Prisma.tenant_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput[]
+  deleteMany?: Prisma.tenant_activity_typesScalarWhereInput | Prisma.tenant_activity_typesScalarWhereInput[]
+}
+
+export type tenant_activity_typesCreateWithoutBusiness_activity_typesInput = {
+  tenant_id: string
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+}
+
+export type tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput = {
+  tenant_id: string
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+}
+
+export type tenant_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput = {
+  where: Prisma.tenant_activity_typesWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput>
+}
+
+export type tenant_activity_typesCreateManyBusiness_activity_typesInputEnvelope = {
+  data: Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInput | Prisma.tenant_activity_typesCreateManyBusiness_activity_typesInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_activity_typesUpsertWithWhereUniqueWithoutBusiness_activity_typesInput = {
+  where: Prisma.tenant_activity_typesWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_activity_typesUpdateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput>
+  create: Prisma.XOR<Prisma.tenant_activity_typesCreateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput>
+}
+
+export type tenant_activity_typesUpdateWithWhereUniqueWithoutBusiness_activity_typesInput = {
+  where: Prisma.tenant_activity_typesWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_activity_typesUpdateWithoutBusiness_activity_typesInput, Prisma.tenant_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput>
+}
+
+export type tenant_activity_typesUpdateManyWithWhereWithoutBusiness_activity_typesInput = {
+  where: Prisma.tenant_activity_typesScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_activity_typesUpdateManyMutationInput, Prisma.tenant_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesInput>
+}
+
+export type tenant_activity_typesScalarWhereInput = {
+  AND?: Prisma.tenant_activity_typesScalarWhereInput | Prisma.tenant_activity_typesScalarWhereInput[]
+  OR?: Prisma.tenant_activity_typesScalarWhereInput[]
+  NOT?: Prisma.tenant_activity_typesScalarWhereInput | Prisma.tenant_activity_typesScalarWhereInput[]
+  tenant_id?: Prisma.UuidFilter<"tenant_activity_types"> | string
+  activity_type_id?: Prisma.UuidFilter<"tenant_activity_types"> | string
+  is_active?: Prisma.BoolFilter<"tenant_activity_types"> | boolean
+  created_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"tenant_activity_types"> | Date | string | null
+}
+
+export type tenant_activity_typesCreateManyBusiness_activity_typesInput = {
+  tenant_id: string
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+}
+
+export type tenant_activity_typesUpdateWithoutBusiness_activity_typesInput = {
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput = {
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesInput = {
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 
 
 export type tenant_activity_typesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -319,6 +452,7 @@ export type tenant_activity_typesSelect<ExtArgs extends runtime.Types.Extensions
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_activity_types"]>
 
 export type tenant_activity_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -327,6 +461,7 @@ export type tenant_activity_typesSelectCreateManyAndReturn<ExtArgs extends runti
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_activity_types"]>
 
 export type tenant_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -335,6 +470,7 @@ export type tenant_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runti
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_activity_types"]>
 
 export type tenant_activity_typesSelectScalar = {
@@ -346,10 +482,21 @@ export type tenant_activity_typesSelectScalar = {
 }
 
 export type tenant_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tenant_id" | "activity_type_id" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["tenant_activity_types"]>
+export type tenant_activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
+export type tenant_activity_typesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
+export type tenant_activity_typesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+}
 
 export type $tenant_activity_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "tenant_activity_types"
-  objects: {}
+  objects: {
+    business_activity_types: Prisma.$business_activity_typesPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     tenant_id: string
     activity_type_id: string
@@ -750,6 +897,7 @@ readonly fields: tenant_activity_typesFieldRefs;
  */
 export interface Prisma__tenant_activity_typesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  business_activity_types<T extends Prisma.business_activity_typesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.business_activity_typesDefaultArgs<ExtArgs>>): Prisma.Prisma__business_activity_typesClient<runtime.Types.Result.GetResult<Prisma.$business_activity_typesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -801,6 +949,10 @@ export type tenant_activity_typesFindUniqueArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_activity_types to fetch.
    */
   where: Prisma.tenant_activity_typesWhereUniqueInput
@@ -819,6 +971,10 @@ export type tenant_activity_typesFindUniqueOrThrowArgs<ExtArgs extends runtime.T
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_activity_types to fetch.
    */
   where: Prisma.tenant_activity_typesWhereUniqueInput
@@ -836,6 +992,10 @@ export type tenant_activity_typesFindFirstArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which tenant_activity_types to fetch.
    */
@@ -885,6 +1045,10 @@ export type tenant_activity_typesFindFirstOrThrowArgs<ExtArgs extends runtime.Ty
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_activity_types to fetch.
    */
   where?: Prisma.tenant_activity_typesWhereInput
@@ -932,6 +1096,10 @@ export type tenant_activity_typesFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
   /**
    * Filter, which tenant_activity_types to fetch.
    */
@@ -981,6 +1149,10 @@ export type tenant_activity_typesCreateArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
+  /**
    * The data needed to create a tenant_activity_types.
    */
   data: Prisma.XOR<Prisma.tenant_activity_typesCreateInput, Prisma.tenant_activity_typesUncheckedCreateInput>
@@ -1014,6 +1186,10 @@ export type tenant_activity_typesCreateManyAndReturnArgs<ExtArgs extends runtime
    */
   data: Prisma.tenant_activity_typesCreateManyInput | Prisma.tenant_activity_typesCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1028,6 +1204,10 @@ export type tenant_activity_typesUpdateArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
   /**
    * The data needed to update a tenant_activity_types.
    */
@@ -1080,6 +1260,10 @@ export type tenant_activity_typesUpdateManyAndReturnArgs<ExtArgs extends runtime
    * Limit how many tenant_activity_types to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1094,6 +1278,10 @@ export type tenant_activity_typesUpsertArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
   /**
    * The filter to search for the tenant_activity_types to update in case it exists.
    */
@@ -1120,6 +1308,10 @@ export type tenant_activity_typesDeleteArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
   /**
    * Filter which tenant_activity_types to delete.
    */
@@ -1152,4 +1344,8 @@ export type tenant_activity_typesDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the tenant_activity_types
    */
   omit?: Prisma.tenant_activity_typesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_activity_typesInclude<ExtArgs> | null
 }

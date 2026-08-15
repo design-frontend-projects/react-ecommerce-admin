@@ -273,7 +273,7 @@ export type Pos_reorder_requestsGroupByOutputType = {
   _max: Pos_reorder_requestsMaxAggregateOutputType | null
 }
 
-export type GetPos_reorder_requestsGroupByPayload<T extends pos_reorder_requestsGroupByArgs> = Prisma.PrismaPromise<
+type GetPos_reorder_requestsGroupByPayload<T extends pos_reorder_requestsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Pos_reorder_requestsGroupByOutputType, T['by']> &
       {

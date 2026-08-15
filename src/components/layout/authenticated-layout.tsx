@@ -1,4 +1,4 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, useLocation } from '@tanstack/react-router'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getCookie } from '@/lib/cookies'
 import { cn } from '@/lib/utils'
@@ -14,6 +14,9 @@ type AuthenticatedLayoutProps = {
 
 export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
   const defaultOpen = getCookie('sidebar_state') !== 'false'
+  const { pathname } = useLocation()
+  const isCompleteAccount = pathname === '/complete-account'
+
   return (
     <SearchProvider>
       <LayoutProvider>
@@ -25,7 +28,8 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
               '@container/content',
               'has-data-[layout=fixed]:h-svh',
               'peer-data-[variant=inset]:has-data-[layout=fixed]:h-[calc(100svh-(var(--spacing)*4))]',
-              'bg-background/80 backdrop-blur-sm'
+              'bg-background/80 backdrop-blur-sm transition-[filter,opacity] duration-300',
+              isCompleteAccount && 'pointer-events-none select-none blur-sm opacity-80'
             )}
           >
             <AnimatePresence mode='wait'>

@@ -388,6 +388,11 @@ export type screen_buttons = Prisma.screen_buttonsModel
  */
 export type user_permissions = Prisma.user_permissionsModel
 /**
+ * Model rbac_audit
+ * 
+ */
+export type rbac_audit = Prisma.rbac_auditModel
+/**
  * Model inventory_movements
  * 
  */

@@ -54,19 +54,20 @@ model addresses {
 }
 
 model branches {
-  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String    @db.VarChar(200)
-  city_id             String    @db.Uuid
+  id                  String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String         @db.VarChar(200)
+  city_id             String         @db.Uuid
   address             String?
-  phone               String?   @db.VarChar(20)
-  is_active           Boolean?  @default(true)
-  created_at          DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime? @default(now()) @db.Timestamptz(6)
-  auth_user_id        String?   @db.Uuid
-  tenant_id           String?   @db.Uuid
-  cities              cities    @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  phone               String?        @db.VarChar(20)
+  is_active           Boolean?       @default(true)
+  created_at          DateTime?      @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime?      @default(now()) @db.Timestamptz(6)
+  auth_user_id        String?        @db.Uuid
+  tenant_id           String?        @db.Uuid
+  cities              cities         @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stores              stores[]
-  default_for_tenants tenants[] @relation("tenant_default_branch")
+  default_for_tenants tenants[]      @relation("tenant_default_branch")
+  tenant_users        tenant_users[]
 }
 
 model categories {
@@ -182,14 +183,18 @@ model payment_types {
 }
 
 model permissions {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String    @db.VarChar(100)
-  description  String?   @db.VarChar(255)
-  created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
-  action       String?   @db.VarChar(50)
-  resource     String?   @db.VarChar(100)
-  auth_user_id String?   @default(dbgenerated("auth.uid()")) @db.Uuid
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String               @unique @db.VarChar(100)
+  description        String?              @db.VarChar(255)
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  action             String?              @db.VarChar(50)
+  resource           String?              @db.VarChar(100)
+  auth_user_id       String?              @default(dbgenerated("auth.uid()")) @db.Uuid
+  role_permissions   role_permissions[]
+  user_permissions   user_permissions[]
+  screen_permissions screen_permissions[]
+  screen_buttons     screen_buttons[]
 }
 
 model pos_terminals {
@@ -760,20 +765,25 @@ model res_void_requests {
 }
 
 model role_permissions {
-  role_id       String @db.Uuid
-  permission_id String @db.Uuid
+  role_id       String      @db.Uuid
+  permission_id String      @db.Uuid
+  roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([role_id, permission_id])
 }
 
 model roles {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String    @db.VarChar(100)
-  description String?   @db.VarChar(255)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
-  is_active   Boolean   @default(true)
-  is_system   Boolean   @default(false)
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String             @unique @db.VarChar(100)
+  description      String?            @db.VarChar(255)
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  is_active        Boolean            @default(true)
+  is_system        Boolean            @default(false)
+  user_roles       user_roles[]
+  role_permissions role_permissions[]
+  screen_roles     screen_roles[]
 }
 
 model sales_invoice_items {
@@ -1017,31 +1027,36 @@ model tenants {
   countries               countries?             @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   currencies              currencies?            @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   default_branch          branches?              @relation("tenant_default_branch", fields: [default_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenant_users            tenant_users[]
 
   @@index([auth_user_id], map: "idx_tenants_auth_user_id")
 }
 
 model tenant_users {
-  id                  String        @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_user_id        String?       @default(dbgenerated("auth.uid()")) @db.Uuid
-  email               String?       @db.VarChar(255)
-  phone               String?       @db.VarChar(20)
-  first_name          String?       @db.VarChar(100)
-  last_name           String?       @db.VarChar(100)
+  id                  String             @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_user_id        String?            @default(dbgenerated("auth.uid()")) @db.Uuid
+  email               String?            @db.VarChar(255)
+  phone               String?            @db.VarChar(20)
+  first_name          String?            @db.VarChar(100)
+  last_name           String?            @db.VarChar(100)
   avatar_url          String?
-  primary_module      user_module?  @default(inventory)
-  modules             user_module[] @default([inventory])
-  is_active           Boolean?      @default(true)
-  created_at          DateTime?     @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime?     @default(now()) @db.Timestamptz(6)
+  primary_module      user_module?       @default(inventory)
+  modules             user_module[]      @default([inventory])
+  is_active           Boolean?           @default(true)
+  created_at          DateTime?          @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime?          @default(now()) @db.Timestamptz(6)
   default_role        String?
-  onboarding_complete Boolean       @default(false)
-  is_restuarant_user  Boolean?      @default(false)
-  parent_tenant_id    String?       @db.Uuid
-  refund_pin_code     String?       @db.VarChar(255)
+  onboarding_complete Boolean            @default(false)
+  is_restuarant_user  Boolean?           @default(false)
+  parent_tenant_id    String?            @db.Uuid
+  refund_pin_code     String?            @db.VarChar(255)
   id_number           String?
-  tenant_id           String?       @db.Uuid
-  branch_id           String?       @db.Uuid
+  tenant_id           String?            @db.Uuid
+  branch_id           String?            @db.Uuid
+  branches            branches?          @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenants             tenants?           @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_roles          user_roles[]
+  user_permissions    user_permissions[]
 }
 
 model transaction_details {
@@ -1083,113 +1098,151 @@ model transactions {
 }
 
 model user_roles {
-  role_id        String @db.Uuid
-  tenant_user_id String @map("auth_user_id") @db.Uuid
+  role_id        String       @db.Uuid
+  tenant_user_id String       @map("auth_user_id") @db.Uuid
+  tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roles          roles        @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([tenant_user_id, role_id])
 }
 
 model business_activity_types {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String    @db.VarChar(50)
-  name        String    @db.VarChar(100)
-  description String?   @db.VarChar(255)
-  is_active   Boolean   @default(true)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                  String                  @unique @db.VarChar(50)
+  name                  String                  @db.VarChar(100)
+  description           String?                 @db.VarChar(255)
+  is_active             Boolean                 @default(true)
+  created_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  tenant_activity_types tenant_activity_types[]
+  module_activity_types module_activity_types[]
 }
 
 model tenant_activity_types {
-  tenant_id        String    @db.Uuid
-  activity_type_id String    @db.Uuid
-  is_active        Boolean   @default(true)
-  created_at       DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime? @default(now()) @db.Timestamptz(6)
+  tenant_id               String                  @db.Uuid
+  activity_type_id        String                  @db.Uuid
+  is_active               Boolean                 @default(true)
+  created_at              DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime?               @default(now()) @db.Timestamptz(6)
+  business_activity_types business_activity_types @relation(fields: [activity_type_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([tenant_id, activity_type_id])
 }
 
 model app_modules {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String    @db.VarChar(50)
-  name        String    @db.VarChar(100)
-  description String?   @db.VarChar(255)
-  sort_order  Int       @default(0)
-  is_active   Boolean   @default(true)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                  String                  @unique @db.VarChar(50)
+  name                  String                  @db.VarChar(100)
+  description           String?                 @db.VarChar(255)
+  sort_order            Int                     @default(0)
+  is_active             Boolean                 @default(true)
+  created_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  app_screens           app_screens[]
+  module_activity_types module_activity_types[]
 }
 
 model module_activity_types {
-  module_id        String    @db.Uuid
-  activity_type_id String    @db.Uuid
-  created_at       DateTime? @default(now()) @db.Timestamptz(6)
-  auth_user_id     String?   @default(dbgenerated("auth.uid()")) @db.Uuid
+  module_id               String                  @db.Uuid
+  activity_type_id        String                  @db.Uuid
+  created_at              DateTime?               @default(now()) @db.Timestamptz(6)
+  auth_user_id            String?                 @default(dbgenerated("auth.uid()")) @db.Uuid
+  app_modules             app_modules             @relation(fields: [module_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  business_activity_types business_activity_types @relation(fields: [activity_type_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([module_id, activity_type_id])
 }
 
 model app_screens {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String    @db.VarChar(100)
-  name        String    @db.VarChar(150)
-  route       String    @db.VarChar(255)
-  description String?   @db.VarChar(255)
-  icon        String?   @db.VarChar(100)
-  module_id   String    @db.Uuid
-  sort_order  Int       @default(0)
-  is_active   Boolean   @default(true)
-  is_system   Boolean   @default(false)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code               String               @unique @db.VarChar(100)
+  name               String               @db.VarChar(150)
+  route              String               @unique @db.VarChar(255)
+  description        String?              @db.VarChar(255)
+  icon               String?              @db.VarChar(100)
+  module_id          String               @db.Uuid
+  sort_order         Int                  @default(0)
+  is_active          Boolean              @default(true)
+  is_system          Boolean              @default(false)
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  app_modules        app_modules          @relation(fields: [module_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  screen_roles       screen_roles[]
+  screen_permissions screen_permissions[]
+  screen_buttons     screen_buttons[]
 }
 
 model screen_roles {
-  screen_id  String    @db.Uuid
-  role_id    String    @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  screen_id   String      @db.Uuid
+  role_id     String      @db.Uuid
+  created_at  DateTime?   @default(now()) @db.Timestamptz(6)
+  app_screens app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roles       roles       @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([screen_id, role_id])
 }
 
 model screen_permissions {
-  screen_id     String    @db.Uuid
-  permission_id String    @db.Uuid
-  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  screen_id     String      @db.Uuid
+  permission_id String      @db.Uuid
+  created_at    DateTime?   @default(now()) @db.Timestamptz(6)
+  app_screens   app_screens @relation(fields: [screen_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([screen_id, permission_id])
 }
 
 model permission_buttons {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code         String    @db.VarChar(50)
-  name         String    @db.VarChar(100)
-  description  String?   @db.VarChar(255)
-  is_system    Boolean   @default(false)
-  created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
-  auth_user_id String?   @default(dbgenerated("auth.uid()")) @db.Uuid
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code           String           @unique @db.VarChar(50)
+  name           String           @db.VarChar(100)
+  description    String?          @db.VarChar(255)
+  is_system      Boolean          @default(false)
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  auth_user_id   String?          @default(dbgenerated("auth.uid()")) @db.Uuid
+  screen_buttons screen_buttons[]
 }
 
 model screen_buttons {
-  screen_id     String    @db.Uuid
-  button_id     String    @db.Uuid
-  permission_id String    @db.Uuid
-  is_active     Boolean   @default(true)
-  created_at    DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime? @default(now()) @db.Timestamptz(6)
+  screen_id          String             @db.Uuid
+  button_id          String             @db.Uuid
+  permission_id      String             @db.Uuid
+  is_active          Boolean            @default(true)
+  created_at         DateTime?          @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?          @default(now()) @db.Timestamptz(6)
+  app_screens        app_screens        @relation(fields: [screen_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permission_buttons permission_buttons @relation(fields: [button_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permissions        permissions        @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([screen_id, button_id])
 }
 
 model user_permissions {
-  tenant_user_id String    @db.Uuid
-  permission_id  String    @db.Uuid
-  is_granted     Boolean   @default(true)
-  created_at     DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime? @default(now()) @db.Timestamptz(6)
+  tenant_user_id String       @db.Uuid
+  permission_id  String       @db.Uuid
+  is_granted     Boolean      @default(true)
+  created_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  tenant_users   tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permissions    permissions  @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([tenant_user_id, permission_id])
+}
+
+model rbac_audit {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actor_auth_user_id String?   @db.Uuid
+  tenant_id          String?   @db.Uuid
+  action             String    @db.VarChar(100)
+  target_type        String    @db.VarChar(100)
+  target_id          String    @db.VarChar(255)
+  diff               Json?
+  created_at         DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at(sort: Desc)], map: "idx_rbac_audit_created_at")
+  @@index([target_type, target_id], map: "idx_rbac_audit_target")
+  @@index([tenant_id, created_at(sort: Desc)], map: "idx_rbac_audit_tenant_created")
 }
 
 model inventory_movements {

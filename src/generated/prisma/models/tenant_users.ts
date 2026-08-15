@@ -259,7 +259,7 @@ export type Tenant_usersGroupByOutputType = {
   _max: Tenant_usersMaxAggregateOutputType | null
 }
 
-export type GetTenant_usersGroupByPayload<T extends tenant_usersGroupByArgs> = Prisma.PrismaPromise<
+type GetTenant_usersGroupByPayload<T extends tenant_usersGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tenant_usersGroupByOutputType, T['by']> &
       {
@@ -298,6 +298,10 @@ export type tenant_usersWhereInput = {
   id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  user_roles?: Prisma.User_rolesListRelationFilter
+  user_permissions?: Prisma.User_permissionsListRelationFilter
 }
 
 export type tenant_usersOrderByWithRelationInput = {
@@ -321,6 +325,10 @@ export type tenant_usersOrderByWithRelationInput = {
   id_number?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  branches?: Prisma.branchesOrderByWithRelationInput
+  tenants?: Prisma.tenantsOrderByWithRelationInput
+  user_roles?: Prisma.user_rolesOrderByRelationAggregateInput
+  user_permissions?: Prisma.user_permissionsOrderByRelationAggregateInput
 }
 
 export type tenant_usersWhereUniqueInput = Prisma.AtLeast<{
@@ -347,6 +355,10 @@ export type tenant_usersWhereUniqueInput = Prisma.AtLeast<{
   id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  user_roles?: Prisma.User_rolesListRelationFilter
+  user_permissions?: Prisma.User_permissionsListRelationFilter
 }, "id">
 
 export type tenant_usersOrderByWithAggregationInput = {
@@ -420,8 +432,10 @@ export type tenant_usersCreateInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
-  tenant_id?: string | null
-  branch_id?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
 }
 
 export type tenant_usersUncheckedCreateInput = {
@@ -445,6 +459,8 @@ export type tenant_usersUncheckedCreateInput = {
   id_number?: string | null
   tenant_id?: string | null
   branch_id?: string | null
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
 }
 
 export type tenant_usersUpdateInput = {
@@ -466,8 +482,10 @@ export type tenant_usersUpdateInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
 }
 
 export type tenant_usersUncheckedUpdateInput = {
@@ -491,6 +509,8 @@ export type tenant_usersUncheckedUpdateInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
 }
 
 export type tenant_usersCreateManyInput = {
@@ -535,8 +555,6 @@ export type tenant_usersUpdateManyMutationInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type tenant_usersUncheckedUpdateManyInput = {
@@ -560,6 +578,16 @@ export type tenant_usersUncheckedUpdateManyInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Tenant_usersListRelationFilter = {
+  every?: Prisma.tenant_usersWhereInput
+  some?: Prisma.tenant_usersWhereInput
+  none?: Prisma.tenant_usersWhereInput
+}
+
+export type tenant_usersOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type Enumuser_moduleNullableListFilter<$PrismaModel = never> = {
@@ -637,6 +665,95 @@ export type tenant_usersMinOrderByAggregateInput = {
   branch_id?: Prisma.SortOrder
 }
 
+export type Tenant_usersScalarRelationFilter = {
+  is?: Prisma.tenant_usersWhereInput
+  isNot?: Prisma.tenant_usersWhereInput
+}
+
+export type tenant_usersCreateNestedManyWithoutBranchesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput> | Prisma.tenant_usersCreateWithoutBranchesInput[] | Prisma.tenant_usersUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutBranchesInput | Prisma.tenant_usersCreateOrConnectWithoutBranchesInput[]
+  createMany?: Prisma.tenant_usersCreateManyBranchesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutBranchesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput> | Prisma.tenant_usersCreateWithoutBranchesInput[] | Prisma.tenant_usersUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutBranchesInput | Prisma.tenant_usersCreateOrConnectWithoutBranchesInput[]
+  createMany?: Prisma.tenant_usersCreateManyBranchesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutBranchesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput> | Prisma.tenant_usersCreateWithoutBranchesInput[] | Prisma.tenant_usersUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutBranchesInput | Prisma.tenant_usersCreateOrConnectWithoutBranchesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutBranchesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutBranchesInput[]
+  createMany?: Prisma.tenant_usersCreateManyBranchesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput> | Prisma.tenant_usersCreateWithoutBranchesInput[] | Prisma.tenant_usersUncheckedCreateWithoutBranchesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutBranchesInput | Prisma.tenant_usersCreateOrConnectWithoutBranchesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutBranchesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutBranchesInput[]
+  createMany?: Prisma.tenant_usersCreateManyBranchesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput> | Prisma.tenant_usersCreateWithoutTenantsInput[] | Prisma.tenant_usersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutTenantsInput | Prisma.tenant_usersCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.tenant_usersCreateManyTenantsInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput> | Prisma.tenant_usersCreateWithoutTenantsInput[] | Prisma.tenant_usersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutTenantsInput | Prisma.tenant_usersCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.tenant_usersCreateManyTenantsInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput> | Prisma.tenant_usersCreateWithoutTenantsInput[] | Prisma.tenant_usersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutTenantsInput | Prisma.tenant_usersCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.tenant_usersCreateManyTenantsInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutTenantsInput | Prisma.tenant_usersUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput> | Prisma.tenant_usersCreateWithoutTenantsInput[] | Prisma.tenant_usersUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutTenantsInput | Prisma.tenant_usersCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutTenantsInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.tenant_usersCreateManyTenantsInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutTenantsInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutTenantsInput | Prisma.tenant_usersUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
 export type tenant_usersCreatemodulesInput = {
   set: $Enums.user_module[]
 }
@@ -650,6 +767,654 @@ export type tenant_usersUpdatemodulesInput = {
   push?: $Enums.user_module | $Enums.user_module[]
 }
 
+export type tenant_usersCreateNestedOneWithoutUser_rolesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedCreateWithoutUser_rolesInput>
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutUser_rolesInput
+  connect?: Prisma.tenant_usersWhereUniqueInput
+}
+
+export type tenant_usersUpdateOneRequiredWithoutUser_rolesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedCreateWithoutUser_rolesInput>
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutUser_rolesInput
+  upsert?: Prisma.tenant_usersUpsertWithoutUser_rolesInput
+  connect?: Prisma.tenant_usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_usersUpdateToOneWithWhereWithoutUser_rolesInput, Prisma.tenant_usersUpdateWithoutUser_rolesInput>, Prisma.tenant_usersUncheckedUpdateWithoutUser_rolesInput>
+}
+
+export type tenant_usersCreateNestedOneWithoutUser_permissionsInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedCreateWithoutUser_permissionsInput>
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutUser_permissionsInput
+  connect?: Prisma.tenant_usersWhereUniqueInput
+}
+
+export type tenant_usersUpdateOneRequiredWithoutUser_permissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedCreateWithoutUser_permissionsInput>
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutUser_permissionsInput
+  upsert?: Prisma.tenant_usersUpsertWithoutUser_permissionsInput
+  connect?: Prisma.tenant_usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_usersUpdateToOneWithWhereWithoutUser_permissionsInput, Prisma.tenant_usersUpdateWithoutUser_permissionsInput>, Prisma.tenant_usersUncheckedUpdateWithoutUser_permissionsInput>
+}
+
+export type tenant_usersCreateWithoutBranchesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutBranchesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutBranchesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput>
+}
+
+export type tenant_usersCreateManyBranchesInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyBranchesInput | Prisma.tenant_usersCreateManyBranchesInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutBranchesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutBranchesInput, Prisma.tenant_usersUncheckedUpdateWithoutBranchesInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutBranchesInput, Prisma.tenant_usersUncheckedCreateWithoutBranchesInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutBranchesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutBranchesInput, Prisma.tenant_usersUncheckedUpdateWithoutBranchesInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutBranchesInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesInput>
+}
+
+export type tenant_usersScalarWhereInput = {
+  AND?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+  OR?: Prisma.tenant_usersScalarWhereInput[]
+  NOT?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+  id?: Prisma.UuidFilter<"tenant_users"> | string
+  auth_user_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  email?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  phone?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  first_name?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  last_name?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  avatar_url?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  primary_module?: Prisma.Enumuser_moduleNullableFilter<"tenant_users"> | $Enums.user_module | null
+  modules?: Prisma.Enumuser_moduleNullableListFilter<"tenant_users">
+  is_active?: Prisma.BoolNullableFilter<"tenant_users"> | boolean | null
+  created_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  default_role?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  onboarding_complete?: Prisma.BoolFilter<"tenant_users"> | boolean
+  is_restuarant_user?: Prisma.BoolNullableFilter<"tenant_users"> | boolean | null
+  parent_tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  refund_pin_code?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+}
+
+export type tenant_usersCreateWithoutTenantsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  branch_id?: string | null
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput>
+}
+
+export type tenant_usersCreateManyTenantsInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyTenantsInput | Prisma.tenant_usersCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutTenantsInput, Prisma.tenant_usersUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutTenantsInput, Prisma.tenant_usersUncheckedCreateWithoutTenantsInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutTenantsInput, Prisma.tenant_usersUncheckedUpdateWithoutTenantsInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type tenant_usersCreateWithoutUser_rolesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutUser_rolesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutUser_rolesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedCreateWithoutUser_rolesInput>
+}
+
+export type tenant_usersUpsertWithoutUser_rolesInput = {
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedUpdateWithoutUser_rolesInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedCreateWithoutUser_rolesInput>
+  where?: Prisma.tenant_usersWhereInput
+}
+
+export type tenant_usersUpdateToOneWithWhereWithoutUser_rolesInput = {
+  where?: Prisma.tenant_usersWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutUser_rolesInput, Prisma.tenant_usersUncheckedUpdateWithoutUser_rolesInput>
+}
+
+export type tenant_usersUpdateWithoutUser_rolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutUser_rolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersCreateWithoutUser_permissionsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutUser_permissionsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutUser_permissionsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedCreateWithoutUser_permissionsInput>
+}
+
+export type tenant_usersUpsertWithoutUser_permissionsInput = {
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedUpdateWithoutUser_permissionsInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedCreateWithoutUser_permissionsInput>
+  where?: Prisma.tenant_usersWhereInput
+}
+
+export type tenant_usersUpdateToOneWithWhereWithoutUser_permissionsInput = {
+  where?: Prisma.tenant_usersWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutUser_permissionsInput, Prisma.tenant_usersUncheckedUpdateWithoutUser_permissionsInput>
+}
+
+export type tenant_usersUpdateWithoutUser_permissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutUser_permissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersCreateManyBranchesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+}
+
+export type tenant_usersUpdateWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutBranchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type tenant_usersCreateManyTenantsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  branch_id?: string | null
+}
+
+export type tenant_usersUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Tenant_usersCountOutputType
+ */
+
+export type Tenant_usersCountOutputType = {
+  user_roles: number
+  user_permissions: number
+}
+
+export type Tenant_usersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user_roles?: boolean | Tenant_usersCountOutputTypeCountUser_rolesArgs
+  user_permissions?: boolean | Tenant_usersCountOutputTypeCountUser_permissionsArgs
+}
+
+/**
+ * Tenant_usersCountOutputType without action
+ */
+export type Tenant_usersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tenant_usersCountOutputType
+   */
+  select?: Prisma.Tenant_usersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Tenant_usersCountOutputType without action
+ */
+export type Tenant_usersCountOutputTypeCountUser_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_rolesWhereInput
+}
+
+/**
+ * Tenant_usersCountOutputType without action
+ */
+export type Tenant_usersCountOutputTypeCountUser_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_permissionsWhereInput
+}
 
 
 export type tenant_usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -673,6 +1438,11 @@ export type tenant_usersSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
+  user_roles?: boolean | Prisma.tenant_users$user_rolesArgs<ExtArgs>
+  user_permissions?: boolean | Prisma.tenant_users$user_permissionsArgs<ExtArgs>
+  _count?: boolean | Prisma.Tenant_usersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_users"]>
 
 export type tenant_usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -696,6 +1466,8 @@ export type tenant_usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_users"]>
 
 export type tenant_usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -719,6 +1491,8 @@ export type tenant_usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_users"]>
 
 export type tenant_usersSelectScalar = {
@@ -745,10 +1519,30 @@ export type tenant_usersSelectScalar = {
 }
 
 export type tenant_usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "phone" | "first_name" | "last_name" | "avatar_url" | "primary_module" | "modules" | "is_active" | "created_at" | "updated_at" | "default_role" | "onboarding_complete" | "is_restuarant_user" | "parent_tenant_id" | "refund_pin_code" | "id_number" | "tenant_id" | "branch_id", ExtArgs["result"]["tenant_users"]>
+export type tenant_usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
+  user_roles?: boolean | Prisma.tenant_users$user_rolesArgs<ExtArgs>
+  user_permissions?: boolean | Prisma.tenant_users$user_permissionsArgs<ExtArgs>
+  _count?: boolean | Prisma.Tenant_usersCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type tenant_usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
+}
+export type tenant_usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
+}
 
 export type $tenant_usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "tenant_users"
-  objects: {}
+  objects: {
+    branches: Prisma.$branchesPayload<ExtArgs> | null
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
+    user_roles: Prisma.$user_rolesPayload<ExtArgs>[]
+    user_permissions: Prisma.$user_permissionsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     auth_user_id: string | null
@@ -1164,6 +1958,10 @@ readonly fields: tenant_usersFieldRefs;
  */
 export interface Prisma__tenant_usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  branches<T extends Prisma.tenant_users$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenants<T extends Prisma.tenant_users$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user_roles<T extends Prisma.tenant_users$user_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$user_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user_permissions<T extends Prisma.tenant_users$user_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$user_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1230,6 +2028,10 @@ export type tenant_usersFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_users to fetch.
    */
   where: Prisma.tenant_usersWhereUniqueInput
@@ -1248,6 +2050,10 @@ export type tenant_usersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_users to fetch.
    */
   where: Prisma.tenant_usersWhereUniqueInput
@@ -1265,6 +2071,10 @@ export type tenant_usersFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the tenant_users
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
   /**
    * Filter, which tenant_users to fetch.
    */
@@ -1314,6 +2124,10 @@ export type tenant_usersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
+  /**
    * Filter, which tenant_users to fetch.
    */
   where?: Prisma.tenant_usersWhereInput
@@ -1361,6 +2175,10 @@ export type tenant_usersFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the tenant_users
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
   /**
    * Filter, which tenant_users to fetch.
    */
@@ -1410,6 +2228,10 @@ export type tenant_usersCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
+  /**
    * The data needed to create a tenant_users.
    */
   data?: Prisma.XOR<Prisma.tenant_usersCreateInput, Prisma.tenant_usersUncheckedCreateInput>
@@ -1443,6 +2265,10 @@ export type tenant_usersCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.tenant_usersCreateManyInput | Prisma.tenant_usersCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1457,6 +2283,10 @@ export type tenant_usersUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the tenant_users
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
   /**
    * The data needed to update a tenant_users.
    */
@@ -1509,6 +2339,10 @@ export type tenant_usersUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many tenant_users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1523,6 +2357,10 @@ export type tenant_usersUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the tenant_users
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
   /**
    * The filter to search for the tenant_users to update in case it exists.
    */
@@ -1550,6 +2388,10 @@ export type tenant_usersDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
+  /**
    * Filter which tenant_users to delete.
    */
   where: Prisma.tenant_usersWhereUniqueInput
@@ -1570,6 +2412,92 @@ export type tenant_usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * tenant_users.branches
+ */
+export type tenant_users$branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the branches
+   */
+  select?: Prisma.branchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the branches
+   */
+  omit?: Prisma.branchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.branchesInclude<ExtArgs> | null
+  where?: Prisma.branchesWhereInput
+}
+
+/**
+ * tenant_users.tenants
+ */
+export type tenant_users$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+}
+
+/**
+ * tenant_users.user_roles
+ */
+export type tenant_users$user_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_roles
+   */
+  select?: Prisma.user_rolesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_roles
+   */
+  omit?: Prisma.user_rolesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_rolesInclude<ExtArgs> | null
+  where?: Prisma.user_rolesWhereInput
+  orderBy?: Prisma.user_rolesOrderByWithRelationInput | Prisma.user_rolesOrderByWithRelationInput[]
+  cursor?: Prisma.user_rolesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_rolesScalarFieldEnum | Prisma.User_rolesScalarFieldEnum[]
+}
+
+/**
+ * tenant_users.user_permissions
+ */
+export type tenant_users$user_permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_permissions
+   */
+  select?: Prisma.user_permissionsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_permissions
+   */
+  omit?: Prisma.user_permissionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_permissionsInclude<ExtArgs> | null
+  where?: Prisma.user_permissionsWhereInput
+  orderBy?: Prisma.user_permissionsOrderByWithRelationInput | Prisma.user_permissionsOrderByWithRelationInput[]
+  cursor?: Prisma.user_permissionsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_permissionsScalarFieldEnum | Prisma.User_permissionsScalarFieldEnum[]
+}
+
+/**
  * tenant_users without action
  */
 export type tenant_usersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1581,4 +2509,8 @@ export type tenant_usersDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the tenant_users
    */
   omit?: Prisma.tenant_usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_usersInclude<ExtArgs> | null
 }

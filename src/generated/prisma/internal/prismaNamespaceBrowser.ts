@@ -125,6 +125,7 @@ export const ModelName = {
   permission_buttons: 'permission_buttons',
   screen_buttons: 'screen_buttons',
   user_permissions: 'user_permissions',
+  rbac_audit: 'rbac_audit',
   inventory_movements: 'inventory_movements',
   stock_balances: 'stock_balances',
   stock_transfers: 'stock_transfers',
@@ -1520,6 +1521,20 @@ export const User_permissionsScalarFieldEnum = {
 } as const
 
 export type User_permissionsScalarFieldEnum = (typeof User_permissionsScalarFieldEnum)[keyof typeof User_permissionsScalarFieldEnum]
+
+
+export const Rbac_auditScalarFieldEnum = {
+  id: 'id',
+  actor_auth_user_id: 'actor_auth_user_id',
+  tenant_id: 'tenant_id',
+  action: 'action',
+  target_type: 'target_type',
+  target_id: 'target_id',
+  diff: 'diff',
+  created_at: 'created_at'
+} as const
+
+export type Rbac_auditScalarFieldEnum = (typeof Rbac_auditScalarFieldEnum)[keyof typeof Rbac_auditScalarFieldEnum]
 
 
 export const Inventory_movementsScalarFieldEnum = {
