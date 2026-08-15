@@ -35,8 +35,6 @@ export type PosCategory = {
 }
 
 export async function getPosProducts(): Promise<PosProduct[]> {
-  // Offline reads are served by the persisted query cache + the service-worker
-  // Supabase cache (NetworkFirst), so no per-call IndexedDB fallback is needed.
   const { data, error } = await supabase
     .from('products')
     .select(
@@ -106,8 +104,6 @@ export async function getPosProducts(): Promise<PosProduct[]> {
 }
 
 export async function getPosCategories(): Promise<PosCategory[]> {
-  // Offline reads are served by the persisted query cache + the service-worker
-  // Supabase cache; no per-call IndexedDB fallback is needed.
   const { data, error } = await supabase
     .from('categories')
     .select('category_id, name, slug')

@@ -7,8 +7,7 @@ import type { PosProduct } from '../data/api'
  *
  * Adapter hook: exposes the same `{ products, isLoading }` shape the POS layout
  * previously got from `useQuery(['pos-products'])`, so swapping a consumer over
- * is a drop-in. Offline durability comes from the persisted query cache + the
- * service-worker Supabase cache; no per-hook IndexedDB fallback is needed.
+ * is a drop-in.
  */
 export function usePosProducts(): {
   products: PosProduct[]

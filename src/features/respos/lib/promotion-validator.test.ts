@@ -89,13 +89,6 @@ describe('validatePromoCode', () => {
     expect(result.error?.key).toBe('respos.promo.error.empty')
   })
 
-  it('returns the offline error key when navigator.onLine is false', async () => {
-    vi.stubGlobal('navigator', { onLine: false })
-    const result = await validatePromoCode('SAVE10', ctx)
-    expect(result.valid).toBe(false)
-    expect(result.error?.key).toBe('respos.promo.error.offline')
-  })
-
   it('queries the promotions table (not res_promotions) with a normalized code', async () => {
     mockTables({ promotion: promoRow() })
     await validatePromoCode('  save10 ', ctx)

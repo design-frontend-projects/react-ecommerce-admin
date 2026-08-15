@@ -29,7 +29,6 @@ import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
 import { Route as AuthenticatedAreasRouteImport } from './routes/_authenticated/areas'
 import { Route as AuthenticatedSystemRouteImport } from './routes/_authenticated/_system'
-import { Route as errorsOfflineRouteImport } from './routes/(errors)/offline'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -277,11 +276,6 @@ const AuthenticatedAreasRoute = AuthenticatedAreasRouteImport.update({
 const AuthenticatedSystemRoute = AuthenticatedSystemRouteImport.update({
   id: '/_system',
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const errorsOfflineRoute = errorsOfflineRouteImport.update({
-  id: '/(errors)/offline',
-  path: '/offline',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const errors503Route = errors503RouteImport.update({
   id: '/(errors)/503',
@@ -1076,7 +1070,6 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
-  '/offline': typeof errorsOfflineRoute
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
@@ -1229,7 +1222,6 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
-  '/offline': typeof errorsOfflineRoute
   '/': typeof AuthenticatedIndexRoute
   '/areas': typeof AuthenticatedAreasRoute
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
@@ -1387,7 +1379,6 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
-  '/(errors)/offline': typeof errorsOfflineRoute
   '/_authenticated/_system': typeof AuthenticatedSystemRouteWithChildren
   '/_authenticated/areas': typeof AuthenticatedAreasRoute
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
@@ -1547,7 +1538,6 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
-    | '/offline'
     | '/areas'
     | '/complete-account'
     | '/force-password-change'
@@ -1700,7 +1690,6 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
-    | '/offline'
     | '/'
     | '/areas'
     | '/complete-account'
@@ -1857,7 +1846,6 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
-    | '/(errors)/offline'
     | '/_authenticated/_system'
     | '/_authenticated/areas'
     | '/_authenticated/complete-account'
@@ -1997,7 +1985,6 @@ export interface RootRouteChildren {
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
-  errorsOfflineRoute: typeof errorsOfflineRoute
   ApiNotificationsRoute: typeof ApiNotificationsRoute
   ApiRbacRoute: typeof ApiRbacRouteWithChildren
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
@@ -2187,13 +2174,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedSystemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/(errors)/offline': {
-      id: '/(errors)/offline'
-      path: '/offline'
-      fullPath: '/offline'
-      preLoaderRoute: typeof errorsOfflineRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/(errors)/503': {
       id: '/(errors)/503'
@@ -3552,7 +3532,6 @@ const rootRouteChildren: RootRouteChildren = {
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
-  errorsOfflineRoute: errorsOfflineRoute,
   ApiNotificationsRoute: ApiNotificationsRoute,
   ApiRbacRoute: ApiRbacRouteWithChildren,
   ApiUsersRoute: ApiUsersRouteWithChildren,

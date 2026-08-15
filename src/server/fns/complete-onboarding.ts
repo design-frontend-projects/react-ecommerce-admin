@@ -77,10 +77,15 @@ export async function completeTenantOnboarding(
   }
 
   // 2. Fetch country and its default currency
+  console.log(input)
+  console.log('input country id: ', input.countryId)
+
   const country = await prisma.countries.findUnique({
     where: { id: input.countryId },
     include: { currencies: true },
   })
+  console.log('fetched country data')
+  console.log(country)
 
   if (!country) {
     throw new Error('Selected country not found.')

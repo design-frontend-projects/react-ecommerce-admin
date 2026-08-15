@@ -28,11 +28,6 @@ export interface PromoValidationContext {
   customerMobile?: string
 }
 
-function isOffline(): boolean {
-  // Only an explicit false counts — Node exposes a navigator without onLine.
-  return typeof navigator !== 'undefined' && navigator.onLine === false
-}
-
 async function fetchUsageCounts(
   promotionId: number,
   customerMobile?: string
@@ -71,14 +66,6 @@ export async function validatePromotion(
   promotion: ResPromotion,
   ctx: PromoValidationContext
 ): Promise<PromoValidationResult> {
-  if (isOffline()) {
-    return {
-      valid: false,
-      discountAmount: 0,
-      error: { key: 'respos.promo.error.offline' },
-    }
-  }
-
   const { usageCount, customerUsageCount } = await fetchUsageCounts(
     promotion.promotion_id,
     ctx.customerMobile
@@ -128,14 +115,6 @@ export async function validatePromoCode(
     }
   }
 
-  if (isOffline()) {
-    return {
-      valid: false,
-      discountAmount: 0,
-      error: { key: 'respos.promo.error.offline' },
-    }
-  }
-
   const { data, error } = await supabase
     .from('promotions')
     .select(PROMOTION_SELECT)
@@ -162,14 +141,6 @@ export async function validatePromotionById(
   promotionId: number,
   ctx: PromoValidationContext
 ): Promise<PromoValidationResult> {
-  if (isOffline()) {
-    return {
-      valid: false,
-      discountAmount: 0,
-      error: { key: 'respos.promo.error.offline' },
-    }
-  }
-
   const { data, error } = await supabase
     .from('promotions')
     .select(PROMOTION_SELECT)
@@ -196,8 +167,6 @@ export async function validatePromotionById(
 export async function fetchEligiblePromotions(
   orderType: OrderChannel
 ): Promise<ResPromotion[]> {
-  if (isOffline()) return []
-
   const nowIso = new Date().toISOString()
   const { data, error } = await supabase
     .from('promotions')
