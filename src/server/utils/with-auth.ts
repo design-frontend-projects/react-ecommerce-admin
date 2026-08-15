@@ -47,9 +47,11 @@ function toAllOf(required: PermissionRequirement): KnownPermission[] {
   return []
 }
 
-function statusForAuthError(error: unknown): 401 | 403 {
+function statusForAuthError(error: unknown): 401 | 403 | 500 {
   const message = error instanceof Error ? error.message : ''
-  return message.startsWith('Forbidden') ? 403 : 401
+  if (message.startsWith('Forbidden')) return 403
+  if (message.startsWith('Unauthorized')) return 401
+  return 500
 }
 
 /**

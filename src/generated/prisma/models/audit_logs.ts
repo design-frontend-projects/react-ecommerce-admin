@@ -195,7 +195,7 @@ export type Audit_logsGroupByOutputType = {
   _max: Audit_logsMaxAggregateOutputType | null
 }
 
-export type GetAudit_logsGroupByPayload<T extends audit_logsGroupByArgs> = Prisma.PrismaPromise<
+type GetAudit_logsGroupByPayload<T extends audit_logsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Audit_logsGroupByOutputType, T['by']> &
       {

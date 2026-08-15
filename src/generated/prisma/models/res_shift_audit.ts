@@ -178,7 +178,7 @@ export type Res_shift_auditGroupByOutputType = {
   _max: Res_shift_auditMaxAggregateOutputType | null
 }
 
-export type GetRes_shift_auditGroupByPayload<T extends res_shift_auditGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_shift_auditGroupByPayload<T extends res_shift_auditGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_shift_auditGroupByOutputType, T['by']> &
       {
