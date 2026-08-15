@@ -193,7 +193,7 @@ export type Notification_templatesGroupByOutputType = {
   _max: Notification_templatesMaxAggregateOutputType | null
 }
 
-type GetNotification_templatesGroupByPayload<T extends notification_templatesGroupByArgs> = Prisma.PrismaPromise<
+export type GetNotification_templatesGroupByPayload<T extends notification_templatesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Notification_templatesGroupByOutputType, T['by']> &
       {

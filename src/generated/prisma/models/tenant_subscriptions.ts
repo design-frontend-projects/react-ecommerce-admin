@@ -269,7 +269,7 @@ export type Tenant_subscriptionsGroupByOutputType = {
   _max: Tenant_subscriptionsMaxAggregateOutputType | null
 }
 
-type GetTenant_subscriptionsGroupByPayload<T extends tenant_subscriptionsGroupByArgs> = Prisma.PrismaPromise<
+export type GetTenant_subscriptionsGroupByPayload<T extends tenant_subscriptionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tenant_subscriptionsGroupByOutputType, T['by']> &
       {
