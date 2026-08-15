@@ -22,11 +22,9 @@ const GET = withAuth(
     const offset = Math.max(Number(searchParams.get('offset') ?? '0') || 0, 0)
     const targetType = searchParams.get('targetType') ?? undefined
 
-    const ownerProfile = (await prisma.profiles.findFirst({
-      where: { auth_user_id: auth.userId },
-      select: { system_owner: true },
-    })) as { system_owner: boolean | null } | null
-    const isSystemOwner = ownerProfile?.system_owner === true
+    const isSystemOwner =
+      auth.roleNames.includes('super_admin') ||
+      auth.roleNames.includes('system_owner')
 
     const tenantId = isSystemOwner ? null : await getTenantId()
     if (!isSystemOwner && !tenantId) {

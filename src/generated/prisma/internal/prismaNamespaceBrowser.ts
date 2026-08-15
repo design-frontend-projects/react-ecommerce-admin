@@ -71,7 +71,6 @@ export const ModelName = {
   products: 'products',
   inventory: 'inventory',
   pos_reorder_requests: 'pos_reorder_requests',
-  profiles: 'profiles',
   promotion_usage: 'promotion_usage',
   promotions: 'promotions',
   promotion_menu_scopes: 'promotion_menu_scopes',
@@ -194,7 +193,7 @@ export type Activity_typesScalarFieldEnum = (typeof Activity_typesScalarFieldEnu
 
 export const Audit_logsScalarFieldEnum = {
   id: 'id',
-  profile_id: 'profile_id',
+  user_id: 'user_id',
   activity_type_id: 'activity_type_id',
   action: 'action',
   entity_type: 'entity_type',
@@ -532,26 +531,6 @@ export const Pos_reorder_requestsScalarFieldEnum = {
 } as const
 
 export type Pos_reorder_requestsScalarFieldEnum = (typeof Pos_reorder_requestsScalarFieldEnum)[keyof typeof Pos_reorder_requestsScalarFieldEnum]
-
-
-export const ProfilesScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  phone: 'phone',
-  is_owner: 'is_owner',
-  system_owner: 'system_owner',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  activity: 'activity',
-  auth_user_id: 'auth_user_id',
-  branch_id: 'branch_id',
-  role: 'role',
-  payment_method: 'payment_method'
-} as const
-
-export type ProfilesScalarFieldEnum = (typeof ProfilesScalarFieldEnum)[keyof typeof ProfilesScalarFieldEnum]
 
 
 export const Promotion_usageScalarFieldEnum = {
@@ -1379,7 +1358,8 @@ export const Tenant_usersScalarFieldEnum = {
   parent_tenant_id: 'parent_tenant_id',
   tenant_id: 'tenant_id',
   refund_pin_code: 'refund_pin_code',
-  id_number: 'id_number'
+  id_number: 'id_number',
+  branch_id: 'branch_id'
 } as const
 
 export type Tenant_usersScalarFieldEnum = (typeof Tenant_usersScalarFieldEnum)[keyof typeof Tenant_usersScalarFieldEnum]

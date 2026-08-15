@@ -2,7 +2,6 @@ import type { User, Session } from '@supabase/supabase-js'
 import { create } from 'zustand'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 import { supabase } from '@/lib/supabase'
-import type { Profile } from '@/features/auth/services/profile-service'
 import {
   expandPermissionNames,
   getFallbackPermissionNamesForRoles,
@@ -10,6 +9,19 @@ import {
 import { useRBACStore } from '@/features/users/data/store'
 
 const SELECTED_BRANCH = 'respos_selected_branch'
+
+export interface UserProfile {
+  id?: string
+  auth_user_id?: string
+  email?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  phone?: string | null
+  branch_id?: string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_active?: boolean | null
+}
 
 interface AuthState {
   auth: {
@@ -19,8 +31,8 @@ interface AuthState {
     setUser: (user: User | null) => void
     session: Session | null
     setSession: (session: Session | null) => void
-    profile: Profile | null
-    setProfile: (profile: Profile | null) => void
+    profile: UserProfile | null
+    setProfile: (profile: UserProfile | null) => void
     selectedBranchId: string
     setSelectedBranchId: (branchId: string) => void
     reset: () => void
@@ -48,36 +60,27 @@ export const useAuthStore = create<AuthState>()((set) => {
         set((state) => {
           if (profile) {
             const rbac = useRBACStore.getState()
-            // The server resolver (useRBACSession → /api/rbac/me/access) is
-            // authoritative. Only seed the profile-derived fallback while the
-            // server has not answered yet for this user, so the fallback can
-            // never overwrite real role/permission data.
+            const authUserId = profile.auth_user_id
             const serverSynced =
-              rbac.currentUserId === profile.auth_user_id &&
+              authUserId &&
+              rbac.currentUserId === authUserId &&
               (rbac.lastSyncSource === 'bootstrap' ||
                 rbac.lastSyncSource === 'realtime')
 
-            if (!serverSynced) {
-              const role = profile.role
+            if (!serverSynced && authUserId) {
+              const role = profile.default_role
               const roleNames = role ? [role] : []
               let permissionNames: string[] = []
 
-              if (
-                role === 'admin' ||
-                role === 'super_admin' ||
-                (profile.system_owner && role === 'super_admin')
-              ) {
+              if (role === 'admin' || role === 'super_admin') {
                 permissionNames = expandPermissionNames(['*'])
-                console.log('all permission ')
-                console.log(permissionNames)
-                console.log('roles name : ', roleNames)
               } else if (role) {
                 permissionNames = getFallbackPermissionNamesForRoles([role])
               }
 
               rbac.setCurrentAccess(
                 {
-                  userId: profile.auth_user_id,
+                  userId: authUserId,
                   roleIds: [],
                   roleNames,
                   permissionNames,

@@ -90,8 +90,7 @@ async function syncNewUserMetadata(
  * 
  * Each user gets:
  * - Supabase Auth account with a generated temp password
- * - `tenant_users` record linked to the tenant's profile via `parent_tenant_id`
- * - `profiles` record with `is_user=true`, `is_paid=false`, `payment_method=null`
+ * - `tenant_users` record linked to the tenant via `parent_tenant_id`
  * - `user_roles` entry
  * 
  * Each user creation is independent — one failure does NOT roll back others.
@@ -105,18 +104,11 @@ export async function createOnboardingUsers(
     throw new Error('At least one user is required.')
   }
 
-  // Resolve the caller's profile (must be owner)
-  const callerProfile = (await prisma.profiles.findFirst({
-    where: { auth_user_id: caller.authUserId },
-    select: { id: true, is_owner: true },
-  })) as { id: string; is_owner: boolean } | null
-
-  if (!callerProfile || !callerProfile.is_owner) {
+  // Resolve tenant ID from context or via resolveTenantId helper
+  const tenantId = caller.tenantId ?? (await resolveTenantId(caller.authUserId))
+  if (!tenantId) {
     throw new Error('Only tenant owners can create users during onboarding.')
   }
-
-  // Resolve tenant ID from context or via resolveTenantId helper
-  const tenantId = caller.tenantId ?? (await resolveTenantId(caller.authUserId)) ?? callerProfile.id
   const parentTenantId = tenantId
 
   // Validate all roleIds
@@ -156,9 +148,6 @@ export async function createOnboardingUsers(
 
     const roleNames = [role.name]
     const primaryRole = getPrimaryRoleName(roleNames)
-    const isOwner = roleNames.some((name) =>
-      ADMIN_ROLES.includes(normalizeRoleName(name) as any)
-    )
 
     // Generate temp password — tenant shares this with the user
     const temporaryPassword = generateTempPassword()
@@ -202,6 +191,7 @@ export async function createOnboardingUsers(
             first_name: userInput.firstName ?? null,
             last_name: userInput.lastName ?? null,
             phone: userInput.phone ?? null,
+            branch_id: userInput.branchId || null,
             is_active: true,
             default_role: primaryRole,
             is_restuarant_user: true,
@@ -218,26 +208,6 @@ export async function createOnboardingUsers(
           data: {
             tenant_user_id: created.id,
             role_id: role.id,
-          },
-        })
-
-        // Create profiles record with staff user flags
-        await tx.profiles.create({
-          data: {
-            auth_user_id: authUserId,
-            email,
-            first_name: userInput.firstName ?? null,
-            last_name: userInput.lastName ?? null,
-            phone: userInput.phone ?? null,
-            is_owner: isOwner,
-            system_owner: false,
-            onboarding_complete: true, // Skip onboarding for staff
-            is_user: true,            // Staff user flag
-            is_paid: false,           // Staff don't pay
-            payment_method: null,     // Not a buyer
-            branch_id: userInput.branchId || null,
-            role: primaryRole,
-            parent_auth_user_id: caller.authUserId, // Links to tenant creator
           },
         })
 

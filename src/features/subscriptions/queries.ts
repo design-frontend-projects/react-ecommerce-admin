@@ -112,13 +112,6 @@ async function assignSubscription(payload: {
 
   if (error) throw error
 
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .update({ is_paid: true })
-    .eq('auth_user_id', payload.auth_user_id)
-
-  if (profileError) throw profileError
-
   return { data, isExtension, totalMonths }
 }
 

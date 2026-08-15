@@ -78,13 +78,9 @@ export async function resolveUserDynamicNavigation(
 ): Promise<DynamicNavigationResult> {
   const { authUserId, roleNames, permissionNames, tenantId } = ctx
 
-  // 1. Fetch user profile and tenant-user attributes in parallel
-  const [profile, tenantUser, tenantActivityTypes, rawModules] =
+  // 1. Fetch tenant-user attributes in parallel
+  const [tenantUser, tenantActivityTypes, rawModules] =
     await Promise.all([
-      prisma.profiles.findFirst({
-        where: { auth_user_id: authUserId },
-        select: { system_owner: true, role: true },
-      }) as Promise<{ system_owner: boolean | null; role: string | null } | null>,
       (tenantId
         ? prisma.tenant_users.findFirst({
             where: { auth_user_id: authUserId, tenant_id: tenantId },
@@ -147,10 +143,9 @@ export async function resolveUserDynamicNavigation(
       }) as Promise<ModuleRow[]>,
     ])
 
-  const isSystemOwner = profile?.system_owner === true
-  const isSuperAdminOwner =
-    isSystemOwner && (profile?.role === 'super_admin' || roleNames.includes('super_admin'))
   const callerRoleNames = roleNames.map(normalizeRoleName)
+  const isSuperAdminOwner = callerRoleNames.includes('super_admin')
+  const isSystemOwner = isSuperAdminOwner || callerRoleNames.includes('system_owner')
 
   // 2. Compute effective permissions incorporating any user direct overrides
   let effectivePermissions = permissionNames

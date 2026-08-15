@@ -56,7 +56,7 @@ export function AuditLogDetailsDialog({
               </div>
               <div>
                 <p className='text-muted-foreground'>{t('system.auditLogs.detailsDialog.user')}</p>
-                <p className='font-medium'>{log.profiles?.email}</p>
+                <p className='font-medium'>{log.tenant_users?.email ?? log.user_id}</p>
               </div>
               <div>
                 <p className='text-muted-foreground'>{t('system.auditLogs.detailsDialog.timestamp')}</p>

@@ -13,12 +13,6 @@ const prismaMock = {
     updateMany: vi.fn(),
     deleteMany: vi.fn(),
   },
-  profiles: {
-    findFirst: vi.fn(),
-    findMany: vi.fn(),
-    updateMany: vi.fn(),
-    create: vi.fn(),
-  },
   tenant_subscriptions: {
     findFirst: vi.fn(),
   },
@@ -114,7 +108,6 @@ describe('requireUserAccess (server/fns/users.ts)', async () => {
       { auth_user_id: 'caller-1' },
       { auth_user_id: 'teammate-1' },
     ])
-    prismaMock.profiles.findFirst.mockResolvedValue(null)
     prismaMock.tenant_subscriptions.findFirst.mockResolvedValue(null)
 
     await expect(
@@ -136,7 +129,6 @@ describe('requireUserAccess (server/fns/users.ts)', async () => {
       { auth_user_id: 'caller-1' },
       { auth_user_id: 'teammate-1' },
     ])
-    prismaMock.profiles.findFirst.mockResolvedValue(null)
     prismaMock.tenant_subscriptions.findFirst.mockResolvedValue(null)
 
     await expect(
@@ -186,10 +178,9 @@ describe('getTenantAuthUserIds (server/utils/tenant.ts)', async () => {
       { auth_user_id: 'member-1' },
       { auth_user_id: 'member-2' },
     ])
-    prismaMock.profiles.findFirst.mockResolvedValue({
+    prismaMock.tenant_subscriptions.findFirst.mockResolvedValue({
       auth_user_id: 'owner-1',
     })
-    prismaMock.tenant_subscriptions.findFirst.mockResolvedValue(null)
 
     const ids = await getTenantAuthUserIds('member-1')
     expect(ids).toEqual(

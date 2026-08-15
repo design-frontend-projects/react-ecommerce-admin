@@ -37,7 +37,7 @@ const SystemManagementPage = () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>0</div>
-            <p className='text-xs text-muted-foreground'>{t('system.systemManagement.registeredProfiles')}</p>
+            <p className='text-xs text-muted-foreground'>{t('system.systemManagement.registeredUsers')}</p>
           </CardContent>
         </Card>
       </div>

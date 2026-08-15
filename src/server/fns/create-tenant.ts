@@ -27,9 +27,9 @@ export async function createTenant(
 ): Promise<CreateTenantResult> {
   const email = input.email.trim().toLowerCase()
 
-  // Check for existing profile with this email
-  const existingProfile = await prisma.profiles.findUnique({ where: { email } })
-  if (existingProfile) {
+  // Check for existing user with this email
+  const existingUser = await prisma.tenant_users.findFirst({ where: { email } })
+  if (existingUser) {
     throw new Error('A user with this email already exists.')
   }
 
@@ -84,18 +84,18 @@ export async function createTenant(
     authUserId = authData.user.id
   }
 
-  // 2. Create profile only (is_owner = true, onboarding_complete = false)
-  //    NO tenant_users row — created during onboarding
+  // 2. Create tenant_users row (onboarding_complete = false)
   try {
-    await prisma.profiles.create({
+    await prisma.tenant_users.create({
       data: {
         auth_user_id: authUserId,
         email,
         first_name: input.firstName ?? null,
         last_name: input.lastName ?? null,
         phone: input.phone ?? null,
-        is_owner: true,
-        system_owner: false,
+        is_active: true,
+        default_role: 'super_admin',
+        is_restuarant_user: true,
         onboarding_complete: false,
       },
     })

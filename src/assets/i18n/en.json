@@ -1695,7 +1695,7 @@
       "totalStores": "Total Stores",
       "acrossPlatform": "Across the platform",
       "totalUsers": "Total Users",
-      "registeredProfiles": "Registered profiles",
+      "registeredUsers": "Registered users",
       "globalConfig": "Global Configuration",
       "globalConfigDesc": "Manage platform-wide settings and administrative actions.",
       "welcome": "Welcome, {{name}}.",
@@ -1748,33 +1748,6 @@
         "metadata": "Metadata",
         "ipAddress": "IP Address: {{ip}}",
         "userAgent": "User Agent: {{ua}}"
-      }
-    },
-    "profiles": {
-      "title": "System Profiles",
-      "subtitle": "Manage user profiles and assign system owner status.",
-      "errorTitle": "Error",
-      "errorDesc": "Failed to load profiles. Please try again later.",
-      "table": {
-        "user": "User",
-        "role": "Role",
-        "systemOwner": "System Owner",
-        "joined": "Joined",
-        "noName": "No Name",
-        "userDefault": "User",
-        "actions": "Actions",
-        "editProfile": "Edit Profile",
-        "noResults": "No results.",
-        "previous": "Previous",
-        "next": "Next"
-      },
-      "dialog": {
-        "title": "Edit Profile",
-        "fullName": "Full Name",
-        "fullNamePlaceholder": "John Doe",
-        "avatarUrl": "Avatar URL",
-        "saving": "Saving...",
-        "saveChanges": "Save Changes"
       }
     }
   }

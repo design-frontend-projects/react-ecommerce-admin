@@ -56,16 +56,20 @@ export function AuditLogsTable() {
         ),
       },
       {
-        accessorKey: 'profiles.email',
+        accessorKey: 'tenant_users.email',
         header: t('system.auditLogs.table.user'),
         cell: ({ row }) => (
           <div className='flex flex-col'>
             <span className='font-medium'>
-              {row.original.profiles?.first_name}{' '}
-              {row.original.profiles?.last_name}
+              {[
+                row.original.tenant_users?.first_name,
+                row.original.tenant_users?.last_name,
+              ]
+                .filter(Boolean)
+                .join(' ') || t('common.unknown', 'Unknown')}
             </span>
             <span className='text-xs text-muted-foreground'>
-              {row.original.profiles?.email}
+              {row.original.tenant_users?.email ?? row.original.user_id}
             </span>
           </div>
         ),

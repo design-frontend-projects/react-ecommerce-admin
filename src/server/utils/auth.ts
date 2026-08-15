@@ -63,60 +63,48 @@ export function getBearerToken(request: Request) {
 }
 
 export async function getDatabasePermissionNames(userId: string) {
-  const [tenantUser, profile] = (await Promise.all([
-    prisma.tenant_users.findFirst({
-      where: { auth_user_id: userId },
-      include: {
-        user_roles: {
-          include: {
-            roles: {
-              include: {
-                role_permissions: {
-                  include: {
-                    permissions: true,
-                  },
+  const tenantUser = (await prisma.tenant_users.findFirst({
+    where: { auth_user_id: userId },
+    include: {
+      user_roles: {
+        include: {
+          roles: {
+            include: {
+              role_permissions: {
+                include: {
+                  permissions: true,
                 },
               },
             },
           },
         },
-        user_permissions: {
-          include: {
-            permissions: true,
-          },
+      },
+      user_permissions: {
+        include: {
+          permissions: true,
         },
       },
-    }),
-    prisma.profiles.findFirst({
-      where: { auth_user_id: userId },
-      select: { system_owner: true, role: true },
-    }),
-  ])) as [
-    {
-      user_roles: Array<{
-        roles: {
-          name: string
-          role_permissions: Array<{
-            permissions: {
-              name: string
-            }
-          }>
-        }
-      }>
-      user_permissions: Array<{
-        is_granted: boolean
-        permissions: {
-          name: string
-        }
-      }>
-    } | null,
-    { system_owner: boolean; role: string | null } | null,
-  ]
+    },
+  })) as {
+    user_roles: Array<{
+      roles: {
+        name: string
+        role_permissions: Array<{
+          permissions: {
+            name: string
+          }
+        }>
+      }
+    }>
+    user_permissions: Array<{
+      is_granted: boolean
+      permissions: {
+        name: string
+      }
+    }>
+  } | null
 
-  const isSuperAdminOwner =
-    profile?.system_owner === true && profile?.role === 'super_admin'
-
-  if (!tenantUser && !isSuperAdminOwner) {
+  if (!tenantUser) {
     return {
       roleNames: [] as string[],
       permissionNames: [] as string[],
@@ -124,13 +112,9 @@ export async function getDatabasePermissionNames(userId: string) {
   }
 
   const roleNames =
-    tenantUser?.user_roles.map((assignment) =>
+    tenantUser.user_roles.map((assignment) =>
       normalizeRoleName(assignment.roles.name)
     ) ?? []
-
-  if (isSuperAdminOwner && !roleNames.includes('super_admin')) {
-    roleNames.push('super_admin')
-  }
 
   const roleDerivedNames =
     tenantUser?.user_roles.flatMap((assignment) =>
@@ -251,8 +235,6 @@ export async function requireAuth(
   }
 }
 
-// The legacy role-name helpers (hasAdminAccess / isSuperAdmin / isAdmin,
-// which read the deprecated `profiles.role` column) were removed:
-// authorization is permission-based through `requireAuth`/`withAuth` only.
-// Platform-owner gating lives in the client `_system` route guard and the
-// `profiles.system_owner` flag.
+// Authorization is permission-based through `requireAuth`/`withAuth`.
+// Platform-owner gating lives in the client `_system` route guard and
+// RBAC store super_admin / system_owner roles.

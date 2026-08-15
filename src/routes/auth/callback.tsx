@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { profileService } from '@/features/auth/services/profile-service'
 
 function AuthCallback() {
   const navigate = useNavigate()
@@ -22,9 +21,18 @@ function AuthCallback() {
         return
       }
 
-      const profile = await profileService.getProfile(data.user.id)
+      const { data: tenantUser } = await supabase
+        .from('tenant_users')
+        .select('onboarding_complete')
+        .eq('auth_user_id', data.user.id)
+        .maybeSingle()
+
+      const isOnboardingComplete =
+        tenantUser?.onboarding_complete === true ||
+        data.user.user_metadata?.onboardingComplete === true
+
       navigate({
-        to: profile?.onboarding_complete ? '/' : '/complete-account',
+        to: isOnboardingComplete ? '/' : '/complete-account',
         replace: true,
       })
     }

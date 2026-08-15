@@ -87,37 +87,14 @@ export async function completeOnboarding(input: CompleteOnboardingInput) {
     },
   })
 
-  // Insert or update profile
-  const existingProfile = await prisma.profiles.findUnique({
-    where: { email },
+  await prisma.tenant_users.update({
+    where: { id: tenantUser.id },
+    data: {
+      phone: input.phone || undefined,
+      onboarding_complete: true,
+      updated_at: new Date(),
+    },
   })
-
-  if (existingProfile) {
-    await prisma.profiles.update({
-      where: { id: existingProfile.id },
-      data: {
-        auth_user_id: input.clerkId,
-        first_name: input.firstName,
-        last_name: input.lastName,
-        phone: input.phone,
-        onboarding_complete: true,
-        updated_at: new Date(),
-      },
-    })
-  } else {
-    await prisma.profiles.create({
-      data: {
-        auth_user_id: input.clerkId,
-        email,
-        first_name: input.firstName,
-        last_name: input.lastName,
-        phone: input.phone,
-        is_owner: false, // Default logic, can be overridden based on metadata
-        system_owner: false,
-        onboarding_complete: true,
-      },
-    })
-  }
 
   return {
     success: true,

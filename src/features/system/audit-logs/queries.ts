@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 
 export interface AuditLog {
   id: string
-  profile_id: string
+  user_id: string | null
   activity_type_id: string
   action: string
   entity_type: string
@@ -14,11 +14,11 @@ export interface AuditLog {
   ip_address: string | null
   user_agent: string | null
   created_at: string
-  profiles: {
-    email: string
+  tenant_users: {
+    email: string | null
     first_name: string | null
     last_name: string | null
-  }
+  } | null
   activity_types: {
     name: string
     code: string
@@ -40,7 +40,7 @@ export const auditLogsKeys = {
 
 export function useAuditLogs(
   filters: {
-    profileId?: string
+    userId?: string
     activityTypeId?: string
     entityType?: string
     dateFrom?: string
@@ -55,14 +55,14 @@ export function useAuditLogs(
         .select(
           `
           *,
-          profiles (email, first_name, last_name),
+          tenant_users (email, first_name, last_name),
           activity_types (name, code)
         `
         )
         .order('created_at', { ascending: false })
 
-      if (filters.profileId) {
-        query = query.eq('profile_id', filters.profileId)
+      if (filters.userId) {
+        query = query.eq('user_id', filters.userId)
       }
       if (filters.activityTypeId) {
         query = query.eq('activity_type_id', filters.activityTypeId)

@@ -1694,7 +1694,7 @@
       "totalStores": "إجمالي المتاجر",
       "acrossPlatform": "عبر جميع أنحاء المنصة",
       "totalUsers": "إجمالي المستخدمين",
-      "registeredProfiles": "الملفات الشخصية المسجلة",
+      "registeredUsers": "المستخدمون المسجلون",
       "globalConfig": "الإعدادات العامة",
       "globalConfigDesc": "إدارة الإعدادات على مستوى المنصة والإجراءات الإدارية.",
       "welcome": "مرحباً، {{name}}.",
@@ -1747,33 +1747,6 @@
         "metadata": "البيانات الوصفية",
         "ipAddress": "عنوان IP: {{ip}}",
         "userAgent": "متصفح المستخدم: {{ua}}"
-      }
-    },
-    "profiles": {
-      "title": "الملفات الشخصية للنظام",
-      "subtitle": "إدارة ملفات المستخدمين وتخصيص حالة مالك النظام.",
-      "errorTitle": "خطأ",
-      "errorDesc": "فشل في تحميل الملفات الشخصية. يرجى المحاولة لاحقاً.",
-      "table": {
-        "user": "المستخدم",
-        "role": "الدور",
-        "systemOwner": "مالك النظام",
-        "joined": "تاريخ الانضمام",
-        "noName": "بدون اسم",
-        "userDefault": "مستخدم",
-        "actions": "الإجراءات",
-        "editProfile": "تعديل الملف الشخصي",
-        "noResults": "لا توجد نتائج.",
-        "previous": "السابق",
-        "next": "التالي"
-      },
-      "dialog": {
-        "title": "تعديل الملف الشخصي",
-        "fullName": "الاسم الكامل",
-        "fullNamePlaceholder": "John Doe",
-        "avatarUrl": "رابط الصورة الشخصية",
-        "saving": "جاري الحفظ...",
-        "saveChanges": "حفظ التغييرات"
       }
     }
   }

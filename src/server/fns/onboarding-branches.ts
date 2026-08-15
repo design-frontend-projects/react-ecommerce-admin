@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from '@/lib/prisma'
+import { resolveTenantId } from '@/server/utils/tenant'
 
 export interface OnboardingBranchInput {
   name: string
@@ -38,13 +39,9 @@ export async function createOnboardingBranches(
     throw new Error('At least one branch is required.')
   }
 
-  // Verify the caller is a tenant owner
-  const callerProfile = (await prisma.profiles.findFirst({
-    where: { auth_user_id: caller.authUserId },
-    select: { id: true, is_owner: true },
-  })) as { id: string; is_owner: boolean } | null
-
-  if (!callerProfile || !callerProfile.is_owner) {
+  // Verify the caller is associated with a tenant
+  const tenantId = caller.tenantId ?? (await resolveTenantId(caller.authUserId))
+  if (!tenantId) {
     throw new Error('Only tenant owners can create branches during onboarding.')
   }
 

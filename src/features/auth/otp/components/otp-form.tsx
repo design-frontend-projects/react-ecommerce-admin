@@ -23,7 +23,6 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from '@/components/ui/input-otp'
-import { profileService } from '@/features/auth/services/profile-service'
 import { fetchCurrentUserAccess } from '@/features/users/data/queries'
 import { getPendingOtpRequest, clearPendingOtpRequest } from '../pending-otp'
 
@@ -84,16 +83,6 @@ export function OtpForm({ className, flow, ...props }: OtpFormProps) {
     if (data.session && data.user) {
       setSession(data.session)
       setUser(data.user)
-
-      // Create the profile now that the user is verified
-      try {
-        await profileService.createProfile({
-          auth_user_id: data.user.id,
-          email: data.user.email ?? pendingRequest.contact,
-        })
-      } catch (_profileErr) {
-        toast.error(t('otp.profileFailed'))
-      }
 
       clearPendingOtpRequest()
       navigate({ to: '/' })

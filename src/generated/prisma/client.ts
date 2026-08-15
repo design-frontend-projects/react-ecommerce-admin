@@ -142,11 +142,6 @@ export type inventory = Prisma.inventoryModel
  */
 export type pos_reorder_requests = Prisma.pos_reorder_requestsModel
 /**
- * Model profiles
- * 
- */
-export type profiles = Prisma.profilesModel
-/**
  * Model promotion_usage
  * 
  */

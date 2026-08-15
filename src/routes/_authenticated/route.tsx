@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth-store'
 import { isSubscriptionActiveTemporal } from '@/lib/subscription_utils'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { RequireScreen } from '@/components/rbac/require-screen'
-import { profileService } from '@/features/auth/services/profile-service'
+import { supabase } from '@/lib/supabase'
 import { useSubscriptionStatus } from '@/features/subscriptions/queries'
 import { RoleSyncToast } from '@/features/users/components/role-sync-toast'
 import { useRBACSession } from '@/features/users/hooks/use-rbac'
@@ -28,8 +28,16 @@ const AuthenticatedRoute = () => {
   )
 
   const { data: profile, isLoading: profileLoading } = useQuery({
-    queryKey: ['profile', userId],
-    queryFn: () => profileService.getProfile(userId!),
+    queryKey: ['user-profile', userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('tenant_users')
+        .select('*')
+        .eq('auth_user_id', userId!)
+        .maybeSingle()
+      if (error) throw error
+      return data
+    },
     enabled: !!userId,
   })
 
@@ -50,9 +58,9 @@ const AuthenticatedRoute = () => {
       return
     }
 
-    // Checking the database profile
+    // Checking the database user profile
     const onboardingComplete = profile?.onboarding_complete === true
-    const isStaffUser = profile?.is_user === true // Tenant-created staff
+    const isStaffUser = profile?.parent_tenant_id != null // Tenant-created staff
 
     const currentPath = window.location.pathname
 
@@ -105,7 +113,7 @@ const AuthenticatedRoute = () => {
       (onboardingComplete || isStaffUser)
     ) {
       // Check for super_admin role
-      const isSuperAdmin = profile?.system_owner === true
+      const isSuperAdmin = profile?.default_role === 'super_admin'
 
       // If not super_admin and no active paid subscription, redirect
       const active = isSubscriptionActiveTemporal(
@@ -114,7 +122,7 @@ const AuthenticatedRoute = () => {
         subscription?.end_date
       )
       
-      const isOwner = profile?.is_owner !== false
+      const isOwner = !isStaffUser
       
       if (
         !isSuperAdmin &&

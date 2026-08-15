@@ -96,7 +96,7 @@ async function syncNewUserMetadata(
  * Create a fully provisioned staff user with one or more roles. Server-side only;
  * authorization is enforced by the caller (`requireAuth(token, 'users.manage')`).
  *
- * Auth user is created first, then tenant_users / user_roles / profiles are written in a
+ * Auth user is created first, then tenant_users and user_roles are written in a
  * single transaction. If the transaction fails, the orphaned auth user is deleted
  * (compensation) so no dangling Supabase user remains. Metadata sync is display-only and
  * runs post-commit, non-fatally.
@@ -138,9 +138,6 @@ export async function createUser(
   }
 
   const modules = await deriveTenantModules(callerTenantId)
-  const isOwner = roleNames.some((name) =>
-    ADMIN_ROLES.includes(normalizeRoleName(name) as any)
-  )
 
   // Use the caller-supplied password, or generate a strong temporary one server-side and
   // require a reset at first sign-in. The plaintext is echoed once in the result and never
@@ -184,6 +181,7 @@ export async function createUser(
           first_name: input.firstName ?? null,
           last_name: input.lastName ?? null,
           phone: input.phone ?? null,
+          branch_id: input.branchId || null,
           is_active: true,
           default_role: primaryRole,
           is_restuarant_user: true,
@@ -213,25 +211,6 @@ export async function createUser(
           skipDuplicates: true,
         })
       }
-
-      await tx.profiles.create({
-        data: {
-          auth_user_id: authUserId,
-          email,
-          first_name: input.firstName ?? null,
-          last_name: input.lastName ?? null,
-          phone: input.phone ?? null,
-          is_owner: isOwner,
-          system_owner: false,
-          onboarding_complete: false,
-          branch_id: input.branchId || null,
-          role: primaryRole,
-          is_user: true,                          // Created by admin, not self-registered
-          is_paid: false,                         // Staff users don't pay
-          payment_method: null,                   // Not a buyer
-          parent_auth_user_id: caller.authUserId, // Links to the admin who created them
-        },
-      })
 
       return created
     })

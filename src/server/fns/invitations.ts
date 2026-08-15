@@ -57,9 +57,6 @@ export const inviteUser = createServerFn({ method: 'POST' })
     const roleNames = roles.map((role) => role.name)
     const roleIds = roles.map((role) => role.id)
     const primaryRole = getPrimaryRoleName(roleNames)
-    const isOwnerRole = roleNames.some((name) =>
-      ADMIN_ROLES.includes(name.toLowerCase() as any)
-    )
 
     const existingUser = await prisma.tenant_users.findUnique({
       where: { email },
@@ -76,15 +73,12 @@ export const inviteUser = createServerFn({ method: 'POST' })
         },
       })
 
-      // Sync role to profiles table for role resolution
-      await prisma.profiles.updateMany({
-        where: { auth_user_id: existingUser.auth_user_id },
-        data: {
-          role: primaryRole,
-          ...(input.branchId ? { branch_id: input.branchId } : {}),
-          updated_at: new Date(),
-        },
-      })
+      if (input.branchId) {
+        await prisma.tenant_users.update({
+          where: { id: existingUser.id },
+          data: { branch_id: input.branchId, updated_at: new Date() },
+        })
+      }
 
       await updateUserRoles(existingUser.id, roleIds, inviterAuthUserId)
 
@@ -139,6 +133,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
         modules: ['inventory', 'restaurant'],
         tenant_id: tenantId,
         parent_tenant_id: tenantId,
+        branch_id: input.branchId || null,
         onboarding_complete: false,
       },
     })
@@ -149,19 +144,6 @@ export const inviteUser = createServerFn({ method: 'POST' })
         role_id: roleId,
       })),
       skipDuplicates: true,
-    })
-
-    // Pre-create the user's profile with the branchId if provided
-    await prisma.profiles.create({
-      data: {
-        auth_user_id: pendingClerkUserId,
-        email: input.email.trim().toLowerCase(),
-        is_owner: isOwnerRole,
-        system_owner: false,
-        onboarding_complete: false,
-        branch_id: input.branchId || null,
-        role: primaryRole,
-      },
     })
 
     return {

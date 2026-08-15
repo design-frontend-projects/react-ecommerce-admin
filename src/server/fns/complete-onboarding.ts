@@ -89,8 +89,6 @@ export async function completeTenantOnboarding(
   const slug = await generateTenantSlug(input.businessName)
   const tenantType = mapActivityToTenantType(input.activity)
 
-  let createdBranchResults: Array<{ id: string; name: string }> = []
-
   // 4. Run atomic transaction for tenant setup
   const tenant = await prisma.$transaction(async (tx) => {
     // a. Create tenant
@@ -170,44 +168,7 @@ export async function completeTenantOnboarding(
       })
     }
 
-    // e. Upsert profiles for owner
-    const existingProfile = await tx.profiles.findUnique({
-      where: { email },
-    })
 
-    if (existingProfile) {
-      await tx.profiles.update({
-        where: { id: existingProfile.id },
-        data: {
-          auth_user_id: input.authUserId,
-          first_name: input.firstName,
-          last_name: input.lastName,
-          phone: input.phone || null,
-          activity: input.activity,
-          payment_method: input.paymentMethod,
-          transfer_ref: input.transferRef || null,
-          onboarding_complete: true,
-          updated_at: new Date(),
-        },
-      })
-    } else {
-      await tx.profiles.create({
-        data: {
-          auth_user_id: input.authUserId,
-          email,
-          first_name: input.firstName,
-          last_name: input.lastName,
-          phone: input.phone || null,
-          activity: input.activity,
-          payment_method: input.paymentMethod,
-          transfer_ref: input.transferRef || null,
-          is_owner: true,
-          system_owner: false,
-          onboarding_complete: true,
-          parent_auth_user_id: input.authUserId,
-        },
-      })
-    }
 
     // f. Create branches if provided
     if (input.branches && input.branches.length > 0) {

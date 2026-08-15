@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma'
-import type { tenant_type } from '@/generated/prisma'
+import type { tenant_type } from '@/generated/prisma/enums'
 
 /**
  * Generate a unique tenant code e.g. TNT-8A2F9B1C

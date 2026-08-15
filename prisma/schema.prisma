@@ -22,7 +22,7 @@ model activity_types {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model audit_logs {
   id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  profile_id       String         @db.Uuid
+  user_id          String?        @db.Uuid
   activity_type_id String         @db.Uuid
   action           String         @db.VarChar(255)
   entity_type      String         @db.VarChar(100)
@@ -34,12 +34,12 @@ model audit_logs {
   user_agent       String?
   created_at       DateTime?      @default(now()) @db.Timestamptz(6)
   activity_types   activity_types @relation(fields: [activity_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  profiles         profiles       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenant_users     tenant_users?  @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
 
   @@index([activity_type_id], map: "idx_audit_logs_activity_type_id")
   @@index([created_at], map: "idx_audit_logs_created_at")
   @@index([entity_type, entity_id], map: "idx_audit_logs_entity")
-  @@index([profile_id], map: "idx_audit_logs_profile_id")
+  @@index([user_id], map: "idx_audit_logs_user_id")
 }
 
 model addresses {
@@ -79,7 +79,7 @@ model branches {
   tenants               tenants?                @relation("tenant_branches", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   default_for_tenants   tenants[]               @relation("tenant_default_branch")
   inventory_movements   inventory_movements[]
-  profiles              profiles[]
+  tenant_users          tenant_users[]
   purchase_invoices     purchase_invoices[]
   purchase_orders       purchase_orders[]
   purchase_requisitions purchase_requisitions[]
@@ -464,27 +464,6 @@ model pos_reorder_requests {
   @@index([product_variant_id], map: "idx_pos_reorder_requests_variant")
 }
 
-model profiles {
-  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email          String?      @unique @db.VarChar(255)
-  first_name     String?      @db.VarChar(100)
-  last_name      String?      @db.VarChar(100)
-  phone          String?      @db.VarChar(20)
-  is_owner       Boolean      @default(true)
-  system_owner   Boolean      @default(false)
-  created_at     DateTime?    @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
-  activity       String?      @db.VarChar(100)
-  auth_user_id   String       @db.Uuid
-  branch_id      String?      @db.Uuid
-  role           String?
-  payment_method String?      @db.VarChar(50)
-  audit_logs     audit_logs[]
-  branches       branches?    @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
-
-  @@index([email], map: "idx_profiles_email")
-  @@index([branch_id], map: "idx_profiles_branch_id")
-}
 
 model promotion_usage {
   id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -1545,12 +1524,16 @@ model tenant_users {
   tenant_id           String?            @db.Uuid
   refund_pin_code     String?            @db.VarChar(255)
   id_number           String?
+  branch_id           String?            @db.Uuid
+  branches            branches?          @relation(fields: [branch_id], references: [id], onUpdate: NoAction)
+  audit_logs          audit_logs[]
   tenants             tenants?           @relation("tenant_tenant_users", fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_permissions    user_permissions[]
   user_roles          user_roles[]
 
   @@index([primary_module], map: "idx_users_primary_module")
   @@index([tenant_id], map: "idx_tenant_users_tenant_id")
+  @@index([branch_id], map: "idx_tenant_users_branch_id")
 }
 
 model transaction_details {

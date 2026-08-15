@@ -241,7 +241,7 @@ export type Res_cash_movementsGroupByOutputType = {
   _max: Res_cash_movementsMaxAggregateOutputType | null
 }
 
-export type GetRes_cash_movementsGroupByPayload<T extends res_cash_movementsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_cash_movementsGroupByPayload<T extends res_cash_movementsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_cash_movementsGroupByOutputType, T['by']> &
       {

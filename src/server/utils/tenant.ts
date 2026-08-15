@@ -57,16 +57,7 @@ export async function getTenantAuthUserIds(
     }
   }
 
-  // The tenant id may reference either the owner profile or the owner's
-  // subscription row (see resolveTenantId) — include the owner either way.
-  const ownerProfile = (await prisma.profiles.findFirst({
-    where: { id: tenantId },
-    select: { auth_user_id: true },
-  })) as { auth_user_id: string | null } | null
-  if (ownerProfile?.auth_user_id) {
-    authUserIds.add(ownerProfile.auth_user_id)
-  }
-
+  // Include the owner subscription row (see resolveTenantId) if applicable.
   const ownerSubscription = (await prisma.tenant_subscriptions.findFirst({
     where: { id: tenantId },
     select: { auth_user_id: true },

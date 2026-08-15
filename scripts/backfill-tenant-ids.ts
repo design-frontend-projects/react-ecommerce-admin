@@ -1,6 +1,5 @@
-import { PrismaClient } from '../src/generated/prisma'
-
-const prisma = new PrismaClient()
+import 'dotenv/config'
+import prisma from '../src/lib/prisma'
 
 async function backfillTenantIds() {
   console.log('Starting backfill of tenant_id in tenant_users...')
@@ -41,21 +40,6 @@ async function backfillTenantIds() {
           select: { id: true },
         })
         resolvedTenantId = tenantCreated?.id ?? null
-      }
-
-      // 3. Check profile parent_auth_user_id
-      if (!resolvedTenantId) {
-        const profile = await prisma.profiles.findFirst({
-          where: { auth_user_id: user.auth_user_id },
-          select: { parent_auth_user_id: true },
-        })
-        if (profile?.parent_auth_user_id) {
-          const parentSub = await prisma.tenant_subscriptions.findFirst({
-            where: { auth_user_id: profile.parent_auth_user_id },
-            select: { tenant_id: true, id: true },
-          })
-          resolvedTenantId = parentSub?.tenant_id ?? parentSub?.id ?? null
-        }
       }
     }
 

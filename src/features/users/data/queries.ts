@@ -78,18 +78,6 @@ export function useCurrentUserAccess(
     }
 
     const channels = [
-      createRealtimeChannel(`rbac-profiles-${authUserId}`)
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'profiles',
-            filter: `auth_user_id=eq.${authUserId}`,
-          },
-          invalidate
-        )
-        .subscribe(),
       createRealtimeChannel(`rbac-user-roles-${authUserId}`)
         .on(
           'postgres_changes',
