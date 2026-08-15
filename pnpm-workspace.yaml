@@ -6,6 +6,7 @@ allowBuilds:
   prisma: true
 onlyBuiltDependencies:
   - '@clerk/shared'
+  - '@parcel/watcher'
   - '@prisma/engines'
   - '@swc/core'
   - esbuild

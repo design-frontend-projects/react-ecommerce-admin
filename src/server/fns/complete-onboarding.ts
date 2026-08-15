@@ -66,14 +66,22 @@ export async function completeTenantOnboarding(
   }
 
   // 2. Fetch country and its default currency
-  console.log(input)
-  console.log('input country id: ', input.countryId)
+  const UUID_REGEX =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  const countryId = input.countryId.trim()
+
+  if (!UUID_REGEX.test(countryId)) {
+    throw new Error(
+      `Invalid country ID format: "${countryId}". Expected a valid UUID.`
+    )
+  }
 
   const country = await prisma.countries.findUnique({
-    where: { id: input.countryId },
+    where: { id: countryId },
     include: { currencies: true },
   })
-  console.log('fetched country data')
+
+  console.log('selected country')
   console.log(country)
 
   if (!country) {
