@@ -1,15 +1,36 @@
-import { describe, expect, test, vi, beforeEach } from 'vitest'
-import { mapActivityToTenantType } from '@/server/utils/tenant-utils'
+import { executeCompleteTenantOnboarding } from '@/server/fns/complete-onboarding'
 import { provisionSignupUser } from '@/server/fns/provision-signup-user'
-import prisma from '@/lib/prisma'
+import { mapActivityToTenantType } from '@/server/utils/tenant-utils'
+import { describe, expect, test, vi, beforeEach } from 'vitest'
 
 const { prismaMock } = vi.hoisted(() => ({
   prismaMock: {
+    tenants: {
+      findFirst: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+    },
     tenant_users: {
       findFirst: vi.fn(),
       create: vi.fn(),
       update: vi.fn(),
     },
+    tenant_subscriptions: {
+      create: vi.fn(),
+    },
+    countries: {
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+    },
+    currencies: {
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+    },
+    subscriptions: {
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+    },
+    $transaction: vi.fn(),
   },
 }))
 
@@ -25,6 +46,7 @@ vi.mock('@/server/supabase-admin', () => ({
           data: {
             user: {
               id: 'auth-user-123',
+              email: 'test@example.com',
               user_metadata: {},
             },
           },
@@ -129,5 +151,118 @@ describe('provisionSignupUser', () => {
     expect(result.isNew).toBe(false)
     expect(result.authUserId).toBe('auth-user-456')
     expect(prismaMock.tenant_users.update).toHaveBeenCalled()
+  })
+})
+
+describe('executeCompleteTenantOnboarding', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  test('pre-check returns early if tenant already has onboarding_complete: true', async () => {
+    prismaMock.tenants.findFirst.mockResolvedValueOnce({
+      id: 'tenant-existing-1',
+      tenant_code: 'TNT-12345',
+      onboarding_complete: true,
+    } as any)
+
+    const result = await executeCompleteTenantOnboarding({
+      authUserId: 'auth-user-123',
+      firstName: 'John',
+      lastName: 'Doe',
+      businessName: 'My Restaurant',
+      countryId: 'US',
+      activity: 'restaurant',
+      paymentMethod: 'cash',
+      subscriptionId: 'sub-1',
+    })
+
+    expect(result.success).toBe(true)
+    expect(result.tenantId).toBe('tenant-existing-1')
+    expect(result.tenantCode).toBe('TNT-12345')
+    // Should not run transaction or create new tenant
+    expect(prismaMock.$transaction).not.toHaveBeenCalled()
+  })
+
+  test('creates new tenant with onboarding_complete: true when running onboarding', async () => {
+    // 1. Pre-check: no existing completed tenant, slug/code check returns null
+    prismaMock.tenants.findFirst.mockResolvedValue(null)
+
+    // 2. Country lookup
+    prismaMock.countries.findUnique.mockResolvedValue({
+      id: 'c-1',
+      code: 'USA',
+      name: 'United States',
+      currencies: { id: 'curr-1', code: 'USD' },
+    } as any)
+    prismaMock.countries.findFirst.mockResolvedValue({
+      id: 'c-1',
+      code: 'USA',
+      name: 'United States',
+      currencies: { id: 'curr-1', code: 'USD' },
+    } as any)
+
+    // 3. Subscriptions lookup
+    prismaMock.subscriptions.findUnique.mockResolvedValue({
+      id: 'sub-1',
+      duration_months: 1,
+    } as any)
+    prismaMock.subscriptions.findFirst.mockResolvedValue({
+      id: 'sub-1',
+      duration_months: 1,
+    } as any)
+
+    // Mock $transaction callback execution
+    const mockTx = {
+      tenants: {
+        findFirst: vi.fn().mockResolvedValue(null),
+        create: vi.fn().mockResolvedValue({
+          id: 'new-tenant-1',
+          tenant_code: 'TNT-99999',
+          onboarding_complete: true,
+        }),
+        update: vi.fn(),
+      },
+      tenant_subscriptions: {
+        create: vi.fn().mockResolvedValue({
+          id: 'ts-1',
+        }),
+      },
+      tenant_users: {
+        findFirst: vi.fn().mockResolvedValue(null),
+        create: vi.fn().mockResolvedValue({
+          id: 'tu-1',
+          onboarding_complete: true,
+        }),
+        update: vi.fn(),
+      },
+    }
+
+    prismaMock.$transaction.mockImplementation(async (cb: any) => {
+      return cb(mockTx)
+    })
+
+    const result = await executeCompleteTenantOnboarding({
+      authUserId: 'auth-user-123',
+      firstName: 'John',
+      lastName: 'Doe',
+      businessName: 'Awesome Bistro',
+      countryId: 'c-1',
+      activity: 'restaurant',
+      paymentMethod: 'cash',
+      subscriptionId: 'sub-1',
+    })
+
+    expect(result.success).toBe(true)
+    expect(result.tenantId).toBe('new-tenant-1')
+    expect(mockTx.tenants.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          auth_user_id: 'auth-user-123',
+          name: 'Awesome Bistro',
+          onboarding_complete: true,
+        }),
+      })
+    )
   })
 })

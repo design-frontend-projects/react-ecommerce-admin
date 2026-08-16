@@ -46,13 +46,27 @@ function AuthCallback() {
 
       const { data: tenantUser } = await supabase
         .from('tenant_users')
-        .select('onboarding_complete, parent_tenant_id')
+        .select('onboarding_complete, parent_tenant_id, tenants(onboarding_complete)')
         .eq('auth_user_id', data.user.id)
         .maybeSingle()
 
+      let tenantOnboardingComplete =
+        (tenantUser?.tenants as any)?.onboarding_complete === true ||
+        tenantUser?.onboarding_complete === true
+
+      if (!tenantOnboardingComplete && data.user.id) {
+        const { data: tenant } = await supabase
+          .from('tenants')
+          .select('onboarding_complete')
+          .eq('auth_user_id', data.user.id)
+          .maybeSingle()
+        if (tenant?.onboarding_complete === true) {
+          tenantOnboardingComplete = true
+        }
+      }
+
       const isStaffUser = tenantUser?.parent_tenant_id != null
-      const isOnboardingComplete =
-        tenantUser?.onboarding_complete === true || isStaffUser
+      const isOnboardingComplete = tenantOnboardingComplete || isStaffUser
 
       navigate({
         to: isOnboardingComplete ? '/' : '/complete-account',

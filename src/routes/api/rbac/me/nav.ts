@@ -15,12 +15,32 @@ const GET = withAuth(null, async ({ auth }) => {
   try {
     const tenantUser = (await prisma.tenant_users.findFirst({
       where: { auth_user_id: auth.userId },
-      select: { onboarding_complete: true, parent_tenant_id: true },
-    })) as { onboarding_complete: boolean | null; parent_tenant_id: string | null } | null
+      select: {
+        onboarding_complete: true,
+        parent_tenant_id: true,
+        tenants: { select: { onboarding_complete: true } },
+      },
+    })) as any
 
-    const isOnboarded =
-      tenantUser?.onboarding_complete === true ||
-      tenantUser?.parent_tenant_id != null
+    let tenantOnboarded =
+      tenantUser?.tenants?.onboarding_complete === true ||
+      tenantUser?.onboarding_complete === true
+
+    if (!tenantOnboarded && auth.userId) {
+      try {
+        const directTenant = await prisma.tenants.findFirst({
+          where: { auth_user_id: auth.userId },
+          select: { onboarding_complete: true },
+        })
+        if (directTenant?.onboarding_complete === true) {
+          tenantOnboarded = true
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    const isOnboarded = tenantOnboarded || tenantUser?.parent_tenant_id != null
 
     if (tenantUser && !isOnboarded) {
       return Response.json({

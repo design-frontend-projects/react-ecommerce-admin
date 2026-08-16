@@ -252,7 +252,7 @@ export type Customer_cardsGroupByOutputType = {
   _max: Customer_cardsMaxAggregateOutputType | null
 }
 
-type GetCustomer_cardsGroupByPayload<T extends customer_cardsGroupByArgs> = Prisma.PrismaPromise<
+export type GetCustomer_cardsGroupByPayload<T extends customer_cardsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Customer_cardsGroupByOutputType, T['by']> &
       {

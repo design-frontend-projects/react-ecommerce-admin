@@ -24,20 +24,32 @@ const GET = withAuth(null, async ({ auth }) => {
         onboarding_complete: true,
         parent_tenant_id: true,
         user_roles: { select: { role_id: true } },
+        tenants: { select: { onboarding_complete: true } },
       },
-    })) as {
-      id: string
-      onboarding_complete: boolean | null
-      parent_tenant_id: string | null
-      user_roles: Array<{ role_id: string }>
-    } | null
+    })) as any
   } catch (error) {
     console.warn('[rbac/me/access] Skipping tenant_users DB lookup:', error)
   }
 
-  const isOnboarded =
-    tenantUser?.onboarding_complete === true ||
-    tenantUser?.parent_tenant_id != null
+  let tenantOnboarded =
+    (tenantUser as any)?.tenants?.onboarding_complete === true ||
+    tenantUser?.onboarding_complete === true
+
+  if (!tenantOnboarded && auth.userId) {
+    try {
+      const directTenant = await prisma.tenants.findFirst({
+        where: { auth_user_id: auth.userId },
+        select: { onboarding_complete: true },
+      })
+      if (directTenant?.onboarding_complete === true) {
+        tenantOnboarded = true
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  const isOnboarded = tenantOnboarded || tenantUser?.parent_tenant_id != null
 
   // If user profile is not yet fully onboarded, return baseline empty access
   if (tenantUser && !isOnboarded) {
