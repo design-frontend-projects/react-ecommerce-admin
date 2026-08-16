@@ -2,8 +2,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
 export interface CustomerCard {
-  card_id: number
-  customer_id: number
+  id: string
+  card_id?: string | number
+  customer_id: string
   card_type: string | null
   last_four_digits: string
   expiry_month: number
@@ -26,7 +27,7 @@ export interface PaymentType {
 }
 
 export interface CustomerCardInput {
-  customer_id: number
+  customer_id: string
   card_type?: string
   last_four_digits: string
   expiry_month: number
@@ -44,10 +45,14 @@ export const useCustomerCards = () => {
       const { data, error } = await supabase
         .from('customer_cards')
         .select('*, customers(first_name, last_name)')
-        .order('card_id', { ascending: false })
+        .order('added_at', { ascending: false })
 
       if (error) throw error
-      return data as CustomerCard[]
+      return (data || []).map((row: any) => ({
+        ...row,
+        id: row.id,
+        card_id: row.id,
+      })) as CustomerCard[]
     },
   })
 }
@@ -79,11 +84,11 @@ export const useUpdateCustomerCard = () => {
     mutationFn: async ({
       id,
       ...updates
-    }: CustomerCardInput & { id: number }) => {
+    }: CustomerCardInput & { id: string | number }) => {
       const { data, error } = await supabase
         .from('customer_cards')
         .update(updates)
-        .eq('card_id', id)
+        .eq('id', String(id))
         .select()
         .maybeSingle()
 
@@ -100,11 +105,11 @@ export const useDeleteCustomerCard = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string | number) => {
       const { error } = await supabase
         .from('customer_cards')
         .delete()
-        .eq('card_id', id)
+        .eq('id', String(id))
 
       if (error) throw error
     },
@@ -129,3 +134,4 @@ export const usePaymentTypes = () => {
     },
   })
 }
+

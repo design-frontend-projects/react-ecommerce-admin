@@ -65,7 +65,7 @@ export function useSidebarData(): SidebarData {
           user: {
             name: profile.first_name || profile.email?.split('@')[0] || 'User',
             email: profile.email || '',
-            avatar: '/avatars/shadcn.jpg',
+            avatar: (profile as any)?.avatar_url || '',
           },
         }
       : {}),

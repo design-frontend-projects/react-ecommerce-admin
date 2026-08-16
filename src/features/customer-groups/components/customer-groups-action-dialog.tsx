@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
@@ -49,7 +49,7 @@ export function CustomerGroupsActionDialog() {
   const isOpen = open === 'create' || open === 'edit'
 
   const form = useForm<CustomerGroupFormValues>({
-    resolver: zodResolver(formSchema(t)),
+    resolver: zodResolver(formSchema(t)) as Resolver<CustomerGroupFormValues>,
     defaultValues: {
       name: '',
       description: '',
@@ -80,7 +80,7 @@ export function CustomerGroupsActionDialog() {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.group_id,
+          id: currentRow.id || currentRow.group_id!,
           ...values,
         })
         toast.success(t('customerGroups.toast.updated'))

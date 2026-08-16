@@ -12,7 +12,7 @@ export interface VariantOption {
   sku: string
   price: number | string
   cost_price: number | string | null
-  products?: { product_id: number; name: string } | null
+  products?: { id?: string; product_id?: number | string; name: string } | null
 }
 
 /** All stores for select inputs. */
@@ -62,7 +62,7 @@ export function useVariantOptions(search?: string) {
     queryFn: async () => {
       let query = supabase
         .from('product_variants')
-        .select('id, sku, price, cost_price, products(product_id, name)')
+        .select('id, sku, price, cost_price, products(id, name)')
         .order('sku')
         .limit(50)
       if (search) {

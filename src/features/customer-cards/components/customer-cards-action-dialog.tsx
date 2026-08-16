@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
@@ -42,8 +42,8 @@ import { useCustomerCardsContext } from './customer-cards-provider'
 
 const formSchema = (t: TFunction) =>
   z.object({
-    customer_id: z.coerce
-      .number()
+    customer_id: z
+      .string()
       .min(1, t('customerCards.validation.customerRequired')),
     cardholder_name: z
       .string()
@@ -72,9 +72,9 @@ export function CustomerCardsActionDialog() {
   const isOpen = open === 'create' || open === 'edit'
 
   const form = useForm<CustomerCardFormValues>({
-    resolver: zodResolver(formSchema(t)),
+    resolver: zodResolver(formSchema(t)) as Resolver<CustomerCardFormValues>,
     defaultValues: {
-      customer_id: 0,
+      customer_id: '',
       cardholder_name: '',
       card_type: '',
       last_four_digits: '',
@@ -88,7 +88,7 @@ export function CustomerCardsActionDialog() {
   useEffect(() => {
     if (currentRow) {
       form.reset({
-        customer_id: currentRow.customer_id,
+        customer_id: String(currentRow.customer_id || ''),
         cardholder_name: currentRow.cardholder_name,
         card_type: currentRow.card_type || '',
         last_four_digits: currentRow.last_four_digits,
@@ -99,7 +99,7 @@ export function CustomerCardsActionDialog() {
       })
     } else {
       form.reset({
-        customer_id: 0,
+        customer_id: '',
         cardholder_name: '',
         card_type: '',
         last_four_digits: '',
@@ -115,7 +115,7 @@ export function CustomerCardsActionDialog() {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.card_id,
+          id: currentRow.id || currentRow.card_id!,
           ...values,
         })
         toast.success(t('customerCards.toast.updated'))
@@ -161,9 +161,7 @@ export function CustomerCardsActionDialog() {
                   <FormLabel>{t('customerCards.form.customer')}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={
-                      field.value ? field.value.toString() : undefined
-                    }
+                    value={field.value ? String(field.value) : ''}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -173,14 +171,18 @@ export function CustomerCardsActionDialog() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {customers?.map((customer) => (
-                        <SelectItem
-                          key={customer.customer_id}
-                          value={customer.customer_id.toString()}
-                        >
-                          {customer.first_name} {customer.last_name}
-                        </SelectItem>
-                      ))}
+                      {customers?.map((customer) => {
+                        const customerId = customer.id || (customer as any).customer_id
+                        if (!customerId) return null
+                        return (
+                          <SelectItem
+                            key={String(customerId)}
+                            value={String(customerId)}
+                          >
+                            {customer.first_name} {customer.last_name}
+                          </SelectItem>
+                        )
+                      })}
                     </SelectContent>
                   </Select>
                   <FormMessage />

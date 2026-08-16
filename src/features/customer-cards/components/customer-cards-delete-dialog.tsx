@@ -23,7 +23,7 @@ export function CustomerCardsDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.card_id)
+        await deleteMutation.mutateAsync(currentRow.id || currentRow.card_id!)
         toast.success(t('customerCards.toast.deleted'))
         setOpen(null)
       } catch (error: unknown) {

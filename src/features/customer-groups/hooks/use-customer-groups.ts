@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
 export interface CustomerGroup {
-  group_id: number
+  id: string
+  group_id?: string | number
   name: string
   description: string | null
   minimum_order_amount: number | null
@@ -27,7 +28,11 @@ export const useCustomerGroups = () => {
         .order('name')
 
       if (error) throw error
-      return data as CustomerGroup[]
+      return (data || []).map((row: any) => ({
+        ...row,
+        id: row.id,
+        group_id: row.id,
+      })) as CustomerGroup[]
     },
   })
 }
@@ -59,11 +64,11 @@ export const useUpdateCustomerGroup = () => {
     mutationFn: async ({
       id,
       ...updates
-    }: CustomerGroupInput & { id: number }) => {
+    }: CustomerGroupInput & { id: string | number }) => {
       const { data, error } = await supabase
         .from('customer_groups')
         .update(updates)
-        .eq('group_id', id)
+        .eq('id', String(id))
         .select()
         .maybeSingle()
 
@@ -80,11 +85,11 @@ export const useDeleteCustomerGroup = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string | number) => {
       const { error } = await supabase
         .from('customer_groups')
         .delete()
-        .eq('group_id', id)
+        .eq('id', String(id))
 
       if (error) throw error
     },
@@ -93,3 +98,4 @@ export const useDeleteCustomerGroup = () => {
     },
   })
 }
+

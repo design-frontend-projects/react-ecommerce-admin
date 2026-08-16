@@ -197,16 +197,20 @@ export function OrderCreateDialog({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value={WALK_IN}>Walk-in</SelectItem>
-                    {customers.map((customer) => (
-                      <SelectItem
-                        key={customer.customer_id}
-                        value={String(customer.customer_id)}
-                      >
-                        {[customer.first_name, customer.last_name]
-                          .filter(Boolean)
-                          .join(' ') || `#${customer.customer_id}`}
-                      </SelectItem>
-                    ))}
+                    {customers.map((customer) => {
+                      const customerId = customer.customer_id
+                      if (!customerId) return null
+                      return (
+                        <SelectItem
+                          key={String(customerId)}
+                          value={String(customerId)}
+                        >
+                          {[customer.first_name, customer.last_name]
+                            .filter(Boolean)
+                            .join(' ') || `#${customerId}`}
+                        </SelectItem>
+                      )
+                    })}
                   </SelectContent>
                 </Select>
               </div>

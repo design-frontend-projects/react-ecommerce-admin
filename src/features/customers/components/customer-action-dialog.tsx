@@ -53,7 +53,7 @@ const formSchema = z.object({
   date_of_birth: z.string().optional(),
   loyalty_points: z.coerce.number().optional(),
   is_active: z.boolean().default(true),
-  group_id: z.coerce.number().optional(),
+  group_id: z.string().optional(),
 })
 
 type CustomerFormValues = z.infer<typeof formSchema>
@@ -134,7 +134,7 @@ export function CustomerActionDialog() {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.customer_id,
+          id: currentRow.id || (currentRow as any).customer_id,
           ...values,
         })
         toast.success('Customer updated successfully')
@@ -439,8 +439,8 @@ interface CustomerGroupFieldProps {
 function CustomerGroupField({ form }: CustomerGroupFieldProps) {
   const { data: groups, isLoading, isError } = useCustomerGroups()
 
-  const handleGroupCreated = (groupId: number) => {
-    form.setValue('group_id', groupId, { shouldValidate: true })
+  const handleGroupCreated = (groupId: string | number) => {
+    form.setValue('group_id', String(groupId), { shouldValidate: true })
   }
 
   return (
@@ -458,9 +458,9 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
               <Skeleton className='h-9 w-full rounded-md' />
             ) : (
               <Select
-                value={field.value?.toString() ?? ''}
+                value={field.value ? String(field.value) : ''}
                 onValueChange={(val) => {
-                  field.onChange(val === '__none__' ? undefined : Number(val))
+                  field.onChange(val === '__none__' ? undefined : val)
                 }}
               >
                 <SelectTrigger className='w-full'>
@@ -470,22 +470,26 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
                   <SelectItem value='__none__'>
                     <span className='text-muted-foreground'>No group</span>
                   </SelectItem>
-                  {groups?.map((group) => (
-                    <SelectItem
-                      key={group.group_id}
-                      value={group.group_id.toString()}
-                    >
-                      <div className='flex items-center gap-2'>
-                        <span>{group.name}</span>
-                        {group.discount_percentage != null &&
-                          Number(group.discount_percentage) > 0 && (
-                            <span className='text-xs text-muted-foreground'>
-                              ({Number(group.discount_percentage)}% off)
-                            </span>
-                          )}
-                      </div>
-                    </SelectItem>
-                  ))}
+                  {groups?.map((group) => {
+                    const groupId = group.id || group.group_id
+                    if (!groupId) return null
+                    return (
+                      <SelectItem
+                        key={String(groupId)}
+                        value={String(groupId)}
+                      >
+                        <div className='flex items-center gap-2'>
+                          <span>{group.name}</span>
+                          {group.discount_percentage != null &&
+                            Number(group.discount_percentage) > 0 && (
+                              <span className='text-xs text-muted-foreground'>
+                                ({Number(group.discount_percentage)}% off)
+                              </span>
+                            )}
+                        </div>
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
             )}

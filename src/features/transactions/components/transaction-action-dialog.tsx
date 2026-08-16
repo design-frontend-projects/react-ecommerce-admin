@@ -60,7 +60,7 @@ export function TransactionActionDialog({
     queryFn: async () => {
       const { data, error } = await supabase
         .from('inventory')
-        .select('*, products(product_id, name, base_price)')
+        .select('*, products(id, name, base_price)')
       if (error) throw error
       return data || []
     },
@@ -272,19 +272,19 @@ export function TransactionActionDialog({
                           <FormLabel className='text-xs'>Product</FormLabel>
                           <Select
                             onValueChange={(val) => {
-                              field.onChange(Number(val))
+                              field.onChange(val)
                               const selectedProduct = products?.find(
                                 (p: any) =>
-                                  p.products.product_id === Number(val)
+                                  String(p.products?.id || p.product_id || p.id) === String(val)
                               )
                               if (selectedProduct) {
                                 form.setValue(
                                   `items.${index}.unit_price`,
-                                  selectedProduct.products.base_price
+                                  Number(selectedProduct.products?.base_price ?? selectedProduct.base_price ?? 0)
                                 )
                               }
                             }}
-                            value={field.value ? field.value.toString() : ''}
+                            value={field.value ? String(field.value) : ''}
                             disabled={isEdit}
                           >
                             <FormControl>
@@ -293,14 +293,19 @@ export function TransactionActionDialog({
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {products?.map((p: any) => (
-                                <SelectItem
-                                  key={p.products.product_id}
-                                  value={p.products.product_id.toString()}
-                                >
-                                  {p.products.name} (Stock: {p.quantity ?? 0})
-                                </SelectItem>
-                              ))}
+                              {products?.map((p: any) => {
+                                const prodId = p.products?.id || p.product_id || p.id
+                                const prodName = p.products?.name || p.name || 'Unknown Product'
+                                if (!prodId) return null
+                                return (
+                                  <SelectItem
+                                    key={String(prodId)}
+                                    value={String(prodId)}
+                                  >
+                                    {prodName} (Stock: {p.quantity ?? 0})
+                                  </SelectItem>
+                                )
+                              })}
                             </SelectContent>
                           </Select>
                           <FormMessage />

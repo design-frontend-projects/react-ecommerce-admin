@@ -127,14 +127,14 @@ export function useDashboardData() {
         .from('purchase_orders')
         .select(
           `
-          po_id,
+          id,
           po_number,
           order_date,
           total_amount,
           status,
           suppliers ( name ),
           purchase_order_items (
-            po_item_id,
+            id,
             quantity_ordered,
             unit_cost,
             subtotal
@@ -262,8 +262,9 @@ export function useDashboardData() {
             new Date(a.order_date).getTime() - new Date(b.order_date).getTime()
         )
         .slice(0, 5)
-        .map((po) => ({
-          po_id: po.po_id,
+        .map((po: any) => ({
+          po_id: po.id,
+          id: po.id,
           po_number: po.po_number,
           order_date: po.order_date,
           total_amount: Number(po.total_amount) || 0,

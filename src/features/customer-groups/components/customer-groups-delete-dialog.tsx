@@ -23,7 +23,7 @@ export function CustomerGroupsDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.group_id)
+        await deleteMutation.mutateAsync(currentRow.id || currentRow.group_id!)
         toast.success(t('customerGroups.toast.deleted'))
         setOpen(null)
       } catch (error: unknown) {

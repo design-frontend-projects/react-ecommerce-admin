@@ -3,6 +3,7 @@ import { CheckIcon, ChevronsUpDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import * as RPNInput from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags'
+import en from 'react-phone-number-input/locale/en'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -36,6 +37,8 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
         <RPNInput.default
           ref={ref}
           className={cn('flex', className)}
+          labels={en}
+          defaultCountry='US'
           flagComponent={FlagComponent}
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}

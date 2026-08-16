@@ -21,7 +21,7 @@ export function CustomerDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.customer_id)
+        await deleteMutation.mutateAsync(currentRow.id || (currentRow as any).customer_id)
         toast.success('Customer deleted successfully')
         setOpen(null)
       } catch (error: any) {

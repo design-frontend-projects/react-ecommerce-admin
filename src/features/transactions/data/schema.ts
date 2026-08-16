@@ -39,7 +39,7 @@ export const transactionFormSchema = z.object({
   items: z
     .array(
       z.object({
-        product_id: z.number().min(1, 'Product is required'),
+        product_id: z.string().or(z.number()),
         quantity: z.number().min(1, 'Quantity must be at least 1'),
         unit_price: z.number().min(0, 'Unit price must be >= 0'),
         discount_amount: z.number().min(0),
