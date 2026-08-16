@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { calculateEndDate } from '@/lib/subscription_utils'
 
 export const subscriptionQueryKeys = {
   all: ['subscriptions'] as const,
@@ -60,10 +61,10 @@ async function assignSubscription(payload: {
   first_name?: string
   last_name?: string
   is_owner?: boolean
-  subscription_id: number
+  subscription_id: number | string
   status: 'new' | 'paid' | 'canceled'
-  start_date: Date
-  end_date: Date
+  start_date?: Date | string
+  end_date?: Date | string
 }) {
   const { data: existingSubs, error: fetchError } = await supabase
     .from('tenant_subscriptions')
@@ -76,19 +77,31 @@ async function assignSubscription(payload: {
 
   if (fetchError) throw fetchError
 
-  let finalStartDate = payload.start_date
-  let finalEndDate = payload.end_date
-  let isExtension = false
-  let totalMonths = 0
+  let durationMonths = 1
+  try {
+    const { data: planData } = await supabase
+      .from('subscriptions')
+      .select('duration_months')
+      .eq('id', payload.subscription_id)
+      .maybeSingle()
 
-  if (existingSubs && existingSubs.length > 0) {
+    if (planData?.duration_months) {
+      durationMonths = planData.duration_months
+    }
+  } catch {
+    // fallback if plan lookup fails
+  }
+
+  let finalStartDate = payload.start_date ? new Date(payload.start_date) : new Date()
+  let isExtension = false
+
+  if (existingSubs && existingSubs.length > 0 && existingSubs[0].end_date) {
     const activeSub = existingSubs[0]
-    finalStartDate = new Date(activeSub.end_date!)
-    // Add the duration of the new subscription to the end date of the active subscription
-    const durationMs = payload.end_date.getTime() - payload.start_date.getTime()
-    finalEndDate = new Date(finalStartDate.getTime() + durationMs)
+    finalStartDate = new Date(activeSub.end_date)
     isExtension = true
   }
+
+  const finalEndDate = calculateEndDate(finalStartDate, durationMonths)
 
   const monthsDiff = (d1: Date, d2: Date) => {
     return (
@@ -96,7 +109,7 @@ async function assignSubscription(payload: {
       (d2.getMonth() - d1.getMonth())
     )
   }
-  totalMonths = monthsDiff(new Date(), finalEndDate)
+  const totalMonths = Math.max(durationMonths, monthsDiff(new Date(), finalEndDate))
 
   const insertPayload = {
     ...payload,

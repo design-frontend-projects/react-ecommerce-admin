@@ -144,7 +144,7 @@ export type Screen_permissionsGroupByOutputType = {
   _max: Screen_permissionsMaxAggregateOutputType | null
 }
 
-export type GetScreen_permissionsGroupByPayload<T extends screen_permissionsGroupByArgs> = Prisma.PrismaPromise<
+type GetScreen_permissionsGroupByPayload<T extends screen_permissionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Screen_permissionsGroupByOutputType, T['by']> &
       {

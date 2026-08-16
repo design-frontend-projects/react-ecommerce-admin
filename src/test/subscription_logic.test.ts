@@ -8,11 +8,39 @@ import {
   checkUserSubscriptionTemporal,
 } from '../lib/subscription_utils'
 
-describe('Subscription Logic', () => {
-  test('calculateEndDate correctly adds months using Temporal', () => {
+describe('Subscription Logic & End Date Calculation', () => {
+  test('calculateEndDate correctly adds 1 month', () => {
     const startDate = new Date('2026-03-10')
     const endDate = calculateEndDate(startDate, 1)
     expect(endDate.toISOString().split('T')[0]).toBe('2026-04-10')
+  })
+
+  test('calculateEndDate correctly adds 3, 6, and 12 months', () => {
+    const startDate = new Date('2026-01-15')
+    const end3m = calculateEndDate(startDate, 3)
+    const end6m = calculateEndDate(startDate, 6)
+    const end12m = calculateEndDate(startDate, 12)
+
+    expect(end3m.toISOString().split('T')[0]).toBe('2026-04-15')
+    expect(end6m.toISOString().split('T')[0]).toBe('2026-07-15')
+    expect(end12m.toISOString().split('T')[0]).toBe('2027-01-15')
+  })
+
+  test('calculateEndDate accepts string dates', () => {
+    const endFromStr = calculateEndDate('2026-05-20', 6)
+    expect(endFromStr.toISOString().split('T')[0]).toBe('2026-11-20')
+  })
+
+  test('calculateEndDate handles month-end boundaries properly', () => {
+    // January 31 + 1 month -> February 28 (in non-leap year 2025/2026)
+    const jan31 = new Date('2026-01-31')
+    const febEnd = calculateEndDate(jan31, 1)
+    expect(febEnd.toISOString().split('T')[0]).toBe('2026-02-28')
+
+    // August 31 + 1 month -> September 30
+    const aug31 = new Date('2026-08-31')
+    const septEnd = calculateEndDate(aug31, 1)
+    expect(septEnd.toISOString().split('T')[0]).toBe('2026-09-30')
   })
 
   test('calculateEndDate handles leap years correctly', () => {
@@ -108,5 +136,46 @@ describe('Subscription Logic', () => {
     expect(checkUserSubscriptionTemporal(activeTenantSub)).toBe(true)
     expect(checkUserSubscriptionTemporal(expiredTenantSub)).toBe(false)
     expect(checkUserSubscriptionTemporal(null)).toBe(false)
+  })
+
+  test('simulates seed updater logic calculating end_date = start_date + duration_months', () => {
+    const mockTenantSubscriptions = [
+      {
+        id: 'sub-1',
+        start_date: new Date('2026-01-01'),
+        end_date: null,
+        created_at: new Date('2026-01-01'),
+        subscriptions: { duration_months: 3 },
+      },
+      {
+        id: 'sub-2',
+        start_date: null,
+        end_date: null,
+        created_at: new Date('2026-05-10'),
+        subscriptions: { duration_months: 12 },
+      },
+      {
+        id: 'sub-3',
+        start_date: new Date('2026-06-15'),
+        end_date: new Date('2026-06-20'), // incorrect date
+        created_at: new Date('2026-06-15'),
+        subscriptions: null, // missing plan
+      },
+    ]
+
+    const updatedRows = mockTenantSubscriptions.map((sub) => {
+      const startDate = sub.start_date || sub.created_at || new Date()
+      const durationMonths = sub.subscriptions?.duration_months ?? 1
+      const calculatedEndDate = calculateEndDate(startDate, durationMonths)
+      return {
+        id: sub.id,
+        start_date: startDate,
+        end_date: calculatedEndDate,
+      }
+    })
+
+    expect(updatedRows[0].end_date.toISOString().split('T')[0]).toBe('2026-04-01')
+    expect(updatedRows[1].end_date.toISOString().split('T')[0]).toBe('2027-05-10')
+    expect(updatedRows[2].end_date.toISOString().split('T')[0]).toBe('2026-07-15')
   })
 })

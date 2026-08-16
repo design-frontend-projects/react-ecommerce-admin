@@ -1290,8 +1290,7 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   tenant_id: 'tenant_id',
   subscription_id: 'subscription_id',
   payment_method: 'payment_method',
-  transfer_ref: 'transfer_ref',
-  onboarding_complete: 'onboarding_complete'
+  transfer_ref: 'transfer_ref'
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
@@ -1321,7 +1320,8 @@ export const TenantsScalarFieldEnum = {
   metadata: 'metadata',
   country_id: 'country_id',
   currency_id: 'currency_id',
-  auth_user_id: 'auth_user_id'
+  auth_user_id: 'auth_user_id',
+  onboarding_complete: 'onboarding_complete'
 } as const
 
 export type TenantsScalarFieldEnum = (typeof TenantsScalarFieldEnum)[keyof typeof TenantsScalarFieldEnum]

@@ -7,11 +7,11 @@ import { Temporal } from '@js-temporal/polyfill'
  * @returns The calculated end date.
  */
 export function calculateEndDate(
-  startDate: Date,
-  durationMonths: number
+  startDate: Date | string | Temporal.PlainDate = new Date(),
+  durationMonths: number = 1
 ): Date {
-  const plainDate = Temporal.PlainDate.from(startDate.toISOString().split('T')[0])
-  const resultPlainDate = plainDate.add({ months: durationMonths })
+  const plainDate = toPlainDate(startDate)
+  const resultPlainDate = plainDate.add({ months: Math.max(1, durationMonths) })
   return new Date(resultPlainDate.toString() + 'T00:00:00.000Z')
 }
 

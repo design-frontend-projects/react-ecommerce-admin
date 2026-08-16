@@ -3,6 +3,7 @@ import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
+import { calculateEndDate } from '@/lib/subscription_utils'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -92,13 +93,9 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
       setIsProcessing(true)
       try {
         if (user) {
+          const durationMonths = selectedPlan.interval === 'year' ? 12 : 1
           const startDate = new Date()
-          const endDate = new Date()
-          if (selectedPlan.interval === 'year') {
-            endDate.setFullYear(endDate.getFullYear() + 1)
-          } else {
-            endDate.setMonth(endDate.getMonth() + 1)
-          }
+          const endDate = calculateEndDate(startDate, durationMonths)
 
           const result = await assignSubscription({
             auth_user_id: user.id,
@@ -108,8 +105,7 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
             last_name:
               profile?.last_name ?? user.user_metadata?.last_name ?? '',
             is_owner: true,
-            subscription_id:
-              typeof selectedPlan.id === 'number' ? selectedPlan.id : 1,
+            subscription_id: selectedPlan.id,
             status: 'paid',
             start_date: startDate,
             end_date: endDate,
@@ -136,7 +132,7 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
             setSelectedPlan(null)
           }, 500)
         }, 2000)
-      } catch (error) {
+      } catch (_error) {
         setIsProcessing(false)
         toast.error('Failed to activate subscription. Please try again.')
       }

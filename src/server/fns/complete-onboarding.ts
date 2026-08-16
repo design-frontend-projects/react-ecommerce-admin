@@ -6,6 +6,7 @@ import {
   mapActivityToTenantType,
 } from '@/server/utils/tenant-utils'
 import { createServerFn } from '@tanstack/react-start'
+import { calculateEndDate } from '@/lib/subscription_utils'
 import prisma from '@/lib/prisma'
 import type { Prisma } from '@/generated/prisma/client'
 
@@ -75,7 +76,19 @@ export const completeTenantOnboarding = createServerFn({ method: 'POST' })
         rawCountryInput
       )
 
-      let country: any = null
+      type CountryWithCurrencies =
+        | Prisma.countriesGetPayload<{
+            include: { currencies: true }
+          }>
+        | {
+            id: string | null
+            code: string
+            name: string
+            currencies?: { id: string; code: string } | null
+            currency_id?: string | null
+          }
+
+      let country: CountryWithCurrencies | null = null
 
       // 2a. Primary Lookup: by UUID id if input is formatted as UUID
       if (isUuid) {
@@ -151,32 +164,50 @@ export const completeTenantOnboarding = createServerFn({ method: 'POST' })
         }
       }
 
-      // 2f. Resolve Subscription ID format
+      // 2f. Resolve Subscription ID format & duration
       const rawSubInput = input.subscriptionId?.trim() || ''
       const isSubUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
         rawSubInput
       )
       let validSubscriptionId = rawSubInput
+      let subscriptionPlan: { id: string; duration_months: number } | null = null
 
-      if (!isSubUuid) {
-        const dbSub = await prisma.subscriptions
+      if (isSubUuid) {
+        subscriptionPlan = await prisma.subscriptions
+          .findUnique({
+            where: { id: validSubscriptionId },
+            select: { id: true, duration_months: true },
+          })
+          .catch(() => null)
+      }
+
+      if (!subscriptionPlan) {
+        subscriptionPlan = await prisma.subscriptions
           .findFirst({
             where: {
               OR: [
                 { name: { equals: rawSubInput, mode: 'insensitive' } },
               ],
             },
+            select: { id: true, duration_months: true },
           })
           .catch(() => null)
-        if (dbSub?.id) {
-          validSubscriptionId = dbSub.id
-        } else {
-          const anySub = await prisma.subscriptions.findFirst().catch(() => null)
-          if (anySub?.id) {
-            validSubscriptionId = anySub.id
-          }
-        }
       }
+
+      if (!subscriptionPlan) {
+        subscriptionPlan = await prisma.subscriptions
+          .findFirst({
+            select: { id: true, duration_months: true },
+          })
+          .catch(() => null)
+      }
+
+      if (subscriptionPlan?.id) {
+        validSubscriptionId = subscriptionPlan.id
+      }
+      const durationMonths = subscriptionPlan?.duration_months ?? 1
+      const startDate = new Date()
+      const endDate = calculateEndDate(startDate, durationMonths)
 
       // 3. Generate tenant code & slug
       const tenantCode = await generateTenantCode()
@@ -213,7 +244,8 @@ export const completeTenantOnboarding = createServerFn({ method: 'POST' })
             subscription_id: validSubscriptionId,
             status: 'paid',
             first_use: false,
-            start_date: new Date(),
+            start_date: startDate,
+            end_date: endDate,
             first_name: input.firstName,
             last_name: input.lastName,
             is_owner: true,
@@ -294,8 +326,12 @@ export const completeTenantOnboarding = createServerFn({ method: 'POST' })
         tenantId: tenant.id,
         tenantCode,
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[completeTenantOnboarding] Execution error:', err)
-      throw new Error(err?.message || 'Unable to complete tenant account setup.')
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Unable to complete tenant account setup.'
+      throw new Error(message)
     }
   })

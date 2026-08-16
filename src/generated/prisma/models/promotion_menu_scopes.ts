@@ -172,7 +172,7 @@ export type Promotion_menu_scopesGroupByOutputType = {
   _max: Promotion_menu_scopesMaxAggregateOutputType | null
 }
 
-export type GetPromotion_menu_scopesGroupByPayload<T extends promotion_menu_scopesGroupByArgs> = Prisma.PrismaPromise<
+type GetPromotion_menu_scopesGroupByPayload<T extends promotion_menu_scopesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Promotion_menu_scopesGroupByOutputType, T['by']> &
       {

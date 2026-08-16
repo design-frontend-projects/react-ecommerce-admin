@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
+import { calculateEndDate } from '@/lib/subscription_utils'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -115,13 +116,9 @@ export function SubscriptionModal({
 
       // After mock payment, record the subscription in the database
       if (user && selectedPlan) {
+        const durationMonths = selectedPlan.interval === 'year' ? 12 : 1
         const startDate = new Date()
-        const endDate = new Date()
-        if (selectedPlan.interval === 'year') {
-          endDate.setFullYear(endDate.getFullYear() + 1)
-        } else {
-          endDate.setMonth(endDate.getMonth() + 1)
-        }
+        const endDate = calculateEndDate(startDate, durationMonths)
 
         await assignSubscription({
           auth_user_id: user.id,
@@ -130,8 +127,7 @@ export function SubscriptionModal({
             profile?.first_name ?? user.user_metadata?.first_name ?? '',
           last_name: profile?.last_name ?? user.user_metadata?.last_name ?? '',
           is_owner: true,
-          subscription_id:
-            typeof selectedPlan.id === 'number' ? selectedPlan.id : 1, // Fallback if still using mock string id
+          subscription_id: selectedPlan.id,
           status: 'paid',
           start_date: startDate,
           end_date: endDate,
@@ -151,8 +147,7 @@ export function SubscriptionModal({
           setSelectedPlan(null)
         }, 500)
       }, 2000)
-    } catch (error) {
-      console.error('Subscription failed', error)
+    } catch (_error) {
       setIsProcessing(false)
     }
   }
