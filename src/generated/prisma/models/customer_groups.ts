@@ -244,6 +244,7 @@ export type customer_groupsWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   id?: Prisma.UuidFilter<"customer_groups"> | string
   tenant_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
+  customers?: Prisma.CustomersListRelationFilter
 }
 
 export type customer_groupsOrderByWithRelationInput = {
@@ -255,6 +256,7 @@ export type customer_groupsOrderByWithRelationInput = {
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  customers?: Prisma.customersOrderByRelationAggregateInput
 }
 
 export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +271,7 @@ export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"customer_groups"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
+  customers?: Prisma.CustomersListRelationFilter
 }, "id">
 
 export type customer_groupsOrderByWithAggregationInput = {
@@ -310,6 +313,7 @@ export type customer_groupsCreateInput = {
   auth_user_id?: string | null
   id?: string
   tenant_id?: string | null
+  customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateInput = {
@@ -321,6 +325,7 @@ export type customer_groupsUncheckedCreateInput = {
   auth_user_id?: string | null
   id?: string
   tenant_id?: string | null
+  customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUpdateInput = {
@@ -332,6 +337,7 @@ export type customer_groupsUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateInput = {
@@ -343,6 +349,7 @@ export type customer_groupsUncheckedUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsCreateManyInput = {
@@ -421,6 +428,116 @@ export type customer_groupsSumOrderByAggregateInput = {
   discount_percentage?: Prisma.SortOrder
 }
 
+export type Customer_groupsNullableScalarRelationFilter = {
+  is?: Prisma.customer_groupsWhereInput | null
+  isNot?: Prisma.customer_groupsWhereInput | null
+}
+
+export type customer_groupsCreateNestedOneWithoutCustomersInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutCustomersInput, Prisma.customer_groupsUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutCustomersInput
+  connect?: Prisma.customer_groupsWhereUniqueInput
+}
+
+export type customer_groupsUpdateOneWithoutCustomersNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutCustomersInput, Prisma.customer_groupsUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutCustomersInput
+  upsert?: Prisma.customer_groupsUpsertWithoutCustomersInput
+  disconnect?: Prisma.customer_groupsWhereInput | boolean
+  delete?: Prisma.customer_groupsWhereInput | boolean
+  connect?: Prisma.customer_groupsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutCustomersInput, Prisma.customer_groupsUpdateWithoutCustomersInput>, Prisma.customer_groupsUncheckedUpdateWithoutCustomersInput>
+}
+
+export type customer_groupsCreateWithoutCustomersInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  id?: string
+  tenant_id?: string | null
+}
+
+export type customer_groupsUncheckedCreateWithoutCustomersInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  id?: string
+  tenant_id?: string | null
+}
+
+export type customer_groupsCreateOrConnectWithoutCustomersInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutCustomersInput, Prisma.customer_groupsUncheckedCreateWithoutCustomersInput>
+}
+
+export type customer_groupsUpsertWithoutCustomersInput = {
+  update: Prisma.XOR<Prisma.customer_groupsUpdateWithoutCustomersInput, Prisma.customer_groupsUncheckedUpdateWithoutCustomersInput>
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutCustomersInput, Prisma.customer_groupsUncheckedCreateWithoutCustomersInput>
+  where?: Prisma.customer_groupsWhereInput
+}
+
+export type customer_groupsUpdateToOneWithWhereWithoutCustomersInput = {
+  where?: Prisma.customer_groupsWhereInput
+  data: Prisma.XOR<Prisma.customer_groupsUpdateWithoutCustomersInput, Prisma.customer_groupsUncheckedUpdateWithoutCustomersInput>
+}
+
+export type customer_groupsUpdateWithoutCustomersInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Customer_groupsCountOutputType
+ */
+
+export type Customer_groupsCountOutputType = {
+  customers: number
+}
+
+export type Customer_groupsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customers?: boolean | Customer_groupsCountOutputTypeCountCustomersArgs
+}
+
+/**
+ * Customer_groupsCountOutputType without action
+ */
+export type Customer_groupsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer_groupsCountOutputType
+   */
+  select?: Prisma.Customer_groupsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Customer_groupsCountOutputType without action
+ */
+export type Customer_groupsCountOutputTypeCountCustomersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.customersWhereInput
+}
 
 
 export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -432,6 +549,8 @@ export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   auth_user_id?: boolean
   id?: boolean
   tenant_id?: boolean
+  customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
+  _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
 export type customer_groupsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -468,10 +587,18 @@ export type customer_groupsSelectScalar = {
 }
 
 export type customer_groupsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "minimum_order_amount" | "discount_percentage" | "created_at" | "auth_user_id" | "id" | "tenant_id", ExtArgs["result"]["customer_groups"]>
+export type customer_groupsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
+  _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type customer_groupsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type customer_groupsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $customer_groupsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "customer_groups"
-  objects: {}
+  objects: {
+    customers: Prisma.$customersPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     name: string
     description: string | null
@@ -875,6 +1002,7 @@ readonly fields: customer_groupsFieldRefs;
  */
 export interface Prisma__customer_groupsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  customers<T extends Prisma.customer_groups$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -929,6 +1057,10 @@ export type customer_groupsFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * Filter, which customer_groups to fetch.
    */
   where: Prisma.customer_groupsWhereUniqueInput
@@ -947,6 +1079,10 @@ export type customer_groupsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * Filter, which customer_groups to fetch.
    */
   where: Prisma.customer_groupsWhereUniqueInput
@@ -964,6 +1100,10 @@ export type customer_groupsFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the customer_groups
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
   /**
    * Filter, which customer_groups to fetch.
    */
@@ -1013,6 +1153,10 @@ export type customer_groupsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * Filter, which customer_groups to fetch.
    */
   where?: Prisma.customer_groupsWhereInput
@@ -1060,6 +1204,10 @@ export type customer_groupsFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the customer_groups
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
   /**
    * Filter, which customer_groups to fetch.
    */
@@ -1109,6 +1257,10 @@ export type customer_groupsCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * The data needed to create a customer_groups.
    */
   data: Prisma.XOR<Prisma.customer_groupsCreateInput, Prisma.customer_groupsUncheckedCreateInput>
@@ -1156,6 +1308,10 @@ export type customer_groupsUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the customer_groups
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
   /**
    * The data needed to update a customer_groups.
    */
@@ -1223,6 +1379,10 @@ export type customer_groupsUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * The filter to search for the customer_groups to update in case it exists.
    */
   where: Prisma.customer_groupsWhereUniqueInput
@@ -1249,6 +1409,10 @@ export type customer_groupsDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
+  /**
    * Filter which customer_groups to delete.
    */
   where: Prisma.customer_groupsWhereUniqueInput
@@ -1269,6 +1433,30 @@ export type customer_groupsDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * customer_groups.customers
+ */
+export type customer_groups$customersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the customers
+   */
+  select?: Prisma.customersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the customers
+   */
+  omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  where?: Prisma.customersWhereInput
+  orderBy?: Prisma.customersOrderByWithRelationInput | Prisma.customersOrderByWithRelationInput[]
+  cursor?: Prisma.customersWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CustomersScalarFieldEnum | Prisma.CustomersScalarFieldEnum[]
+}
+
+/**
  * customer_groups without action
  */
 export type customer_groupsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1280,4 +1468,8 @@ export type customer_groupsDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the customer_groups
    */
   omit?: Prisma.customer_groupsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_groupsInclude<ExtArgs> | null
 }

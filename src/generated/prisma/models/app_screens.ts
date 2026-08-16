@@ -273,9 +273,9 @@ export type app_screensWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"app_screens"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"app_screens"> | Date | string | null
   app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
-  screen_roles?: Prisma.Screen_rolesListRelationFilter
-  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
+  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
+  screen_roles?: Prisma.Screen_rolesListRelationFilter
 }
 
 export type app_screensOrderByWithRelationInput = {
@@ -292,9 +292,9 @@ export type app_screensOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   app_modules?: Prisma.app_modulesOrderByWithRelationInput
-  screen_roles?: Prisma.screen_rolesOrderByRelationAggregateInput
-  screen_permissions?: Prisma.screen_permissionsOrderByRelationAggregateInput
   screen_buttons?: Prisma.screen_buttonsOrderByRelationAggregateInput
+  screen_permissions?: Prisma.screen_permissionsOrderByRelationAggregateInput
+  screen_roles?: Prisma.screen_rolesOrderByRelationAggregateInput
 }
 
 export type app_screensWhereUniqueInput = Prisma.AtLeast<{
@@ -314,9 +314,9 @@ export type app_screensWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"app_screens"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"app_screens"> | Date | string | null
   app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
-  screen_roles?: Prisma.Screen_rolesListRelationFilter
-  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
+  screen_permissions?: Prisma.Screen_permissionsListRelationFilter
+  screen_roles?: Prisma.Screen_rolesListRelationFilter
 }, "id" | "code" | "route">
 
 export type app_screensOrderByWithAggregationInput = {
@@ -370,9 +370,9 @@ export type app_screensCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   app_modules: Prisma.app_modulesCreateNestedOneWithoutApp_screensInput
-  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUncheckedCreateInput = {
@@ -388,9 +388,9 @@ export type app_screensUncheckedCreateInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUpdateInput = {
@@ -406,9 +406,9 @@ export type app_screensUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutApp_screensNestedInput
-  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateInput = {
@@ -424,9 +424,9 @@ export type app_screensUncheckedUpdateInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensCreateManyInput = {
@@ -637,9 +637,9 @@ export type app_screensCreateWithoutApp_modulesInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUncheckedCreateWithoutApp_modulesInput = {
@@ -654,9 +654,9 @@ export type app_screensUncheckedCreateWithoutApp_modulesInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensCreateOrConnectWithoutApp_modulesInput = {
@@ -716,8 +716,8 @@ export type app_screensCreateWithoutScreen_rolesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   app_modules: Prisma.app_modulesCreateNestedOneWithoutApp_screensInput
-  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUncheckedCreateWithoutScreen_rolesInput = {
@@ -733,8 +733,8 @@ export type app_screensUncheckedCreateWithoutScreen_rolesInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensCreateOrConnectWithoutScreen_rolesInput = {
@@ -766,8 +766,8 @@ export type app_screensUpdateWithoutScreen_rolesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutApp_screensNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateWithoutScreen_rolesInput = {
@@ -783,8 +783,8 @@ export type app_screensUncheckedUpdateWithoutScreen_rolesInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensCreateWithoutScreen_permissionsInput = {
@@ -800,8 +800,8 @@ export type app_screensCreateWithoutScreen_permissionsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   app_modules: Prisma.app_modulesCreateNestedOneWithoutApp_screensInput
-  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUncheckedCreateWithoutScreen_permissionsInput = {
@@ -817,8 +817,8 @@ export type app_screensUncheckedCreateWithoutScreen_permissionsInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensCreateOrConnectWithoutScreen_permissionsInput = {
@@ -850,8 +850,8 @@ export type app_screensUpdateWithoutScreen_permissionsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutApp_screensNestedInput
-  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateWithoutScreen_permissionsInput = {
@@ -867,8 +867,8 @@ export type app_screensUncheckedUpdateWithoutScreen_permissionsInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensCreateWithoutScreen_buttonsInput = {
@@ -884,8 +884,8 @@ export type app_screensCreateWithoutScreen_buttonsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   app_modules: Prisma.app_modulesCreateNestedOneWithoutApp_screensInput
-  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
   screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensUncheckedCreateWithoutScreen_buttonsInput = {
@@ -901,8 +901,8 @@ export type app_screensUncheckedCreateWithoutScreen_buttonsInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
   screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutApp_screensInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutApp_screensInput
 }
 
 export type app_screensCreateOrConnectWithoutScreen_buttonsInput = {
@@ -934,8 +934,8 @@ export type app_screensUpdateWithoutScreen_buttonsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutApp_screensNestedInput
-  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
   screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateWithoutScreen_buttonsInput = {
@@ -951,8 +951,8 @@ export type app_screensUncheckedUpdateWithoutScreen_buttonsInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
   screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensCreateManyApp_modulesInput = {
@@ -981,9 +981,9 @@ export type app_screensUpdateWithoutApp_modulesInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
-  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateWithoutApp_modulesInput = {
@@ -998,9 +998,9 @@ export type app_screensUncheckedUpdateWithoutApp_modulesInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
-  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutApp_screensNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutApp_screensNestedInput
 }
 
 export type app_screensUncheckedUpdateManyWithoutApp_modulesInput = {
@@ -1023,15 +1023,15 @@ export type app_screensUncheckedUpdateManyWithoutApp_modulesInput = {
  */
 
 export type App_screensCountOutputType = {
-  screen_roles: number
-  screen_permissions: number
   screen_buttons: number
+  screen_permissions: number
+  screen_roles: number
 }
 
 export type App_screensCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  screen_roles?: boolean | App_screensCountOutputTypeCountScreen_rolesArgs
-  screen_permissions?: boolean | App_screensCountOutputTypeCountScreen_permissionsArgs
   screen_buttons?: boolean | App_screensCountOutputTypeCountScreen_buttonsArgs
+  screen_permissions?: boolean | App_screensCountOutputTypeCountScreen_permissionsArgs
+  screen_roles?: boolean | App_screensCountOutputTypeCountScreen_rolesArgs
 }
 
 /**
@@ -1047,8 +1047,8 @@ export type App_screensCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
 /**
  * App_screensCountOutputType without action
  */
-export type App_screensCountOutputTypeCountScreen_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.screen_rolesWhereInput
+export type App_screensCountOutputTypeCountScreen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.screen_buttonsWhereInput
 }
 
 /**
@@ -1061,8 +1061,8 @@ export type App_screensCountOutputTypeCountScreen_permissionsArgs<ExtArgs extend
 /**
  * App_screensCountOutputType without action
  */
-export type App_screensCountOutputTypeCountScreen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.screen_buttonsWhereInput
+export type App_screensCountOutputTypeCountScreen_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.screen_rolesWhereInput
 }
 
 
@@ -1080,9 +1080,9 @@ export type app_screensSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   created_at?: boolean
   updated_at?: boolean
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
-  screen_roles?: boolean | Prisma.app_screens$screen_rolesArgs<ExtArgs>
-  screen_permissions?: boolean | Prisma.app_screens$screen_permissionsArgs<ExtArgs>
   screen_buttons?: boolean | Prisma.app_screens$screen_buttonsArgs<ExtArgs>
+  screen_permissions?: boolean | Prisma.app_screens$screen_permissionsArgs<ExtArgs>
+  screen_roles?: boolean | Prisma.app_screens$screen_rolesArgs<ExtArgs>
   _count?: boolean | Prisma.App_screensCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["app_screens"]>
 
@@ -1136,9 +1136,9 @@ export type app_screensSelectScalar = {
 export type app_screensOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "route" | "description" | "icon" | "module_id" | "sort_order" | "is_active" | "is_system" | "created_at" | "updated_at", ExtArgs["result"]["app_screens"]>
 export type app_screensInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
-  screen_roles?: boolean | Prisma.app_screens$screen_rolesArgs<ExtArgs>
-  screen_permissions?: boolean | Prisma.app_screens$screen_permissionsArgs<ExtArgs>
   screen_buttons?: boolean | Prisma.app_screens$screen_buttonsArgs<ExtArgs>
+  screen_permissions?: boolean | Prisma.app_screens$screen_permissionsArgs<ExtArgs>
+  screen_roles?: boolean | Prisma.app_screens$screen_rolesArgs<ExtArgs>
   _count?: boolean | Prisma.App_screensCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type app_screensIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1152,9 +1152,9 @@ export type $app_screensPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "app_screens"
   objects: {
     app_modules: Prisma.$app_modulesPayload<ExtArgs>
-    screen_roles: Prisma.$screen_rolesPayload<ExtArgs>[]
-    screen_permissions: Prisma.$screen_permissionsPayload<ExtArgs>[]
     screen_buttons: Prisma.$screen_buttonsPayload<ExtArgs>[]
+    screen_permissions: Prisma.$screen_permissionsPayload<ExtArgs>[]
+    screen_roles: Prisma.$screen_rolesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1564,9 +1564,9 @@ readonly fields: app_screensFieldRefs;
 export interface Prisma__app_screensClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   app_modules<T extends Prisma.app_modulesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modulesDefaultArgs<ExtArgs>>): Prisma.Prisma__app_modulesClient<runtime.Types.Result.GetResult<Prisma.$app_modulesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  screen_roles<T extends Prisma.app_screens$screen_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screens$screen_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  screen_permissions<T extends Prisma.app_screens$screen_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screens$screen_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   screen_buttons<T extends Prisma.app_screens$screen_buttonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screens$screen_buttonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_buttonsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  screen_permissions<T extends Prisma.app_screens$screen_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screens$screen_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  screen_roles<T extends Prisma.app_screens$screen_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screens$screen_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2009,27 +2009,27 @@ export type app_screensDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * app_screens.screen_roles
+ * app_screens.screen_buttons
  */
-export type app_screens$screen_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type app_screens$screen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the screen_roles
+   * Select specific fields to fetch from the screen_buttons
    */
-  select?: Prisma.screen_rolesSelect<ExtArgs> | null
+  select?: Prisma.screen_buttonsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the screen_roles
+   * Omit specific fields from the screen_buttons
    */
-  omit?: Prisma.screen_rolesOmit<ExtArgs> | null
+  omit?: Prisma.screen_buttonsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.screen_rolesInclude<ExtArgs> | null
-  where?: Prisma.screen_rolesWhereInput
-  orderBy?: Prisma.screen_rolesOrderByWithRelationInput | Prisma.screen_rolesOrderByWithRelationInput[]
-  cursor?: Prisma.screen_rolesWhereUniqueInput
+  include?: Prisma.screen_buttonsInclude<ExtArgs> | null
+  where?: Prisma.screen_buttonsWhereInput
+  orderBy?: Prisma.screen_buttonsOrderByWithRelationInput | Prisma.screen_buttonsOrderByWithRelationInput[]
+  cursor?: Prisma.screen_buttonsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.Screen_rolesScalarFieldEnum | Prisma.Screen_rolesScalarFieldEnum[]
+  distinct?: Prisma.Screen_buttonsScalarFieldEnum | Prisma.Screen_buttonsScalarFieldEnum[]
 }
 
 /**
@@ -2057,27 +2057,27 @@ export type app_screens$screen_permissionsArgs<ExtArgs extends runtime.Types.Ext
 }
 
 /**
- * app_screens.screen_buttons
+ * app_screens.screen_roles
  */
-export type app_screens$screen_buttonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type app_screens$screen_rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the screen_buttons
+   * Select specific fields to fetch from the screen_roles
    */
-  select?: Prisma.screen_buttonsSelect<ExtArgs> | null
+  select?: Prisma.screen_rolesSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the screen_buttons
+   * Omit specific fields from the screen_roles
    */
-  omit?: Prisma.screen_buttonsOmit<ExtArgs> | null
+  omit?: Prisma.screen_rolesOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.screen_buttonsInclude<ExtArgs> | null
-  where?: Prisma.screen_buttonsWhereInput
-  orderBy?: Prisma.screen_buttonsOrderByWithRelationInput | Prisma.screen_buttonsOrderByWithRelationInput[]
-  cursor?: Prisma.screen_buttonsWhereUniqueInput
+  include?: Prisma.screen_rolesInclude<ExtArgs> | null
+  where?: Prisma.screen_rolesWhereInput
+  orderBy?: Prisma.screen_rolesOrderByWithRelationInput | Prisma.screen_rolesOrderByWithRelationInput[]
+  cursor?: Prisma.screen_rolesWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.Screen_buttonsScalarFieldEnum | Prisma.Screen_buttonsScalarFieldEnum[]
+  distinct?: Prisma.Screen_rolesScalarFieldEnum | Prisma.Screen_rolesScalarFieldEnum[]
 }
 
 /**

@@ -166,16 +166,16 @@ export type screen_permissionsWhereInput = {
   screen_id?: Prisma.UuidFilter<"screen_permissions"> | string
   permission_id?: Prisma.UuidFilter<"screen_permissions"> | string
   created_at?: Prisma.DateTimeNullableFilter<"screen_permissions"> | Date | string | null
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }
 
 export type screen_permissionsOrderByWithRelationInput = {
   screen_id?: Prisma.SortOrder
   permission_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  app_screens?: Prisma.app_screensOrderByWithRelationInput
   permissions?: Prisma.permissionsOrderByWithRelationInput
+  app_screens?: Prisma.app_screensOrderByWithRelationInput
 }
 
 export type screen_permissionsWhereUniqueInput = Prisma.AtLeast<{
@@ -186,8 +186,8 @@ export type screen_permissionsWhereUniqueInput = Prisma.AtLeast<{
   screen_id?: Prisma.UuidFilter<"screen_permissions"> | string
   permission_id?: Prisma.UuidFilter<"screen_permissions"> | string
   created_at?: Prisma.DateTimeNullableFilter<"screen_permissions"> | Date | string | null
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }, "screen_id_permission_id">
 
 export type screen_permissionsOrderByWithAggregationInput = {
@@ -210,8 +210,8 @@ export type screen_permissionsScalarWhereWithAggregatesInput = {
 
 export type screen_permissionsCreateInput = {
   created_at?: Date | string | null
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_permissionsInput
   permissions: Prisma.permissionsCreateNestedOneWithoutScreen_permissionsInput
+  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_permissionsInput
 }
 
 export type screen_permissionsUncheckedCreateInput = {
@@ -222,8 +222,8 @@ export type screen_permissionsUncheckedCreateInput = {
 
 export type screen_permissionsUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_permissionsNestedInput
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutScreen_permissionsNestedInput
+  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_permissionsNestedInput
 }
 
 export type screen_permissionsUncheckedUpdateInput = {
@@ -492,24 +492,24 @@ export type screen_permissionsSelect<ExtArgs extends runtime.Types.Extensions.In
   screen_id?: boolean
   permission_id?: boolean
   created_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_permissions"]>
 
 export type screen_permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   screen_id?: boolean
   permission_id?: boolean
   created_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_permissions"]>
 
 export type screen_permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   screen_id?: boolean
   permission_id?: boolean
   created_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_permissions"]>
 
 export type screen_permissionsSelectScalar = {
@@ -520,23 +520,23 @@ export type screen_permissionsSelectScalar = {
 
 export type screen_permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"screen_id" | "permission_id" | "created_at", ExtArgs["result"]["screen_permissions"]>
 export type screen_permissionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 export type screen_permissionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 export type screen_permissionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 
 export type $screen_permissionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "screen_permissions"
   objects: {
-    app_screens: Prisma.$app_screensPayload<ExtArgs>
     permissions: Prisma.$permissionsPayload<ExtArgs>
+    app_screens: Prisma.$app_screensPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     screen_id: string
@@ -936,8 +936,8 @@ readonly fields: screen_permissionsFieldRefs;
  */
 export interface Prisma__screen_permissionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  app_screens<T extends Prisma.app_screensDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screensDefaultArgs<ExtArgs>>): Prisma.Prisma__app_screensClient<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   permissions<T extends Prisma.permissionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissionsDefaultArgs<ExtArgs>>): Prisma.Prisma__permissionsClient<runtime.Types.Result.GetResult<Prisma.$permissionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  app_screens<T extends Prisma.app_screensDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screensDefaultArgs<ExtArgs>>): Prisma.Prisma__app_screensClient<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

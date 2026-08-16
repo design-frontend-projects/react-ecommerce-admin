@@ -174,8 +174,8 @@ export type module_activity_typesWhereInput = {
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
-  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
   business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
+  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
 }
 
 export type module_activity_typesOrderByWithRelationInput = {
@@ -183,8 +183,8 @@ export type module_activity_typesOrderByWithRelationInput = {
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  app_modules?: Prisma.app_modulesOrderByWithRelationInput
   business_activity_types?: Prisma.business_activity_typesOrderByWithRelationInput
+  app_modules?: Prisma.app_modulesOrderByWithRelationInput
 }
 
 export type module_activity_typesWhereUniqueInput = Prisma.AtLeast<{
@@ -196,8 +196,8 @@ export type module_activity_typesWhereUniqueInput = Prisma.AtLeast<{
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
   auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
-  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
   business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
+  app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
 }, "module_id_activity_type_id">
 
 export type module_activity_typesOrderByWithAggregationInput = {
@@ -223,8 +223,8 @@ export type module_activity_typesScalarWhereWithAggregatesInput = {
 export type module_activity_typesCreateInput = {
   created_at?: Date | string | null
   auth_user_id?: string | null
-  app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
   business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutModule_activity_typesInput
+  app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
 }
 
 export type module_activity_typesUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type module_activity_typesUncheckedCreateInput = {
 export type module_activity_typesUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
   business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput
+  app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
 }
 
 export type module_activity_typesUncheckedUpdateInput = {
@@ -528,8 +528,8 @@ export type module_activity_typesSelect<ExtArgs extends runtime.Types.Extensions
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,8 +537,8 @@ export type module_activity_typesSelectCreateManyAndReturn<ExtArgs extends runti
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,8 +546,8 @@ export type module_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runti
   activity_type_id?: boolean
   created_at?: boolean
   auth_user_id?: boolean
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
 
 export type module_activity_typesSelectScalar = {
@@ -559,23 +559,23 @@ export type module_activity_typesSelectScalar = {
 
 export type module_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module_id" | "activity_type_id" | "created_at" | "auth_user_id", ExtArgs["result"]["module_activity_types"]>
 export type module_activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }
 export type module_activity_typesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }
 export type module_activity_typesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
+  app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }
 
 export type $module_activity_typesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "module_activity_types"
   objects: {
-    app_modules: Prisma.$app_modulesPayload<ExtArgs>
     business_activity_types: Prisma.$business_activity_typesPayload<ExtArgs>
+    app_modules: Prisma.$app_modulesPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     module_id: string
@@ -976,8 +976,8 @@ readonly fields: module_activity_typesFieldRefs;
  */
 export interface Prisma__module_activity_typesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  app_modules<T extends Prisma.app_modulesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modulesDefaultArgs<ExtArgs>>): Prisma.Prisma__app_modulesClient<runtime.Types.Result.GetResult<Prisma.$app_modulesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   business_activity_types<T extends Prisma.business_activity_typesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.business_activity_typesDefaultArgs<ExtArgs>>): Prisma.Prisma__business_activity_typesClient<runtime.Types.Result.GetResult<Prisma.$business_activity_typesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  app_modules<T extends Prisma.app_modulesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_modulesDefaultArgs<ExtArgs>>): Prisma.Prisma__app_modulesClient<runtime.Types.Result.GetResult<Prisma.$app_modulesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

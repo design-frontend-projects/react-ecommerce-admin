@@ -246,9 +246,9 @@ export type warehousesWhereInput = {
   created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
 }
 
 export type warehousesOrderByWithRelationInput = {
@@ -265,9 +265,9 @@ export type warehousesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_locations?: Prisma.warehouse_locationsOrderByRelationAggregateInput
   branches?: Prisma.branchesOrderByWithRelationInput
   stores?: Prisma.storesOrderByWithRelationInput
-  warehouse_locations?: Prisma.warehouse_locationsOrderByRelationAggregateInput
 }
 
 export type warehousesWhereUniqueInput = Prisma.AtLeast<{
@@ -287,9 +287,9 @@ export type warehousesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
   auth_user_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
-  warehouse_locations?: Prisma.Warehouse_locationsListRelationFilter
 }, "id">
 
 export type warehousesOrderByWithAggregationInput = {
@@ -342,9 +342,9 @@ export type warehousesCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
   branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
-  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateInput = {
@@ -376,9 +376,9 @@ export type warehousesUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
   branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
-  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateInput = {
@@ -617,8 +617,8 @@ export type warehousesCreateWithoutBranchesInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
-  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
+  stores?: Prisma.storesCreateNestedOneWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutBranchesInput = {
@@ -694,8 +694,8 @@ export type warehousesCreateWithoutStoresInput = {
   created_at?: Date | string
   updated_at?: Date | string
   auth_user_id?: string | null
-  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
+  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
 }
 
 export type warehousesUncheckedCreateWithoutStoresInput = {
@@ -847,8 +847,8 @@ export type warehousesUpdateWithoutBranchesInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutBranchesInput = {
@@ -909,8 +909,8 @@ export type warehousesUpdateWithoutStoresInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
+  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
 }
 
 export type warehousesUncheckedUpdateWithoutStoresInput = {
@@ -989,9 +989,9 @@ export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   created_at?: boolean
   updated_at?: boolean
   auth_user_id?: boolean
+  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
   stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   _count?: boolean | Prisma.WarehousesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["warehouses"]>
 
@@ -1049,9 +1049,9 @@ export type warehousesSelectScalar = {
 
 export type warehousesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "branch_id" | "store_id" | "code" | "name" | "is_default" | "is_active" | "address" | "notes" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["warehouses"]>
 export type warehousesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
   stores?: boolean | Prisma.warehouses$storesArgs<ExtArgs>
-  warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   _count?: boolean | Prisma.WarehousesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type warehousesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1066,9 +1066,9 @@ export type warehousesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "warehouses"
   objects: {
+    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs>[]
     branches: Prisma.$branchesPayload<ExtArgs> | null
     stores: Prisma.$storesPayload<ExtArgs> | null
-    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1478,9 +1478,9 @@ readonly fields: warehousesFieldRefs;
  */
 export interface Prisma__warehousesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warehouse_locations<T extends Prisma.warehouses$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$warehouse_locationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branches<T extends Prisma.warehouses$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.warehouses$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  warehouse_locations<T extends Prisma.warehouses$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$warehouse_locationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1924,6 +1924,30 @@ export type warehousesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * warehouses.warehouse_locations
+ */
+export type warehouses$warehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouse_locations
+   */
+  select?: Prisma.warehouse_locationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouse_locations
+   */
+  omit?: Prisma.warehouse_locationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
+  where?: Prisma.warehouse_locationsWhereInput
+  orderBy?: Prisma.warehouse_locationsOrderByWithRelationInput | Prisma.warehouse_locationsOrderByWithRelationInput[]
+  cursor?: Prisma.warehouse_locationsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Warehouse_locationsScalarFieldEnum | Prisma.Warehouse_locationsScalarFieldEnum[]
+}
+
+/**
  * warehouses.branches
  */
 export type warehouses$branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1959,30 +1983,6 @@ export type warehouses$storesArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.storesInclude<ExtArgs> | null
   where?: Prisma.storesWhereInput
-}
-
-/**
- * warehouses.warehouse_locations
- */
-export type warehouses$warehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the warehouse_locations
-   */
-  select?: Prisma.warehouse_locationsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the warehouse_locations
-   */
-  omit?: Prisma.warehouse_locationsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
-  where?: Prisma.warehouse_locationsWhereInput
-  orderBy?: Prisma.warehouse_locationsOrderByWithRelationInput | Prisma.warehouse_locationsOrderByWithRelationInput[]
-  cursor?: Prisma.warehouse_locationsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Warehouse_locationsScalarFieldEnum | Prisma.Warehouse_locationsScalarFieldEnum[]
 }
 
 /**

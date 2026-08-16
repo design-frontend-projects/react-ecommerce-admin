@@ -182,8 +182,8 @@ export type user_permissionsWhereInput = {
   is_granted?: Prisma.BoolFilter<"user_permissions"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
-  tenant_users?: Prisma.XOR<Prisma.Tenant_usersScalarRelationFilter, Prisma.tenant_usersWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  tenant_users?: Prisma.XOR<Prisma.Tenant_usersScalarRelationFilter, Prisma.tenant_usersWhereInput>
 }
 
 export type user_permissionsOrderByWithRelationInput = {
@@ -192,8 +192,8 @@ export type user_permissionsOrderByWithRelationInput = {
   is_granted?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_users?: Prisma.tenant_usersOrderByWithRelationInput
   permissions?: Prisma.permissionsOrderByWithRelationInput
+  tenant_users?: Prisma.tenant_usersOrderByWithRelationInput
 }
 
 export type user_permissionsWhereUniqueInput = Prisma.AtLeast<{
@@ -206,8 +206,8 @@ export type user_permissionsWhereUniqueInput = Prisma.AtLeast<{
   is_granted?: Prisma.BoolFilter<"user_permissions"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"user_permissions"> | Date | string | null
-  tenant_users?: Prisma.XOR<Prisma.Tenant_usersScalarRelationFilter, Prisma.tenant_usersWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  tenant_users?: Prisma.XOR<Prisma.Tenant_usersScalarRelationFilter, Prisma.tenant_usersWhereInput>
 }, "tenant_user_id_permission_id">
 
 export type user_permissionsOrderByWithAggregationInput = {
@@ -236,8 +236,8 @@ export type user_permissionsCreateInput = {
   is_granted?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  tenant_users: Prisma.tenant_usersCreateNestedOneWithoutUser_permissionsInput
   permissions: Prisma.permissionsCreateNestedOneWithoutUser_permissionsInput
+  tenant_users: Prisma.tenant_usersCreateNestedOneWithoutUser_permissionsInput
 }
 
 export type user_permissionsUncheckedCreateInput = {
@@ -252,8 +252,8 @@ export type user_permissionsUpdateInput = {
   is_granted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant_users?: Prisma.tenant_usersUpdateOneRequiredWithoutUser_permissionsNestedInput
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutUser_permissionsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateOneRequiredWithoutUser_permissionsNestedInput
 }
 
 export type user_permissionsUncheckedUpdateInput = {
@@ -564,8 +564,8 @@ export type user_permissionsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   is_granted?: boolean
   created_at?: boolean
   updated_at?: boolean
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_permissions"]>
 
 export type user_permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -574,8 +574,8 @@ export type user_permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   is_granted?: boolean
   created_at?: boolean
   updated_at?: boolean
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_permissions"]>
 
 export type user_permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -584,8 +584,8 @@ export type user_permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   is_granted?: boolean
   created_at?: boolean
   updated_at?: boolean
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_permissions"]>
 
 export type user_permissionsSelectScalar = {
@@ -598,23 +598,23 @@ export type user_permissionsSelectScalar = {
 
 export type user_permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tenant_user_id" | "permission_id" | "is_granted" | "created_at" | "updated_at", ExtArgs["result"]["user_permissions"]>
 export type user_permissionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }
 export type user_permissionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }
 export type user_permissionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  tenant_users?: boolean | Prisma.tenant_usersDefaultArgs<ExtArgs>
 }
 
 export type $user_permissionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "user_permissions"
   objects: {
-    tenant_users: Prisma.$tenant_usersPayload<ExtArgs>
     permissions: Prisma.$permissionsPayload<ExtArgs>
+    tenant_users: Prisma.$tenant_usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     tenant_user_id: string
@@ -1016,8 +1016,8 @@ readonly fields: user_permissionsFieldRefs;
  */
 export interface Prisma__user_permissionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant_users<T extends Prisma.tenant_usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_usersDefaultArgs<ExtArgs>>): Prisma.Prisma__tenant_usersClient<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   permissions<T extends Prisma.permissionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissionsDefaultArgs<ExtArgs>>): Prisma.Prisma__permissionsClient<runtime.Types.Result.GetResult<Prisma.$permissionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant_users<T extends Prisma.tenant_usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_usersDefaultArgs<ExtArgs>>): Prisma.Prisma__tenant_usersClient<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

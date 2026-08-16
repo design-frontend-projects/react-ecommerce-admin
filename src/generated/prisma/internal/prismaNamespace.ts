@@ -8703,10 +8703,11 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   first_name: 'first_name',
   last_name: 'last_name',
   is_owner: 'is_owner',
+  tenant_id: 'tenant_id',
+  subscription_id: 'subscription_id',
   payment_method: 'payment_method',
   transfer_ref: 'transfer_ref',
-  tenant_id: 'tenant_id',
-  subscription_id: 'subscription_id'
+  onboarding_complete: 'onboarding_complete'
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]

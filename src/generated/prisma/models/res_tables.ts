@@ -280,6 +280,7 @@ export type res_tablesWhereInput = {
   auth_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
+  res_orders?: Prisma.Res_ordersListRelationFilter
 }
 
 export type res_tablesOrderByWithRelationInput = {
@@ -295,6 +296,7 @@ export type res_tablesOrderByWithRelationInput = {
   auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  res_orders?: Prisma.res_ordersOrderByRelationAggregateInput
 }
 
 export type res_tablesWhereUniqueInput = Prisma.AtLeast<{
@@ -313,6 +315,7 @@ export type res_tablesWhereUniqueInput = Prisma.AtLeast<{
   auth_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
+  res_orders?: Prisma.Res_ordersListRelationFilter
 }, "id">
 
 export type res_tablesOrderByWithAggregationInput = {
@@ -366,6 +369,7 @@ export type res_tablesCreateInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   status?: $Enums.table_status | null
+  res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_tablesInput
 }
 
 export type res_tablesUncheckedCreateInput = {
@@ -381,6 +385,7 @@ export type res_tablesUncheckedCreateInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   status?: $Enums.table_status | null
+  res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_tablesInput
 }
 
 export type res_tablesUpdateInput = {
@@ -396,6 +401,7 @@ export type res_tablesUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  res_orders?: Prisma.res_ordersUpdateManyWithoutRes_tablesNestedInput
 }
 
 export type res_tablesUncheckedUpdateInput = {
@@ -411,6 +417,7 @@ export type res_tablesUncheckedUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_tablesNestedInput
 }
 
 export type res_tablesCreateManyInput = {
@@ -456,6 +463,11 @@ export type res_tablesUncheckedUpdateManyInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+}
+
+export type Res_tablesNullableScalarRelationFilter = {
+  is?: Prisma.res_tablesWhereInput | null
+  isNot?: Prisma.res_tablesWhereInput | null
 }
 
 export type res_tablesCountOrderByAggregateInput = {
@@ -515,10 +527,131 @@ export type res_tablesSumOrderByAggregateInput = {
   position_y?: Prisma.SortOrder
 }
 
+export type res_tablesCreateNestedOneWithoutRes_ordersInput = {
+  create?: Prisma.XOR<Prisma.res_tablesCreateWithoutRes_ordersInput, Prisma.res_tablesUncheckedCreateWithoutRes_ordersInput>
+  connectOrCreate?: Prisma.res_tablesCreateOrConnectWithoutRes_ordersInput
+  connect?: Prisma.res_tablesWhereUniqueInput
+}
+
+export type res_tablesUpdateOneWithoutRes_ordersNestedInput = {
+  create?: Prisma.XOR<Prisma.res_tablesCreateWithoutRes_ordersInput, Prisma.res_tablesUncheckedCreateWithoutRes_ordersInput>
+  connectOrCreate?: Prisma.res_tablesCreateOrConnectWithoutRes_ordersInput
+  upsert?: Prisma.res_tablesUpsertWithoutRes_ordersInput
+  disconnect?: Prisma.res_tablesWhereInput | boolean
+  delete?: Prisma.res_tablesWhereInput | boolean
+  connect?: Prisma.res_tablesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.res_tablesUpdateToOneWithWhereWithoutRes_ordersInput, Prisma.res_tablesUpdateWithoutRes_ordersInput>, Prisma.res_tablesUncheckedUpdateWithoutRes_ordersInput>
+}
+
 export type NullableEnumtable_statusFieldUpdateOperationsInput = {
   set?: $Enums.table_status | null
 }
 
+export type res_tablesCreateWithoutRes_ordersInput = {
+  id?: string
+  floor_id?: string | null
+  table_number: string
+  seats?: number | null
+  position_x?: number | null
+  position_y?: number | null
+  shape?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  tenant_id?: string | null
+  status?: $Enums.table_status | null
+}
+
+export type res_tablesUncheckedCreateWithoutRes_ordersInput = {
+  id?: string
+  floor_id?: string | null
+  table_number: string
+  seats?: number | null
+  position_x?: number | null
+  position_y?: number | null
+  shape?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  auth_user_id?: string | null
+  tenant_id?: string | null
+  status?: $Enums.table_status | null
+}
+
+export type res_tablesCreateOrConnectWithoutRes_ordersInput = {
+  where: Prisma.res_tablesWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_tablesCreateWithoutRes_ordersInput, Prisma.res_tablesUncheckedCreateWithoutRes_ordersInput>
+}
+
+export type res_tablesUpsertWithoutRes_ordersInput = {
+  update: Prisma.XOR<Prisma.res_tablesUpdateWithoutRes_ordersInput, Prisma.res_tablesUncheckedUpdateWithoutRes_ordersInput>
+  create: Prisma.XOR<Prisma.res_tablesCreateWithoutRes_ordersInput, Prisma.res_tablesUncheckedCreateWithoutRes_ordersInput>
+  where?: Prisma.res_tablesWhereInput
+}
+
+export type res_tablesUpdateToOneWithWhereWithoutRes_ordersInput = {
+  where?: Prisma.res_tablesWhereInput
+  data: Prisma.XOR<Prisma.res_tablesUpdateWithoutRes_ordersInput, Prisma.res_tablesUncheckedUpdateWithoutRes_ordersInput>
+}
+
+export type res_tablesUpdateWithoutRes_ordersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  table_number?: Prisma.StringFieldUpdateOperationsInput | string
+  seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+}
+
+export type res_tablesUncheckedUpdateWithoutRes_ordersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  floor_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  table_number?: Prisma.StringFieldUpdateOperationsInput | string
+  seats?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_x?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_y?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+}
+
+
+/**
+ * Count Type Res_tablesCountOutputType
+ */
+
+export type Res_tablesCountOutputType = {
+  res_orders: number
+}
+
+export type Res_tablesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_orders?: boolean | Res_tablesCountOutputTypeCountRes_ordersArgs
+}
+
+/**
+ * Res_tablesCountOutputType without action
+ */
+export type Res_tablesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Res_tablesCountOutputType
+   */
+  select?: Prisma.Res_tablesCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Res_tablesCountOutputType without action
+ */
+export type Res_tablesCountOutputTypeCountRes_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.res_ordersWhereInput
+}
 
 
 export type res_tablesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -534,6 +667,8 @@ export type res_tablesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  res_orders?: boolean | Prisma.res_tables$res_ordersArgs<ExtArgs>
+  _count?: boolean | Prisma.Res_tablesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["res_tables"]>
 
 export type res_tablesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -582,10 +717,18 @@ export type res_tablesSelectScalar = {
 }
 
 export type res_tablesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "floor_id" | "table_number" | "seats" | "position_x" | "position_y" | "shape" | "is_active" | "created_at" | "auth_user_id" | "tenant_id" | "status", ExtArgs["result"]["res_tables"]>
+export type res_tablesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_orders?: boolean | Prisma.res_tables$res_ordersArgs<ExtArgs>
+  _count?: boolean | Prisma.Res_tablesCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type res_tablesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type res_tablesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $res_tablesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_tables"
-  objects: {}
+  objects: {
+    res_orders: Prisma.$res_ordersPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     floor_id: string | null
@@ -993,6 +1136,7 @@ readonly fields: res_tablesFieldRefs;
  */
 export interface Prisma__res_tablesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  res_orders<T extends Prisma.res_tables$res_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_tables$res_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1051,6 +1195,10 @@ export type res_tablesFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * Filter, which res_tables to fetch.
    */
   where: Prisma.res_tablesWhereUniqueInput
@@ -1069,6 +1217,10 @@ export type res_tablesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * Filter, which res_tables to fetch.
    */
   where: Prisma.res_tablesWhereUniqueInput
@@ -1086,6 +1238,10 @@ export type res_tablesFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_tables
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
   /**
    * Filter, which res_tables to fetch.
    */
@@ -1135,6 +1291,10 @@ export type res_tablesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * Filter, which res_tables to fetch.
    */
   where?: Prisma.res_tablesWhereInput
@@ -1182,6 +1342,10 @@ export type res_tablesFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_tables
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
   /**
    * Filter, which res_tables to fetch.
    */
@@ -1231,6 +1395,10 @@ export type res_tablesCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * The data needed to create a res_tables.
    */
   data: Prisma.XOR<Prisma.res_tablesCreateInput, Prisma.res_tablesUncheckedCreateInput>
@@ -1278,6 +1446,10 @@ export type res_tablesUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_tables
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
   /**
    * The data needed to update a res_tables.
    */
@@ -1345,6 +1517,10 @@ export type res_tablesUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * The filter to search for the res_tables to update in case it exists.
    */
   where: Prisma.res_tablesWhereUniqueInput
@@ -1371,6 +1547,10 @@ export type res_tablesDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  /**
    * Filter which res_tables to delete.
    */
   where: Prisma.res_tablesWhereUniqueInput
@@ -1391,6 +1571,30 @@ export type res_tablesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * res_tables.res_orders
+ */
+export type res_tables$res_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the res_orders
+   */
+  select?: Prisma.res_ordersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the res_orders
+   */
+  omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  where?: Prisma.res_ordersWhereInput
+  orderBy?: Prisma.res_ordersOrderByWithRelationInput | Prisma.res_ordersOrderByWithRelationInput[]
+  cursor?: Prisma.res_ordersWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Res_ordersScalarFieldEnum | Prisma.Res_ordersScalarFieldEnum[]
+}
+
+/**
  * res_tables without action
  */
 export type res_tablesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1402,4 +1606,8 @@ export type res_tablesDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_tables
    */
   omit?: Prisma.res_tablesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
 }

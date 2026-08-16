@@ -224,8 +224,8 @@ export type branchesWhereInput = {
   tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
   stores?: Prisma.StoresListRelationFilter
-  default_for_tenants?: Prisma.TenantsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  default_for_tenants?: Prisma.TenantsListRelationFilter
   warehouses?: Prisma.WarehousesListRelationFilter
 }
 
@@ -242,8 +242,8 @@ export type branchesOrderByWithRelationInput = {
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   cities?: Prisma.citiesOrderByWithRelationInput
   stores?: Prisma.storesOrderByRelationAggregateInput
-  default_for_tenants?: Prisma.tenantsOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
+  default_for_tenants?: Prisma.tenantsOrderByRelationAggregateInput
   warehouses?: Prisma.warehousesOrderByRelationAggregateInput
 }
 
@@ -263,8 +263,8 @@ export type branchesWhereUniqueInput = Prisma.AtLeast<{
   tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
   stores?: Prisma.StoresListRelationFilter
-  default_for_tenants?: Prisma.TenantsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  default_for_tenants?: Prisma.TenantsListRelationFilter
   warehouses?: Prisma.WarehousesListRelationFilter
 }, "id">
 
@@ -312,8 +312,8 @@ export type branchesCreateInput = {
   tenant_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutBranchesInput
 }
 
@@ -329,8 +329,8 @@ export type branchesUncheckedCreateInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
 }
 
@@ -346,8 +346,8 @@ export type branchesUpdateInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutBranchesNestedInput
 }
 
@@ -363,8 +363,8 @@ export type branchesUncheckedUpdateInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
 }
 
@@ -577,8 +577,8 @@ export type branchesCreateWithoutCitiesInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutBranchesInput
 }
 
@@ -593,8 +593,8 @@ export type branchesUncheckedCreateWithoutCitiesInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
 }
 
@@ -651,8 +651,8 @@ export type branchesCreateWithoutStoresInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutBranchesInput
 }
 
@@ -667,8 +667,8 @@ export type branchesUncheckedCreateWithoutStoresInput = {
   updated_at?: Date | string | null
   auth_user_id?: string | null
   tenant_id?: string | null
-  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
 }
 
@@ -699,8 +699,8 @@ export type branchesUpdateWithoutStoresInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutBranchesNestedInput
 }
 
@@ -715,8 +715,8 @@ export type branchesUncheckedUpdateWithoutStoresInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
 }
 
@@ -892,8 +892,8 @@ export type branchesCreateWithoutWarehousesInput = {
   tenant_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
 }
 
 export type branchesUncheckedCreateWithoutWarehousesInput = {
@@ -908,8 +908,8 @@ export type branchesUncheckedCreateWithoutWarehousesInput = {
   auth_user_id?: string | null
   tenant_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
-  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
+  default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
 }
 
 export type branchesCreateOrConnectWithoutWarehousesInput = {
@@ -940,8 +940,8 @@ export type branchesUpdateWithoutWarehousesInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
 }
 
 export type branchesUncheckedUpdateWithoutWarehousesInput = {
@@ -956,8 +956,8 @@ export type branchesUncheckedUpdateWithoutWarehousesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
 }
 
 export type branchesCreateManyCitiesInput = {
@@ -983,8 +983,8 @@ export type branchesUpdateWithoutCitiesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutBranchesNestedInput
 }
 
@@ -999,8 +999,8 @@ export type branchesUncheckedUpdateWithoutCitiesInput = {
   auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
-  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
+  default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
 }
 
@@ -1023,15 +1023,15 @@ export type branchesUncheckedUpdateManyWithoutCitiesInput = {
 
 export type BranchesCountOutputType = {
   stores: number
-  default_for_tenants: number
   tenant_users: number
+  default_for_tenants: number
   warehouses: number
 }
 
 export type BranchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   stores?: boolean | BranchesCountOutputTypeCountStoresArgs
-  default_for_tenants?: boolean | BranchesCountOutputTypeCountDefault_for_tenantsArgs
   tenant_users?: boolean | BranchesCountOutputTypeCountTenant_usersArgs
+  default_for_tenants?: boolean | BranchesCountOutputTypeCountDefault_for_tenantsArgs
   warehouses?: boolean | BranchesCountOutputTypeCountWarehousesArgs
 }
 
@@ -1055,15 +1055,15 @@ export type BranchesCountOutputTypeCountStoresArgs<ExtArgs extends runtime.Types
 /**
  * BranchesCountOutputType without action
  */
-export type BranchesCountOutputTypeCountDefault_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.tenantsWhereInput
+export type BranchesCountOutputTypeCountTenant_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenant_usersWhereInput
 }
 
 /**
  * BranchesCountOutputType without action
  */
-export type BranchesCountOutputTypeCountTenant_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.tenant_usersWhereInput
+export type BranchesCountOutputTypeCountDefault_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenantsWhereInput
 }
 
 /**
@@ -1087,8 +1087,8 @@ export type branchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tenant_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.branches$storesArgs<ExtArgs>
-  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.branches$tenant_usersArgs<ExtArgs>
+  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   warehouses?: boolean | Prisma.branches$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.BranchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
@@ -1138,8 +1138,8 @@ export type branchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type branchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.branches$storesArgs<ExtArgs>
-  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.branches$tenant_usersArgs<ExtArgs>
+  default_for_tenants?: boolean | Prisma.branches$default_for_tenantsArgs<ExtArgs>
   warehouses?: boolean | Prisma.branches$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.BranchesCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1155,8 +1155,8 @@ export type $branchesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     cities: Prisma.$citiesPayload<ExtArgs>
     stores: Prisma.$storesPayload<ExtArgs>[]
-    default_for_tenants: Prisma.$tenantsPayload<ExtArgs>[]
     tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
+    default_for_tenants: Prisma.$tenantsPayload<ExtArgs>[]
     warehouses: Prisma.$warehousesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1566,8 +1566,8 @@ export interface Prisma__branchesClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cities<T extends Prisma.citiesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.citiesDefaultArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.branches$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$storesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  default_for_tenants<T extends Prisma.branches$default_for_tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$default_for_tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant_users<T extends Prisma.branches$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  default_for_tenants<T extends Prisma.branches$default_for_tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$default_for_tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   warehouses<T extends Prisma.branches$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.branches$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2033,30 +2033,6 @@ export type branches$storesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * branches.default_for_tenants
- */
-export type branches$default_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tenants
-   */
-  select?: Prisma.tenantsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tenants
-   */
-  omit?: Prisma.tenantsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tenantsInclude<ExtArgs> | null
-  where?: Prisma.tenantsWhereInput
-  orderBy?: Prisma.tenantsOrderByWithRelationInput | Prisma.tenantsOrderByWithRelationInput[]
-  cursor?: Prisma.tenantsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
-}
-
-/**
  * branches.tenant_users
  */
 export type branches$tenant_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2078,6 +2054,30 @@ export type branches$tenant_usersArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.Tenant_usersScalarFieldEnum | Prisma.Tenant_usersScalarFieldEnum[]
+}
+
+/**
+ * branches.default_for_tenants
+ */
+export type branches$default_for_tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+  orderBy?: Prisma.tenantsOrderByWithRelationInput | Prisma.tenantsOrderByWithRelationInput[]
+  cursor?: Prisma.tenantsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
 }
 
 /**

@@ -420,6 +420,8 @@ export type res_ordersWhereInput = {
   status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
   discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
   applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  res_order_items?: Prisma.Res_order_itemsListRelationFilter
+  res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
 }
 
 export type res_ordersOrderByWithRelationInput = {
@@ -450,6 +452,8 @@ export type res_ordersOrderByWithRelationInput = {
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
   applied_promotion_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  res_order_items?: Prisma.res_order_itemsOrderByRelationAggregateInput
+  res_tables?: Prisma.res_tablesOrderByWithRelationInput
 }
 
 export type res_ordersWhereUniqueInput = Prisma.AtLeast<{
@@ -483,6 +487,8 @@ export type res_ordersWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
   discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
   applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  res_order_items?: Prisma.Res_order_itemsListRelationFilter
+  res_tables?: Prisma.XOR<Prisma.Res_tablesNullableScalarRelationFilter, Prisma.res_tablesWhereInput> | null
 }, "id">
 
 export type res_ordersOrderByWithAggregationInput = {
@@ -556,7 +562,6 @@ export type res_ordersScalarWhereWithAggregatesInput = {
 export type res_ordersCreateInput = {
   id?: string
   order_number: string
-  table_id?: string | null
   shift_id?: string | null
   created_by?: string | null
   customer_name?: string | null
@@ -581,6 +586,8 @@ export type res_ordersCreateInput = {
   status?: $Enums.order_status | null
   discount_type?: $Enums.discount_type_enum | null
   applied_promotion_id?: string | null
+  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
+  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
 }
 
 export type res_ordersUncheckedCreateInput = {
@@ -611,12 +618,12 @@ export type res_ordersUncheckedCreateInput = {
   status?: $Enums.order_status | null
   discount_type?: $Enums.discount_type_enum | null
   applied_promotion_id?: string | null
+  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
 }
 
 export type res_ordersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -641,6 +648,8 @@ export type res_ordersUpdateInput = {
   status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
+  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
 }
 
 export type res_ordersUncheckedUpdateInput = {
@@ -671,6 +680,7 @@ export type res_ordersUncheckedUpdateInput = {
   status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
 }
 
 export type res_ordersCreateManyInput = {
@@ -706,7 +716,6 @@ export type res_ordersCreateManyInput = {
 export type res_ordersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order_number?: Prisma.StringFieldUpdateOperationsInput | string
-  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -761,6 +770,11 @@ export type res_ordersUncheckedUpdateManyInput = {
   status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
   applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Res_ordersNullableScalarRelationFilter = {
+  is?: Prisma.res_ordersWhereInput | null
+  isNot?: Prisma.res_ordersWhereInput | null
 }
 
 export type res_ordersCountOrderByAggregateInput = {
@@ -875,10 +889,480 @@ export type res_ordersSumOrderByAggregateInput = {
   change_amount?: Prisma.SortOrder
 }
 
+export type Res_ordersListRelationFilter = {
+  every?: Prisma.res_ordersWhereInput
+  some?: Prisma.res_ordersWhereInput
+  none?: Prisma.res_ordersWhereInput
+}
+
+export type res_ordersOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type res_ordersCreateNestedOneWithoutRes_order_itemsInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_order_itemsInput
+  connect?: Prisma.res_ordersWhereUniqueInput
+}
+
+export type res_ordersUpdateOneWithoutRes_order_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_order_itemsInput
+  upsert?: Prisma.res_ordersUpsertWithoutRes_order_itemsInput
+  disconnect?: Prisma.res_ordersWhereInput | boolean
+  delete?: Prisma.res_ordersWhereInput | boolean
+  connect?: Prisma.res_ordersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.res_ordersUpdateToOneWithWhereWithoutRes_order_itemsInput, Prisma.res_ordersUpdateWithoutRes_order_itemsInput>, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
+}
+
 export type NullableEnumorder_statusFieldUpdateOperationsInput = {
   set?: $Enums.order_status | null
 }
 
+export type res_ordersCreateNestedManyWithoutRes_tablesInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
+  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
+  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+}
+
+export type res_ordersUncheckedCreateNestedManyWithoutRes_tablesInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
+  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
+  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+}
+
+export type res_ordersUpdateManyWithoutRes_tablesNestedInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
+  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput[]
+  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
+  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput[]
+  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput[]
+  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
+}
+
+export type res_ordersUncheckedUpdateManyWithoutRes_tablesNestedInput = {
+  create?: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput> | Prisma.res_ordersCreateWithoutRes_tablesInput[] | Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput[]
+  connectOrCreate?: Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput | Prisma.res_ordersCreateOrConnectWithoutRes_tablesInput[]
+  upsert?: Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput[]
+  createMany?: Prisma.res_ordersCreateManyRes_tablesInputEnvelope
+  set?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  disconnect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  delete?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  connect?: Prisma.res_ordersWhereUniqueInput | Prisma.res_ordersWhereUniqueInput[]
+  update?: Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput | Prisma.res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput[]
+  updateMany?: Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput | Prisma.res_ordersUpdateManyWithWhereWithoutRes_tablesInput[]
+  deleteMany?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
+}
+
+export type res_ordersCreateWithoutRes_order_itemsInput = {
+  id?: string
+  order_number: string
+  shift_id?: string | null
+  created_by?: string | null
+  customer_name?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: string | null
+  paid_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  mobile_number?: string | null
+  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: string | null
+  shipment_id?: string | null
+  order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
+  res_tables?: Prisma.res_tablesCreateNestedOneWithoutRes_ordersInput
+}
+
+export type res_ordersUncheckedCreateWithoutRes_order_itemsInput = {
+  id?: string
+  order_number: string
+  table_id?: string | null
+  shift_id?: string | null
+  created_by?: string | null
+  customer_name?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: string | null
+  paid_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  mobile_number?: string | null
+  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: string | null
+  shipment_id?: string | null
+  order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
+}
+
+export type res_ordersCreateOrConnectWithoutRes_order_itemsInput = {
+  where: Prisma.res_ordersWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
+}
+
+export type res_ordersUpsertWithoutRes_order_itemsInput = {
+  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
+  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedCreateWithoutRes_order_itemsInput>
+  where?: Prisma.res_ordersWhereInput
+}
+
+export type res_ordersUpdateToOneWithWhereWithoutRes_order_itemsInput = {
+  where?: Prisma.res_ordersWhereInput
+  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_order_itemsInput, Prisma.res_ordersUncheckedUpdateWithoutRes_order_itemsInput>
+}
+
+export type res_ordersUpdateWithoutRes_order_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_tables?: Prisma.res_tablesUpdateOneWithoutRes_ordersNestedInput
+}
+
+export type res_ordersUncheckedUpdateWithoutRes_order_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  table_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type res_ordersCreateWithoutRes_tablesInput = {
+  id?: string
+  order_number: string
+  shift_id?: string | null
+  created_by?: string | null
+  customer_name?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: string | null
+  paid_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  mobile_number?: string | null
+  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: string | null
+  shipment_id?: string | null
+  order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
+  res_order_items?: Prisma.res_order_itemsCreateNestedManyWithoutRes_ordersInput
+}
+
+export type res_ordersUncheckedCreateWithoutRes_tablesInput = {
+  id?: string
+  order_number: string
+  shift_id?: string | null
+  created_by?: string | null
+  customer_name?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: string | null
+  paid_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  mobile_number?: string | null
+  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: string | null
+  shipment_id?: string | null
+  order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
+  res_order_items?: Prisma.res_order_itemsUncheckedCreateNestedManyWithoutRes_ordersInput
+}
+
+export type res_ordersCreateOrConnectWithoutRes_tablesInput = {
+  where: Prisma.res_ordersWhereUniqueInput
+  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput>
+}
+
+export type res_ordersCreateManyRes_tablesInputEnvelope = {
+  data: Prisma.res_ordersCreateManyRes_tablesInput | Prisma.res_ordersCreateManyRes_tablesInput[]
+  skipDuplicates?: boolean
+}
+
+export type res_ordersUpsertWithWhereUniqueWithoutRes_tablesInput = {
+  where: Prisma.res_ordersWhereUniqueInput
+  update: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_tablesInput, Prisma.res_ordersUncheckedUpdateWithoutRes_tablesInput>
+  create: Prisma.XOR<Prisma.res_ordersCreateWithoutRes_tablesInput, Prisma.res_ordersUncheckedCreateWithoutRes_tablesInput>
+}
+
+export type res_ordersUpdateWithWhereUniqueWithoutRes_tablesInput = {
+  where: Prisma.res_ordersWhereUniqueInput
+  data: Prisma.XOR<Prisma.res_ordersUpdateWithoutRes_tablesInput, Prisma.res_ordersUncheckedUpdateWithoutRes_tablesInput>
+}
+
+export type res_ordersUpdateManyWithWhereWithoutRes_tablesInput = {
+  where: Prisma.res_ordersScalarWhereInput
+  data: Prisma.XOR<Prisma.res_ordersUpdateManyMutationInput, Prisma.res_ordersUncheckedUpdateManyWithoutRes_tablesInput>
+}
+
+export type res_ordersScalarWhereInput = {
+  AND?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
+  OR?: Prisma.res_ordersScalarWhereInput[]
+  NOT?: Prisma.res_ordersScalarWhereInput | Prisma.res_ordersScalarWhereInput[]
+  id?: Prisma.UuidFilter<"res_orders"> | string
+  order_number?: Prisma.StringFilter<"res_orders"> | string
+  table_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  shift_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  created_by?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  customer_name?: Prisma.StringNullableFilter<"res_orders"> | string | null
+  subtotal?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.StringNullableFilter<"res_orders"> | string | null
+  paid_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"res_orders"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"res_orders"> | Date | string | null
+  mobile_number?: Prisma.StringNullableFilter<"res_orders"> | string | null
+  promo_discount_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.DecimalNullableFilter<"res_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  shipment_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  order_type?: Prisma.StringNullableFilter<"res_orders"> | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+  status?: Prisma.Enumorder_statusNullableFilter<"res_orders"> | $Enums.order_status | null
+  discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"res_orders"> | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.UuidNullableFilter<"res_orders"> | string | null
+}
+
+export type res_ordersCreateManyRes_tablesInput = {
+  id?: string
+  order_number: string
+  shift_id?: string | null
+  created_by?: string | null
+  customer_name?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: string | null
+  paid_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  mobile_number?: string | null
+  promo_discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: string | null
+  shipment_id?: string | null
+  order_type?: string | null
+  tenant_id?: string | null
+  status?: $Enums.order_status | null
+  discount_type?: $Enums.discount_type_enum | null
+  applied_promotion_id?: string | null
+}
+
+export type res_ordersUpdateWithoutRes_tablesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_items?: Prisma.res_order_itemsUpdateManyWithoutRes_ordersNestedInput
+}
+
+export type res_ordersUncheckedUpdateWithoutRes_tablesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  res_order_items?: Prisma.res_order_itemsUncheckedUpdateManyWithoutRes_ordersNestedInput
+}
+
+export type res_ordersUncheckedUpdateManyWithoutRes_tablesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order_number?: Prisma.StringFieldUpdateOperationsInput | string
+  shift_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tip_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paid_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mobile_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  promo_discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  received_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  change_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumorder_statusFieldUpdateOperationsInput | $Enums.order_status | null
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  applied_promotion_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Res_ordersCountOutputType
+ */
+
+export type Res_ordersCountOutputType = {
+  res_order_items: number
+}
+
+export type Res_ordersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_order_items?: boolean | Res_ordersCountOutputTypeCountRes_order_itemsArgs
+}
+
+/**
+ * Res_ordersCountOutputType without action
+ */
+export type Res_ordersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Res_ordersCountOutputType
+   */
+  select?: Prisma.Res_ordersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Res_ordersCountOutputType without action
+ */
+export type Res_ordersCountOutputTypeCountRes_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.res_order_itemsWhereInput
+}
 
 
 export type res_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -909,6 +1393,9 @@ export type res_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   status?: boolean
   discount_type?: boolean
   applied_promotion_id?: boolean
+  res_order_items?: boolean | Prisma.res_orders$res_order_itemsArgs<ExtArgs>
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
+  _count?: boolean | Prisma.Res_ordersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -939,6 +1426,7 @@ export type res_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   discount_type?: boolean
   applied_promotion_id?: boolean
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -969,6 +1457,7 @@ export type res_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   discount_type?: boolean
   applied_promotion_id?: boolean
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
 }, ExtArgs["result"]["res_orders"]>
 
 export type res_ordersSelectScalar = {
@@ -1002,10 +1491,24 @@ export type res_ordersSelectScalar = {
 }
 
 export type res_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_number" | "table_id" | "shift_id" | "created_by" | "customer_name" | "subtotal" | "discount_amount" | "tax_amount" | "tip_amount" | "total_amount" | "payment_method" | "paid_at" | "notes" | "created_at" | "updated_at" | "mobile_number" | "promo_discount_amount" | "received_amount" | "change_amount" | "auth_user_id" | "shipment_id" | "order_type" | "tenant_id" | "status" | "discount_type" | "applied_promotion_id", ExtArgs["result"]["res_orders"]>
+export type res_ordersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_order_items?: boolean | Prisma.res_orders$res_order_itemsArgs<ExtArgs>
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
+  _count?: boolean | Prisma.Res_ordersCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type res_ordersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
+}
+export type res_ordersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  res_tables?: boolean | Prisma.res_orders$res_tablesArgs<ExtArgs>
+}
 
 export type $res_ordersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_orders"
-  objects: {}
+  objects: {
+    res_order_items: Prisma.$res_order_itemsPayload<ExtArgs>[]
+    res_tables: Prisma.$res_tablesPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     order_number: string
@@ -1428,6 +1931,8 @@ readonly fields: res_ordersFieldRefs;
  */
 export interface Prisma__res_ordersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  res_order_items<T extends Prisma.res_orders$res_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$res_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  res_tables<T extends Prisma.res_orders$res_tablesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.res_orders$res_tablesArgs<ExtArgs>>): Prisma.Prisma__res_tablesClient<runtime.Types.Result.GetResult<Prisma.$res_tablesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1501,6 +2006,10 @@ export type res_ordersFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  /**
    * Filter, which res_orders to fetch.
    */
   where: Prisma.res_ordersWhereUniqueInput
@@ -1519,6 +2028,10 @@ export type res_ordersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  /**
    * Filter, which res_orders to fetch.
    */
   where: Prisma.res_ordersWhereUniqueInput
@@ -1536,6 +2049,10 @@ export type res_ordersFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * Filter, which res_orders to fetch.
    */
@@ -1585,6 +2102,10 @@ export type res_ordersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  /**
    * Filter, which res_orders to fetch.
    */
   where?: Prisma.res_ordersWhereInput
@@ -1632,6 +2153,10 @@ export type res_ordersFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * Filter, which res_orders to fetch.
    */
@@ -1681,6 +2206,10 @@ export type res_ordersCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  /**
    * The data needed to create a res_orders.
    */
   data: Prisma.XOR<Prisma.res_ordersCreateInput, Prisma.res_ordersUncheckedCreateInput>
@@ -1714,6 +2243,10 @@ export type res_ordersCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.res_ordersCreateManyInput | Prisma.res_ordersCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1728,6 +2261,10 @@ export type res_ordersUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * The data needed to update a res_orders.
    */
@@ -1780,6 +2317,10 @@ export type res_ordersUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many res_orders to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1794,6 +2335,10 @@ export type res_ordersUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
   /**
    * The filter to search for the res_orders to update in case it exists.
    */
@@ -1821,6 +2366,10 @@ export type res_ordersDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
+  /**
    * Filter which res_orders to delete.
    */
   where: Prisma.res_ordersWhereUniqueInput
@@ -1841,6 +2390,49 @@ export type res_ordersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * res_orders.res_order_items
+ */
+export type res_orders$res_order_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the res_order_items
+   */
+  select?: Prisma.res_order_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the res_order_items
+   */
+  omit?: Prisma.res_order_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_order_itemsInclude<ExtArgs> | null
+  where?: Prisma.res_order_itemsWhereInput
+  orderBy?: Prisma.res_order_itemsOrderByWithRelationInput | Prisma.res_order_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.res_order_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Res_order_itemsScalarFieldEnum | Prisma.Res_order_itemsScalarFieldEnum[]
+}
+
+/**
+ * res_orders.res_tables
+ */
+export type res_orders$res_tablesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the res_tables
+   */
+  select?: Prisma.res_tablesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the res_tables
+   */
+  omit?: Prisma.res_tablesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_tablesInclude<ExtArgs> | null
+  where?: Prisma.res_tablesWhereInput
+}
+
+/**
  * res_orders without action
  */
 export type res_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1852,4 +2444,8 @@ export type res_ordersDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the res_orders
    */
   omit?: Prisma.res_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.res_ordersInclude<ExtArgs> | null
 }

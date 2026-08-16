@@ -190,9 +190,9 @@ export type screen_buttonsWhereInput = {
   is_active?: Prisma.BoolFilter<"screen_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"screen_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"screen_buttons"> | Date | string | null
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
   permission_buttons?: Prisma.XOR<Prisma.Permission_buttonsScalarRelationFilter, Prisma.permission_buttonsWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }
 
 export type screen_buttonsOrderByWithRelationInput = {
@@ -202,9 +202,9 @@ export type screen_buttonsOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  app_screens?: Prisma.app_screensOrderByWithRelationInput
   permission_buttons?: Prisma.permission_buttonsOrderByWithRelationInput
   permissions?: Prisma.permissionsOrderByWithRelationInput
+  app_screens?: Prisma.app_screensOrderByWithRelationInput
 }
 
 export type screen_buttonsWhereUniqueInput = Prisma.AtLeast<{
@@ -218,9 +218,9 @@ export type screen_buttonsWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolFilter<"screen_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"screen_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"screen_buttons"> | Date | string | null
-  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
   permission_buttons?: Prisma.XOR<Prisma.Permission_buttonsScalarRelationFilter, Prisma.permission_buttonsWhereInput>
   permissions?: Prisma.XOR<Prisma.PermissionsScalarRelationFilter, Prisma.permissionsWhereInput>
+  app_screens?: Prisma.XOR<Prisma.App_screensScalarRelationFilter, Prisma.app_screensWhereInput>
 }, "screen_id_button_id">
 
 export type screen_buttonsOrderByWithAggregationInput = {
@@ -251,9 +251,9 @@ export type screen_buttonsCreateInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
   permission_buttons: Prisma.permission_buttonsCreateNestedOneWithoutScreen_buttonsInput
   permissions: Prisma.permissionsCreateNestedOneWithoutScreen_buttonsInput
+  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
 }
 
 export type screen_buttonsUncheckedCreateInput = {
@@ -269,9 +269,9 @@ export type screen_buttonsUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
   permission_buttons?: Prisma.permission_buttonsUpdateOneRequiredWithoutScreen_buttonsNestedInput
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutScreen_buttonsNestedInput
+  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
 }
 
 export type screen_buttonsUncheckedUpdateInput = {
@@ -479,8 +479,8 @@ export type screen_buttonsCreateWithoutPermissionsInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
   permission_buttons: Prisma.permission_buttonsCreateNestedOneWithoutScreen_buttonsInput
+  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
 }
 
 export type screen_buttonsUncheckedCreateWithoutPermissionsInput = {
@@ -575,8 +575,8 @@ export type screen_buttonsCreateWithoutPermission_buttonsInput = {
   is_active?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
   permissions: Prisma.permissionsCreateNestedOneWithoutScreen_buttonsInput
+  app_screens: Prisma.app_screensCreateNestedOneWithoutScreen_buttonsInput
 }
 
 export type screen_buttonsUncheckedCreateWithoutPermission_buttonsInput = {
@@ -625,8 +625,8 @@ export type screen_buttonsUpdateWithoutPermissionsInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
   permission_buttons?: Prisma.permission_buttonsUpdateOneRequiredWithoutScreen_buttonsNestedInput
+  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
 }
 
 export type screen_buttonsUncheckedUpdateWithoutPermissionsInput = {
@@ -689,8 +689,8 @@ export type screen_buttonsUpdateWithoutPermission_buttonsInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
   permissions?: Prisma.permissionsUpdateOneRequiredWithoutScreen_buttonsNestedInput
+  app_screens?: Prisma.app_screensUpdateOneRequiredWithoutScreen_buttonsNestedInput
 }
 
 export type screen_buttonsUncheckedUpdateWithoutPermission_buttonsInput = {
@@ -718,9 +718,9 @@ export type screen_buttonsSelect<ExtArgs extends runtime.Types.Extensions.Intern
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_buttons"]>
 
 export type screen_buttonsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,9 +730,9 @@ export type screen_buttonsSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_buttons"]>
 
 export type screen_buttonsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -742,9 +742,9 @@ export type screen_buttonsSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["screen_buttons"]>
 
 export type screen_buttonsSelectScalar = {
@@ -758,27 +758,27 @@ export type screen_buttonsSelectScalar = {
 
 export type screen_buttonsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"screen_id" | "button_id" | "permission_id" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["screen_buttons"]>
 export type screen_buttonsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 export type screen_buttonsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 export type screen_buttonsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
   permission_buttons?: boolean | Prisma.permission_buttonsDefaultArgs<ExtArgs>
   permissions?: boolean | Prisma.permissionsDefaultArgs<ExtArgs>
+  app_screens?: boolean | Prisma.app_screensDefaultArgs<ExtArgs>
 }
 
 export type $screen_buttonsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "screen_buttons"
   objects: {
-    app_screens: Prisma.$app_screensPayload<ExtArgs>
     permission_buttons: Prisma.$permission_buttonsPayload<ExtArgs>
     permissions: Prisma.$permissionsPayload<ExtArgs>
+    app_screens: Prisma.$app_screensPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     screen_id: string
@@ -1181,9 +1181,9 @@ readonly fields: screen_buttonsFieldRefs;
  */
 export interface Prisma__screen_buttonsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  app_screens<T extends Prisma.app_screensDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screensDefaultArgs<ExtArgs>>): Prisma.Prisma__app_screensClient<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   permission_buttons<T extends Prisma.permission_buttonsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permission_buttonsDefaultArgs<ExtArgs>>): Prisma.Prisma__permission_buttonsClient<runtime.Types.Result.GetResult<Prisma.$permission_buttonsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   permissions<T extends Prisma.permissionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.permissionsDefaultArgs<ExtArgs>>): Prisma.Prisma__permissionsClient<runtime.Types.Result.GetResult<Prisma.$permissionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  app_screens<T extends Prisma.app_screensDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.app_screensDefaultArgs<ExtArgs>>): Prisma.Prisma__app_screensClient<runtime.Types.Result.GetResult<Prisma.$app_screensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
